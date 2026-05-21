@@ -9,6 +9,9 @@
 #pragma once
 
 #include "account/account_repository_db.hpp"
+#include "config/configmanager.hpp"
+#include "creatures/players/player_repository_db.hpp"
+#include "database/database.hpp"
 #include "lib/di/injector.hpp"
 #include "lib/logging/log_with_spd_log.hpp"
 #include "kv/kv_sql.hpp"
@@ -20,6 +23,9 @@ private:
 	inline static di::extension::injector<>* testContainer;
 	const inline static auto defaultContainer = di::make_injector(
 		di::bind<AccountRepository>().to<AccountRepositoryDB>().in(di::singleton),
+		di::bind<IConfigManager>().to<ConfigManager>().in(di::singleton),
+		di::bind<IDatabase>().to<Database>().in(di::singleton),
+		di::bind<IPlayerRepository>().to<PlayerRepositoryDB>().in(di::singleton),
 		di::bind<KVStore>().to<KVSQL>().in(di::singleton),
 		di::bind<Logger>().to<LogWithSpdLog>().in(di::singleton)
 	);

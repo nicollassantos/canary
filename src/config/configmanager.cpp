@@ -20,7 +20,8 @@
 #endif
 
 ConfigManager &ConfigManager::getInstance() {
-	return inject<ConfigManager>();
+	static ConfigManager instance;
+	return instance;
 }
 
 bool ConfigManager::load() {

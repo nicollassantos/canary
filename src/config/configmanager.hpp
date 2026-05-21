@@ -9,40 +9,35 @@
 
 #pragma once
 
-#include "config_enums.hpp"
+#include "config/config_port.hpp"
 
 using ConfigValue = std::variant<std::string, int32_t, bool, float>;
-using OTCFeatures = std::vector<uint8_t>;
 
-class ConfigManager {
+class ConfigManager final : public IConfigManager {
 public:
 	ConfigManager() = default;
 
-	// Singleton - ensures we don't accidentally copy it
-	ConfigManager(const ConfigManager &) = delete;
-	void operator=(const ConfigManager &) = delete;
-
 	static ConfigManager &getInstance();
 
-	bool load();
-	bool reload();
+	bool load() override;
+	bool reload() override;
 
-	void missingConfigWarning(const char* identifier);
+	void missingConfigWarning(const char* identifier) override;
 
-	const std::string &setConfigFileLua(const std::string &what) {
+	const std::string &setConfigFileLua(const std::string &what) override {
 		configFileLua = { what };
 		return configFileLua;
-	};
-	[[nodiscard]] const std::string &getConfigFileLua() const {
+	}
+	[[nodiscard]] const std::string &getConfigFileLua() const override {
 		return configFileLua;
-	};
+	}
 
-	[[nodiscard]] const std::string &getString(const ConfigKey_t &key, const std::source_location &location = std::source_location::current()) const;
-	[[nodiscard]] int32_t getNumber(const ConfigKey_t &key, const std::source_location &location = std::source_location::current()) const;
-	[[nodiscard]] bool getBoolean(const ConfigKey_t &key, const std::source_location &location = std::source_location::current()) const;
-	[[nodiscard]] float getFloat(const ConfigKey_t &key, const std::source_location &location = std::source_location::current()) const;
-	OTCFeatures getEnabledFeaturesOTC() const;
-	OTCFeatures getDisabledFeaturesOTC() const;
+	[[nodiscard]] const std::string &getString(const ConfigKey_t &key, const std::source_location &location = std::source_location::current()) const override;
+	[[nodiscard]] int32_t getNumber(const ConfigKey_t &key, const std::source_location &location = std::source_location::current()) const override;
+	[[nodiscard]] bool getBoolean(const ConfigKey_t &key, const std::source_location &location = std::source_location::current()) const override;
+	[[nodiscard]] float getFloat(const ConfigKey_t &key, const std::source_location &location = std::source_location::current()) const override;
+	[[nodiscard]] OTCFeatures getEnabledFeaturesOTC() const override;
+	[[nodiscard]] OTCFeatures getDisabledFeaturesOTC() const override;
 
 private:
 	mutable std::unordered_map<ConfigKey_t, std::string> m_configString;

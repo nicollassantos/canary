@@ -10,6 +10,7 @@
 #pragma once
 
 #include "declarations.hpp"
+#include "database/database_port.hpp"
 
 #ifndef USE_PRECOMPILED_HEADERS
 	#include <mysql/mysql.h>
@@ -17,15 +18,12 @@
 	#include <utility>
 #endif
 
-class DBResult;
-using DBResult_ptr = std::shared_ptr<DBResult>;
-
-class Database {
+class Database final : public IDatabase {
 public:
 	static const size_t MAX_QUERY_SIZE = 8 * 1024 * 1024; // 8 Mb -- half the default MySQL max_allowed_packet size
 
 	Database() = default;
-	~Database();
+	~Database() override;
 
 	// Singleton - ensures we don't accidentally copy it.
 	Database(const Database &) = delete;
@@ -55,15 +53,15 @@ public:
 	void createDatabaseBackup(bool compress) const;
 
 	bool retryQuery(std::string_view query, int retries);
-	bool executeQuery(std::string_view query);
+	bool executeQuery(std::string_view query) override;
 
-	DBResult_ptr storeQuery(std::string_view query);
+	DBResult_ptr storeQuery(std::string_view query) override;
 
-	std::string escapeString(const std::string &s) const;
+	std::string escapeString(const std::string &s) const override;
 
-	std::string escapeBlob(const char* s, uint32_t length) const;
+	std::string escapeBlob(const char* s, uint32_t length) const override;
 
-	uint64_t getLastInsertId() const {
+	uint64_t getLastInsertId() const override {
 		return static_cast<uint64_t>(mysql_insert_id(handle));
 	}
 
