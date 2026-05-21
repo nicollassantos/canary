@@ -4,6 +4,7 @@ target_sources(
             appearance/outfit/outfit.cpp
             appearance/attached_effects/attached_effects.cpp
             combat/combat.cpp
+            combat/combat_service.cpp
             combat/condition.cpp
             combat/spells.cpp
             creature.cpp

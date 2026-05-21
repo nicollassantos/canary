@@ -3,6 +3,7 @@ target_sources(
     PRIVATE functions/game_reload.cpp
             game.cpp
             bank/bank.cpp
+            movement/movement_service.cpp
             movement/position.cpp
             movement/teleport.cpp
             scheduling/events_scheduler.cpp

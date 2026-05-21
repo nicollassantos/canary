@@ -1896,7 +1896,9 @@ private:
 	void triggerMomentum();
 	void triggerTranscendence();
 
+	friend class CombatService;
 	friend class Game;
+	friend class MovementService;
 	friend class SaveManager;
 	friend class Npc;
 	friend class PlayerFunctions;

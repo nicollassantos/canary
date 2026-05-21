@@ -9,6 +9,9 @@
 
 #pragma once
 
+#include "creatures/combat/combat_service.hpp"
+#include "game/movement/movement_service.hpp"
+
 #include "creatures/appearance/outfit/outfit.hpp"
 #include "creatures/players/components/player_badge.hpp"
 #include "creatures/players/components/player_title.hpp"
@@ -91,6 +94,9 @@ struct PlayerStats {
 	uint32_t filteredOnlinePlayers = 0;
 	uint32_t totalUniqueIPs = 0;
 };
+
+class MovementService;
+class CombatService;
 
 class Game {
 public:
@@ -463,22 +469,7 @@ public:
 	void checkLight();
 
 	bool combatBlockHit(CombatDamage &damage, const std::shared_ptr<Creature> &attacker, const std::shared_ptr<Creature> &target, bool checkDefense, bool checkArmor, bool field, bool condition = false);
-
 	void combatGetTypeInfo(CombatType_t combatType, const std::shared_ptr<Creature> &target, TextColor_t &color, uint16_t &effect);
-
-	// Hazard combat helpers
-	void handleHazardSystemAttack(CombatDamage &damage, const std::shared_ptr<Player> &player, const std::shared_ptr<Monster> &monster, bool isPlayerAttacker);
-	void notifySpectators(const CreatureVector &spectators, const Position &targetPos, const std::shared_ptr<Player> &attackerPlayer, const std::shared_ptr<Monster> &targetMonster);
-
-	// Custom PvP System combat helpers
-	void applyPvPDamage(CombatDamage &damage, const std::shared_ptr<Player> &attacker, const std::shared_ptr<Player> &target);
-	float pvpLevelDifferenceDamageMultiplier(const std::shared_ptr<Player> &attacker, const std::shared_ptr<Player> &target);
-
-	// Wheel of destiny combat helpers
-	void applyWheelOfDestinyHealing(CombatDamage &damage, const std::shared_ptr<Player> &attackerPlayer, std::shared_ptr<Creature> target);
-	void applyWheelOfDestinyEffectsToDamage(CombatDamage &damage, const std::shared_ptr<Player> &attackerPlayer, const std::shared_ptr<Creature> &target) const;
-	int32_t applyHealthChange(const CombatDamage &damage, const std::shared_ptr<Creature> &target) const;
-
 	bool combatChangeHealth(const std::shared_ptr<Creature> &attacker, const std::shared_ptr<Creature> &target, CombatDamage &damage, bool isEvent = false);
 	void applyCharmRune(const std::shared_ptr<Monster> &targetMonster, const std::shared_ptr<Player> &attackerPlayer, const std::shared_ptr<Creature> &target, const int32_t &realDamage) const;
 	void applyManaLeech(
@@ -489,7 +480,6 @@ public:
 		const std::shared_ptr<Player> &attackerPlayer, const std::shared_ptr<Monster> &targetMonster,
 		const std::shared_ptr<Creature> &target, const CombatDamage &damage, const int32_t &realDamage
 	) const;
-	int32_t calculateLeechAmount(const int32_t &realDamage, const uint16_t &skillAmount, int targetsAffected) const;
 	bool combatChangeMana(const std::shared_ptr<Creature> &attacker, const std::shared_ptr<Creature> &target, CombatDamage &damage);
 
 	// Animation help functions
@@ -727,7 +717,11 @@ public:
 	 */
 	std::shared_ptr<Container> findManagedContainer(const std::shared_ptr<Player> &player, bool &fallbackConsumed, ObjectCategory_t category, bool isLootContainer);
 
+	std::shared_ptr<Task> createPlayerTask(uint32_t delay, std::function<void(void)> f, const std::string &context) const;
+
 private:
+	std::unique_ptr<MovementService> m_movementService;
+
 	std::map<uint16_t, Achievement> m_achievements;
 	std::map<std::string, uint16_t> m_achievementsNameToId;
 
@@ -749,7 +743,6 @@ private:
 	bool playerYell(const std::shared_ptr<Player> &player, const std::string &text);
 	bool playerSpeakTo(const std::shared_ptr<Player> &player, SpeakClasses type, const std::string &receiver, const std::string &text);
 	void playerSpeakToNpc(const std::shared_ptr<Player> &player, const std::string &text);
-	std::shared_ptr<Task> createPlayerTask(uint32_t delay, std::function<void(void)> f, const std::string &context) const;
 
 	/**
 	 * @brief Finds the next available sub-container within a container.
@@ -903,47 +896,10 @@ private:
 
 	bool isTryingToStow(const Position &toPos, const std::shared_ptr<Cylinder> &toCylinder) const;
 
-	void sendDamageMessageAndEffects(
-		const std::shared_ptr<Creature> &attacker, const std::shared_ptr<Creature> &target, const CombatDamage &damage, const Position &targetPos,
-		const std::shared_ptr<Player> &attackerPlayer, const std::shared_ptr<Player> &targetPlayer, TextMessage &message,
-		const CreatureVector &spectators, int32_t realDamage
-	);
-
-	void updatePlayerPartyHuntAnalyzer(const CombatDamage &damage, const std::shared_ptr<Player> &player) const;
-
-	void sendEffects(
-		const std::shared_ptr<Creature> &target, const CombatDamage &damage, const Position &targetPos,
-		TextMessage &message, const CreatureVector &spectators
-	);
-
-	void sendMessages(
-		const std::shared_ptr<Creature> &attacker, const std::shared_ptr<Creature> &target, const CombatDamage &damage,
-		const Position &targetPos, const std::shared_ptr<Player> &attackerPlayer, const std::shared_ptr<Player> &targetPlayer,
-		TextMessage &message, const CreatureVector &spectators, int32_t realDamage
-	) const;
-
-	bool shouldSendMessage(const TextMessage &message) const;
-
-	void buildMessageAsAttacker(
-		const std::shared_ptr<Creature> &target, const CombatDamage &damage, TextMessage &message,
-		std::stringstream &ss, const std::string &damageString, bool amplified = false, const std::shared_ptr<Player> &attackerPlayer = nullptr
-	) const;
-
-	void buildMessageAsTarget(
-		const std::shared_ptr<Creature> &attacker, const CombatDamage &damage, const std::shared_ptr<Player> &attackerPlayer,
-		const std::shared_ptr<Player> &targetPlayer, TextMessage &message, std::stringstream &ss,
-		const std::string &damageString
-	) const;
-
-	void buildMessageAsSpectator(
-		const std::shared_ptr<Creature> &attacker, const std::shared_ptr<Creature> &target, const CombatDamage &damage,
-		const std::shared_ptr<Player> &targetPlayer, TextMessage &message, std::stringstream &ss,
-		const std::string &damageString, std::string &spectatorMessage
-	) const;
-
 	void unwrapItem(const std::shared_ptr<Item> &item, uint16_t unWrapId, const std::shared_ptr<House> &house, const std::shared_ptr<Player> &player);
 
 	// Variable members (m_)
+	std::unique_ptr<CombatService> m_combatService;
 	std::unique_ptr<IOWheel> m_IOWheel;
 
 	std::unique_ptr<AttachedEffects> m_attachedEffects;

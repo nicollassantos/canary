@@ -848,6 +848,7 @@ protected:
 	virtual bool dropCorpse(const std::shared_ptr<Creature> &lastHitCreature, const std::shared_ptr<Creature> &mostDamageCreature, bool lastHitUnjustified, bool mostDamageUnjustified);
 	virtual std::shared_ptr<Item> getCorpse(const std::shared_ptr<Creature> &lastHitCreature, const std::shared_ptr<Creature> &mostDamageCreature);
 
+	friend class CombatService;
 	friend class Game;
 	friend class Map;
 	friend class CreatureFunctions;
