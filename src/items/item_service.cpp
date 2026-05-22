@@ -14,6 +14,7 @@
 #include "items/item.hpp"
 #include "items/items.hpp"
 #include "lib/metrics/metrics.hpp"
+#include "game/movement/position.hpp"
 #include "utils/tools.hpp"
 
 ReturnValue ItemService::internalMoveItem(std::shared_ptr<Cylinder> fromCylinder, std::shared_ptr<Cylinder> toCylinder, int32_t index, const std::shared_ptr<Item> &item, uint32_t count, std::shared_ptr<Item>* movedItem, uint32_t flags /*= 0*/, const std::shared_ptr<Creature> &actor /*=nullptr*/, const std::shared_ptr<Item> &tradeItem /* = nullptr*/, bool checkTile /* = true*/) {
@@ -987,4 +988,141 @@ std::shared_ptr<Item> ItemService::transformItem(std::shared_ptr<Item> item, uin
 	return newItem;
 }
 
+bool ItemService::isTryingToStow(const Position &toPos, const std::shared_ptr<Cylinder> &toCylinder) const {
+	return toCylinder->getContainer() && toCylinder->getItem()->getID() == ITEM_LOCKER && toPos.getZ() == ITEM_STASH_INDEX;
+}
 
+ReturnValue ItemService::checkMoveItemToCylinder(const std::shared_ptr<Player> &player, const std::shared_ptr<Cylinder> &fromCylinder, const std::shared_ptr<Cylinder> &toCylinder, const std::shared_ptr<Item> &item, Position toPos) {
+	if (!player || !toCylinder || !item) {
+		return RETURNVALUE_NOTPOSSIBLE;
+	}
+
+	if (std::shared_ptr<Container> toCylinderContainer = toCylinder->getContainer()) {
+		auto containerID = toCylinderContainer->getID();
+
+		// check the store inbox index if gold pouch forces it as containerID
+		if (containerID == ITEM_STORE_INBOX) {
+			auto cylinderItem = toCylinderContainer->getItemByIndex(toPos.getZ());
+			if (cylinderItem && cylinderItem->getID() == ITEM_GOLD_POUCH) {
+				containerID = ITEM_GOLD_POUCH;
+			}
+		}
+
+		const auto containerToStow = isTryingToStow(toPos, toCylinder);
+
+		if (containerID == ITEM_GOLD_POUCH && !containerToStow) {
+			if (config_.getBoolean(TOGGLE_GOLD_POUCH_QUICKLOOT_ONLY)) {
+				return RETURNVALUE_CONTAINERNOTENOUGHROOM;
+			}
+
+			bool allowAnything = config_.getBoolean(TOGGLE_GOLD_POUCH_ALLOW_ANYTHING);
+
+			if (!allowAnything && item->getID() != ITEM_GOLD_COIN && item->getID() != ITEM_PLATINUM_COIN && item->getID() != ITEM_CRYSTAL_COIN) {
+				return RETURNVALUE_ITEMCANNOTBEMOVEDPOUCH;
+			}
+
+			// prevent move up from ponch to store inbox.
+			if (!item->canBeMovedToStore() && fromCylinder->getContainer() && fromCylinder->getContainer()->getID() == ITEM_GOLD_POUCH) {
+				return RETURNVALUE_NOTBOUGHTINSTORE;
+			}
+
+			return RETURNVALUE_NOERROR;
+		}
+
+		std::shared_ptr<Container> topParentContainer = toCylinderContainer->getRootContainer();
+		const auto parentContainer = topParentContainer->getParent() ? topParentContainer->getParent()->getContainer() : nullptr;
+		auto isStoreInbox = parentContainer && parentContainer->isStoreInbox();
+		const bool topParentIsStoreInbox = topParentContainer && topParentContainer->isStoreInbox();
+		const bool directIsStoreInbox = (containerID == ITEM_STORE_INBOX);
+		const auto fromContainer = fromCylinder->getContainer();
+		const auto fromRoot = fromContainer ? fromContainer->getRootContainer() : nullptr;
+		const bool fromIsStoreInbox = (fromContainer && fromContainer->isStoreInbox()) || (fromRoot && fromRoot->isStoreInbox());
+		const bool toIsStoreInbox = directIsStoreInbox || topParentIsStoreInbox;
+
+		if (item->getID() == ITEM_GOLD_POUCH && !containerToStow) {
+			// Loot pouch can only be moved inside Store Inbox (internal reordering).
+			if (!(fromIsStoreInbox && toIsStoreInbox)) {
+				return RETURNVALUE_ITEMCANNOTBEMOVEDTHERE;
+			}
+		}
+
+		if (!item->canBeMovedToStore()) {
+			if (directIsStoreInbox) {
+				if (!(fromIsStoreInbox && (item->isMovable() || item->getID() == ITEM_GOLD_POUCH))) {
+					return RETURNVALUE_NOTBOUGHTINSTORE;
+				}
+			}
+
+			if (topParentIsStoreInbox) {
+				// Internal reorganization of the Store Inbox: only allow movable items, or the gold pouch, when the source is also within the Store Inbox.
+				if (!(fromIsStoreInbox && (item->isMovable() || item->getID() == ITEM_GOLD_POUCH))) {
+					return RETURNVALUE_ITEMCANNOTBEMOVEDTHERE;
+				}
+			}
+		}
+
+		if (item->isStoreItem() && !containerToStow) {
+			bool isValidMoveItem = false;
+			auto fromHouseTile = fromCylinder->getTile();
+			auto house = fromHouseTile ? fromHouseTile->getHouse() : nullptr;
+			if (house && house->getHouseAccessLevel(player) < HOUSE_OWNER) {
+				return RETURNVALUE_NOTPOSSIBLE;
+			}
+
+			if (containerID == ITEM_STORE_INBOX || containerID == ITEM_DEPOT || toCylinderContainer->isDepotChest()) {
+				isValidMoveItem = true;
+			}
+
+			if (parentContainer && (parentContainer->isDepotChest() || isStoreInbox)) {
+				isValidMoveItem = true;
+			}
+
+			if (topParentContainer && topParentContainer->isStoreInbox()) {
+				isValidMoveItem = true;
+			}
+
+			if (item->getID() == ITEM_GOLD_POUCH) {
+				isValidMoveItem = true;
+			}
+
+			if (!isValidMoveItem) {
+				return RETURNVALUE_ITEMCANNOTBEMOVEDTHERE;
+			}
+
+			if (item->hasOwner() && !item->isOwner(player)) {
+				return RETURNVALUE_ITEMISNOTYOURS;
+			}
+		}
+
+		if (item->getContainer() && !item->isStoreItem()) {
+			for (const std::shared_ptr<Item> &containerItem : item->getContainer()->getItems(true)) {
+				if (containerItem->isStoreItem() && !containerToStow && ((containerID != ITEM_GOLD_POUCH && containerID != ITEM_DEPOT && containerID != ITEM_STORE_INBOX) || (topParentContainer->getParent() && topParentContainer->getParent()->getContainer() && (!topParentContainer->getParent()->getContainer()->isDepotChest() || topParentContainer->getParent()->getContainer()->getID() != ITEM_STORE_INBOX)))) {
+					return RETURNVALUE_NOTPOSSIBLE;
+				}
+			}
+		}
+	} else if (toCylinder->getTile()) {
+		const auto toHouseTile = toCylinder->getTile();
+		auto house = toHouseTile ? toHouseTile->getHouse() : nullptr;
+		if (fromCylinder->getContainer()) {
+			if (item->isStoreItem()) {
+				if (house && house->getHouseAccessLevel(player) < HOUSE_OWNER) {
+					return RETURNVALUE_NOTPOSSIBLE;
+				}
+			}
+			if (item->getContainer() && !item->isStoreItem()) {
+				for (const std::shared_ptr<Item> &containerItem : item->getContainer()->getItems(true)) {
+					if (containerItem->isStoreItem()) {
+						return RETURNVALUE_NOTPOSSIBLE;
+					}
+				}
+			}
+
+			if (item->isStoreItem() && !house) {
+				return RETURNVALUE_ITEMCANNOTBEMOVEDTHERE;
+			}
+		}
+	}
+
+	return RETURNVALUE_NOERROR;
+}

@@ -112,6 +112,7 @@ class Game {
 	friend class MarketService;
 	friend class HighscoreService;
 	friend class CreatureManagementService;
+	friend class MovementService;
 
 public:
 	Game();

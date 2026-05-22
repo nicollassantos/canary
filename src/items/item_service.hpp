@@ -23,11 +23,15 @@ class Creature;
 class Player;
 enum ReturnValue : uint16_t;
 
+class Position;
+
 class ItemService {
 public:
 	ItemService(Game &game, IConfigManager &config) :
 		game_(game), config_(config) { }
 
+	bool isTryingToStow(const Position &toPos, const std::shared_ptr<Cylinder> &toCylinder) const;
+	ReturnValue checkMoveItemToCylinder(const std::shared_ptr<Player> &player, const std::shared_ptr<Cylinder> &fromCylinder, const std::shared_ptr<Cylinder> &toCylinder, const std::shared_ptr<Item> &item, Position toPos);
 	ReturnValue internalMoveItem(std::shared_ptr<Cylinder> fromCylinder, std::shared_ptr<Cylinder> toCylinder, int32_t index, const std::shared_ptr<Item> &item, uint32_t count, std::shared_ptr<Item>* movedItem, uint32_t flags = 0, const std::shared_ptr<Creature> &actor = nullptr, const std::shared_ptr<Item> &tradeItem = nullptr, bool checkTile = true);
 	ReturnValue internalAddItem(std::shared_ptr<Cylinder> toCylinder, const std::shared_ptr<Item> &item, int32_t index = INDEX_WHEREEVER, uint32_t flags = 0, bool test = false);
 	ReturnValue internalAddItem(std::shared_ptr<Cylinder> toCylinder, const std::shared_ptr<Item> &item, int32_t index, uint32_t flags, bool test, uint32_t &remainderCount);

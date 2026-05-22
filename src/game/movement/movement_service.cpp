@@ -18,10 +18,14 @@
 #include "game/game.hpp"
 #include "game/scheduling/dispatcher.hpp"
 #include "creatures/combat/combat.hpp"
+#include "items/item.hpp"
 #include "items/tile.hpp"
 #include "lib/logging/log_with_spd_log.hpp"
 #include "lib/metrics/metrics.hpp"
 #include "lua/callbacks/event_callback.hpp"
+#include "lua/callbacks/events_callbacks.hpp"
+#include "lua/creature/events.hpp"
+#include "map/house/housetile.hpp"
 #include "lua/callbacks/events_callbacks.hpp"
 #include "lua/creature/events.hpp"
 #include "map/map.hpp"
@@ -338,4 +342,315 @@ void MovementService::playerStopAutoWalk(uint32_t playerId) {
 	}
 
 	player->stopWalk();
+}
+
+void MovementService::playerMoveThing(uint32_t playerId, const Position &fromPos, uint16_t itemId, uint8_t fromStackPos, const Position &toPos, uint8_t count) {
+	metrics::method_latency measure(__METRICS_METHOD_NAME__);
+	const auto &player = game_.getPlayerByID(playerId);
+	if (!player) {
+		return;
+	}
+
+	// Prevent the player from being able to move the item within the imbuement window
+	if (player->hasImbuingItem()) {
+		return;
+	}
+
+	uint8_t fromIndex = 0;
+	if (fromPos.x == 0xFFFF) {
+		if (fromPos.y & 0x40) {
+			fromIndex = fromPos.z;
+		} else if ((fromPos.y == 0x20 || fromPos.y == 0x21) && !player->isDepotSearchOpenOnItem(itemId)) {
+			player->sendCancelMessage(RETURNVALUE_NOTPOSSIBLE);
+			return;
+		} else {
+			fromIndex = static_cast<uint8_t>(fromPos.y);
+		}
+	} else {
+		fromIndex = fromStackPos;
+	}
+
+	const std::shared_ptr<Thing> &thing = game_.internalGetThing(player, fromPos, fromIndex, itemId, STACKPOS_MOVE);
+	if (!thing) {
+		player->sendCancelMessage(RETURNVALUE_NOTPOSSIBLE);
+		return;
+	}
+
+	if (const std::shared_ptr<Creature> &movingCreature = thing->getCreature()) {
+		const std::shared_ptr<Tile> &tile = game_.map.getTile(toPos);
+		if (!tile) {
+			player->sendCancelMessage(RETURNVALUE_NOTPOSSIBLE);
+			return;
+		}
+
+		if (Position::areInRange<1, 1, 0>(movingCreature->getPosition(), player->getPosition())) {
+			const auto &task = game_.createPlayerTask(
+				config_.getNumber(PUSH_DELAY),
+				[this, player, movingCreature, tile] {
+					playerMoveCreatureByID(player->getID(), movingCreature->getID(), movingCreature->getPosition(), tile->getPosition());
+				},
+				__FUNCTION__
+			);
+			player->setNextActionPushTask(task);
+		} else {
+			playerMoveCreature(player, movingCreature, movingCreature->getPosition(), tile);
+		}
+	} else if (thing->getItem()) {
+		std::shared_ptr<Cylinder> toCylinder = game_.internalGetCylinder(player, toPos);
+		if (!toCylinder) {
+			player->sendCancelMessage(RETURNVALUE_NOTPOSSIBLE);
+			return;
+		}
+
+		playerMoveItem(player, fromPos, itemId, fromStackPos, toPos, count, thing->getItem(), toCylinder);
+	}
+}
+
+void MovementService::playerMoveItemByPlayerID(uint32_t playerId, const Position &fromPos, uint16_t itemId, uint8_t fromStackPos, const Position &toPos, uint8_t count) {
+	const auto &player = game_.getPlayerByID(playerId);
+	if (!player) {
+		return;
+	}
+	playerMoveItem(player, fromPos, itemId, fromStackPos, toPos, count, nullptr, nullptr);
+}
+
+void MovementService::playerMoveItem(const std::shared_ptr<Player> &player, const Position &fromPos, uint16_t itemId, uint8_t fromStackPos, const Position &toPos, uint8_t count, std::shared_ptr<Item> item, std::shared_ptr<Cylinder> toCylinder) {
+	if (!player->canDoAction()) {
+		const uint32_t delay = player->getNextActionTime();
+		const auto &task = game_.createPlayerTask(
+			delay,
+			[this, playerId = player->getID(), fromPos, itemId, fromStackPos, toPos, count] {
+				playerMoveItemByPlayerID(playerId, fromPos, itemId, fromStackPos, toPos, count);
+			},
+			__FUNCTION__
+		);
+		player->setNextActionTask(task);
+		return;
+	}
+
+	player->setNextActionTask(nullptr);
+
+	if (item == nullptr) {
+		uint8_t fromIndex = 0;
+		if (fromPos.x == 0xFFFF) {
+			if (fromPos.y & 0x40) {
+				fromIndex = fromPos.z;
+			} else if ((fromPos.y == 0x20 || fromPos.y == 0x21) && !player->isDepotSearchOpenOnItem(itemId)) {
+				player->sendCancelMessage(RETURNVALUE_NOTPOSSIBLE);
+				return;
+			} else {
+				fromIndex = static_cast<uint8_t>(fromPos.y);
+			}
+		} else {
+			fromIndex = fromStackPos;
+		}
+
+		const auto &thing = game_.internalGetThing(player, fromPos, fromIndex, itemId, STACKPOS_MOVE);
+		if (!thing || !thing->getItem()) {
+			player->sendCancelMessage(RETURNVALUE_NOTPOSSIBLE);
+			return;
+		}
+
+		item = thing->getItem();
+	}
+
+	if (!item || item->getID() != itemId) {
+		player->sendCancelMessage(RETURNVALUE_NOTPOSSIBLE);
+		return;
+	}
+
+	std::shared_ptr<Cylinder> fromCylinder = nullptr;
+	if (fromPos.x == 0xFFFF && (fromPos.y == 0x20 || fromPos.y == 0x21)) {
+		if (!player->isDepotSearchOpenOnItem(itemId)) {
+			player->sendCancelMessage(RETURNVALUE_NOTPOSSIBLE);
+			return;
+		}
+
+		fromCylinder = item->getParent();
+	} else {
+		fromCylinder = game_.internalGetCylinder(player, fromPos);
+	}
+
+	if (fromCylinder == nullptr) {
+		player->sendCancelMessage(RETURNVALUE_NOTPOSSIBLE);
+		return;
+	}
+
+	if (toCylinder == nullptr) {
+		toCylinder = game_.internalGetCylinder(player, toPos);
+		if (toCylinder == nullptr) {
+			player->sendCancelMessage(RETURNVALUE_NOTPOSSIBLE);
+			return;
+		}
+	}
+
+	// check if we can move this item
+	if (auto ret = game_.checkMoveItemToCylinder(player, fromCylinder, toCylinder, item, toPos); ret != RETURNVALUE_NOERROR) {
+		player->sendCancelMessage(ret);
+		return;
+	}
+
+	const auto &playerPos = player->getPosition();
+	const auto &cylinderTile = fromCylinder->getTile();
+	const auto &mapFromPos = cylinderTile ? cylinderTile->getPosition() : item->getPosition();
+	if (playerPos.z != mapFromPos.z) {
+		player->sendCancelMessage(playerPos.z > mapFromPos.z ? RETURNVALUE_FIRSTGOUPSTAIRS : RETURNVALUE_FIRSTGODOWNSTAIRS);
+		return;
+	}
+
+	if (!Position::areInRange<1, 1>(playerPos, mapFromPos)) {
+		// need to walk to the item first before using it
+		std::vector<Direction> listDir;
+		if (player->getPathTo(item->getPosition(), listDir, 0, 1, true, true)) {
+			g_dispatcher().addEvent([this, playerId = player->getID(), listDir] { playerAutoWalk(playerId, listDir); }, __FUNCTION__);
+			const auto &task = game_.createPlayerTask(
+				400,
+				[this, playerId = player->getID(), fromPos, itemId, fromStackPos, toPos, count] {
+					playerMoveItemByPlayerID(playerId, fromPos, itemId, fromStackPos, toPos, count);
+				},
+				__FUNCTION__
+			);
+			player->setNextWalkActionTask(task);
+		} else {
+			player->sendCancelMessage(RETURNVALUE_THEREISNOWAY);
+		}
+		return;
+	}
+
+	const auto toCylinderTile = toCylinder->getTile();
+	const Position &mapToPos = toCylinderTile ? toCylinderTile->getPosition() : toPos;
+
+	// hangable item specific code
+	if (item->isHangable() && toCylinderTile && toCylinderTile->hasFlag(TILESTATE_SUPPORTS_HANGABLE)) {
+		// destination supports hangable objects so need to move there first
+		bool vertical = toCylinderTile->hasProperty(CONST_PROP_ISVERTICAL);
+		if (vertical) {
+			if (playerPos.x + 1 == mapToPos.x) {
+				player->sendCancelMessage(RETURNVALUE_NOTPOSSIBLE);
+				return;
+			}
+		} else { // horizontal
+			if (playerPos.y + 1 == mapToPos.y) {
+				player->sendCancelMessage(RETURNVALUE_NOTPOSSIBLE);
+				return;
+			}
+		}
+
+		if (!Position::areInRange<1, 1, 0>(playerPos, mapToPos)) {
+			auto walkPos = mapToPos;
+			if (vertical) {
+				walkPos.x++;
+			} else {
+				walkPos.y++;
+			}
+
+			auto itemPos = fromPos;
+			uint8_t itemStackPos = fromStackPos;
+
+			if (fromPos.x != 0xFFFF && Position::areInRange<1, 1>(mapFromPos, playerPos)
+			    && !Position::areInRange<1, 1, 0>(mapFromPos, walkPos)) {
+				// need to pickup the item first
+				std::shared_ptr<Item> moveItem = nullptr;
+
+				const auto ret = game_.internalMoveItem(fromCylinder, player, INDEX_WHEREEVER, item, count, &moveItem);
+				if (ret != RETURNVALUE_NOERROR) {
+					player->sendCancelMessage(ret);
+					return;
+				}
+
+				// changing the position since its now in the inventory of the player
+				Game::internalGetPosition(moveItem, itemPos, itemStackPos);
+			}
+
+			std::vector<Direction> listDir;
+			if (player->getPathTo(walkPos, listDir, 0, 0, true, true)) {
+				g_dispatcher().addEvent([this, playerId = player->getID(), listDir] { playerAutoWalk(playerId, listDir); }, __FUNCTION__);
+				const auto &task = game_.createPlayerTask(
+					400,
+					[this, playerId = player->getID(), itemPos, itemId, itemStackPos, toPos, count] {
+						playerMoveItemByPlayerID(playerId, itemPos, itemId, itemStackPos, toPos, count);
+					},
+					__FUNCTION__
+				);
+				player->setNextWalkActionTask(task);
+			} else {
+				player->sendCancelMessage(RETURNVALUE_THEREISNOWAY);
+			}
+			return;
+		}
+	}
+
+	const auto throwRange = item->getThrowRange();
+	if ((Position::getDistanceX(playerPos, mapToPos) > throwRange) || (Position::getDistanceY(playerPos, mapToPos) > throwRange) || (Position::getDistanceZ(mapFromPos, mapToPos) * 4 > throwRange)) {
+		player->sendCancelMessage(RETURNVALUE_DESTINATIONOUTOFREACH);
+		return;
+	}
+
+	if (!game_.canThrowObjectTo(mapFromPos, mapToPos)) {
+		player->sendCancelMessage(RETURNVALUE_CANNOTTHROW);
+		return;
+	}
+
+	if (!g_callbacks().checkCallback(EventCallback_t::playerOnMoveItem, player, item, count, fromPos, toPos, fromCylinder, toCylinder)) {
+		return;
+	}
+
+	if (!g_events().eventPlayerOnMoveItem(player, item, count, fromPos, toPos, fromCylinder, toCylinder)) {
+		return;
+	}
+
+	uint8_t toIndex = 0;
+	if (toPos.x == 0xFFFF) {
+		if (toPos.y & 0x40) {
+			toIndex = toPos.z;
+		} else {
+			toIndex = static_cast<uint8_t>(toPos.y);
+		}
+	}
+
+	if (item->isWrapable() || item->isStoreItem() || (item->hasOwner() && !item->isOwner(player))) {
+		const auto toHouseTile = toCylinderTile ? toCylinderTile->dynamic_self_cast<HouseTile>() : nullptr;
+		const auto fromHouseTile = cylinderTile ? cylinderTile->dynamic_self_cast<HouseTile>() : nullptr;
+
+		if (fromHouseTile) {
+			const auto fromHouse = fromHouseTile->getHouse();
+			const auto toHouse = toHouseTile ? toHouseTile->getHouse() : nullptr;
+			if (!fromHouse || !toHouse || toHouse->getId() != fromHouse->getId()) {
+				player->sendCancelMessage("You cannot move this item out of this house.");
+				return;
+			}
+		}
+	}
+
+	if (game_.isTryingToStow(toPos, toCylinder)) {
+		player->stowItem(item, count, false);
+		return;
+	}
+	const auto fromContainer = fromCylinder ? fromCylinder->getContainer() : nullptr;
+	const auto toContainer = toCylinder ? toCylinder->getContainer() : nullptr;
+	const auto fromRoot = fromContainer ? fromContainer->getRootContainer() : nullptr;
+	const auto toRoot = toContainer ? toContainer->getRootContainer() : nullptr;
+	const bool fromIsStoreInbox = fromContainer && (fromContainer->isStoreInbox() || (fromRoot && fromRoot->isStoreInbox()));
+	const bool toIsStoreInbox = toContainer && (toContainer->isStoreInbox() || (toRoot && toRoot->isStoreInbox()));
+	const bool isLootPouchStoreInboxReorder = item->getID() == ITEM_GOLD_POUCH && fromIsStoreInbox && toIsStoreInbox;
+
+	if ((!item->isPushable() && !isLootPouchStoreInboxReorder) || item->hasAttribute(ItemAttribute_t::UNIQUEID)) {
+		player->sendCancelMessage(RETURNVALUE_NOTMOVABLE);
+		return;
+	}
+
+	const uint32_t moveFlags = isLootPouchStoreInboxReorder ? FLAG_IGNORENOTMOVABLE : 0;
+	const auto ret = game_.internalMoveItem(fromCylinder, toCylinder, toIndex, item, count, nullptr, moveFlags, player);
+	if (ret != RETURNVALUE_NOERROR) {
+		player->sendCancelMessage(ret);
+	} else if (toCylinder->getContainer() && fromCylinder->getContainer() && fromCylinder->getContainer()->countsToLootAnalyzerBalance() && toCylinder->getContainer()->getTopParent() == player) {
+		player->sendLootStats(item, count);
+	}
+
+	player->cancelPush();
+
+	item->checkDecayMapItemOnMove();
+
+	g_events().eventPlayerOnItemMoved(player, item, count, fromPos, toPos, fromCylinder, toCylinder);
+	g_callbacks().executeCallback(EventCallback_t::playerOnItemMoved, player, item, count, fromPos, toPos, fromCylinder, toCylinder);
 }
