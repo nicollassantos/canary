@@ -11,6 +11,7 @@
 
 #include "creatures/combat/combat_service.hpp"
 #include "game/movement/movement_service.hpp"
+#include "items/item_service.hpp"
 
 #include "creatures/appearance/outfit/outfit.hpp"
 #include "creatures/players/components/player_badge.hpp"
@@ -99,6 +100,8 @@ class MovementService;
 class CombatService;
 
 class Game {
+	friend class ItemService;
+
 public:
 	Game();
 	~Game();
@@ -721,6 +724,7 @@ public:
 
 private:
 	std::unique_ptr<MovementService> m_movementService;
+	std::unique_ptr<ItemService> m_itemService;
 
 	std::map<uint16_t, Achievement> m_achievements;
 	std::map<std::string, uint16_t> m_achievementsNameToId;

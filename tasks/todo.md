@@ -32,7 +32,7 @@
 
 - [x] **4.1** — `MovementService` (src/game/movement/) — 258/258 testes passando; game.cpp = 12269 linhas
 - [x] **4.2** — `CombatService` (src/creatures/combat/) — 258/258 testes; game.cpp = 10881 linhas (−1388)
-- [ ] **4.3** — `ItemService` (src/items/) + 3 testes
+- [x] **4.3** — `ItemService` (src/items/) — 258/258 testes; game.cpp = 9965 linhas (−934)
 - [ ] **4.4** — `TradeService` + `IMarketRepository` + `MarketRepositoryDB` + testes
 - [ ] **CHECKPOINT 4** — `game.cpp` < 8k linhas; servidor funcional → revisão humana
 - [ ] **4.5a** — `HighscoreService`

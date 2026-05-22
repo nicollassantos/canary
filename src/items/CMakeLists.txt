@@ -1,6 +1,7 @@
 target_sources(
     ${CORE_TARGET_NAME}
     PRIVATE bed.cpp
+            item_service.cpp
             containers/container.cpp
             containers/depot/depotchest.cpp
             containers/depot/depotlocker.cpp
