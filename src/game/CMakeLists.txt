@@ -3,6 +3,7 @@ target_sources(
     PRIVATE functions/game_reload.cpp
             game.cpp
             bank/bank.cpp
+            chat/chat_service.cpp
             highscore/highscore_service.cpp
             interaction/player_interaction_service.cpp
             loot/loot_service.cpp

@@ -12,11 +12,14 @@
 #include "creatures/npcs/npc.hpp"
 #include "creatures/players/player.hpp"
 #include "game/game.hpp"
+#include "items/containers/container.hpp"
 #include "items/item.hpp"
 #include "items/items.hpp"
 #include "lib/metrics/metrics.hpp"
 #include "lua/callbacks/events_callbacks.hpp"
 #include "lua/creature/events.hpp"
+#include "map/house/housetile.hpp"
+#include "game/scheduling/dispatcher.hpp"
 
 bool TradeService::internalStartTrade(const std::shared_ptr<Player> &player, const std::shared_ptr<Player> &tradePartner, const std::shared_ptr<Item> &tradeItem) {
 	if (player->tradeState != TRADE_NONE && !(player->tradeState == TRADE_ACKNOWLEDGE && player->tradePartner == tradePartner)) {
@@ -423,6 +426,158 @@ void TradeService::playerLookInShop(uint32_t playerId, uint16_t itemId, uint8_t 
 	ss << "You see " << Item::getDescription(it, 1, nullptr, count);
 	player->sendTextMessage(MESSAGE_LOOK, ss.str());
 	merchant->onPlayerCheckItem(player, it.id, count);
+}
+
+void TradeService::playerRequestTrade(uint32_t playerId, const Position &pos, uint8_t stackPos, uint32_t tradePlayerId, uint16_t itemId) {
+	const auto &player = game_.getPlayerByID(playerId);
+	if (!player) {
+		return;
+	}
+
+	std::shared_ptr<Player> tradePartner = game_.getPlayerByID(tradePlayerId);
+	if (!tradePartner || tradePartner == player) {
+		player->sendTextMessage(MESSAGE_FAILURE, "Sorry, not possible.");
+		return;
+	}
+
+	if (!Position::areInRange<2, 2, 0>(tradePartner->getPosition(), player->getPosition())) {
+		std::ostringstream ss;
+		ss << tradePartner->getName() << " tells you to move closer.";
+		player->sendTextMessage(MESSAGE_TRADE, ss.str());
+		return;
+	}
+
+	if (!game_.canThrowObjectTo(tradePartner->getPosition(), player->getPosition(), SightLine_CheckSightLineAndFloor)) {
+		player->sendCancelMessage(RETURNVALUE_CREATUREISNOTREACHABLE);
+		return;
+	}
+
+	std::shared_ptr<Thing> tradeThing = game_.internalGetThing(player, pos, stackPos, itemId, STACKPOS_TOPDOWN_ITEM);
+	if (!tradeThing) {
+		player->sendCancelMessage(RETURNVALUE_NOTPOSSIBLE);
+		return;
+	}
+
+	std::shared_ptr<Item> tradeItem = tradeThing->getItem();
+	if (!tradeItem) {
+		player->sendCancelMessage(RETURNVALUE_NOTPOSSIBLE);
+		return;
+	}
+
+	if (tradeItem->getID() != itemId || !tradeItem->isPickupable() || tradeItem->hasAttribute(ItemAttribute_t::UNIQUEID)) {
+		player->sendCancelMessage(RETURNVALUE_NOTPOSSIBLE);
+		return;
+	}
+
+	if (tradeItem->isRemoved() || !tradeItem->getParent()) {
+		player->sendCancelMessage(RETURNVALUE_NOTPOSSIBLE);
+		return;
+	}
+
+	if (tradeItem->isStoreItem() || tradeItem->hasOwner()) {
+		player->sendCancelMessage(RETURNVALUE_ITEMUNTRADEABLE);
+		return;
+	}
+
+	if (config_.getBoolean(ONLY_INVITED_CAN_MOVE_HOUSE_ITEMS)) {
+		if (std::shared_ptr<HouseTile> houseTile = std::dynamic_pointer_cast<HouseTile>(tradeItem->getTile())) {
+			const auto &house = houseTile->getHouse();
+			if (house && tradeItem->getRealParent() != player && (!house->isInvited(player) || house->getHouseAccessLevel(player) == HOUSE_GUEST)) {
+				player->sendCancelMessage(RETURNVALUE_NOTMOVABLE);
+				return;
+			}
+		}
+	}
+
+	const Position &playerPosition = player->getPosition();
+	const Position &tradeItemPosition = tradeItem->getPosition();
+	if (playerPosition.z != tradeItemPosition.z) {
+		player->sendCancelMessage(playerPosition.z > tradeItemPosition.z ? RETURNVALUE_FIRSTGOUPSTAIRS : RETURNVALUE_FIRSTGODOWNSTAIRS);
+		return;
+	}
+
+	if (!Position::areInRange<1, 1>(tradeItemPosition, playerPosition)) {
+		std::vector<Direction> listDir;
+		if (player->getPathTo(pos, listDir, 0, 1, true, true)) {
+			g_dispatcher().addEvent([this, playerId = player->getID(), listDir] { game_.playerAutoWalk(playerId, listDir); }, __FUNCTION__);
+			const auto &task = game_.createPlayerTask(
+				400,
+				[this, playerId, pos, stackPos, tradePlayerId, itemId] {
+					playerRequestTrade(playerId, pos, stackPos, tradePlayerId, itemId);
+				},
+				__FUNCTION__
+			);
+			player->setNextWalkActionTask(task);
+		} else {
+			player->sendCancelMessage(RETURNVALUE_THEREISNOWAY);
+		}
+		return;
+	}
+
+	const std::shared_ptr<Container> &tradeItemContainer = tradeItem->getContainer();
+	if (tradeItemContainer) {
+		for (const auto &it : game_.tradeItems) {
+			const auto &item = it.first;
+			if (tradeItem == item) {
+				player->sendTextMessage(MESSAGE_TRADE, "This item is already being traded.");
+				return;
+			}
+
+			if (tradeItemContainer->isHoldingItem(item)) {
+				player->sendTextMessage(MESSAGE_TRADE, "This item is already being traded.");
+				return;
+			}
+
+			const std::shared_ptr<Container> &container = item->getContainer();
+			if (container && container->isHoldingItem(tradeItem)) {
+				player->sendTextMessage(MESSAGE_TRADE, "This item is already being traded.");
+				return;
+			}
+		}
+	} else {
+		for (const auto &it : game_.tradeItems) {
+			const auto &item = it.first;
+			if (tradeItem == item) {
+				player->sendTextMessage(MESSAGE_TRADE, "This item is already being traded.");
+				return;
+			}
+
+			const std::shared_ptr<Container> &container = item->getContainer();
+			if (container && container->isHoldingItem(tradeItem)) {
+				player->sendTextMessage(MESSAGE_TRADE, "This item is already being traded.");
+				return;
+			}
+		}
+	}
+
+	if (tradeItemContainer && tradeItemContainer->getItemHoldingCount() + 1 > 100) {
+		player->sendTextMessage(MESSAGE_TRADE, "You can not trade more than 100 items.");
+		return;
+	}
+
+	if (tradeItem->isStoreItem()) {
+		player->sendTextMessage(MESSAGE_TRADE, "This item cannot be trade.");
+		return;
+	}
+
+	if (tradeItemContainer) {
+		for (const std::shared_ptr<Item> &containerItem : tradeItemContainer->getItems(true)) {
+			if (containerItem->isStoreItem()) {
+				player->sendTextMessage(MESSAGE_TRADE, "This item cannot be trade.");
+				return;
+			}
+		}
+	}
+
+	if (!g_events().eventPlayerOnTradeRequest(player, tradePartner, tradeItem)) {
+		return;
+	}
+
+	if (!g_callbacks().checkCallback(EventCallback_t::playerOnTradeRequest, player, tradePartner, tradeItem)) {
+		return;
+	}
+
+	internalStartTrade(player, tradePartner, tradeItem);
 }
 
 

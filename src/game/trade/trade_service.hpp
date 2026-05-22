@@ -17,6 +17,7 @@ class Game;
 class IConfigManager;
 class Player;
 class Item;
+struct Position;
 enum ReturnValue : uint16_t;
 enum Slots_t : uint8_t;
 
@@ -25,6 +26,7 @@ public:
 	TradeService(Game &game, IConfigManager &config) :
 		game_(game), config_(config) { }
 
+	void playerRequestTrade(uint32_t playerId, const Position &pos, uint8_t stackPos, uint32_t tradePlayerId, uint16_t itemId);
 	bool internalStartTrade(const std::shared_ptr<Player> &player, const std::shared_ptr<Player> &partner, const std::shared_ptr<Item> &tradeItem);
 	void internalCloseTrade(const std::shared_ptr<Player> &player);
 

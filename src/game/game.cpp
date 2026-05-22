@@ -213,6 +213,7 @@ Game::Game() :
 	m_creatureService(std::make_unique<CreatureManagementService>(*this)),
 	m_lootService(std::make_unique<LootService>(*this, g_configManager())),
 	m_interactionService(std::make_unique<PlayerInteractionService>(*this, g_configManager())),
+	m_chatService(std::make_unique<ChatService>(*this, g_configManager())),
 	m_soundService(std::make_unique<SoundService>()) {
 	[[maybe_unused]] auto &[choices1_text, choices1_value] = offlineTrainingWindow.choices.emplace_back("Fist Fighting and Shielding", SKILL_FIST);
 	[[maybe_unused]] auto &[choices2_text, choices2_value] = offlineTrainingWindow.choices.emplace_back("Sword Fighting and Shielding", SKILL_SWORD);
@@ -1609,165 +1610,47 @@ void Game::forcePlayerMove(uint32_t playerId, Direction direction) {
 }
 
 bool Game::playerBroadcastMessage(const std::shared_ptr<Player> &player, const std::string &text) const {
-	if (!player->hasFlag(PlayerFlags_t::CanBroadcast)) {
-		return false;
-	}
-
-	g_logger().info("{} broadcasted: {}", player->getName(), text);
-
-	for (const auto &it : players) {
-		it.second->sendPrivateMessage(player, TALKTYPE_BROADCAST, text);
-	}
-
-	return true;
+	return m_chatService->playerBroadcastMessage(player, text);
 }
 
 void Game::playerCreatePrivateChannel(uint32_t playerId) {
-	const auto &player = getPlayerByID(playerId);
-	if (!player || !player->isPremium()) {
-		return;
-	}
-
-	const auto &channel = g_chat().createChannel(player, CHANNEL_PRIVATE);
-	if (!channel || !channel->addUser(player)) {
-		return;
-	}
-
-	player->sendCreatePrivateChannel(channel->getId(), channel->getName());
+	m_chatService->playerCreatePrivateChannel(playerId);
 }
 
 void Game::playerChannelInvite(uint32_t playerId, const std::string &name) {
-	const auto &player = getPlayerByID(playerId);
-	if (!player) {
-		return;
-	}
-
-	const auto &channel = g_chat().getPrivateChannel(player);
-	if (!channel) {
-		return;
-	}
-
-	std::shared_ptr<Player> invitePlayer = getPlayerByName(name);
-	if (!invitePlayer) {
-		return;
-	}
-
-	if (player == invitePlayer) {
-		return;
-	}
-
-	channel->invitePlayer(player, invitePlayer);
+	m_chatService->playerChannelInvite(playerId, name);
 }
 
 void Game::playerChannelExclude(uint32_t playerId, const std::string &name) {
-	const auto &player = getPlayerByID(playerId);
-	if (!player) {
-		return;
-	}
-
-	const auto &channel = g_chat().getPrivateChannel(player);
-	if (!channel) {
-		return;
-	}
-
-	std::shared_ptr<Player> excludePlayer = getPlayerByName(name);
-	if (!excludePlayer) {
-		return;
-	}
-
-	if (player == excludePlayer) {
-		return;
-	}
-
-	channel->excludePlayer(player, excludePlayer);
+	m_chatService->playerChannelExclude(playerId, name);
 }
 
 void Game::playerRequestChannels(uint32_t playerId) {
-	const auto &player = getPlayerByID(playerId);
-	if (!player) {
-		return;
-	}
-
-	player->sendChannelsDialog();
+	m_chatService->playerRequestChannels(playerId);
 }
 
 void Game::playerOpenChannel(uint32_t playerId, uint16_t channelId) {
-	const auto &player = getPlayerByID(playerId);
-	if (!player) {
-		return;
-	}
-
-	const auto &channel = g_chat().addUserToChannel(player, channelId);
-	if (!channel) {
-		return;
-	}
-
-	const InvitedMap* invitedUsers = channel->getInvitedUsers();
-	const UsersMap* users;
-	if (!channel->isPublicChannel()) {
-		users = &channel->getUsers();
-	} else {
-		users = nullptr;
-	}
-
-	player->sendChannel(channel->getId(), channel->getName(), users, invitedUsers);
+	m_chatService->playerOpenChannel(playerId, channelId);
 }
 
 void Game::playerCloseChannel(uint32_t playerId, uint16_t channelId) {
-	const auto &player = getPlayerByID(playerId);
-	if (!player) {
-		return;
-	}
-
-	g_chat().removeUserFromChannel(player, channelId);
+	m_chatService->playerCloseChannel(playerId, channelId);
 }
 
 void Game::playerOpenPrivateChannel(uint32_t playerId, std::string &receiver) {
-	const auto &player = getPlayerByID(playerId);
-	if (!player) {
-		return;
-	}
-
-	if (!IOLoginData::formatPlayerName(receiver)) {
-		player->sendCancelMessage("A player with this name does not exist.");
-		return;
-	}
-
-	if (player->getName() == receiver) {
-		player->sendCancelMessage("You cannot set up a private message channel with yourself.");
-		return;
-	}
-
-	player->sendOpenPrivateChannel(receiver);
+	m_chatService->playerOpenPrivateChannel(playerId, receiver);
 }
 
 void Game::playerCloseNpcChannel(uint32_t playerId) {
-	const auto &player = getPlayerByID(playerId);
-	if (!player) {
-		return;
-	}
-
-	for (const auto &spectator : Spectators().find<Creature>(player->getPosition()).filter<Npc>()) {
-		spectator->getNpc()->onPlayerCloseChannel(player);
-	}
+	m_chatService->playerCloseNpcChannel(playerId);
 }
 
 void Game::playerReceivePing(uint32_t playerId) {
-	const auto &player = getPlayerByID(playerId);
-	if (!player) {
-		return;
-	}
-
-	player->receivePing();
+	m_chatService->playerReceivePing(playerId);
 }
 
 void Game::playerReceivePingBack(uint32_t playerId) {
-	const auto &player = getPlayerByID(playerId);
-	if (!player) {
-		return;
-	}
-
-	player->sendPingBack();
+	m_chatService->playerReceivePingBack(playerId);
 }
 
 void Game::playerAutoWalk(uint32_t playerId, const std::vector<Direction> &listDir) {
@@ -1837,155 +1720,7 @@ void Game::playerUpdateHouseWindow(uint32_t playerId, uint8_t listId, uint32_t w
 	m_interactionService->playerUpdateHouseWindow(playerId, listId, windowTextId, text);
 }
 void Game::playerRequestTrade(uint32_t playerId, const Position &pos, uint8_t stackPos, uint32_t tradePlayerId, uint16_t itemId) {
-	const auto &player = getPlayerByID(playerId);
-	if (!player) {
-		return;
-	}
-
-	std::shared_ptr<Player> tradePartner = getPlayerByID(tradePlayerId);
-	if (!tradePartner || tradePartner == player) {
-		player->sendTextMessage(MESSAGE_FAILURE, "Sorry, not possible.");
-		return;
-	}
-
-	if (!Position::areInRange<2, 2, 0>(tradePartner->getPosition(), player->getPosition())) {
-		std::ostringstream ss;
-		ss << tradePartner->getName() << " tells you to move closer.";
-		player->sendTextMessage(MESSAGE_TRADE, ss.str());
-		return;
-	}
-
-	if (!canThrowObjectTo(tradePartner->getPosition(), player->getPosition(), SightLine_CheckSightLineAndFloor)) {
-		player->sendCancelMessage(RETURNVALUE_CREATUREISNOTREACHABLE);
-		return;
-	}
-
-	std::shared_ptr<Thing> tradeThing = internalGetThing(player, pos, stackPos, itemId, STACKPOS_TOPDOWN_ITEM);
-	if (!tradeThing) {
-		player->sendCancelMessage(RETURNVALUE_NOTPOSSIBLE);
-		return;
-	}
-
-	std::shared_ptr<Item> tradeItem = tradeThing->getItem();
-	if (!tradeItem) {
-		player->sendCancelMessage(RETURNVALUE_NOTPOSSIBLE);
-		return;
-	}
-
-	if (tradeItem->getID() != itemId || !tradeItem->isPickupable() || tradeItem->hasAttribute(ItemAttribute_t::UNIQUEID)) {
-		player->sendCancelMessage(RETURNVALUE_NOTPOSSIBLE);
-		return;
-	}
-
-	if (tradeItem->isRemoved() || !tradeItem->getParent()) {
-		player->sendCancelMessage(RETURNVALUE_NOTPOSSIBLE);
-		return;
-	}
-
-	if (tradeItem->isStoreItem() || tradeItem->hasOwner()) {
-		player->sendCancelMessage(RETURNVALUE_ITEMUNTRADEABLE);
-		return;
-	}
-
-	if (g_configManager().getBoolean(ONLY_INVITED_CAN_MOVE_HOUSE_ITEMS)) {
-		if (std::shared_ptr<HouseTile> houseTile = std::dynamic_pointer_cast<HouseTile>(tradeItem->getTile())) {
-			const auto &house = houseTile->getHouse();
-			if (house && tradeItem->getRealParent() != player && (!house->isInvited(player) || house->getHouseAccessLevel(player) == HOUSE_GUEST)) {
-				player->sendCancelMessage(RETURNVALUE_NOTMOVABLE);
-				return;
-			}
-		}
-	}
-
-	const Position &playerPosition = player->getPosition();
-	const Position &tradeItemPosition = tradeItem->getPosition();
-	if (playerPosition.z != tradeItemPosition.z) {
-		player->sendCancelMessage(playerPosition.z > tradeItemPosition.z ? RETURNVALUE_FIRSTGOUPSTAIRS : RETURNVALUE_FIRSTGODOWNSTAIRS);
-		return;
-	}
-
-	if (!Position::areInRange<1, 1>(tradeItemPosition, playerPosition)) {
-		std::vector<Direction> listDir;
-		if (player->getPathTo(pos, listDir, 0, 1, true, true)) {
-			g_dispatcher().addEvent([this, playerId = player->getID(), listDir] { playerAutoWalk(playerId, listDir); }, __FUNCTION__);
-			const auto &task = createPlayerTask(
-				400,
-				[this, playerId, pos, stackPos, tradePlayerId, itemId] {
-					playerRequestTrade(playerId, pos, stackPos, tradePlayerId, itemId);
-				},
-				__FUNCTION__
-			);
-			player->setNextWalkActionTask(task);
-		} else {
-			player->sendCancelMessage(RETURNVALUE_THEREISNOWAY);
-		}
-		return;
-	}
-
-	const std::shared_ptr<Container> &tradeItemContainer = tradeItem->getContainer();
-	if (tradeItemContainer) {
-		for (const auto &it : tradeItems) {
-			const auto &item = it.first;
-			if (tradeItem == item) {
-				player->sendTextMessage(MESSAGE_TRADE, "This item is already being traded.");
-				return;
-			}
-
-			if (tradeItemContainer->isHoldingItem(item)) {
-				player->sendTextMessage(MESSAGE_TRADE, "This item is already being traded.");
-				return;
-			}
-
-			const std::shared_ptr<Container> &container = item->getContainer();
-			if (container && container->isHoldingItem(tradeItem)) {
-				player->sendTextMessage(MESSAGE_TRADE, "This item is already being traded.");
-				return;
-			}
-		}
-	} else {
-		for (const auto &it : tradeItems) {
-			const auto &item = it.first;
-			if (tradeItem == item) {
-				player->sendTextMessage(MESSAGE_TRADE, "This item is already being traded.");
-				return;
-			}
-
-			const std::shared_ptr<Container> &container = item->getContainer();
-			if (container && container->isHoldingItem(tradeItem)) {
-				player->sendTextMessage(MESSAGE_TRADE, "This item is already being traded.");
-				return;
-			}
-		}
-	}
-
-	if (tradeItemContainer && tradeItemContainer->getItemHoldingCount() + 1 > 100) {
-		player->sendTextMessage(MESSAGE_TRADE, "You can not trade more than 100 items.");
-		return;
-	}
-
-	if (tradeItem->isStoreItem()) {
-		player->sendTextMessage(MESSAGE_TRADE, "This item cannot be trade.");
-		return;
-	}
-
-	if (tradeItemContainer) {
-		for (const std::shared_ptr<Item> &containerItem : tradeItemContainer->getItems(true)) {
-			if (containerItem->isStoreItem()) {
-				player->sendTextMessage(MESSAGE_TRADE, "This item cannot be trade.");
-				return;
-			}
-		}
-	}
-
-	if (!g_events().eventPlayerOnTradeRequest(player, tradePartner, tradeItem)) {
-		return;
-	}
-
-	if (!g_callbacks().checkCallback(EventCallback_t::playerOnTradeRequest, player, tradePartner, tradeItem)) {
-		return;
-	}
-
-	internalStartTrade(player, tradePartner, tradeItem);
+	m_tradeService->playerRequestTrade(playerId, pos, stackPos, tradePlayerId, itemId);
 }
 
 bool Game::internalStartTrade(const std::shared_ptr<Player> &player, const std::shared_ptr<Player> &partner, const std::shared_ptr<Item> &tradeItem) {
@@ -2555,182 +2290,27 @@ void Game::playerShowQuestLine(uint32_t playerId, uint16_t questId) {
 }
 
 void Game::playerSay(uint32_t playerId, uint16_t channelId, SpeakClasses type, const std::string &receiver, const std::string &text) {
-	const auto &player = getPlayerByID(playerId);
-	if (!player) {
-		return;
-	}
-
-	player->resetLoginProtection();
-	player->resetIdleTime();
-
-	if (playerSaySpell(player, type, text)) {
-		return;
-	}
-
-	uint32_t muteTime = player->isMuted();
-	if (muteTime > 0) {
-		std::ostringstream ss;
-		ss << "You are still muted for " << muteTime << " seconds.";
-		player->sendTextMessage(MESSAGE_FAILURE, ss.str());
-		return;
-	}
-
-	if (!text.empty() && text.front() == '/' && player->isAccessPlayer()) {
-		return;
-	}
-
-	if (type != TALKTYPE_PRIVATE_PN) {
-		player->removeMessageBuffer();
-	}
-
-	switch (type) {
-		case TALKTYPE_SAY:
-			internalCreatureSay(player, TALKTYPE_SAY, text, false);
-			break;
-
-		case TALKTYPE_WHISPER:
-			playerWhisper(player, text);
-			break;
-
-		case TALKTYPE_YELL:
-			playerYell(player, text);
-			break;
-
-		case TALKTYPE_PRIVATE_TO:
-		case TALKTYPE_PRIVATE_RED_TO:
-			playerSpeakTo(player, type, receiver, text);
-			break;
-
-		case TALKTYPE_CHANNEL_O:
-		case TALKTYPE_CHANNEL_Y:
-		case TALKTYPE_CHANNEL_R1:
-			g_chat().talkToChannel(player, type, text, channelId);
-			break;
-
-		case TALKTYPE_PRIVATE_PN:
-			playerSpeakToNpc(player, text);
-			break;
-
-		case TALKTYPE_BROADCAST:
-			playerBroadcastMessage(player, text);
-			break;
-
-		default:
-			break;
-	}
+	m_chatService->playerSay(playerId, channelId, type, receiver, text);
 }
 
 bool Game::playerSaySpell(const std::shared_ptr<Player> &player, SpeakClasses type, const std::string &text) {
-	if (player->walkExhausted()) {
-		return true;
-	}
-
-	std::string words = text;
-	TalkActionResult_t result = g_talkActions().checkPlayerCanSayTalkAction(player, type, words);
-	if (result == TALKACTION_BREAK) {
-		return true;
-	}
-
-	result = g_spells().playerSaySpell(player, words);
-	if (result == TALKACTION_BREAK) {
-		if (!g_configManager().getBoolean(PUSH_WHEN_ATTACKING)) {
-			player->cancelPush();
-		}
-		return player->saySpell(type, words, false);
-	} else if (result == TALKACTION_FAILED) {
-		return true;
-	}
-
-	return false;
+	return m_chatService->playerSaySpell(player, type, text);
 }
 
 void Game::playerWhisper(const std::shared_ptr<Player> &player, const std::string &text) {
-	auto spectators = Spectators().find<Player>(player->getPosition(), false, MAP_MAX_CLIENT_VIEW_PORT_X, MAP_MAX_CLIENT_VIEW_PORT_X, MAP_MAX_CLIENT_VIEW_PORT_Y, MAP_MAX_CLIENT_VIEW_PORT_Y);
-
-	// Send to client
-	for (const auto &spectator : spectators) {
-		if (const auto &spectatorPlayer = spectator->getPlayer()) {
-			if (!Position::areInRange<1, 1>(player->getPosition(), spectatorPlayer->getPosition())) {
-				spectatorPlayer->sendCreatureSay(player, TALKTYPE_WHISPER, "pspsps");
-			} else {
-				spectatorPlayer->sendCreatureSay(player, TALKTYPE_WHISPER, text);
-			}
-		}
-	}
-
-	// event method
-	for (const auto &spectator : spectators) {
-		spectator->onCreatureSay(player, TALKTYPE_WHISPER, text);
-	}
+	m_chatService->playerWhisper(player, text);
 }
 
 bool Game::playerYell(const std::shared_ptr<Player> &player, const std::string &text) {
-	if (player->getLevel() == 1) {
-		player->sendTextMessage(MESSAGE_FAILURE, "You may not yell as long as you are on level 1.");
-		return false;
-	}
-
-	if (player->hasCondition(CONDITION_YELLTICKS)) {
-		player->sendCancelMessage(RETURNVALUE_YOUAREEXHAUSTED);
-		return false;
-	}
-
-	if (player->getAccountType() < AccountType::ACCOUNT_TYPE_GAMEMASTER) {
-		auto condition = Condition::createCondition(CONDITIONID_DEFAULT, CONDITION_YELLTICKS, 30000, 0);
-		player->addCondition(condition);
-	}
-
-	internalCreatureSay(player, TALKTYPE_YELL, asUpperCaseString(text), false);
-	return true;
+	return m_chatService->playerYell(player, text);
 }
 
 bool Game::playerSpeakTo(const std::shared_ptr<Player> &player, SpeakClasses type, const std::string &receiver, const std::string &text) {
-	std::shared_ptr<Player> toPlayer = getPlayerByName(receiver);
-	if (!toPlayer) {
-		player->sendTextMessage(MESSAGE_FAILURE, "A player with this name is not online.");
-		return false;
-	}
-
-	if (type == TALKTYPE_PRIVATE_RED_TO && (player->hasFlag(PlayerFlags_t::CanTalkRedPrivate) || player->getAccountType() >= AccountType::ACCOUNT_TYPE_GAMEMASTER)) {
-		type = TALKTYPE_PRIVATE_RED_FROM;
-	} else {
-		type = TALKTYPE_PRIVATE_FROM;
-	}
-
-	toPlayer->sendPrivateMessage(player, type, text);
-	toPlayer->onCreatureSay(player, type, text);
-
-	if (toPlayer->isInGhostMode() && !player->isAccessPlayer()) {
-		player->sendTextMessage(MESSAGE_FAILURE, "A player with this name is not online.");
-	} else {
-		std::ostringstream ss;
-		ss << "Message sent to " << toPlayer->getName() << '.';
-		player->sendTextMessage(MESSAGE_FAILURE, ss.str());
-	}
-	return true;
+	return m_chatService->playerSpeakTo(player, type, receiver, text);
 }
 
 void Game::playerSpeakToNpc(const std::shared_ptr<Player> &player, const std::string &text) {
-	if (player == nullptr) {
-		g_logger().error("[Game::playerSpeakToNpc] - Player is nullptr");
-		return;
-	}
-
-	// Check npc say exhausted
-	if (player->isUIExhausted()) {
-		player->sendCancelMessage(RETURNVALUE_YOUAREEXHAUSTED);
-		return;
-	}
-
-	for (const auto &spectator : Spectators().find<Creature>(player->getPosition()).filter<Npc>()) {
-		if (!player->canSpeakWithHireling(spectator->getNpc()->getSpeechBubble())) {
-			continue;
-		}
-
-		spectator->getNpc()->onCreatureSay(player, TALKTYPE_PRIVATE_PN, text);
-	}
-
-	player->updateUIExhausted();
+	m_chatService->playerSpeakToNpc(player, text);
 }
 
 std::shared_ptr<Task> Game::createPlayerTask(uint32_t delay, std::function<void(void)> f, const std::string &context) const {
