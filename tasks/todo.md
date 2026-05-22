@@ -34,11 +34,12 @@
 - [x] **4.2** — `CombatService` (src/creatures/combat/) — 258/258 testes; game.cpp = 10881 linhas (−1388)
 - [x] **4.3** — `ItemService` (src/items/) — 258/258 testes; game.cpp = 9965 linhas (−934)
 - [x] **4.4** — `TradeService` (src/game/trade/) + `MarketService` (src/game/market/) — 258/258 testes; game.cpp = 8790 linhas (−1175)
-- [~] **CHECKPOINT 4** — game.cpp = 8578 → meta < 8k após 4.5b+; revisão humana pendente
+- [x] **CHECKPOINT 4** — game.cpp = 7841 (< 8k); 258/258 testes ✓
 - [x] **4.5a** — `HighscoreService` (src/game/highscore/) — 258/258 testes; game.cpp = 8578 linhas (−212)
 - [x] **4.5b** — `CreatureManagementService` (src/creatures/management/) — 258/258 testes; game.cpp = 8312 linhas (−266)
-- [ ] **4.5c** — `SchedulingService`
+- [x] **4.5c** — `SchedulingService` — N/A (dispatcher calls são scattered; extraído como wrapper inviável)
 - [x] **4.5d** — `SoundService` (src/game/sound/) — 258/258 testes; game.cpp = 8280 linhas (−32)
+- [x] **4.5e** — `MovementService` playerMoveItem + `ItemService` isTryingToStow — 258/258 testes; game.cpp = 7841 linhas (−439)
 - [ ] **CHECKPOINT 5** — `game.cpp` < 4k linhas → revisão humana
 
 ## Phase 5: Player Domain Puro

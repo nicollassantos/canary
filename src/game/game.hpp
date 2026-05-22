@@ -12,6 +12,7 @@
 #include "creatures/combat/combat_service.hpp"
 #include "creatures/management/creature_management_service.hpp"
 #include "game/highscore/highscore_service.hpp"
+#include "game/interaction/player_interaction_service.hpp"
 #include "game/loot/loot_service.hpp"
 #include "game/market/market_service.hpp"
 #include "game/movement/movement_service.hpp"
@@ -115,6 +116,7 @@ class Game {
 	friend class CreatureManagementService;
 	friend class MovementService;
 	friend class LootService;
+	friend class PlayerInteractionService;
 
 public:
 	Game();
@@ -744,6 +746,7 @@ private:
 	std::unique_ptr<HighscoreService> m_highscoreService;
 	std::unique_ptr<CreatureManagementService> m_creatureService;
 	std::unique_ptr<LootService> m_lootService;
+	std::unique_ptr<PlayerInteractionService> m_interactionService;
 	std::unique_ptr<SoundService> m_soundService;
 
 	std::map<uint16_t, Achievement> m_achievements;
