@@ -214,6 +214,7 @@ Game::Game() :
 	m_lootService(std::make_unique<LootService>(*this, g_configManager())),
 	m_interactionService(std::make_unique<PlayerInteractionService>(*this, g_configManager())),
 	m_chatService(std::make_unique<ChatService>(*this, g_configManager())),
+	m_forgeService(std::make_unique<ForgeService>(*this, g_configManager())),
 	m_soundService(std::make_unique<SoundService>()) {
 	[[maybe_unused]] auto &[choices1_text, choices1_value] = offlineTrainingWindow.choices.emplace_back("Fist Fighting and Shielding", SKILL_FIST);
 	[[maybe_unused]] auto &[choices2_text, choices2_value] = offlineTrainingWindow.choices.emplace_back("Sword Fighting and Shielding", SKILL_SWORD);
@@ -3408,81 +3409,19 @@ void Game::playerAnswerModalWindow(uint32_t playerId, uint32_t modalWindowId, ui
 }
 
 void Game::playerForgeFuseItems(uint32_t playerId, ForgeAction_t actionType, uint16_t firstItemId, uint8_t tier, uint16_t secondItemId, bool usedCore, bool reduceTierLoss, bool convergence) {
-	metrics::method_latency measure(__METRICS_METHOD_NAME__);
-	const auto &player = getPlayerByID(playerId);
-	if (!player) {
-		return;
-	}
-
-	if (player->isUIExhausted()) {
-		player->sendCancelMessage(RETURNVALUE_YOUAREEXHAUSTED);
-		return;
-	}
-
-	player->updateUIExhausted();
-
-	uint8_t coreCount = (usedCore ? 1 : 0) + (reduceTierLoss ? 1 : 0);
-	auto baseSuccess = static_cast<uint8_t>(g_configManager().getNumber(FORGE_BASE_SUCCESS_RATE));
-	if (const auto scopedForgeChance = g_kv().scoped("eventscheduler")->get("forge-chance")) {
-		auto forgeChance = static_cast<int>(scopedForgeChance->getNumber());
-		int adjustedSuccess = baseSuccess + forgeChance - 100;
-		baseSuccess = static_cast<uint8_t>(std::clamp(adjustedSuccess, 0, 100));
-	}
-	auto coreSuccess = usedCore ? g_configManager().getNumber(FORGE_BONUS_SUCCESS_RATE) : 0;
-	auto finalRate = baseSuccess + coreSuccess;
-	auto roll = static_cast<uint8_t>(uniform_random(1, 100)) <= finalRate;
-
-	bool success = roll ? true : false;
-
-	auto chance = uniform_random(0, 10000);
-	uint8_t bonus = convergence ? 0 : forgeBonus(chance);
-
-	player->forgeFuseItems(actionType, firstItemId, tier, secondItemId, success, reduceTierLoss, convergence, bonus, coreCount);
+	m_forgeService->playerForgeFuseItems(playerId, actionType, firstItemId, tier, secondItemId, usedCore, reduceTierLoss, convergence);
 }
 
 void Game::playerForgeTransferItemTier(uint32_t playerId, ForgeAction_t actionType, uint16_t donorItemId, uint8_t tier, uint16_t receiveItemId, bool convergence) {
-	const auto &player = getPlayerByID(playerId);
-	if (!player) {
-		return;
-	}
-
-	if (player->isUIExhausted()) {
-		player->sendCancelMessage(RETURNVALUE_YOUAREEXHAUSTED);
-		return;
-	}
-
-	player->updateUIExhausted();
-	player->forgeTransferItemTier(actionType, donorItemId, tier, receiveItemId, convergence);
+	m_forgeService->playerForgeTransferItemTier(playerId, actionType, donorItemId, tier, receiveItemId, convergence);
 }
 
 void Game::playerForgeResourceConversion(uint32_t playerId, ForgeAction_t actionType) {
-	const auto &player = getPlayerByID(playerId);
-	if (!player) {
-		return;
-	}
-
-	if (player->isUIExhausted()) {
-		player->sendCancelMessage(RETURNVALUE_YOUAREEXHAUSTED);
-		return;
-	}
-
-	player->updateUIExhausted();
-	player->forgeResourceConversion(actionType);
+	m_forgeService->playerForgeResourceConversion(playerId, actionType);
 }
 
 void Game::playerBrowseForgeHistory(uint32_t playerId, uint8_t page) {
-	const auto &player = getPlayerByID(playerId);
-	if (!player) {
-		return;
-	}
-
-	if (player->isUIExhausted()) {
-		player->sendCancelMessage(RETURNVALUE_YOUAREEXHAUSTED);
-		return;
-	}
-
-	player->updateUIExhausted();
-	player->forgeHistory(page);
+	m_forgeService->playerBrowseForgeHistory(playerId, page);
 }
 
 void Game::playerBosstiarySlot(uint32_t playerId, uint8_t slotId, uint32_t selectedBossId) {
@@ -4107,165 +4046,11 @@ void Game::sendUpdateCreature(const std::shared_ptr<Creature> &creature) {
 }
 
 uint32_t Game::makeInfluencedMonster() {
-	if (auto influencedLimit = g_configManager().getNumber(FORGE_INFLUENCED_CREATURES_LIMIT);
-	    // Condition
-	    forgeableMonsters.empty() || influencedMonsters.size() >= influencedLimit) {
-		return 0;
-	}
-
-	auto maxTries = forgeableMonsters.size();
-	uint16_t tries = 0;
-	std::shared_ptr<Monster> monster = nullptr;
-	while (true) {
-		if (tries == maxTries) {
-			return 0;
-		}
-
-		tries++;
-
-		auto random = static_cast<uint32_t>(normal_random(0, static_cast<int32_t>(forgeableMonsters.size() - 1)));
-		auto monsterId = forgeableMonsters.at(random);
-		monster = getMonsterByID(monsterId);
-		if (monster == nullptr) {
-			continue;
-		}
-
-		// Avoiding replace forgeable monster with another
-		if (monster->getForgeStack() == 0) {
-			auto it = std::ranges::find(forgeableMonsters.begin(), forgeableMonsters.end(), monsterId);
-			if (it == forgeableMonsters.end()) {
-				monster = nullptr;
-				continue;
-			}
-			forgeableMonsters.erase(it);
-			break;
-		}
-	}
-
-	if (monster && monster->canBeForgeMonster()) {
-		monster->setMonsterForgeClassification(ForgeClassifications_t::FORGE_INFLUENCED_MONSTER);
-		monster->configureForgeSystem();
-		influencedMonsters.emplace(monster->getID());
-		return monster->getID();
-	}
-
-	return 0;
+	return m_forgeService->makeInfluencedMonster();
 }
 
 uint32_t Game::makeFiendishMonster(uint32_t forgeableMonsterId /* = 0*/, bool createForgeableMonsters /* = false*/) {
-	if (createForgeableMonsters) {
-		forgeableMonsters.clear();
-		// If the forgeable monsters haven't been created
-		// Then we'll create them so they don't return in the next if (forgeableMonsters.empty())
-		for (const auto &monster : monsters) {
-			auto monsterTile = monster->getTile();
-			if (!monster || !monsterTile) {
-				continue;
-			}
-
-			if (monster->canBeForgeMonster() && !monsterTile->hasFlag(TILESTATE_NOLOGOUT)) {
-				forgeableMonsters.push_back(monster->getID());
-			}
-		}
-		for (const auto monsterId : getFiendishMonsters()) {
-			// If the fiendish is no longer on the map, we remove it from the vector
-			auto monster = getMonsterByID(monsterId);
-			if (!monster) {
-				removeFiendishMonster(monsterId);
-				continue;
-			}
-
-			// If you're trying to create a new fiendish and it's already max size, let's remove one of them
-			if (auto fiendishLimit = g_configManager().getNumber(FORGE_FIENDISH_CREATURES_LIMIT);
-			    // Condition
-			    getFiendishMonsters().size() >= fiendishLimit) {
-				monster->clearFiendishStatus();
-				removeFiendishMonster(monsterId);
-				break;
-			}
-		}
-	}
-
-	if (auto fiendishLimit = g_configManager().getNumber(FORGE_FIENDISH_CREATURES_LIMIT);
-	    // Condition
-	    forgeableMonsters.empty() || fiendishMonsters.size() >= fiendishLimit) {
-		return 0;
-	}
-
-	auto maxTries = forgeableMonsters.size();
-	uint16_t tries = 0;
-	std::shared_ptr<Monster> monster = nullptr;
-	while (true) {
-		if (tries == maxTries) {
-			return 0;
-		}
-
-		tries++;
-
-		auto random = static_cast<uint32_t>(uniform_random(0, static_cast<int32_t>(forgeableMonsters.size() - 1)));
-		uint32_t fiendishMonsterId = forgeableMonsterId;
-		if (fiendishMonsterId == 0) {
-			fiendishMonsterId = forgeableMonsters.at(random);
-		}
-		monster = getMonsterByID(fiendishMonsterId);
-		if (monster == nullptr) {
-			continue;
-		}
-
-		// Avoiding replace forgeable monster with another
-		if (monster->getForgeStack() == 0) {
-			auto it = std::find(forgeableMonsters.begin(), forgeableMonsters.end(), fiendishMonsterId);
-			if (it == forgeableMonsters.end()) {
-				monster = nullptr;
-				continue;
-			}
-			forgeableMonsters.erase(it);
-			break;
-		}
-	}
-
-	// Get interval time to fiendish
-	std::string saveIntervalType = g_configManager().getString(FORGE_FIENDISH_INTERVAL_TYPE);
-	auto saveIntervalConfigTime = std::atoi(g_configManager().getString(FORGE_FIENDISH_INTERVAL_TIME).c_str());
-	int intervalTime = 0;
-	time_t timeToChangeFiendish;
-	if (saveIntervalType == "second") {
-		intervalTime = 1000;
-		timeToChangeFiendish = 1;
-	} else if (saveIntervalType == "minute") {
-		intervalTime = 60 * 1000;
-		timeToChangeFiendish = 60;
-	} else if (saveIntervalType == "hour") {
-		intervalTime = 60 * 60 * 1000;
-		timeToChangeFiendish = 3600;
-	} else {
-		timeToChangeFiendish = 3600;
-	}
-
-	uint32_t finalTime = 0;
-	if (intervalTime == 0) {
-		g_logger().warn("Fiendish interval type is wrong, setting default time to 1h");
-		finalTime = 3600 * 1000;
-	} else {
-		finalTime = static_cast<uint32_t>(saveIntervalConfigTime * intervalTime);
-	}
-
-	if (monster && monster->canBeForgeMonster()) {
-		monster->setMonsterForgeClassification(ForgeClassifications_t::FORGE_FIENDISH_MONSTER);
-		monster->configureForgeSystem();
-		monster->setTimeToChangeFiendish(timeToChangeFiendish + getTimeNow());
-		fiendishMonsters.emplace(monster->getID());
-
-		auto schedulerTask = createPlayerTask(
-			finalTime,
-			[this, monster] { updateFiendishMonsterStatus(monster->getID(), monster->getName()); },
-			__FUNCTION__
-		);
-		forgeMonsterEventIds[monster->getID()] = g_dispatcher().scheduleEvent(schedulerTask);
-		return monster->getID();
-	}
-
-	return 0;
+	return m_forgeService->makeFiendishMonster(forgeableMonsterId, createForgeableMonsters);
 }
 
 void Game::updateFiendishMonsterStatus(uint32_t monsterId, const std::string &monsterName) {
@@ -4281,13 +4066,7 @@ void Game::updateFiendishMonsterStatus(uint32_t monsterId, const std::string &mo
 }
 
 bool Game::removeForgeMonster(uint32_t id, ForgeClassifications_t monsterForgeClassification, bool create) {
-	if (monsterForgeClassification == ForgeClassifications_t::FORGE_FIENDISH_MONSTER) {
-		removeFiendishMonster(id, create);
-	} else if (monsterForgeClassification == ForgeClassifications_t::FORGE_INFLUENCED_MONSTER) {
-		removeInfluencedMonster(id, create);
-	}
-
-	return true;
+	return m_forgeService->removeForgeMonster(id, monsterForgeClassification, create);
 }
 
 bool Game::removeInfluencedMonster(uint32_t id, bool create /* = false*/) {
@@ -4327,163 +4106,27 @@ bool Game::removeFiendishMonster(uint32_t id, bool create /* = true*/) {
 }
 
 void Game::updateForgeableMonsters() {
-	forgeableMonsters.clear();
-	for (const auto &monster : monsters) {
-		const auto &monsterTile = monster->getTile();
-		if (!monsterTile) {
-			continue;
-		}
-
-		if (monster->canBeForgeMonster() && !monsterTile->hasFlag(TILESTATE_NOLOGOUT)) {
-			forgeableMonsters.emplace_back(monster->getID());
-		}
-	}
-
-	for (const auto &monsterId : getFiendishMonsters()) {
-		if (!getMonsterByID(monsterId)) {
-			removeFiendishMonster(monsterId);
-		}
-	}
-
-	for (const auto &monsterId : getInfluencedMonsters()) {
-		if (!getMonsterByID(monsterId)) {
-			removeInfluencedMonster(monsterId, false);
-		}
-	}
-
-	uint32_t fiendishLimit = g_configManager().getNumber(FORGE_FIENDISH_CREATURES_LIMIT); // Fiendish Creatures limit
-	if (fiendishMonsters.size() < fiendishLimit) {
-		createFiendishMonsters();
-	}
-
-	uint32_t influencedLimit = g_configManager().getNumber(FORGE_INFLUENCED_CREATURES_LIMIT); // Influenced Creatures limit
-	if (influencedMonsters.size() < influencedLimit) {
-		createInfluencedMonsters();
-	}
+	m_forgeService->updateForgeableMonsters();
 }
 
 void Game::createFiendishMonsters() {
-	uint32_t fiendishLimit = g_configManager().getNumber(FORGE_FIENDISH_CREATURES_LIMIT); // Fiendish Creatures limit
-	if (fiendishMonsters.size() >= fiendishLimit) {
-		return;
-	}
-
-	uint32_t noProgressAttempts = 0;
-	uint32_t remaining = fiendishLimit - static_cast<uint32_t>(fiendishMonsters.size());
-	uint32_t maxAttemptsWithoutProgress = remaining * 4;
-	if (maxAttemptsWithoutProgress < 25) {
-		maxAttemptsWithoutProgress = 25;
-	}
-
-	while (fiendishMonsters.size() < fiendishLimit) {
-		const auto previousSize = fiendishMonsters.size();
-
-		makeFiendishMonster();
-
-		if (fiendishMonsters.size() > previousSize) {
-			noProgressAttempts = 0;
-			continue;
-		}
-
-		noProgressAttempts++;
-		if (noProgressAttempts >= maxAttemptsWithoutProgress) {
-			g_logger().warn("[{}] - Aborting fiendish creation due to no progress. Size: {}, max: {}, attempts: {}.", __FUNCTION__, fiendishMonsters.size(), fiendishLimit, noProgressAttempts);
-			return;
-		}
-	}
+	m_forgeService->createFiendishMonsters();
 }
 
 void Game::createInfluencedMonsters() {
-	uint32_t influencedLimit = g_configManager().getNumber(FORGE_INFLUENCED_CREATURES_LIMIT);
-	if (influencedMonsters.size() >= influencedLimit) {
-		return;
-	}
-
-	uint32_t noProgressAttempts = 0;
-	uint32_t remaining = influencedLimit - static_cast<uint32_t>(influencedMonsters.size());
-	uint32_t maxAttemptsWithoutProgress = remaining * 4;
-	if (maxAttemptsWithoutProgress < 25) {
-		maxAttemptsWithoutProgress = 25;
-	}
-
-	while (influencedMonsters.size() < influencedLimit) {
-		const auto previousSize = influencedMonsters.size();
-
-		makeInfluencedMonster();
-
-		if (influencedMonsters.size() > previousSize) {
-			noProgressAttempts = 0;
-			continue;
-		}
-
-		noProgressAttempts++;
-		if (noProgressAttempts >= maxAttemptsWithoutProgress) {
-			g_logger().warn("[{}] - Aborting influenced creation due to no progress. Size: {}, max: {}, attempts: {}.", __FUNCTION__, influencedMonsters.size(), influencedLimit, noProgressAttempts);
-			return;
-		}
-	}
+	m_forgeService->createInfluencedMonsters();
 }
 
 void Game::checkForgeEventId(uint32_t monsterId) {
-	auto find = forgeMonsterEventIds.find(monsterId);
-	if (find != forgeMonsterEventIds.end()) {
-		g_dispatcher().stopEvent(find->second);
-		forgeMonsterEventIds.erase(find);
-	}
+	m_forgeService->checkForgeEventId(monsterId);
 }
 
 bool Game::addInfluencedMonster(const std::shared_ptr<Monster> &monster, uint16_t stack /* = 0 */) {
-	if (monster && monster->canBeForgeMonster()) {
-		std::erase_if(influencedMonsters, [this](const auto monsterId) {
-			return getMonsterByID(monsterId) == nullptr;
-		});
-
-		const auto monsterId = monster->getID();
-		const bool alreadyInfluenced = influencedMonsters.contains(monsterId);
-		if (auto maxInfluencedMonsters = static_cast<uint32_t>(g_configManager().getNumber(FORGE_INFLUENCED_CREATURES_LIMIT));
-		    // If condition
-		    !alreadyInfluenced && (influencedMonsters.size() + 1) > maxInfluencedMonsters) {
-			return false;
-		}
-
-		monster->setMonsterForgeClassification(ForgeClassifications_t::FORGE_INFLUENCED_MONSTER);
-		monster->configureForgeSystem(stack);
-		influencedMonsters.emplace(monsterId);
-		return true;
-	}
-	return false;
+	return m_forgeService->addInfluencedMonster(monster, stack);
 }
 
 bool Game::addItemStoreInbox(const std::shared_ptr<Player> &player, uint32_t itemId) {
-	const auto &decoKit = Item::CreateItem(ITEM_DECORATION_KIT, 1);
-	if (!decoKit) {
-		return false;
-	}
-	const ItemType &itemType = Item::items[itemId];
-	std::string description = fmt::format("You bought this item in the Store.\nUnwrap it in your own house to create a <{}>.", itemType.name);
-	decoKit->setAttribute(ItemAttribute_t::DESCRIPTION, description);
-	decoKit->setCustomAttribute("unWrapId", static_cast<int64_t>(itemId));
-
-	const auto &thing = player->getThing(CONST_SLOT_STORE_INBOX);
-	if (!thing) {
-		return false;
-	}
-
-	const auto &inboxItem = thing->getItem();
-	if (!inboxItem) {
-		return false;
-	}
-
-	const auto &inboxContainer = inboxItem->getContainer();
-	if (!inboxContainer) {
-		return false;
-	}
-
-	if (internalAddItem(inboxContainer, decoKit) != RETURNVALUE_NOERROR) {
-		inboxContainer->internalAddThing(decoKit);
-	}
-
-	return true;
+	return m_forgeService->addItemStoreInbox(player, itemId);
 }
 
 void Game::playerCheckActivity(const std::string &playerName, int interval) {
