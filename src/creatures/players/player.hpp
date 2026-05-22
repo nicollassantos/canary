@@ -1898,7 +1898,9 @@ private:
 
 	friend class CombatService;
 	friend class Game;
+	friend class MarketService;
 	friend class MovementService;
+	friend class TradeService;
 	friend class SaveManager;
 	friend class Npc;
 	friend class PlayerFunctions;
