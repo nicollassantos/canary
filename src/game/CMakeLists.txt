@@ -5,6 +5,7 @@ target_sources(
             bank/bank.cpp
             highscore/highscore_service.cpp
             market/market_service.cpp
+            sound/sound_service.cpp
             movement/movement_service.cpp
             trade/trade_service.cpp
             movement/position.cpp

@@ -209,7 +209,9 @@ Game::Game() :
 	m_itemService(std::make_unique<ItemService>(*this, g_configManager())),
 	m_tradeService(std::make_unique<TradeService>(*this, g_configManager())),
 	m_marketService(std::make_unique<MarketService>(*this, g_configManager())),
-	m_highscoreService(std::make_unique<HighscoreService>(*this)) {
+	m_highscoreService(std::make_unique<HighscoreService>(*this)),
+	m_creatureService(std::make_unique<CreatureManagementService>(*this)),
+	m_soundService(std::make_unique<SoundService>()) {
 	[[maybe_unused]] auto &[choices1_text, choices1_value] = offlineTrainingWindow.choices.emplace_back("Fist Fighting and Shielding", SKILL_FIST);
 	[[maybe_unused]] auto &[choices2_text, choices2_value] = offlineTrainingWindow.choices.emplace_back("Sword Fighting and Shielding", SKILL_SWORD);
 	[[maybe_unused]] auto &[choices3_text, choices3_value] = offlineTrainingWindow.choices.emplace_back("Axe Fighting and Shielding", SKILL_AXE);
@@ -949,326 +951,59 @@ void Game::internalGetPosition(const std::shared_ptr<Item> &item, Position &pos,
 }
 
 std::shared_ptr<Creature> Game::getCreatureByID(uint32_t id) {
-	if (id >= Player::getFirstID() && id <= Player::getLastID()) {
-		return getPlayerByID(id);
-	} else if (id <= Monster::monsterAutoID) {
-		return getMonsterByID(id);
-	} else if (id <= Npc::npcAutoID) {
-		return getNpcByID(id);
-	} else {
-		g_logger().warn("Creature with id {} not exists");
-	}
-	return nullptr;
+	return m_creatureService->getCreatureByID(id);
 }
 
 std::shared_ptr<Monster> Game::getMonsterByID(uint32_t id) {
-	if (id == 0) {
-		return nullptr;
-	}
-
-	auto it = monstersIdIndex.find(id);
-	if (it == monstersIdIndex.end()) {
-		return nullptr;
-	}
-
-	if (it->second >= monsters.size()) {
-		return nullptr;
-	}
-
-	return monsters[it->second];
+	return m_creatureService->getMonsterByID(id);
 }
 
 std::shared_ptr<Npc> Game::getNpcByID(uint32_t id) {
-	if (id == 0) {
-		return nullptr;
-	}
-
-	auto it = npcsIdIndex.find(id);
-	if (it == npcsIdIndex.end()) {
-		return nullptr;
-	}
-
-	return npcs[it->second];
+	return m_creatureService->getNpcByID(id);
 }
 
-std::shared_ptr<Player> Game::getPlayerByID(uint32_t id, bool allowOffline /* = false */) {
-	auto playerMap = players.find(id);
-	if (playerMap != players.end()) {
-		return playerMap->second;
-	}
-
-	if (!allowOffline) {
-		return nullptr;
-	}
-	std::shared_ptr<Player> tmpPlayer = std::make_shared<Player>(nullptr);
-	if (!IOLoginData::loadPlayerById(tmpPlayer, id)) {
-		return nullptr;
-	}
-	tmpPlayer->setOnline(false);
-	return tmpPlayer;
+std::shared_ptr<Player> Game::getPlayerByID(uint32_t id, bool allowOffline) {
+	return m_creatureService->getPlayerByID(id, allowOffline);
 }
 
 std::shared_ptr<Creature> Game::getCreatureByName(const std::string &creatureName) {
-	if (creatureName.empty()) {
-		return nullptr;
-	}
-
-	const std::string &lowerCaseName = asLowerCaseString(creatureName);
-
-	auto m_it = mappedPlayerNames.find(lowerCaseName);
-	if (m_it != mappedPlayerNames.end()) {
-		return m_it->second.lock();
-	}
-
-	auto npcIterator = npcsNameIndex.find(lowerCaseName);
-	if (npcIterator != npcsNameIndex.end()) {
-		return npcs[npcIterator->second];
-	}
-
-	auto monsterIterator = monstersNameIndex.find(lowerCaseName);
-	if (monsterIterator != monstersNameIndex.end()) {
-		return monsters[monsterIterator->second];
-	}
-	return nullptr;
+	return m_creatureService->getCreatureByName(creatureName);
 }
 
 std::shared_ptr<Npc> Game::getNpcByName(const std::string &npcName) {
-	if (npcName.empty()) {
-		return nullptr;
-	}
-
-	const std::string lowerCaseName = asLowerCaseString(npcName);
-	auto it = npcsNameIndex.find(lowerCaseName);
-	if (it != npcsNameIndex.end()) {
-		return npcs[it->second];
-	}
-
-	return nullptr;
+	return m_creatureService->getNpcByName(npcName);
 }
 
-std::shared_ptr<Player> Game::getPlayerByName(const std::string &s, bool allowOffline /* = false */, bool isNewName /* = false */) {
-	if (s.empty()) {
-		return nullptr;
-	}
-
-	auto it = mappedPlayerNames.find(asLowerCaseString(s));
-	if (it == mappedPlayerNames.end() || it->second.expired()) {
-		if (!allowOffline) {
-			return nullptr;
-		}
-		std::shared_ptr<Player> tmpPlayer = std::make_shared<Player>(nullptr);
-		if (!IOLoginData::loadPlayerByName(tmpPlayer, s)) {
-			if (!isNewName) {
-				g_logger().error("Failed to load player {} from database", s);
-			} else {
-				g_logger().info("New name {} is available", s);
-			}
-			return nullptr;
-		}
-		tmpPlayer->setOnline(false);
-		return tmpPlayer;
-	}
-	return it->second.lock();
+std::shared_ptr<Player> Game::getPlayerByName(const std::string &s, bool allowOffline, bool isNewName) {
+	return m_creatureService->getPlayerByName(s, allowOffline, isNewName);
 }
 
-std::shared_ptr<Player> Game::getPlayerByGUID(const uint32_t &guid, bool allowOffline /* = false */) {
-	if (guid == 0) {
-		return nullptr;
-	}
-	for (const auto &it : players) {
-		if (guid == it.second->getGUID()) {
-			return it.second;
-		}
-	}
-	if (!allowOffline) {
-		return nullptr;
-	}
-	std::shared_ptr<Player> tmpPlayer = std::make_shared<Player>(nullptr);
-	if (!IOLoginData::loadPlayerById(tmpPlayer, guid)) {
-		return nullptr;
-	}
-	tmpPlayer->setOnline(false);
-	return tmpPlayer;
+std::shared_ptr<Player> Game::getPlayerByGUID(const uint32_t &guid, bool allowOffline) {
+	return m_creatureService->getPlayerByGUID(guid, allowOffline);
 }
 
 std::string Game::getPlayerNameByGUID(const uint32_t &guid) {
-	if (guid == 0) {
-		return "";
-	}
-	if (m_playerNameCache.contains(guid)) {
-		return m_playerNameCache.at(guid);
-	}
-	const auto &player = getPlayerByGUID(guid, true);
-	auto name = player ? player->getName() : "";
-	if (!name.empty()) {
-		m_playerNameCache[guid] = name;
-	}
-	return name;
+	return m_creatureService->getPlayerNameByGUID(guid);
 }
 
 ReturnValue Game::getPlayerByNameWildcard(const std::string &s, std::shared_ptr<Player> &player) {
-	size_t strlen = s.length();
-	if (strlen == 0 || strlen > 29) {
-		return RETURNVALUE_PLAYERWITHTHISNAMEISNOTONLINE;
-	}
-
-	if (s.back() == '~') {
-		const std::string &query = asLowerCaseString(s.substr(0, strlen - 1));
-		std::string result;
-		ReturnValue ret = wildcardTree->findOne(query, result);
-		if (ret != RETURNVALUE_NOERROR) {
-			return ret;
-		}
-
-		player = getPlayerByName(result);
-	} else {
-		player = getPlayerByName(s);
-	}
-
-	if (!player) {
-		return RETURNVALUE_PLAYERWITHTHISNAMEISNOTONLINE;
-	}
-
-	return RETURNVALUE_NOERROR;
+	return m_creatureService->getPlayerByNameWildcard(s, player);
 }
 
-std::vector<std::shared_ptr<Player>> Game::getPlayersByAccount(const std::shared_ptr<Account> &acc, bool allowOffline /* = false */) {
-	auto [accountPlayers, error] = acc->getAccountPlayers();
-	if (error != AccountErrors_t::Ok) {
-		return {};
-	}
-	std::vector<std::shared_ptr<Player>> ret;
-	for (const auto &[name, _] : accountPlayers) {
-		const auto &player = getPlayerByName(name, allowOffline);
-		if (player) {
-			ret.push_back(player);
-		}
-	}
-	return ret;
+std::vector<std::shared_ptr<Player>> Game::getPlayersByAccount(const std::shared_ptr<Account> &acc, bool allowOffline) {
+	return m_creatureService->getPlayersByAccount(acc, allowOffline);
 }
 
-bool Game::internalPlaceCreature(const std::shared_ptr<Creature> &creature, const Position &pos, bool extendedPos /*=false*/, bool forced /*= false*/, bool creatureCheck /*= false*/) {
-	if (creature->getParent() != nullptr) {
-		return false;
-	}
-	const auto &tile = map.getTile(pos);
-	if (!tile) {
-		return false;
-	}
-	auto toZones = tile->getZones();
-	if (auto ret = beforeCreatureZoneChange(creature, {}, toZones); ret != RETURNVALUE_NOERROR) {
-		return false;
-	}
-
-	if (!map.placeCreature(pos, creature, extendedPos, forced)) {
-		return false;
-	}
-
-	creature->setID();
-	creature->addList();
-	creature->updateCalculatedStepSpeed();
-
-	if (creatureCheck) {
-		addCreatureCheck(creature);
-		creature->onPlacedCreature();
-	}
-	afterCreatureZoneChange(creature, {}, toZones);
-	return true;
+bool Game::internalPlaceCreature(const std::shared_ptr<Creature> &creature, const Position &pos, bool extendedPos, bool forced, bool creatureCheck) {
+	return m_creatureService->internalPlaceCreature(creature, pos, extendedPos, forced, creatureCheck);
 }
 
-bool Game::placeCreature(const std::shared_ptr<Creature> &creature, const Position &pos, bool extendedPos /*=false*/, bool forced /*= false*/) {
-	metrics::method_latency measure(__METRICS_METHOD_NAME__);
-	if (!internalPlaceCreature(creature, pos, extendedPos, forced)) {
-		return false;
-	}
-
-	bool hasPlayerSpectators = false;
-	for (const auto &spectator : Spectators().find<Creature>(creature->getPosition(), true)) {
-		if (const auto &tmpPlayer = spectator->getPlayer()) {
-			tmpPlayer->sendCreatureAppear(creature, creature->getPosition(), true);
-			hasPlayerSpectators = true;
-		}
-		spectator->onCreatureAppear(creature, true);
-	}
-
-	if (hasPlayerSpectators) {
-		addCreatureCheck(creature);
-	}
-
-	auto parent = creature->getParent();
-	if (parent) {
-		parent->postAddNotification(creature, nullptr, 0);
-	}
-	creature->onPlacedCreature();
-	return true;
+bool Game::placeCreature(const std::shared_ptr<Creature> &creature, const Position &pos, bool extendedPos, bool forced) {
+	return m_creatureService->placeCreature(creature, pos, extendedPos, forced);
 }
 
-bool Game::removeCreature(const std::shared_ptr<Creature> &creature, bool isLogout /* = true*/) {
-	metrics::method_latency measure(__METRICS_METHOD_NAME__);
-	if (!creature || creature->isRemoved()) {
-		return false;
-	}
-
-	std::shared_ptr<Tile> tile = creature->getTile();
-	if (!tile) {
-		g_logger().error("[{}] tile on position '{}' for creature '{}' not exist", __FUNCTION__, creature->getPosition().toString(), creature->getName());
-	}
-	auto fromZones = creature->getZones();
-
-	if (tile) {
-		std::vector<int32_t> oldStackPosVector;
-		auto spectators = Spectators().find<Creature>(tile->getPosition(), true);
-		auto playersSpectators = spectators.filter<Player>();
-
-		for (const auto &spectator : playersSpectators) {
-			if (const auto &player = spectator->getPlayer()) {
-				oldStackPosVector.push_back(player->canSeeCreature(creature) ? tile->getClientIndexOfCreature(player, creature) : -1);
-			}
-		}
-
-		tile->removeCreature(creature);
-
-		const Position &tilePosition = tile->getPosition();
-
-		// Send to client
-		size_t i = 0;
-		for (const auto &spectator : playersSpectators) {
-			if (const auto &player = spectator->getPlayer()) {
-				player->sendRemoveTileThing(tilePosition, oldStackPosVector[i++]);
-			}
-		}
-
-		// event method
-		for (const auto &spectator : spectators) {
-			spectator->onRemoveCreature(creature, isLogout);
-		}
-	}
-
-	if (creature->getMaster() && !creature->getMaster()->isRemoved()) {
-		creature->setMaster(nullptr);
-	}
-
-	creature->getParent()->postRemoveNotification(creature, nullptr, 0);
-	afterCreatureZoneChange(creature, fromZones, {});
-
-	creature->removeList();
-	creature->setRemoved();
-
-	removeCreatureCheck(creature);
-
-	for (const auto &summon : creature->getSummons()) {
-		summon->setSkillLoss(false);
-		removeCreature(summon);
-	}
-
-	if (creature->getPlayer() && isLogout) {
-		auto it = teamFinderMap.find(creature->getPlayer()->getGUID());
-		if (it != teamFinderMap.end()) {
-			teamFinderMap.erase(it);
-		}
-	}
-
-	return true;
+bool Game::removeCreature(const std::shared_ptr<Creature> &creature, bool isLogout) {
+	return m_creatureService->removeCreature(creature, isLogout);
 }
 
 void Game::playerTeleport(uint32_t playerId, const Position &newPosition) {
@@ -5707,45 +5442,12 @@ void Game::reloadCreature(const std::shared_ptr<Creature> &creature) {
 	}
 }
 
-void Game::sendSingleSoundEffect(const Position &pos, SoundEffect_t soundId, const std::shared_ptr<Creature> &actor /* = nullptr*/) {
-	if (soundId == SoundEffect_t::SILENCE) {
-		return;
-	}
-
-	using enum SourceEffect_t;
-	for (const auto &spectator : Spectators().find<Player>(pos)) {
-		SourceEffect_t source = CREATURES;
-		if (!actor || actor->getNpc()) {
-			source = GLOBAL;
-		} else if (actor == spectator) {
-			source = OWN;
-		} else if (actor->getPlayer()) {
-			source = OTHERS;
-		}
-
-		spectator->getPlayer()->sendSingleSoundEffect(pos, soundId, source);
-	}
+void Game::sendSingleSoundEffect(const Position &pos, SoundEffect_t soundId, const std::shared_ptr<Creature> &actor) {
+	m_soundService->sendSingleSoundEffect(pos, soundId, actor);
 }
 
-void Game::sendDoubleSoundEffect(const Position &pos, SoundEffect_t mainSoundEffect, SoundEffect_t secondarySoundEffect, const std::shared_ptr<Creature> &actor /* = nullptr*/) {
-	if (secondarySoundEffect == SoundEffect_t::SILENCE) {
-		sendSingleSoundEffect(pos, mainSoundEffect, actor);
-		return;
-	}
-
-	using enum SourceEffect_t;
-	for (const auto &spectator : Spectators().find<Player>(pos)) {
-		SourceEffect_t source = CREATURES;
-		if (!actor || actor->getNpc()) {
-			source = GLOBAL;
-		} else if (actor == spectator) {
-			source = OWN;
-		} else if (actor->getPlayer()) {
-			source = OTHERS;
-		}
-
-		spectator->getPlayer()->sendDoubleSoundEffect(pos, mainSoundEffect, source, secondarySoundEffect, source);
-	}
+void Game::sendDoubleSoundEffect(const Position &pos, SoundEffect_t mainSoundEffect, SoundEffect_t secondarySoundEffect, const std::shared_ptr<Creature> &actor) {
+	m_soundService->sendDoubleSoundEffect(pos, mainSoundEffect, secondarySoundEffect, actor);
 }
 
 bool Game::combatBlockHit(CombatDamage &damage, const std::shared_ptr<Creature> &attacker, const std::shared_ptr<Creature> &target, bool checkDefense, bool checkArmor, bool field, bool condition /* = false */) {

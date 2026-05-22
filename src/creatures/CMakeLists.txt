@@ -5,6 +5,7 @@ target_sources(
             appearance/attached_effects/attached_effects.cpp
             combat/combat.cpp
             combat/combat_service.cpp
+            management/creature_management_service.cpp
             combat/condition.cpp
             combat/spells.cpp
             creature.cpp
