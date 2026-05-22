@@ -4,6 +4,7 @@ target_sources(
             game.cpp
             bank/bank.cpp
             highscore/highscore_service.cpp
+            loot/loot_service.cpp
             market/market_service.cpp
             sound/sound_service.cpp
             movement/movement_service.cpp

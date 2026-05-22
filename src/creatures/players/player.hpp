@@ -73,6 +73,7 @@ struct FamiliarEntry;
 struct Familiar;
 struct Group;
 struct Outfit_t;
+class LootService;
 struct TextMessage;
 struct HighscoreCharacter;
 
@@ -1897,6 +1898,7 @@ private:
 	void triggerTranscendence();
 
 	friend class CombatService;
+	friend class LootService;
 	friend class Game;
 	friend class MarketService;
 	friend class MovementService;

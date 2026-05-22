@@ -12,6 +12,7 @@
 #include "creatures/combat/combat_service.hpp"
 #include "creatures/management/creature_management_service.hpp"
 #include "game/highscore/highscore_service.hpp"
+#include "game/loot/loot_service.hpp"
 #include "game/market/market_service.hpp"
 #include "game/movement/movement_service.hpp"
 #include "game/sound/sound_service.hpp"
@@ -113,6 +114,7 @@ class Game {
 	friend class HighscoreService;
 	friend class CreatureManagementService;
 	friend class MovementService;
+	friend class LootService;
 
 public:
 	Game();
@@ -741,6 +743,7 @@ private:
 	std::unique_ptr<MarketService> m_marketService;
 	std::unique_ptr<HighscoreService> m_highscoreService;
 	std::unique_ptr<CreatureManagementService> m_creatureService;
+	std::unique_ptr<LootService> m_lootService;
 	std::unique_ptr<SoundService> m_soundService;
 
 	std::map<uint16_t, Achievement> m_achievements;
@@ -765,48 +768,6 @@ private:
 	bool playerSpeakTo(const std::shared_ptr<Player> &player, SpeakClasses type, const std::string &receiver, const std::string &text);
 	void playerSpeakToNpc(const std::shared_ptr<Player> &player, const std::string &text);
 
-	/**
-	 * @brief Finds the next available sub-container within a container.
-	 *
-	 * @param containerIterator Iterator for the current container.
-	 * @param lastSubContainer Reference to the last sub-container found.
-	 * @param lootContainer Reference to the loot container being used.
-	 * @return Pointer to the next available container or nullptr if not found.
-	 */
-	std::shared_ptr<Container> findNextAvailableContainer(ContainerIterator &containerIterator, std::shared_ptr<Container> &lastSubContainer, std::shared_ptr<Container> &lootContainer);
-
-	/**
-	 * @brief Handles the fallback logic for loot containers.
-	 *
-	 * @param player Pointer to the player object.
-	 * @param lootContainer Reference to the loot container.
-	 * @param containerIterator Iterator for the current container.
-	 * @param fallbackConsumed Reference to a boolean flag indicating whether a fallback has been consumed.
-	 * @return True if fallback logic was handled, false otherwise.
-	 */
-	bool handleFallbackLogic(const std::shared_ptr<Player> &player, std::shared_ptr<Container> &lootContainer, ContainerIterator &containerIterator, const bool &fallbackConsumed);
-
-	/**
-	 * @brief Processes the movement or addition of an item to a loot container.
-	 *
-	 * @param item Pointer to the item to be moved or added.
-	 * @param lootContainer Pointer to the loot container.
-	 * @param remainderCount Reference to the remaining count of the item.
-	 * @param player Pointer to the player object.
-	 * @return Return value indicating success or error.
-	 */
-	ReturnValue processMoveOrAddItemToLootContainer(const std::shared_ptr<Item> &item, const std::shared_ptr<Container> &lootContainer, uint32_t &remainderCount, const std::shared_ptr<Player> &player);
-
-	/**
-	 * @brief Processes loot items and places them into the appropriate containers.
-	 *
-	 * @param player Pointer to the player object.
-	 * @param lootContainer Pointer to the loot container.
-	 * @param item Pointer to the item being looted.
-	 * @param fallbackConsumed Reference to a boolean flag indicating whether a fallback has been consumed.
-	 * @return Return value indicating success or error.
-	 */
-	ReturnValue processLootItems(const std::shared_ptr<Player> &player, std::shared_ptr<Container> lootContainer, const std::shared_ptr<Item> &item, bool &fallbackConsumed);
 
 	/**
 	 * @brief Internally collects loot or obtain items from a given item and places them into the managed container.
