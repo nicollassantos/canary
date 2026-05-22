@@ -10,6 +10,7 @@
 #pragma once
 
 #include "creatures/combat/combat_service.hpp"
+#include "game/highscore/highscore_service.hpp"
 #include "game/market/market_service.hpp"
 #include "game/movement/movement_service.hpp"
 #include "game/trade/trade_service.hpp"
@@ -100,11 +101,13 @@ struct PlayerStats {
 
 class MovementService;
 class CombatService;
+class HighscoreService;
 
 class Game {
 	friend class ItemService;
 	friend class TradeService;
 	friend class MarketService;
+	friend class HighscoreService;
 
 public:
 	Game();
@@ -731,6 +734,7 @@ private:
 	std::unique_ptr<ItemService> m_itemService;
 	std::unique_ptr<TradeService> m_tradeService;
 	std::unique_ptr<MarketService> m_marketService;
+	std::unique_ptr<HighscoreService> m_highscoreService;
 
 	std::map<uint16_t, Achievement> m_achievements;
 	std::map<std::string, uint16_t> m_achievementsNameToId;
