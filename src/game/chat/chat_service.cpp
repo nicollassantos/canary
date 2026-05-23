@@ -9,7 +9,10 @@
 
 #include "game/chat/chat_service.hpp"
 #include "config/configmanager.hpp"
+#include "creatures/combat/condition.hpp"
+#include "creatures/combat/spells.hpp"
 #include "creatures/creature.hpp"
+#include "creatures/interactions/chat.hpp"
 #include "creatures/npcs/npc.hpp"
 #include "creatures/players/player.hpp"
 #include "game/game.hpp"

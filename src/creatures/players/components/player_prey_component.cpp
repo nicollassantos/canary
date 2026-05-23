@@ -17,6 +17,7 @@
 #include "io/ioprey.hpp"
 #include "kv/kv.hpp"
 #include "lib/logging/logger.hpp"
+#include "server/network/protocol/protocolgame.hpp"
 
 // Cyclopedia / tracker
 
