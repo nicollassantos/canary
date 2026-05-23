@@ -134,6 +134,7 @@ Player::Player() :
 	m_imbuementComponent(*this),
 	m_deathComponent(*this),
 	m_combatStatsComponent(*this),
+	m_creatureEventComponent(*this),
 	m_cylinderComponent(*this) {
 }
 
@@ -163,6 +164,7 @@ Player::Player(std::shared_ptr<ProtocolGame> p) :
 	m_imbuementComponent(*this),
 	m_deathComponent(*this),
 	m_combatStatsComponent(*this),
+	m_creatureEventComponent(*this),
 	m_cylinderComponent(*this) {
 	baseCritical.chance = g_configManager().getFloat(PLAYER_BASE_CRITICAL_CHANCE);
 	baseCritical.damage = g_configManager().getFloat(PLAYER_BASE_CRITICAL_DAMAGE);
@@ -6426,340 +6428,77 @@ SoundEffect_t Player::getHitSoundEffect() const {
 // event methods
 
 void Player::onUpdateTileItem(const std::shared_ptr<Tile> &updateTile, const Position &pos, const std::shared_ptr<Item> &oldItem, const ItemType &oldType, const std::shared_ptr<Item> &newItem, const ItemType &newType) {
-	Creature::onUpdateTileItem(updateTile, pos, oldItem, oldType, newItem, newType);
-
-	if (oldItem != newItem) {
-		onRemoveTileItem(updateTile, pos, oldType, oldItem);
-	}
-
-	if (tradeState != TRADE_TRANSFER) {
-		if (tradeItem && oldItem == tradeItem) {
-			g_game().internalCloseTrade(getPlayer());
-		}
-	}
+	m_creatureEventComponent.onUpdateTileItem(updateTile, pos, oldItem, oldType, newItem, newType);
 }
 
 void Player::onRemoveTileItem(const std::shared_ptr<Tile> &fromTile, const Position &pos, const ItemType &iType, const std::shared_ptr<Item> &item) {
-	Creature::onRemoveTileItem(fromTile, pos, iType, item);
-
-	if (tradeState != TRADE_TRANSFER) {
-		checkTradeState(item);
-
-		if (tradeItem) {
-			const auto &container = item->getContainer();
-			if (container && container->isHoldingItem(tradeItem)) {
-				g_game().internalCloseTrade(static_self_cast<Player>());
-			}
-		}
-	}
+	m_creatureEventComponent.onRemoveTileItem(fromTile, pos, iType, item);
 }
 
 void Player::onCreatureAppear(const std::shared_ptr<Creature> &creature, bool isLogin) {
-	Creature::onCreatureAppear(creature, isLogin);
-
-	if (isLogin && creature == getPlayer()) {
-		onEquipInventory();
-
-		// Refresh bosstiary tracker onLogin
-		refreshCyclopediaMonsterTracker(true);
-		// Refresh bestiary tracker onLogin
-		refreshCyclopediaMonsterTracker(false);
-
-		for (const auto &condition : storedConditionList) {
-			addCondition(condition);
-		}
-		storedConditionList.clear();
-
-		updateRegeneration();
-
-		const auto &bed = g_game().getBedBySleeper(guid);
-		if (bed) {
-			bed->wakeUp(static_self_cast<Player>());
-		}
-
-		auto version = client->oldProtocol ? getProtocolVersion() : CLIENT_VERSION;
-		g_logger().info("{} has logged in. (Protocol: {})", name, version);
-
-		if (guild) {
-			guild->addMember(static_self_cast<Player>());
-		}
-
-		int32_t offlineTime;
-		if (getLastLogout() != 0) {
-			// Not counting more than 21 days to prevent overflow when multiplying with 1000 (for milliseconds).
-			offlineTime = std::min<int32_t>(time(nullptr) - getLastLogout(), 86400 * 21);
-		} else {
-			offlineTime = 0;
-		}
-
-		for (const auto &condition : getMuteConditions()) {
-			condition->setTicks(condition->getTicks() - (offlineTime * 1000));
-			if (condition->getTicks() <= 0) {
-				removeCondition(condition);
-			}
-		}
-
-		g_game().checkPlayersRecord();
-		if (getLevel() < g_configManager().getNumber(ADVENTURERSBLESSING_LEVEL) && getVocationId() > VOCATION_NONE) {
-			for (uint8_t i = 2; i <= 6; i++) {
-				if (!hasBlessing(i)) {
-					addBlessing(i, 1);
-				}
-			}
-			sendBlessStatus();
-		}
-
-		if (getCurrentMount() != 0) {
-			toggleMount(true);
-		}
-
-		g_game().changePlayerSpeed(static_self_cast<Player>(), 0);
-	}
+	m_creatureEventComponent.onCreatureAppear(creature, isLogin);
 }
 
 void Player::onRemoveCreature(const std::shared_ptr<Creature> &creature, bool isLogout) {
-	Creature::onRemoveCreature(creature, isLogout);
-
-	if (const auto &player = getPlayer(); player == creature) {
-		if (isLogout) {
-			onDeEquipInventory();
-
-			if (m_party) {
-				m_party->leaveParty(player, true);
-			}
-			if (guild) {
-				guild->removeMember(player);
-			}
-
-			if (isDead()) {
-				loginPosition = getTemplePosition();
-			} else {
-				loginPosition = getPosition();
-			}
-			lastLogout = time(nullptr);
-			g_logger().info("{} has logged out", getName());
-			g_chat().removeUserFromAllChannels(player);
-			clearPartyInvitations();
-		}
-
-		if (eventWalk != 0) {
-			setFollowCreature(nullptr);
-		}
-
-		if (tradePartner) {
-			g_game().internalCloseTrade(player);
-		}
-
-		closeShopWindow();
-
-		g_saveManager().savePlayer(player);
-	}
-
-	if (creature == shopOwner) {
-		setShopOwner(nullptr);
-		sendCloseShop();
-	}
+	m_creatureEventComponent.onRemoveCreature(creature, isLogout);
 }
 
 void Player::onCreatureMove(const std::shared_ptr<Creature> &creature, const std::shared_ptr<Tile> &newTile, const Position &newPos, const std::shared_ptr<Tile> &oldTile, const Position &oldPos, bool teleport) {
-	Creature::onCreatureMove(creature, newTile, newPos, oldTile, oldPos, teleport);
-
-	const auto &followCreature = getFollowCreature();
-	if (hasFollowPath && (creature == followCreature || (creature.get() == this && followCreature))) {
-		isUpdatingPath = false;
-		updateCreatureWalk();
-	}
-
-	if (creature != getPlayer()) {
-		return;
-	}
-
-	if (!teleport && oldPos.z == newPos.z) {
-		updateParalyzeWalkExhaust();
-	}
-
-	if (tradeState != TRADE_TRANSFER) {
-		// check if we should close trade
-		if (tradeItem && !Position::areInRange<1, 1, 0>(tradeItem->getPosition(), getPosition())) {
-			g_game().internalCloseTrade(getPlayer());
-		}
-
-		if (tradePartner && !Position::areInRange<2, 2, 0>(tradePartner->getPosition(), getPosition())) {
-			g_game().internalCloseTrade(getPlayer());
-		}
-	}
-
-	// close modal windows
-	if (!modalWindows.empty()) {
-		// TODO: This shouldn't be hardcoded
-		for (const uint32_t modalWindowId : modalWindows) {
-			if (modalWindowId == std::numeric_limits<uint32_t>::max()) {
-				sendTextMessage(MESSAGE_EVENT_ADVANCE, "Offline training aborted.");
-				break;
-			}
-		}
-		modalWindows.clear();
-	}
-
-	// leave market
-	if (inMarket) {
-		inMarket = false;
-	}
-
-	if (m_party) {
-		m_party->updateSharedExperience();
-		m_party->updatePlayerStatus(getPlayer(), oldPos, newPos);
-	}
-
-	if (teleport || oldPos.z != newPos.z) {
-		int32_t ticks = g_configManager().getNumber(STAIRHOP_DELAY);
-		if (ticks > 0) {
-			if (const auto &condition = Condition::createCondition(CONDITIONID_DEFAULT, CONDITION_PACIFIED, ticks, 0)) {
-				addCondition(condition);
-			}
-		}
-	}
+	m_creatureEventComponent.onCreatureMove(creature, newTile, newPos, oldTile, oldPos, teleport);
 }
 
 void Player::onEquipInventory() {
-	for (int32_t slot = CONST_SLOT_FIRST; slot <= CONST_SLOT_LAST; ++slot) {
-		const auto &item = inventory[slot];
-		if (item) {
-			item->startDecaying();
-			g_moveEvents().onPlayerEquip(getPlayer(), item, static_cast<Slots_t>(slot), false);
-		}
-	}
+	m_creatureEventComponent.onEquipInventory();
 }
 
 void Player::onDeEquipInventory() {
-	for (int32_t slot = CONST_SLOT_FIRST; slot <= CONST_SLOT_LAST; ++slot) {
-		const auto &item = inventory[slot];
-		if (item) {
-			if (g_moveEvents().onPlayerDeEquip(getPlayer(), item, static_cast<Slots_t>(slot)) == 0) {
-				continue;
-			}
-		}
-	}
+	m_creatureEventComponent.onDeEquipInventory();
 }
 
 void Player::onAttackedCreatureDisappear(bool isLogout) {
-	sendCancelTarget();
-
-	if (!isLogout) {
-		sendTextMessage(MESSAGE_FAILURE, "Target lost.");
-	}
+	m_creatureEventComponent.onAttackedCreatureDisappear(isLogout);
 }
 
 void Player::onFollowCreatureDisappear(bool isLogout) {
-	sendCancelTarget();
-
-	if (!isLogout) {
-		sendTextMessage(MESSAGE_FAILURE, "Target lost.");
-	}
+	m_creatureEventComponent.onFollowCreatureDisappear(isLogout);
 }
 
 // Container
 void Player::onAddContainerItem(const std::shared_ptr<Item> &item) {
-	checkTradeState(item);
+	m_creatureEventComponent.onAddContainerItem(item);
 }
 
 void Player::onUpdateContainerItem(const std::shared_ptr<Container> &container, const std::shared_ptr<Item> &oldItem, const std::shared_ptr<Item> &newItem) {
-	if (oldItem != newItem) {
-		onRemoveContainerItem(container, oldItem);
-	}
-
-	if (tradeState != TRADE_TRANSFER) {
-		checkTradeState(oldItem);
-	}
+	m_creatureEventComponent.onUpdateContainerItem(container, oldItem, newItem);
 }
 
 void Player::onRemoveContainerItem(const std::shared_ptr<Container> &container, const std::shared_ptr<Item> &item) {
-	if (tradeState != TRADE_TRANSFER) {
-		checkTradeState(item);
-
-		if (tradeItem) {
-			if (tradeItem->getParent() != container && container->isHoldingItem(tradeItem)) {
-				g_game().internalCloseTrade(static_self_cast<Player>());
-			}
-		}
-	}
+	m_creatureEventComponent.onRemoveContainerItem(container, item);
 }
 
 void Player::onCloseContainer(const std::shared_ptr<Container> &container) {
-	if (!client) {
-		return;
-	}
-
-	for (const auto &[containerId, containerInfo] : openContainers) {
-		if (containerInfo.container == container) {
-			client->sendCloseContainer(containerId);
-		}
-	}
+	m_creatureEventComponent.onCloseContainer(container);
 }
 
 void Player::onSendContainer(const std::shared_ptr<Container> &container) {
-	if (!client || !container) {
-		return;
-	}
-
-	const bool hasParent = container->hasParent();
-	for (const auto &[containerId, containerInfo] : openContainers) {
-		if (containerInfo.container == container) {
-			client->sendContainer(containerId, container, hasParent, containerInfo.index);
-		}
-	}
+	m_creatureEventComponent.onSendContainer(container);
 }
 
 // close container and its child containers
 
 void Player::autoCloseContainers(const std::shared_ptr<Container> &container) {
-	std::vector<uint32_t> closeList;
-	for (const auto &[containerId, containerInfo] : openContainers) {
-		auto tmpContainer = containerInfo.container;
-		while (tmpContainer) {
-			if (tmpContainer->isRemoved() || tmpContainer == container) {
-				closeList.emplace_back(containerId);
-				break;
-			}
-
-			tmpContainer = std::dynamic_pointer_cast<Container>(tmpContainer->getParent());
-		}
-	}
-
-	for (const uint32_t containerId : closeList) {
-		closeContainer(containerId);
-		if (client) {
-			client->sendCloseContainer(containerId);
-		}
-	}
+	m_creatureEventComponent.autoCloseContainers(container);
 }
 
 // inventory
 // inventory
 
 void Player::onUpdateInventoryItem(const std::shared_ptr<Item> &oldItem, const std::shared_ptr<Item> &newItem) {
-	if (oldItem != newItem) {
-		onRemoveInventoryItem(oldItem);
-	}
-
-	if (tradeState != TRADE_TRANSFER) {
-		checkTradeState(oldItem);
-	}
+	m_creatureEventComponent.onUpdateInventoryItem(oldItem, newItem);
 }
 
 void Player::onRemoveInventoryItem(const std::shared_ptr<Item> &item) {
-	if (tradeState != TRADE_TRANSFER) {
-		checkTradeState(item);
-
-		if (tradeItem) {
-			const auto &container = item->getContainer();
-			if (container && container->isHoldingItem(tradeItem)) {
-				g_game().internalCloseTrade(static_self_cast<Player>());
-			}
-		}
-	}
-
-	checkLootContainers(item->getContainer());
+	m_creatureEventComponent.onRemoveInventoryItem(item);
 }
 
 uint64_t Player::getItemCustomPrice(uint16_t itemId, bool buyPrice) const {
@@ -7078,6 +6817,14 @@ PlayerCombatStatsComponent &Player::combatStats() {
 
 const PlayerCombatStatsComponent &Player::combatStats() const {
 	return m_combatStatsComponent;
+}
+
+PlayerCreatureEventComponent &Player::creatureEvents() {
+	return m_creatureEventComponent;
+}
+
+const PlayerCreatureEventComponent &Player::creatureEvents() const {
+	return m_creatureEventComponent;
 }
 
 PlayerCylinderComponent &Player::cylinderComponent() {

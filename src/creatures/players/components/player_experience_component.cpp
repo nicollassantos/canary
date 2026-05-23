@@ -17,6 +17,7 @@
 #include "creatures/players/player.hpp"
 #include "creatures/players/vocations/vocation.hpp"
 #include "game/game.hpp"
+#include "server/network/protocol/protocolgame.hpp"
 #include "lib/metrics/metrics.hpp"
 #include "lua/callbacks/events_callbacks.hpp"
 #include "lua/creature/events.hpp"

@@ -561,6 +561,7 @@ private:
 	void parseAimAtTarget(NetworkMessage &msg);
 
 	friend class Player;
+	friend class PlayerCreatureEventComponent;
 	friend class PlayerForgeComponent;
 	friend class PlayerImbuementComponent;
 	friend class PlayerPreyComponent;
