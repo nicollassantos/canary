@@ -130,7 +130,8 @@ Player::Player() :
 	m_preyComponent(*this),
 	m_forgeComponent(*this),
 	m_stashComponent(*this),
-	m_experienceComponent(*this) {
+	m_experienceComponent(*this),
+	m_imbuementComponent(*this) {
 }
 
 Player::Player(std::shared_ptr<ProtocolGame> p) :
@@ -155,7 +156,8 @@ Player::Player(std::shared_ptr<ProtocolGame> p) :
 	m_preyComponent(*this),
 	m_forgeComponent(*this),
 	m_stashComponent(*this),
-	m_experienceComponent(*this) {
+	m_experienceComponent(*this),
+	m_imbuementComponent(*this) {
 	baseCritical.chance = g_configManager().getFloat(PLAYER_BASE_CRITICAL_CHANCE);
 	baseCritical.damage = g_configManager().getFloat(PLAYER_BASE_CRITICAL_DAMAGE);
 	m_wheelPlayer.init();
@@ -2353,283 +2355,28 @@ void Player::sendHouseAuctionMessage(uint32_t houseId, HouseAuctionType type, ui
 }
 
 // Imbuements
-void Player::applyScrollImbuement(const std::shared_ptr<Item> &item, const std::shared_ptr<Item> &scrollItem) {
-	if (!item || !scrollItem) {
-		return;
-	}
-
-	const auto freeImbuementSlot = item->getFreeImbuementSlot();
-	if (freeImbuementSlot < 0) {
-		return;
-	}
-
-	const Imbuement* imbuement = g_imbuements().getImbuementByScrollID(scrollItem->getID());
-	if (!imbuement) {
-		return;
-	}
-
-	const BaseImbuement* baseImbuement = g_imbuements().getBaseByID(imbuement->getBaseID());
-	if (!baseImbuement) {
-		return;
-	}
-
-	const auto &thisPlayer = getPlayer();
-	if (!item->canAddImbuement(static_cast<uint8_t>(freeImbuementSlot), thisPlayer, imbuement)) {
-		return;
-	}
-
-	if (g_game().internalRemoveItem(scrollItem, 1) != RETURNVALUE_NOERROR) {
-		g_logger().error("[Player::applyScrollImbuement] - Failed to remove scroll item {} from player {}", scrollItem->getID(), getName());
-		return;
-	}
-
-	item->setImbuement(freeImbuementSlot, imbuement->getID(), baseImbuement->duration);
-	g_imbuementDecay().startImbuementDecay(item);
-
-	if (item->getParent() == getPlayer()) {
-		addItemImbuementStats(imbuement);
-	}
+void Player::applyScrollImbuement(const std::shared_ptr<Item> &item, const std::shared_ptr<Item> &scrollItem)  {
+	m_imbuementComponent.applyScrollImbuement(item, scrollItem);
 }
 
-void Player::createScrollImbuement(const Imbuement* imbuement) {
-	if (!imbuement) {
-		return;
-	}
-
-	const BaseImbuement* baseImbuement = g_imbuements().getBaseByID(imbuement->getBaseID());
-	if (!baseImbuement) {
-		return;
-	}
-
-	const auto &items = imbuement->getItems();
-	for (auto &[itemId, amount] : items) {
-		const auto playerItemAmount = getItemTypeCount(itemId) + getStashItemCount(itemId);
-		if (playerItemAmount < amount) {
-			sendImbuementResult("You don't have all necessary items.");
-			return;
-		}
-	}
-
-	auto emptyScrollsCount = getItemTypeCount(ITEM_EMPTY_IMBUEMENT_SCROLL) + getStashItemCount(ITEM_EMPTY_IMBUEMENT_SCROLL);
-	if (emptyScrollsCount == 0) {
-		sendImbuementResult("You don't have all necessary items.");
-		return;
-	}
-
-	uint32_t price = baseImbuement->price;
-	if (!g_game().removeMoney(static_self_cast<Player>(), price, 0, true)) {
-		const std::string message = fmt::format("You don't have {} gold coins.", price);
-
-		g_logger().error("[Player::onApplyImbuement] - An error occurred while player with name {} try to apply imbuement, player do not have money", this->getName());
-		sendImbuementResult(message);
-		return;
-	}
-
-	g_metrics().addCounter("balance_decrease", price, { { "player", getName() }, { "context", "apply_imbuement" } });
-
-	for (const auto &[key, value] : items) {
-		const uint32_t inventoryItemCount = getItemTypeCount(key);
-		if (inventoryItemCount >= value) {
-			if (!removeItemOfType(key, value, -1, true)) {
-				g_logger().error("[Player::createScrollImbuement] - Failed to remove {}x item {} from player {}", value, key, getName());
-			}
-			continue;
-		}
-
-		uint32_t mathItemCount = value;
-		if (inventoryItemCount > 0 && removeItemOfType(key, inventoryItemCount, -1, false)) {
-			mathItemCount = mathItemCount - inventoryItemCount;
-		}
-
-		const ItemType &itemType = Item::items[key];
-
-		const auto withdrawItemMessage = fmt::format("Using {}x {} from your stash.", mathItemCount, itemType.name);
-		withdrawItem(itemType.id, mathItemCount);
-		sendTextMessage(MESSAGE_STATUS, withdrawItemMessage);
-	}
-
-	if (!removeItemCountById(ITEM_EMPTY_IMBUEMENT_SCROLL, 1, true)) {
-		g_logger().error("Failed to remove empty imbuement scroll from player with name {}", getName());
-		return;
-	}
-
-	const auto imbuementScrollId = imbuement->getScrollItemID();
-	const auto &imbuementScroll = Item::CreateItem(imbuementScrollId, 1);
-	ReturnValue ret = g_game().internalAddItem(static_self_cast<Player>(), imbuementScroll, INDEX_WHEREEVER, 0);
-	if (ret != RETURNVALUE_NOERROR) {
-		g_logger().error("Failed to add imbuement scroll id '{}' to player with name {}", imbuementScrollId, getName());
-		sendImbuementResult("Failed to add imbuement scroll. Please contact administration.");
-		return;
-	}
-
-	openImbuementWindow(ImbuementAction::Scroll, nullptr);
+void Player::createScrollImbuement(const Imbuement* imbuement)  {
+	m_imbuementComponent.createScrollImbuement(imbuement);
 }
 
-bool Player::clearAllImbuements(const std::shared_ptr<Item> &item) {
-	if (!item) {
-		return false;
-	}
-
-	auto itemSlots = item->getImbuementSlot();
-	if (itemSlots == 0) {
-		sendTextMessage(MESSAGE_FAILURE, "Sorry, not possible.");
-		return false;
-	}
-
-	std::vector<std::pair<uint8_t, ImbuementInfo>> imbuementsToRemove;
-
-	for (uint8_t slot = 0; slot < itemSlots; slot++) {
-		ImbuementInfo imbuementInfo;
-		if (item->getImbuementInfo(slot, &imbuementInfo) && imbuementInfo.imbuement) {
-			(void)imbuementsToRemove.emplace_back(slot, imbuementInfo);
-		}
-	}
-
-	if (imbuementsToRemove.empty()) {
-		sendTextMessage(MESSAGE_FAILURE, "Sorry, not possible.");
-		return false;
-	}
-
-	for (const auto &[slot, imbuementInfo] : imbuementsToRemove) {
-		if (item->getParent() == getPlayer()) {
-			removeItemImbuementStats(imbuementInfo.imbuement);
-		}
-		item->clearImbuement(slot, imbuementInfo.imbuement->getID());
-	}
-
-	return true;
+bool Player::clearAllImbuements(const std::shared_ptr<Item> &item)  {
+	return m_imbuementComponent.clearAllImbuements(item);
 }
 
-void Player::onApplyImbuement(const Imbuement* imbuement, const std::shared_ptr<Item> &item, uint8_t slot) {
-	if (!imbuement || !item) {
-		return;
-	}
-
-	const auto &thisPlayer = getPlayer();
-	if (!item->canAddImbuement(slot, thisPlayer, imbuement)) {
-		return;
-	}
-
-	ImbuementInfo imbuementInfo;
-	if (item->getImbuementInfo(slot, &imbuementInfo)) {
-		g_logger().error("[Player::onApplyImbuement] - An error occurred while player with name {} try to apply imbuement, item already contains imbuement", this->getName());
-		sendImbuementResult("An error occurred, please reopen imbuement window.");
-		return;
-	}
-
-	if (hasMatchingImbuementInOtherSlot(item, slot, imbuement)) {
-		g_logger().error("[Player::onApplyImbuement] - Player {} attempted to apply the same imbuement in multiple slots", this->getName());
-		sendImbuementResult("You cannot apply the same imbuement in multiple slots.");
-		return;
-	}
-
-	const auto &items = imbuement->getItems();
-	for (auto &[key, value] : items) {
-		const ItemType &itemType = Item::items[key];
-		if (getItemTypeCount(key) + this->getStashItemCount(itemType.id) < value) {
-			this->sendImbuementResult("You don't have all necessary items.");
-			return;
-		}
-	}
-
-	const BaseImbuement* baseImbuement = g_imbuements().getBaseByID(imbuement->getBaseID());
-	if (!baseImbuement) {
-		return;
-	}
-
-	uint32_t price = baseImbuement->price;
-
-	if (!g_game().removeMoney(thisPlayer, price, 0, true)) {
-		const std::string message = fmt::format("You don't have {} gold coins.", price);
-
-		g_logger().error("[Player::onApplyImbuement] - An error occurred while player with name {} try to apply imbuement, player do not have money", this->getName());
-		sendImbuementResult(message);
-		return;
-	}
-
-	g_metrics().addCounter("balance_decrease", price, { { "player", getName() }, { "context", "apply_imbuement" } });
-
-	for (auto &[key, value] : items) {
-		std::stringstream withdrawItemMessage;
-
-		const uint32_t inventoryItemCount = getItemTypeCount(key);
-		if (inventoryItemCount >= value) {
-			if (!removeItemOfType(key, value, -1, true)) {
-				g_logger().error("[Player::onApplyImbuement] - Failed to remove {}x item {} from player {}", value, key, getName());
-			}
-			continue;
-		}
-
-		uint32_t mathItemCount = value;
-		if (inventoryItemCount > 0 && removeItemOfType(key, inventoryItemCount, -1, false)) {
-			mathItemCount = mathItemCount - inventoryItemCount;
-		}
-
-		const ItemType &itemType = Item::items[key];
-
-		withdrawItemMessage << "Using " << mathItemCount << "x " << itemType.name << " from your stash. ";
-		(void)withdrawItem(itemType.id, mathItemCount);
-		sendTextMessage(MESSAGE_STATUS, withdrawItemMessage.str());
-	}
-
-	// Update imbuement stats item if the item is equipped
-	if (item->getParent() == thisPlayer) {
-		ImbuementInfo oldImb;
-		if (item->getImbuementInfo(slot, &oldImb) && oldImb.imbuement) {
-			removeItemImbuementStats(oldImb.imbuement);
-		}
-
-		addItemImbuementStats(imbuement);
-	}
-	item->setImbuement(slot, imbuement->getID(), baseImbuement->duration);
-	g_imbuementDecay().startImbuementDecay(item);
-
-	openImbuementWindow(ImbuementAction::PickItem, item);
+void Player::onApplyImbuement(const Imbuement* imbuement, const std::shared_ptr<Item> &item, uint8_t slot)  {
+	m_imbuementComponent.onApplyImbuement(imbuement, item, slot);
 }
 
-void Player::onClearImbuement(const std::shared_ptr<Item> &item, uint8_t slot) {
-	if (!item) {
-		return;
-	}
-
-	ImbuementInfo imbuementInfo;
-	if (!item->getImbuementInfo(slot, &imbuementInfo)) {
-		g_logger().error("[Player::onClearImbuement] - An error occurred while player with name {} try to apply imbuement, item not contains imbuement", this->getName());
-		sendImbuementResult("An error occurred, please reopen imbuement window.");
-		return;
-	}
-
-	const BaseImbuement* baseImbuement = g_imbuements().getBaseByID(imbuementInfo.imbuement->getBaseID());
-	if (!baseImbuement) {
-		return;
-	}
-
-	if (!g_game().removeMoney(static_self_cast<Player>(), baseImbuement->removeCost, 0, true)) {
-		const std::string message = fmt::format("You don't have {} gold coins.", baseImbuement->removeCost);
-
-		g_logger().error("[Player::onClearImbuement] - An error occurred while player with name {} try to apply imbuement, player do not have money", this->getName());
-		sendImbuementResult(message);
-		openImbuementWindow(ImbuementAction::PickItem, item);
-		return;
-	}
-	g_metrics().addCounter("balance_decrease", baseImbuement->removeCost, { { "player", getName() }, { "context", "clear_imbuement" } });
-
-	if (item->getParent() == getPlayer()) {
-		removeItemImbuementStats(imbuementInfo.imbuement);
-	}
-
-	item->clearImbuement(slot, imbuementInfo.imbuement->getID());
-	openImbuementWindow(ImbuementAction::PickItem, item);
+void Player::onClearImbuement(const std::shared_ptr<Item> &item, uint8_t slot)  {
+	m_imbuementComponent.onClearImbuement(item, slot);
 }
 
-void Player::openImbuementWindow(ImbuementAction action, const std::shared_ptr<Item> &item) {
-	if (!client) {
-		return;
-	}
-
-	updateImbuementTrackerStats();
-
-	client->openImbuementWindow(action, item);
+void Player::openImbuementWindow(ImbuementAction action, const std::shared_ptr<Item> &item)  {
+	m_imbuementComponent.openImbuementWindow(action, item);
 }
 
 // inventory
@@ -3052,120 +2799,16 @@ void Player::setTraining(bool value) {
 	setExerciseTraining(value);
 }
 
-void Player::addItemImbuementStats(const Imbuement* imbuement) {
-	if (!imbuement) {
-		return;
-	}
-
-	bool requestUpdate = false;
-	// Check imbuement skills
-	for (int32_t skill = SKILL_FIRST; skill <= SKILL_LAST; ++skill) {
-		if (imbuement->skills[skill]) {
-			requestUpdate = true;
-			setVarSkill(static_cast<skills_t>(skill), imbuement->skills[skill]);
-		}
-	}
-
-	// Check imbuement magic level
-	for (int32_t stat = STAT_FIRST; stat <= STAT_LAST; ++stat) {
-		if (imbuement->stats[stat]) {
-			requestUpdate = true;
-			setVarStats(static_cast<stats_t>(stat), imbuement->stats[stat]);
-		}
-	}
-
-	// Add imbuement speed
-	if (imbuement->speed != 0) {
-		g_game().changeSpeed(static_self_cast<Player>(), imbuement->speed);
-	}
-
-	// Add imbuement capacity
-	if (imbuement->capacity != 0) {
-		requestUpdate = true;
-		bonusCapacity = (capacity * imbuement->capacity) / 100;
-	}
-
-	if (requestUpdate) {
-		sendStats();
-		sendSkills();
-	}
+void Player::addItemImbuementStats(const Imbuement* imbuement)  {
+	m_imbuementComponent.addItemImbuementStats(imbuement);
 }
 
-void Player::removeItemImbuementStats(const Imbuement* imbuement) {
-	if (!imbuement) {
-		return;
-	}
-
-	bool requestUpdate = false;
-
-	for (int32_t skill = SKILL_FIRST; skill <= SKILL_LAST; ++skill) {
-		if (imbuement->skills[skill]) {
-			requestUpdate = true;
-			setVarSkill(static_cast<skills_t>(skill), -imbuement->skills[skill]);
-		}
-	}
-
-	// Check imbuement magic level
-	for (int32_t stat = STAT_FIRST; stat <= STAT_LAST; ++stat) {
-		if (imbuement->stats[stat]) {
-			requestUpdate = true;
-			setVarStats(static_cast<stats_t>(stat), -imbuement->stats[stat]);
-		}
-	}
-
-	// Remove imbuement speed
-	if (imbuement->speed != 0) {
-		g_game().changeSpeed(static_self_cast<Player>(), -imbuement->speed);
-	}
-
-	// Remove imbuement capacity
-	if (imbuement->capacity != 0) {
-		requestUpdate = true;
-		bonusCapacity = 0;
-	}
-
-	if (requestUpdate) {
-		sendStats();
-		sendSkills();
-	}
+void Player::removeItemImbuementStats(const Imbuement* imbuement)  {
+	m_imbuementComponent.removeItemImbuementStats(imbuement);
 }
 
-void Player::updateImbuementTrackerStats() const {
-	if (!imbuementTrackerWindowOpen) {
-		if (m_pendingImbuementTrackerEventId != 0) {
-			g_dispatcher().stopEvent(m_pendingImbuementTrackerEventId);
-			m_pendingImbuementTrackerEventId = 0;
-		}
-		m_hasPendingImbuementTrackerUpdate = false;
-		return;
-	}
-
-	const int64_t currentTime = OTSYS_TIME();
-	const int64_t elapsed = currentTime - m_lastImbuementTrackerUpdate;
-	if (elapsed < 1000) {
-		if (!m_hasPendingImbuementTrackerUpdate) {
-			m_hasPendingImbuementTrackerUpdate = true;
-			const uint32_t delay = std::max<uint32_t>(static_cast<uint32_t>(1000 - elapsed), SCHEDULER_MINTICKS);
-			m_pendingImbuementTrackerEventId = g_dispatcher().scheduleEvent(
-				delay,
-				[playerId = getID()] {
-					const auto &player = g_game().getPlayerByID(playerId);
-					if (!player || player->isRemoved()) {
-						return;
-					}
-
-					player->m_hasPendingImbuementTrackerUpdate = false;
-					player->m_pendingImbuementTrackerEventId = 0;
-					player->updateImbuementTrackerStats();
-				},
-				__FUNCTION__
-			);
-		}
-		return;
-	}
-
-	m_lastImbuementTrackerUpdate = currentTime;
-	g_game().playerRequestInventoryImbuements(getID(), true);
+void Player::updateImbuementTrackerStats() const  {
+	m_imbuementComponent.updateImbuementTrackerStats();
 }
 
 // User Interface action exhaustion
@@ -5052,16 +4695,8 @@ void Player::calculateDamageReductionFromItem(std::array<double_t, COMBAT_COUNT>
 
 void Player::updateDamageReductionFromItemImbuement(
 	std::array<double_t, COMBAT_COUNT> &combatReductionArray, const std::shared_ptr<Item> &item, uint16_t combatTypeIndex
-) const {
-	for (uint8_t imbueSlotId = 0; imbueSlotId < item->getImbuementSlot(); imbueSlotId++) {
-		ImbuementInfo imbuementInfo;
-		if (item->getImbuementInfo(imbueSlotId, &imbuementInfo) && imbuementInfo.imbuement) {
-			const int16_t imbuementAbsorption = imbuementInfo.imbuement->absorbPercent[combatTypeIndex];
-			if (imbuementAbsorption != 0) {
-				combatReductionArray[combatTypeIndex] = calculateDamageReduction(combatReductionArray[combatTypeIndex], imbuementAbsorption);
-			}
-		}
-	}
+) const  {
+	m_imbuementComponent.updateDamageReductionFromItemImbuement(combatReductionArray, item, combatTypeIndex);
 }
 
 void Player::updateDamageReductionFromItemAbility(
@@ -7031,16 +6666,12 @@ uint16_t Player::getHelpers() const {
 	return 0u;
 }
 
-void Player::sendImbuementResult(const std::string &message) const {
-	if (client) {
-		client->sendImbuementResult(message);
-	}
+void Player::sendImbuementResult(const std::string &message) const  {
+	m_imbuementComponent.sendImbuementResult(message);
 }
 
-void Player::closeImbuementWindow() const {
-	if (client) {
-		client->closeImbuementWindow();
-	}
+void Player::closeImbuementWindow() const  {
+	m_imbuementComponent.closeImbuementWindow();
 }
 
 void Player::sendPodiumWindow(const std::shared_ptr<Item> &podium, const Position &position, uint16_t itemId, uint8_t stackpos) const {
@@ -8904,10 +8535,8 @@ void Player::sendBosstiaryEntryChanged(uint32_t bossid) const {
 	}
 }
 
-void Player::sendInventoryImbuements(const std::map<Slots_t, std::shared_ptr<Item>> &items) const {
-	if (client) {
-		client->sendInventoryImbuements(items);
-	}
+void Player::sendInventoryImbuements(const std::map<Slots_t, std::shared_ptr<Item>> &items) const  {
+	m_imbuementComponent.sendInventoryImbuements(items);
 }
 
 /*******************************************************************************
@@ -9059,6 +8688,14 @@ PlayerExperienceComponent &Player::experienceComponent() {
 
 const PlayerExperienceComponent &Player::experienceComponent() const {
 	return m_experienceComponent;
+}
+
+PlayerImbuementComponent &Player::imbuementComponent() {
+	return m_imbuementComponent;
+}
+
+const PlayerImbuementComponent &Player::imbuementComponent() const {
+	return m_imbuementComponent;
 }
 
 void Player::sendLootMessage(const std::string &message) const {

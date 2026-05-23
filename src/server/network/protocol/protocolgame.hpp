@@ -40,6 +40,7 @@ enum class ImbuementAction : uint8_t;
 class NetworkMessage;
 class Player;
 class PlayerForgeComponent;
+class PlayerImbuementComponent;
 class PlayerPreyComponent;
 class PlayerStashComponent;
 class VIPGroup;
@@ -561,6 +562,7 @@ private:
 
 	friend class Player;
 	friend class PlayerForgeComponent;
+	friend class PlayerImbuementComponent;
 	friend class PlayerPreyComponent;
 	friend class PlayerStashComponent;
 	friend class PlayerWheel;

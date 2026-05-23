@@ -35,6 +35,7 @@
 #include "creatures/players/components/player_prey_component.hpp"
 #include "creatures/players/components/player_forge_component.hpp"
 #include "creatures/players/components/player_experience_component.hpp"
+#include "creatures/players/components/player_imbuement_component.hpp"
 #include "creatures/players/components/player_stash_component.hpp"
 #include "creatures/players/components/player_training_component.hpp"
 #include "creatures/players/components/weapon_proficiency.hpp"
@@ -1544,6 +1545,10 @@ public:
 	PlayerExperienceComponent &experienceComponent();
 	const PlayerExperienceComponent &experienceComponent() const;
 
+	// Player imbuement component interface
+	PlayerImbuementComponent &imbuementComponent();
+	const PlayerImbuementComponent &imbuementComponent() const;
+
 	void sendLootMessage(const std::string &message) const;
 
 	std::shared_ptr<Container> getLootPouch();
@@ -1962,6 +1967,7 @@ private:
 	friend class PlayerForgeComponent;
 	friend class PlayerStashComponent;
 	friend class PlayerExperienceComponent;
+	friend class PlayerImbuementComponent;
 
 	PlayerWheel m_wheelPlayer;
 	PlayerAchievement m_playerAchievement;
@@ -1980,6 +1986,7 @@ private:
 	PlayerForgeComponent m_forgeComponent;
 	PlayerStashComponent m_stashComponent;
 	PlayerExperienceComponent m_experienceComponent;
+	PlayerImbuementComponent m_imbuementComponent;
 	WeaponProficiency m_weaponProficiency;
 
 	std::mutex quickLootMutex;
