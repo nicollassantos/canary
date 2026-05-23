@@ -35,6 +35,7 @@ target_sources(
             players/components/player_inventory_component.cpp
             players/components/player_mount_component.cpp
             players/components/player_prey_component.cpp
+            players/components/player_stash_component.cpp
             players/components/player_training_component.cpp
             players/components/player_storage.cpp
             players/components/player_title.cpp

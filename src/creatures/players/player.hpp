@@ -33,6 +33,7 @@
 #include "creatures/players/components/player_inventory_component.hpp"
 #include "creatures/players/components/player_mount_component.hpp"
 #include "creatures/players/components/player_prey_component.hpp"
+#include "creatures/players/components/player_stash_component.hpp"
 #include "creatures/players/components/player_training_component.hpp"
 #include "creatures/players/components/weapon_proficiency.hpp"
 #include "utils/hash.hpp"
@@ -763,14 +764,6 @@ public:
 	// stash functions
 	ReturnValue addItemFromStash(uint16_t itemId, uint32_t itemCount);
 	void stowItem(const std::shared_ptr<Item> &item, uint32_t count, bool allItems);
-	struct AddItemBatchOptions {
-		uint8_t subType = 0;
-		uint32_t flags = 0;
-		uint8_t tier = 0;
-		bool dropOnMap = false;
-		bool inBackpacks = false;
-		uint16_t backpackId = ITEM_BACKPACK;
-	};
 
 	ReturnValue addItemBatchToPaginedContainer(
 		const std::shared_ptr<Container> &container,
@@ -1537,6 +1530,10 @@ public:
 	PlayerPreyComponent &preyComponent();
 	const PlayerPreyComponent &preyComponent() const;
 
+	// Player stash component interface
+	PlayerStashComponent &stashComponent();
+	const PlayerStashComponent &stashComponent() const;
+
 	void sendLootMessage(const std::string &message) const;
 
 	std::shared_ptr<Container> getLootPouch();
@@ -1585,8 +1582,6 @@ private:
 
 	void checkTradeState(const std::shared_ptr<Item> &item);
 	bool hasCapacity(const std::shared_ptr<Item> &item, uint32_t count) const;
-	bool processStashItem(const std::shared_ptr<Item> &item, uint16_t itemCount, uint16_t &refreshDepotSearchOnItem);
-
 	void checkLootContainers(const std::shared_ptr<Container> &item);
 
 	void gainExperience(uint64_t exp, const std::shared_ptr<Creature> &target);
@@ -1954,6 +1949,7 @@ private:
 	friend class PlayerInventoryComponent;
 	friend class PlayerTrainingComponent;
 	friend class PlayerPreyComponent;
+	friend class PlayerStashComponent;
 
 	PlayerWheel m_wheelPlayer;
 	PlayerAchievement m_playerAchievement;
@@ -1969,6 +1965,7 @@ private:
 	PlayerInventoryComponent m_inventoryComponent;
 	PlayerTrainingComponent m_trainingComponent;
 	PlayerPreyComponent m_preyComponent;
+	PlayerStashComponent m_stashComponent;
 	WeaponProficiency m_weaponProficiency;
 
 	std::mutex quickLootMutex;

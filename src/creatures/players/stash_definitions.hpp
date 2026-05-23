@@ -44,3 +44,12 @@ struct TierCountPairHash {
  */
 using ItemsTierKey = std::pair<uint16_t, uint8_t>;
 using ItemsTierCountList = std::unordered_map<ItemsTierKey, uint32_t, TierCountPairHash>;
+
+struct AddItemBatchOptions {
+	uint8_t subType = 0;
+	uint32_t flags = 0;
+	uint8_t tier = 0;
+	bool dropOnMap = false;
+	bool inBackpacks = false;
+	uint16_t backpackId = 2854; // ITEM_BACKPACK
+};

@@ -127,7 +127,8 @@ Player::Player() :
 	m_mountComponent(*this),
 	m_inventoryComponent(*this),
 	m_trainingComponent(*this),
-	m_preyComponent(*this) {
+	m_preyComponent(*this),
+	m_stashComponent(*this) {
 }
 
 Player::Player(std::shared_ptr<ProtocolGame> p) :
@@ -149,7 +150,8 @@ Player::Player(std::shared_ptr<ProtocolGame> p) :
 	m_mountComponent(*this),
 	m_inventoryComponent(*this),
 	m_trainingComponent(*this),
-	m_preyComponent(*this) {
+	m_preyComponent(*this),
+	m_stashComponent(*this) {
 	baseCritical.chance = g_configManager().getFloat(PLAYER_BASE_CRITICAL_CHANCE);
 	baseCritical.damage = g_configManager().getFloat(PLAYER_BASE_CRITICAL_DAMAGE);
 	m_wheelPlayer.init();
@@ -1899,80 +1901,15 @@ uint16_t Player::parseRacebyCharm(charmRune_t charmId, bool set /*= false*/, uin
 }
 
 bool Player::isNearDepotBox() {
-	const Position &pos = getPosition();
-	for (int32_t cx = -1; cx <= 1; ++cx) {
-		for (int32_t cy = -1; cy <= 1; ++cy) {
-			const auto &posTile = g_game().map.getTile(static_cast<uint16_t>(pos.x + cx), static_cast<uint16_t>(pos.y + cy), pos.z);
-			if (!posTile) {
-				continue;
-			}
-
-			if (posTile->hasFlag(TILESTATE_DEPOT)) {
-				return true;
-			}
-		}
-	}
-	return false;
+	return m_stashComponent.isNearDepotBox();
 }
 
 std::shared_ptr<DepotChest> Player::getDepotChest(uint32_t depotId, bool autoCreate) {
-	const auto it = depotChests.find(depotId);
-	if (it != depotChests.end()) {
-		return it->second;
-	}
-
-	if (!autoCreate) {
-		return nullptr;
-	}
-
-	std::shared_ptr<DepotChest> depotChest;
-	if (depotId > 0 && depotId < 18) {
-		depotChest = std::make_shared<DepotChest>(ITEM_DEPOT_NULL + depotId);
-	} else if (depotId == 18) {
-		depotChest = std::make_shared<DepotChest>(ITEM_DEPOT_XVIII);
-	} else if (depotId == 19) {
-		depotChest = std::make_shared<DepotChest>(ITEM_DEPOT_XIX);
-	} else {
-		depotChest = std::make_shared<DepotChest>(ITEM_DEPOT_XX);
-	}
-
-	depotChests[depotId] = depotChest;
-	return depotChest;
+	return m_stashComponent.getDepotChest(depotId, autoCreate);
 }
 
 std::shared_ptr<DepotLocker> Player::getDepotLocker(uint32_t depotId) {
-	const auto it = depotLockerMap.find(depotId);
-	if (it != depotLockerMap.end()) {
-		inbox->setParent(it->second);
-		for (uint32_t i = g_configManager().getNumber(DEPOT_BOXES); i > 0; i--) {
-			if (const auto &depotBox = getDepotChest(i, false)) {
-				depotBox->setParent(it->second->getItemByIndex(0)->getContainer());
-			}
-		}
-		return it->second;
-	}
-
-	// We need to make room for stash on 12+ protocol versions and remove it for 10x.
-	const bool createStash = !client->oldProtocol;
-
-	auto depotLocker = std::make_shared<DepotLocker>(ITEM_LOCKER, createStash ? 4 : 3);
-	depotLocker->setDepotId(depotId);
-	const auto &marketItem = Item::CreateItem(ITEM_MARKET);
-	depotLocker->internalAddThing(marketItem);
-	depotLocker->internalAddThing(inbox);
-	if (createStash) {
-		const auto &stashPtr = Item::CreateItem(ITEM_STASH);
-		depotLocker->internalAddThing(stashPtr);
-	}
-	const auto &depotChest = Item::CreateItemAsContainer(ITEM_DEPOT, static_cast<uint16_t>(g_configManager().getNumber(DEPOT_BOXES)));
-	for (uint32_t i = g_configManager().getNumber(DEPOT_BOXES); i > 0; i--) {
-		const auto &depotBox = getDepotChest(i, true);
-		depotChest->internalAddThing(depotBox);
-		depotBox->setParent(depotChest);
-	}
-	depotLocker->internalAddThing(depotChest);
-	depotLockerMap[depotId] = depotLocker;
-	return depotLocker;
+	return m_stashComponent.getDepotLocker(depotId);
 }
 
 std::shared_ptr<RewardChest> Player::getRewardChest() {
@@ -2358,11 +2295,7 @@ void Player::sendCloseShop() const {
 }
 
 void Player::sendMarketEnter(uint32_t depotId) const {
-	if (!client || this->getLastDepotId() == -1 || !depotId) {
-		return;
-	}
-
-	client->sendMarketEnter(depotId);
+	m_stashComponent.sendMarketEnter(depotId);
 }
 
 void Player::sendMarketLeave() {
@@ -5001,115 +4934,8 @@ uint32_t Player::getItemTypeCount(uint16_t itemId, int32_t subType /*= -1*/) con
 	return count;
 }
 
-bool Player::processStashItem(const std::shared_ptr<Item> &item, uint16_t itemCount, uint16_t &refreshDepotSearchOnItem) {
-	if (!item) {
-		return false;
-	}
-
-	if (!item->isItemStorable()) {
-		return false;
-	}
-
-	const auto &selfPlayer = static_self_cast<Player>();
-	for (int i = CONST_SLOT_FIRST; i <= CONST_SLOT_LAST; ++i) {
-		const auto &inventoryItem = inventory[i];
-		if (!inventoryItem) {
-			continue;
-		}
-
-		if (inventoryItem == item) {
-			if (!item->isStackable() || itemCount >= item->getItemCount()) {
-				if (g_moveEvents().onPlayerDeEquip(selfPlayer, item, static_cast<Slots_t>(i)) == 0) {
-					return false;
-				}
-			}
-		}
-	}
-
-	const uint16_t iteratorCID = item->getID();
-	bool success = false;
-
-	if (const auto &player = item->getHoldingPlayer()) {
-		if (player == selfPlayer) {
-			success = (removeItem(item, itemCount) == RETURNVALUE_NOERROR);
-		}
-	} else {
-		if (const auto &parent = item->getParent()) {
-			const auto &parentItem = parent->getItem();
-			if (parentItem && parentItem->getID() == ITEM_BROWSEFIELD) {
-				const auto &parentTile = parent->getTile();
-				if (parentTile) {
-					parentTile->removeThing(item, itemCount);
-				}
-			} else {
-				parent->removeThing(item, itemCount);
-			}
-			success = true;
-		}
-	}
-
-	if (success) {
-		addItemOnStash(iteratorCID, itemCount);
-		if (isDepotSearchOpenOnItem(iteratorCID)) {
-			refreshDepotSearchOnItem = iteratorCID;
-		}
-	}
-
-	return success;
-}
-
 void Player::stashContainer(const StashContainerList &itemDict) {
-	StashItemList stashItemDict; // ItemID - Count
-	for (const auto &[item, itemCount] : itemDict) {
-		if (!item) {
-			continue;
-		}
-
-		stashItemDict[item->getID()] = itemCount;
-	}
-
-	for (const auto &[itemId, itemCount] : getStashItems()) {
-		if (!stashItemDict[itemId]) {
-			stashItemDict[itemId] = itemCount;
-		} else {
-			stashItemDict[itemId] += itemCount;
-		}
-	}
-
-	uint16_t refreshDepotSearchOnItem = 0;
-
-	uint32_t totalStowed = 0;
-	for (const auto &[item, itemCount] : itemDict) {
-		if (!item) {
-			continue;
-		}
-		if (processStashItem(item, itemCount, refreshDepotSearchOnItem)) {
-			totalStowed += itemCount;
-		}
-	}
-
-	updateState();
-
-	if (totalStowed == 0) {
-		sendCancelMessage("Sorry, not possible.");
-		return;
-	}
-
-	sendStats();
-	sendInventoryIds();
-
-	std::ostringstream retString;
-	retString << "Stowed " << totalStowed << " object" << (totalStowed > 1 ? "s." : ".");
-	if (moved) {
-		retString << " Moved " << movedItems << " object" << (movedItems > 1 ? "s." : ".");
-		movedItems = 0;
-	}
-	sendTextMessage(MESSAGE_STATUS, retString.str());
-
-	// Refresh depot search window if necessary
-	if (refreshDepotSearchOnItem != 0) {
-		requestDepotSearchItem(refreshDepotSearchOnItem, 0);
-	}
+	m_stashComponent.stashContainer(itemDict);
 }
 
 bool Player::removeItemOfType(uint16_t itemId, uint32_t amount, int32_t subType, bool ignoreEquipped /* = false*/) const {
@@ -5236,21 +5062,11 @@ bool Player::removeItemCountById(uint16_t itemId, uint32_t itemAmount, bool remo
 }
 
 void Player::addItemOnStash(uint16_t itemId, uint32_t amount) {
-	const auto it = stashItems.find(itemId);
-	if (it != stashItems.end()) {
-		stashItems[itemId] += amount;
-		return;
-	}
-
-	stashItems[itemId] = amount;
+	m_stashComponent.addItemOnStash(itemId, amount);
 }
 
 uint32_t Player::getStashItemCount(uint16_t itemId) const {
-	const auto it = stashItems.find(itemId);
-	if (it != stashItems.end()) {
-		return it->second;
-	}
-	return 0;
+	return m_stashComponent.getStashItemCount(itemId);
 }
 
 bool Player::withdrawItem(uint16_t itemId, uint32_t amount) {
@@ -5269,7 +5085,7 @@ bool Player::withdrawItem(uint16_t itemId, uint32_t amount) {
 }
 
 StashItemList Player::getStashItems() const {
-	return stashItems;
+	return m_stashComponent.getStashItems();
 }
 
 uint32_t Player::getBaseCapacity() const {
@@ -5606,43 +5422,11 @@ ItemsTierCountList Player::getStoreInboxItemsId() const {
 }
 
 ItemsTierCountList Player::getDepotChestItemsId() const {
-	ItemsTierCountList inventoryCache;
-
-	for (const auto &[index, depot] : depotChests) {
-		const auto &container = depot->getContainer();
-		if (!container) {
-			continue;
-		}
-
-		const auto &items = container->getItems(true);
-		for (const auto &containerItem : items) {
-			if (!containerItem) {
-				continue;
-			}
-
-			inventoryCache[{ containerItem->getID(), containerItem->getTier() }] += containerItem->getItemAmount();
-		}
-	}
-
-	return inventoryCache;
+	return m_stashComponent.getDepotChestItemsId();
 }
 
 ItemsTierCountList Player::getDepotInboxItemsId() const {
-	ItemsTierCountList inventoryCache;
-
-	const auto &container = getInbox();
-	if (container) {
-		const auto &items = container->getItems(true);
-		for (const auto &containerItem : items) {
-			if (!containerItem) {
-				continue;
-			}
-
-			inventoryCache[{ containerItem->getID(), containerItem->getTier() }] += containerItem->getItemAmount();
-		}
-	}
-
-	return inventoryCache;
+	return m_stashComponent.getDepotInboxItemsId();
 }
 
 std::vector<std::shared_ptr<Item>> Player::getAllInventoryItems(bool ignoreEquiped, bool ignoreItemWithTier) const {
@@ -6443,21 +6227,7 @@ bool Player::canWear(uint16_t lookType, uint8_t addons) const {
 }
 
 void Player::setSpecialMenuAvailable(bool stashBool, bool marketMenuBool, bool depotSearchBool) {
-	// Closing depot search when player have special container disabled and it's still open.
-	if (isDepotSearchOpen() && !depotSearchBool && depotSearch) {
-		depotSearchOnItem = { 0, 0 };
-		sendCloseDepotSearch();
-	}
-
-	// Menu option 'stow, stow container ...'
-	// Menu option 'show in market'
-	// Menu option to open depot search
-	m_isStashMenuAvailable = stashBool;
-	marketMenu = marketMenuBool;
-	depotSearch = depotSearchBool;
-	if (client) {
-		client->sendSpecialContainersAvailable();
-	}
+	m_stashComponent.setSpecialMenuAvailable(stashBool, marketMenuBool, depotSearchBool);
 }
 
 void Player::addOutfit(uint16_t lookType, uint8_t addons) {
@@ -6615,13 +6385,7 @@ bool Player::hasKilled(const std::shared_ptr<Player> &player) const {
 }
 
 size_t Player::getMaxDepotItems() const {
-	if (group->maxDepotItems != 0) {
-		return group->maxDepotItems;
-	}
-	if (isPremium()) {
-		return g_configManager().getNumber(PREMIUM_DEPOT_LIMIT);
-	}
-	return g_configManager().getNumber(FREE_DEPOT_LIMIT);
+	return m_stashComponent.getMaxDepotItems();
 }
 
 bool Player::canExiva(const std::string &spellParam) const {
@@ -7827,9 +7591,7 @@ void Player::receivePing() {
 }
 
 void Player::sendOpenStash(bool isNpc) const {
-	if (client && ((getLastDepotId() != -1) || isNpc)) {
-		client->sendOpenStash();
-	}
+	m_stashComponent.sendOpenStash(isNpc);
 }
 
 void Player::sendTakeScreenshot(Screenshot_t screenshotType) const {
@@ -8359,42 +8121,15 @@ void Player::sendContainer(uint8_t cid, const std::shared_ptr<Container> &contai
 }
 
 void Player::beginBatchUpdate() {
-	++m_batching;
+	m_stashComponent.beginBatchUpdate();
 }
 
 void Player::endBatchUpdate() {
-	if (!m_batching) {
-		return;
-	}
-
-	--m_batching;
-	if (m_batching > 0) {
-		return;
-	}
-
-	updateState();
-	closeContainersOutOfRange();
+	m_stashComponent.endBatchUpdate();
 }
 
 void Player::sendBatchUpdateContainer(Container* container, bool hasParent) {
-	if (!container || !client) {
-		g_logger().warn("Player::sendBatchUpdateContainer - Invalid container or client for player {}.", getName());
-		return;
-	}
-
-	if (!m_batching) {
-		updateState();
-		closeContainersOutOfRange();
-	}
-
-	for (const auto &[cid, containerInfo] : openContainers) {
-		if (containerInfo.container.get() != container) {
-			continue;
-		}
-
-		client->sendContainer(cid, containerInfo.container, hasParent, containerInfo.index);
-		g_logger().debug("Player::sendBatchUpdateContainer - Sent batch update for container {} to player {}.", cid, getName());
-	}
+	m_stashComponent.sendBatchUpdateContainer(container, hasParent);
 }
 
 void Player::closeContainersOutOfRange() {
@@ -8469,21 +8204,15 @@ void Player::sendMonkData(MonkData_t type, uint8_t value) {
 // inventory
 
 void Player::sendDepotItems(const ItemsTierCountList &itemMap, uint16_t count) const {
-	if (client) {
-		client->sendDepotItems(itemMap, count);
-	}
+	m_stashComponent.sendDepotItems(itemMap, count);
 }
 
 void Player::sendCloseDepotSearch() const {
-	if (client) {
-		client->sendCloseDepotSearch();
-	}
+	m_stashComponent.sendCloseDepotSearch();
 }
 
 void Player::sendDepotSearchResultDetail(uint16_t itemId, uint8_t tier, uint32_t depotCount, const ItemVector &depotItems, uint32_t inboxCount, const ItemVector &inboxItems, uint32_t stashCount) const {
-	if (client) {
-		client->sendDepotSearchResultDetail(itemId, tier, depotCount, depotItems, inboxCount, inboxItems, stashCount);
-	}
+	m_stashComponent.sendDepotSearchResultDetail(itemId, tier, depotCount, depotItems, inboxCount, inboxItems, stashCount);
 }
 
 void Player::sendCoinBalance() const {
@@ -8568,225 +8297,7 @@ bool Player::isGuildMate(const std::shared_ptr<Player> &player) const {
 }
 
 ReturnValue Player::addItemFromStash(uint16_t itemId, uint32_t itemCount) {
-	const auto &itemType = Item::items[itemId];
-	if (!itemType.id) {
-		return RETURNVALUE_NOTPOSSIBLE;
-	}
-
-	double availableCapacity = getFreeCapacity();
-	double itemWeight = itemType.weight;
-
-	auto maxRetrievableByWeight = static_cast<uint32_t>(availableCapacity / itemWeight);
-	uint32_t retrievableCount = std::min(maxRetrievableByWeight, itemCount);
-
-	if (retrievableCount == 0) {
-		sendMessageDialog("Not enough capacity. You could not retrieve any items.");
-		return RETURNVALUE_NOTENOUGHROOM;
-	}
-
-	const auto &thisPtr = static_self_cast<Player>();
-	std::vector<std::shared_ptr<Container>> containersCache;
-	size_t cacheIndex = 0;
-	bool fallbackConsumed = false;
-	uint32_t freeStackSpace = 0;
-	std::vector<std::shared_ptr<Item>> stackableItemsCache;
-	const auto &mainBackpack = getBackpack();
-	auto objectCategory = g_game().getObjectCategory(itemType);
-	const auto &obtainContainer = g_game().findManagedContainer(thisPtr, fallbackConsumed, objectCategory, false);
-	if (obtainContainer) {
-		if (obtainContainer->capacity() > obtainContainer->size()) {
-			containersCache.emplace_back(obtainContainer);
-		}
-
-		for (const auto &item : obtainContainer->getItems(true)) {
-			const auto &subContainer = item->getContainer();
-			if (subContainer && subContainer->capacity() > subContainer->size()) {
-				containersCache.emplace_back(subContainer);
-			}
-
-			if (item && item->getID() == itemId && item->isStackable()) {
-				uint32_t availableSpace = item->getStackSize() - item->getItemCount();
-				if (availableSpace > 0) {
-					stackableItemsCache.emplace_back(item);
-					freeStackSpace += availableSpace;
-				}
-			}
-		}
-	} else {
-		containersCache = getAllContainers();
-	}
-
-	uint32_t maxBySlots = 0;
-	if (itemType.stackable) {
-		uint32_t freeSlots = getFreeBackpackSlots();
-		maxBySlots = freeStackSpace + (freeSlots * itemType.stackSize);
-	} else {
-		maxBySlots = getFreeBackpackSlots();
-	}
-
-	uint32_t finalRetrievable = std::min({ maxBySlots, retrievableCount });
-
-	// Check if there is enough space to add the items
-	bool canAddItems = false;
-	if (itemType.stackable) {
-		// For stackable items, check space in existing stacks and free slots
-		uint32_t totalSpace = freeStackSpace;
-		for (const auto &container : containersCache) {
-			uint32_t freeContainerSlots = container->capacity() - container->size();
-			totalSpace += freeContainerSlots * itemType.stackSize;
-		}
-		canAddItems = totalSpace >= finalRetrievable;
-	} else {
-		// For non-stackable items, check free slots
-		uint32_t totalFreeSlots = 0;
-		for (const auto &container : containersCache) {
-			totalFreeSlots += container->capacity() - container->size();
-		}
-		canAddItems = totalFreeSlots >= finalRetrievable;
-	}
-
-	if (!canAddItems) {
-		sendMessageDialog("Not enough space. You could not retrieve any items.");
-		return RETURNVALUE_NOTENOUGHROOM;
-	}
-
-	// Remove the item from the stash if have enough space
-	if (!withdrawItem(itemId, finalRetrievable)) {
-		g_logger().warn("Failed to remove itemId: {} from stash, to player: {}, requested: {}", itemId, getName(), finalRetrievable);
-		return RETURNVALUE_NOTPOSSIBLE;
-	}
-
-	uint32_t addedItemCount = 0;
-	uint32_t remainingToRetrieve = finalRetrievable;
-	BatchUpdate batchUpdate(getPlayer());
-	batchUpdate.addContainers(containersCache);
-
-	if (itemType.stackable) {
-		while (remainingToRetrieve > 0 && availableCapacity >= itemWeight) {
-			uint32_t addValue = std::min<uint32_t>(itemType.stackSize, remainingToRetrieve);
-			remainingToRetrieve -= addValue;
-
-			bool itemAdded = false;
-
-			for (auto it = stackableItemsCache.begin(); it != stackableItemsCache.end();) {
-				auto &stackableItem = *it;
-				if (addValue == 0) {
-					break;
-				}
-
-				uint32_t spaceInStack = stackableItem->getStackSize() - stackableItem->getItemCount();
-				uint32_t stackableCount = std::min(spaceInStack, addValue);
-
-				if (stackableCount > 0) {
-					stackableItem->getParent()->updateThing(
-						stackableItem, stackableItem->getID(),
-						stackableItem->getItemCount() + stackableCount
-					);
-					addValue -= stackableCount;
-					addedItemCount += stackableCount;
-					itemAdded = true;
-					availableCapacity -= stackableCount * itemWeight;
-
-					if (stackableItem->getItemCount() >= stackableItem->getStackSize()) {
-						it = stackableItemsCache.erase(it);
-						continue;
-					}
-				}
-				++it;
-			}
-
-			while (addValue > 0 && cacheIndex < containersCache.size()) {
-				const auto &targetContainer = containersCache[cacheIndex];
-				if (!targetContainer) {
-					++cacheIndex;
-					continue;
-				}
-
-				if (targetContainer->capacity() > targetContainer->size()) {
-					uint32_t toCreate = std::min<uint32_t>(addValue, itemType.stackSize);
-					if (availableCapacity < toCreate * itemWeight) {
-						break;
-					}
-
-					const auto &newItem = Item::createItemBatch(itemId, toCreate, 0);
-					if (!newItem) {
-						g_logger().warn("[addItemFromStash] Failed to create new stackable itemId: {} for player {}", itemId, getName());
-						break;
-					}
-
-					targetContainer->addThing(newItem);
-					if (!isBatching()) {
-						onSendContainer(targetContainer);
-					}
-					addedItemCount += toCreate;
-					availableCapacity -= toCreate * itemWeight;
-					addValue -= toCreate;
-					itemAdded = true;
-				}
-
-				if (targetContainer->capacity() <= targetContainer->size()) {
-					++cacheIndex;
-				}
-			}
-
-			if (!itemAdded && addValue > 0) {
-				g_logger().warn("No more space available for itemId: {}, remaining: {}", itemId, addValue);
-				break;
-			}
-		}
-	}
-
-	if (!itemType.stackable) {
-		while (finalRetrievable > 0 && cacheIndex < containersCache.size()) {
-			auto &targetContainer = containersCache[cacheIndex];
-			if (!targetContainer) {
-				++cacheIndex;
-				continue;
-			}
-
-			if (targetContainer->capacity() > targetContainer->size()) {
-				const auto &newItem = Item::createItemBatch(itemId, 1, 0);
-				if (!newItem) {
-					g_logger().warn("[addItemFromStash] Failed to create new itemId: {} for player {}", itemId, getName());
-					break;
-				}
-
-				targetContainer->addThing(newItem);
-				if (!isBatching()) {
-					onSendContainer(targetContainer);
-				}
-				addedItemCount += 1;
-				finalRetrievable -= 1;
-			}
-
-			if (targetContainer->capacity() <= targetContainer->size()) {
-				++cacheIndex;
-			}
-		}
-	}
-
-	std::string itemName = itemType.name + (addedItemCount > 1 ? "s" : "");
-	sendTextMessage(MESSAGE_STATUS, fmt::format("Retrieved {}x {}.", addedItemCount, itemName));
-
-	if (!isDepotSearchOpenOnItem(itemId)) {
-		sendOpenStash();
-	}
-
-	if (addedItemCount > 0) {
-		updateState();
-	}
-
-	availableCapacity = getFreeCapacity();
-	bool limitedByCapacity = (addedItemCount < itemCount) && (availableCapacity < itemWeight);
-	bool limitedBySlots = (addedItemCount < retrievableCount) && !limitedByCapacity;
-
-	if (limitedByCapacity) {
-		sendMessageDialog("Not enough capacity. You could not retrieve all items.");
-	} else if (limitedBySlots) {
-		sendMessageDialog("Not enough space. You could not retrieve all items.");
-	}
-
-	return addedItemCount > 0 ? RETURNVALUE_NOERROR : RETURNVALUE_NOTENOUGHROOM;
+	return m_stashComponent.addItemFromStash(itemId, itemCount);
 }
 
 std::vector<std::shared_ptr<Container>> Player::getAllContainers(bool onlyFromMainBackpack) const {
@@ -8853,605 +8364,16 @@ ReturnValue Player::addItemBatchToPaginedContainer(
 	uint8_t tier /*= 0*/,
 	bool testOnly /*= false*/
 ) {
-	actuallyAdded = 0;
-
-	if (!container) {
-		return RETURNVALUE_NOTPOSSIBLE;
-	}
-
-	if (totalCount == 0) {
-		return RETURNVALUE_NOERROR;
-	}
-
-	const auto &itemType = Item::items[itemId];
-	if (!itemType.id) {
-		return RETURNVALUE_NOTPOSSIBLE;
-	}
-
-	uint32_t maxStackSize = itemType.stackable && itemType.stackSize > 0 ? itemType.stackSize : 1;
-	std::shared_ptr<Item> mergeProbeItem;
-	if (itemType.stackable) {
-		mergeProbeItem = Item::createItemBatch(itemId, 1, 0);
-		if (!mergeProbeItem) {
-			return RETURNVALUE_NOTPOSSIBLE;
-		}
-
-		if (tier > 0) {
-			mergeProbeItem->setTier(tier);
-		}
-	}
-
-	const auto canMergeWithExistingStack = [&](const std::shared_ptr<Item> &existingItem) {
-		return existingItem
-			&& mergeProbeItem
-			&& existingItem->isStackable()
-			&& existingItem->equals(mergeProbeItem)
-			&& existingItem->getItemCount() < existingItem->getStackSize();
-	};
-
-	struct StackMergeSnapshot {
-		std::shared_ptr<Item> item;
-		std::shared_ptr<Cylinder> parent;
-		uint32_t count = 0;
-	};
-
-	std::vector<StackMergeSnapshot> stackMergeSnapshots;
-	std::vector<std::shared_ptr<Item>> addedItems;
-
-	auto rollbackBatchChanges = [&]() {
-		for (auto it = addedItems.rbegin(); it != addedItems.rend(); ++it) {
-			const auto &addedItem = *it;
-			if (!addedItem || !addedItem->getParent()) {
-				continue;
-			}
-
-			const ReturnValue removeResult = removeItem(addedItem, addedItem->getItemCount());
-			if (removeResult != RETURNVALUE_NOERROR) {
-				g_logger().error("{} - Failed to rollback added item {} amount {} for player {}, error code: {}", __FUNCTION__, addedItem->getID(), addedItem->getItemCount(), getName(), getReturnMessage(removeResult));
-			}
-		}
-
-		for (auto it = stackMergeSnapshots.rbegin(); it != stackMergeSnapshots.rend(); ++it) {
-			if (!it->item || !it->parent) {
-				continue;
-			}
-
-			it->parent->updateThing(it->item, it->item->getID(), it->count);
-		}
-
-		actuallyAdded = 0;
-	};
-
-	const auto failAfterBatchMutation = [&](ReturnValue returnValue) {
-		if (!testOnly) {
-			rollbackBatchChanges();
-		}
-		return returnValue;
-	};
-
-	bool hasReservedCapacity = false;
-	uint64_t remainingItemCapacity = 0;
-	ReturnValue capacityError = RETURNVALUE_CONTAINERISFULL;
-
-	if (const auto &inboxContainer = std::dynamic_pointer_cast<Inbox>(container)) {
-		hasReservedCapacity = true;
-		remainingItemCapacity = inboxContainer->getRemainingItemCapacity();
-		capacityError = RETURNVALUE_DEPOTISFULL;
-	} else if (container->hasPagination()) {
-		hasReservedCapacity = true;
-		const uint64_t currentItems = container->getItemHoldingCount();
-		const uint64_t maxItems = container->getMaxCapacity();
-		remainingItemCapacity = currentItems >= maxItems ? 0 : maxItems - currentItems;
-	}
-
-	if (hasReservedCapacity) {
-		uint64_t mergeableCount = 0;
-		for (const auto &existingItem : container->getItemList()) {
-			if (!canMergeWithExistingStack(existingItem)) {
-				continue;
-			}
-
-			mergeableCount += existingItem->getStackSize() - existingItem->getItemCount();
-			if (mergeableCount >= totalCount) {
-				break;
-			}
-		}
-
-		const uint64_t remainingAfterMerge = totalCount > mergeableCount ? static_cast<uint64_t>(totalCount) - mergeableCount : 0;
-		const uint64_t chunksNeeded = (remainingAfterMerge + maxStackSize - 1) / maxStackSize;
-		if (chunksNeeded > remainingItemCapacity) {
-			return capacityError;
-		}
-	}
-
-	std::unique_ptr<BatchUpdate> batchUpdate;
-	if (!testOnly && client) {
-		batchUpdate = std::make_unique<BatchUpdate>(getPlayer());
-		batchUpdate->add(container);
-	}
-
-	uint32_t remaining = totalCount;
-	if (itemType.stackable) {
-		for (const auto &existingItem : container->getItemList()) {
-			if (remaining == 0) {
-				break;
-			}
-
-			if (!canMergeWithExistingStack(existingItem)) {
-				continue;
-			}
-
-			uint32_t spaceInStack = existingItem->getStackSize() - existingItem->getItemCount();
-			uint32_t toMerge = std::min(remaining, spaceInStack);
-			if (toMerge == 0) {
-				continue;
-			}
-
-			if (!testOnly) {
-				const auto &parent = existingItem->getParent();
-				if (!parent) {
-					return failAfterBatchMutation(RETURNVALUE_NOTPOSSIBLE);
-				}
-
-				const uint32_t previousCount = existingItem->getItemCount();
-				stackMergeSnapshots.push_back({ existingItem, parent, previousCount });
-				parent->updateThing(existingItem, existingItem->getID(), existingItem->getItemCount() + toMerge);
-				if (existingItem->getItemCount() != previousCount + toMerge) {
-					return failAfterBatchMutation(RETURNVALUE_NOTPOSSIBLE);
-				}
-				actuallyAdded += toMerge;
-			}
-
-			remaining -= toMerge;
-		}
-	}
-
-	while (remaining > 0) {
-		uint32_t toStack = std::min(remaining, maxStackSize);
-
-		std::shared_ptr<Item> newItem = Item::createItemBatch(itemId, toStack, 0);
-		if (!newItem) {
-			return failAfterBatchMutation(RETURNVALUE_NOTPOSSIBLE);
-		}
-
-		auto charges = newItem->getCharges();
-		if (charges > 0) {
-			toStack = std::min<uint32_t>(toStack, charges);
-		}
-
-		if (tier > 0) {
-			newItem->setTier(tier);
-		}
-
-		ReturnValue rv = container->queryAdd(INDEX_WHEREEVER, newItem, toStack, flags);
-		if (rv != RETURNVALUE_NOERROR) {
-			return failAfterBatchMutation(rv);
-		}
-
-		if (!testOnly) {
-			container->addThing(newItem);
-			if (newItem->getParent() != container) {
-				return failAfterBatchMutation(RETURNVALUE_NOTPOSSIBLE);
-			}
-
-			addedItems.emplace_back(newItem);
-			actuallyAdded += toStack;
-		}
-		remaining -= toStack;
-	}
-
-	if (testOnly) {
-		return RETURNVALUE_NOERROR;
-	}
-
-	if (actuallyAdded != totalCount) {
-		return failAfterBatchMutation(RETURNVALUE_NOTPOSSIBLE);
-	}
-
-	return RETURNVALUE_NOERROR;
+	return m_stashComponent.addItemBatchToPaginedContainer(container, itemId, totalCount, actuallyAdded, flags, tier, testOnly);
 }
 
 ReturnValue Player::addItemBatch(
 	uint16_t itemId,
 	uint32_t totalCount,
 	uint32_t &actuallyAdded,
-	const AddItemBatchOptions &options /*= {}*/
+	const AddItemBatchOptions &options
 ) {
-	struct AddItemBatchState {
-		uint32_t totalCount;
-		uint32_t remaining;
-		uint32_t &actuallyAdded;
-		ReturnValue returnError = RETURNVALUE_NOERROR;
-	};
-
-	actuallyAdded = 0;
-	if (totalCount == 0) {
-		return RETURNVALUE_NOERROR;
-	}
-
-	const auto &itemType = Item::items[itemId];
-	if (!itemType.id) {
-		return RETURNVALUE_NOTPOSSIBLE;
-	}
-
-	uint32_t flags = options.flags;
-	const bool dropOnMap = options.dropOnMap || ((flags & FLAG_DROPONMAP) != 0);
-
-	if (!itemType.movable && !itemType.pickupable) {
-		const auto &tile = getTile();
-		if (!tile) {
-			return RETURNVALUE_NOTPOSSIBLE;
-		}
-
-		const auto &newItem = Item::createItemBatch(itemId, totalCount, 0, true);
-		if (!newItem) {
-			g_logger().error("[Player::addItemBatch] Failed to create non-movable item {} for player {}", itemId, getName());
-			return RETURNVALUE_NOTPOSSIBLE;
-		}
-
-		auto queryAdd = tile->queryAdd(0, newItem, totalCount, flags);
-		if (queryAdd != RETURNVALUE_NOERROR) {
-			g_logger().warn("[Player::addItemBatch] Could not add item {} to tile for player {}", itemId, getName());
-			return queryAdd;
-		}
-
-		tile->addThing(newItem);
-		actuallyAdded = totalCount;
-		return RETURNVALUE_NOERROR;
-	}
-
-	const auto &thisPlayer = getPlayer();
-	BatchUpdate batchUpdate(thisPlayer);
-
-	std::vector<std::shared_ptr<Container>> containersCache;
-	// If the item is a shopping bag, we need to find the correct container to add the items to obtain container
-	bool fallbackConsumed = false;
-	auto objectCategory = g_game().getObjectCategory(itemType);
-	const auto &obtainContainer = g_game().findManagedContainer(thisPlayer, fallbackConsumed, objectCategory, false);
-	if (options.backpackId == ITEM_SHOPPING_BAG && obtainContainer) {
-		if (obtainContainer->capacity() > obtainContainer->size()) {
-			containersCache.push_back(obtainContainer);
-		}
-
-		for (const auto &item : obtainContainer->getItems(true)) {
-			const auto &subContainer = item->getContainer();
-			if (subContainer && subContainer->capacity() > subContainer->size()) {
-				containersCache.push_back(subContainer);
-			}
-		}
-	} else {
-		containersCache = getAllContainers(!itemType.isAmmo());
-	}
-
-	auto collectStackableItems = [&](const std::vector<std::shared_ptr<Container>> &containers) {
-		std::vector<std::shared_ptr<Item>> stackableItemsCache;
-		stackableItemsCache.reserve(128);
-		// Container-held items
-		for (const auto &container : containers) {
-			for (const auto &item : container->getItemList()) {
-				if (item->getID() == itemId && item->isStackable() && item->getItemCount() < item->getStackSize()) {
-					stackableItemsCache.push_back(item);
-				}
-			}
-		}
-		// Inventory slot items
-		for (int slot = CONST_SLOT_FIRST; slot <= CONST_SLOT_LAST; ++slot) {
-			const auto &invItem = getInventoryItem(static_cast<Slots_t>(slot));
-			if (invItem && invItem->getID() == itemId && invItem->isStackable() && invItem->getItemCount() < invItem->getStackSize()) {
-				stackableItemsCache.push_back(invItem);
-			}
-		}
-		return stackableItemsCache;
-	};
-
-	auto stackableItemsCache = collectStackableItems(containersCache);
-
-	uint32_t remaining = totalCount;
-	const uint32_t maxStackSize = itemType.stackable ? itemType.stackSize : 1;
-	const bool hasFreeSlots = std::ranges::any_of(inventory, [](const auto &it) { return !it; }) || std::ranges::any_of(containersCache, [](const auto &c) { return c && c->capacity() > c->size(); });
-
-	AddItemBatchState state { totalCount, remaining, actuallyAdded };
-
-	auto checkOverflow = [&](const char* errorCode, bool setError) {
-		if (state.actuallyAdded <= state.totalCount) {
-			return false;
-		}
-
-		g_logger().error("[Error code: {}] player: {}, overflow detected: actuallyAdded ({}) > totalCount ({})", errorCode, getName(), state.actuallyAdded, state.totalCount);
-		if (setError) {
-			state.returnError = RETURNVALUE_NOTPOSSIBLE;
-		}
-		return true;
-	};
-
-	auto stackExistingItems = [&](std::vector<std::shared_ptr<Item>> &items) {
-		for (size_t i = 0; i < items.size() && state.remaining > 0; i++) {
-			auto &existingItem = items[i];
-
-			uint32_t spaceLeft = existingItem->getStackSize() - existingItem->getItemCount();
-			uint32_t toStack = std::min(spaceLeft, state.remaining);
-
-			const auto &itemParent = existingItem->getParent();
-			const auto &itemParentContainer = itemParent ? itemParent->getContainer() : nullptr;
-			if (itemParentContainer) {
-				batchUpdate.add(itemParentContainer);
-				itemParentContainer->updateThing(
-					existingItem,
-					existingItem->getID(),
-					existingItem->getItemCount() + toStack
-				);
-			} else {
-				// Inventory slot item: atualiza diretamente
-				existingItem->setItemCount(existingItem->getItemCount() + toStack);
-			}
-
-			state.actuallyAdded += toStack;
-			state.remaining -= toStack;
-
-			if (existingItem->getItemCount() >= existingItem->getStackSize()) {
-				items[i] = items.back();
-				items.pop_back();
-				i--;
-			}
-
-			if (checkOverflow("01", true)) {
-				return false;
-			}
-		}
-		return true;
-	};
-
-	auto addItemsToEmptySlots = [&]() {
-		for (uint32_t slot = CONST_SLOT_FIRST; slot <= CONST_SLOT_AMMO && state.remaining > 0; ++slot) {
-			auto slotType = static_cast<Slots_t>(slot);
-			const auto &item = getInventoryItem(slotType);
-			if (item) {
-				continue;
-			}
-
-			uint32_t toStack = std::min(state.remaining, maxStackSize);
-			if (toStack == 0) {
-				continue;
-			}
-
-			const auto &newItem = Item::createItemBatch(itemId, toStack, options.subType);
-
-			ReturnValue ret = queryAdd(slot, newItem, toStack, flags);
-			if (ret != RETURNVALUE_NOERROR) {
-				continue;
-			}
-
-			if (options.tier > 0) {
-				newItem->setTier(options.tier);
-			}
-
-			auto charges = newItem->getCharges();
-			if (charges > 0) {
-				toStack = std::min<uint32_t>(toStack, charges);
-			}
-
-			Slots_t updateSlot = slotType;
-			const auto &mainBackpack = getInventoryItem(CONST_SLOT_BACKPACK);
-			if (options.backpackId == ITEM_SHOPPING_BAG && !mainBackpack && options.inBackpacks && queryAdd(CONST_SLOT_BACKPACK, newItem, toStack, flags) == RETURNVALUE_NOERROR) {
-				addThing(CONST_SLOT_BACKPACK, newItem);
-				updateSlot = CONST_SLOT_BACKPACK;
-			} else {
-				addThing(slot, newItem);
-			}
-
-			const auto equipResult = g_moveEvents().onPlayerEquip(thisPlayer, newItem, updateSlot, false);
-			if (equipResult == 0) {
-				state.returnError = RETURNVALUE_NOTPOSSIBLE;
-				return false;
-			}
-
-			state.actuallyAdded += toStack;
-			state.remaining -= toStack;
-
-			if (checkOverflow("02", false)) {
-				return false;
-			}
-		}
-
-		return true;
-	};
-
-	auto addItemsToContainers = [&]() {
-		size_t containerIndex = 0;
-		while (!containersCache.empty() && state.remaining > 0) {
-			if (containerIndex >= containersCache.size()) {
-				break;
-			}
-
-			auto &container = containersCache[containerIndex];
-			if (container->capacity() <= container->size()) {
-				containerIndex++;
-				continue;
-			}
-
-			uint32_t toStack = std::min(state.remaining, maxStackSize);
-			if (!itemType.stackable || itemType.isWrappable()) {
-				toStack = 1;
-			}
-			const auto &newItem = Item::createItemBatch(itemId, toStack, options.subType, true);
-			if (options.tier > 0) {
-				newItem->setTier(options.tier);
-			}
-
-			auto charges = newItem->getCharges();
-			if (charges > 0) {
-				toStack = std::min<uint32_t>(toStack, charges);
-			}
-
-			auto queryAddResult = container->queryAdd(INDEX_WHEREEVER, newItem, toStack, flags);
-			if (queryAddResult != RETURNVALUE_NOERROR) {
-				g_logger().warn("[Player::addItemBatch] Failed to add item: {} to container for player: {}, error code: {}", itemId, getName(), getReturnMessage(queryAddResult));
-				state.returnError = queryAddResult;
-				return false;
-			}
-
-			batchUpdate.add(container);
-			container->addThing(newItem);
-			state.actuallyAdded += toStack;
-			state.remaining -= toStack;
-
-			if (checkOverflow("03", false)) {
-				return false;
-			}
-		}
-		return true;
-	};
-
-	auto addItemsToBackpacks = [&]() {
-		std::shared_ptr<Container> currentBackpack = nullptr;
-		while (state.remaining > 0) {
-			if (!currentBackpack || currentBackpack->size() >= currentBackpack->capacity()) {
-				currentBackpack = Container::create(options.backpackId);
-				if (!currentBackpack) {
-					g_logger().error("[Player::addItemBatch] Failed to create backpack for player {}", getName());
-					return false;
-				}
-
-				bool addedBackpack = false;
-				for (uint32_t slot = CONST_SLOT_FIRST; slot <= CONST_SLOT_AMMO; ++slot) {
-					auto slotType = static_cast<Slots_t>(slot);
-					const auto &inventoryItem = getInventoryItem(slotType);
-					if (!inventoryItem && queryAdd(slot, currentBackpack, 1, flags) == RETURNVALUE_NOERROR) {
-						addThing(slot, currentBackpack);
-						addedBackpack = true;
-						break;
-					}
-				}
-
-				if (!addedBackpack) {
-					for (auto &container : containersCache) {
-						addedBackpack = container->capacity() > container->size()
-							&& container->queryAdd(
-								   INDEX_WHEREEVER,
-								   currentBackpack,
-								   currentBackpack->getItemHoldingCount(),
-								   FLAG_IGNORENOTMOVABLE
-							   ) == RETURNVALUE_NOERROR;
-						if (addedBackpack) {
-							batchUpdate.add(container);
-							container->addThing(currentBackpack);
-							containersCache.push_back(currentBackpack);
-							break;
-						}
-					}
-				}
-
-				if (!addedBackpack) {
-					return false;
-				}
-			}
-
-			uint32_t itemsToAdd = std::min(state.remaining, maxStackSize);
-			if (!itemType.stackable || itemType.isWrappable()) {
-				itemsToAdd = 1;
-			}
-			const auto &newItem = Item::createItemBatch(itemId, itemsToAdd, options.subType, true);
-			if (!newItem) {
-				g_logger().warn("[Player::addItemBatch] Failed to create item for player {}", getName());
-				return false;
-			}
-
-			if (options.tier > 0) {
-				newItem->setTier(options.tier);
-			}
-
-			auto returnQueryAdd = currentBackpack->queryAdd(INDEX_WHEREEVER, newItem, 1, flags);
-			if (returnQueryAdd != RETURNVALUE_NOERROR) {
-				g_logger().warn("[Player::addItemBatch] Failed to add item to backpack for player: {}, error code: {}", getName(), getReturnMessage(returnQueryAdd));
-				state.returnError = returnQueryAdd;
-				return false;
-			}
-
-			batchUpdate.add(currentBackpack);
-			currentBackpack->addItem(newItem);
-			state.remaining -= itemsToAdd;
-			state.actuallyAdded += itemsToAdd;
-
-			if (checkOverflow("06", false)) {
-				return false;
-			}
-		}
-
-		return true;
-	};
-
-	auto addItemsToTile = [&]() {
-		const auto &tile = getTile();
-		while (state.remaining > 0) {
-			uint32_t toStack = std::min(state.remaining, maxStackSize);
-			const auto &newItem = Item::createItemBatch(itemId, toStack, options.subType, true);
-			if (!tile) {
-				break;
-			}
-
-			auto queryAddResult = tile->queryAdd(0, newItem, toStack, flags);
-			if (queryAddResult != RETURNVALUE_NOERROR) {
-				g_logger().warn("[Player::addItemBatch] Failed to add item: {} to tile for player: {}, error code: {}", itemId, getName(), getReturnMessage(queryAddResult));
-				state.returnError = queryAddResult;
-				break;
-			}
-
-			if (options.tier > 0) {
-				newItem->setTier(options.tier);
-			}
-			auto charges = newItem->getCharges();
-			if (charges > 0) {
-				toStack = std::min<uint32_t>(toStack, charges);
-			}
-
-			tile->addThing(newItem);
-			state.actuallyAdded += toStack;
-			state.remaining -= toStack;
-
-			if (checkOverflow("07", false)) {
-				break;
-			}
-		}
-	};
-
-	// Stack existing items only if no free slots are available or `inBackpacks` is false
-	if (!hasFreeSlots || !options.inBackpacks) {
-		if (!stackExistingItems(stackableItemsCache)) {
-			return state.returnError != RETURNVALUE_NOERROR ? state.returnError : RETURNVALUE_NOTPOSSIBLE;
-		}
-	}
-
-	if (!addItemsToEmptySlots()) {
-		return state.returnError != RETURNVALUE_NOERROR ? state.returnError : RETURNVALUE_NOTPOSSIBLE;
-	}
-
-	if (!options.inBackpacks && !addItemsToContainers()) {
-		return state.returnError != RETURNVALUE_NOERROR ? state.returnError : RETURNVALUE_NOTPOSSIBLE;
-	}
-
-	if (options.inBackpacks && !addItemsToBackpacks()) {
-		return state.returnError != RETURNVALUE_NOERROR ? state.returnError : RETURNVALUE_NOTPOSSIBLE;
-	}
-
-	if (state.remaining > 0 && dropOnMap) {
-		addItemsToTile();
-	}
-
-	if (state.remaining > 0) {
-		g_logger().debug("[Player::addItemBatch] Player: {} missing slots for: {} items from item: {}", getName(), state.remaining, itemType.name);
-	}
-
-	updateState();
-
-	if (state.actuallyAdded > 0) {
-		return RETURNVALUE_NOERROR;
-	}
-
-	if (state.returnError != RETURNVALUE_NOERROR) {
-		return state.returnError;
-	}
-
-	return RETURNVALUE_NOTENOUGHROOM;
+	return m_stashComponent.addItemBatch(itemId, totalCount, actuallyAdded, options);
 }
 
 ReturnValue Player::removeItem(const std::shared_ptr<Item> &item, uint32_t count /*= 0*/) {
@@ -9486,601 +8408,36 @@ ReturnValue Player::removeItem(const std::shared_ptr<Item> &item, uint32_t count
 	return RETURNVALUE_NOERROR;
 }
 
-uint32_t sendStowItems(const std::shared_ptr<Item> &item, const std::shared_ptr<Item> &stowItem, StashContainerList &itemDict, uint32_t totalItemsToStow, uint32_t maxItemsToStow) {
-	uint32_t itemsAdded = 0;
-
-	if (stowItem->getID() == item->getID()) {
-		uint32_t stowableToAdd = std::min<uint32_t>(stowItem->getItemAmount(), maxItemsToStow - totalItemsToStow);
-		itemDict.emplace_back(stowItem, stowableToAdd);
-		itemsAdded += stowableToAdd;
-	}
-
-	if (const auto &container = stowItem->getContainer()) {
-		for (const auto &[stowableItem, stowableCount] : container->getStowableItems()) {
-			if (totalItemsToStow + itemsAdded >= maxItemsToStow) {
-				break;
-			}
-
-			if (stowableItem->getID() != item->getID()) {
-				continue;
-			}
-
-			uint32_t stowableToAdd = std::min(stowableCount, maxItemsToStow - (totalItemsToStow + itemsAdded));
-			itemDict.emplace_back(stowableItem, stowableToAdd);
-			itemsAdded += stowableToAdd;
-		}
-	}
-
-	return itemsAdded;
-}
-
 void Player::stowItem(const std::shared_ptr<Item> &item, uint32_t count, bool allItems) {
-	if (!item || (!item->isItemStorable() && item->getID() != ITEM_GOLD_POUCH)) {
-		sendCancelMessage("This item cannot be stowed here.");
-		return;
-	}
-
-	if (!item->isItemStorable() && item->getID() != ITEM_GOLD_POUCH) {
-		if (!item->getParent()) {
-			sendCancelMessage("This item cannot be stowed here.");
-			return;
-		}
-		if (!item->getParent()->getItem()) {
-			sendCancelMessage("This item cannot be stowed here.");
-			return;
-		}
-		if (item->getParent()->getItem()->getID() != ITEM_GOLD_POUCH) {
-			sendCancelMessage("This item cannot be stowed here.");
-			return;
-		}
-	}
-
-	StashContainerList itemDict;
-	uint32_t totalItemsToStow = 0;
-	uint32_t maxItemsToStow = g_configManager().getNumber(STASH_MANAGE_AMOUNT);
-
-	if (allItems) {
-		if (item->getContainer()) {
-			sendCancelMessage("You cannot stow containers.");
-			return;
-		}
-
-		if (!item->isInsideDepot(true)) {
-			// Stow items from player backpack
-			if (const auto &backpack = getBackpack()) {
-				totalItemsToStow += sendStowItems(item, backpack, itemDict, totalItemsToStow, maxItemsToStow);
-			}
-
-			// Stow items from loot pouch
-			if (const auto &itemParent = item->getParent()) {
-				if (const auto &lootPouch = itemParent->getItem(); lootPouch && lootPouch->getID() == ITEM_GOLD_POUCH) {
-					totalItemsToStow += sendStowItems(item, lootPouch, itemDict, totalItemsToStow, maxItemsToStow);
-				}
-			}
-		}
-
-		// Stow items from depot locker
-		const auto &depotLocker = getDepotLocker(getLastDepotId());
-		const auto &[itemVector, itemMap] = requestLockerItems(depotLocker);
-		for (const auto &lockerItem : itemVector) {
-			if (lockerItem && item->isInsideDepot(true)) {
-				totalItemsToStow += sendStowItems(item, lockerItem, itemDict, totalItemsToStow, maxItemsToStow);
-			}
-		}
-	} else if (const auto &container = item->getContainer()) {
-		for (const auto &[stowableItem, stowableCount] : container->getStowableItems()) {
-			if (totalItemsToStow >= maxItemsToStow) {
-				break;
-			}
-
-			uint32_t stowableToAdd = std::min(stowableCount, maxItemsToStow - totalItemsToStow);
-			itemDict.emplace_back(stowableItem, stowableToAdd);
-			totalItemsToStow += stowableToAdd;
-		}
-	} else {
-		uint32_t stowableToAdd = std::min(count, maxItemsToStow - totalItemsToStow);
-		itemDict.emplace_back(item, stowableToAdd);
-		totalItemsToStow += stowableToAdd;
-	}
-
-	if (itemDict.empty()) {
-		sendCancelMessage("There are no stowable items in this container.");
-		return;
-	}
-
-	if (totalItemsToStow >= maxItemsToStow) {
-		sendTextMessage(MESSAGE_EVENT_ADVANCE, fmt::format("You have reached the maximum stow limit of {} items. Try to stow again.", maxItemsToStow));
-	}
-
-	stashContainer(itemDict);
+	m_stashComponent.stowItem(item, count, allItems);
 }
 
-void Player::sendPreyData() const {
-	m_preyComponent.sendPreyData();
-}
-
-void Player::sendPreyTimeLeft(const std::unique_ptr<PreySlot> &slot) const {
-	m_preyComponent.sendPreyTimeLeft(slot);
-}
-
-void Player::reloadPreySlot(PreySlot_t slotid) {
-	m_preyComponent.reloadPreySlot(slotid);
-}
-
-const std::unique_ptr<PreySlot> &Player::getPreySlotById(PreySlot_t slotid) {
-	return m_preyComponent.getPreySlotById(slotid);
-}
-
-bool Player::setPreySlotClass(std::unique_ptr<PreySlot> &slot) {
-	return m_preyComponent.setPreySlotClass(slot);
-}
-
-bool Player::usePreyCards(uint16_t amount) {
-	return m_preyComponent.usePreyCards(amount);
-}
-
-void Player::addPreyCards(uint64_t amount) {
-	m_preyComponent.addPreyCards(amount);
-}
-
-uint64_t Player::getPreyCards() const {
-	return m_preyComponent.getPreyCards();
-}
-
-uint32_t Player::getPreyRerollPrice() const {
-	return m_preyComponent.getPreyRerollPrice();
-}
-
-std::vector<uint16_t> Player::getPreyBlackList() const {
-	return m_preyComponent.getPreyBlackList();
-}
-
-const std::unique_ptr<PreySlot> &Player::getPreyWithMonster(uint16_t raceId) const {
-	return m_preyComponent.getPreyWithMonster(raceId);
-}
-
-void Player::initializeTaskHunting() {
-	m_preyComponent.initializeTaskHunting();
-}
-
-bool Player::isCreatureUnlockedOnTaskHunting(const std::shared_ptr<MonsterType> &mtype) const {
-	return m_preyComponent.isCreatureUnlockedOnTaskHunting(mtype);
-}
-
-bool Player::setTaskHuntingSlotClass(std::unique_ptr<TaskHuntingSlot> &slot) {
-	return m_preyComponent.setTaskHuntingSlotClass(slot);
-}
-
-uint8_t Player::getBlessingCount(uint8_t index, bool storeCount) const {
-	if (!storeCount) {
-		if (index > 0 && index <= blessings.size()) {
-			return blessings[index - 1];
-		} else {
-			g_logger().error("[{}] - index outside range 0-10.", __FUNCTION__);
-			return 0;
-		}
-	}
-	auto amount = kv()->scoped("summary")->scoped("blessings")->scoped(fmt::format("{}", index))->get("amount");
-	return amount ? static_cast<uint8_t>(amount->getNumber()) : 0;
-}
-
-std::string Player::getBlessingsName() const {
-	std::vector<std::string> blessingNames;
-	for (const auto &bless : magic_enum::enum_values<Blessings>()) {
-		if (hasBlessing(enumToValue(bless))) {
-			std::string name = toStartCaseWithSpace(magic_enum::enum_name(bless).data());
-			blessingNames.emplace_back(name);
-		}
-	}
-
-	std::ostringstream os;
-	if (!blessingNames.empty()) {
-		// Join all elements but the last with ", " and add the last one with " and "
-		for (size_t i = 0; i < blessingNames.size() - 1; ++i) {
-			os << blessingNames[i] << ", ";
-		}
-		if (blessingNames.size() > 1) {
-			os << "and ";
-		}
-		os << blessingNames.back() << ".";
-	}
-
-	return os.str();
-}
-
-void Player::disconnect() const {
-	if (client) {
-		client->disconnect();
-	}
-}
-
-uint32_t Player::getIP() const {
-#ifdef BUILD_TESTS
-	if (testIP != 0) {
-		return testIP;
-	}
-#endif
-	return client ? client->getIP() : 0;
-}
-
-void Player::reloadTaskSlot(PreySlot_t slotid) {
-	m_preyComponent.reloadTaskSlot(slotid);
-}
-
-const std::unique_ptr<TaskHuntingSlot> &Player::getTaskHuntingSlotById(PreySlot_t slotid) {
-	return m_preyComponent.getTaskHuntingSlotById(slotid);
-}
-
-std::vector<uint16_t> Player::getTaskHuntingBlackList() const {
-	return m_preyComponent.getTaskHuntingBlackList();
-}
-
-void Player::sendTaskHuntingData() const {
-	m_preyComponent.sendTaskHuntingData();
-}
-
-void Player::addTaskHuntingPoints(uint64_t amount) {
-	m_preyComponent.addTaskHuntingPoints(amount);
-}
-
-bool Player::useTaskHuntingPoints(uint64_t amount) {
-	return m_preyComponent.useTaskHuntingPoints(amount);
-}
-
-uint64_t Player::getTaskHuntingPoints() const {
-	return m_preyComponent.getTaskHuntingPoints();
-}
-
-uint32_t Player::getTaskHuntingRerollPrice() const {
-	return m_preyComponent.getTaskHuntingRerollPrice();
-}
-
-const std::unique_ptr<TaskHuntingSlot> &Player::getTaskHuntingWithCreature(uint16_t raceId) const {
-	return m_preyComponent.getTaskHuntingWithCreature(raceId);
-// anchor
-}
-
-uint32_t Player::getLoyaltyPoints() const {
-	return loyaltyPoints;
-}
-
-void Player::setLoyaltyBonus(uint16_t bonus) {
-	loyaltyBonusPercent = bonus;
-	sendSkills();
-}
-
-void Player::setLoyaltyTitle(std::string title) {
-	loyaltyTitle = std::move(title);
-}
-
-std::string Player::getLoyaltyTitle() const {
-	return loyaltyTitle;
-}
-
-uint16_t Player::getLoyaltyBonus() const {
-	return loyaltyBonusPercent;
-}
-
-/*******************************************************************************
- * Depot search system
- ******************************************************************************/
 void Player::requestDepotItems() {
-	ItemsTierCountList inventoryCache;
-	uint16_t count = 0;
-
-	const auto &depotLocker = getDepotLocker(getLastDepotId());
-	if (!depotLocker) {
-		return;
-	}
-
-	for (const auto &locker : depotLocker->getItemList()) {
-		const auto &container = locker->getContainer();
-		if (!container) {
-			continue;
-		}
-
-		const auto &items = container->getItems(true);
-		for (const auto &containerItem : items) {
-			if (!containerItem) {
-				continue;
-			}
-
-			const uint16_t itemId = containerItem->getID();
-			uint8_t itemTier = Item::items[itemId].upgradeClassification > 0
-				? containerItem->getTier() + 1
-				: 0;
-
-			auto key = std::make_pair(itemId, itemTier);
-			auto [it, inserted] = inventoryCache.try_emplace(key, containerItem->getItemAmount());
-			if (!inserted) {
-				it->second += containerItem->getItemAmount();
-			} else {
-				count++;
-			}
-		}
-	}
-
-	for (const auto &[itemId, itemCount] : getStashItems()) {
-		if (Item::items[itemId].wareId <= 0) {
-			g_logger().error("{} - Player {} has an invalid item with ID {} in stash without market flag", __FUNCTION__, getName(), itemId);
-			continue;
-		}
-
-		uint8_t itemTier = Item::items[itemId].upgradeClassification > 0 ? 1 : 0;
-		auto key = std::make_pair(itemId, itemTier);
-		auto [it, inserted] = inventoryCache.try_emplace(key, itemCount);
-		if (!inserted) {
-			it->second += itemCount;
-		} else {
-			count++;
-		}
-	}
-
-	setDepotSearchIsOpen(1, 0);
-	sendDepotItems(inventoryCache, count);
+	m_stashComponent.requestDepotItems();
 }
 
 void Player::requestDepotSearchItem(uint16_t itemId, uint8_t tier) {
-	ItemVector depotItems;
-	ItemVector inboxItems;
-	uint32_t depotCount = 0;
-	uint32_t inboxCount = 0;
-	uint32_t stashCount = 0;
-
-	if (const ItemType &iType = Item::items[itemId];
-	    iType.wareId > 0 && tier == 0) {
-		stashCount = getStashItemCount(itemId);
-	}
-
-	const auto &depotLocker = getDepotLocker(getLastDepotId());
-	if (!depotLocker) {
-		return;
-	}
-
-	for (const auto &locker : depotLocker->getItemList()) {
-		const auto &c = locker->getContainer();
-		if (!c || c->empty()) {
-			continue;
-		}
-
-		inboxItems.reserve(inboxItems.size());
-		depotItems.reserve(depotItems.size());
-
-		for (ContainerIterator it = c->iterator(); it.hasNext(); it.advance()) {
-			const auto item = *it;
-			if (!item || item->getID() != itemId || item->getTier() != tier) {
-				continue;
-			}
-
-			if (c->isInbox()) {
-				if (inboxItems.size() < 255) {
-					inboxItems.emplace_back(item);
-				}
-				inboxCount += Item::countByType(item, -1);
-			} else {
-				if (depotItems.size() < 255) {
-					depotItems.emplace_back(item);
-				}
-				depotCount += Item::countByType(item, -1);
-			}
-		}
-	}
-
-	setDepotSearchIsOpen(itemId, tier);
-	sendDepotSearchResultDetail(itemId, tier, depotCount, depotItems, inboxCount, inboxItems, stashCount);
+	m_stashComponent.requestDepotSearchItem(itemId, tier);
 }
 
 void Player::retrieveAllItemsFromDepotSearch(uint16_t itemId, uint8_t tier, bool isDepot) {
-	const auto &depotLocker = getDepotLocker(getLastDepotId());
-	if (!depotLocker) {
-		return;
-	}
-
-	std::vector<std::shared_ptr<Item>> itemsVector;
-	for (const auto &locker : depotLocker->getItemList()) {
-		const auto &c = locker->getContainer();
-		if (!c || c->empty() ||
-		    // Retrieve from inbox.
-		    (c->isInbox() && isDepot) ||
-		    // Retrieve from depot.
-		    (!c->isInbox() && !isDepot)) {
-			continue;
-		}
-
-		for (ContainerIterator it = c->iterator(); it.hasNext(); it.advance()) {
-			const auto &item = *it;
-			if (!item) {
-				continue;
-			}
-
-			if (item->getID() == itemId && item->getTier() == depotSearchOnItem.second) {
-				itemsVector.emplace_back(item);
-			}
-		}
-	}
-
-	uint32_t totalCount = 0;
-	for (const auto &item : itemsVector) {
-		totalCount += item->getItemAmount();
-	}
-
-	double freeCap = getFreeCapacity();
-	const ItemType &it = Item::items[itemId];
-	double unitWeight = it.weight;
-
-	uint32_t maxByWeight = unitWeight > 0.0
-		? static_cast<uint32_t>(freeCap / unitWeight)
-		: totalCount;
-	uint32_t retrievableCount = std::min(totalCount, maxByWeight);
-
-	uint32_t actuallyRetrieved = 0;
-	AddItemBatchOptions options;
-	options.tier = tier;
-	auto returnValue = addItemBatch(itemId, retrievableCount, actuallyRetrieved, options);
-
-	if (returnValue != RETURNVALUE_NOERROR) {
-		sendCancelMessage(returnValue);
-		return;
-	}
-
-	if (actuallyRetrieved == 0) {
-		sendCancelMessage(RETURNVALUE_NOTENOUGHCAPACITY);
-		return;
-	}
-
-	uint32_t totalRemoved = 0;
-	for (const auto &item : itemsVector) {
-		if (totalRemoved >= actuallyRetrieved) {
-			break;
-		}
-		uint16_t amountToRemove = std::min<uint16_t>(
-			static_cast<uint16_t>(actuallyRetrieved - totalRemoved),
-			item->getItemAmount()
-		);
-		if (removeItem(item, amountToRemove) == RETURNVALUE_NOERROR) {
-			totalRemoved += amountToRemove;
-		}
-	}
-
-	updateState();
-
-	if (totalRemoved != actuallyRetrieved) {
-		g_logger().error(
-			"[retrieveAllItemsFromDepotSearch] Removed ({}) != Inserted ({}) for itemId: {}, player: {}",
-			totalRemoved, actuallyRetrieved, itemId, getName()
-		);
-	}
-
-	if (actuallyRetrieved < retrievableCount) {
-		sendCancelMessage(RETURNVALUE_NOTENOUGHCAPACITY);
-	}
-
-	requestDepotSearchItem(itemId, tier);
+	m_stashComponent.retrieveAllItemsFromDepotSearch(itemId, tier, isDepot);
 }
 
 void Player::openContainerFromDepotSearch(const Position &pos) {
-	if (!isDepotSearchOpen()) {
-		sendCancelMessage(RETURNVALUE_NOTPOSSIBLE);
-		return;
-	}
-
-	const auto &item = getItemFromDepotSearch(depotSearchOnItem.first, pos);
-	if (!item) {
-		sendCancelMessage(RETURNVALUE_NOTPOSSIBLE);
-		return;
-	}
-
-	const auto &container = item->getParent() ? item->getParent()->getContainer() : nullptr;
-	if (!container) {
-		sendCancelMessage(RETURNVALUE_NOTPOSSIBLE);
-		return;
-	}
-
-	g_actions().useItem(static_self_cast<Player>(), pos, 0, container, false);
+	m_stashComponent.openContainerFromDepotSearch(pos);
 }
 
 std::shared_ptr<Item> Player::getItemFromDepotSearch(uint16_t itemId, const Position &pos) {
-	const auto &depotLocker = getDepotLocker(getLastDepotId());
-	if (!depotLocker) {
-		return nullptr;
-	}
-
-	uint8_t index = 0;
-	for (const auto &locker : depotLocker->getItemList()) {
-		const auto &c = locker->getContainer();
-		if (!c || c->empty() || (c->isInbox() && pos.y != 0x21) || // From inbox.
-		    (!c->isInbox() && pos.y != 0x20)) { // From depot.
-			continue;
-		}
-
-		for (ContainerIterator it = c->iterator(); it.hasNext(); it.advance()) {
-			const auto &item = *it;
-			if (!item || item->getID() != itemId || item->getTier() != depotSearchOnItem.second) {
-				continue;
-			}
-
-			if (pos.z == index) {
-				return item;
-			}
-			index++;
-		}
-	}
-
-	return nullptr;
+	return m_stashComponent.getItemFromDepotSearch(itemId, pos);
 }
 
 std::pair<std::vector<std::shared_ptr<Item>>, std::map<uint16_t, std::map<uint8_t, uint32_t>>> Player::requestLockerItems(const std::shared_ptr<DepotLocker> &depotLocker, bool sendToClient, uint8_t tier) const {
-	if (!depotLocker) {
-		g_logger().error("{} - Depot locker is nullptr", __FUNCTION__);
-		return {};
-	}
-
-	std::map<uint16_t, std::map<uint8_t, uint32_t>> lockerItems;
-	std::vector<std::shared_ptr<Item>> itemVector;
-	std::vector<std::shared_ptr<Container>> containers { depotLocker };
-
-	for (size_t i = 0; i < containers.size(); ++i) {
-		const auto &container = containers[i];
-
-		for (const auto &item : container->getItemList()) {
-			const auto &lockerContainers = item->getContainer();
-			if (lockerContainers && !lockerContainers->empty()) {
-				containers.emplace_back(lockerContainers);
-				continue;
-			}
-
-			const ItemType &itemType = Item::items[item->getID()];
-			if (item->isStoreItem() || itemType.wareId == 0) {
-				continue;
-			}
-
-			if (lockerContainers && (!itemType.isContainer() || lockerContainers->capacity() != itemType.maxItems)) {
-				continue;
-			}
-
-			if (!item->hasMarketAttributes() || (!sendToClient && item->getTier() != tier)) {
-				continue;
-			}
-
-			lockerItems[itemType.wareId][item->getTier()] += Item::countByType(item, -1);
-			itemVector.emplace_back(item);
-		}
-	}
-
-	StashItemList stashToSend = getStashItems();
-	for (const auto &[itemId, itemCount] : stashToSend) {
-		const ItemType &itemType = Item::items[itemId];
-		if (itemType.wareId != 0) {
-			lockerItems[itemType.wareId][0] += itemCount;
-		}
-	}
-
-	return { itemVector, lockerItems };
+	return m_stashComponent.requestLockerItems(depotLocker, sendToClient, tier);
 }
 
-/**
-    This function returns a pair of an array of items and a 16-bit integer from a DepotLocker instance, a 8-bit byte and a 16-bit integer.
-    @param depotLocker The instance of DepotLocker from which to retrieve items.
-    @param tier The 8-bit byte that specifies the level of the tier to search.
-    @param itemId The 16-bit integer that specifies the ID of the item to search for.
-    @return A pair of an array of items and a 16-bit integer, where the array of items is filled with all items from the
-    locker with the specified id and the 16-bit integer is the total items found.
-    */
-
 std::pair<std::vector<std::shared_ptr<Item>>, uint16_t> Player::getLockerItemsAndCountById(const std::shared_ptr<DepotLocker> &depotLocker, uint8_t tier, uint16_t itemId) const {
-	std::vector<std::shared_ptr<Item>> lockerItems;
-	const auto &[itemVector, itemMap] = requestLockerItems(depotLocker, false, tier);
-	uint16_t totalCount = 0;
-	for (const auto &item : itemVector) {
-		if (!item || item->getID() != itemId) {
-			continue;
-		}
-
-		totalCount++;
-		lockerItems.emplace_back(item);
-	}
-
-	return std::make_pair(lockerItems, totalCount);
+	return m_stashComponent.getLockerItemsAndCountById(depotLocker, tier, itemId);
 }
 
 bool Player::saySpell(SpeakClasses type, const std::string &text, bool isGhostMode, const Spectators* spectatorsPtr, const Position* pos) {
@@ -11852,6 +10209,14 @@ const PlayerPreyComponent &Player::preyComponent() const {
 	return m_preyComponent;
 }
 
+PlayerStashComponent &Player::stashComponent() {
+	return m_stashComponent;
+}
+
+const PlayerStashComponent &Player::stashComponent() const {
+	return m_stashComponent;
+}
+
 void Player::sendLootMessage(const std::string &message) const {
 	const auto &party = getParty();
 	if (!party) {
@@ -12451,4 +10816,169 @@ void Player::sendWeaponProficiency(uint16_t weaponId /* = 0 */) {
 	if (client) {
 		client->sendWeaponProficiency(weaponId);
 	}
+}
+
+
+void Player::sendPreyData() const {
+	m_preyComponent.sendPreyData();
+}
+
+void Player::sendPreyTimeLeft(const std::unique_ptr<PreySlot> &slot) const {
+	m_preyComponent.sendPreyTimeLeft(slot);
+}
+
+void Player::reloadPreySlot(PreySlot_t slotid) {
+	m_preyComponent.reloadPreySlot(slotid);
+}
+
+const std::unique_ptr<PreySlot> &Player::getPreySlotById(PreySlot_t slotid) {
+	return m_preyComponent.getPreySlotById(slotid);
+}
+
+bool Player::setPreySlotClass(std::unique_ptr<PreySlot> &slot) {
+	return m_preyComponent.setPreySlotClass(slot);
+}
+
+bool Player::usePreyCards(uint16_t amount) {
+	return m_preyComponent.usePreyCards(amount);
+}
+
+void Player::addPreyCards(uint64_t amount) {
+	m_preyComponent.addPreyCards(amount);
+}
+
+uint64_t Player::getPreyCards() const {
+	return m_preyComponent.getPreyCards();
+}
+
+uint32_t Player::getPreyRerollPrice() const {
+	return m_preyComponent.getPreyRerollPrice();
+}
+
+std::vector<uint16_t> Player::getPreyBlackList() const {
+	return m_preyComponent.getPreyBlackList();
+}
+
+const std::unique_ptr<PreySlot> &Player::getPreyWithMonster(uint16_t raceId) const {
+	return m_preyComponent.getPreyWithMonster(raceId);
+}
+
+void Player::initializeTaskHunting() {
+	m_preyComponent.initializeTaskHunting();
+}
+
+bool Player::isCreatureUnlockedOnTaskHunting(const std::shared_ptr<MonsterType> &mtype) const {
+	return m_preyComponent.isCreatureUnlockedOnTaskHunting(mtype);
+}
+
+bool Player::setTaskHuntingSlotClass(std::unique_ptr<TaskHuntingSlot> &slot) {
+	return m_preyComponent.setTaskHuntingSlotClass(slot);
+}
+
+uint8_t Player::getBlessingCount(uint8_t index, bool storeCount) const {
+	if (!storeCount) {
+		if (index > 0 && index <= blessings.size()) {
+			return blessings[index - 1];
+		} else {
+			g_logger().error("[{}] - index outside range 0-10.", __FUNCTION__);
+			return 0;
+		}
+	}
+	auto amount = kv()->scoped("summary")->scoped("blessings")->scoped(fmt::format("{}", index))->get("amount");
+	return amount ? static_cast<uint8_t>(amount->getNumber()) : 0;
+}
+
+std::string Player::getBlessingsName() const {
+	std::vector<std::string> blessingNames;
+	for (const auto &bless : magic_enum::enum_values<Blessings>()) {
+		if (hasBlessing(enumToValue(bless))) {
+			std::string name = toStartCaseWithSpace(magic_enum::enum_name(bless).data());
+			blessingNames.emplace_back(name);
+		}
+	}
+
+	std::ostringstream os;
+	if (!blessingNames.empty()) {
+		for (size_t i = 0; i < blessingNames.size() - 1; ++i) {
+			os << blessingNames[i] << ", ";
+		}
+		if (blessingNames.size() > 1) {
+			os << "and ";
+		}
+		os << blessingNames.back() << ".";
+	}
+
+	return os.str();
+}
+
+void Player::disconnect() const {
+	if (client) {
+		client->disconnect();
+	}
+}
+
+uint32_t Player::getIP() const {
+#ifdef BUILD_TESTS
+	if (testIP != 0) {
+		return testIP;
+	}
+#endif
+	return client ? client->getIP() : 0;
+}
+
+void Player::reloadTaskSlot(PreySlot_t slotid) {
+	m_preyComponent.reloadTaskSlot(slotid);
+}
+
+const std::unique_ptr<TaskHuntingSlot> &Player::getTaskHuntingSlotById(PreySlot_t slotid) {
+	return m_preyComponent.getTaskHuntingSlotById(slotid);
+}
+
+std::vector<uint16_t> Player::getTaskHuntingBlackList() const {
+	return m_preyComponent.getTaskHuntingBlackList();
+}
+
+void Player::sendTaskHuntingData() const {
+	m_preyComponent.sendTaskHuntingData();
+}
+
+void Player::addTaskHuntingPoints(uint64_t amount) {
+	m_preyComponent.addTaskHuntingPoints(amount);
+}
+
+bool Player::useTaskHuntingPoints(uint64_t amount) {
+	return m_preyComponent.useTaskHuntingPoints(amount);
+}
+
+uint64_t Player::getTaskHuntingPoints() const {
+	return m_preyComponent.getTaskHuntingPoints();
+}
+
+uint32_t Player::getTaskHuntingRerollPrice() const {
+	return m_preyComponent.getTaskHuntingRerollPrice();
+}
+
+const std::unique_ptr<TaskHuntingSlot> &Player::getTaskHuntingWithCreature(uint16_t raceId) const {
+	return m_preyComponent.getTaskHuntingWithCreature(raceId);
+}
+
+uint32_t Player::getLoyaltyPoints() const {
+	return loyaltyPoints;
+}
+
+void Player::setLoyaltyBonus(uint16_t bonus) {
+	loyaltyBonusPercent = bonus;
+	sendSkills();
+}
+
+void Player::setLoyaltyTitle(std::string title) {
+	loyaltyTitle = std::move(title);
+}
+
+std::string Player::getLoyaltyTitle() const {
+	return loyaltyTitle;
+}
+
+uint16_t Player::getLoyaltyBonus() const {
+	return loyaltyBonusPercent;
 }
