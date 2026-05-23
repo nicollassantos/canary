@@ -39,6 +39,7 @@
 #include "creatures/players/components/player_imbuement_component.hpp"
 #include "creatures/players/components/player_stash_component.hpp"
 #include "creatures/players/components/player_training_component.hpp"
+#include "creatures/players/components/player_combat_stats_component.hpp"
 #include "creatures/players/components/player_cylinder_component.hpp"
 #include "creatures/players/components/weapon_proficiency.hpp"
 #include "utils/hash.hpp"
@@ -1555,6 +1556,10 @@ public:
 	PlayerImbuementComponent &imbuementComponent();
 	const PlayerImbuementComponent &imbuementComponent() const;
 
+	// Player combat stats component interface
+	PlayerCombatStatsComponent &combatStats();
+	const PlayerCombatStatsComponent &combatStats() const;
+
 	// Player cylinder component interface
 	PlayerCylinderComponent &cylinderComponent();
 	const PlayerCylinderComponent &cylinderComponent() const;
@@ -1979,6 +1984,7 @@ private:
 	friend class PlayerExperienceComponent;
 	friend class PlayerDeathComponent;
 	friend class PlayerImbuementComponent;
+	friend class PlayerCombatStatsComponent;
 	friend class PlayerCylinderComponent;
 
 	PlayerWheel m_wheelPlayer;
@@ -2000,6 +2006,7 @@ private:
 	PlayerExperienceComponent m_experienceComponent;
 	PlayerDeathComponent m_deathComponent;
 	PlayerImbuementComponent m_imbuementComponent;
+	PlayerCombatStatsComponent m_combatStatsComponent;
 	PlayerCylinderComponent m_cylinderComponent;
 	WeaponProficiency m_weaponProficiency;
 

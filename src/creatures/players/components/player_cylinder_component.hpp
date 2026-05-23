@@ -12,12 +12,13 @@
 #include <cstdint>
 #include <memory>
 
+#include "items/items_definitions.hpp"
+
 class Player;
 class Creature;
 class Item;
 class Thing;
 class Cylinder;
-enum class CylinderLink_t : uint8_t;
 enum ReturnValue : uint16_t;
 
 class PlayerCylinderComponent {
