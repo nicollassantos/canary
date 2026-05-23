@@ -39,6 +39,7 @@
 #include "creatures/players/components/player_imbuement_component.hpp"
 #include "creatures/players/components/player_stash_component.hpp"
 #include "creatures/players/components/player_training_component.hpp"
+#include "creatures/players/components/player_cylinder_component.hpp"
 #include "creatures/players/components/weapon_proficiency.hpp"
 #include "utils/hash.hpp"
 
@@ -1554,6 +1555,10 @@ public:
 	PlayerImbuementComponent &imbuementComponent();
 	const PlayerImbuementComponent &imbuementComponent() const;
 
+	// Player cylinder component interface
+	PlayerCylinderComponent &cylinderComponent();
+	const PlayerCylinderComponent &cylinderComponent() const;
+
 	void sendLootMessage(const std::string &message) const;
 
 	std::shared_ptr<Container> getLootPouch();
@@ -1974,6 +1979,7 @@ private:
 	friend class PlayerExperienceComponent;
 	friend class PlayerDeathComponent;
 	friend class PlayerImbuementComponent;
+	friend class PlayerCylinderComponent;
 
 	PlayerWheel m_wheelPlayer;
 	PlayerAchievement m_playerAchievement;
@@ -1994,6 +2000,7 @@ private:
 	PlayerExperienceComponent m_experienceComponent;
 	PlayerDeathComponent m_deathComponent;
 	PlayerImbuementComponent m_imbuementComponent;
+	PlayerCylinderComponent m_cylinderComponent;
 	WeaponProficiency m_weaponProficiency;
 
 	std::mutex quickLootMutex;

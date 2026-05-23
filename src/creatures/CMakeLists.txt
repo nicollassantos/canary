@@ -31,6 +31,7 @@ target_sources(
             players/components/player_attached_effects.cpp
             players/components/player_badge.cpp
             players/components/player_cyclopedia.cpp
+            players/components/player_cylinder_component.cpp
             players/components/player_death_component.cpp
             players/components/player_experience_component.cpp
             players/components/player_imbuement_component.cpp
