@@ -14,6 +14,7 @@
 #include "creatures/players/player.hpp"
 #include "config/configmanager.hpp"
 #include "game/game.hpp"
+#include "kv/kv.hpp"
 #include "utils/const.hpp"
 #include "utils/tools.hpp"
 

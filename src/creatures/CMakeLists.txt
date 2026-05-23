@@ -31,6 +31,7 @@ target_sources(
             players/components/player_attached_effects.cpp
             players/components/player_badge.cpp
             players/components/player_cyclopedia.cpp
+            players/components/player_forge_component.cpp
             players/components/player_forge_history.cpp
             players/components/player_inventory_component.cpp
             players/components/player_mount_component.cpp

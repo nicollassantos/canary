@@ -33,6 +33,7 @@
 #include "creatures/players/components/player_inventory_component.hpp"
 #include "creatures/players/components/player_mount_component.hpp"
 #include "creatures/players/components/player_prey_component.hpp"
+#include "creatures/players/components/player_forge_component.hpp"
 #include "creatures/players/components/player_stash_component.hpp"
 #include "creatures/players/components/player_training_component.hpp"
 #include "creatures/players/components/weapon_proficiency.hpp"
@@ -1530,6 +1531,10 @@ public:
 	PlayerPreyComponent &preyComponent();
 	const PlayerPreyComponent &preyComponent() const;
 
+	// Player forge component interface
+	PlayerForgeComponent &forgeComponent();
+	const PlayerForgeComponent &forgeComponent() const;
+
 	// Player stash component interface
 	PlayerStashComponent &stashComponent();
 	const PlayerStashComponent &stashComponent() const;
@@ -1949,6 +1954,7 @@ private:
 	friend class PlayerInventoryComponent;
 	friend class PlayerTrainingComponent;
 	friend class PlayerPreyComponent;
+	friend class PlayerForgeComponent;
 	friend class PlayerStashComponent;
 
 	PlayerWheel m_wheelPlayer;
@@ -1965,6 +1971,7 @@ private:
 	PlayerInventoryComponent m_inventoryComponent;
 	PlayerTrainingComponent m_trainingComponent;
 	PlayerPreyComponent m_preyComponent;
+	PlayerForgeComponent m_forgeComponent;
 	PlayerStashComponent m_stashComponent;
 	WeaponProficiency m_weaponProficiency;
 
