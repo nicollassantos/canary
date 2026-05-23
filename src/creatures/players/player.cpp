@@ -129,7 +129,8 @@ Player::Player() :
 	m_trainingComponent(*this),
 	m_preyComponent(*this),
 	m_forgeComponent(*this),
-	m_stashComponent(*this) {
+	m_stashComponent(*this),
+	m_experienceComponent(*this) {
 }
 
 Player::Player(std::shared_ptr<ProtocolGame> p) :
@@ -153,7 +154,8 @@ Player::Player(std::shared_ptr<ProtocolGame> p) :
 	m_trainingComponent(*this),
 	m_preyComponent(*this),
 	m_forgeComponent(*this),
-	m_stashComponent(*this) {
+	m_stashComponent(*this),
+	m_experienceComponent(*this) {
 	baseCritical.chance = g_configManager().getFloat(PLAYER_BASE_CRITICAL_CHANCE);
 	baseCritical.damage = g_configManager().getFloat(PLAYER_BASE_CRITICAL_DAMAGE);
 	m_wheelPlayer.init();
@@ -1070,12 +1072,12 @@ uint16_t Player::getLoyaltySkill(skills_t skill) const {
 	return level;
 }
 
-uint16_t Player::getBaseSkill(uint8_t skill) const {
-	return skills[skill].level;
+uint16_t Player::getBaseSkill(uint8_t skill) const  {
+	return m_experienceComponent.getBaseSkill(skill);
 }
 
-double_t Player::getSkillPercent(skills_t skill) const {
-	return skills[skill].percent;
+double_t Player::getSkillPercent(skills_t skill) const  {
+	return m_experienceComponent.getSkillPercent(skill);
 }
 
 bool Player::getAddAttackSkill() const {
@@ -1133,65 +1135,8 @@ void Player::updateLastAggressiveAction() {
 	lastAggressiveAction = OTSYS_TIME();
 }
 
-void Player::addSkillAdvance(skills_t skill, uint64_t count) {
-	uint64_t currReqTries = vocation->getReqSkillTries(skill, skills[skill].level);
-	uint64_t nextReqTries = vocation->getReqSkillTries(skill, skills[skill].level + 1);
-	if (currReqTries >= nextReqTries) {
-		// player has reached max skill
-		return;
-	}
-
-	g_events().eventPlayerOnGainSkillTries(static_self_cast<Player>(), skill, count);
-	g_callbacks().executeCallback(EventCallback_t::playerOnGainSkillTries, getPlayer(), std::ref(skill), std::ref(count));
-	if (count == 0) {
-		return;
-	}
-
-	bool sendUpdateSkills = false;
-	while ((skills[skill].tries + count) >= nextReqTries) {
-		count -= nextReqTries - skills[skill].tries;
-		skills[skill].level++;
-		skills[skill].tries = 0;
-		skills[skill].percent = 0;
-
-		std::ostringstream ss;
-		ss << "You advanced to " << getSkillName(skill) << " level " << skills[skill].level << '.';
-		sendTextMessage(MESSAGE_EVENT_ADVANCE, ss.str());
-		if (skill == SKILL_LEVEL) {
-			sendTakeScreenshot(SCREENSHOT_TYPE_LEVELUP);
-		} else {
-			sendTakeScreenshot(SCREENSHOT_TYPE_SKILLUP);
-		}
-
-		g_creatureEvents().playerAdvance(static_self_cast<Player>(), skill, (skills[skill].level - 1), skills[skill].level);
-
-		sendUpdateSkills = true;
-		currReqTries = nextReqTries;
-		nextReqTries = vocation->getReqSkillTries(skill, skills[skill].level + 1);
-		if (currReqTries >= nextReqTries) {
-			count = 0;
-			break;
-		}
-	}
-
-	skills[skill].tries += count;
-
-	double_t newPercent;
-	if (nextReqTries > currReqTries) {
-		newPercent = Player::getPercentLevel(skills[skill].tries, nextReqTries);
-	} else {
-		newPercent = 0;
-	}
-
-	if (skills[skill].percent != newPercent) {
-		skills[skill].percent = newPercent;
-		sendUpdateSkills = true;
-	}
-
-	if (sendUpdateSkills) {
-		sendSkills();
-		sendStats();
-	}
+void Player::addSkillAdvance(skills_t skill, uint64_t count)  {
+	m_experienceComponent.addSkillAdvance(skill, count);
 }
 
 void Player::setVarStats(stats_t stat, int32_t modifier) {
@@ -3367,282 +3312,16 @@ void Player::drainMana(const std::shared_ptr<Creature> &attacker, int32_t manaLo
 	sendStats();
 }
 
-void Player::addManaSpent(uint64_t amount) {
-	if (hasFlag(PlayerFlags_t::NotGainMana)) {
-		return;
-	}
-
-	uint64_t currReqMana = vocation->getReqMana(magLevel);
-	uint64_t nextReqMana = vocation->getReqMana(magLevel + 1);
-	if (currReqMana >= nextReqMana) {
-		// player has reached max magic level
-		return;
-	}
-
-	g_events().eventPlayerOnGainSkillTries(static_self_cast<Player>(), SKILL_MAGLEVEL, amount);
-	g_callbacks().executeCallback(EventCallback_t::playerOnGainSkillTries, getPlayer(), SKILL_MAGLEVEL, amount);
-	if (amount == 0) {
-		return;
-	}
-
-	bool sendUpdateStats = false;
-	while ((manaSpent + amount) >= nextReqMana) {
-		amount -= nextReqMana - manaSpent;
-
-		magLevel++;
-		manaSpent = 0;
-
-		std::ostringstream ss;
-		ss << "You advanced to magic level " << magLevel << '.';
-		sendTextMessage(MESSAGE_EVENT_ADVANCE, ss.str());
-		sendTakeScreenshot(SCREENSHOT_TYPE_SKILLUP);
-
-		g_creatureEvents().playerAdvance(static_self_cast<Player>(), SKILL_MAGLEVEL, magLevel - 1, magLevel);
-		sendTakeScreenshot(SCREENSHOT_TYPE_SKILLUP);
-
-		sendUpdateStats = true;
-		currReqMana = nextReqMana;
-		nextReqMana = vocation->getReqMana(magLevel + 1);
-		if (currReqMana >= nextReqMana) {
-			return;
-		}
-	}
-
-	manaSpent += amount;
-
-	const uint8_t oldPercent = magLevelPercent;
-	if (nextReqMana > currReqMana) {
-		magLevelPercent = Player::getPercentLevel(manaSpent, nextReqMana);
-	} else {
-		magLevelPercent = 0;
-	}
-
-	if (oldPercent != magLevelPercent) {
-		sendUpdateStats = true;
-	}
-
-	if (sendUpdateStats) {
-		sendStats();
-		sendSkills();
-	}
+void Player::addManaSpent(uint64_t amount)  {
+	m_experienceComponent.addManaSpent(amount);
 }
 
-void Player::addExperience(const std::shared_ptr<Creature> &target, uint64_t exp, bool sendText /* = false*/) {
-	uint64_t currLevelExp = getExpForLevel(level);
-	uint64_t nextLevelExp = getExpForLevel(level + 1);
-	uint64_t rawExp = exp;
-	if (currLevelExp >= nextLevelExp) {
-		// player has reached max level
-		levelPercent = 0;
-		sendStats();
-		return;
-	}
-
-	g_callbacks().executeCallback(EventCallback_t::playerOnGainExperience, getPlayer(), target, std::ref(exp), std::ref(rawExp));
-
-	g_events().eventPlayerOnGainExperience(static_self_cast<Player>(), target, exp, rawExp);
-	if (exp == 0) {
-		return;
-	}
-
-	const auto rate = exp / rawExp;
-	const std::map<std::string, std::string> attrs({ { "player", getName() }, { "level", std::to_string(getLevel()) }, { "rate", std::to_string(rate) } });
-	if (sendText) {
-		g_metrics().addCounter("player_experience_raw", rawExp, attrs);
-		g_metrics().addCounter("player_experience_actual", exp, attrs);
-	} else {
-		g_metrics().addCounter("player_experience_bonus_raw", rawExp, attrs);
-		g_metrics().addCounter("player_experience_bonus_actual", exp, attrs);
-	}
-
-	// Hazard system experience
-	const auto &monster = target && target->getMonster() ? target->getMonster() : nullptr;
-	const bool handleHazardExperience = monster && monster->getHazard() && getHazardSystemPoints() > 0;
-	if (handleHazardExperience) {
-		exp += (exp * (1.75 * getHazardSystemPoints() * g_configManager().getFloat(HAZARD_EXP_BONUS_MULTIPLIER))) / 100.;
-	}
-
-	const bool handleAnimusMastery = monster && animusMastery().has(monster->getMonsterType()->name);
-	float animusMasteryMultiplier = 0;
-
-	if (handleAnimusMastery) {
-		animusMasteryMultiplier = animusMastery().getExperienceMultiplier();
-		exp *= animusMasteryMultiplier;
-	}
-
-	experience += exp;
-
-	if (sendText) {
-		std::string expString = fmt::format("{} experience point{}.", exp, (exp != 1 ? "s" : ""));
-		if (isVip()) {
-			uint8_t expPercent = g_configManager().getNumber(VIP_BONUS_EXP);
-			if (expPercent > 0) {
-				expString = expString + fmt::format(" (VIP bonus {}%)", expPercent > 100 ? 100 : expPercent);
-			}
-		}
-
-		if (handleAnimusMastery) {
-			expString = fmt::format("{} (animus mastery bonus {:.1f}%)", expString, (animusMasteryMultiplier - 1) * 100);
-		}
-
-		TextMessage message(MESSAGE_EXPERIENCE, "You gained " + expString + (handleHazardExperience ? " (Hazard)" : ""));
-		message.position = position;
-		message.primary.value = exp;
-		message.primary.color = TEXTCOLOR_WHITE_EXP;
-		sendTextMessage(message);
-
-		auto spectators = Spectators().find<Player>(position);
-		spectators.erase(static_self_cast<Player>());
-		if (!spectators.empty()) {
-			message.type = MESSAGE_EXPERIENCE_OTHERS;
-			message.text = getName() + " gained " + expString;
-			for (const auto &spectator : spectators) {
-				spectator->getPlayer()->sendTextMessage(message);
-			}
-		}
-	}
-
-	const uint32_t prevLevel = level;
-	while (experience >= nextLevelExp) {
-		++level;
-		// Player stats gain for vocations level <= 8
-		if (vocation->getId() != VOCATION_NONE && level <= 8) {
-			const auto &noneVocation = g_vocations().getVocation(VOCATION_NONE);
-			healthMax += noneVocation->getHPGain();
-			health += noneVocation->getHPGain();
-			manaMax += noneVocation->getManaGain();
-			mana += noneVocation->getManaGain();
-			capacity += noneVocation->getCapGain();
-		} else {
-			healthMax += vocation->getHPGain();
-			health += vocation->getHPGain();
-			manaMax += vocation->getManaGain();
-			mana += vocation->getManaGain();
-			capacity += vocation->getCapGain();
-		}
-
-		currLevelExp = nextLevelExp;
-		nextLevelExp = getExpForLevel(level + 1);
-		if (currLevelExp >= nextLevelExp) {
-			// player has reached max level
-			break;
-		}
-	}
-
-	if (prevLevel != level) {
-		health = healthMax;
-		mana = manaMax;
-
-		updateBaseSpeed();
-		setBaseSpeed(getBaseSpeed());
-		g_game().changeSpeed(static_self_cast<Player>(), 0);
-		g_game().addCreatureHealth(static_self_cast<Player>());
-		g_game().addPlayerMana(static_self_cast<Player>());
-
-		if (m_party) {
-			m_party->updateSharedExperience();
-		}
-
-		g_creatureEvents().playerAdvance(static_self_cast<Player>(), SKILL_LEVEL, prevLevel, level);
-
-		std::ostringstream ss;
-		ss << "You advanced from Level " << prevLevel << " to Level " << level << '.';
-		sendTextMessage(MESSAGE_EVENT_ADVANCE, ss.str());
-		sendTakeScreenshot(SCREENSHOT_TYPE_LEVELUP);
-	}
-
-	if (nextLevelExp > currLevelExp) {
-		levelPercent = Player::getPercentLevel(experience - currLevelExp, nextLevelExp - currLevelExp);
-	} else {
-		levelPercent = 0;
-	}
-	sendStats();
-	sendExperienceTracker(rawExp, exp);
+void Player::addExperience(const std::shared_ptr<Creature> &target, uint64_t exp, bool sendText /* = false*/)  {
+	m_experienceComponent.addExperience(target, exp, sendText);
 }
 
-void Player::removeExperience(uint64_t exp, bool sendText /* = false*/) {
-	if (experience == 0 || exp == 0) {
-		return;
-	}
-
-	g_events().eventPlayerOnLoseExperience(static_self_cast<Player>(), exp);
-	g_callbacks().executeCallback(EventCallback_t::playerOnLoseExperience, getPlayer(), std::ref(exp));
-	if (exp == 0) {
-		return;
-	}
-
-	uint64_t lostExp = experience;
-	experience = std::max<int64_t>(0, experience - exp);
-
-	if (sendText) {
-		lostExp -= experience;
-
-		const std::string expString = fmt::format("You lost {} experience point{}.", lostExp, (lostExp != 1 ? "s" : ""));
-
-		TextMessage message(MESSAGE_EXPERIENCE, expString);
-		message.position = position;
-		message.primary.value = lostExp;
-		message.primary.color = TEXTCOLOR_RED;
-		sendTextMessage(message);
-
-		auto spectators = Spectators().find<Player>(position);
-		spectators.erase(static_self_cast<Player>());
-		if (!spectators.empty()) {
-			message.type = MESSAGE_EXPERIENCE_OTHERS;
-			message.text = getName() + " lost " + expString;
-			for (const auto &spectator : spectators) {
-				spectator->getPlayer()->sendTextMessage(message);
-			}
-		}
-	}
-
-	const uint32_t oldLevel = level;
-	uint64_t currLevelExp = Player::getExpForLevel(level);
-
-	while (level > 1 && experience < currLevelExp) {
-		--level;
-		// Player stats loss for vocations level <= 8
-		if (vocation->getId() != VOCATION_NONE && level <= 8) {
-			const auto &noneVocation = g_vocations().getVocation(VOCATION_NONE);
-			healthMax = std::max<int32_t>(0, healthMax - noneVocation->getHPGain());
-			manaMax = std::max<int32_t>(0, manaMax - noneVocation->getManaGain());
-			capacity = std::max<int32_t>(0, capacity - noneVocation->getCapGain());
-		} else {
-			healthMax = std::max<int32_t>(0, healthMax - vocation->getHPGain());
-			manaMax = std::max<int32_t>(0, manaMax - vocation->getManaGain());
-			capacity = std::max<int32_t>(0, capacity - vocation->getCapGain());
-		}
-		currLevelExp = Player::getExpForLevel(level);
-	}
-
-	if (oldLevel != level) {
-		health = healthMax;
-		mana = manaMax;
-
-		updateBaseSpeed();
-		setBaseSpeed(getBaseSpeed());
-
-		g_game().changeSpeed(static_self_cast<Player>(), 0);
-		g_game().addCreatureHealth(static_self_cast<Player>());
-		g_game().addPlayerMana(static_self_cast<Player>());
-
-		if (m_party) {
-			m_party->updateSharedExperience();
-		}
-
-		std::ostringstream ss;
-		ss << "You were downgraded from Level " << oldLevel << " to Level " << level << '.';
-		sendTextMessage(MESSAGE_EVENT_ADVANCE, ss.str());
-	}
-
-	const uint64_t nextLevelExp = Player::getExpForLevel(level + 1);
-	if (nextLevelExp > currLevelExp) {
-		levelPercent = Player::getPercentLevel(experience - currLevelExp, nextLevelExp - currLevelExp);
-	} else {
-		levelPercent = 0;
-	}
-	sendStats();
-	sendExperienceTracker(0, -static_cast<int64_t>(exp));
+void Player::removeExperience(uint64_t exp, bool sendText /* = false*/)  {
+	m_experienceComponent.removeExperience(exp, sendText);
 }
 
 double_t Player::getPercentLevel(uint64_t count, uint64_t nextLevelCount) {
@@ -6114,12 +5793,8 @@ bool Player::onKilledMonster(const std::shared_ptr<Monster> &monster) {
 	return false;
 }
 
-void Player::gainExperience(uint64_t gainExp, const std::shared_ptr<Creature> &target) {
-	if (hasFlag(PlayerFlags_t::NotGainExperience) || gainExp == 0 || staminaMinutes == 0) {
-		return;
-	}
-
-	addExperience(target, gainExp, true);
+void Player::gainExperience(uint64_t gainExp, const std::shared_ptr<Creature> &target)  {
+	m_experienceComponent.gainExperience(gainExp, target);
 }
 
 void Player::onGainExperience(uint64_t gainExp, const std::shared_ptr<Creature> &target) {
@@ -6833,60 +6508,8 @@ bool Player::hasExtraSwing() {
 	return lastAttack > 0 && !checkLastAttackWithin(getAttackSpeed());
 }
 
-uint16_t Player::getSkillLevel(skills_t skill) const {
-	if (skill == SKILL_MAGLEVEL) {
-		return static_cast<uint16_t>(std::min<uint32_t>(getMagicLevel(), std::numeric_limits<uint16_t>::max()));
-	}
-
-	const auto skillIndex = static_cast<int32_t>(skill);
-	if (skillIndex < SKILL_FIRST || skillIndex > SKILL_LAST) {
-		g_logger().error("[{}] Invalid skill type {}.", __FUNCTION__, skillIndex);
-		return 0;
-	}
-
-	auto skillLevel = getLoyaltySkill(skill);
-	skillLevel = std::max<int32_t>(0, skillLevel + varSkills[skill]);
-
-	const auto &maxValuePerSkill = getMaxValuePerSkill();
-	if (const auto it = maxValuePerSkill.find(skill);
-	    it != maxValuePerSkill.end()) {
-		skillLevel = std::min<int32_t>(it->second, skillLevel);
-	}
-
-	// Wheel of destiny
-	if (skill == SKILL_FIST) {
-		skillLevel += m_wheelPlayer.getStat(WheelStat_t::FIST);
-	} else if (skill >= SKILL_CLUB && skill <= SKILL_AXE) {
-		skillLevel += m_wheelPlayer.getStat(WheelStat_t::MELEE);
-	} else if (skill == SKILL_DISTANCE) {
-		skillLevel += m_wheelPlayer.getMajorStatConditional("Positional Tactics", WheelMajor_t::DISTANCE);
-		skillLevel += m_wheelPlayer.getStat(WheelStat_t::DISTANCE);
-	} else if (skill == SKILL_SHIELD) {
-		skillLevel += m_wheelPlayer.getMajorStatConditional("Battle Instinct", WheelMajor_t::SHIELD);
-	} else if (skill == SKILL_LIFE_LEECH_AMOUNT) {
-		skillLevel += m_wheelPlayer.getStat(WheelStat_t::LIFE_LEECH);
-	} else if (skill == SKILL_MANA_LEECH_AMOUNT) {
-		skillLevel += m_wheelPlayer.getStat(WheelStat_t::MANA_LEECH);
-	} else if (skill == SKILL_CRITICAL_HIT_DAMAGE) {
-		skillLevel += m_wheelPlayer.getStat(WheelStat_t::CRITICAL_DAMAGE);
-		skillLevel += m_wheelPlayer.getMajorStatConditional("Combat Mastery", WheelMajor_t::CRITICAL_DMG_2);
-		skillLevel += m_wheelPlayer.getMajorStatConditional("Ballistic Mastery", WheelMajor_t::CRITICAL_DMG);
-		skillLevel += m_wheelPlayer.checkAvatarSkill(WheelAvatarSkill_t::CRITICAL_DAMAGE);
-		skillLevel += m_weaponProficiency.getGeneralCritical().damage * 10000;
-	} else if (skill == SKILL_CRITICAL_HIT_CHANCE) {
-		skillLevel += m_weaponProficiency.getGeneralCritical().chance * 10000;
-	}
-
-	// Weapon proficiency
-	const auto weaponProficiencySkill = m_weaponProficiency.getSkillBonus(skill);
-	skillLevel += weaponProficiencySkill;
-
-	const int32_t avatarCritChance = m_wheelPlayer.checkAvatarSkill(WheelAvatarSkill_t::CRITICAL_CHANCE);
-	if (skill == SKILL_CRITICAL_HIT_CHANCE && avatarCritChance > 0) {
-		skillLevel = avatarCritChance; // 100%
-	}
-
-	return std::min<uint16_t>(std::numeric_limits<uint16_t>::max(), std::max<uint16_t>(0, static_cast<uint16_t>(skillLevel)));
+uint16_t Player::getSkillLevel(skills_t skill) const  {
+	return m_experienceComponent.getSkillLevel(skill);
 }
 
 bool Player::isAccessPlayer() const {
@@ -9428,6 +9051,14 @@ PlayerStashComponent &Player::stashComponent() {
 
 const PlayerStashComponent &Player::stashComponent() const {
 	return m_stashComponent;
+}
+
+PlayerExperienceComponent &Player::experienceComponent() {
+	return m_experienceComponent;
+}
+
+const PlayerExperienceComponent &Player::experienceComponent() const {
+	return m_experienceComponent;
 }
 
 void Player::sendLootMessage(const std::string &message) const {
