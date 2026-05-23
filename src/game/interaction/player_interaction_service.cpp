@@ -9,8 +9,11 @@
 
 #include "game/interaction/player_interaction_service.hpp"
 #include "config/configmanager.hpp"
+#include "creatures/creatures_definitions.hpp"
+#include "creatures/players/imbuements/imbuements.hpp"
 #include "creatures/players/player.hpp"
 #include "game/game.hpp"
+#include "io/iologindata.hpp"
 #include "items/containers/container.hpp"
 #include "items/item.hpp"
 #include "items/items.hpp"
@@ -1271,5 +1274,166 @@ void PlayerInteractionService::playerUpdateHouseWindow(uint32_t playerId, uint8_
 	}
 
 	player->setEditHouse(nullptr);
+}
+
+void PlayerInteractionService::playerApplyImbuement(uint32_t playerId, uint16_t imbuementid, uint8_t slot) {
+	const auto &player = game_.getPlayerByID(playerId);
+	if (!player) {
+		return;
+	}
+
+	if (player->isUIExhausted()) {
+		player->sendCancelMessage(RETURNVALUE_YOUAREEXHAUSTED);
+		return;
+	}
+
+	player->updateUIExhausted();
+
+	Imbuement* imbuement = g_imbuements().getImbuement(imbuementid);
+	if (!imbuement) {
+		return;
+	}
+
+	if (!player->hasImbuingItem()) {
+		player->createScrollImbuement(imbuement);
+		return;
+	}
+
+	const auto &item = player->imbuingItem;
+	if (!item) {
+		return;
+	}
+
+	if (item->getTopParent() != player) {
+		g_logger().error("[PlayerInteractionService::playerApplyImbuement] - An error occurred while player with name {} try to apply imbuement", player->getName());
+		player->sendImbuementResult("An error has occurred, reopen the imbuement window. If the problem persists, contact your administrator.");
+		return;
+	}
+
+	player->onApplyImbuement(imbuement, item, slot);
+}
+
+void PlayerInteractionService::playerClearImbuement(uint32_t playerid, uint8_t slot) {
+	const auto &player = game_.getPlayerByID(playerid);
+	if (!player) {
+		return;
+	}
+
+	if (player->isUIExhausted()) {
+		player->sendCancelMessage(RETURNVALUE_YOUAREEXHAUSTED);
+		return;
+	}
+
+	player->updateUIExhausted();
+
+	if (!player->hasImbuingItem()) {
+		return;
+	}
+
+	const auto &item = player->imbuingItem;
+	if (!item) {
+		return;
+	}
+
+	player->onClearImbuement(item, slot);
+}
+
+void PlayerInteractionService::playerCloseImbuementWindow(uint32_t playerid) {
+	const auto &player = game_.getPlayerByID(playerid);
+	if (!player) {
+		return;
+	}
+
+	player->setImbuingItem(nullptr);
+}
+
+void PlayerInteractionService::playerRequestInventoryImbuements(uint32_t playerId, bool isTrackerOpen) {
+	const auto &player = game_.getPlayerByID(playerId);
+	if (!player || player->isRemoved()) {
+		return;
+	}
+
+	player->imbuementTrackerWindowOpen = isTrackerOpen;
+	if (!player->imbuementTrackerWindowOpen) {
+		return;
+	}
+
+	std::map<Slots_t, std::shared_ptr<Item>> itemsWithImbueSlotMap;
+	for (uint8_t inventorySlot = CONST_SLOT_FIRST; inventorySlot <= CONST_SLOT_LAST; ++inventorySlot) {
+		const auto &item = player->getInventoryItem(static_cast<Slots_t>(inventorySlot));
+		if (!item) {
+			continue;
+		}
+
+		uint8_t imbuementSlot = item->getImbuementSlot();
+		for (uint8_t slot = 0; slot < imbuementSlot; slot++) {
+			ImbuementInfo imbuementInfo;
+			if (!item->getImbuementInfo(slot, &imbuementInfo)) {
+				continue;
+			}
+		}
+
+		itemsWithImbueSlotMap[static_cast<Slots_t>(inventorySlot)] = item;
+	}
+
+	player->sendInventoryImbuements(itemsWithImbueSlotMap);
+}
+
+void PlayerInteractionService::playerRequestAddVip(uint32_t playerId, const std::string &name) {
+	if (name.length() > 25) {
+		return;
+	}
+
+	const auto &player = game_.getPlayerByID(playerId);
+	if (!player) {
+		return;
+	}
+
+	std::shared_ptr<Player> vipPlayer = game_.getPlayerByName(name);
+	if (!vipPlayer) {
+		uint32_t guid;
+		bool specialVip;
+		std::string formattedName = name;
+		if (!IOLoginData::getGuidByNameEx(guid, specialVip, formattedName)) {
+			player->sendTextMessage(MESSAGE_FAILURE, "A player with this name does not exist.");
+			return;
+		}
+
+		if (specialVip && !player->hasFlag(PlayerFlags_t::SpecialVIP)) {
+			player->sendTextMessage(MESSAGE_FAILURE, "You can not add this player");
+			return;
+		}
+
+		player->vip().add(guid, formattedName, VipStatus_t::Offline);
+	} else {
+		if (vipPlayer->hasFlag(PlayerFlags_t::SpecialVIP) && !player->hasFlag(PlayerFlags_t::SpecialVIP)) {
+			player->sendTextMessage(MESSAGE_FAILURE, "You can not add this player");
+			return;
+		}
+
+		if (!vipPlayer->isInGhostMode() || player->isAccessPlayer()) {
+			player->vip().add(vipPlayer->getGUID(), vipPlayer->getName(), vipPlayer->vip().getStatus());
+		} else {
+			player->vip().add(vipPlayer->getGUID(), vipPlayer->getName(), VipStatus_t::Offline);
+		}
+	}
+}
+
+void PlayerInteractionService::playerRequestRemoveVip(uint32_t playerId, uint32_t guid) {
+	const auto &player = game_.getPlayerByID(playerId);
+	if (!player) {
+		return;
+	}
+
+	player->vip().remove(guid);
+}
+
+void PlayerInteractionService::playerRequestEditVip(uint32_t playerId, uint32_t guid, const std::string &description, uint32_t icon, bool notify, std::vector<uint8_t> vipGroupsId) {
+	const auto &player = game_.getPlayerByID(playerId);
+	if (!player) {
+		return;
+	}
+
+	player->vip().edit(guid, description, icon, notify, vipGroupsId);
 }
 

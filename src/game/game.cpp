@@ -1938,132 +1938,27 @@ void Game::playerSetFightModes(uint32_t playerId, FightMode_t fightMode, bool ch
 }
 
 void Game::playerRequestAddVip(uint32_t playerId, const std::string &name) {
-	if (name.length() > 25) {
-		return;
-	}
-
-	const auto &player = getPlayerByID(playerId);
-	if (!player) {
-		return;
-	}
-
-	std::shared_ptr<Player> vipPlayer = getPlayerByName(name);
-	if (!vipPlayer) {
-		uint32_t guid;
-		bool specialVip;
-		std::string formattedName = name;
-		if (!IOLoginData::getGuidByNameEx(guid, specialVip, formattedName)) {
-			player->sendTextMessage(MESSAGE_FAILURE, "A player with this name does not exist.");
-			return;
-		}
-
-		if (specialVip && !player->hasFlag(PlayerFlags_t::SpecialVIP)) {
-			player->sendTextMessage(MESSAGE_FAILURE, "You can not add this player");
-			return;
-		}
-
-		player->vip().add(guid, formattedName, VipStatus_t::Offline);
-	} else {
-		if (vipPlayer->hasFlag(PlayerFlags_t::SpecialVIP) && !player->hasFlag(PlayerFlags_t::SpecialVIP)) {
-			player->sendTextMessage(MESSAGE_FAILURE, "You can not add this player");
-			return;
-		}
-
-		if (!vipPlayer->isInGhostMode() || player->isAccessPlayer()) {
-			player->vip().add(vipPlayer->getGUID(), vipPlayer->getName(), vipPlayer->vip().getStatus());
-		} else {
-			player->vip().add(vipPlayer->getGUID(), vipPlayer->getName(), VipStatus_t::Offline);
-		}
-	}
+	m_interactionService->playerRequestAddVip(playerId, name);
 }
 
 void Game::playerRequestRemoveVip(uint32_t playerId, uint32_t guid) {
-	const auto &player = getPlayerByID(playerId);
-	if (!player) {
-		return;
-	}
-
-	player->vip().remove(guid);
+	m_interactionService->playerRequestRemoveVip(playerId, guid);
 }
 
 void Game::playerRequestEditVip(uint32_t playerId, uint32_t guid, const std::string &description, uint32_t icon, bool notify, std::vector<uint8_t> vipGroupsId) {
-	const auto &player = getPlayerByID(playerId);
-	if (!player) {
-		return;
-	}
-
-	player->vip().edit(guid, description, icon, notify, vipGroupsId);
+	m_interactionService->playerRequestEditVip(playerId, guid, description, icon, notify, vipGroupsId);
 }
 
 void Game::playerApplyImbuement(uint32_t playerId, uint16_t imbuementid, uint8_t slot) {
-	const auto &player = getPlayerByID(playerId);
-	if (!player) {
-		return;
-	}
-
-	if (player->isUIExhausted()) {
-		player->sendCancelMessage(RETURNVALUE_YOUAREEXHAUSTED);
-		return;
-	}
-
-	player->updateUIExhausted();
-
-	Imbuement* imbuement = g_imbuements().getImbuement(imbuementid);
-	if (!imbuement) {
-		return;
-	}
-
-	if (!player->hasImbuingItem()) {
-		player->createScrollImbuement(imbuement);
-		return;
-	}
-
-	const auto &item = player->imbuingItem;
-	if (!item) {
-		return;
-	}
-
-	if (item->getTopParent() != player) {
-		g_logger().error("[Game::playerApplyImbuement] - An error occurred while player with name {} try to apply imbuement", player->getName());
-		player->sendImbuementResult("An error has occurred, reopen the imbuement window. If the problem persists, contact your administrator.");
-		return;
-	}
-
-	player->onApplyImbuement(imbuement, item, slot);
+	m_interactionService->playerApplyImbuement(playerId, imbuementid, slot);
 }
 
 void Game::playerClearImbuement(uint32_t playerid, uint8_t slot) {
-	const auto &player = getPlayerByID(playerid);
-	if (!player) {
-		return;
-	}
-
-	if (player->isUIExhausted()) {
-		player->sendCancelMessage(RETURNVALUE_YOUAREEXHAUSTED);
-		return;
-	}
-
-	player->updateUIExhausted();
-
-	if (!player->hasImbuingItem()) {
-		return;
-	}
-
-	const auto &item = player->imbuingItem;
-	if (!item) {
-		return;
-	}
-
-	player->onClearImbuement(item, slot);
+	m_interactionService->playerClearImbuement(playerid, slot);
 }
 
 void Game::playerCloseImbuementWindow(uint32_t playerid) {
-	const auto &player = getPlayerByID(playerid);
-	if (!player) {
-		return;
-	}
-
-	player->setImbuingItem(nullptr);
+	m_interactionService->playerCloseImbuementWindow(playerid);
 }
 
 void Game::playerTurn(uint32_t playerId, Direction dir) {
@@ -3652,35 +3547,7 @@ void Game::playerRotatePodium(uint32_t playerId, const Position &pos, uint8_t st
 }
 
 void Game::playerRequestInventoryImbuements(uint32_t playerId, bool isTrackerOpen) {
-	const auto &player = getPlayerByID(playerId);
-	if (!player || player->isRemoved()) {
-		return;
-	}
-
-	player->imbuementTrackerWindowOpen = isTrackerOpen;
-	if (!player->imbuementTrackerWindowOpen) {
-		return;
-	}
-
-	std::map<Slots_t, std::shared_ptr<Item>> itemsWithImbueSlotMap;
-	for (uint8_t inventorySlot = CONST_SLOT_FIRST; inventorySlot <= CONST_SLOT_LAST; ++inventorySlot) {
-		const auto &item = player->getInventoryItem(static_cast<Slots_t>(inventorySlot));
-		if (!item) {
-			continue;
-		}
-
-		uint8_t imbuementSlot = item->getImbuementSlot();
-		for (uint8_t slot = 0; slot < imbuementSlot; slot++) {
-			ImbuementInfo imbuementInfo;
-			if (!item->getImbuementInfo(slot, &imbuementInfo)) {
-				continue;
-			}
-		}
-
-		itemsWithImbueSlotMap[static_cast<Slots_t>(inventorySlot)] = item;
-	}
-
-	player->sendInventoryImbuements(itemsWithImbueSlotMap);
+	m_interactionService->playerRequestInventoryImbuements(playerId, isTrackerOpen);
 }
 
 void Game::playerOpenWheel(uint32_t playerId, uint32_t ownerId) {

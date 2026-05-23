@@ -12,6 +12,7 @@
 #include <cstdint>
 #include <memory>
 #include <string>
+#include <vector>
 
 class Game;
 class IConfigManager;
@@ -49,6 +50,15 @@ public:
 	void playerStashWithdraw(uint32_t playerId, uint16_t itemId, uint32_t count, uint8_t stackpos);
 	void playerSeekInContainer(uint32_t playerId, uint8_t containerId, uint16_t index, uint8_t containerCategory);
 	void playerUpdateHouseWindow(uint32_t playerId, uint8_t listId, uint32_t windowTextId, const std::string &text);
+
+	void playerApplyImbuement(uint32_t playerId, uint16_t imbuementid, uint8_t slot);
+	void playerClearImbuement(uint32_t playerid, uint8_t slot);
+	void playerCloseImbuementWindow(uint32_t playerid);
+	void playerRequestInventoryImbuements(uint32_t playerId, bool isTrackerOpen);
+
+	void playerRequestAddVip(uint32_t playerId, const std::string &name);
+	void playerRequestRemoveVip(uint32_t playerId, uint32_t guid);
+	void playerRequestEditVip(uint32_t playerId, uint32_t guid, const std::string &description, uint32_t icon, bool notify, std::vector<uint8_t> vipGroupsId);
 
 private:
 	Game &game_;
