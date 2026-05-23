@@ -215,6 +215,8 @@ Game::Game() :
 	m_interactionService(std::make_unique<PlayerInteractionService>(*this, g_configManager())),
 	m_chatService(std::make_unique<ChatService>(*this, g_configManager())),
 	m_forgeService(std::make_unique<ForgeService>(*this, g_configManager())),
+	m_outfitService(std::make_unique<OutfitService>(*this, g_configManager())),
+	m_cyclopediaService(std::make_unique<CyclopediaService>(*this, g_configManager())),
 	m_soundService(std::make_unique<SoundService>()) {
 	[[maybe_unused]] auto &[choices1_text, choices1_value] = offlineTrainingWindow.choices.emplace_back("Fist Fighting and Shielding", SKILL_FIST);
 	[[maybe_unused]] auto &[choices2_text, choices2_value] = offlineTrainingWindow.choices.emplace_back("Sword Fighting and Shielding", SKILL_SWORD);
@@ -1961,6 +1963,10 @@ void Game::playerCloseImbuementWindow(uint32_t playerid) {
 	m_interactionService->playerCloseImbuementWindow(playerid);
 }
 
+void Game::playerRequestInventoryImbuements(uint32_t playerId, bool isTrackerOpen) {
+	m_interactionService->playerRequestInventoryImbuements(playerId, isTrackerOpen);
+}
+
 void Game::playerTurn(uint32_t playerId, Direction dir) {
 	const auto &player = getPlayerByID(playerId);
 	if (!player) {
@@ -2002,169 +2008,13 @@ void Game::playerToggleMount(uint32_t playerId, bool mount) {
 	player->toggleMount(mount);
 }
 
-void Game::playerChangeOutfit(uint32_t playerId, Outfit_t outfit, bool setMount, uint8_t isMountRandomized /* = 0*/) {
-	if (!g_configManager().getBoolean(ALLOW_CHANGEOUTFIT)) {
-		return;
-	}
-
-	const auto &player = getPlayerByID(playerId);
-	playerChangeOutfit(player, outfit, setMount, isMountRandomized);
+void Game::playerChangeOutfit(uint32_t playerId, Outfit_t outfit, bool setMount, uint8_t isMountRandomized) {
+	m_outfitService->playerChangeOutfit(playerId, outfit, setMount, isMountRandomized);
 }
 
-void Game::playerChangeOutfit(const std::shared_ptr<Player> &player, Outfit_t outfit, bool setMount, uint8_t isMountRandomized /* = 0*/) {
-	if (!player) {
-		return;
-	}
-
-	if (player->isWearingSupportOutfit()) {
-		outfit.lookMount = 0;
-		isMountRandomized = 0;
-	}
-
-	player->setRandomMount(isMountRandomized);
-
-	if (isMountRandomized && setMount && player->hasAnyMount()) {
-		outfit.lookMount = resolveRandomMountClientId(*mounts, player->getRandomMountId());
-		if (outfit.lookMount == 0) {
-			isMountRandomized = 0;
-			player->setRandomMount(0);
-		}
-	}
-
-	const auto playerOutfit = Outfits::getInstance().getOutfitByLookType(player, outfit.lookType);
-	if (!playerOutfit || !setMount) {
-		outfit.lookMount = 0;
-		isMountRandomized = 0;
-		player->setRandomMount(0);
-	}
-
-	if (outfit.lookMount != 0 && !outfitSupportsMount(outfit.lookType)) {
-		outfit.lookMount = 0;
-		isMountRandomized = 0;
-		player->setRandomMount(0);
-	}
-
-	if (outfit.lookMount != 0) {
-		const auto mount = mounts->getMountByClientID(outfit.lookMount);
-		if (!mount) {
-			return;
-		}
-
-		if (!player->hasMount(mount)) {
-			return;
-		}
-
-		std::shared_ptr<Tile> playerTile = player->getTile();
-		if (!playerTile) {
-			return;
-		}
-
-		const bool blockedInProtectionZone = !g_configManager().getBoolean(TOGGLE_MOUNT_IN_PZ) && playerTile->hasFlag(TILESTATE_PROTECTIONZONE);
-		if (blockedInProtectionZone) {
-			outfit.lookMount = 0;
-		} else {
-			auto deltaSpeedChange = mount->speed;
-			const auto prevMount = player->isMounted() ? mounts->getMountByID(player->getCurrentMount()) : nullptr;
-
-			if (prevMount) {
-				deltaSpeedChange -= prevMount->speed;
-			}
-			changeSpeed(player, deltaSpeedChange);
-		}
-
-		player->setCurrentMount(mount->id);
-
-	} else if (player->isMounted()) {
-		player->dismount();
-	}
-
-	if (player->canWear(outfit.lookType, outfit.lookAddons)) {
-		player->defaultOutfit = outfit;
-
-		if (player->hasCondition(CONDITION_OUTFIT)) {
-			return;
-		}
-
-		internalCreatureChangeOutfit(player, outfit);
-	}
-
-	auto &playerAttachedEffects = player->attachedEffects();
-	// Wings
-	if (outfit.lookWing != 0) {
-		const auto &wing = m_attachedEffects->getWingByID(outfit.lookWing);
-		if (!wing) {
-			return;
-		}
-
-		player->detachEffectById(playerAttachedEffects.getCurrentWing());
-		playerAttachedEffects.setCurrentWing(wing->id);
-		player->attachEffectById(wing->id);
-	} else {
-		if (playerAttachedEffects.isWinged()) {
-			playerAttachedEffects.diswing();
-		}
-		player->detachEffectById(playerAttachedEffects.getCurrentWing());
-		playerAttachedEffects.setWasWinged(false);
-	}
-	// Effect
-	if (outfit.lookEffect != 0) {
-		const auto &effect = m_attachedEffects->getEffectByID(outfit.lookEffect);
-		if (!effect) {
-			return;
-		}
-
-		player->detachEffectById(playerAttachedEffects.getCurrentEffect());
-		playerAttachedEffects.setCurrentEffect(effect->id);
-		player->attachEffectById(effect->id);
-	} else {
-		if (playerAttachedEffects.isEffected()) {
-			playerAttachedEffects.diseffect();
-		}
-		player->detachEffectById(playerAttachedEffects.getCurrentEffect());
-		playerAttachedEffects.setWasEffected(false);
-	}
-
-	// Aura
-	if (outfit.lookAura != 0) {
-		const auto &aura = m_attachedEffects->getAuraByID(outfit.lookAura);
-		if (!aura) {
-			return;
-		}
-
-		player->detachEffectById(playerAttachedEffects.getCurrentAura());
-		playerAttachedEffects.setCurrentAura(aura->id);
-		player->attachEffectById(aura->id);
-	} else {
-		if (playerAttachedEffects.isAuraed()) {
-			playerAttachedEffects.disaura();
-		}
-		player->detachEffectById(playerAttachedEffects.getCurrentAura());
-		playerAttachedEffects.setWasAuraed(false);
-	}
-	// Shaders
-	if (outfit.lookShader != 0) {
-		const auto &shaderPtr = m_attachedEffects->getShaderByID(outfit.lookShader);
-		if (!shaderPtr) {
-			return;
-		}
-		Shader* shader = shaderPtr.get();
-
-		if (!playerAttachedEffects.hasShader(shader)) {
-			return;
-		}
-
-		playerAttachedEffects.setCurrentShader(shader->id);
-		playerAttachedEffects.sendShader(player, shader->name);
-
-	} else {
-		if (playerAttachedEffects.isShadered()) {
-			playerAttachedEffects.disshader();
-		}
-		playerAttachedEffects.sendShader(player, "Outfit - Default");
-		playerAttachedEffects.setWasShadered(false);
-	}
+void Game::playerChangeOutfit(const std::shared_ptr<Player> &player, Outfit_t outfit, bool setMount, uint8_t isMountRandomized) {
+	m_outfitService->playerChangeOutfit(player, outfit, setMount, isMountRandomized);
 }
-
 void Game::playerShowQuestLog(uint32_t playerId) {
 	const auto &player = getPlayerByID(playerId);
 	if (!player) {
@@ -2373,26 +2223,8 @@ void Game::changePlayerSpeed(const std::shared_ptr<Player> &player, int32_t varS
 }
 
 void Game::internalCreatureChangeOutfit(const std::shared_ptr<Creature> &creature, const Outfit_t &outfit) {
-	if (!g_events().eventCreatureOnChangeOutfit(creature, outfit)) {
-		return;
-	}
-
-	if (!g_callbacks().checkCallback(EventCallback_t::creatureOnChangeOutfit, creature, outfit)) {
-		return;
-	}
-
-	creature->setCurrentOutfit(outfit);
-
-	if (creature->isInvisible()) {
-		return;
-	}
-
-	// Send to clients
-	for (const auto &spectator : Spectators().find<Player>(creature->getPosition(), true)) {
-		spectator->getPlayer()->sendCreatureChangeOutfit(creature, outfit);
-	}
+	m_outfitService->internalCreatureChangeOutfit(creature, outfit);
 }
-
 void Game::internalCreatureChangeVisible(const std::shared_ptr<Creature> &creature, bool visible) {
 	// Send to clients
 	for (const auto &spectator : Spectators().find<Player>(creature->getPosition(), true)) {
@@ -2972,72 +2804,8 @@ void Game::playerFriendSystemAction(const std::shared_ptr<Player> &player, uint8
 }
 
 void Game::playerCyclopediaCharacterInfo(const std::shared_ptr<Player> &player, uint32_t characterID, CyclopediaCharacterInfoType_t characterInfoType, uint16_t entriesPerPage, uint16_t page) {
-	uint32_t playerID = player->getID();
-	if (playerID != characterID) {
-		// For now allow viewing only our character since we don't have tournaments supported
-		player->sendCyclopediaCharacterNoData(characterInfoType, 2);
-		return;
-	}
-
-	switch (characterInfoType) {
-		case CYCLOPEDIA_CHARACTERINFO_BASEINFORMATION:
-			player->sendCyclopediaCharacterBaseInformation();
-			break;
-		case CYCLOPEDIA_CHARACTERINFO_GENERALSTATS:
-			player->sendCyclopediaCharacterGeneralStats();
-			break;
-		case CYCLOPEDIA_CHARACTERINFO_RECENTDEATHS:
-			player->cyclopedia().loadDeathHistory(page, entriesPerPage);
-			break;
-		case CYCLOPEDIA_CHARACTERINFO_RECENTPVPKILLS:
-			player->cyclopedia().loadRecentKills(page, entriesPerPage);
-			break;
-		case CYCLOPEDIA_CHARACTERINFO_ACHIEVEMENTS:
-			player->achiev().sendUnlockedSecretAchievements();
-			break;
-		case CYCLOPEDIA_CHARACTERINFO_ITEMSUMMARY: {
-			const ItemsTierCountList &inventoryItems = player->getInventoryItemsId(true);
-			const ItemsTierCountList &storeInboxItems = player->getStoreInboxItemsId();
-			const StashItemList &stashItems = player->getStashItems();
-			const ItemsTierCountList &depotBoxItems = player->getDepotChestItemsId();
-			const ItemsTierCountList &inboxItems = player->getDepotInboxItemsId();
-
-			player->sendCyclopediaCharacterItemSummary(inventoryItems, storeInboxItems, stashItems, depotBoxItems, inboxItems);
-			break;
-		}
-		case CYCLOPEDIA_CHARACTERINFO_OUTFITSMOUNTS:
-			player->sendCyclopediaCharacterOutfitsMounts();
-			break;
-		case CYCLOPEDIA_CHARACTERINFO_STORESUMMARY:
-			player->sendCyclopediaCharacterStoreSummary();
-			break;
-		case CYCLOPEDIA_CHARACTERINFO_INSPECTION:
-			player->sendCyclopediaCharacterInspection();
-			break;
-		case CYCLOPEDIA_CHARACTERINFO_BADGES:
-			player->sendCyclopediaCharacterBadges();
-			break;
-		case CYCLOPEDIA_CHARACTERINFO_TITLES:
-			player->sendCyclopediaCharacterTitles();
-			break;
-		case CYCLOPEDIA_CHARACTERINFO_WHEEL:
-			playerOpenWheel(playerID, characterID);
-			break;
-		case CYCLOPEDIA_CHARACTERINFO_OFFENCESTATS:
-			player->sendCyclopediaCharacterOffenceStats();
-			break;
-		case CYCLOPEDIA_CHARACTERINFO_DEFENCESTATS:
-			player->sendCyclopediaCharacterDefenceStats();
-			break;
-		case CYCLOPEDIA_CHARACTERINFO_MISCSTATS:
-			player->sendCyclopediaCharacterMiscStats();
-			break;
-		default:
-			player->sendCyclopediaCharacterNoData(characterInfoType, 1);
-			break;
-	}
+	m_cyclopediaService->playerCyclopediaCharacterInfo(player, characterID, characterInfoType, entriesPerPage, page);
 }
-
 std::string Game::generateHighscoreQuery(
 	const std::string &categoryName,
 	uint32_t page,
@@ -3347,207 +3115,10 @@ void Game::playerBosstiarySlot(uint32_t playerId, uint8_t slotId, uint32_t selec
 }
 
 void Game::playerSetMonsterPodium(uint32_t playerId, uint32_t monsterRaceId, const Position &pos, uint8_t stackPos, const uint16_t itemId, uint8_t direction, const std::pair<uint8_t, uint8_t> &podiumAndMonsterVisible) {
-	const auto &player = getPlayerByID(playerId);
-	if (!player || pos.x == 0xFFFF) {
-		return;
-	}
-
-	const std::shared_ptr<Thing> &thing = internalGetThing(player, pos, stackPos, itemId, STACKPOS_TOPDOWN_ITEM);
-	if (!thing) {
-		return;
-	}
-
-	const auto &item = thing->getItem();
-	if (!item || item->getID() != itemId || !item->isPodium() || item->hasAttribute(ItemAttribute_t::UNIQUEID)) {
-		player->sendCancelMessage(RETURNVALUE_NOTPOSSIBLE);
-		return;
-	}
-
-	const auto &tile = item->getParent() ? item->getParent()->getTile() : nullptr;
-	if (!tile) {
-		player->sendCancelMessage(RETURNVALUE_NOTPOSSIBLE);
-		return;
-	}
-
-	if (!Position::areInRange<1, 1, 0>(pos, player->getPosition())) {
-		if (std::vector<Direction> listDir;
-		    player->getPathTo(pos, listDir, 0, 1, true, false)) {
-			g_dispatcher().addEvent([this, playerId = player->getID(), listDir] { playerAutoWalk(playerId, listDir); }, __FUNCTION__);
-			const auto &task = createPlayerTask(
-				400,
-				[this, playerId, pos] {
-					playerBrowseField(playerId, pos);
-				},
-				__FUNCTION__
-			);
-			player->setNextWalkActionTask(task);
-		} else {
-			player->sendCancelMessage(RETURNVALUE_THEREISNOWAY);
-		}
-		return;
-	}
-
-	if (player->isUIExhausted()) {
-		player->sendCancelMessage(RETURNVALUE_YOUAREEXHAUSTED);
-		return;
-	}
-
-	if (g_configManager().getBoolean(ONLY_INVITED_CAN_MOVE_HOUSE_ITEMS) && !InternalGame::playerCanUseItemOnHouseTile(player, item)) {
-		player->sendCancelMessage(RETURNVALUE_NOTPOSSIBLE);
-		return;
-	}
-
-	if (monsterRaceId != 0) {
-		item->setCustomAttribute("PodiumMonsterRaceId", static_cast<int64_t>(monsterRaceId));
-	} else if (auto podiumMonsterRace = item->getCustomAttribute("PodiumMonsterRaceId")) {
-		monsterRaceId = static_cast<uint32_t>(podiumMonsterRace->getInteger());
-	}
-
-	const auto mType = g_monsters().getMonsterTypeByRaceId(static_cast<uint16_t>(monsterRaceId), itemId == ITEM_PODIUM_OF_VIGOUR);
-	if (!mType) {
-		player->sendCancelMessage(RETURNVALUE_NOTPOSSIBLE);
-		g_logger().debug("[{}] player {} is trying to add invalid monster to podium {}", __FUNCTION__, player->getName(), item->getName());
-		return;
-	}
-
-	const auto [podiumVisible, monsterVisible] = podiumAndMonsterVisible;
-	bool changeTentuglyName = false;
-	if (auto monsterOutfit = mType->info.outfit;
-	    (monsterOutfit.lookType != 0 || monsterOutfit.lookTypeEx != 0) && monsterVisible) {
-		// "Tantugly's Head" boss have to send other looktype to the podium
-		if (monsterOutfit.lookTypeEx == 35105) {
-			monsterOutfit.lookTypeEx = 39003;
-			changeTentuglyName = true;
-		}
-		item->setCustomAttribute("LookTypeEx", static_cast<int64_t>(monsterOutfit.lookTypeEx));
-		item->setCustomAttribute("LookType", static_cast<int64_t>(monsterOutfit.lookType));
-		item->setCustomAttribute("LookHead", static_cast<int64_t>(monsterOutfit.lookHead));
-		item->setCustomAttribute("LookBody", static_cast<int64_t>(monsterOutfit.lookBody));
-		item->setCustomAttribute("LookLegs", static_cast<int64_t>(monsterOutfit.lookLegs));
-		item->setCustomAttribute("LookFeet", static_cast<int64_t>(monsterOutfit.lookFeet));
-		item->setCustomAttribute("LookAddons", static_cast<int64_t>(monsterOutfit.lookAddons));
-	} else {
-		item->removeCustomAttribute("LookType");
-	}
-
-	item->setCustomAttribute("PodiumVisible", static_cast<int64_t>(podiumVisible));
-	item->setCustomAttribute("LookDirection", static_cast<int64_t>(direction));
-	item->setCustomAttribute("MonsterVisible", static_cast<int64_t>(monsterVisible));
-
-	// Change Podium name
-	if (monsterVisible) {
-		std::ostringstream name;
-		item->removeAttribute(ItemAttribute_t::NAME);
-		name << item->getName() << " displaying ";
-		if (changeTentuglyName) {
-			name << "Tentugly";
-		} else {
-			name << mType->name;
-		}
-		item->setAttribute(ItemAttribute_t::NAME, name.str());
-	} else {
-		item->removeAttribute(ItemAttribute_t::NAME);
-	}
-
-	for (const auto &spectator : Spectators().find<Player>(pos, true)) {
-		spectator->getPlayer()->sendUpdateTileItem(tile, pos, item);
-	}
-
-	player->updateUIExhausted();
+	m_outfitService->playerSetMonsterPodium(playerId, monsterRaceId, pos, stackPos, itemId, direction, podiumAndMonsterVisible);
 }
-
 void Game::playerRotatePodium(uint32_t playerId, const Position &pos, uint8_t stackPos, const uint16_t itemId) {
-	const auto &player = getPlayerByID(playerId);
-	if (!player) {
-		return;
-	}
-
-	const std::shared_ptr<Thing> &thing = internalGetThing(player, pos, stackPos, itemId, STACKPOS_TOPDOWN_ITEM);
-	if (!thing) {
-		return;
-	}
-
-	const auto &item = thing->getItem();
-	if (!item || item->getID() != itemId || item->hasAttribute(ItemAttribute_t::UNIQUEID)) {
-		player->sendCancelMessage(RETURNVALUE_NOTPOSSIBLE);
-		return;
-	}
-
-	if (pos.x != 0xFFFF && !Position::areInRange<1, 1, 0>(pos, player->getPosition())) {
-		if (std::vector<Direction> listDir;
-		    player->getPathTo(pos, listDir, 0, 1, true, true)) {
-			g_dispatcher().addEvent([this, playerId = player->getID(), listDir] { playerAutoWalk(playerId, listDir); }, __FUNCTION__);
-			const auto &task = createPlayerTask(
-				400,
-				[this, playerId, pos, stackPos, itemId] {
-					playerRotatePodium(playerId, pos, stackPos, itemId);
-				},
-				__FUNCTION__
-			);
-			player->setNextWalkActionTask(task);
-		} else {
-			player->sendCancelMessage(RETURNVALUE_THEREISNOWAY);
-		}
-		return;
-	}
-
-	if (g_configManager().getBoolean(ONLY_INVITED_CAN_MOVE_HOUSE_ITEMS) && !InternalGame::playerCanUseItemOnHouseTile(player, item)) {
-		player->sendCancelMessage(RETURNVALUE_NOTPOSSIBLE);
-		return;
-	}
-
-	auto podiumRaceIdAttribute = item->getCustomAttribute("PodiumMonsterRaceId");
-	auto lookDirection = item->getCustomAttribute("LookDirection");
-	auto podiumVisible = item->getCustomAttribute("PodiumVisible");
-	auto monsterVisible = item->getCustomAttribute("MonsterVisible");
-
-	auto podiumRaceId = podiumRaceIdAttribute ? static_cast<uint16_t>(podiumRaceIdAttribute->getInteger()) : 0;
-	uint8_t directionValue;
-	if (lookDirection) {
-		directionValue = static_cast<uint8_t>(lookDirection->getInteger() >= 3 ? 0 : lookDirection->getInteger() + 1);
-	} else {
-		directionValue = 2;
-	}
-	auto isPodiumVisible = podiumVisible ? static_cast<bool>(podiumVisible->getInteger()) : false;
-	bool isMonsterVisible = monsterVisible ? static_cast<bool>(monsterVisible->getInteger()) : false;
-
-	// Rotate monster podium (bestiary or bosstiary) to the new direction
-	bool isPodiumOfRenown = itemId == ITEM_PODIUM_OF_RENOWN1 || itemId == ITEM_PODIUM_OF_RENOWN2;
-	if (!isPodiumOfRenown) {
-		auto lookTypeExAttribute = item->getCustomAttribute("LookTypeEx");
-		if (!isMonsterVisible || podiumRaceId == 0 || (lookTypeExAttribute && lookTypeExAttribute->getInteger() == 39003)) {
-			player->sendCancelMessage(RETURNVALUE_NOTPOSSIBLE);
-			return;
-		}
-
-		playerSetMonsterPodium(playerId, podiumRaceId, pos, stackPos, itemId, directionValue, std::make_pair(isPodiumVisible, isMonsterVisible));
-		return;
-	}
-
-	// We retrieve the outfit information to be able to rotate the podium of renown in the new direction
-	Outfit_t newOutfit;
-	newOutfit.lookType = InternalGame::getCustomAttributeValue<uint16_t>(item, "LookType");
-	newOutfit.lookAddons = InternalGame::getCustomAttributeValue<uint8_t>(item, "LookAddons");
-	newOutfit.lookHead = InternalGame::getCustomAttributeValue<uint8_t>(item, "LookHead");
-	newOutfit.lookBody = InternalGame::getCustomAttributeValue<uint8_t>(item, "LookBody");
-	newOutfit.lookLegs = InternalGame::getCustomAttributeValue<uint8_t>(item, "LookLegs");
-	newOutfit.lookFeet = InternalGame::getCustomAttributeValue<uint8_t>(item, "LookFeet");
-
-	newOutfit.lookMount = InternalGame::getCustomAttributeValue<uint16_t>(item, "LookMount");
-	newOutfit.lookMountHead = InternalGame::getCustomAttributeValue<uint8_t>(item, "LookMountHead");
-	newOutfit.lookMountBody = InternalGame::getCustomAttributeValue<uint8_t>(item, "LookMountBody");
-	newOutfit.lookMountLegs = InternalGame::getCustomAttributeValue<uint8_t>(item, "LookMountLegs");
-	newOutfit.lookMountFeet = InternalGame::getCustomAttributeValue<uint8_t>(item, "LookMountFeet");
-	if (newOutfit.lookType == 0 && newOutfit.lookMount == 0) {
-		player->sendCancelMessage(RETURNVALUE_NOTPOSSIBLE);
-		return;
-	}
-
-	playerSetShowOffSocket(player->getID(), newOutfit, pos, stackPos, itemId, isPodiumVisible, directionValue);
-}
-
-void Game::playerRequestInventoryImbuements(uint32_t playerId, bool isTrackerOpen) {
-	m_interactionService->playerRequestInventoryImbuements(playerId, isTrackerOpen);
+	m_outfitService->playerRotatePodium(playerId, pos, stackPos, itemId);
 }
 
 void Game::playerOpenWheel(uint32_t playerId, uint32_t ownerId) {
@@ -3997,38 +3568,8 @@ bool Game::addItemStoreInbox(const std::shared_ptr<Player> &player, uint32_t ite
 }
 
 void Game::playerCheckActivity(const std::string &playerName, int interval) {
-	const auto &player = getPlayerByName(playerName);
-	if (!player) {
-		return;
-	}
-
-	if (player->getIP() == 0) {
-		g_game().removeDeadPlayer(playerName);
-		g_logger().info("Player with name '{}' has logged out due to exited in death screen", player->getName());
-		player->disconnect();
-		return;
-	}
-
-	if (!player->isDead() || player->client == nullptr) {
-		return;
-	}
-
-	if (!player->isAccessPlayer()) {
-		player->m_deathTime += interval;
-		const int32_t kickAfterMinutes = g_configManager().getNumber(KICK_AFTER_MINUTES);
-		if (player->m_deathTime > (kickAfterMinutes * 60000) + 60000) {
-			g_game().removeDeadPlayer(playerName);
-			g_logger().info("Player with name '{}' has logged out due to inactivity after death", player->getName());
-			player->disconnect();
-			return;
-		}
-	}
-
-	[[maybe_unused]] auto eventId = g_dispatcher().scheduleEvent(
-		1000, [this, playerName, interval] { playerCheckActivity(playerName, interval); }, "Game::playerCheckActivity"
-	);
+	m_interactionService->playerCheckActivity(playerName, interval);
 }
-
 void Game::playerRewardChestCollect(uint32_t playerId, const Position &pos, uint16_t itemId, uint8_t stackPos, uint32_t maxMoveItems /* = 0*/) {
 	m_lootService->playerRewardChestCollect(playerId, pos, itemId, stackPos, maxMoveItems);
 }
@@ -4297,71 +3838,8 @@ const std::unordered_map<uint16_t, std::string> &Game::getHirelingOutfits() {
 }
 
 void Game::updatePlayersOnline() const {
-	// Function to be executed within the transaction
-	auto updateOperation = [this]() {
-		const auto &m_players = getPlayers();
-
-		// g_metrics().addUpDownCounter("players_online", 1);
-		// g_metrics().addUpDownCounter("players_online", -1);
-
-		if (m_players.empty()) {
-			auto result = g_database().storeQuery("SELECT COUNT(*) AS count FROM players_online;");
-			if (!result) {
-				g_logger().error("[Game::updatePlayersOnline] Failed to count players_online records.");
-				return false;
-			}
-
-			if (result->getNumber<int>("count") == 0) {
-				return true;
-			}
-
-			if (!g_database().executeQuery("DELETE FROM `players_online`;")) {
-				g_logger().error("[Game::updatePlayersOnline] Failed to clear players_online records.");
-				return false;
-			}
-
-			return true;
-		}
-
-		// Insert the current players
-		DBInsert stmt("INSERT IGNORE INTO `players_online` (`player_id`) VALUES ");
-		std::vector<uint32_t> onlinePlayerIds;
-		onlinePlayerIds.reserve(m_players.size());
-
-		for (const auto &player : m_players | std::views::values) {
-			const auto playerGuid = player->getGUID();
-			if (!stmt.addRow(fmt::format("{}", playerGuid))) {
-				g_logger().error("[Game::updatePlayersOnline] Failed to add players_online insert row.");
-				return false;
-			}
-
-			onlinePlayerIds.emplace_back(playerGuid);
-		}
-
-		if (!stmt.execute()) {
-			g_logger().error("[Game::updatePlayersOnline] Failed to insert players_online records.");
-			return false;
-		}
-
-		// Remove players who are no longer online
-		const auto cleanupQuery = fmt::format(
-			"DELETE FROM `players_online` WHERE `player_id` NOT IN ({});",
-			fmt::join(onlinePlayerIds, ",")
-		);
-		if (!g_database().executeQuery(cleanupQuery)) {
-			g_logger().error("[Game::updatePlayersOnline] Failed to prune offline players_online records.");
-			return false;
-		}
-
-		return true;
-	};
-
-	const bool success = DBTransaction::executeWithinTransactionRollbackOnFailure(updateOperation);
-	if (!success) {
-		g_logger().error("[Game::updatePlayersOnline] Failed to update players online.");
-	}
+	m_cyclopediaService->updatePlayersOnline();
 }
-
 void Game::sendAttachedEffect(const std::shared_ptr<Creature> &creature, uint16_t effectId) {
 	auto spectators = Spectators().find<Player>(creature->getPosition(), true);
 	for (const auto &spectator : spectators) {
@@ -4451,356 +3929,32 @@ void Game::refreshItem(const std::shared_ptr<Item> &item) {
 }
 
 void Game::playerCyclopediaHousesByTown(uint32_t playerId, const std::string &townName) {
-	std::shared_ptr<Player> player = getPlayerByID(playerId);
-	if (!player) {
-		return;
-	}
-
-	HouseMap houses;
-	if (!townName.empty()) {
-		const auto &housesList = g_game().map.houses.getHouses();
-		for (const auto &it : housesList) {
-			const auto &house = it.second;
-			const auto &town = g_game().map.towns.getTown(house->getTownId());
-			if (!town) {
-				continue;
-			}
-
-			const std::string &houseTown = town->getName();
-			if (houseTown == townName) {
-				houses.emplace(house->getClientId(), house);
-			}
-		}
-	} else {
-		auto playerHouses = g_game().map.houses.getAllHousesByPlayerId(player->getGUID());
-		if (playerHouses.size()) {
-			for (const auto &playerHouse : playerHouses) {
-				if (!playerHouse) {
-					continue;
-				}
-				houses.emplace(playerHouse->getClientId(), playerHouse);
-			}
-		}
-
-		const auto house = g_game().map.houses.getHouseByBidderName(player->getName());
-		if (house) {
-			houses.emplace(house->getClientId(), house);
-		}
-	}
-	player->sendCyclopediaHouseList(houses);
+	m_cyclopediaService->playerCyclopediaHousesByTown(playerId, townName);
 }
-
 void Game::playerCyclopediaHouseBid(uint32_t playerId, uint32_t houseId, uint64_t bidValue) {
-	if (!g_configManager().getBoolean(CYCLOPEDIA_HOUSE_AUCTION)) {
-		return;
-	}
-
-	std::shared_ptr<Player> player = getPlayerByID(playerId);
-	if (!player) {
-		return;
-	}
-
-	const auto house = g_game().map.houses.getHouseByClientId(houseId);
-	if (!house) {
-		return;
-	}
-
-	auto ret = player->canBidHouse(houseId);
-	if (ret != BidErrorMessage::NoError) {
-		player->sendHouseAuctionMessage(houseId, HouseAuctionType::Bid, enumToValue(ret));
-	}
-	ret = BidErrorMessage::NotEnoughMoney;
-	auto retSuccess = BidSuccessMessage::BidSuccess;
-
-	if (house->getBidderName().empty()) {
-		if (!processBankAuction(player, house, bidValue)) {
-			player->sendHouseAuctionMessage(houseId, HouseAuctionType::Bid, enumToValue(ret));
-			return;
-		}
-		house->setHighestBid(0);
-		house->setInternalBid(bidValue);
-		house->setBidHolderLimit(bidValue);
-		house->setBidderName(player->getName());
-		house->setBidder(player->getGUID());
-		house->calculateBidEndDate(g_configManager().getNumber(DAYS_TO_CLOSE_BID));
-	} else if (house->getBidderName() == player->getName()) {
-		if (!processBankAuction(player, house, bidValue, true)) {
-			player->sendHouseAuctionMessage(houseId, HouseAuctionType::Bid, enumToValue(ret));
-			return;
-		}
-		house->setInternalBid(bidValue);
-		house->setBidHolderLimit(bidValue);
-	} else if (bidValue <= house->getInternalBid()) {
-		house->setHighestBid(bidValue);
-		retSuccess = BidSuccessMessage::LowerBid;
-	} else {
-		if (!processBankAuction(player, house, bidValue)) {
-			player->sendHouseAuctionMessage(houseId, HouseAuctionType::Bid, enumToValue(ret));
-			return;
-		}
-		house->setHighestBid(house->getInternalBid() + 1);
-		house->setInternalBid(bidValue);
-		house->setBidHolderLimit(bidValue);
-		house->setBidderName(player->getName());
-		house->setBidder(player->getGUID());
-	}
-
-	const auto &town = g_game().map.towns.getTown(house->getTownId());
-	if (!town) {
-		return;
-	}
-
-	const std::string houseTown = town->getName();
-	player->sendHouseAuctionMessage(houseId, HouseAuctionType::Bid, enumToValue(retSuccess), true);
-	playerCyclopediaHousesByTown(playerId, houseTown);
+	m_cyclopediaService->playerCyclopediaHouseBid(playerId, houseId, bidValue);
 }
-
 void Game::playerCyclopediaHouseMoveOut(uint32_t playerId, uint32_t houseId, uint32_t timestamp) {
-	if (!g_configManager().getBoolean(CYCLOPEDIA_HOUSE_AUCTION)) {
-		return;
-	}
-
-	std::shared_ptr<Player> player = getPlayerByID(playerId);
-	if (!player) {
-		g_logger().warn("[{}] Player {} not found while handling house auction request.", __FUNCTION__, playerId);
-		return;
-	}
-
-	const auto house = g_game().map.houses.getHouseByClientId(houseId);
-	if (!house || house->getState() != CyclopediaHouseState::Rented) {
-		player->sendHouseAuctionMessage(houseId, HouseAuctionType::MoveOut, enumToValue(TransferErrorMessage::Internal));
-		return;
-	}
-
-	if (house->getOwner() != player->getGUID()) {
-		player->sendHouseAuctionMessage(houseId, HouseAuctionType::MoveOut, enumToValue(TransferErrorMessage::NotHouseOwner));
-		return;
-	}
-
-	house->setBidEndDate(timestamp);
-	house->setState(CyclopediaHouseState::MoveOut);
-
-	player->sendHouseAuctionMessage(houseId, HouseAuctionType::MoveOut, enumToValue(TransferErrorMessage::Success));
-	playerCyclopediaHousesByTown(playerId, "");
+	m_cyclopediaService->playerCyclopediaHouseMoveOut(playerId, houseId, timestamp);
 }
-
 void Game::playerCyclopediaHouseCancelMoveOut(uint32_t playerId, uint32_t houseId) {
-	if (!g_configManager().getBoolean(CYCLOPEDIA_HOUSE_AUCTION)) {
-		return;
-	}
-
-	std::shared_ptr<Player> player = getPlayerByID(playerId);
-	if (!player) {
-		g_logger().warn("[{}] Player {} not found while handling house auction request.", __FUNCTION__, playerId);
-		return;
-	}
-
-	const auto house = g_game().map.houses.getHouseByClientId(houseId);
-	if (!house || house->getState() != CyclopediaHouseState::MoveOut) {
-		player->sendHouseAuctionMessage(houseId, HouseAuctionType::CancelMoveOut, enumToValue(TransferErrorMessage::Internal));
-		return;
-	}
-
-	if (house->getOwner() != player->getGUID()) {
-		player->sendHouseAuctionMessage(houseId, HouseAuctionType::CancelMoveOut, enumToValue(TransferErrorMessage::NotHouseOwner));
-		return;
-	}
-
-	house->setBidEndDate(0);
-	house->setState(CyclopediaHouseState::Rented);
-
-	player->sendHouseAuctionMessage(houseId, HouseAuctionType::CancelMoveOut, enumToValue(TransferErrorMessage::Success));
-	playerCyclopediaHousesByTown(playerId, "");
+	m_cyclopediaService->playerCyclopediaHouseCancelMoveOut(playerId, houseId);
 }
-
 void Game::playerCyclopediaHouseTransfer(uint32_t playerId, uint32_t houseId, uint32_t timestamp, const std::string &newOwnerName, uint64_t bidValue) {
-	if (!g_configManager().getBoolean(CYCLOPEDIA_HOUSE_AUCTION)) {
-		return;
-	}
-
-	const std::shared_ptr<Player> &owner = getPlayerByID(playerId);
-	if (!owner) {
-		g_logger().warn("[{}] Player {} not found while handling house auction request.", __FUNCTION__, playerId);
-		return;
-	}
-
-	const std::shared_ptr<Player> &newOwner = getPlayerByName(newOwnerName, true);
-	if (!newOwner) {
-		owner->sendHouseAuctionMessage(houseId, HouseAuctionType::Transfer, enumToValue(TransferErrorMessage::CharacterNotExist));
-		return;
-	}
-
-	const auto house = g_game().map.houses.getHouseByClientId(houseId);
-	if (!house || house->getState() != CyclopediaHouseState::Rented) {
-		owner->sendHouseAuctionMessage(houseId, HouseAuctionType::Transfer, enumToValue(TransferErrorMessage::Internal));
-		return;
-	}
-
-	auto ret = owner->canTransferHouse(houseId, newOwner->getGUID());
-	if (ret != TransferErrorMessage::Success) {
-		owner->sendHouseAuctionMessage(houseId, HouseAuctionType::Transfer, enumToValue(ret));
-		return;
-	}
-
-	house->setBidderName(newOwnerName);
-	house->setBidder(newOwner->getGUID());
-	house->setInternalBid(bidValue);
-	house->setBidEndDate(timestamp);
-	house->setState(CyclopediaHouseState::Transfer);
-
-	owner->sendHouseAuctionMessage(houseId, HouseAuctionType::Transfer, enumToValue(ret));
-	playerCyclopediaHousesByTown(playerId, "");
+	m_cyclopediaService->playerCyclopediaHouseTransfer(playerId, houseId, timestamp, newOwnerName, bidValue);
 }
-
 void Game::playerCyclopediaHouseCancelTransfer(uint32_t playerId, uint32_t houseId) {
-	if (!g_configManager().getBoolean(CYCLOPEDIA_HOUSE_AUCTION)) {
-		return;
-	}
-
-	const std::shared_ptr<Player> &player = getPlayerByID(playerId);
-	if (!player) {
-		g_logger().warn("[{}] Player {} not found while handling house auction request.", __FUNCTION__, playerId);
-		return;
-	}
-
-	const auto house = g_game().map.houses.getHouseByClientId(houseId);
-	if (!house || house->getState() != CyclopediaHouseState::Transfer) {
-		player->sendHouseAuctionMessage(houseId, HouseAuctionType::CancelTransfer, enumToValue(TransferErrorMessage::Internal));
-		return;
-	}
-
-	if (house->getOwner() != player->getGUID()) {
-		player->sendHouseAuctionMessage(houseId, HouseAuctionType::CancelTransfer, enumToValue(TransferErrorMessage::NotHouseOwner));
-		return;
-	}
-
-	if (house->getTransferStatus()) {
-		const auto &newOwner = getPlayerByGUID(house->getBidder());
-		const auto amountPaid = house->getInternalBid() + house->getRent();
-		if (newOwner) {
-			newOwner->setBankBalance(newOwner->getBankBalance() + amountPaid);
-			newOwner->sendResourceBalance(RESOURCE_BANK, newOwner->getBankBalance());
-		} else {
-			IOLoginData::increaseBankBalance(house->getBidder(), amountPaid);
-		}
-	}
-
-	house->setBidderName("");
-	house->setBidder(0);
-	house->setInternalBid(0);
-	house->setBidEndDate(0);
-	house->setState(CyclopediaHouseState::Rented);
-	house->setTransferStatus(false);
-
-	player->sendHouseAuctionMessage(houseId, HouseAuctionType::CancelTransfer, enumToValue(TransferErrorMessage::Success));
-	playerCyclopediaHousesByTown(playerId, "");
+	m_cyclopediaService->playerCyclopediaHouseCancelTransfer(playerId, houseId);
 }
-
 void Game::playerCyclopediaHouseAcceptTransfer(uint32_t playerId, uint32_t houseId) {
-	if (!g_configManager().getBoolean(CYCLOPEDIA_HOUSE_AUCTION)) {
-		return;
-	}
-
-	const std::shared_ptr<Player> &player = getPlayerByID(playerId);
-	if (!player) {
-		g_logger().warn("[{}] Player {} not found while handling house auction request.", __FUNCTION__, playerId);
-		return;
-	}
-
-	const auto house = g_game().map.houses.getHouseByClientId(houseId);
-	if (!house || house->getState() != CyclopediaHouseState::Transfer) {
-		player->sendHouseAuctionMessage(houseId, HouseAuctionType::AcceptTransfer, enumToValue(AcceptTransferErrorMessage::Internal));
-		return;
-	}
-
-	auto ret = player->canAcceptTransferHouse(houseId);
-	if (ret != AcceptTransferErrorMessage::Success) {
-		player->sendHouseAuctionMessage(houseId, HouseAuctionType::AcceptTransfer, enumToValue(ret));
-		return;
-	}
-
-	if (!processBankAuction(player, house, house->getInternalBid())) {
-		player->sendHouseAuctionMessage(houseId, HouseAuctionType::AcceptTransfer, enumToValue(AcceptTransferErrorMessage::Frozen));
-		return;
-	}
-
-	house->setTransferStatus(true);
-
-	player->sendHouseAuctionMessage(houseId, HouseAuctionType::AcceptTransfer, enumToValue(ret));
-	playerCyclopediaHousesByTown(playerId, "");
+	m_cyclopediaService->playerCyclopediaHouseAcceptTransfer(playerId, houseId);
 }
-
 void Game::playerCyclopediaHouseRejectTransfer(uint32_t playerId, uint32_t houseId) {
-	if (!g_configManager().getBoolean(CYCLOPEDIA_HOUSE_AUCTION)) {
-		return;
-	}
-
-	const std::shared_ptr<Player> &player = getPlayerByID(playerId);
-	if (!player) {
-		g_logger().warn("[{}] Player {} not found while handling house auction request.", __FUNCTION__, playerId);
-		return;
-	}
-
-	const auto house = g_game().map.houses.getHouseByClientId(houseId);
-	if (!house || house->getBidder() != player->getGUID() || house->getState() != CyclopediaHouseState::Transfer) {
-		player->sendHouseAuctionMessage(houseId, HouseAuctionType::Transfer, enumToValue(TransferErrorMessage::NotHouseOwner));
-		return;
-	}
-
-	if (house->getTransferStatus()) {
-		const auto &newOwner = getPlayerByGUID(house->getBidder());
-		const auto amountPaid = house->getInternalBid() + house->getRent();
-		if (newOwner) {
-			newOwner->setBankBalance(newOwner->getBankBalance() + amountPaid);
-			newOwner->sendResourceBalance(RESOURCE_BANK, newOwner->getBankBalance());
-		} else {
-			IOLoginData::increaseBankBalance(house->getBidder(), amountPaid);
-		}
-	}
-
-	house->setBidderName("");
-	house->setBidder(0);
-	house->setInternalBid(0);
-	house->setBidEndDate(0);
-	house->setState(CyclopediaHouseState::Rented);
-	house->setTransferStatus(false);
-
-	player->sendHouseAuctionMessage(houseId, HouseAuctionType::RejectTransfer, enumToValue(TransferErrorMessage::Success));
-	playerCyclopediaHousesByTown(playerId, "");
+	m_cyclopediaService->playerCyclopediaHouseRejectTransfer(playerId, houseId);
 }
-
-bool Game::processBankAuction(std::shared_ptr<Player> player, const std::shared_ptr<House> &house, uint64_t bid, bool replace /* = false*/) {
-	if (!replace && player->getBankBalance() < (house->getRent() + bid)) {
-		return false;
-	}
-
-	if (player->getBankBalance() < bid) {
-		return false;
-	}
-
-	uint64_t balance = player->getBankBalance();
-	if (replace) {
-		player->setBankBalance(balance - (bid - house->getInternalBid()));
-	} else {
-		player->setBankBalance(balance - (house->getRent() + bid));
-	}
-
-	player->sendResourceBalance(RESOURCE_BANK, player->getBankBalance());
-
-	if (house->getBidderName() != player->getName()) {
-		const auto otherPlayer = g_game().getPlayerByName(house->getBidderName());
-		if (!otherPlayer) {
-			uint32_t bidderGuid = IOLoginData::getGuidByName(house->getBidderName());
-			IOLoginData::increaseBankBalance(bidderGuid, (house->getBidHolderLimit() + house->getRent()));
-		} else {
-			otherPlayer->setBankBalance(otherPlayer->getBankBalance() + (house->getBidHolderLimit() + house->getRent()));
-			otherPlayer->sendResourceBalance(RESOURCE_BANK, otherPlayer->getBankBalance());
-		}
-	}
-
-	return true;
+bool Game::processBankAuction(std::shared_ptr<Player> player, const std::shared_ptr<House> &house, uint64_t bid, bool replace) {
+	return m_cyclopediaService->processBankAuction(player, house, bid, replace);
 }
-
 std::map<uint32_t, std::vector<std::shared_ptr<Player>>> Game::groupPlayersByIP() const {
 	// Reference: https://otland.net/threads/unique-active-player.279129/
 	// Players idle for more than 15 minutes (900000 ms) are excluded so an IP

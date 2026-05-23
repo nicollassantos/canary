@@ -29,6 +29,7 @@ class Zone;
 class MonsterType;
 class Cylinder;
 class ItemType;
+class OutfitService;
 
 struct CreatureIcon;
 struct Position;
@@ -850,6 +851,7 @@ protected:
 
 	friend class CombatService;
 	friend class CreatureManagementService;
+	friend class OutfitService;
 	friend class Game;
 	friend class Map;
 	friend class CreatureFunctions;

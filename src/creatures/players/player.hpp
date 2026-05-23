@@ -74,6 +74,8 @@ struct Familiar;
 struct Group;
 struct Outfit_t;
 class LootService;
+class OutfitService;
+class CyclopediaService;
 class PlayerInteractionService;
 struct TextMessage;
 struct HighscoreCharacter;
@@ -1904,6 +1906,8 @@ private:
 	friend class Game;
 	friend class MarketService;
 	friend class MovementService;
+	friend class OutfitService;
+	friend class CyclopediaService;
 	friend class TradeService;
 	friend class SaveManager;
 	friend class Npc;

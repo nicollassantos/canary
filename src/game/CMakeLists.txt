@@ -4,7 +4,9 @@ target_sources(
             game.cpp
             bank/bank.cpp
             chat/chat_service.cpp
+            cyclopedia/cyclopedia_service.cpp
             forge/forge_service.cpp
+            outfit/outfit_service.cpp
             highscore/highscore_service.cpp
             interaction/player_interaction_service.cpp
             loot/loot_service.cpp

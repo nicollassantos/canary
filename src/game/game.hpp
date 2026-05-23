@@ -12,12 +12,14 @@
 #include "creatures/combat/combat_service.hpp"
 #include "creatures/management/creature_management_service.hpp"
 #include "game/chat/chat_service.hpp"
+#include "game/cyclopedia/cyclopedia_service.hpp"
 #include "game/forge/forge_service.hpp"
 #include "game/highscore/highscore_service.hpp"
 #include "game/interaction/player_interaction_service.hpp"
 #include "game/loot/loot_service.hpp"
 #include "game/market/market_service.hpp"
 #include "game/movement/movement_service.hpp"
+#include "game/outfit/outfit_service.hpp"
 #include "game/sound/sound_service.hpp"
 #include "game/trade/trade_service.hpp"
 #include "items/item_service.hpp"
@@ -121,6 +123,8 @@ class Game {
 	friend class PlayerInteractionService;
 	friend class ChatService;
 	friend class ForgeService;
+	friend class OutfitService;
+	friend class CyclopediaService;
 
 public:
 	Game();
@@ -753,6 +757,8 @@ private:
 	std::unique_ptr<PlayerInteractionService> m_interactionService;
 	std::unique_ptr<ChatService> m_chatService;
 	std::unique_ptr<ForgeService> m_forgeService;
+	std::unique_ptr<OutfitService> m_outfitService;
+	std::unique_ptr<CyclopediaService> m_cyclopediaService;
 	std::unique_ptr<SoundService> m_soundService;
 
 	std::map<uint16_t, Achievement> m_achievements;

@@ -60,6 +60,8 @@ public:
 	void playerRequestRemoveVip(uint32_t playerId, uint32_t guid);
 	void playerRequestEditVip(uint32_t playerId, uint32_t guid, const std::string &description, uint32_t icon, bool notify, std::vector<uint8_t> vipGroupsId);
 
+	void playerCheckActivity(const std::string &playerName, int interval);
+
 private:
 	Game &game_;
 	IConfigManager &config_;

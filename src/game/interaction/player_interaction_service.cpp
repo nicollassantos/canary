@@ -1437,3 +1437,36 @@ void PlayerInteractionService::playerRequestEditVip(uint32_t playerId, uint32_t 
 	player->vip().edit(guid, description, icon, notify, vipGroupsId);
 }
 
+void PlayerInteractionService::playerCheckActivity(const std::string &playerName, int interval) {
+	const auto &player = game_.getPlayerByName(playerName);
+	if (!player) {
+		return;
+	}
+
+	if (player->getIP() == 0) {
+		game_.removeDeadPlayer(playerName);
+		g_logger().info("Player with name '{}' has logged out due to exited in death screen", player->getName());
+		player->disconnect();
+		return;
+	}
+
+	if (!player->isDead() || player->client == nullptr) {
+		return;
+	}
+
+	if (!player->isAccessPlayer()) {
+		player->m_deathTime += interval;
+		const int32_t kickAfterMinutes = config_.getNumber(KICK_AFTER_MINUTES);
+		if (player->m_deathTime > (kickAfterMinutes * 60000) + 60000) {
+			game_.removeDeadPlayer(playerName);
+			g_logger().info("Player with name '{}' has logged out due to inactivity after death", player->getName());
+			player->disconnect();
+			return;
+		}
+	}
+
+	[[maybe_unused]] auto eventId = g_dispatcher().scheduleEvent(
+		1000, [this, playerName, interval] { playerCheckActivity(playerName, interval); }, "Game::playerCheckActivity"
+	);
+}
+
