@@ -9,67 +9,31 @@
 
 #include "game/interaction/player_interaction_service.hpp"
 #include "config/configmanager.hpp"
+#include "creatures/appearance/mounts/mounts.hpp"
 #include "creatures/creatures_definitions.hpp"
+#include "creatures/monsters/monster.hpp"
 #include "creatures/players/imbuements/imbuements.hpp"
 #include "creatures/players/player.hpp"
 #include "game/game.hpp"
+#include "game/scheduling/dispatcher.hpp"
 #include "io/iologindata.hpp"
+#include "items/bed.hpp"
 #include "items/containers/container.hpp"
 #include "items/item.hpp"
 #include "items/items.hpp"
+#include "lib/metrics/metrics.hpp"
 #include "lua/callbacks/events_callbacks.hpp"
 #include "lua/creature/actions.hpp"
+#include "lua/creature/creatureevent.hpp"
 #include "lua/creature/events.hpp"
-#include "map/house/house.hpp"
-#include "map/house/housetile.hpp"
+#include "game/game_helpers.hpp"
 #include "map/map.hpp"
+#include "map/spectators.hpp"
 #include "utils/tools.hpp"
 
+using namespace GameHelpers;
+
 namespace {
-	bool playerCanUseItemOnHouseTile(const std::shared_ptr<Player> &player, const std::shared_ptr<Item> &item) {
-		if (!player || !item) {
-			return false;
-		}
-
-		// Doors are checked separately (actions.cpp - Action::internalUseItem)
-		const auto &itemDoor = item->getDoor();
-		if (itemDoor) {
-			return true;
-		}
-
-		auto itemTile = item->getTile();
-		if (!itemTile) {
-			return false;
-		}
-
-		if (std::shared_ptr<HouseTile> houseTile = std::dynamic_pointer_cast<HouseTile>(itemTile)) {
-			const auto &house = houseTile->getHouse();
-			if (!house || !house->isInvited(player)) {
-				return false;
-			}
-
-			auto isGuest = house->getHouseAccessLevel(player) == HOUSE_GUEST;
-			auto isOwner = house->getHouseAccessLevel(player) == HOUSE_OWNER;
-			auto itemParentContainer = item->getParent() ? item->getParent()->getContainer() : nullptr;
-			auto isItemParentContainerBrowseField = itemParentContainer && itemParentContainer->getID() == ITEM_BROWSEFIELD;
-			if (isGuest && isItemParentContainerBrowseField) {
-				return false;
-			}
-
-			auto realItemParent = item->getRealParent();
-			auto isItemInGuestInventory = realItemParent && (realItemParent == player || realItemParent->getContainer());
-			if (isGuest && !isItemInGuestInventory && !item->isLadder() && !item->canBeUsedByGuests()) {
-				return false;
-			}
-
-			if (!isOwner && item->isDummy() && (isGuest || item->hasActor())) {
-				return false;
-			}
-		}
-
-		return true;
-	}
-
 	bool playerCanUseItemWithOnHouseTile(const std::shared_ptr<Player> &player, const std::shared_ptr<Item> &item, const Position &toPos, int toStackPos, int toItemId) {
 		if (!player || !item) {
 			return false;
@@ -123,7 +87,7 @@ void PlayerInteractionService::playerUseItemEx(uint32_t playerId, const Position
 		return;
 	}
 
-	bool canUseHouseItem = !config_.getBoolean(ONLY_INVITED_CAN_MOVE_HOUSE_ITEMS) || InternalGame::playerCanUseItemOnHouseTile(player, item);
+	bool canUseHouseItem = !config_.getBoolean(ONLY_INVITED_CAN_MOVE_HOUSE_ITEMS) || playerCanUseItemOnHouseTile(player, item);
 	if (!canUseHouseItem && item->hasOwner() && !item->isOwner(player)) {
 		player->sendCancelMessage(RETURNVALUE_ITEMISNOTYOURS);
 		return;
@@ -270,7 +234,7 @@ void PlayerInteractionService::playerUseItem(uint32_t playerId, const Position &
 		return;
 	}
 
-	bool canUseHouseItem = !config_.getBoolean(ONLY_INVITED_CAN_MOVE_HOUSE_ITEMS) || InternalGame::playerCanUseItemOnHouseTile(player, item);
+	bool canUseHouseItem = !config_.getBoolean(ONLY_INVITED_CAN_MOVE_HOUSE_ITEMS) || playerCanUseItemOnHouseTile(player, item);
 	if (!canUseHouseItem && item->hasOwner() && !item->isOwner(player)) {
 		player->sendCancelMessage(RETURNVALUE_ITEMISNOTYOURS);
 		return;
@@ -399,7 +363,7 @@ void PlayerInteractionService::playerUseWithCreature(uint32_t playerId, const Po
 		return;
 	}
 
-	bool canUseHouseItem = !config_.getBoolean(ONLY_INVITED_CAN_MOVE_HOUSE_ITEMS) || InternalGame::playerCanUseItemOnHouseTile(player, item);
+	bool canUseHouseItem = !config_.getBoolean(ONLY_INVITED_CAN_MOVE_HOUSE_ITEMS) || playerCanUseItemOnHouseTile(player, item);
 	if (!canUseHouseItem && item->hasOwner() && !item->isOwner(player)) {
 		player->sendCancelMessage(RETURNVALUE_ITEMISNOTYOURS);
 		return;
@@ -615,7 +579,7 @@ void PlayerInteractionService::playerRotateItem(uint32_t playerId, const Positio
 		return;
 	}
 
-	if (config_.getBoolean(ONLY_INVITED_CAN_MOVE_HOUSE_ITEMS) && !InternalGame::playerCanUseItemOnHouseTile(player, item)) {
+	if (config_.getBoolean(ONLY_INVITED_CAN_MOVE_HOUSE_ITEMS) && !playerCanUseItemOnHouseTile(player, item)) {
 		player->sendCancelMessage(RETURNVALUE_CANNOTUSETHISOBJECT);
 		return;
 	}
@@ -670,7 +634,7 @@ void PlayerInteractionService::playerConfigureShowOffSocket(uint32_t playerId, c
 		return;
 	}
 
-	if (config_.getBoolean(ONLY_INVITED_CAN_MOVE_HOUSE_ITEMS) && !InternalGame::playerCanUseItemOnHouseTile(player, item)) {
+	if (config_.getBoolean(ONLY_INVITED_CAN_MOVE_HOUSE_ITEMS) && !playerCanUseItemOnHouseTile(player, item)) {
 		player->sendCancelMessage(RETURNVALUE_CANNOTUSETHISOBJECT);
 		return;
 	}
@@ -734,7 +698,7 @@ void PlayerInteractionService::playerSetShowOffSocket(uint32_t playerId, Outfit_
 		return;
 	}
 
-	if (config_.getBoolean(ONLY_INVITED_CAN_MOVE_HOUSE_ITEMS) && !InternalGame::playerCanUseItemOnHouseTile(player, item)) {
+	if (config_.getBoolean(ONLY_INVITED_CAN_MOVE_HOUSE_ITEMS) && !playerCanUseItemOnHouseTile(player, item)) {
 		player->sendCancelMessage(RETURNVALUE_CANNOTUSETHISOBJECT);
 		return;
 	}
@@ -763,7 +727,7 @@ void PlayerInteractionService::playerSetShowOffSocket(uint32_t playerId, Outfit_
 		return;
 	}
 
-	if (config_.getBoolean(ONLY_INVITED_CAN_MOVE_HOUSE_ITEMS) && !InternalGame::playerCanUseItemOnHouseTile(player, item)) {
+	if (config_.getBoolean(ONLY_INVITED_CAN_MOVE_HOUSE_ITEMS) && !playerCanUseItemOnHouseTile(player, item)) {
 		player->sendCancelMessage(RETURNVALUE_NOTPOSSIBLE);
 		return;
 	}
@@ -894,7 +858,7 @@ void PlayerInteractionService::playerWrapableItem(uint32_t playerId, const Posit
 		return;
 	}
 
-	if (config_.getBoolean(ONLY_INVITED_CAN_MOVE_HOUSE_ITEMS) && !InternalGame::playerCanUseItemOnHouseTile(player, item)) {
+	if (config_.getBoolean(ONLY_INVITED_CAN_MOVE_HOUSE_ITEMS) && !playerCanUseItemOnHouseTile(player, item)) {
 		player->sendCancelMessage(RETURNVALUE_CANNOTUSETHISOBJECT);
 		return;
 	}

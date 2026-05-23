@@ -19,7 +19,12 @@
 #include "game/game.hpp"
 #include "game/scheduling/dispatcher.hpp"
 #include "items/item.hpp"
+#include "game/game_helpers.hpp"
+#include "lua/callbacks/events_callbacks.hpp"
+#include "lua/creature/events.hpp"
 #include "map/spectators.hpp"
+
+using namespace GameHelpers;
 
 void OutfitService::playerChangeOutfit(uint32_t playerId, Outfit_t outfit, bool setMount, uint8_t isMountRandomized) {
 	if (!config_.getBoolean(ALLOW_CHANGEOUTFIT)) {
@@ -251,7 +256,7 @@ void OutfitService::playerSetMonsterPodium(uint32_t playerId, uint32_t monsterRa
 		return;
 	}
 
-	if (config_.getBoolean(ONLY_INVITED_CAN_MOVE_HOUSE_ITEMS) && !InternalGame::playerCanUseItemOnHouseTile(player, item)) {
+	if (config_.getBoolean(ONLY_INVITED_CAN_MOVE_HOUSE_ITEMS) && !playerCanUseItemOnHouseTile(player, item)) {
 		player->sendCancelMessage(RETURNVALUE_NOTPOSSIBLE);
 		return;
 	}
@@ -350,7 +355,7 @@ void OutfitService::playerRotatePodium(uint32_t playerId, const Position &pos, u
 		return;
 	}
 
-	if (config_.getBoolean(ONLY_INVITED_CAN_MOVE_HOUSE_ITEMS) && !InternalGame::playerCanUseItemOnHouseTile(player, item)) {
+	if (config_.getBoolean(ONLY_INVITED_CAN_MOVE_HOUSE_ITEMS) && !playerCanUseItemOnHouseTile(player, item)) {
 		player->sendCancelMessage(RETURNVALUE_NOTPOSSIBLE);
 		return;
 	}
@@ -385,18 +390,18 @@ void OutfitService::playerRotatePodium(uint32_t playerId, const Position &pos, u
 
 	// We retrieve the outfit information to be able to rotate the podium of renown in the new direction
 	Outfit_t newOutfit;
-	newOutfit.lookType = InternalGame::getCustomAttributeValue<uint16_t>(item, "LookType");
-	newOutfit.lookAddons = InternalGame::getCustomAttributeValue<uint8_t>(item, "LookAddons");
-	newOutfit.lookHead = InternalGame::getCustomAttributeValue<uint8_t>(item, "LookHead");
-	newOutfit.lookBody = InternalGame::getCustomAttributeValue<uint8_t>(item, "LookBody");
-	newOutfit.lookLegs = InternalGame::getCustomAttributeValue<uint8_t>(item, "LookLegs");
-	newOutfit.lookFeet = InternalGame::getCustomAttributeValue<uint8_t>(item, "LookFeet");
+	newOutfit.lookType = getCustomAttributeValue<uint16_t>(item, "LookType");
+	newOutfit.lookAddons = getCustomAttributeValue<uint8_t>(item, "LookAddons");
+	newOutfit.lookHead = getCustomAttributeValue<uint8_t>(item, "LookHead");
+	newOutfit.lookBody = getCustomAttributeValue<uint8_t>(item, "LookBody");
+	newOutfit.lookLegs = getCustomAttributeValue<uint8_t>(item, "LookLegs");
+	newOutfit.lookFeet = getCustomAttributeValue<uint8_t>(item, "LookFeet");
 
-	newOutfit.lookMount = InternalGame::getCustomAttributeValue<uint16_t>(item, "LookMount");
-	newOutfit.lookMountHead = InternalGame::getCustomAttributeValue<uint8_t>(item, "LookMountHead");
-	newOutfit.lookMountBody = InternalGame::getCustomAttributeValue<uint8_t>(item, "LookMountBody");
-	newOutfit.lookMountLegs = InternalGame::getCustomAttributeValue<uint8_t>(item, "LookMountLegs");
-	newOutfit.lookMountFeet = InternalGame::getCustomAttributeValue<uint8_t>(item, "LookMountFeet");
+	newOutfit.lookMount = getCustomAttributeValue<uint16_t>(item, "LookMount");
+	newOutfit.lookMountHead = getCustomAttributeValue<uint8_t>(item, "LookMountHead");
+	newOutfit.lookMountBody = getCustomAttributeValue<uint8_t>(item, "LookMountBody");
+	newOutfit.lookMountLegs = getCustomAttributeValue<uint8_t>(item, "LookMountLegs");
+	newOutfit.lookMountFeet = getCustomAttributeValue<uint8_t>(item, "LookMountFeet");
 	if (newOutfit.lookType == 0 && newOutfit.lookMount == 0) {
 		player->sendCancelMessage(RETURNVALUE_NOTPOSSIBLE);
 		return;

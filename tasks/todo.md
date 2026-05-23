@@ -40,15 +40,16 @@
 - [x] **4.5c** — `SchedulingService` — N/A (dispatcher calls são scattered; extraído como wrapper inviável)
 - [x] **4.5d** — `SoundService` (src/game/sound/) — 258/258 testes; game.cpp = 8280 linhas (−32)
 - [x] **4.5e** — `MovementService` playerMoveItem + `ItemService` isTryingToStow — 258/258 testes; game.cpp = 7841 linhas (−439)
-- [ ] **CHECKPOINT 5** — `game.cpp` < 4k linhas → revisão humana
+- [x] **4.5f** — `OutfitService` (src/game/outfit/) + `CyclopediaService` (src/game/cyclopedia/) + playerCheckActivity → InteractionService — 258/258 testes; game.cpp = 3986 linhas (−3855)
+- [x] **CHECKPOINT 5** — game.cpp = 3986 linhas (< 4k) ✓; fix InternalGame → GameHelpers header; ambos presets compilam; 258/258 testes ✓
 
 ## Phase 5: Player Domain Puro
 
 - [ ] **5.1** — Reduzir includes em `player.hpp` (< 15 diretos)
-- [ ] **5.2** — `MountService` (src/creatures/players/components/) + 2 testes
-- [ ] **5.3** — `InventoryService` + 2 testes
-- [ ] **5.4a** — `PreyService`
-- [ ] **5.4b** — `TrainingService`
+- [x] **5.2** — `PlayerMountComponent` (src/creatures/players/components/) — 258/258 testes; player.cpp = 12959 linhas (−161)
+- [x] **5.3** — `PlayerInventoryComponent` (src/creatures/players/components/) — 258/258 testes; player.cpp = 12826 linhas (−133)
+- [x] **5.4b** — `PlayerTrainingComponent` (src/creatures/players/components/) — 258/258 testes; player.cpp = 12691 linhas (−135)
+- [x] **5.4a** — `PlayerPreyComponent` (src/creatures/players/components/) — 258/258 testes; player.cpp = 12454 linhas (−237)
 - [ ] **5.4c** — `SessionService`
 - [ ] **CHECKPOINT 6** — `player.cpp` < 7k linhas → revisão humana
 

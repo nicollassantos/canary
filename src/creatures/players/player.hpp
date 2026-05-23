@@ -30,6 +30,10 @@
 #include "creatures/players/components/player_vip.hpp"
 #include "creatures/players/components/wheel/wheel_gems.hpp"
 #include "creatures/players/components/player_attached_effects.hpp"
+#include "creatures/players/components/player_inventory_component.hpp"
+#include "creatures/players/components/player_mount_component.hpp"
+#include "creatures/players/components/player_prey_component.hpp"
+#include "creatures/players/components/player_training_component.hpp"
 #include "creatures/players/components/weapon_proficiency.hpp"
 #include "utils/hash.hpp"
 
@@ -1517,6 +1521,22 @@ public:
 	WeaponProficiency &weaponProficiency();
 	const WeaponProficiency &weaponProficiency() const;
 
+	// Player mount component interface
+	PlayerMountComponent &mountComponent();
+	const PlayerMountComponent &mountComponent() const;
+
+	// Player inventory component interface
+	PlayerInventoryComponent &inventoryComponent();
+	const PlayerInventoryComponent &inventoryComponent() const;
+
+	// Player training component interface
+	PlayerTrainingComponent &trainingComponent();
+	const PlayerTrainingComponent &trainingComponent() const;
+
+	// Player prey component interface
+	PlayerPreyComponent &preyComponent();
+	const PlayerPreyComponent &preyComponent() const;
+
 	void sendLootMessage(const std::string &message) const;
 
 	std::shared_ptr<Container> getLootPouch();
@@ -1930,6 +1950,10 @@ private:
 	friend class PlayerAttachedEffects;
 	friend class PlayerStorage;
 	friend class PlayerForgeHistory;
+	friend class PlayerMountComponent;
+	friend class PlayerInventoryComponent;
+	friend class PlayerTrainingComponent;
+	friend class PlayerPreyComponent;
 
 	PlayerWheel m_wheelPlayer;
 	PlayerAchievement m_playerAchievement;
@@ -1941,6 +1965,10 @@ private:
 	PlayerAttachedEffects m_playerAttachedEffects;
 	PlayerStorage m_storage;
 	PlayerForgeHistory m_forgeHistoryPlayer;
+	PlayerMountComponent m_mountComponent;
+	PlayerInventoryComponent m_inventoryComponent;
+	PlayerTrainingComponent m_trainingComponent;
+	PlayerPreyComponent m_preyComponent;
 	WeaponProficiency m_weaponProficiency;
 
 	std::mutex quickLootMutex;

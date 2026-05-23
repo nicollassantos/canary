@@ -24,6 +24,8 @@
 #include "creatures/players/imbuements/imbuements.hpp"
 #include "creatures/players/storages/storages.hpp"
 #include "creatures/players/components/player_forge_history.hpp"
+#include "creatures/players/components/player_inventory_component.hpp"
+#include "creatures/players/components/player_mount_component.hpp"
 #include "server/network/protocol/protocolgame.hpp"
 #include "enums/account_errors.hpp"
 #include "enums/account_group_type.hpp"
@@ -121,7 +123,11 @@ Player::Player() :
 	m_playerAttachedEffects(*this),
 	m_storage(*this),
 	m_forgeHistoryPlayer(*this),
-	m_weaponProficiency(*this) {
+	m_weaponProficiency(*this),
+	m_mountComponent(*this),
+	m_inventoryComponent(*this),
+	m_trainingComponent(*this),
+	m_preyComponent(*this) {
 }
 
 Player::Player(std::shared_ptr<ProtocolGame> p) :
@@ -139,7 +145,11 @@ Player::Player(std::shared_ptr<ProtocolGame> p) :
 	m_playerAttachedEffects(*this),
 	m_storage(*this),
 	m_forgeHistoryPlayer(*this),
-	m_weaponProficiency(*this) {
+	m_weaponProficiency(*this),
+	m_mountComponent(*this),
+	m_inventoryComponent(*this),
+	m_trainingComponent(*this),
+	m_preyComponent(*this) {
 	baseCritical.chance = g_configManager().getFloat(PLAYER_BASE_CRITICAL_CHANCE);
 	baseCritical.damage = g_configManager().getFloat(PLAYER_BASE_CRITICAL_DAMAGE);
 	m_wheelPlayer.init();
@@ -316,10 +326,7 @@ std::string Player::getDescription(int32_t lookDistance) {
 }
 
 std::shared_ptr<Item> Player::getInventoryItem(Slots_t slot) const {
-	if (slot < CONST_SLOT_FIRST || slot > CONST_SLOT_LAST) {
-		return nullptr;
-	}
-	return inventory[slot];
+	return m_inventoryComponent.getInventoryItem(slot);
 }
 
 bool Player::isItemAbilityEnabled(Slots_t slot) const {
@@ -920,68 +927,31 @@ std::unordered_set<PlayerIcon> Player::getClientIcons() {
 }
 
 const std::unordered_set<std::shared_ptr<MonsterType>> &Player::getCyclopediaMonsterTrackerSet(bool isBoss) const {
-	return isBoss ? m_bosstiaryMonsterTracker : m_bestiaryMonsterTracker;
+	return m_preyComponent.getCyclopediaMonsterTrackerSet(isBoss);
 }
 
 void Player::addMonsterToCyclopediaTrackerList(const std::shared_ptr<MonsterType> &mtype, bool isBoss, bool reloadClient /* = false */) {
-	if (!client) {
-		return;
-	}
-
-	const uint16_t raceId = mtype ? mtype->info.raceid : 0;
-	auto &tracker = isBoss ? m_bosstiaryMonsterTracker : m_bestiaryMonsterTracker;
-	if (tracker.size() < static_cast<size_t>(std::numeric_limits<uint8_t>::max()) && tracker.emplace(mtype).second) {
-		if (reloadClient && raceId != 0) {
-			if (isBoss) {
-				client->parseSendBosstiary();
-			} else {
-				client->sendBestiaryEntryChanged(raceId);
-			}
-		}
-
-		client->refreshCyclopediaMonsterTracker(tracker, isBoss);
-	}
+	m_preyComponent.addMonsterToCyclopediaTrackerList(mtype, isBoss, reloadClient);
 }
 
 void Player::removeMonsterFromCyclopediaTrackerList(const std::shared_ptr<MonsterType> &mtype, bool isBoss, bool reloadClient /* = false */) {
-	if (!client) {
-		return;
-	}
-
-	const uint16_t raceId = mtype ? mtype->info.raceid : 0;
-	auto &tracker = isBoss ? m_bosstiaryMonsterTracker : m_bestiaryMonsterTracker;
-
-	if (tracker.erase(mtype) > 0) {
-		if (reloadClient && raceId != 0) {
-			if (isBoss) {
-				client->parseSendBosstiary();
-			} else {
-				client->sendBestiaryEntryChanged(raceId);
-			}
-		}
-
-		client->refreshCyclopediaMonsterTracker(tracker, isBoss);
-	}
+	m_preyComponent.removeMonsterFromCyclopediaTrackerList(mtype, isBoss, reloadClient);
 }
 
 void Player::sendBestiaryEntryChanged(uint16_t raceid) const {
-	if (client) {
-		client->sendBestiaryEntryChanged(raceid);
-	}
+	m_preyComponent.sendBestiaryEntryChanged(raceid);
 }
 
 void Player::refreshCyclopediaMonsterTracker(const std::unordered_set<std::shared_ptr<MonsterType>> &trackerList, bool isBoss) const {
-	if (client) {
-		client->refreshCyclopediaMonsterTracker(trackerList, isBoss);
-	}
+	m_preyComponent.refreshCyclopediaMonsterTracker(trackerList, isBoss);
 }
 
 bool Player::isBossOnBosstiaryTracker(const std::shared_ptr<MonsterType> &monsterType) const {
-	return monsterType ? m_bosstiaryMonsterTracker.contains(monsterType) : false;
+	return m_preyComponent.isBossOnBosstiaryTracker(monsterType);
 }
 
 bool Player::isMonsterOnBestiaryTracker(const std::shared_ptr<MonsterType> &monsterType) const {
-	return monsterType ? m_bestiaryMonsterTracker.contains(monsterType) : false;
+	return m_preyComponent.isMonsterOnBestiaryTracker(monsterType);
 }
 
 std::shared_ptr<Vocation> Player::getVocation() const {
@@ -5339,34 +5309,8 @@ uint32_t Player::getFreeCapacity() const {
 	}
 }
 
-ItemsTierCountList Player::getInventoryItemsId(bool ignoreStoreInbox /* false */) const {
-	ItemsTierCountList inventoryCache;
-
-	for (int32_t i = CONST_SLOT_FIRST; i <= CONST_SLOT_LAST; i++) {
-		const auto &item = inventory[i];
-		if (!item) {
-			continue;
-		}
-
-		const bool isStoreInbox = item->getID() == ITEM_STORE_INBOX;
-
-		if (!isStoreInbox) {
-			inventoryCache[{ item->getID(), item->getTier() }] += item->getItemAmount();
-		}
-
-		const auto &container = item->getContainer();
-		if (container && (!isStoreInbox || !ignoreStoreInbox)) {
-			for (const auto &containerItem : container->getItems(true)) {
-				if (!containerItem) {
-					continue;
-				}
-
-				inventoryCache[{ containerItem->getID(), containerItem->getTier() }] += containerItem->getItemAmount();
-			}
-		}
-	}
-
-	return inventoryCache;
+ItemsTierCountList Player::getInventoryItemsId(bool ignoreStoreInbox) const {
+	return m_inventoryComponent.getInventoryItemsId(ignoreStoreInbox);
 }
 
 /*******************************************************************************
@@ -5575,29 +5519,8 @@ QuickLootFilter_t Player::getQuickLootFilter() const {
 	return quickLootFilter;
 }
 
-std::vector<std::shared_ptr<Item>> Player::getInventoryItemsFromId(uint16_t itemId, bool ignore /*= true*/) const {
-	std::vector<std::shared_ptr<Item>> itemVector;
-	for (int i = CONST_SLOT_FIRST; i <= CONST_SLOT_LAST; ++i) {
-		const auto &item = inventory[i];
-		if (!item) {
-			continue;
-		}
-
-		if (!ignore && item->getID() == itemId) {
-			itemVector.emplace_back(item);
-		}
-
-		if (const auto &container = item->getContainer()) {
-			for (ContainerIterator it = container->iterator(); it.hasNext(); it.advance()) {
-				const auto &containerItem = *it;
-				if (containerItem->getID() == itemId) {
-					itemVector.emplace_back(containerItem);
-				}
-			}
-		}
-	}
-
-	return itemVector;
+std::vector<std::shared_ptr<Item>> Player::getInventoryItemsFromId(uint16_t itemId, bool ignore) const {
+	return m_inventoryComponent.getInventoryItemsFromId(itemId, ignore);
 }
 
 std::array<double_t, COMBAT_COUNT> Player::getFinalDamageReduction() const {
@@ -5722,118 +5645,24 @@ ItemsTierCountList Player::getDepotInboxItemsId() const {
 	return inventoryCache;
 }
 
-std::vector<std::shared_ptr<Item>> Player::getAllInventoryItems(bool ignoreEquiped /*= false*/, bool ignoreItemWithTier /* false*/) const {
-	std::vector<std::shared_ptr<Item>> itemVector;
-	for (int i = CONST_SLOT_FIRST; i <= CONST_SLOT_LAST; ++i) {
-		const auto &item = inventory[i];
-		if (!item) {
-			continue;
-		}
-
-		// Only get equiped items if ignored equipped is false
-		if (!ignoreEquiped) {
-			itemVector.emplace_back(item);
-		}
-		if (const auto &container = item->getContainer()) {
-			for (ContainerIterator it = container->iterator(); it.hasNext(); it.advance()) {
-				const auto &containedItem = *it;
-				if (!containedItem) {
-					continue;
-				}
-
-				if (ignoreItemWithTier && containedItem->getTier() > 0) {
-					continue;
-				}
-
-				itemVector.emplace_back(containedItem);
-			}
-		}
-	}
-
-	return itemVector;
+std::vector<std::shared_ptr<Item>> Player::getAllInventoryItems(bool ignoreEquiped, bool ignoreItemWithTier) const {
+	return m_inventoryComponent.getAllInventoryItems(ignoreEquiped, ignoreItemWithTier);
 }
 
 std::vector<std::shared_ptr<Item>> Player::getEquippedAugmentItemsByType(Augment_t augmentType) const {
-	std::vector<std::shared_ptr<Item>> equippedAugmentItemsByType;
-	auto equippedAugmentItems = getEquippedItems();
-
-	for (const auto &item : equippedAugmentItems) {
-		for (const auto &augment : item->getAugments()) {
-			if (augment->type == augmentType) {
-				equippedAugmentItemsByType.emplace_back(item);
-			}
-		}
-	}
-
-	return equippedAugmentItemsByType;
+	return m_inventoryComponent.getEquippedAugmentItemsByType(augmentType);
 }
 
 std::vector<std::shared_ptr<Item>> Player::getEquippedAugmentItems() const {
-	std::vector<std::shared_ptr<Item>> equippedAugmentItems;
-	auto equippedItems = getEquippedItems();
-
-	for (const auto &item : equippedItems) {
-		if (item->getAugments().empty()) {
-			continue;
-		}
-		equippedAugmentItems.emplace_back(item);
-	}
-
-	return equippedAugmentItems;
+	return m_inventoryComponent.getEquippedAugmentItems();
 }
 
 std::unordered_map<std::pair<uint16_t, uint8_t>, double, PairHash, PairEqual> Player::getEquippedAugments() const {
-	std::unordered_map<std::pair<uint16_t, uint8_t>, double, PairHash, PairEqual> equippedAugments;
-
-	const auto &equippedAugmentItems = getEquippedAugmentItems();
-	for (const auto &item : equippedAugmentItems) {
-		for (const auto &augment : item->getAugments()) {
-			if (augment->type == Augment_t::None) {
-				continue;
-			}
-
-			const auto &spell = g_spells().getInstantSpellByName(augment->spellName);
-			const auto spellId = spell ? spell->getSpellId() : 0;
-
-			if (spellId == 0) {
-				continue;
-			}
-
-			const auto key = std::make_pair(spellId, static_cast<uint8_t>(augment->type));
-
-			double divisor = augment->type == Augment_t::Cooldown ? -1000.0 : 100.0;
-
-			equippedAugments[key] += augment->value / divisor;
-		}
-	}
-
-	return equippedAugments;
+	return m_inventoryComponent.getEquippedAugments();
 }
 
 std::vector<std::shared_ptr<Item>> Player::getEquippedItems() const {
-	static const std::vector valid_slots {
-		CONST_SLOT_HEAD,
-		CONST_SLOT_NECKLACE,
-		CONST_SLOT_BACKPACK,
-		CONST_SLOT_ARMOR,
-		CONST_SLOT_RIGHT,
-		CONST_SLOT_LEFT,
-		CONST_SLOT_LEGS,
-		CONST_SLOT_FEET,
-		CONST_SLOT_RING,
-	};
-
-	std::vector<std::shared_ptr<Item>> valid_items;
-	for (const auto &slot : valid_slots) {
-		const auto &item = inventory[slot];
-		if (!item) {
-			continue;
-		}
-
-		valid_items.emplace_back(item);
-	}
-
-	return valid_items;
+	return m_inventoryComponent.getEquippedItems();
 }
 
 std::map<uint32_t, uint32_t> &Player::getAllItemTypeCount(std::map<uint32_t, uint32_t> &countMap) const {
@@ -6468,58 +6297,15 @@ bool Player::onKilledPlayer(const std::shared_ptr<Player> &target, bool lastHit)
 }
 
 void Player::addHuntingTaskKill(const std::shared_ptr<MonsterType> &mType) {
-	const auto &taskSlot = getTaskHuntingWithCreature(mType->info.raceid);
-	if (!taskSlot) {
-		return;
-	}
-
-	if (const auto &option = g_ioprey().getTaskRewardOption(taskSlot)) {
-		taskSlot->currentKills += 1;
-		if ((taskSlot->upgrade && taskSlot->currentKills >= option->secondKills) || (!taskSlot->upgrade && taskSlot->currentKills >= option->firstKills)) {
-			taskSlot->state = PreyTaskDataState_Completed;
-			const std::string message = "You succesfully finished your hunting task. Your reward is ready to be claimed!";
-			sendTextMessage(MESSAGE_STATUS, message);
-		}
-		reloadTaskSlot(taskSlot->id);
-	}
+	m_preyComponent.addHuntingTaskKill(mType);
 }
 
 void Player::addBestiaryKill(const std::shared_ptr<MonsterType> &mType) {
-	if (mType->isBoss()) {
-		return;
-	}
-	uint32_t kills = g_configManager().getNumber(BESTIARY_KILL_MULTIPLIER);
-
-	auto scopedDoubleBestiary = g_kv().scoped("eventscheduler")->get("double-bestiary");
-	bool doubleBestiaryEnabled = scopedDoubleBestiary && scopedDoubleBestiary->get<bool>();
-	if (doubleBestiaryEnabled) {
-		kills *= 2;
-		g_logger().debug("[{}] double bestiary is enabled.", __FUNCTION__);
-	}
-
-	if (isConcoctionActive(Concoction_t::BestiaryBetterment)) {
-		kills *= 2;
-	}
-	g_iobestiary().addBestiaryKill(getPlayer(), mType, kills);
+	m_preyComponent.addBestiaryKill(mType);
 }
 
 void Player::addBosstiaryKill(const std::shared_ptr<MonsterType> &mType) {
-	if (!mType->isBoss()) {
-		return;
-	}
-	uint32_t kills = g_configManager().getNumber(BOSSTIARY_KILL_MULTIPLIER);
-
-	auto scopedDoubleBosstiary = g_kv().scoped("eventscheduler")->get("double-bosstiary");
-	bool doubleBosstiaryEnabled = scopedDoubleBosstiary && scopedDoubleBosstiary->get<bool>();
-	if (doubleBosstiaryEnabled) {
-		kills *= 2;
-		g_logger().debug("[{}] double bosstiary is enabled.", __FUNCTION__);
-	}
-
-	if (g_ioBosstiary().getBoostedBossId() == mType->info.raceid) {
-		kills *= g_configManager().getNumber(BOOSTED_BOSS_KILL_BONUS);
-	}
-	g_ioBosstiary().addBosstiaryKill(getPlayer(), mType, kills);
+	m_preyComponent.addBosstiaryKill(mType);
 }
 
 bool Player::onKilledMonster(const std::shared_ptr<Monster> &monster) {
@@ -7732,384 +7518,67 @@ void Player::sendOpenPvpSituations() {
 }
 
 uint8_t Player::getLastMount() const {
-	const int32_t value = getStorageValue(PSTRG_MOUNTS_CURRENTMOUNT);
-	if (value > 0) {
-		return static_cast<uint8_t>(value);
-	}
-	const auto lastMount = kv()->get("last-mount");
-	if (!lastMount.has_value()) {
-		return 0;
-	}
-
-	return static_cast<uint8_t>(lastMount->get<int>());
+	return m_mountComponent.getLastMount();
 }
 
 uint8_t Player::getCurrentMount() const {
-	const int32_t value = getStorageValue(PSTRG_MOUNTS_CURRENTMOUNT);
-	if (value > 0) {
-		return value;
-	}
-	return 0;
+	return m_mountComponent.getCurrentMount();
 }
 
 void Player::setCurrentMount(uint8_t mount) {
-	addStorageValue(PSTRG_MOUNTS_CURRENTMOUNT, mount);
+	m_mountComponent.setCurrentMount(mount);
 }
 
 bool Player::hasAnyMount() const {
-	const auto &mounts = g_game().mounts->getMounts();
-	return std::ranges::any_of(mounts, [&](const auto &mount) {
-		return hasMount(mount);
-	});
+	return m_mountComponent.hasAnyMount();
 }
 
 uint8_t Player::getRandomMountId() const {
-	std::vector<uint8_t> playerMounts;
-	const auto mounts = g_game().mounts->getMounts();
-	for (const auto &mount : mounts) {
-		if (hasMount(mount)) {
-			playerMounts.emplace_back(mount->id);
-		}
-	}
-
-	if (playerMounts.empty()) {
-		return 0;
-	}
-
-	const auto randomIndex = uniform_random(0, static_cast<int32_t>(playerMounts.size() - 1));
-	if (randomIndex >= 0 && static_cast<size_t>(randomIndex) < playerMounts.size()) {
-		return playerMounts[randomIndex];
-	}
-
-	return 0;
+	return m_mountComponent.getRandomMountId();
 }
 
 bool Player::toggleMount(bool mount) {
-	if ((OTSYS_TIME() - lastToggleMount) < 3000 && !wasMounted) {
-		sendCancelMessage(RETURNVALUE_YOUAREEXHAUSTED);
-		return false;
-	}
-
-	if (isWearingSupportOutfit()) {
-		return false;
-	}
-
-	if (mount) {
-		if (!g_game().outfitSupportsMount(defaultOutfit.lookType)) {
-			sendCancelMessage(RETURNVALUE_NOTPOSSIBLE);
-			return false;
-		}
-
-		if (isMounted()) {
-			return false;
-		}
-
-		const auto &tile = getTile();
-		if (!g_configManager().getBoolean(TOGGLE_MOUNT_IN_PZ) && !group->access && tile && tile->hasFlag(TILESTATE_PROTECTIONZONE)) {
-			sendCancelMessage(RETURNVALUE_ACTIONNOTPERMITTEDINPROTECTIONZONE);
-			return false;
-		}
-
-		const auto &playerOutfit = Outfits::getInstance().getOutfitByLookType(getPlayer(), defaultOutfit.lookType);
-		if (!playerOutfit) {
-			return false;
-		}
-
-		uint8_t currentMountId = getLastMount();
-		if (currentMountId == 0) {
-			sendOutfitWindow();
-			return false;
-		}
-
-		if (isRandomMounted()) {
-			currentMountId = getRandomMountId();
-		}
-
-		const auto &currentMount = g_game().mounts->getMountByID(currentMountId);
-		if (!currentMount) {
-			return false;
-		}
-
-		if (!hasMount(currentMount)) {
-			setCurrentMount(0);
-			kv()->set("last-mount", 0);
-			sendOutfitWindow();
-			return false;
-		}
-
-		if (currentMount->premium && !isPremium()) {
-			sendCancelMessage(RETURNVALUE_YOUNEEDPREMIUMACCOUNT);
-			return false;
-		}
-
-		if (hasCondition(CONDITION_OUTFIT)) {
-			sendCancelMessage(RETURNVALUE_NOTPOSSIBLE);
-			return false;
-		}
-
-		defaultOutfit.lookMount = currentMount->clientId;
-		setCurrentMount(currentMount->id);
-		kv()->set("last-mount", currentMount->id);
-
-		if (currentMount->speed != 0) {
-			g_game().changeSpeed(static_self_cast<Player>(), currentMount->speed);
-		}
-	} else {
-		if (!isMounted()) {
-			return false;
-		}
-
-		dismount();
-	}
-
-	g_game().internalCreatureChangeOutfit(static_self_cast<Player>(), defaultOutfit);
-	lastToggleMount = OTSYS_TIME();
-	return true;
+	return m_mountComponent.toggleMount(mount);
 }
 
 bool Player::tameMount(uint8_t mountId) {
-	if (!g_game().mounts->getMountByID(mountId)) {
-		return false;
-	}
-
-	const uint8_t tmpMountId = mountId - 1;
-	const uint32_t key = PSTRG_MOUNTS_RANGE_START + (tmpMountId / 31);
-
-	int32_t value = getStorageValue(key);
-	if (value != -1) {
-		value |= (1 << (tmpMountId % 31));
-	} else {
-		value = (1 << (tmpMountId % 31));
-	}
-
-	addStorageValue(key, value);
-	return true;
+	return m_mountComponent.tameMount(mountId);
 }
 
 bool Player::untameMount(uint8_t mountId) {
-	if (!g_game().mounts->getMountByID(mountId)) {
-		return false;
-	}
-
-	const uint8_t tmpMountId = mountId - 1;
-	const uint32_t key = PSTRG_MOUNTS_RANGE_START + (tmpMountId / 31);
-
-	int32_t value = getStorageValue(key);
-	if (value == -1) {
-		return true;
-	}
-
-	value &= ~(1 << (tmpMountId % 31));
-	addStorageValue(key, value);
-
-	if (getCurrentMount() == mountId) {
-		if (isMounted()) {
-			dismount();
-			g_game().internalCreatureChangeOutfit(static_self_cast<Player>(), defaultOutfit);
-		}
-
-		setCurrentMount(0);
-		kv()->set("last-mount", 0);
-	}
-
-	return true;
+	return m_mountComponent.untameMount(mountId);
 }
 
 bool Player::hasMount(const std::shared_ptr<Mount> &mount) const {
-	if (isAccessPlayer()) {
-		return true;
-	}
-
-	if (mount->premium && !isPremium()) {
-		return false;
-	}
-
-	const uint8_t tmpMountId = mount->id - 1;
-
-	const int32_t value = getStorageValue(PSTRG_MOUNTS_RANGE_START + (tmpMountId / 31));
-	if (value == -1) {
-		return false;
-	}
-
-	return ((1 << (tmpMountId % 31)) & value) != 0;
+	return m_mountComponent.hasMount(mount);
 }
 
 void Player::dismount() {
-	const auto &mount = g_game().mounts->getMountByID(getCurrentMount());
-	if (mount && mount->speed > 0) {
-		g_game().changeSpeed(static_self_cast<Player>(), -mount->speed);
-	}
-
-	defaultOutfit.lookMount = 0;
+	m_mountComponent.dismount();
 }
 
 bool Player::addOfflineTrainingTries(skills_t skill, uint64_t tries) {
-	if (tries == 0 || skill == SKILL_LEVEL) {
-		return false;
-	}
-
-	bool sendUpdate = false;
-	uint32_t oldSkillValue, newSkillValue;
-	long double oldPercentToNextLevel, newPercentToNextLevel;
-
-	if (skill == SKILL_MAGLEVEL) {
-		uint64_t currReqMana = vocation->getReqMana(magLevel);
-		uint64_t nextReqMana = vocation->getReqMana(magLevel + 1);
-
-		if (currReqMana >= nextReqMana) {
-			return false;
-		}
-
-		oldSkillValue = magLevel;
-		oldPercentToNextLevel = static_cast<long double>(manaSpent * 100) / nextReqMana;
-
-		g_events().eventPlayerOnGainSkillTries(static_self_cast<Player>(), SKILL_MAGLEVEL, tries);
-		g_callbacks().executeCallback(EventCallback_t::playerOnGainSkillTries, getPlayer(), SKILL_MAGLEVEL, std::ref(tries));
-
-		uint32_t currMagLevel = magLevel;
-		while ((manaSpent + tries) >= nextReqMana) {
-			tries -= nextReqMana - manaSpent;
-
-			magLevel++;
-			manaSpent = 0;
-
-			g_creatureEvents().playerAdvance(static_self_cast<Player>(), SKILL_MAGLEVEL, magLevel - 1, magLevel);
-
-			sendUpdate = true;
-			currReqMana = nextReqMana;
-			nextReqMana = vocation->getReqMana(magLevel + 1);
-
-			if (currReqMana >= nextReqMana) {
-				tries = 0;
-				break;
-			}
-		}
-
-		manaSpent += tries;
-
-		if (magLevel != currMagLevel) {
-			std::ostringstream ss;
-			ss << "You advanced to magic level " << magLevel << '.';
-			sendTextMessage(MESSAGE_EVENT_ADVANCE, ss.str());
-			sendTakeScreenshot(SCREENSHOT_TYPE_SKILLUP);
-		}
-
-		uint8_t newPercent;
-		if (nextReqMana > currReqMana) {
-			newPercent = Player::getPercentLevel(manaSpent, nextReqMana);
-			newPercentToNextLevel = static_cast<long double>(manaSpent * 100) / nextReqMana;
-		} else {
-			newPercent = 0;
-			newPercentToNextLevel = 0;
-		}
-
-		if (newPercent != magLevelPercent) {
-			magLevelPercent = newPercent;
-			sendUpdate = true;
-		}
-
-		newSkillValue = magLevel;
-	} else {
-		uint64_t currReqTries = vocation->getReqSkillTries(skill, skills[skill].level);
-		uint64_t nextReqTries = vocation->getReqSkillTries(skill, skills[skill].level + 1);
-		if (currReqTries >= nextReqTries) {
-			return false;
-		}
-
-		oldSkillValue = skills[skill].level;
-		oldPercentToNextLevel = static_cast<long double>(skills[skill].tries * 100) / nextReqTries;
-
-		g_events().eventPlayerOnGainSkillTries(static_self_cast<Player>(), skill, tries);
-		g_callbacks().executeCallback(EventCallback_t::playerOnGainSkillTries, getPlayer(), skill, tries);
-		uint32_t currSkillLevel = skills[skill].level;
-
-		while ((skills[skill].tries + tries) >= nextReqTries) {
-			tries -= nextReqTries - skills[skill].tries;
-
-			skills[skill].level++;
-			skills[skill].tries = 0;
-			skills[skill].percent = 0;
-
-			g_creatureEvents().playerAdvance(static_self_cast<Player>(), skill, (skills[skill].level - 1), skills[skill].level);
-
-			sendUpdate = true;
-			currReqTries = nextReqTries;
-			nextReqTries = vocation->getReqSkillTries(skill, skills[skill].level + 1);
-
-			if (currReqTries >= nextReqTries) {
-				tries = 0;
-				break;
-			}
-		}
-
-		skills[skill].tries += tries;
-
-		if (currSkillLevel != skills[skill].level) {
-			std::ostringstream ss;
-			ss << "You advanced to " << getSkillName(skill) << " level " << skills[skill].level << '.';
-			sendTextMessage(MESSAGE_EVENT_ADVANCE, ss.str());
-			if (skill == SKILL_LEVEL) {
-				sendTakeScreenshot(SCREENSHOT_TYPE_LEVELUP);
-			} else {
-				sendTakeScreenshot(SCREENSHOT_TYPE_SKILLUP);
-			}
-		}
-
-		uint8_t newPercent;
-		if (nextReqTries > currReqTries) {
-			newPercent = Player::getPercentLevel(skills[skill].tries, nextReqTries);
-			newPercentToNextLevel = static_cast<long double>(skills[skill].tries * 100) / nextReqTries;
-		} else {
-			newPercent = 0;
-			newPercentToNextLevel = 0;
-		}
-
-		if (skills[skill].percent != newPercent) {
-			skills[skill].percent = newPercent;
-			sendUpdate = true;
-		}
-
-		newSkillValue = skills[skill].level;
-	}
-
-	if (sendUpdate) {
-		sendSkills();
-		sendStats();
-	}
-
-	std::string message = fmt::format(
-		"Your {} skill changed from level {} (with {:.2f}% progress towards level {}) to level {} (with {:.2f}% progress towards level {})",
-		ucwords(getSkillName(skill)),
-		oldSkillValue,
-		oldPercentToNextLevel,
-		oldSkillValue + 1,
-		newSkillValue,
-		newPercentToNextLevel,
-		newSkillValue + 1
-	);
-
-	sendTextMessage(MESSAGE_EVENT_ADVANCE, message);
-	return sendUpdate;
+	return m_trainingComponent.addOfflineTrainingTries(skill, tries);
 }
 
 void Player::addOfflineTrainingTime(int32_t addTime) {
-	offlineTrainingTime = std::min<int32_t>(12 * 3600 * 1000, offlineTrainingTime + addTime);
+	m_trainingComponent.addOfflineTrainingTime(addTime);
 }
 
 void Player::removeOfflineTrainingTime(int32_t removeTime) {
-	offlineTrainingTime = std::max<int32_t>(0, offlineTrainingTime - removeTime);
+	m_trainingComponent.removeOfflineTrainingTime(removeTime);
 }
 
 int32_t Player::getOfflineTrainingTime() const {
-	return offlineTrainingTime;
+	return m_trainingComponent.getOfflineTrainingTime();
 }
 
 int8_t Player::getOfflineTrainingSkill() const {
-	return offlineTrainingSkill;
+	return m_trainingComponent.getOfflineTrainingSkill();
 }
 
 void Player::setOfflineTrainingSkill(int8_t skill) {
-	offlineTrainingSkill = skill;
+	m_trainingComponent.setOfflineTrainingSkill(skill);
 }
 
 uint64_t Player::getBankBalance() const {
@@ -10127,148 +9596,59 @@ void Player::stowItem(const std::shared_ptr<Item> &item, uint32_t count, bool al
 }
 
 void Player::sendPreyData() const {
-	if (client) {
-		for (const std::unique_ptr<PreySlot> &slot : preys) {
-			client->sendPreyData(slot);
-		}
-
-		client->sendResourcesBalance(getMoney(), getBankBalance(), getPreyCards());
-	}
+	m_preyComponent.sendPreyData();
 }
 
 void Player::sendPreyTimeLeft(const std::unique_ptr<PreySlot> &slot) const {
-	if (g_configManager().getBoolean(PREY_ENABLED) && client) {
-		client->sendPreyTimeLeft(slot);
-	}
+	m_preyComponent.sendPreyTimeLeft(slot);
 }
 
 void Player::reloadPreySlot(PreySlot_t slotid) {
-	if (g_configManager().getBoolean(PREY_ENABLED) && client) {
-		client->sendPreyData(getPreySlotById(slotid));
-		client->sendResourcesBalance(getMoney(), getBankBalance(), getPreyCards(), getTaskHuntingPoints());
-	}
+	m_preyComponent.reloadPreySlot(slotid);
 }
 
 const std::unique_ptr<PreySlot> &Player::getPreySlotById(PreySlot_t slotid) {
-	if (auto it = std::ranges::find_if(preys, [slotid](const std::unique_ptr<PreySlot> &preyIt) {
-			return preyIt->id == slotid;
-		});
-	    it != preys.end()) {
-		return *it;
-	}
-
-	return PreySlotNull;
+	return m_preyComponent.getPreySlotById(slotid);
 }
 
 bool Player::setPreySlotClass(std::unique_ptr<PreySlot> &slot) {
-	if (getPreySlotById(slot->id)) {
-		return false;
-	}
-
-	preys.emplace_back(std::move(slot));
-	return true;
+	return m_preyComponent.setPreySlotClass(slot);
 }
 
 bool Player::usePreyCards(uint16_t amount) {
-	if (preyCards < amount) {
-		return false;
-	}
-
-	preyCards -= amount;
-	if (client) {
-		client->sendResourcesBalance(getMoney(), getBankBalance(), getPreyCards(), getTaskHuntingPoints());
-	}
-	return true;
+	return m_preyComponent.usePreyCards(amount);
 }
 
 void Player::addPreyCards(uint64_t amount) {
-	preyCards += amount;
-	if (client) {
-		client->sendResourcesBalance(getMoney(), getBankBalance(), getPreyCards(), getTaskHuntingPoints());
-	}
+	m_preyComponent.addPreyCards(amount);
 }
 
 uint64_t Player::getPreyCards() const {
-	return preyCards;
+	return m_preyComponent.getPreyCards();
 }
 
 uint32_t Player::getPreyRerollPrice() const {
-	return getLevel() * g_configManager().getNumber(PREY_REROLL_PRICE_LEVEL);
+	return m_preyComponent.getPreyRerollPrice();
 }
 
 std::vector<uint16_t> Player::getPreyBlackList() const {
-	std::vector<uint16_t> rt;
-	for (const std::unique_ptr<PreySlot> &slot : preys) {
-		if (slot) {
-			if (slot->isOccupied()) {
-				rt.push_back(slot->selectedRaceId);
-			}
-			for (uint16_t raceId : slot->raceIdList) {
-				rt.push_back(raceId);
-			}
-		}
-	}
-
-	return rt;
+	return m_preyComponent.getPreyBlackList();
 }
 
 const std::unique_ptr<PreySlot> &Player::getPreyWithMonster(uint16_t raceId) const {
-	if (!g_configManager().getBoolean(PREY_ENABLED)) {
-		return PreySlotNull;
-	}
-
-	if (auto it = std::ranges::find_if(preys, [raceId](const std::unique_ptr<PreySlot> &preyPtr) {
-			return preyPtr->selectedRaceId == raceId;
-		});
-	    it != preys.end()) {
-		return *it;
-	}
-
-	return PreySlotNull;
+	return m_preyComponent.getPreyWithMonster(raceId);
 }
 
-// Task hunting system
-
 void Player::initializeTaskHunting() {
-	if (taskHunting.empty()) {
-		for (uint8_t slotId = PreySlot_First; slotId <= PreySlot_Last; slotId++) {
-			auto slot = std::make_unique<TaskHuntingSlot>(static_cast<PreySlot_t>(slotId));
-			if (!g_configManager().getBoolean(TASK_HUNTING_ENABLED)) {
-				slot->state = PreyTaskDataState_Inactive;
-			} else if (slot->id == PreySlot_Three && !g_configManager().getBoolean(TASK_HUNTING_FREE_THIRD_SLOT)) {
-				slot->state = PreyTaskDataState_Locked;
-			} else if (slot->id == PreySlot_Two && !isPremium()) {
-				slot->state = PreyTaskDataState_Locked;
-			} else {
-				slot->state = PreyTaskDataState_Selection;
-				slot->reloadMonsterGrid(getTaskHuntingBlackList(), getLevel());
-			}
-
-			setTaskHuntingSlotClass(slot);
-		}
-	}
-
-	if (client && g_configManager().getBoolean(TASK_HUNTING_ENABLED) && !client->oldProtocol) {
-		auto buffer = g_ioprey().getTaskHuntingBaseDate();
-		client->writeToOutputBuffer(buffer);
-	}
+	m_preyComponent.initializeTaskHunting();
 }
 
 bool Player::isCreatureUnlockedOnTaskHunting(const std::shared_ptr<MonsterType> &mtype) const {
-	if (!mtype) {
-		return false;
-	}
-
-	return getBestiaryKillCount(mtype->info.raceid) >= mtype->info.bestiaryToUnlock;
+	return m_preyComponent.isCreatureUnlockedOnTaskHunting(mtype);
 }
 
 bool Player::setTaskHuntingSlotClass(std::unique_ptr<TaskHuntingSlot> &slot) {
-	if (getTaskHuntingSlotById(slot->id)) {
-		return false;
-	}
-
-	taskHunting.emplace_back(std::move(slot));
-	return true;
+	return m_preyComponent.setTaskHuntingSlotClass(slot);
 }
 
 uint8_t Player::getBlessingCount(uint8_t index, bool storeCount) const {
@@ -10324,90 +9704,40 @@ uint32_t Player::getIP() const {
 }
 
 void Player::reloadTaskSlot(PreySlot_t slotid) {
-	if (g_configManager().getBoolean(TASK_HUNTING_ENABLED) && client) {
-		client->sendTaskHuntingData(getTaskHuntingSlotById(slotid));
-		client->sendResourcesBalance(getMoney(), getBankBalance(), getPreyCards(), getTaskHuntingPoints());
-	}
+	m_preyComponent.reloadTaskSlot(slotid);
 }
 
 const std::unique_ptr<TaskHuntingSlot> &Player::getTaskHuntingSlotById(PreySlot_t slotid) {
-	if (auto it = std::ranges::find_if(taskHunting, [slotid](const std::unique_ptr<TaskHuntingSlot> &itTask) {
-			return itTask->id == slotid;
-		});
-	    it != taskHunting.end()) {
-		return *it;
-	}
-
-	return TaskHuntingSlotNull;
+	return m_preyComponent.getTaskHuntingSlotById(slotid);
 }
 
 std::vector<uint16_t> Player::getTaskHuntingBlackList() const {
-	std::vector<uint16_t> rt;
-
-	std::ranges::for_each(taskHunting, [&rt](const std::unique_ptr<TaskHuntingSlot> &slot) {
-		if (slot->isOccupied()) {
-			rt.push_back(slot->selectedRaceId);
-		} else {
-			std::ranges::for_each(slot->raceIdList, [&rt](uint16_t raceId) {
-				rt.push_back(raceId);
-			});
-		}
-	});
-
-	return rt;
+	return m_preyComponent.getTaskHuntingBlackList();
 }
 
 void Player::sendTaskHuntingData() const {
-	if (client) {
-		client->sendResourcesBalance(getMoney(), getBankBalance(), getPreyCards(), getTaskHuntingPoints());
-		for (const std::unique_ptr<TaskHuntingSlot> &slot : taskHunting) {
-			if (slot) {
-				client->sendTaskHuntingData(slot);
-			}
-		}
-	}
+	m_preyComponent.sendTaskHuntingData();
 }
 
 void Player::addTaskHuntingPoints(uint64_t amount) {
-	taskHuntingPoints += amount;
-	if (client) {
-		client->sendResourcesBalance(getMoney(), getBankBalance(), getPreyCards(), getTaskHuntingPoints());
-	}
+	m_preyComponent.addTaskHuntingPoints(amount);
 }
 
 bool Player::useTaskHuntingPoints(uint64_t amount) {
-	if (taskHuntingPoints < amount) {
-		return false;
-	}
-
-	taskHuntingPoints -= amount;
-	if (client) {
-		client->sendResourcesBalance(getMoney(), getBankBalance(), getPreyCards(), getTaskHuntingPoints());
-	}
-	return true;
+	return m_preyComponent.useTaskHuntingPoints(amount);
 }
 
 uint64_t Player::getTaskHuntingPoints() const {
-	return taskHuntingPoints;
+	return m_preyComponent.getTaskHuntingPoints();
 }
 
 uint32_t Player::getTaskHuntingRerollPrice() const {
-	return getLevel() * g_configManager().getNumber(TASK_HUNTING_REROLL_PRICE_LEVEL);
+	return m_preyComponent.getTaskHuntingRerollPrice();
 }
 
 const std::unique_ptr<TaskHuntingSlot> &Player::getTaskHuntingWithCreature(uint16_t raceId) const {
-	if (!g_configManager().getBoolean(TASK_HUNTING_ENABLED)) {
-		return TaskHuntingSlotNull;
-	}
-
-	if (auto it = std::ranges::find_if(taskHunting, [raceId](const std::unique_ptr<TaskHuntingSlot> &itTask) {
-			return itTask->selectedRaceId == raceId;
-		});
-	    it != taskHunting.end()) {
-		return *it;
-	}
-
-	return TaskHuntingSlotNull;
+	return m_preyComponent.getTaskHuntingWithCreature(raceId);
+// anchor
 }
 
 uint32_t Player::getLoyaltyPoints() const {
@@ -12305,31 +11635,11 @@ std::shared_ptr<Account> Player::getAccount() const {
 // Prey system
 
 void Player::initializePrey() {
-	if (preys.empty()) {
-		for (uint8_t slotId = PreySlot_First; slotId <= PreySlot_Last; slotId++) {
-			auto slot = std::make_unique<PreySlot>(static_cast<PreySlot_t>(slotId));
-			if (!g_configManager().getBoolean(PREY_ENABLED)) {
-				slot->state = PreyDataState_Inactive;
-			} else if (slot->id == PreySlot_Three && !g_configManager().getBoolean(PREY_FREE_THIRD_SLOT)) {
-				slot->state = PreyDataState_Locked;
-			} else if (slot->id == PreySlot_Two && !isPremium()) {
-				slot->state = PreyDataState_Locked;
-			} else {
-				slot->state = PreyDataState_Selection;
-				slot->reloadMonsterGrid(getPreyBlackList(), getLevel());
-			}
-
-			setPreySlotClass(slot);
-		}
-	}
+	m_preyComponent.initializePrey();
 }
 
 void Player::removePreySlotById(PreySlot_t slotid) {
-	const auto it = std::ranges::remove_if(preys, [slotid](const auto &preyIt) {
-						return preyIt->id == slotid;
-					}).begin();
-
-	preys.erase(it, preys.end());
+	m_preyComponent.removePreySlotById(slotid);
 }
 
 /*******************************************************************************
@@ -12510,6 +11820,38 @@ const WeaponProficiency &Player::weaponProficiency() const {
 	return m_weaponProficiency;
 }
 
+PlayerMountComponent &Player::mountComponent() {
+	return m_mountComponent;
+}
+
+const PlayerMountComponent &Player::mountComponent() const {
+	return m_mountComponent;
+}
+
+PlayerInventoryComponent &Player::inventoryComponent() {
+	return m_inventoryComponent;
+}
+
+const PlayerInventoryComponent &Player::inventoryComponent() const {
+	return m_inventoryComponent;
+}
+
+PlayerTrainingComponent &Player::trainingComponent() {
+	return m_trainingComponent;
+}
+
+const PlayerTrainingComponent &Player::trainingComponent() const {
+	return m_trainingComponent;
+}
+
+PlayerPreyComponent &Player::preyComponent() {
+	return m_preyComponent;
+}
+
+const PlayerPreyComponent &Player::preyComponent() const {
+	return m_preyComponent;
+}
+
 void Player::sendLootMessage(const std::string &message) const {
 	const auto &party = getParty();
 	if (!party) {
@@ -12607,11 +11949,11 @@ uint16_t Player::getDodgeChance() const {
 }
 
 uint8_t Player::isRandomMounted() const {
-	return randomMount;
+	return m_mountComponent.isRandomMounted();
 }
 
 void Player::setRandomMount(uint8_t isMountRandomized) {
-	randomMount = isMountRandomized;
+	m_mountComponent.setRandomMount(isMountRandomized);
 }
 
 void Player::sendFYIBox(const std::string &message) const {
@@ -12621,27 +11963,19 @@ void Player::sendFYIBox(const std::string &message) const {
 }
 
 void Player::parseBestiarySendRaces() const {
-	if (client) {
-		client->parseBestiarySendRaces();
-	}
+	m_preyComponent.parseBestiarySendRaces();
 }
 
 void Player::sendBestiaryCharms() const {
-	if (client) {
-		client->sendBestiaryCharms();
-	}
+	m_preyComponent.sendBestiaryCharms();
 }
 
 void Player::addBestiaryKillCount(uint16_t raceid, uint32_t amount) {
-	const uint32_t oldCount = getBestiaryKillCount(raceid);
-	const uint32_t key = STORAGEVALUE_BESTIARYKILLCOUNT + raceid;
-	addStorageValue(key, static_cast<int32_t>(oldCount + amount), true);
+	m_preyComponent.addBestiaryKillCount(raceid, amount);
 }
 
 uint32_t Player::getBestiaryKillCount(uint16_t raceid) const {
-	const uint32_t key = STORAGEVALUE_BESTIARYKILLCOUNT + raceid;
-	const auto value = getStorageValue(key);
-	return value > 0 ? static_cast<uint32_t>(value) : 0;
+	return m_preyComponent.getBestiaryKillCount(raceid);
 }
 
 void Player::setGUID(uint32_t newGuid) {

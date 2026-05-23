@@ -39,6 +39,7 @@ enum class ImbuementAction : uint8_t;
 
 class NetworkMessage;
 class Player;
+class PlayerPreyComponent;
 class VIPGroup;
 class Game;
 class House;
@@ -557,6 +558,7 @@ private:
 	void parseAimAtTarget(NetworkMessage &msg);
 
 	friend class Player;
+	friend class PlayerPreyComponent;
 	friend class PlayerWheel;
 	friend class PlayerVIP;
 	friend class PlayerAttachedEffects;
