@@ -34,6 +34,7 @@
 #include "creatures/players/components/player_mount_component.hpp"
 #include "creatures/players/components/player_prey_component.hpp"
 #include "creatures/players/components/player_forge_component.hpp"
+#include "creatures/players/components/player_death_component.hpp"
 #include "creatures/players/components/player_experience_component.hpp"
 #include "creatures/players/components/player_imbuement_component.hpp"
 #include "creatures/players/components/player_stash_component.hpp"
@@ -1545,6 +1546,10 @@ public:
 	PlayerExperienceComponent &experienceComponent();
 	const PlayerExperienceComponent &experienceComponent() const;
 
+	// Player death component interface
+	PlayerDeathComponent &deathComponent();
+	const PlayerDeathComponent &deathComponent() const;
+
 	// Player imbuement component interface
 	PlayerImbuementComponent &imbuementComponent();
 	const PlayerImbuementComponent &imbuementComponent() const;
@@ -1967,6 +1972,7 @@ private:
 	friend class PlayerForgeComponent;
 	friend class PlayerStashComponent;
 	friend class PlayerExperienceComponent;
+	friend class PlayerDeathComponent;
 	friend class PlayerImbuementComponent;
 
 	PlayerWheel m_wheelPlayer;
@@ -1986,6 +1992,7 @@ private:
 	PlayerForgeComponent m_forgeComponent;
 	PlayerStashComponent m_stashComponent;
 	PlayerExperienceComponent m_experienceComponent;
+	PlayerDeathComponent m_deathComponent;
 	PlayerImbuementComponent m_imbuementComponent;
 	WeaponProficiency m_weaponProficiency;
 

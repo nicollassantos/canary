@@ -131,7 +131,8 @@ Player::Player() :
 	m_forgeComponent(*this),
 	m_stashComponent(*this),
 	m_experienceComponent(*this),
-	m_imbuementComponent(*this) {
+	m_imbuementComponent(*this),
+	m_deathComponent(*this) {
 }
 
 Player::Player(std::shared_ptr<ProtocolGame> p) :
@@ -157,7 +158,8 @@ Player::Player(std::shared_ptr<ProtocolGame> p) :
 	m_forgeComponent(*this),
 	m_stashComponent(*this),
 	m_experienceComponent(*this),
-	m_imbuementComponent(*this) {
+	m_imbuementComponent(*this),
+	m_deathComponent(*this) {
 	baseCritical.chance = g_configManager().getFloat(PLAYER_BASE_CRITICAL_CHANCE);
 	baseCritical.damage = g_configManager().getFloat(PLAYER_BASE_CRITICAL_DAMAGE);
 	m_wheelPlayer.init();
@@ -3169,250 +3171,8 @@ void Player::doAttacking(uint32_t interval) {
 	}
 }
 
-void Player::death(const std::shared_ptr<Creature> &lastHitCreature) {
-	if (!g_configManager().getBoolean(TOGGLE_MOUNT_IN_PZ) && isMounted()) {
-		dismount();
-		g_game().internalCreatureChangeOutfit(getPlayer(), defaultOutfit);
-	}
-
-	loginPosition = town->getTemplePosition();
-
-	g_game().sendSingleSoundEffect(static_self_cast<Player>()->getPosition(), sex == PLAYERSEX_FEMALE ? SoundEffect_t::HUMAN_FEMALE_DEATH : SoundEffect_t::HUMAN_MALE_DEATH, getPlayer());
-	if (skillLoss) {
-		int playerDmg = 0;
-		int othersDmg = 0;
-		uint32_t sumLevels = 0;
-		uint32_t inFightTicks = 5 * 60 * 1000;
-		for (const auto &[creatureId, damageInfo] : damageMap) {
-			const auto &[total, ticks] = damageInfo;
-			if ((OTSYS_TIME() - ticks) <= inFightTicks) {
-				const auto &damageDealer = g_game().getPlayerByID(creatureId);
-				if (damageDealer) {
-					playerDmg += total;
-					sumLevels += damageDealer->getLevel();
-				} else {
-					othersDmg += total;
-				}
-			}
-		}
-
-		bool pvpDeath = false;
-		if (playerDmg > 0 || othersDmg > 0) {
-			pvpDeath = (Player::lastHitIsPlayer(lastHitCreature) || playerDmg / (playerDmg + static_cast<double>(othersDmg)) >= 0.05);
-		}
-
-		uint8_t unfairFightReduction = 100;
-		if (pvpDeath && sumLevels > level) {
-			double reduce = level / static_cast<double>(sumLevels);
-			unfairFightReduction = std::max<uint8_t>(20, std::floor((reduce * 100) + 0.5));
-		}
-
-		// Magic level loss
-		uint64_t sumMana = 0;
-		uint64_t lostMana = 0;
-
-		// Sum up all the mana
-		for (uint32_t i = 1; i <= magLevel; ++i) {
-			sumMana += vocation->getReqMana(i);
-		}
-
-		sumMana += manaSpent;
-
-		double deathLossPercent = getLostPercent() * (unfairFightReduction / 100.);
-
-		// Charm bless bestiary
-		const auto charmBless = charmsArray[CHARM_BLESS];
-		const auto charmBlessRaceId = charmBless.raceId;
-		const auto &charm = g_iobestiary().getBestiaryCharm(CHARM_BLESS);
-		if (charm && lastHitCreature && lastHitCreature->getMonster() && charmBlessRaceId != 0) {
-			const auto &mType = g_monsters().getMonsterType(lastHitCreature->getName());
-			if (mType && mType->info.raceid == charmBlessRaceId) {
-				const auto percentReduction = charm->chance[charmBless.tier] / 100;
-				deathLossPercent -= deathLossPercent * percentReduction;
-			}
-		}
-
-		lostMana = static_cast<uint64_t>(sumMana * deathLossPercent);
-
-		while (lostMana > manaSpent && magLevel > 0) {
-			lostMana -= manaSpent;
-			manaSpent = vocation->getReqMana(magLevel);
-			magLevel--;
-		}
-
-		manaSpent -= lostMana;
-
-		uint64_t nextReqMana = vocation->getReqMana(magLevel + 1);
-		if (nextReqMana > vocation->getReqMana(magLevel)) {
-			magLevelPercent = Player::getPercentLevel(manaSpent, nextReqMana);
-		} else {
-			magLevelPercent = 0;
-		}
-
-		// Level loss
-		auto expLoss = static_cast<uint64_t>(std::ceil(experience * deathLossPercent));
-		g_logger().debug("[{}] - experience lost {}", __FUNCTION__, expLoss);
-
-		g_events().eventPlayerOnLoseExperience(static_self_cast<Player>(), expLoss);
-		g_callbacks().executeCallback(EventCallback_t::playerOnLoseExperience, getPlayer(), expLoss);
-
-		sendTextMessage(MESSAGE_EVENT_ADVANCE, "You are dead.");
-		std::ostringstream lostExp;
-		lostExp << "You lost " << expLoss << " experience.";
-
-		// Skill loss
-		for (uint8_t i = SKILL_FIRST; i <= SKILL_LAST; ++i) { // For each skill
-			uint64_t sumSkillTries = 0;
-			for (uint16_t c = 11; c <= skills[i].level; ++c) { // Sum up all required tries for all skill levels
-				sumSkillTries += vocation->getReqSkillTries(i, c);
-			}
-
-			sumSkillTries += skills[i].tries;
-
-			auto lostSkillTries = static_cast<uint32_t>(sumSkillTries * deathLossPercent);
-			while (lostSkillTries > skills[i].tries) {
-				lostSkillTries -= skills[i].tries;
-
-				if (skills[i].level <= 10) {
-					skills[i].level = 10;
-					skills[i].tries = 0;
-					lostSkillTries = 0;
-					break;
-				}
-
-				skills[i].tries = vocation->getReqSkillTries(i, skills[i].level);
-				skills[i].level--;
-			}
-
-			skills[i].tries = std::max<int32_t>(0, skills[i].tries - lostSkillTries);
-			skills[i].percent = Player::getPercentLevel(skills[i].tries, vocation->getReqSkillTries(i, skills[i].level));
-		}
-
-		sendTextMessage(MESSAGE_EVENT_ADVANCE, lostExp.str());
-
-		if (expLoss != 0) {
-			uint32_t oldLevel = level;
-
-			if (vocation->getId() == VOCATION_NONE || level > 7) {
-				experience -= expLoss;
-			}
-
-			while (level > 1 && experience < Player::getExpForLevel(level)) {
-				--level;
-				healthMax = std::max<int32_t>(0, healthMax - vocation->getHPGain());
-				manaMax = std::max<int32_t>(0, manaMax - vocation->getManaGain());
-				capacity = std::max<int32_t>(0, capacity - vocation->getCapGain());
-			}
-
-			if (oldLevel != level) {
-				std::ostringstream ss;
-				ss << "You were downgraded from Level " << oldLevel << " to Level " << level << '.';
-				sendTextMessage(MESSAGE_EVENT_ADVANCE, ss.str());
-			}
-
-			uint64_t currLevelExp = Player::getExpForLevel(level);
-			uint64_t nextLevelExp = Player::getExpForLevel(level + 1);
-			if (nextLevelExp > currLevelExp) {
-				levelPercent = Player::getPercentLevel(experience - currLevelExp, nextLevelExp - currLevelExp);
-			} else {
-				levelPercent = 0;
-			}
-		}
-
-		std::ostringstream deathType;
-		deathType << "You died during ";
-		if (pvpDeath) {
-			deathType << "PvP.";
-		} else {
-			deathType << "PvE.";
-		}
-		sendTextMessage(MESSAGE_EVENT_ADVANCE, deathType.str());
-
-		auto adventurerBlessingLevel = g_configManager().getNumber(ADVENTURERSBLESSING_LEVEL);
-		auto willNotLoseBless = getLevel() < adventurerBlessingLevel && getVocationId() > VOCATION_NONE;
-
-		std::string bless = getBlessingsName();
-		std::ostringstream blessOutput;
-		if (willNotLoseBless) {
-			blessOutput << fmt::format("You still have adventurer's blessings for being level lower than {}!", adventurerBlessingLevel);
-		} else {
-			bless.empty() ? blessOutput << "You weren't protected with any blessings."
-						  : blessOutput << "You were blessed with " << bless;
-
-			const auto playerSkull = getSkull();
-			bool hasSkull = (playerSkull == Skulls_t::SKULL_RED || playerSkull == Skulls_t::SKULL_BLACK);
-			uint8_t maxBlessing = 8;
-			if (!hasSkull && pvpDeath && hasBlessing(1)) {
-				removeBlessing(1, 1); // Remove TOF only
-			} else {
-				for (int i = 2; i <= maxBlessing; i++) {
-					removeBlessing(i, 1);
-				}
-
-				const auto &playerAmulet = getThing(CONST_SLOT_NECKLACE);
-				bool usingAol = (playerAmulet && playerAmulet->getItem()->getID() == ITEM_AMULETOFLOSS);
-				if (usingAol) {
-					removeItemOfType(ITEM_AMULETOFLOSS, 1, -1);
-				}
-			}
-		}
-		sendTextMessage(MESSAGE_EVENT_ADVANCE, blessOutput.str());
-
-		sendStats();
-		sendSkills();
-		sendReLoginWindow(unfairFightReduction);
-		sendBlessStatus();
-		lastLogout = getTimeNow();
-		if (getSkull() == SKULL_BLACK) {
-			health = 40;
-			mana = 0;
-		} else {
-			health = healthMax;
-			mana = manaMax;
-		}
-
-		auto it = conditions.begin(), end = conditions.end();
-		while (it != end) {
-			auto condition = *it;
-			// isSupress block to delete spells conditions (ensures that the player cannot, for example, reset the cooldown time of the familiar and summon several)
-			if (condition->isPersistent() && condition->isRemovableOnDeath()) {
-				it = conditions.erase(it);
-
-				condition->endCondition(static_self_cast<Player>());
-				onEndCondition(condition->getType());
-			} else {
-				++it;
-			}
-		}
-		despawn();
-	} else {
-		setSkillLoss(true);
-
-		auto it = conditions.begin(), end = conditions.end();
-		while (it != end) {
-			auto condition = *it;
-			if (condition->isPersistent()) {
-				it = conditions.erase(it);
-
-				condition->endCondition(static_self_cast<Player>());
-				onEndCondition(condition->getType());
-			} else {
-				++it;
-			}
-		}
-
-		health = healthMax;
-		g_game().internalTeleport(static_self_cast<Player>(), getTemplePosition(), true);
-		g_game().addCreatureHealth(static_self_cast<Player>());
-		g_game().addPlayerMana(static_self_cast<Player>());
-		onThink(EVENT_CREATURE_THINK_INTERVAL);
-		onIdleStatus();
-		sendStats();
-	}
-
-	if (getPlayerVocationEnum() == VOCATION_MONK_CIP) {
-		emptyHarmony();
-	}
+void Player::death(const std::shared_ptr<Creature> &lastHitCreature)  {
+	m_deathComponent.death(lastHitCreature);
 }
 
 bool Player::spawn() {
@@ -3440,67 +3200,12 @@ bool Player::spawn() {
 	return true;
 }
 
-void Player::despawn() {
-	if (isDead()) {
-		return;
-	}
-
-	listWalkDir.clear();
-	stopEventWalk();
-	onWalkAborted();
-	closeAllExternalContainers();
-	g_game().playerSetAttackedCreature(static_self_cast<Player>()->getID(), 0);
-	g_game().playerFollowCreature(static_self_cast<Player>()->getID(), 0);
-
-	// remove check
-	Game::removeCreatureCheck(static_self_cast<Player>());
-
-	// remove from map
-	const auto &tile = getTile();
-	if (!tile) {
-		return;
-	}
-
-	std::vector<int32_t> oldStackPosVector;
-
-	const auto &spectators = Spectators().find<Creature>(tile->getPosition(), true);
-	size_t i = 0;
-	for (const auto &spectator : spectators) {
-		if (const auto &player = spectator->getPlayer()) {
-			oldStackPosVector.emplace_back(player->canSeeCreature(static_self_cast<Player>()) ? tile->getClientIndexOfCreature(player, getPlayer()) : -1);
-		}
-		if (const auto &player = spectator->getPlayer()) {
-			player->sendRemoveTileThing(tile->getPosition(), oldStackPosVector[i++]);
-		}
-
-		spectator->onRemoveCreature(static_self_cast<Player>(), false);
-	}
-
-	tile->removeCreature(static_self_cast<Player>());
-
-	getParent()->postRemoveNotification(static_self_cast<Player>(), nullptr, 0);
-
-	g_game().removePlayer(static_self_cast<Player>());
-
-	// show player as pending
-	for (const auto &[key, player] : g_game().getPlayers()) {
-		player->vip().notifyStatusChange(static_self_cast<Player>(), VipStatus_t::Pending, false);
-	}
-
-	if (m_party && g_configManager().getBoolean(LEAVE_PARTY_ON_DEATH)) {
-		m_party->leaveParty(static_self_cast<Player>());
-	}
-
-	setDead(true);
+void Player::despawn()  {
+	m_deathComponent.despawn();
 }
 
-bool Player::dropCorpse(const std::shared_ptr<Creature> &lastHitCreature, const std::shared_ptr<Creature> &mostDamageCreature, bool lastHitUnjustified, bool mostDamageUnjustified) {
-	if (getZoneType() != ZONE_PVP || !Player::lastHitIsPlayer(lastHitCreature)) {
-		return Creature::dropCorpse(lastHitCreature, mostDamageCreature, lastHitUnjustified, mostDamageUnjustified);
-	}
-
-	setDropLoot(true);
-	return false;
+bool Player::dropCorpse(const std::shared_ptr<Creature> &lastHitCreature, const std::shared_ptr<Creature> &mostDamageCreature, bool lastHitUnjustified, bool mostDamageUnjustified)  {
+	return m_deathComponent.dropCorpse(lastHitCreature, mostDamageCreature, lastHitUnjustified, mostDamageUnjustified);
 }
 
 std::shared_ptr<Item> Player::getCorpse(const std::shared_ptr<Creature> &lastHitCreature, const std::shared_ptr<Creature> &mostDamageCreature) {
@@ -5938,47 +5643,8 @@ void Player::clearAttacked() {
 	attackedSet.clear();
 }
 
-void Player::addUnjustifiedDead(const std::shared_ptr<Player> &attacked) {
-	if (hasFlag(PlayerFlags_t::NotGainInFight) || attacked == getPlayer() || g_game().getWorldType() == WORLD_TYPE_PVP_ENFORCED) {
-		return;
-	}
-
-	sendTextMessage(MESSAGE_EVENT_ADVANCE, "Warning! The murder of " + attacked->getName() + " was not justified.");
-
-	const auto killTime = time(nullptr);
-	unjustifiedKills.emplace_back(attacked->getGUID(), killTime, true);
-	updateLastKillTimeCache(killTime);
-
-	uint8_t dayKills = 0;
-	uint8_t weekKills = 0;
-	uint8_t monthKills = 0;
-
-	for (const auto &kill : unjustifiedKills) {
-		const auto diff = time(nullptr) - kill.time;
-		if (diff <= 4 * 60 * 60) {
-			dayKills += 1;
-		}
-		if (diff <= 7 * 24 * 60 * 60) {
-			weekKills += 1;
-		}
-		if (diff <= 30 * 24 * 60 * 60) {
-			monthKills += 1;
-		}
-	}
-
-	if (getSkull() != SKULL_BLACK) {
-		if (dayKills >= 2 * g_configManager().getNumber(DAY_KILLS_TO_RED) || weekKills >= 2 * g_configManager().getNumber(WEEK_KILLS_TO_RED) || monthKills >= 2 * g_configManager().getNumber(MONTH_KILLS_TO_RED)) {
-			setSkull(SKULL_BLACK);
-			// start black skull time
-			skullTicks = static_cast<int64_t>(g_configManager().getNumber(BLACK_SKULL_DURATION)) * 24 * 60 * 60;
-		} else if (dayKills >= g_configManager().getNumber(DAY_KILLS_TO_RED) || weekKills >= g_configManager().getNumber(WEEK_KILLS_TO_RED) || monthKills >= g_configManager().getNumber(MONTH_KILLS_TO_RED)) {
-			setSkull(SKULL_RED);
-			// reset red skull time
-			skullTicks = static_cast<int64_t>(g_configManager().getNumber(RED_SKULL_DURATION)) * 24 * 60 * 60;
-		}
-	}
-
-	sendUnjustifiedPoints();
+void Player::addUnjustifiedDead(const std::shared_ptr<Player> &attacked)  {
+	m_deathComponent.addUnjustifiedDead(attacked);
 }
 
 void Player::sendCreatureEmblem(const std::shared_ptr<Creature> &creature) const {
@@ -6025,49 +5691,8 @@ uint32_t Player::getAttackSpeed() const {
 	return vocation->getAttackSpeed();
 }
 
-double Player::getLostPercent() const {
-	int32_t blessingCount = 0;
-	const uint8_t maxBlessing = 8;
-	for (int i = 2; i <= maxBlessing; i++) {
-		if (hasBlessing(i)) {
-			blessingCount++;
-		}
-	}
-
-	int32_t deathLosePercent = g_configManager().getNumber(DEATH_LOSE_PERCENT);
-	if (deathLosePercent != -1) {
-		if (isPromoted()) {
-			deathLosePercent -= 3;
-		}
-
-		deathLosePercent -= blessingCount;
-		return std::max<int32_t>(0, deathLosePercent) / 100.;
-	}
-
-	bool isRetro = g_configManager().getBoolean(TOGGLE_SERVER_IS_RETRO);
-	const auto factor = (isRetro ? 6.31 : 8);
-	double percentReduction = (blessingCount * factor) / 100.;
-
-	double lossPercent;
-	if (level >= 24) {
-		const double tmpLevel = level + (levelPercent / 100.);
-		lossPercent = ((tmpLevel + 50) * 50 * ((tmpLevel * tmpLevel) - (5 * tmpLevel) + 8)) / experience;
-	} else {
-		percentReduction = (percentReduction >= 0.40 ? 0.50 : percentReduction);
-		lossPercent = 10;
-	}
-
-	g_logger().debug("[{}] - lossPercent {}", __FUNCTION__, lossPercent);
-	g_logger().debug("[{}] - before promotion {}", __FUNCTION__, percentReduction);
-
-	if (isPromoted()) {
-		percentReduction += 30 / 100.;
-		g_logger().debug("[{}] - after promotion {}", __FUNCTION__, percentReduction);
-	}
-
-	g_logger().debug("[{}] - total lost percent {}", __FUNCTION__, (lossPercent * (1 - percentReduction)) / 100.);
-
-	return (lossPercent * (1 - percentReduction)) / 100.;
+double Player::getLostPercent() const  {
+	return m_deathComponent.getLostPercent();
 }
 
 [[nodiscard]] const std::string &Player::getGuildNick() const {
@@ -8696,6 +8321,14 @@ PlayerImbuementComponent &Player::imbuementComponent() {
 
 const PlayerImbuementComponent &Player::imbuementComponent() const {
 	return m_imbuementComponent;
+}
+
+PlayerDeathComponent &Player::deathComponent() {
+	return m_deathComponent;
+}
+
+const PlayerDeathComponent &Player::deathComponent() const {
+	return m_deathComponent;
 }
 
 void Player::sendLootMessage(const std::string &message) const {
