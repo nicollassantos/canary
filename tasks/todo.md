@@ -64,9 +64,9 @@
 
 ## Phase 6: ProtocolGame → Thin Adapter
 
-- [ ] **6.1** — `INetworkCommandPort` + comandos tipados
-- [ ] **6.2** — Migrar packet handlers → command dispatchers
-- [ ] **CHECKPOINT 7** — `protocolgame.cpp` < 7k linhas → revisão humana
+- [x] **6.1** — `INetworkCommandPort` + `GameCommandDispatcher` + parseAutoWalk/parseAttack/parseFollow → command pattern
+- [x] **6.2** — Split `protocolgame_send.cpp` (7112 linhas) — protocolgame.cpp = 3396 linhas (−7345); 258/258 testes ✓
+- [x] **CHECKPOINT 7** — `protocolgame.cpp` = 3396 linhas (< 7k) ✓; 258/258 testes → revisão humana
 
 ## Phase 7: Singletons Restantes
 
