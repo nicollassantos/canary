@@ -10,42 +10,18 @@
 #pragma once
 
 #include "creatures/creature.hpp"
-#include "enums/forge_conversion.hpp"
 #include "game/bank/bank.hpp"
 #include "grouping/guild.hpp"
 #include "items/cylinder.hpp"
 #include "game/movement/position.hpp"
 #include "creatures/creatures_definitions.hpp"
 #include "creatures/players/stash_definitions.hpp"
-
-// Player components are decoupled to reduce complexity. Keeping includes here aids in clarity and maintainability, but avoid including player.hpp in headers to prevent circular dependencies.
-#include "creatures/players/animus_mastery/animus_mastery.hpp"
-#include "creatures/players/components/player_achievement.hpp"
-#include "creatures/players/components/player_badge.hpp"
-#include "creatures/players/components/player_cyclopedia.hpp"
-#include "creatures/players/components/player_forge_history.hpp"
-#include "creatures/players/components/player_storage.hpp"
-#include "creatures/players/components/player_title.hpp"
-#include "creatures/players/components/wheel/player_wheel.hpp"
-#include "creatures/players/components/player_vip.hpp"
-#include "creatures/players/components/wheel/wheel_gems.hpp"
-#include "creatures/players/components/player_attached_effects.hpp"
-#include "creatures/players/components/player_inventory_component.hpp"
-#include "creatures/players/components/player_mount_component.hpp"
-#include "creatures/players/components/player_prey_component.hpp"
-#include "creatures/players/components/player_forge_component.hpp"
-#include "creatures/players/components/player_death_component.hpp"
-#include "creatures/players/components/player_experience_component.hpp"
-#include "creatures/players/components/player_imbuement_component.hpp"
-#include "creatures/players/components/player_stash_component.hpp"
-#include "creatures/players/components/player_training_component.hpp"
-#include "creatures/players/components/player_combat_event_component.hpp"
-#include "creatures/players/components/player_combat_stats_component.hpp"
-#include "creatures/players/components/player_creature_event_component.hpp"
-#include "creatures/players/components/player_cylinder_component.hpp"
-#include "creatures/players/components/player_session_component.hpp"
-#include "creatures/players/components/weapon_proficiency.hpp"
 #include "utils/hash.hpp"
+
+// All player component types (value members require complete types)
+#include "creatures/players/components/player_components.hpp"
+
+enum class ForgeAction_t : uint8_t;
 
 class House;
 class NetworkMessage;

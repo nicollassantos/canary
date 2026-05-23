@@ -1,0 +1,31 @@
+#pragma once
+
+// Aggregate header for all Player component types.
+// Include this in player.hpp to satisfy value-member type completeness.
+
+#include "creatures/players/animus_mastery/animus_mastery.hpp"
+#include "creatures/players/components/player_achievement.hpp"
+#include "creatures/players/components/player_attached_effects.hpp"
+#include "creatures/players/components/player_badge.hpp"
+#include "creatures/players/components/player_combat_event_component.hpp"
+#include "creatures/players/components/player_combat_stats_component.hpp"
+#include "creatures/players/components/player_creature_event_component.hpp"
+#include "creatures/players/components/player_cyclopedia.hpp"
+#include "creatures/players/components/player_cylinder_component.hpp"
+#include "creatures/players/components/player_death_component.hpp"
+#include "creatures/players/components/player_experience_component.hpp"
+#include "creatures/players/components/player_forge_component.hpp"
+#include "creatures/players/components/player_forge_history.hpp"
+#include "creatures/players/components/player_imbuement_component.hpp"
+#include "creatures/players/components/player_inventory_component.hpp"
+#include "creatures/players/components/player_mount_component.hpp"
+#include "creatures/players/components/player_prey_component.hpp"
+#include "creatures/players/components/player_session_component.hpp"
+#include "creatures/players/components/player_stash_component.hpp"
+#include "creatures/players/components/player_storage.hpp"
+#include "creatures/players/components/player_title.hpp"
+#include "creatures/players/components/player_training_component.hpp"
+#include "creatures/players/components/player_vip.hpp"
+#include "creatures/players/components/weapon_proficiency.hpp"
+#include "creatures/players/components/wheel/player_wheel.hpp"
+#include "creatures/players/components/wheel/wheel_gems.hpp"
