@@ -32,6 +32,7 @@ target_sources(
             players/components/player_badge.cpp
             players/components/player_cyclopedia.cpp
             players/components/player_combat_event_component.cpp
+            players/components/player_session_component.cpp
             players/components/player_combat_stats_component.cpp
             players/components/player_creature_event_component.cpp
             players/components/player_cylinder_component.cpp

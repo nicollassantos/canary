@@ -11,6 +11,7 @@
 
 #include "config/configmanager.hpp"
 #include "creatures/players/player.hpp"
+#include "utils/tools.hpp"
 #include "lua/creature/movement.hpp"
 #include "items/item.hpp"
 #include "items/containers/container.hpp"

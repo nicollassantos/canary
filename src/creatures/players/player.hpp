@@ -43,6 +43,7 @@
 #include "creatures/players/components/player_combat_stats_component.hpp"
 #include "creatures/players/components/player_creature_event_component.hpp"
 #include "creatures/players/components/player_cylinder_component.hpp"
+#include "creatures/players/components/player_session_component.hpp"
 #include "creatures/players/components/weapon_proficiency.hpp"
 #include "utils/hash.hpp"
 
@@ -1570,6 +1571,10 @@ public:
 	PlayerCreatureEventComponent &creatureEvents();
 	const PlayerCreatureEventComponent &creatureEvents() const;
 
+	// Player session component interface
+	PlayerSessionComponent &session();
+	const PlayerSessionComponent &session() const;
+
 	// Player cylinder component interface
 	PlayerCylinderComponent &cylinderComponent();
 	const PlayerCylinderComponent &cylinderComponent() const;
@@ -1998,6 +2003,7 @@ private:
 	friend class PlayerCombatStatsComponent;
 	friend class PlayerCreatureEventComponent;
 	friend class PlayerCylinderComponent;
+	friend class PlayerSessionComponent;
 
 	PlayerWheel m_wheelPlayer;
 	PlayerAchievement m_playerAchievement;
@@ -2022,6 +2028,7 @@ private:
 	PlayerCombatStatsComponent m_combatStatsComponent;
 	PlayerCreatureEventComponent m_creatureEventComponent;
 	PlayerCylinderComponent m_cylinderComponent;
+	PlayerSessionComponent m_sessionComponent;
 	WeaponProficiency m_weaponProficiency;
 
 	std::mutex quickLootMutex;

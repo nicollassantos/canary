@@ -136,7 +136,8 @@ Player::Player() :
 	m_combatEventComponent(*this),
 	m_combatStatsComponent(*this),
 	m_creatureEventComponent(*this),
-	m_cylinderComponent(*this) {
+	m_cylinderComponent(*this),
+	m_sessionComponent(*this) {
 }
 
 Player::Player(std::shared_ptr<ProtocolGame> p) :
@@ -167,7 +168,8 @@ Player::Player(std::shared_ptr<ProtocolGame> p) :
 	m_combatEventComponent(*this),
 	m_combatStatsComponent(*this),
 	m_creatureEventComponent(*this),
-	m_cylinderComponent(*this) {
+	m_cylinderComponent(*this),
+	m_sessionComponent(*this) {
 	baseCritical.chance = g_configManager().getFloat(PLAYER_BASE_CRITICAL_CHANCE);
 	baseCritical.damage = g_configManager().getFloat(PLAYER_BASE_CRITICAL_DAMAGE);
 	m_wheelPlayer.init();
@@ -2386,20 +2388,20 @@ bool Player::canDoPotionAction() const {
 }
 
 void Player::setLoginProtection(int64_t time) {
-	loginProtectionTime = OTSYS_TIME() + time;
+	m_sessionComponent.setLoginProtection(time);
 }
 bool Player::isLoginProtected() const {
-	return loginProtectionTime > OTSYS_TIME();
+	return m_sessionComponent.isLoginProtected();
 }
 void Player::resetLoginProtection() {
-	loginProtectionTime = 0;
+	m_sessionComponent.resetLoginProtection();
 }
 
 void Player::setProtection(bool status) {
-	connProtected = status;
+	m_sessionComponent.setProtection(status);
 }
 bool Player::isProtected() {
-	return connProtected;
+	return m_sessionComponent.isProtected();
 }
 
 void Player::cancelPush() {
@@ -2564,22 +2566,7 @@ std::shared_ptr<Item> Player::getCorpse(const std::shared_ptr<Creature> &lastHit
 }
 
 void Player::addInFightTicks(bool pzlock /*= false*/) {
-	wheel().checkAbilities();
-
-	if (hasFlag(PlayerFlags_t::NotGainInFight)) {
-		return;
-	}
-
-	if (pzlock) {
-		pzLocked = true;
-		sendIcons();
-	}
-
-	updateImbuementTrackerStats();
-
-	safeCall([this] {
-		addCondition(Condition::createCondition(CONDITIONID_DEFAULT, CONDITION_INFIGHT, g_configManager().getNumber(PZ_LOCKED)));
-	});
+	m_sessionComponent.addInFightTicks(pzlock);
 }
 
 void Player::setDailyReward(uint8_t reward) {
@@ -2587,29 +2574,15 @@ void Player::setDailyReward(uint8_t reward) {
 }
 
 void Player::removeList() {
-	g_game().removePlayer(static_self_cast<Player>());
-
-	for (const auto &[key, player] : g_game().getPlayers()) {
-		player->vip().notifyStatusChange(static_self_cast<Player>(), VipStatus_t::Offline);
-	}
+	m_sessionComponent.removeList();
 }
 
 void Player::addList() {
-	for (const auto &[key, player] : g_game().getPlayers()) {
-		player->vip().notifyStatusChange(static_self_cast<Player>(), vip().getStatus());
-	}
-
-	g_game().addPlayer(static_self_cast<Player>());
+	m_sessionComponent.addList();
 }
 
 void Player::removePlayer(bool displayEffect, bool forced /*= true*/) {
-	setAttackedCreature(nullptr);
-	g_creatureEvents().playerLogout(static_self_cast<Player>());
-	if (client) {
-		client->logout(displayEffect, forced);
-	} else {
-		g_game().removeCreature(static_self_cast<Player>());
-	}
+	m_sessionComponent.removePlayer(displayEffect, forced);
 }
 
 uint64_t Player::getExpForLevel(const uint32_t level) {
@@ -3670,24 +3643,7 @@ void Player::setFamiliarLooktype(uint16_t familiarLooktype) {
 }
 
 bool Player::canLogout() {
-	if (isConnecting) {
-		return false;
-	}
-
-	const auto &tile = getTile();
-	if (!tile) {
-		return false;
-	}
-
-	if (tile->hasFlag(TILESTATE_NOLOGOUT)) {
-		return false;
-	}
-
-	if (tile->hasFlag(TILESTATE_PROTECTIONZONE)) {
-		return true;
-	}
-
-	return !isPzLocked() && !hasCondition(CONDITION_INFIGHT);
+	return m_sessionComponent.canLogout();
 }
 
 bool Player::hasKilled(const std::shared_ptr<Player> &player) const {
@@ -6989,4 +6945,12 @@ PlayerForgeComponent &Player::forgeComponent() {
 
 const PlayerForgeComponent &Player::forgeComponent() const {
 	return m_forgeComponent;
+}
+
+PlayerSessionComponent &Player::session() {
+	return m_sessionComponent;
+}
+
+const PlayerSessionComponent &Player::session() const {
+	return m_sessionComponent;
 }
