@@ -133,6 +133,7 @@ Player::Player() :
 	m_experienceComponent(*this),
 	m_imbuementComponent(*this),
 	m_deathComponent(*this),
+	m_combatEventComponent(*this),
 	m_combatStatsComponent(*this),
 	m_creatureEventComponent(*this),
 	m_cylinderComponent(*this) {
@@ -163,6 +164,7 @@ Player::Player(std::shared_ptr<ProtocolGame> p) :
 	m_experienceComponent(*this),
 	m_imbuementComponent(*this),
 	m_deathComponent(*this),
+	m_combatEventComponent(*this),
 	m_combatStatsComponent(*this),
 	m_creatureEventComponent(*this),
 	m_cylinderComponent(*this) {
@@ -2493,193 +2495,31 @@ double_t Player::getPercentLevel(uint64_t count, uint64_t nextLevelCount) {
 }
 
 void Player::onBlockHit() {
-	if (shieldBlockCount > 0) {
-		--shieldBlockCount;
-
-		if (hasShield()) {
-			addSkillAdvance(SKILL_SHIELD, 1);
-		}
-	}
+	m_combatEventComponent.onBlockHit();
 }
 
 void Player::onTakeDamage(const std::shared_ptr<Creature> &attacker, int32_t damage) {
-	// nothing here yet
+	m_combatEventComponent.onTakeDamage(attacker, damage);
 }
 
 void Player::onAttackedCreatureBlockHit(const BlockType_t &blockType) {
-	lastAttackBlockType = blockType;
-
-	switch (blockType) {
-		case BLOCK_NONE: {
-			addAttackSkillPoint = true;
-			bloodHitCount = 30;
-			shieldBlockCount = 30;
-			break;
-		}
-
-		case BLOCK_DEFENSE:
-		case BLOCK_ARMOR: {
-			// need to draw blood every 30 hits
-			if (bloodHitCount > 0) {
-				addAttackSkillPoint = true;
-				--bloodHitCount;
-			} else {
-				addAttackSkillPoint = false;
-			}
-			break;
-		}
-
-		default: {
-			addAttackSkillPoint = false;
-			break;
-		}
-	}
+	m_combatEventComponent.onAttackedCreatureBlockHit(blockType);
 }
 
 bool Player::hasShield() const {
-	const auto &itemLeft = inventory[CONST_SLOT_LEFT];
-	if (itemLeft && itemLeft->getWeaponType() == WEAPON_SHIELD) {
-		return true;
-	}
-
-	const auto &itemRight = inventory[CONST_SLOT_RIGHT];
-	if (itemRight && itemRight->getWeaponType() == WEAPON_SHIELD) {
-		return true;
-	}
-	return false;
+	return m_combatEventComponent.hasShield();
 }
 
 bool Player::isPzLocked() const {
-	return pzLocked;
+	return m_combatEventComponent.isPzLocked();
 }
 
 BlockType_t Player::blockHit(const std::shared_ptr<Creature> &attacker, const CombatType_t &combatType, int32_t &damage, bool checkDefense, bool checkArmor, bool field) {
-	BlockType_t blockType = Creature::blockHit(attacker, combatType, damage, checkDefense, checkArmor, field);
-	if (attacker) {
-		sendCreatureSquare(attacker, SQ_COLOR_BLACK);
-	}
-
-	if (blockType != BLOCK_NONE) {
-		return blockType;
-	}
-
-	if (damage > 0) {
-		for (int32_t slot = CONST_SLOT_FIRST; slot <= CONST_SLOT_LAST; ++slot) {
-			if (!isItemAbilityEnabled(static_cast<Slots_t>(slot))) {
-				continue;
-			}
-
-			const auto &item = inventory[slot];
-			if (!item) {
-				continue;
-			}
-
-			for (uint8_t slotid = 0; slotid < item->getImbuementSlot(); slotid++) {
-				ImbuementInfo imbuementInfo;
-				if (!item->getImbuementInfo(slotid, &imbuementInfo)) {
-					continue;
-				}
-
-				const int16_t &imbuementAbsorbPercent = imbuementInfo.imbuement->absorbPercent[combatTypeToIndex(combatType)];
-
-				if (imbuementAbsorbPercent != 0) {
-					damage -= std::ceil(damage * (imbuementAbsorbPercent / 100.));
-				}
-			}
-
-			// Absorb Percent
-			const ItemType &it = Item::items[item->getID()];
-			if (it.abilities) {
-				int totalAbsorbPercent = 0;
-				const int16_t &absorbPercent = it.abilities->absorbPercent[combatTypeToIndex(combatType)];
-				if (absorbPercent != 0) {
-					totalAbsorbPercent += absorbPercent;
-				}
-
-				if (field) {
-					const int16_t &fieldAbsorbPercent = it.abilities->fieldAbsorbPercent[combatTypeToIndex(combatType)];
-					if (fieldAbsorbPercent != 0) {
-						totalAbsorbPercent += fieldAbsorbPercent;
-					}
-				}
-
-				if (totalAbsorbPercent != 0) {
-					damage -= std::round(damage * (totalAbsorbPercent / 100.0));
-
-					const auto charges = item->getAttribute<uint16_t>(ItemAttribute_t::CHARGES);
-					if (charges != 0) {
-						g_game().transformItem(item, item->getID(), charges - 1);
-					}
-				}
-			}
-		}
-
-		// Wheel of destiny - apply resistance
-		wheel().adjustDamageBasedOnResistanceAndSkill(damage, combatType);
-
-		if (damage <= 0) {
-			damage = 0;
-			blockType = BLOCK_ARMOR;
-		}
-	}
-
-	return blockType;
+	return m_combatEventComponent.blockHit(attacker, combatType, damage, checkDefense, checkArmor, field);
 }
 
 void Player::doAttacking(uint32_t interval) {
-	if (lastAttack == 0) {
-		lastAttack = OTSYS_TIME() - getAttackSpeed() - 1;
-	}
-
-	if (hasCondition(CONDITION_PACIFIED)) {
-		return;
-	}
-
-	const auto &attackedCreature = getAttackedCreature();
-	if (!attackedCreature) {
-		return;
-	}
-
-	if ((OTSYS_TIME() - lastAttack) >= getAttackSpeed()) {
-		bool result = false;
-
-		const auto &tool = getWeapon();
-		const auto &weapon = g_weapons().getWeapon(tool);
-		uint32_t delay = getAttackSpeed();
-		bool classicSpeed = g_configManager().getBoolean(CLASSIC_ATTACK_SPEED);
-
-		if (weapon) {
-			if (!weapon->interruptSwing()) {
-				result = weapon->useWeapon(static_self_cast<Player>(), tool, attackedCreature);
-			} else if (!classicSpeed && !canDoAction()) {
-				delay = getNextActionTime();
-			} else {
-				result = weapon->useWeapon(static_self_cast<Player>(), tool, attackedCreature);
-			}
-		} else if (hasWeaponDistanceEquipped()) {
-			return;
-		} else {
-			result = Weapon::useFist(static_self_cast<Player>(), attackedCreature);
-		}
-
-		const auto &task = createPlayerTask(
-			std::max<uint32_t>(SCHEDULER_MINTICKS, delay), [self = std::weak_ptr<Creature>(getCreature())] {
-				if (const auto &creature = self.lock()) {
-					creature->checkCreatureAttack(true);
-				} }, __FUNCTION__
-		);
-
-		if (!classicSpeed) {
-			setNextActionTask(task, false);
-		} else {
-			g_dispatcher().scheduleEvent(task);
-		}
-
-		if (result) {
-			updateLastAggressiveAction();
-			updateLastAttack();
-		}
-	}
+	m_combatEventComponent.doAttacking(interval);
 }
 
 void Player::death(const std::shared_ptr<Creature> &lastHitCreature)  {
@@ -2720,72 +2560,7 @@ bool Player::dropCorpse(const std::shared_ptr<Creature> &lastHitCreature, const 
 }
 
 std::shared_ptr<Item> Player::getCorpse(const std::shared_ptr<Creature> &lastHitCreature, const std::shared_ptr<Creature> &mostDamageCreature) {
-	const auto &corpse = Creature::getCorpse(lastHitCreature, mostDamageCreature);
-	if (corpse && corpse->getContainer()) {
-		std::ostringstream ss;
-
-		ss << "You recognize " << getNameDescription() << ". ";
-
-		std::string responsibleName;
-		std::string secondaryResponsibleName;
-		bool hasOthers = false;
-
-		if (lastHitCreature) {
-			if (lastHitCreature->getPlayer()) {
-				responsibleName = lastHitCreature->getNameDescription();
-			} else if (auto master = lastHitCreature->getMaster(); master && master->getPlayer()) {
-				responsibleName = master->getNameDescription();
-			}
-		}
-
-		if (mostDamageCreature) {
-			if (mostDamageCreature->getPlayer()) {
-				if (responsibleName != mostDamageCreature->getNameDescription()) {
-					secondaryResponsibleName = responsibleName;
-					responsibleName = mostDamageCreature->getNameDescription();
-				}
-			} else if (auto master = mostDamageCreature->getMaster(); master && master->getPlayer()) {
-				if (responsibleName != master->getNameDescription()) {
-					secondaryResponsibleName = responsibleName;
-					responsibleName = master->getNameDescription();
-				}
-			}
-		}
-
-		uint32_t inFightTicks = 5 * 60 * 1000;
-		for (const auto &[creatureId, damageInfo] : damageMap) {
-			const auto &[total, ticks] = damageInfo;
-			if ((OTSYS_TIME() - ticks) <= inFightTicks) {
-				const auto &attacker = g_game().getCreatureByID(creatureId);
-				if (attacker && !attacker->getPlayer()) {
-					hasOthers = true;
-					break;
-				}
-			}
-		}
-
-		if (!responsibleName.empty()) {
-			ss << getSubjectPronoun() << " " << getSubjectVerb(true) << " killed by " << responsibleName;
-
-			if (!secondaryResponsibleName.empty()) {
-				ss << " and " << secondaryResponsibleName;
-			} else if (hasOthers) {
-				ss << " and others";
-			}
-			ss << '.';
-		} else if (lastHitCreature) {
-			ss << getSubjectPronoun() << " " << getSubjectVerb(true) << " killed by " << lastHitCreature->getNameDescription();
-			if (hasOthers) {
-				ss << " and others";
-			}
-			ss << '.';
-		} else {
-			ss << "No attackers were identified.";
-		}
-
-		corpse->setAttribute(ItemAttribute_t::DESCRIPTION, ss.str());
-	}
-	return corpse;
+	return m_combatEventComponent.getCorpse(lastHitCreature, mostDamageCreature);
 }
 
 void Player::addInFightTicks(bool pzlock /*= false*/) {
@@ -3110,139 +2885,21 @@ ItemsTierCountList Player::getInventoryItemsId(bool ignoreStoreInbox) const {
 // Parser
 
 void Player::parseAttackRecvHazardSystem(CombatDamage &damage, const std::shared_ptr<Monster> &monster) {
-	if (!monster || !monster->getHazard()) {
-		return;
-	}
-
-	if (!g_configManager().getBoolean(TOGGLE_HAZARDSYSTEM)) {
-		return;
-	}
-
-	if (damage.primary.type == COMBAT_HEALING) {
-		return;
-	}
-
-	auto points = getHazardSystemPoints();
-	if (m_party) {
-		for (const auto &partyMember : m_party->getMembers()) {
-			if (partyMember && partyMember->getHazardSystemPoints() < points) {
-				points = partyMember->getHazardSystemPoints();
-			}
-		}
-
-		if (m_party->getLeader() && m_party->getLeader()->getHazardSystemPoints() < points) {
-			points = m_party->getLeader()->getHazardSystemPoints();
-		}
-	}
-
-	if (points == 0) {
-		return;
-	}
-
-	uint16_t stage = 0;
-	auto chance = static_cast<uint16_t>(normal_random(1, 10000));
-	auto critChance = g_configManager().getNumber(HAZARD_CRITICAL_CHANCE);
-	// Critical chance
-	if (monster->getHazardSystemCrit() && (lastHazardSystemCriticalHit + g_configManager().getNumber(HAZARD_CRITICAL_INTERVAL)) <= OTSYS_TIME() && chance <= critChance && !damage.critical) {
-		damage.critical = true;
-		damage.extension = true;
-		damage.exString = "(Hazard)";
-
-		stage = (points - 1) * static_cast<uint16_t>(g_configManager().getNumber(HAZARD_CRITICAL_MULTIPLIER));
-		damage.primary.value += static_cast<int32_t>(std::ceil((static_cast<double>(damage.primary.value) * (5000 + stage)) / 10000));
-		damage.secondary.value += static_cast<int32_t>(std::ceil((static_cast<double>(damage.secondary.value) * (5000 + stage)) / 10000));
-		lastHazardSystemCriticalHit = OTSYS_TIME();
-	}
-
-	// To prevent from punish the player twice with critical + damage boost, just uncomment code from the if
-	if (monster->getHazardSystemDamageBoost() /* && !damage.critical*/) {
-		stage = points * static_cast<uint16_t>(g_configManager().getNumber(HAZARD_DAMAGE_MULTIPLIER));
-		if (stage != 0) {
-			damage.extension = true;
-			damage.exString = "(Hazard)";
-			damage.primary.value += static_cast<int32_t>(std::ceil((static_cast<double>(damage.primary.value) * stage) / 10000));
-			if (damage.secondary.value != 0) {
-				damage.secondary.value += static_cast<int32_t>(std::ceil((static_cast<double>(damage.secondary.value) * stage) / 10000));
-			}
-		}
-	}
+	m_combatEventComponent.parseAttackRecvHazardSystem(damage, monster);
 }
 
 void Player::parseAttackDealtHazardSystem(CombatDamage &damage, const std::shared_ptr<Monster> &monster) const {
-	if (!g_configManager().getBoolean(TOGGLE_HAZARDSYSTEM)) {
-		return;
-	}
-
-	if (!monster || !monster->getHazard()) {
-		return;
-	}
-
-	if (damage.primary.type == COMBAT_HEALING) {
-		return;
-	}
-
-	auto points = getHazardSystemPoints();
-	if (m_party) {
-		for (const auto &partyMember : m_party->getMembers()) {
-			if (partyMember && partyMember->getHazardSystemPoints() < points) {
-				points = partyMember->getHazardSystemPoints();
-			}
-		}
-
-		if (m_party->getLeader() && m_party->getLeader()->getHazardSystemPoints() < points) {
-			points = m_party->getLeader()->getHazardSystemPoints();
-		}
-	}
-
-	if (points == 0) {
-		return;
-	}
-
-	// Dodge chance
-	uint16_t stage;
-	if (monster->getHazardSystemDodge()) {
-		stage = points * g_configManager().getNumber(HAZARD_DODGE_MULTIPLIER);
-		auto chance = static_cast<uint16_t>(normal_random(1, 10000));
-		if (chance <= stage) {
-			damage.primary.value = 0;
-			damage.secondary.value = 0;
-			damage.hazardDodge = true;
-			return;
-		}
-	}
-	if (monster->getHazardSystemDefenseBoost()) {
-		stage = points * static_cast<uint16_t>(g_configManager().getNumber(HAZARD_DEFENSE_MULTIPLIER));
-		if (stage != 0) {
-			damage.exString = fmt::format("(hazard -{}%)", stage / 100.);
-			damage.primary.value -= static_cast<int32_t>(std::ceil((static_cast<double>(damage.primary.value) * stage) / 10000));
-			if (damage.secondary.value != 0) {
-				damage.secondary.value -= static_cast<int32_t>(std::ceil((static_cast<double>(damage.secondary.value) * stage) / 10000));
-			}
-		}
-	}
+	m_combatEventComponent.parseAttackDealtHazardSystem(damage, monster);
 }
 
 // Points get:
 // Points increase:
 void Player::setHazardSystemPoints(int32_t count) {
-	if (!g_configManager().getBoolean(TOGGLE_HAZARDSYSTEM)) {
-		return;
-	}
-	addStorageValue(STORAGEVALUE_HAZARDCOUNT, std::max<int32_t>(0, std::min<int32_t>(0xFFFF, count)), true);
-	reloadHazardSystemPointsCounter = true;
-	if (count > 0) {
-		setIcon("hazard", CreatureIcon(CreatureIconQuests_t::Hazard, count));
-	} else {
-		removeIcon("hazard");
-	}
+	m_combatEventComponent.setHazardSystemPoints(count);
 }
 
 uint16_t Player::getHazardSystemPoints() const {
-	const int32_t points = getStorageValue(STORAGEVALUE_HAZARDCOUNT);
-	if (points <= 0) {
-		return 0;
-	}
-	return static_cast<uint16_t>(std::max<int32_t>(0, std::min<int32_t>(0xFFFF, points)));
+	return m_combatEventComponent.getHazardSystemPoints();
 }
 
 // Concoction system
@@ -3719,370 +3376,79 @@ void Player::updateItemsLight(bool internal /*=false*/) {
 }
 
 void Player::onAddCondition(ConditionType_t type) {
-	Creature::onAddCondition(type);
-
-	if (type == CONDITION_PARALYZE) {
-		updateParalyzeWalkExhaust();
-	}
-
-	if (type == CONDITION_OUTFIT && isMounted()) {
-		dismount();
-		wasMounted = true;
-	}
-
-	sendIcons();
+	m_combatEventComponent.onAddCondition(type);
 }
 
 void Player::onCleanseCondition(ConditionType_t type) const {
-	static const std::unordered_map<ConditionType_t, std::string_view> conditionMessages = {
-		{ CONDITION_POISON, "poisoned" },
-		{ CONDITION_FIRE, "burning" },
-		{ CONDITION_ENERGY, "electrified" },
-		{ CONDITION_FREEZING, "freezing" },
-		{ CONDITION_CURSED, "cursed" },
-		{ CONDITION_DAZZLED, "dazzled" },
-		{ CONDITION_BLEEDING, "bleeding" },
-		{ CONDITION_PARALYZE, "paralyzed" },
-		{ CONDITION_ROOTED, "rooted" },
-		{ CONDITION_FEARED, "feared" }
-	};
-
-	auto it = conditionMessages.find(type);
-	if (it != conditionMessages.end()) {
-		sendTextMessage(MESSAGE_PARTY, fmt::format("You are no longer {}. (cleanse charm)", it->second));
-	}
+	m_combatEventComponent.onCleanseCondition(type);
 }
 
 void Player::onAddCombatCondition(ConditionType_t type) {
-	if (type == CONDITION_PARALYZE) {
-		updateParalyzeWalkExhaust();
-	}
-
-	if (IsConditionSuppressible(type)) {
-		updateLastConditionTime(type);
-	}
-	switch (type) {
-		case CONDITION_POISON:
-			sendTextMessage(MESSAGE_FAILURE, "You are poisoned.");
-			break;
-
-		case CONDITION_DROWN:
-			sendTextMessage(MESSAGE_FAILURE, "You are drowning.");
-			break;
-
-		case CONDITION_PARALYZE:
-			sendTextMessage(MESSAGE_FAILURE, "You are paralyzed.");
-			break;
-
-		case CONDITION_DRUNK:
-			sendTextMessage(MESSAGE_FAILURE, "You are drunk.");
-			break;
-
-		case CONDITION_LESSERHEX:
-
-		case CONDITION_INTENSEHEX:
-
-		case CONDITION_GREATERHEX:
-
-			sendTextMessage(MESSAGE_FAILURE, "You are hexed.");
-			break;
-		case CONDITION_ROOTED:
-			sendTextMessage(MESSAGE_FAILURE, "You are rooted.");
-			break;
-
-		case CONDITION_FEARED:
-			sendTextMessage(MESSAGE_FAILURE, "You are feared.");
-			break;
-
-		case CONDITION_CURSED:
-			sendTextMessage(MESSAGE_FAILURE, "You are cursed.");
-			break;
-
-		case CONDITION_FREEZING:
-			sendTextMessage(MESSAGE_FAILURE, "You are freezing.");
-			break;
-
-		case CONDITION_DAZZLED:
-			sendTextMessage(MESSAGE_FAILURE, "You are dazzled.");
-			break;
-
-		case CONDITION_BLEEDING:
-			sendTextMessage(MESSAGE_FAILURE, "You are bleeding.");
-			break;
-
-		case CONDITION_AGONY:
-			sendTextMessage(MESSAGE_FAILURE, "You are in agony.");
-			break;
-
-		default:
-			break;
-	}
+	m_combatEventComponent.onAddCombatCondition(type);
 }
 
 void Player::onEndCondition(ConditionType_t type) {
-	Creature::onEndCondition(type);
-
-	const auto &conditionFight = getCondition(CONDITION_INFIGHT);
-	if (type == CONDITION_INFIGHT && !conditionFight) {
-		onIdleStatus();
-		pzLocked = false;
-		clearAttacked();
-		sendOpenPvpSituations();
-
-		if (getSkull() != SKULL_RED && getSkull() != SKULL_BLACK) {
-			setSkull(SKULL_NONE);
-		}
-	}
-
-	if (type == CONDITION_OUTFIT && wasMounted) {
-		toggleMount(true);
-	}
-
-	sendIcons();
+	m_combatEventComponent.onEndCondition(type);
 }
 
 void Player::onCombatRemoveCondition(const std::shared_ptr<Condition> &condition) {
-	if (!condition) {
-		return;
-	}
-
-	// Creature::onCombatRemoveCondition(condition);
-	if (condition->getId() > 0) {
-		// Means the condition is from an item, id == slot
-		if (g_game().getWorldType() == WORLD_TYPE_PVP_ENFORCED) {
-			const auto &item = getInventoryItem(static_cast<Slots_t>(condition->getId()));
-			if (item) {
-				// 25% chance to destroy the item
-				if (25 >= uniform_random(1, 100)) {
-					g_game().internalRemoveItem(item);
-				}
-			}
-		}
-	} else {
-		if (!canDoAction()) {
-			const uint32_t delay = getNextActionTime();
-			const int32_t ticks = delay - (delay % EVENT_CREATURE_THINK_INTERVAL);
-			if (ticks < 0 || condition->getType() == CONDITION_PARALYZE) {
-				removeCondition(condition);
-			} else {
-				condition->setTicks(ticks);
-			}
-		} else {
-			removeCondition(condition);
-		}
-	}
+	m_combatEventComponent.onCombatRemoveCondition(condition);
 }
 
 void Player::onAttackedCreature(const std::shared_ptr<Creature> &target) {
-	Creature::onAttackedCreature(target);
-
-	if (!target) {
-		return;
-	}
-
-	if (target->getZoneType() == ZONE_PVP) {
-		return;
-	}
-
-	if (target == getPlayer()) {
-		addInFightTicks();
-		return;
-	}
-
-	if (hasFlag(PlayerFlags_t::NotGainInFight)) {
-		return;
-	}
-
-	const auto &targetPlayer = target->getPlayer();
-	if (targetPlayer && !isPartner(targetPlayer) && !isGuildMate(targetPlayer)) {
-		if (!pzLocked && g_game().getWorldType() == WORLD_TYPE_PVP_ENFORCED) {
-			pzLocked = true;
-			sendIcons();
-		}
-
-		if (getSkull() == SKULL_NONE && getSkullClient(targetPlayer) == SKULL_YELLOW) {
-			addAttacked(targetPlayer);
-			targetPlayer->sendCreatureSkull(static_self_cast<Player>());
-		} else if (!targetPlayer->hasAttacked(static_self_cast<Player>())) {
-			if (!pzLocked) {
-				pzLocked = true;
-				sendIcons();
-			}
-
-			if (!Combat::isInPvpZone(static_self_cast<Player>(), targetPlayer) && !isInWar(targetPlayer)) {
-				addAttacked(targetPlayer);
-
-				if (targetPlayer->getSkull() == SKULL_NONE && getSkull() == SKULL_NONE && !targetPlayer->hasKilled(static_self_cast<Player>())) {
-					setSkull(SKULL_WHITE);
-				}
-
-				if (getSkull() == SKULL_NONE) {
-					targetPlayer->sendCreatureSkull(static_self_cast<Player>());
-				}
-			}
-		}
-	}
-
-	addInFightTicks();
-	sendOpenPvpSituations();
+	m_combatEventComponent.onAttackedCreature(target);
 }
 
 void Player::onAttacked() {
-	Creature::onAttacked();
-
-	addInFightTicks();
-	sendOpenPvpSituations();
+	m_combatEventComponent.onAttacked();
 }
 
 void Player::onIdleStatus() {
-	Creature::onIdleStatus();
-
-	if (m_party) {
-		m_party->clearPlayerPoints(static_self_cast<Player>());
-	}
+	m_combatEventComponent.onIdleStatus();
 }
 
 void Player::onPlacedCreature() {
-	// scripting event - onLogin
-	if (!g_creatureEvents().playerLogin(static_self_cast<Player>())) {
-		removePlayer(true);
-	}
-
-	this->onChangeZone(this->getZoneType());
-
-	refreshSkullTicksFromLastKill();
-	sendUnjustifiedPoints();
-	sendOpenPvpSituations();
-
-	const auto activeEvents = g_eventsScheduler().getActiveEvents();
-	if (!activeEvents.empty()) {
-		std::string eventsList;
-		for (size_t i = 0; i < activeEvents.size(); ++i) {
-			eventsList.append(activeEvents[i]);
-			if (i < activeEvents.size() - 1) {
-				eventsList.append(", ");
-			}
-		}
-		g_logger().info("[{}] Active EventScheduler: {}", getName(), eventsList);
-		sendTextMessage(MESSAGE_BOOSTED_CREATURE, fmt::format("Active EventScheduler: {}", eventsList));
-	}
+	m_combatEventComponent.onPlacedCreature();
 }
 
 void Player::onAttackedCreatureDrainHealth(const std::shared_ptr<Creature> &target, int32_t points) {
-	Creature::onAttackedCreatureDrainHealth(target, points);
-
-	if (target) {
-		if (m_party && !Combat::isPlayerCombat(target)) {
-			const auto &tmpMonster = target->getMonster();
-			if (tmpMonster && tmpMonster->isHostile()) {
-				// We have fulfilled a requirement for shared experience
-				m_party->updatePlayerTicks(static_self_cast<Player>(), points);
-			}
-		}
-	}
+	m_combatEventComponent.onAttackedCreatureDrainHealth(target, points);
 }
 
 void Player::onTargetCreatureGainHealth(const std::shared_ptr<Creature> &target, int32_t points) {
-	if (target && m_party) {
-		std::shared_ptr<Player> tmpPlayer = nullptr;
-
-		if (isPartner(tmpPlayer) && (tmpPlayer != getPlayer())) {
-			tmpPlayer = target->getPlayer();
-		} else if (const auto &targetMaster = target->getMaster()) {
-			if (const auto &targetMasterPlayer = targetMaster->getPlayer()) {
-				tmpPlayer = targetMasterPlayer;
-			}
-		}
-
-		if (isPartner(tmpPlayer)) {
-			m_party->updatePlayerTicks(static_self_cast<Player>(), points);
-		}
-	}
+	m_combatEventComponent.onTargetCreatureGainHealth(target, points);
 }
 
 bool Player::onKilledPlayer(const std::shared_ptr<Player> &target, bool lastHit) {
-	bool unjustified = false;
-	if (target->getZoneType() == ZONE_PVP) {
-		target->setDropLoot(false);
-		target->setSkillLoss(false);
-	} else if (!hasFlag(PlayerFlags_t::NotGainInFight) && !isPartner(target)) {
-		if (!Combat::isInPvpZone(getPlayer(), target) && hasAttacked(target) && !target->hasAttacked(getPlayer()) && !isGuildMate(target) && target != getPlayer()) {
-			if (target->hasKilled(getPlayer())) {
-				for (auto &kill : target->unjustifiedKills) {
-					if (kill.target == getGUID() && kill.unavenged) {
-						kill.unavenged = false;
-						attackedSet.erase(target->guid);
-						break;
-					}
-				}
-			} else if (target->getSkull() == SKULL_NONE && !isInWar(target)) {
-				unjustified = true;
-				addUnjustifiedDead(target);
-			}
-
-			if (lastHit && hasCondition(CONDITION_INFIGHT)) {
-				pzLocked = true;
-				const auto &condition = Condition::createCondition(CONDITIONID_DEFAULT, CONDITION_INFIGHT, g_configManager().getNumber(WHITE_SKULL_TIME), 0);
-				addCondition(condition);
-			}
-		}
-	}
-	return unjustified;
+	return m_combatEventComponent.onKilledPlayer(target, lastHit);
 }
 
 void Player::addHuntingTaskKill(const std::shared_ptr<MonsterType> &mType) {
-	m_preyComponent.addHuntingTaskKill(mType);
+	m_combatEventComponent.addHuntingTaskKill(mType);
 }
 
 void Player::addBestiaryKill(const std::shared_ptr<MonsterType> &mType) {
-	m_preyComponent.addBestiaryKill(mType);
+	m_combatEventComponent.addBestiaryKill(mType);
 }
 
 void Player::addBosstiaryKill(const std::shared_ptr<MonsterType> &mType) {
-	m_preyComponent.addBosstiaryKill(mType);
+	m_combatEventComponent.addBosstiaryKill(mType);
 }
 
 bool Player::onKilledMonster(const std::shared_ptr<Monster> &monster) {
-	if (hasFlag(PlayerFlags_t::NotGenerateLoot)) {
-		monster->setDropLoot(false);
-	}
-	if (monster->hasBeenSummoned()) {
-		return false;
-	}
-	const auto &mType = monster->getMonsterType();
-	if (mType == nullptr) {
-		g_logger().error("[{}] Monster type is null.", __FUNCTION__);
-		return false;
-	}
-	if (!monster->getSoulPit()) {
-		addHuntingTaskKill(mType);
-		addBestiaryKill(mType);
-		addBosstiaryKill(mType);
-	}
-	return false;
+	return m_combatEventComponent.onKilledMonster(monster);
 }
 
-void Player::gainExperience(uint64_t gainExp, const std::shared_ptr<Creature> &target)  {
-	m_experienceComponent.gainExperience(gainExp, target);
+void Player::gainExperience(uint64_t gainExp, const std::shared_ptr<Creature> &target) {
+	m_combatEventComponent.gainExperience(gainExp, target);
 }
 
 void Player::onGainExperience(uint64_t gainExp, const std::shared_ptr<Creature> &target) {
-	if (hasFlag(PlayerFlags_t::NotGainExperience)) {
-		return;
-	}
-
-	if (target && !target->getPlayer() && m_party && m_party->isSharedExperienceActive() && m_party->isSharedExperienceEnabled()) {
-		m_party->shareExperience(gainExp, target);
-		// We will get a share of the experience through the sharing mechanism
-		return;
-	}
-
-	Creature::onGainExperience(gainExp, target);
-	gainExperience(gainExp, target);
+	m_combatEventComponent.onGainExperience(gainExp, target);
 }
 
 void Player::onGainSharedExperience(uint64_t gainExp, const std::shared_ptr<Creature> &target) {
-	gainExperience(gainExp, target);
+	m_combatEventComponent.onGainSharedExperience(gainExp, target);
 }
 
 bool Player::isImmune(CombatType_t type) const {
@@ -6809,6 +6175,14 @@ PlayerImbuementComponent &Player::imbuementComponent() {
 
 const PlayerImbuementComponent &Player::imbuementComponent() const {
 	return m_imbuementComponent;
+}
+
+PlayerCombatEventComponent &Player::combatEvents() {
+	return m_combatEventComponent;
+}
+
+const PlayerCombatEventComponent &Player::combatEvents() const {
+	return m_combatEventComponent;
 }
 
 PlayerCombatStatsComponent &Player::combatStats() {

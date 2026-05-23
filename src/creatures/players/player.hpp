@@ -39,6 +39,7 @@
 #include "creatures/players/components/player_imbuement_component.hpp"
 #include "creatures/players/components/player_stash_component.hpp"
 #include "creatures/players/components/player_training_component.hpp"
+#include "creatures/players/components/player_combat_event_component.hpp"
 #include "creatures/players/components/player_combat_stats_component.hpp"
 #include "creatures/players/components/player_creature_event_component.hpp"
 #include "creatures/players/components/player_cylinder_component.hpp"
@@ -1557,6 +1558,10 @@ public:
 	PlayerImbuementComponent &imbuementComponent();
 	const PlayerImbuementComponent &imbuementComponent() const;
 
+	// Player combat event component interface
+	PlayerCombatEventComponent &combatEvents();
+	const PlayerCombatEventComponent &combatEvents() const;
+
 	// Player combat stats component interface
 	PlayerCombatStatsComponent &combatStats();
 	const PlayerCombatStatsComponent &combatStats() const;
@@ -1989,6 +1994,7 @@ private:
 	friend class PlayerExperienceComponent;
 	friend class PlayerDeathComponent;
 	friend class PlayerImbuementComponent;
+	friend class PlayerCombatEventComponent;
 	friend class PlayerCombatStatsComponent;
 	friend class PlayerCreatureEventComponent;
 	friend class PlayerCylinderComponent;
@@ -2012,6 +2018,7 @@ private:
 	PlayerExperienceComponent m_experienceComponent;
 	PlayerDeathComponent m_deathComponent;
 	PlayerImbuementComponent m_imbuementComponent;
+	PlayerCombatEventComponent m_combatEventComponent;
 	PlayerCombatStatsComponent m_combatStatsComponent;
 	PlayerCreatureEventComponent m_creatureEventComponent;
 	PlayerCylinderComponent m_cylinderComponent;
