@@ -9,7 +9,6 @@
 
 #pragma once
 
-#include "lib/di/container.hpp"
 #include "utils/tools.hpp"
 
 #ifndef USE_PRECOMPILED_HEADERS
@@ -43,9 +42,7 @@ public:
 	EventsScheduler(const EventsScheduler &) = delete;
 	EventsScheduler &operator=(const EventsScheduler &) = delete;
 
-	static EventsScheduler &getInstance() {
-		return inject<EventsScheduler>();
-	}
+	static EventsScheduler &getInstance();
 
 	bool loadScheduleEventFromJson();
 

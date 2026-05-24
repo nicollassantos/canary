@@ -71,7 +71,7 @@
 ## Phase 7: Singletons Restantes
 
 - [x] **7.1** — ThreadPool, OutputMessagePool, Webhook, RSAManager → DI singleton; metrics::Metrics auto-wires (no-op variant circular dep); 258/258 testes ✓
-- [ ] **7.2** — Game data: Spells, Monsters, Npcs, Weapons, Outfits, Familiars, Vocations, Imbuements, Chat
-- [ ] **7.3** — IO → Repositórios: IOBestiary, IOBosstiary, IOPrey
-- [ ] **7.4** — Scheduling: Dispatcher, SaveManager, EventsScheduler, GlobalEvents
+- [x] **7.2** — Spells, Monsters, Npcs, Weapons, Outfits, Familiars, Vocations, Imbuements, Chat → DI singleton; 258/258 testes ✓
+- [x] **7.3** — IOBestiary, IOBosstiary, IOPrey → DI singleton; 258/258 testes ✓
+- [x] **7.4** — Dispatcher, EventsScheduler, GlobalEvents → DI singleton; SaveManager skipped (needs Game& — game.hpp adds 22+ transitive includes to container.hpp); EventsScheduler::getInstance moved to .cpp; 258/258 testes ✓
 - [ ] **CHECKPOINT 8 (FINAL)** — Todos no DI; 250+ testes passando → revisão final

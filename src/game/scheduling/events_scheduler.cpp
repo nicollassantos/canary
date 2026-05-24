@@ -9,6 +9,7 @@
 
 #include "game/scheduling/events_scheduler.hpp"
 
+#include "lib/di/container.hpp"
 #include "config/configmanager.hpp"
 #include "lua/scripts/scripts.hpp"
 
@@ -393,4 +394,8 @@ std::string EventsScheduler::join(const std::vector<std::string> &vec, const std
 		}
 	}
 	return result.str();
+}
+
+EventsScheduler &EventsScheduler::getInstance() {
+	return inject<EventsScheduler>();
 }

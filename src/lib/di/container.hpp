@@ -10,8 +10,23 @@
 
 #include "account/account_repository_db.hpp"
 #include "config/configmanager.hpp"
+#include "creatures/appearance/outfit/outfit.hpp"
+#include "creatures/combat/spells.hpp"
+#include "creatures/interactions/chat.hpp"
+#include "creatures/monsters/monsters.hpp"
+#include "creatures/npcs/npcs.hpp"
+#include "creatures/players/grouping/familiars.hpp"
+#include "creatures/players/imbuements/imbuements.hpp"
 #include "creatures/players/player_repository_db.hpp"
+#include "creatures/players/vocations/vocation.hpp"
 #include "database/database.hpp"
+#include "game/scheduling/dispatcher.hpp"
+#include "game/scheduling/events_scheduler.hpp"
+#include "io/io_bosstiary.hpp"
+#include "io/iobestiary.hpp"
+#include "io/ioprey.hpp"
+#include "items/weapons/weapons.hpp"
+#include "lua/global/globalevent.hpp"
 #include "lib/di/injector.hpp"
 #include "lib/logging/log_with_spd_log.hpp"
 #include "lib/thread/thread_pool.hpp"
@@ -36,7 +51,25 @@ private:
 		di::bind<OutputMessagePool>().in(di::singleton),
 		di::bind<RSAManager>().in(di::singleton),
 		di::bind<ThreadPool>().in(di::singleton),
-		di::bind<Webhook>().in(di::singleton)
+		di::bind<Webhook>().in(di::singleton),
+		// Phase 7.2 — game data singletons
+		di::bind<Chat>().in(di::singleton),
+		di::bind<Familiars>().in(di::singleton),
+		di::bind<Imbuements>().in(di::singleton),
+		di::bind<Monsters>().in(di::singleton),
+		di::bind<Npcs>().in(di::singleton),
+		di::bind<Outfits>().in(di::singleton),
+		di::bind<Spells>().in(di::singleton),
+		di::bind<Vocations>().in(di::singleton),
+		di::bind<Weapons>().in(di::singleton),
+		// Phase 7.3 — IO → repository singletons
+		di::bind<IOBestiary>().in(di::singleton),
+		di::bind<IOBosstiary>().in(di::singleton),
+		di::bind<IOPrey>().in(di::singleton),
+		// Phase 7.4 — scheduling singletons (SaveManager excluded: needs Game& — full type not available here)
+		di::bind<Dispatcher>().in(di::singleton),
+		di::bind<EventsScheduler>().in(di::singleton),
+		di::bind<GlobalEvents>().in(di::singleton)
 	);
 
 public:
