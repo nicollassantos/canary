@@ -23,6 +23,12 @@
 #include "game/scheduling/dispatcher.hpp"
 #include "game/scheduling/events_scheduler.hpp"
 #include "io/io_bosstiary.hpp"
+#include "lua/creature/actions.hpp"
+#include "lua/creature/creatureevent.hpp"
+#include "lua/creature/events.hpp"
+#include "lua/creature/movement.hpp"
+#include "lua/creature/talkaction.hpp"
+#include "lua/scripts/scripts.hpp"
 #include "io/iobestiary.hpp"
 #include "io/ioprey.hpp"
 #include "items/weapons/weapons.hpp"
@@ -69,7 +75,14 @@ private:
 		// Phase 7.4 — scheduling singletons (SaveManager excluded: needs Game& — full type not available here)
 		di::bind<Dispatcher>().in(di::singleton),
 		di::bind<EventsScheduler>().in(di::singleton),
-		di::bind<GlobalEvents>().in(di::singleton)
+		di::bind<GlobalEvents>().in(di::singleton),
+		// Lua subsystems
+		di::bind<Actions>().in(di::singleton),
+		di::bind<CreatureEvents>().in(di::singleton),
+		di::bind<Events>().in(di::singleton),
+		di::bind<MoveEvents>().in(di::singleton),
+		di::bind<TalkActions>().in(di::singleton)
+		// Scripts excluded: holds LuaScriptInterface by value, exceeds boost::di 10-param limit
 	);
 
 public:
