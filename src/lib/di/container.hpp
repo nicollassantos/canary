@@ -14,7 +14,11 @@
 #include "database/database.hpp"
 #include "lib/di/injector.hpp"
 #include "lib/logging/log_with_spd_log.hpp"
+#include "lib/thread/thread_pool.hpp"
 #include "kv/kv_sql.hpp"
+#include "security/rsa.hpp"
+#include "server/network/message/outputmessage.hpp"
+#include "server/network/webhook/webhook.hpp"
 
 namespace di = boost::di;
 
@@ -27,7 +31,12 @@ private:
 		di::bind<IDatabase>().to<Database>().in(di::singleton),
 		di::bind<IPlayerRepository>().to<PlayerRepositoryDB>().in(di::singleton),
 		di::bind<KVStore>().to<KVSQL>().in(di::singleton),
-		di::bind<Logger>().to<LogWithSpdLog>().in(di::singleton)
+		di::bind<Logger>().to<LogWithSpdLog>().in(di::singleton),
+		// Phase 7.1 — infrastructure singletons
+		di::bind<OutputMessagePool>().in(di::singleton),
+		di::bind<RSAManager>().in(di::singleton),
+		di::bind<ThreadPool>().in(di::singleton),
+		di::bind<Webhook>().in(di::singleton)
 	);
 
 public:

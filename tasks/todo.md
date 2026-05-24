@@ -70,7 +70,7 @@
 
 ## Phase 7: Singletons Restantes
 
-- [ ] **7.1** — Infrastructure: ThreadPool, OutputMessagePool, Webhook, Metrics, RSAManager
+- [x] **7.1** — ThreadPool, OutputMessagePool, Webhook, RSAManager → DI singleton; metrics::Metrics auto-wires (no-op variant circular dep); 258/258 testes ✓
 - [ ] **7.2** — Game data: Spells, Monsters, Npcs, Weapons, Outfits, Familiars, Vocations, Imbuements, Chat
 - [ ] **7.3** — IO → Repositórios: IOBestiary, IOBosstiary, IOPrey
 - [ ] **7.4** — Scheduling: Dispatcher, SaveManager, EventsScheduler, GlobalEvents
