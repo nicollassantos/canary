@@ -8,6 +8,7 @@
 #include "game/game.hpp"
 #include "game/scheduling/save_manager.hpp"
 #include "items/bed.hpp"
+#include "server/network/protocol/protocolgame.hpp"
 #include "items/item.hpp"
 #include "items/containers/container.hpp"
 #include "config/configmanager.hpp"

@@ -13,7 +13,7 @@ services:
       - 'db-volume:/var/lib/mysql'
       - ../schema.sql:/docker-entrypoint-initdb.d/init.sql
     healthcheck:
-      test: ["CMD", "healthcheck.sh", "--connect"]
+      test: [ "CMD", "healthcheck.sh", "--connect" ]
       interval: 10s
       timeout: 5s
       retries: 10
@@ -42,16 +42,22 @@ services:
   login:
     image: opentibiabr/login-server:latest
     restart: unless-stopped
-    ports:
-      - '$LOGIN_HTTP_PORT:$LOGIN_HTTP_PORT'
-      - '$LOGIN_GRPC_PORT:$LOGIN_GRPC_PORT'
-    env_file:
-      - '.env'
-    networks:
-      - canary-net
-    depends_on:
-      database:
-        condition: service_healthy
+    environment:
+      - LOGIN_HTTP_PORT=8080
+      - LOGIN_GRPC_PORT=9090
+      - MYSQL_HOST=127.0.0.1
+      - MYSQL_PORT=3306
+      - MYSQL_DBNAME=ot
+      - MYSQL_USER=root
+      - MYSQL_PASS=root
+      - SERVER_NAME=OTServBR-Global
+      - SERVER_IP=127.0.0.1
+      - SERVER_PORT=7172
+      - SERVER_LOCATION=BRA
+      - RATE_LIMITER_RATE=2
+      - RATE_LIMITER_BURST=5
+      - ENV_LOG_LEVEL=debug
+    network_mode: "host"
 
 volumes:
   db-volume:
