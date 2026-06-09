@@ -8,6 +8,8 @@
 #include "game/game.hpp"
 #include "game/scheduling/save_manager.hpp"
 #include "items/bed.hpp"
+#include "creatures/players/livestream/livestream.hpp"
+#include "kv/kv.hpp"
 #include "server/network/protocol/protocolgame.hpp"
 #include "items/item.hpp"
 #include "items/containers/container.hpp"
@@ -69,6 +71,25 @@ void PlayerCreatureEventComponent::onCreatureAppear(const std::shared_ptr<Creatu
 
 		auto version = m_player.client->oldProtocol ? m_player.getProtocolVersion() : CLIENT_VERSION;
 		g_logger().info("{} has logged in. (Protocol: {})", m_player.name, version);
+
+		std::string livestreamPassword;
+		if (auto passwordValue = m_player.kv()->scoped("livestream-system")->get("password")) {
+			livestreamPassword = passwordValue->get<std::string>();
+		}
+
+		std::string livestreamDescription;
+		if (auto descriptionValue = m_player.kv()->scoped("livestream-system")->get("description")) {
+			livestreamDescription = descriptionValue->get<std::string>();
+		}
+
+		uint32_t livestreamRecord = 0;
+		if (auto recordValue = m_player.kv()->scoped("livestream-system")->get("live-record")) {
+			const auto rawRecord = recordValue->getNumber();
+			if (rawRecord > 0) {
+				livestreamRecord = static_cast<uint32_t>(std::min<double>(rawRecord, std::numeric_limits<uint32_t>::max()));
+			}
+		}
+		g_livestream().setInitialState(m_player.getPlayer(), livestreamPassword, livestreamDescription, livestreamRecord);
 
 		if (m_player.guild) {
 			m_player.guild->addMember(m_player.getPlayer());
@@ -158,6 +179,12 @@ void PlayerCreatureEventComponent::onCreatureMove(const std::shared_ptr<Creature
 	if (m_player.hasFollowPath && (creature == followCreature || (creature.get() == m_player.getPlayer().get() && followCreature))) {
 		m_player.isUpdatingPath = false;
 		m_player.updateCreatureWalk();
+	}
+
+	if (m_player.shopOwner && (creature == m_player.shopOwner || creature.get() == m_player.getPlayer().get())
+	    && !m_player.shopOwner->canInteract(m_player.getPosition()) && m_player.closeShopWindow()
+	    && creature.get() != m_player.getPlayer().get()) {
+		return;
 	}
 
 	if (creature != m_player.getPlayer()) {

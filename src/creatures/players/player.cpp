@@ -66,6 +66,7 @@
 #include "map/spectators.hpp"
 #include "creatures/players/vocations/vocation.hpp"
 #include "creatures/players/components/wheel/wheel_definitions.hpp"
+#include "creatures/players/livestream/livestream.hpp"
 #include "creatures/combat/spells.hpp"
 #include "utils/tools.hpp"
 
@@ -501,6 +502,10 @@ uint32_t Player::getProtocolVersion() const {
 	}
 
 	return client->getVersion();
+}
+
+std::shared_ptr<ProtocolGame> Player::getClient() const {
+	return client;
 }
 
 bool Player::hasSecureMode() const {

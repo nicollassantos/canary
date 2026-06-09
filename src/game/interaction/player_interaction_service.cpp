@@ -544,7 +544,7 @@ void PlayerInteractionService::playerMoveUpContainer(uint32_t playerId, uint8_t 
 }
 
 void PlayerInteractionService::playerUpdateContainer(uint32_t playerId, uint8_t cid) {
-	const auto &player = game_.getPlayerByGUID(playerId);
+	const auto &player = game_.getPlayerByID(playerId);
 	if (!player) {
 		return;
 	}

@@ -20,6 +20,12 @@
 // Very useful to send the total amount in certain bytes in the ProtocolGame class
 namespace {
 	constexpr uint64_t PARTY_ANALYZER_THROTTLE_MS = 1000;
+	constexpr size_t UPDATE_CONTAINER_PAYLOAD_SIZE = 1;
+
+	size_t getUnreadBytes(const NetworkMessage &msg) {
+		const auto consumedBytes = static_cast<size_t>(msg.getBufferPosition() - NetworkMessage::INITIAL_BUFFER_POSITION);
+		return msg.getLength() > consumedBytes ? msg.getLength() - consumedBytes : 0;
+	}
 
 	std::string getMarketDetailImbuementEffect(uint16_t itemId) {
 		if (const auto* imbuement = g_imbuements().getImbuementByScrollID(itemId); imbuement != nullptr) {

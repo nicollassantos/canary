@@ -21,6 +21,26 @@
 #include "map/house/housetile.hpp"
 #include "game/scheduling/dispatcher.hpp"
 
+namespace {
+	std::shared_ptr<Npc> getInteractableShopOwner(const std::shared_ptr<Player> &player) {
+		if (!player) {
+			return nullptr;
+		}
+
+		auto merchant = player->getShopOwner();
+		if (!merchant) {
+			return nullptr;
+		}
+
+		if (merchant->canInteract(player->getPosition())) {
+			return merchant;
+		}
+
+		[[maybe_unused]] const auto shopClosed = player->closeShopWindow();
+		return nullptr;
+	}
+}
+
 bool TradeService::internalStartTrade(const std::shared_ptr<Player> &player, const std::shared_ptr<Player> &tradePartner, const std::shared_ptr<Item> &tradeItem) {
 	if (player->tradeState != TRADE_NONE && !(player->tradeState == TRADE_ACKNOWLEDGE && player->tradePartner == tradePartner)) {
 		player->sendCancelMessage(RETURNVALUE_YOUAREALREADYTRADING);
@@ -309,7 +329,7 @@ void TradeService::playerBuyItem(uint32_t playerId, uint16_t itemId, uint8_t cou
 		return;
 	}
 
-	std::shared_ptr<Npc> merchant = player->getShopOwner();
+	const auto &merchant = getInteractableShopOwner(player);
 	if (!merchant) {
 		return;
 	}
@@ -365,7 +385,7 @@ void TradeService::playerSellItem(uint32_t playerId, uint16_t itemId, uint8_t co
 		return;
 	}
 
-	std::shared_ptr<Npc> merchant = player->getShopOwner();
+	const auto &merchant = getInteractableShopOwner(player);
 	if (!merchant) {
 		return;
 	}
@@ -404,7 +424,7 @@ void TradeService::playerLookInShop(uint32_t playerId, uint16_t itemId, uint8_t 
 		return;
 	}
 
-	std::shared_ptr<Npc> merchant = player->getShopOwner();
+	const auto &merchant = getInteractableShopOwner(player);
 	if (!merchant) {
 		return;
 	}
