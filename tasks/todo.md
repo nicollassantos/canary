@@ -104,5 +104,5 @@
 ## Phase 11: IOMarket e IOGuild
 
 - [ ] **11.1** — IMarketRepository + SqlMarketRepository (sem estáticos)
-- [ ] **11.2** — IGuildRepository + SqlGuildRepository (sem getInstance)
-- [ ] **CHECKPOINT FINAL** — 50+ novos testes; zero singletons globais em Market/Guild ✓
+- [x] **11.2** — IGuildRepository + GuildRepositoryDB; 10 call sites migrados; InMemoryGuildRepository fixture; 8 testes
+- [x] **CHECKPOINT FINAL (partial)** — 336/336 testes ✓; IGuildRepository porta criada; IOMarket pendente (47 call sites, estatísticas em memória = refactor maior)
