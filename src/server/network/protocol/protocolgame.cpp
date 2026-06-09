@@ -38,6 +38,7 @@
 #include "io/functions/iologindata_load_player.hpp"
 #include "io/io_bosstiary.hpp"
 #include "io/iobestiary.hpp"
+#include "creatures/players/player_repository.hpp"
 #include "io/iologindata.hpp"
 #include "io/iomarket.hpp"
 #include "io/ioguild.hpp"
@@ -3425,13 +3426,13 @@ void ProtocolGame::parseExivaRestrictions(NetworkMessage &msg) {
 	std::vector<std::string> addedPlayerNames;
 	std::unordered_set<uint32_t> addedPlayerGuids;
 	addExivaEntries(msg, restrictions.playerWhitelist, addedPlayerNames, addedPlayerGuids, MAX_EXIVA_WHITELIST, [](const std::string &n) {
-		return IOLoginData::getGuidByName(n);
+		return g_playerRepository().getGuidByName(n);
 	});
 
 	std::vector<std::string> removedPlayerNames;
 	std::unordered_set<uint32_t> removedPlayerGuids;
 	removeExivaEntries(msg, restrictions.playerWhitelist, removedPlayerNames, removedPlayerGuids, MAX_EXIVA_WHITELIST, [](const std::string &n) {
-		return IOLoginData::getGuidByName(n);
+		return g_playerRepository().getGuidByName(n);
 	});
 
 	std::vector<std::string> addedGuildNames;

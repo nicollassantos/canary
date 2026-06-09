@@ -62,3 +62,55 @@ TEST_F(InMemoryPlayerRepositoryTest, ResetClearsAllPlayers) {
 	EXPECT_FALSE(repo.loadPlayerByName(loaded, "WillBeGone"));
 	EXPECT_FALSE(repo.loadPlayerById(loaded, 7));
 }
+
+TEST_F(InMemoryPlayerRepositoryTest, GetGuidByName_ReturnsCorrectGuid) {
+	auto player = std::make_shared<Player>();
+	player->setName("Hermes");
+	player->setGUID(55);
+	repo.savePlayer(player);
+
+	EXPECT_EQ(55u, repo.getGuidByName("Hermes"));
+}
+
+TEST_F(InMemoryPlayerRepositoryTest, GetGuidByName_ReturnsZeroWhenAbsent) {
+	EXPECT_EQ(0u, repo.getGuidByName("NoSuchPlayer"));
+}
+
+TEST_F(InMemoryPlayerRepositoryTest, GetNameByGuid_ReturnsCorrectName) {
+	auto player = std::make_shared<Player>();
+	player->setName("Athena");
+	player->setGUID(77);
+	repo.savePlayer(player);
+
+	EXPECT_EQ("Athena", repo.getNameByGuid(77));
+}
+
+TEST_F(InMemoryPlayerRepositoryTest, GetNameByGuid_ReturnsEmptyWhenAbsent) {
+	EXPECT_EQ("", repo.getNameByGuid(999));
+}
+
+TEST_F(InMemoryPlayerRepositoryTest, IncreaseBankBalance_AccumulatesAmount) {
+	repo.increaseBankBalance(10, 500);
+	repo.increaseBankBalance(10, 300);
+
+	EXPECT_EQ(800u, repo.getBankBalance(10));
+}
+
+TEST_F(InMemoryPlayerRepositoryTest, GetBankBalance_ReturnsZeroWhenNoEntry) {
+	EXPECT_EQ(0u, repo.getBankBalance(42));
+}
+
+TEST_F(InMemoryPlayerRepositoryTest, IncreaseBankBalance_IndependentPerGuid) {
+	repo.increaseBankBalance(1, 100);
+	repo.increaseBankBalance(2, 200);
+
+	EXPECT_EQ(100u, repo.getBankBalance(1));
+	EXPECT_EQ(200u, repo.getBankBalance(2));
+}
+
+TEST_F(InMemoryPlayerRepositoryTest, ResetClearsBankBalances) {
+	repo.increaseBankBalance(5, 1000);
+	repo.reset();
+
+	EXPECT_EQ(0u, repo.getBankBalance(5));
+}

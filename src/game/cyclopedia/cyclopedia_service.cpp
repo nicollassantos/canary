@@ -16,6 +16,7 @@
 #include "enums/player_cyclopedia.hpp"
 #include "game/game.hpp"
 #include "game/game_definitions.hpp"
+#include "creatures/players/player_repository.hpp"
 #include "io/iologindata.hpp"
 #include "map/house/house.hpp"
 #include "map/house/housetile.hpp"
@@ -378,7 +379,7 @@ void CyclopediaService::playerCyclopediaHouseCancelTransfer(uint32_t playerId, u
 			newOwner->setBankBalance(newOwner->getBankBalance() + amountPaid);
 			newOwner->sendResourceBalance(RESOURCE_BANK, newOwner->getBankBalance());
 		} else {
-			IOLoginData::increaseBankBalance(house->getBidder(), amountPaid);
+			g_playerRepository().increaseBankBalance(house->getBidder(), amountPaid);
 		}
 	}
 
@@ -451,7 +452,7 @@ void CyclopediaService::playerCyclopediaHouseRejectTransfer(uint32_t playerId, u
 			newOwner->setBankBalance(newOwner->getBankBalance() + amountPaid);
 			newOwner->sendResourceBalance(RESOURCE_BANK, newOwner->getBankBalance());
 		} else {
-			IOLoginData::increaseBankBalance(house->getBidder(), amountPaid);
+			g_playerRepository().increaseBankBalance(house->getBidder(), amountPaid);
 		}
 	}
 
@@ -487,8 +488,8 @@ bool CyclopediaService::processBankAuction(std::shared_ptr<Player> player, const
 	if (house->getBidderName() != player->getName()) {
 		const auto otherPlayer = game_.getPlayerByName(house->getBidderName());
 		if (!otherPlayer) {
-			uint32_t bidderGuid = IOLoginData::getGuidByName(house->getBidderName());
-			IOLoginData::increaseBankBalance(bidderGuid, (house->getBidHolderLimit() + house->getRent()));
+			uint32_t bidderGuid = g_playerRepository().getGuidByName(house->getBidderName());
+			g_playerRepository().increaseBankBalance(bidderGuid, (house->getBidHolderLimit() + house->getRent()));
 		} else {
 			otherPlayer->setBankBalance(otherPlayer->getBankBalance() + (house->getBidHolderLimit() + house->getRent()));
 			otherPlayer->sendResourceBalance(RESOURCE_BANK, otherPlayer->getBankBalance());

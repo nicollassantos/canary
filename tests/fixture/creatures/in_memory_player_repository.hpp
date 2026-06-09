@@ -38,6 +38,7 @@ public:
 	InMemoryPlayerRepository &reset() {
 		byName.clear();
 		byId.clear();
+		bankBalances.clear();
 		return *this;
 	}
 
@@ -71,9 +72,29 @@ public:
 		return true;
 	}
 
+	uint32_t getGuidByName(const std::string &name) override {
+		auto it = byName.find(name);
+		return it != byName.end() ? it->second.id : 0;
+	}
+
+	std::string getNameByGuid(uint32_t guid) override {
+		auto it = byId.find(guid);
+		return it != byId.end() ? it->second.name : std::string {};
+	}
+
+	void increaseBankBalance(uint32_t guid, uint64_t amount) override {
+		bankBalances[guid] += amount;
+	}
+
+	uint64_t getBankBalance(uint32_t guid) const {
+		auto it = bankBalances.find(guid);
+		return it != bankBalances.end() ? it->second : 0;
+	}
+
 private:
 	std::unordered_map<std::string, PlayerRecord> byName;
 	std::unordered_map<uint32_t, PlayerRecord> byId;
+	std::unordered_map<uint32_t, uint64_t> bankBalances;
 };
 
 template <>

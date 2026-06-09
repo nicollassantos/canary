@@ -27,3 +27,15 @@ bool PlayerRepositoryDB::loadPlayerByName(const std::shared_ptr<Player> &player,
 bool PlayerRepositoryDB::savePlayer(const std::shared_ptr<Player> &player) {
 	return IOLoginData::savePlayer(player);
 }
+
+uint32_t PlayerRepositoryDB::getGuidByName(const std::string &name) {
+	return IOLoginData::getGuidByName(name);
+}
+
+std::string PlayerRepositoryDB::getNameByGuid(uint32_t guid) {
+	return IOLoginData::getNameByGuid(guid);
+}
+
+void PlayerRepositoryDB::increaseBankBalance(uint32_t guid, uint64_t amount) {
+	IOLoginData::increaseBankBalance(guid, amount);
+}

@@ -13,6 +13,7 @@
 #include "game/game.hpp"
 #include "game/scheduling/save_manager.hpp"
 #include "io/ioguild.hpp"
+#include "creatures/players/player_repository.hpp"
 #include "io/iologindata.hpp"
 #include "items/bed.hpp"
 #include "items/containers/inbox/inbox.hpp"
@@ -728,7 +729,7 @@ void AccessList::addPlayer(const std::string &name) {
 	if (player) {
 		playerList.insert(player->getGUID());
 	} else {
-		const uint32_t guid = IOLoginData::getGuidByName(name);
+		const uint32_t guid = g_playerRepository().getGuidByName(name);
 		if (guid != 0) {
 			playerList.insert(guid);
 		}

@@ -10,6 +10,7 @@
 #include "io/iomapserialize.hpp"
 
 #include "config/configmanager.hpp"
+#include "creatures/players/player_repository.hpp"
 #include "io/iologindata.hpp"
 #include "game/game.hpp"
 #include "items/bed.hpp"
@@ -334,7 +335,7 @@ bool IOMapSerialize::loadHouseInfo() {
 			g_logger().debug("[BID] - Setting house id '{}' owner to player GUID '{}'", houseId, bidder);
 			if (highestBid < internalBid) {
 				uint32_t diff = internalBid - highestBid;
-				IOLoginData::increaseBankBalance(bidder, diff);
+				g_playerRepository().increaseBankBalance(bidder, diff);
 			}
 			house->setOwner(bidder);
 			bidder = 0;
@@ -347,7 +348,7 @@ bool IOMapSerialize::loadHouseInfo() {
 			if (transferStatus) {
 				g_game().setTransferPlayerHouseItems(houseId, owner);
 				house->setOwner(bidder);
-				IOLoginData::increaseBankBalance(owner, internalBid);
+				g_playerRepository().increaseBankBalance(owner, internalBid);
 			} else {
 				house->setOwner(owner);
 			}

@@ -37,6 +37,7 @@
 #include "io/functions/iologindata_load_player.hpp"
 #include "io/io_bosstiary.hpp"
 #include "io/iobestiary.hpp"
+#include "creatures/players/player_repository.hpp"
 #include "io/iologindata.hpp"
 #include "io/iomarket.hpp"
 #include "io/ioguild.hpp"
@@ -6891,7 +6892,7 @@ void ProtocolGame::sendCyclopediaHouseList(HouseMap houses) {
 				}
 			}
 		} else if (houseState == CyclopediaHouseState::Rented) {
-			auto ownerName = IOLoginData::getNameByGuid(houseData->getOwner());
+			auto ownerName = g_playerRepository().getNameByGuid(houseData->getOwner());
 			msg.addString(ownerName);
 			msg.add<uint32_t>(houseData->getPaidUntil());
 
@@ -6902,7 +6903,7 @@ void ProtocolGame::sendCyclopediaHouseList(HouseMap houses) {
 				msg.addByte(0);
 			}
 		} else if (houseState == CyclopediaHouseState::Transfer) {
-			auto ownerName = IOLoginData::getNameByGuid(houseData->getOwner());
+			auto ownerName = g_playerRepository().getNameByGuid(houseData->getOwner());
 			msg.addString(ownerName);
 			msg.add<uint32_t>(houseData->getPaidUntil());
 
@@ -6929,7 +6930,7 @@ void ProtocolGame::sendCyclopediaHouseList(HouseMap houses) {
 				msg.addByte(0); // Cancel Transfer Error
 			}
 		} else if (houseState == CyclopediaHouseState::MoveOut) {
-			auto ownerName = IOLoginData::getNameByGuid(houseData->getOwner());
+			auto ownerName = g_playerRepository().getNameByGuid(houseData->getOwner());
 			msg.addString(ownerName);
 			msg.add<uint32_t>(houseData->getPaidUntil());
 
@@ -7032,7 +7033,7 @@ void ProtocolGame::sendExivaRestrictions(
 	if (isLogin) {
 		msg.add<uint16_t>(restrictions.playerWhitelist.size());
 		for (const auto &guid : restrictions.playerWhitelist) {
-			msg.addString(IOLoginData::getNameByGuid(guid));
+			msg.addString(g_playerRepository().getNameByGuid(guid));
 		}
 		msg.add<uint16_t>(0x00);
 	} else {

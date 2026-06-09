@@ -14,6 +14,7 @@
 #include "game/game.hpp"
 #include "game/scheduling/dispatcher.hpp"
 #include "game/scheduling/save_manager.hpp"
+#include "creatures/players/player_repository.hpp"
 #include "io/iologindata.hpp"
 #include "items/containers/inbox/inbox.hpp"
 #include "creatures/players/player.hpp"
@@ -224,7 +225,7 @@ void IOMarket::processExpiredOffers(const DBResult_ptr &result, bool) {
 			if (player) {
 				player->setBankBalance(player->getBankBalance() + totalPrice);
 			} else {
-				IOLoginData::increaseBankBalance(playerId, totalPrice);
+				g_playerRepository().increaseBankBalance(playerId, totalPrice);
 			}
 		}
 	} while (result->next());

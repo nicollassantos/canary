@@ -14,6 +14,7 @@
 #include "game/game.hpp"
 #include "game/scheduling/dispatcher.hpp"
 #include "game/scheduling/save_manager.hpp"
+#include "creatures/players/player_repository.hpp"
 #include "io/iologindata.hpp"
 #include "server/network/protocol/protocolgame.hpp"
 #include "creatures/players/player.hpp"
@@ -44,7 +45,7 @@ Attr_ReadValue BedItem::readAttr(AttrTypes_t attr, PropStream &propStream) {
 			}
 
 			if (guid != 0) {
-				const std::string name = IOLoginData::getNameByGuid(guid);
+				const std::string name = g_playerRepository().getNameByGuid(guid);
 				if (!name.empty()) {
 					setAttribute(ItemAttribute_t::DESCRIPTION, name + " is sleeping there.");
 					g_game().setBedSleeper(static_self_cast<BedItem>(), guid);

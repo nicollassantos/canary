@@ -28,6 +28,10 @@ public:
 	[[nodiscard]] virtual bool loadPlayerById(const std::shared_ptr<Player> &player, uint32_t id) = 0;
 	[[nodiscard]] virtual bool loadPlayerByName(const std::shared_ptr<Player> &player, const std::string &name) = 0;
 	[[nodiscard]] virtual bool savePlayer(const std::shared_ptr<Player> &player) = 0;
+
+	[[nodiscard]] virtual uint32_t getGuidByName(const std::string &name) = 0;
+	[[nodiscard]] virtual std::string getNameByGuid(uint32_t guid) = 0;
+	virtual void increaseBankBalance(uint32_t guid, uint64_t amount) = 0;
 };
 
 constexpr auto g_playerRepository = IPlayerRepository::getInstance;
