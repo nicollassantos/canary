@@ -35,6 +35,7 @@
 #include "io/guild_repository.hpp"
 #include "io/ioguild.hpp"
 #include "io/iologindata.hpp"
+#include "io/market_repository.hpp"
 #include "io/iomarket.hpp"
 #include "io/ioprey.hpp"
 #include "items/bed.hpp"
@@ -713,7 +714,7 @@ void Game::loadItemsPrice() {
 	}
 
 	// Update active buy offers (market_offers)
-	auto offers = IOMarket::getActiveOffers(MARKETACTION_BUY);
+	auto offers = g_marketRepository().getActiveOffers(MARKETACTION_BUY);
 	for (const auto &offer : offers) {
 		itemsPriceMap[offer.itemId][offer.tier] = std::max(itemsPriceMap[offer.itemId][offer.tier], offer.price);
 	}

@@ -7,6 +7,7 @@ target_sources(
             io_bosstiary.cpp
             guild_repository_db.cpp
             ioguild.cpp
+            market_repository_db.cpp
             iologindata.cpp
             functions/iologindata_load_player.cpp
             functions/iologindata_save_player.cpp

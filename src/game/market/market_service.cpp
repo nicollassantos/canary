@@ -14,6 +14,7 @@
 #include "enums/account_errors.hpp"
 #include "creatures/players/player.hpp"
 #include "game/game.hpp"
+#include "io/market_repository.hpp"
 #include "io/iomarket.hpp"
 #include "items/containers/depot/depotlocker.hpp"
 #include "items/containers/inbox/inbox.hpp"
@@ -42,8 +43,8 @@ void MarketService::playerBrowseMarket(uint32_t playerId, uint16_t itemId, uint8
 		return;
 	}
 
-	const MarketOfferList &buyOffers = IOMarket::getActiveOffers(MARKETACTION_BUY, it.id, tier);
-	const MarketOfferList &sellOffers = IOMarket::getActiveOffers(MARKETACTION_SELL, it.id, tier);
+	const MarketOfferList &buyOffers = g_marketRepository().getActiveOffers(MARKETACTION_BUY, it.id, tier);
+	const MarketOfferList &sellOffers = g_marketRepository().getActiveOffers(MARKETACTION_SELL, it.id, tier);
 	player->sendMarketBrowseItem(it.id, buyOffers, sellOffers, tier);
 	player->sendMarketDetail(it.id, tier);
 }
@@ -58,8 +59,8 @@ void MarketService::playerBrowseMarketOwnOffers(uint32_t playerId) {
 		return;
 	}
 
-	const MarketOfferList &buyOffers = IOMarket::getOwnOffers(MARKETACTION_BUY, player->getGUID());
-	const MarketOfferList &sellOffers = IOMarket::getOwnOffers(MARKETACTION_SELL, player->getGUID());
+	const MarketOfferList &buyOffers = g_marketRepository().getOwnOffers(MARKETACTION_BUY, player->getGUID());
+	const MarketOfferList &sellOffers = g_marketRepository().getOwnOffers(MARKETACTION_SELL, player->getGUID());
 	player->sendMarketBrowseOwnOffers(buyOffers, sellOffers);
 }
 
@@ -73,8 +74,8 @@ void MarketService::playerBrowseMarketOwnHistory(uint32_t playerId) {
 		return;
 	}
 
-	const HistoryMarketOfferList &buyOffers = IOMarket::getOwnHistory(MARKETACTION_BUY, player->getGUID());
-	const HistoryMarketOfferList &sellOffers = IOMarket::getOwnHistory(MARKETACTION_SELL, player->getGUID());
+	const HistoryMarketOfferList &buyOffers = g_marketRepository().getOwnHistory(MARKETACTION_BUY, player->getGUID());
+	const HistoryMarketOfferList &sellOffers = g_marketRepository().getOwnHistory(MARKETACTION_SELL, player->getGUID());
 	player->sendMarketBrowseOwnHistory(buyOffers, sellOffers);
 }
 
@@ -450,7 +451,7 @@ bool checkCanInitCreateMarketOffer(const std::shared_ptr<Player> &player, uint8_
 	}
 
 	const uint32_t maxOfferCount = g_configManager().getNumber(MAX_MARKET_OFFERS_AT_A_TIME_PER_PLAYER);
-	if (maxOfferCount != 0 && IOMarket::getPlayerOfferCount(player->getGUID()) >= maxOfferCount) {
+	if (maxOfferCount != 0 && g_marketRepository().getPlayerOfferCount(player->getGUID()) >= maxOfferCount) {
 		offerStatus << "Player " << player->getName() << "excedeed max offer count " << maxOfferCount;
 		return false;
 	}
@@ -549,10 +550,10 @@ void MarketService::playerCreateMarketOffer(uint32_t playerId, uint8_t type, uin
 		return;
 	}
 
-	IOMarket::createOffer(player->getGUID(), static_cast<MarketAction_t>(type), it.id, amount, price, tier, anonymous);
+	g_marketRepository().createOffer(player->getGUID(), static_cast<MarketAction_t>(type), it.id, amount, price, tier, anonymous);
 
-	const MarketOfferList &buyOffers = IOMarket::getActiveOffers(MARKETACTION_BUY, it.id, tier);
-	const MarketOfferList &sellOffers = IOMarket::getActiveOffers(MARKETACTION_SELL, it.id, tier);
+	const MarketOfferList &buyOffers = g_marketRepository().getActiveOffers(MARKETACTION_BUY, it.id, tier);
+	const MarketOfferList &sellOffers = g_marketRepository().getActiveOffers(MARKETACTION_SELL, it.id, tier);
 	player->sendMarketBrowseItem(it.id, buyOffers, sellOffers, tier);
 
 	// Exhausted for create offert in the market
@@ -575,7 +576,7 @@ void MarketService::playerCancelMarketOffer(uint32_t playerId, uint32_t timestam
 		return;
 	}
 
-	MarketOfferEx offer = IOMarket::getOfferByCounter(timestamp, counter);
+	MarketOfferEx offer = g_marketRepository().getOfferByCounter(timestamp, counter);
 	if (offer.id == 0 || offer.playerId != player->getGUID()) {
 		return;
 	}
@@ -613,7 +614,7 @@ void MarketService::playerCancelMarketOffer(uint32_t playerId, uint32_t timestam
 		}
 	}
 
-	IOMarket::moveOfferToHistory(offer.id, OFFERSTATE_CANCELLED);
+	g_marketRepository().moveOfferToHistory(offer.id, OFFERSTATE_CANCELLED);
 
 	offer.amount = 0;
 	offer.timestamp += config_.getNumber(MARKET_OFFER_DURATION);
@@ -643,7 +644,7 @@ void MarketService::playerAcceptMarketOffer(uint32_t playerId, uint32_t timestam
 		return;
 	}
 
-	MarketOfferEx offer = IOMarket::getOfferByCounter(timestamp, counter);
+	MarketOfferEx offer = g_marketRepository().getOfferByCounter(timestamp, counter);
 	if (offer.id == 0) {
 		offerStatus << "Failed to load offer id";
 		return;
@@ -836,16 +837,16 @@ void MarketService::playerAcceptMarketOffer(uint32_t playerId, uint32_t timestam
 
 	const int32_t marketOfferDuration = config_.getNumber(MARKET_OFFER_DURATION);
 
-	IOMarket::appendHistory(player->getGUID(), (offer.type == MARKETACTION_BUY ? MARKETACTION_SELL : MARKETACTION_BUY), offer.itemId, amount, offer.price, time(nullptr), offer.tier, OFFERSTATE_ACCEPTEDEX);
+	g_marketRepository().appendHistory(player->getGUID(), (offer.type == MARKETACTION_BUY ? MARKETACTION_SELL : MARKETACTION_BUY), offer.itemId, amount, offer.price, time(nullptr), offer.tier, OFFERSTATE_ACCEPTEDEX);
 
-	IOMarket::appendHistory(offer.playerId, offer.type, offer.itemId, amount, offer.price, time(nullptr), offer.tier, OFFERSTATE_ACCEPTED);
+	g_marketRepository().appendHistory(offer.playerId, offer.type, offer.itemId, amount, offer.price, time(nullptr), offer.tier, OFFERSTATE_ACCEPTED);
 
 	offer.amount -= amount;
 
 	if (offer.amount == 0) {
-		IOMarket::deleteOffer(offer.id);
+		g_marketRepository().deleteOffer(offer.id);
 	} else {
-		IOMarket::acceptOffer(offer.id, amount);
+		g_marketRepository().acceptOffer(offer.id, amount);
 	}
 
 	offer.timestamp += marketOfferDuration;

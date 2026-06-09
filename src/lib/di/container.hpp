@@ -19,6 +19,7 @@
 #include "creatures/players/imbuements/imbuements.hpp"
 #include "creatures/players/player_repository_db.hpp"
 #include "io/guild_repository_db.hpp"
+#include "io/market_repository_db.hpp"
 #include "creatures/players/vocations/vocation.hpp"
 #include "database/database.hpp"
 #include "game/scheduling/dispatcher.hpp"
@@ -53,6 +54,7 @@ private:
 		di::bind<IConfigManager>().to<ConfigManager>().in(di::singleton),
 		di::bind<IDatabase>().to<Database>().in(di::singleton),
 		di::bind<IGuildRepository>().to<GuildRepositoryDB>().in(di::singleton),
+		di::bind<IMarketRepository>().to<MarketRepositoryDB>().in(di::singleton),
 		di::bind<IPlayerRepository>().to<PlayerRepositoryDB>().in(di::singleton),
 		di::bind<KVStore>().to<KVSQL>().in(di::singleton),
 		di::bind<Logger>().to<LogWithSpdLog>().in(di::singleton),
