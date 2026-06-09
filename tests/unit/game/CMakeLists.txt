@@ -6,4 +6,7 @@ target_sources(
             random_mount_test.cpp
             player_stats_test.cpp
             spawn_monster_test.cpp
+            combat_service_test.cpp
+            item_service_test.cpp
+            player_interaction_service_test.cpp
 )

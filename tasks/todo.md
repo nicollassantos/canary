@@ -76,3 +76,33 @@
 - [x] **7.4** — Dispatcher, EventsScheduler, GlobalEvents → DI singleton; SaveManager skipped (needs Game& — game.hpp adds 22+ transitive includes to container.hpp); EventsScheduler::getInstance moved to .cpp; 258/258 testes ✓
 - [x] **7.5** — Lua subsystems: Actions, CreatureEvents, Events, MoveEvents, TalkActions → DI singleton; Scripts skipped (holds LuaScriptInterface by value, exceeds boost::di 10-param limit); 258/258 testes ✓
 - [x] **CHECKPOINT 8 (FINAL)** — 32 singletons registered; 258/258 testes ✓; remaining: SaveManager (Game& dep), Scripts (LuaScriptInterface value member), metrics::Metrics (no-op circular dep), Modules (circular dep)
+
+## Phase 8: Correções Rápidas + Testes de Services
+
+- [x] **8.1** — SaveManager: substituir 3x `g_game()` por `game_`; registrado no DI container (container.hpp)
+- [x] **8.2** — Container::Container(2-param) bug fix: agora define `m_maxItems` corretamente (sem fallback nulo)
+- [x] **8.3** — Testes para CombatService (5 casos: blockHit COMBAT_NONE, healing positive, agony, fight modes, setAttackedCreature)
+- [x] **8.4** — Testes para ItemService (8 casos: internalAddItem ok/null, internalRemoveItem, findItemOfType, playerMoveItem guard)
+- [x] **8.5** — Testes para PlayerInteractionService (8 casos: closeContainer, moveUp, updateContainer, rotateItem, browseField, writeItem, stashWithdraw guards)
+- [x] **CHECKPOINT 8** — 297/297 testes ✓; SaveManager limpo; 39 novos testes adicionados
+
+## Phase 9: IOLoginData Port + Adapter
+
+- [ ] **9.0** — Mapear grupos funcionais e singletons em IOLoginData
+- [ ] **9.1** — IPlayerRepository port expandido
+- [ ] **9.2** — SqlPlayerRepository adapter (loadPlayer/savePlayer/playerExists sem singletons)
+- [ ] **9.3** — Testes para IPlayerRepository (≥ 12 casos + InMemoryPlayerRepository fixture)
+- [ ] **CHECKPOINT 9** — IPlayerRepository completo; ≥ 12 novos testes ✓
+
+## Phase 10: Testes de Player Components
+
+- [ ] **10.1** — Testes para StashComponent (≥ 8 casos)
+- [ ] **10.2** — Testes para ForgeComponent (≥ 6 casos)
+- [ ] **10.3** — Testes para DeathComponent (≥ 6 casos)
+- [ ] **CHECKPOINT 10** — ≥ 20 novos testes de components ✓
+
+## Phase 11: IOMarket e IOGuild
+
+- [ ] **11.1** — IMarketRepository + SqlMarketRepository (sem estáticos)
+- [ ] **11.2** — IGuildRepository + SqlGuildRepository (sem getInstance)
+- [ ] **CHECKPOINT FINAL** — 50+ novos testes; zero singletons globais em Market/Guild ✓

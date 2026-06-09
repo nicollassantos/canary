@@ -34,7 +34,12 @@ Container::Container(uint16_t initType, uint16_t initSize, bool initUnlocked /*=
 	Item(initType),
 	maxSize(initSize),
 	unlocked(initUnlocked),
-	pagination(initPagination) { }
+	pagination(initPagination) {
+	m_maxItems = g_configManager().getNumber(MAX_CONTAINER_ITEM);
+	if (m_maxItems == 0) {
+		m_maxItems = initSize;
+	}
+}
 
 std::shared_ptr<Container> Container::create(uint16_t type) {
 	return std::make_shared<Container>(type);

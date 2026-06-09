@@ -22,6 +22,7 @@
 #include "database/database.hpp"
 #include "game/scheduling/dispatcher.hpp"
 #include "game/scheduling/events_scheduler.hpp"
+#include "game/scheduling/save_manager.hpp"
 #include "io/io_bosstiary.hpp"
 #include "lua/creature/actions.hpp"
 #include "lua/creature/creatureevent.hpp"
@@ -72,10 +73,11 @@ private:
 		di::bind<IOBestiary>().in(di::singleton),
 		di::bind<IOBosstiary>().in(di::singleton),
 		di::bind<IOPrey>().in(di::singleton),
-		// Phase 7.4 — scheduling singletons (SaveManager excluded: needs Game& — full type not available here)
+		// Phase 7.4 — scheduling singletons
 		di::bind<Dispatcher>().in(di::singleton),
 		di::bind<EventsScheduler>().in(di::singleton),
 		di::bind<GlobalEvents>().in(di::singleton),
+		di::bind<SaveManager>().in(di::singleton),
 		// Lua subsystems
 		di::bind<Actions>().in(di::singleton),
 		di::bind<CreatureEvents>().in(di::singleton),

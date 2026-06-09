@@ -124,7 +124,7 @@ void SaveManager::schedulePlayer(std::weak_ptr<Player> playerPtr) {
 
 	// Disable save async if the config is set to false
 	if (!g_configManager().getBoolean(TOGGLE_SAVE_ASYNC)) {
-		if (g_game().getGameState() == GAME_STATE_NORMAL) {
+		if (game.getGameState() == GAME_STATE_NORMAL) {
 			logger.debug("Saving player {}.", playerToSave->getName());
 		}
 		doSavePlayer(playerToSave);
@@ -157,7 +157,7 @@ bool SaveManager::doSavePlayer(std::shared_ptr<Player> player) {
 	Benchmark bm_savePlayer;
 	Player::PlayerLock lock(player);
 	m_playerMap.erase(player->getGUID());
-	if (g_game().getGameState() == GAME_STATE_NORMAL) {
+	if (game.getGameState() == GAME_STATE_NORMAL) {
 		logger.debug("Saving player {}.", player->getName());
 	}
 
@@ -172,7 +172,7 @@ bool SaveManager::doSavePlayer(std::shared_ptr<Player> player) {
 }
 
 bool SaveManager::savePlayer(std::shared_ptr<Player> player) {
-	if (player->isOnline() && g_game().getGameState() != GAME_STATE_SHUTDOWN) {
+	if (player->isOnline() && game.getGameState() != GAME_STATE_SHUTDOWN) {
 		schedulePlayer(player);
 		return true;
 	}

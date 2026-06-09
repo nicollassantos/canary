@@ -330,3 +330,156 @@ cd build && cmake --build . --parallel $(nproc)
 ctest --output-on-failure
 # Smoke test manual: login → movimento → combate PvE → usar item → chat
 ```
+
+---
+
+## Phase 8: Correções Rápidas + Fundação de Testes de Services
+
+### Task 8.1 — SaveManager: remover g_game()
+`src/game/scheduling/save_manager.cpp`
+
+SaveManager tem `Game& game_` via construtor mas ainda chama `g_game()` 3x (linhas 127, 160, 175).
+Substituir por `game_`. Adicionar binding em `container.hpp`.
+
+**Critérios:**
+- [ ] Nenhum `g_game()` em save_manager.cpp
+- [ ] SaveManager registrado no DI container
+- [ ] Build sem erro; 258+ testes passando
+
+**Escopo:** XS | **Deps:** Nenhuma
+
+### Task 8.2 — Infraestrutura de testes para services
+`tests/fixtures/` (novos helpers reutilizáveis)
+
+- `GameStub` — stub mínimo de `IGame` para injeção
+- Adaptar `InjectionFixture` para montar DI container com services isolados
+- Garantir que CMakeLists.txt inclui novos stubs
+
+**Critérios:**
+- [ ] `GameStub` compila sem dependência de `game.cpp`
+- [ ] `InjectionFixture` instancia service sem deps reais
+
+**Escopo:** S | **Deps:** Nenhuma
+
+### Task 8.3 — Testes para CombatService
+`src/game/combat/combat_service.cpp` (1.484 linhas, 0 testes)
+Novo: `tests/unit/game/combat/combat_service_test.cpp`
+
+Cobrir: playerSetAttackedCreature, playerRequestFightModes, guards (creature nula, player deslogado).
+
+**Critérios:**
+- [ ] ≥ 10 casos de teste
+- [ ] `ctest` verde
+
+**Escopo:** M | **Deps:** 8.2
+
+### Task 8.4 — Testes para ItemService
+`src/game/items/item_service.cpp` (1.128 linhas, 0 testes)
+Novo: `tests/unit/game/items/item_service_test.cpp`
+
+Cobrir: playerMoveItem (ranges, peso, capacidade), playerRequestAddVip/EditVip.
+
+**Critérios:**
+- [ ] ≥ 8 casos de teste; `ctest` verde
+
+**Escopo:** M | **Deps:** 8.2
+
+### Task 8.5 — Testes para PlayerInteractionService
+`src/game/interaction/player_interaction_service.cpp` (1.436 linhas, 0 testes)
+Novo: `tests/unit/game/interaction/player_interaction_service_test.cpp`
+
+Cobrir: playerUpdateContainer, playerOpenContainer, playerCloseNpcChannel.
+
+**Critérios:**
+- [ ] ≥ 8 casos de teste; `ctest` verde
+
+**Escopo:** M | **Deps:** 8.2
+
+**CHECKPOINT 8:** SaveManager limpo; ≥ 26 novos testes de services ✓
+
+---
+
+## Phase 9: IOLoginData Port + Adapter
+
+### Task 9.0 — Mapear responsabilidades de IOLoginData
+Catalogar grupos funcionais e dependências globais em `src/io/iologindata.cpp` (1.925 linhas).
+
+**Critérios:**
+- [ ] Lista de métodos por grupo (load/save/account/etc.)
+- [ ] Lista de singletons globais usados
+
+**Escopo:** XS | **Deps:** Nenhuma
+
+### Task 9.1 — IPlayerRepository port expandido
+`src/io/player_repository.hpp` — expandir interface existente com métodos de IOLoginData.
+
+**Critérios:**
+- [ ] Interface pura sem includes de DB
+
+**Escopo:** S | **Deps:** 9.0
+
+### Task 9.2 — SqlPlayerRepository adapter completo
+`src/io/sql_player_repository.cpp/.hpp`
+
+Extrai de IOLoginData: loadPlayer / savePlayer / playerExists. Injeta `IDatabase&`.
+
+**Critérios:**
+- [ ] Sem `Database::getInstance()` dentro das funções extraídas
+- [ ] Registrado no DI container
+
+**Escopo:** M | **Deps:** 9.1
+
+### Task 9.3 — Testes para IPlayerRepository
+`tests/unit/io/player_repository_test.cpp` + `InMemoryPlayerRepository` fixture
+
+Cobrir: save/load round-trip, playerExists, campos críticos preservados.
+
+**Critérios:**
+- [ ] ≥ 12 casos de teste; `ctest` verde
+
+**Escopo:** M | **Deps:** 9.1, 9.2
+
+**CHECKPOINT 9:** IPlayerRepository completo; IOLoginData encolheu; ≥ 12 novos testes ✓
+
+---
+
+## Phase 10: Testes para Player Components
+
+### Task 10.1 — Testes para StashComponent
+`src/creatures/players/components/player_stash_component.cpp` (1.604 linhas, 0 testes)
+Novo: `tests/unit/creatures/players/stash_component_test.cpp`
+
+**Critérios:**
+- [ ] ≥ 8 casos de teste (save, load, limit, add/remove)
+
+### Task 10.2 — Testes para ForgeComponent
+Novo: `tests/unit/creatures/players/forge_component_test.cpp`
+
+**Critérios:**
+- [ ] ≥ 6 casos de teste (attempt, resource validation, success/failure)
+
+### Task 10.3 — Testes para DeathComponent
+Novo: `tests/unit/creatures/players/death_component_test.cpp`
+
+**Critérios:**
+- [ ] ≥ 6 casos de teste (death penalty, bless reduction, skull)
+
+**CHECKPOINT 10:** ≥ 20 novos testes de components ✓
+
+---
+
+## Phase 11: IOMarket e IOGuild
+
+### Task 11.1 — IMarketRepository + SqlMarketRepository
+`src/io/iomarket.cpp` → métodos estáticos → instância injetável.
+
+**Critérios:**
+- [ ] Sem chamadas estáticas ao DB em implementations; DI binding adicionado
+
+### Task 11.2 — IGuildRepository + SqlGuildRepository
+`src/io/ioguild.cpp` → mesmo padrão de 11.1.
+
+**Critérios:**
+- [ ] DI binding adicionado; sem `Database::getInstance()` em GuildRepository
+
+**CHECKPOINT FINAL (8–11):** 50+ novos testes; SaveManager + IOMarket + IOGuild sem singletons globais ✓
