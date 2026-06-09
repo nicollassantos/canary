@@ -9,6 +9,8 @@
 
 #pragma once
 
+#include "config/config_port.hpp"
+
 class Player;
 class Guild;
 
@@ -30,6 +32,7 @@ public:
 class Bank : public SharedObject {
 public:
 	explicit Bank(const std::shared_ptr<Bankable> &bankable);
+	Bank(const std::shared_ptr<Bankable> &bankable, IConfigManager &config);
 	~Bank() override;
 
 	// Deleted copy constructor and assignment operator.
@@ -52,4 +55,5 @@ private:
 		return m_bankable;
 	}
 	std::shared_ptr<Bankable> m_bankable;
+	IConfigManager &m_config;
 };

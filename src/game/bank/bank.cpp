@@ -9,15 +9,16 @@
 
 #include "game/bank/bank.hpp"
 
-#include "config/configmanager.hpp"
 #include "creatures/players/player.hpp"
 #include "game/game.hpp"
 #include "game/scheduling/save_manager.hpp"
 #include "lib/metrics/metrics.hpp"
 
 Bank::Bank(const std::shared_ptr<Bankable> &bankable) :
-	m_bankable(bankable) {
-}
+	Bank(bankable, g_configManager()) { }
+
+Bank::Bank(const std::shared_ptr<Bankable> &bankable, IConfigManager &config) :
+	m_bankable(bankable), m_config(config) { }
 
 Bank::~Bank() {
 	auto bankable = getBankable();
@@ -111,7 +112,7 @@ bool Bank::transferTo(const std::shared_ptr<Bank> &destination, uint64_t amount)
 
 		const auto destinationTownId = destinationPlayer->getTown()->getID();
 		const auto bankableTownId = bankablePlayer->getTown()->getID();
-		const auto minTownIdToTransferFromMain = g_configManager().getNumber(MIN_TOWN_ID_TO_BANK_TRANSFER_FROM_MAIN);
+		const auto minTownIdToTransferFromMain = m_config.getNumber(MIN_TOWN_ID_TO_BANK_TRANSFER_FROM_MAIN);
 
 		if (destinationTownId < minTownIdToTransferFromMain && bankableTownId >= minTownIdToTransferFromMain) {
 			g_logger().warn("[{}] Player {} is from main town, trying to transfer money to player {} in {} town.", __FUNCTION__, bankablePlayer->getName(), destinationPlayer->getName(), destinationTownId);
