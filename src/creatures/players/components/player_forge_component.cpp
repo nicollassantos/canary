@@ -751,7 +751,7 @@ void PlayerForgeComponent::addForgeDusts(uint64_t amount) {
 }
 
 void PlayerForgeComponent::removeForgeDusts(uint64_t amount) {
-	m_player.forgeDusts = std::max<uint64_t>(0, m_player.forgeDusts - amount);
+	m_player.forgeDusts -= std::min(amount, m_player.forgeDusts);
 	if (m_player.client) {
 		m_player.client->sendResourcesBalance(m_player.getMoney(), m_player.getBankBalance(), m_player.getPreyCards(), m_player.getTaskHuntingPoints(), getForgeDusts());
 	}
@@ -769,7 +769,7 @@ void PlayerForgeComponent::addForgeDustLevel(uint64_t amount) {
 }
 
 void PlayerForgeComponent::removeForgeDustLevel(uint64_t amount) {
-	m_player.forgeDustLevel = std::max<uint64_t>(0, m_player.forgeDustLevel - amount);
+	m_player.forgeDustLevel -= std::min(amount, m_player.forgeDustLevel);
 	if (m_player.client) {
 		m_player.client->sendResourcesBalance(m_player.getMoney(), m_player.getBankBalance(), m_player.getPreyCards(), m_player.getTaskHuntingPoints(), getForgeDusts());
 	}
