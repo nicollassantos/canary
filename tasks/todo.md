@@ -103,6 +103,6 @@
 
 ## Phase 11: IOMarket e IOGuild
 
-- [ ] **11.1** — IMarketRepository + SqlMarketRepository (sem estáticos)
+- [x] **11.1** — IMarketRepository + MarketRepositoryDB; todos call sites CRUD migrados (game.cpp, market_service.cpp, protocolgame_send.cpp); InMemoryMarketRepository fixture; 14 testes TDD
 - [x] **11.2** — IGuildRepository + GuildRepositoryDB; 10 call sites migrados; InMemoryGuildRepository fixture; 8 testes
-- [x] **CHECKPOINT FINAL (partial)** — 336/336 testes ✓; IGuildRepository porta criada; IOMarket pendente (47 call sites, estatísticas em memória = refactor maior)
+- [x] **CHECKPOINT FINAL** — 350/350 testes ✓; IMarketRepository + IGuildRepository + IPlayerRepository + IConfigManager + IDatabase portas criadas; all adapters injectable
