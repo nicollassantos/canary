@@ -106,3 +106,11 @@
 - [x] **11.1** — IMarketRepository + MarketRepositoryDB; todos call sites CRUD migrados (game.cpp, market_service.cpp, protocolgame_send.cpp); InMemoryMarketRepository fixture; 14 testes TDD
 - [x] **11.2** — IGuildRepository + GuildRepositoryDB; 10 call sites migrados; InMemoryGuildRepository fixture; 8 testes
 - [x] **CHECKPOINT FINAL** — 350/350 testes ✓; IMarketRepository + IGuildRepository + IPlayerRepository + IConfigManager + IDatabase portas criadas; all adapters injectable
+
+## Phase 12: Cobertura Adicional (TDD contínuo)
+
+- [x] **12.1** — Bank: inject IConfigManager + 14 testes (credit/debit/transferTo/town check/denied names)
+- [x] **12.2** — PlayerAchievement: 10 testes (isUnlocked, addPoints/removePoints, clamp, per-player isolation)
+- [x] **12.3** — PlayerVIP: 17 testes (getMaxEntries/Groups, exists/addInternal, getFreeId, groups CRUD)
+- [x] **12.4** — PlayerTitle: 9 testes (isTitleUnlocked, getCurrentTitle/setCurrentTitle KV, getNameBySex)
+- [x] **CHECKPOINT 12** — 400/400 testes ✓
