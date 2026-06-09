@@ -32,6 +32,7 @@
 #include "io/io_bosstiary.hpp"
 #include "io/io_wheel.hpp"
 #include "io/iobestiary.hpp"
+#include "io/guild_repository.hpp"
 #include "io/ioguild.hpp"
 #include "io/iologindata.hpp"
 #include "io/iomarket.hpp"
@@ -3332,7 +3333,7 @@ std::shared_ptr<Guild> Game::getGuild(uint32_t id, bool allowOffline /* = flase 
 	auto it = guilds.find(id);
 	if (it == guilds.end()) {
 		if (allowOffline) {
-			return IOGuild::loadGuild(id);
+			return g_guildRepository().loadGuild(id);
 		}
 		return nullptr;
 	}
@@ -3340,11 +3341,11 @@ std::shared_ptr<Guild> Game::getGuild(uint32_t id, bool allowOffline /* = flase 
 }
 
 std::shared_ptr<Guild> Game::getGuildByName(const std::string &name, bool allowOffline /* = flase */) const {
-	auto id = IOGuild::getGuildIdByName(name);
+	auto id = g_guildRepository().getGuildIdByName(name);
 	auto it = guilds.find(id);
 	if (it == guilds.end()) {
 		if (allowOffline) {
-			return IOGuild::loadGuild(id);
+			return g_guildRepository().loadGuild(id);
 		}
 		return nullptr;
 	}

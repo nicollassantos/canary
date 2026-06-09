@@ -19,6 +19,7 @@
 #include "enums/account_errors.hpp"
 #include "enums/object_category.hpp"
 #include "game/game.hpp"
+#include "io/guild_repository.hpp"
 #include "io/ioguild.hpp"
 #include "io/ioprey.hpp"
 #include "items/containers/depot/depotchest.hpp"
@@ -406,7 +407,7 @@ void IOLoginDataLoad::loadPlayerGuild(const std::shared_ptr<Player> &player, DBR
 
 		auto guild = g_game().getGuild(guildId);
 		if (!guild) {
-			guild = IOGuild::loadGuild(guildId);
+			guild = g_guildRepository().loadGuild(guildId);
 			g_game().addGuild(guild);
 		}
 
@@ -429,7 +430,7 @@ void IOLoginDataLoad::loadPlayerGuild(const std::shared_ptr<Player> &player, DBR
 
 			player->guildRank = rank;
 
-			IOGuild::getWarList(guildId, player->guildWarVector);
+			g_guildRepository().getWarList(guildId, player->guildWarVector);
 
 			query.str("");
 			query << "SELECT COUNT(*) AS `members` FROM `guild_membership` WHERE `guild_id` = " << guildId;

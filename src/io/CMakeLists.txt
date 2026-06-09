@@ -5,6 +5,7 @@ target_sources(
             io_wheel.cpp
             iobestiary.cpp
             io_bosstiary.cpp
+            guild_repository_db.cpp
             ioguild.cpp
             iologindata.cpp
             functions/iologindata_load_player.cpp

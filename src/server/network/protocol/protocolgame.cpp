@@ -41,6 +41,7 @@
 #include "creatures/players/player_repository.hpp"
 #include "io/iologindata.hpp"
 #include "io/iomarket.hpp"
+#include "io/guild_repository.hpp"
 #include "io/ioguild.hpp"
 #include "io/ioprey.hpp"
 #include "items/items_classification.hpp"
@@ -3438,13 +3439,13 @@ void ProtocolGame::parseExivaRestrictions(NetworkMessage &msg) {
 	std::vector<std::string> addedGuildNames;
 	std::unordered_set<uint32_t> addedGuildIds;
 	addExivaEntries(msg, restrictions.guildWhitelist, addedGuildNames, addedGuildIds, MAX_EXIVA_WHITELIST, [](const std::string &n) {
-		return IOGuild::getGuildIdByName(n);
+		return g_guildRepository().getGuildIdByName(n);
 	});
 
 	std::vector<std::string> removedGuildNames;
 	std::unordered_set<uint32_t> removedGuildIds;
 	removeExivaEntries(msg, restrictions.guildWhitelist, removedGuildNames, removedGuildIds, MAX_EXIVA_WHITELIST, [](const std::string &n) {
-		return IOGuild::getGuildIdByName(n);
+		return g_guildRepository().getGuildIdByName(n);
 	});
 
 	sendExivaRestrictions(false, addedPlayerNames, removedPlayerNames, addedGuildNames, removedGuildNames);

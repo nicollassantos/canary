@@ -88,18 +88,18 @@
 
 ## Phase 9: IOLoginData Port + Adapter
 
-- [ ] **9.0** — Mapear grupos funcionais e singletons em IOLoginData
-- [ ] **9.1** — IPlayerRepository port expandido
-- [ ] **9.2** — SqlPlayerRepository adapter (loadPlayer/savePlayer/playerExists sem singletons)
-- [ ] **9.3** — Testes para IPlayerRepository (≥ 12 casos + InMemoryPlayerRepository fixture)
-- [ ] **CHECKPOINT 9** — IPlayerRepository completo; ≥ 12 novos testes ✓
+- [x] **9.0** — Mapear grupos funcionais e singletons em IOLoginData
+- [x] **9.1** — IPlayerRepository port expandido (getGuidByName, getNameByGuid, increaseBankBalance)
+- [x] **9.2** — PlayerRepositoryDB adapter; 15 call sites migrados de IOLoginData:: para g_playerRepository()
+- [x] **9.3** — 8 novos testes para IPlayerRepository; bankBalances map + reset() fix
+- [x] **CHECKPOINT 9** — 305/305 testes ✓; IPlayerRepository completo
 
 ## Phase 10: Testes de Player Components
 
-- [ ] **10.1** — Testes para StashComponent (≥ 8 casos)
-- [ ] **10.2** — Testes para ForgeComponent (≥ 6 casos)
-- [ ] **10.3** — Testes para DeathComponent (≥ 6 casos)
-- [ ] **CHECKPOINT 10** — ≥ 20 novos testes de components ✓
+- [x] **10.1** — StashComponent (8 testes: addItemOnStash, getStashItemCount, getStashItems)
+- [x] **10.2** — ForgeComponent (8 testes: forgeDusts/forgeDustLevel set/add/remove/clamp) + fix underflow uint64
+- [x] **10.3** — TrainingComponent (7 testes: offlineTrainingTime/Skill); DeathComponent skip: isPromoted() crashs com vocation=null no default Player
+- [x] **CHECKPOINT 10** — 23 novos testes; 328/328 ✓
 
 ## Phase 11: IOMarket e IOGuild
 

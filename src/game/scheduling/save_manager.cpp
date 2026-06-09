@@ -12,6 +12,7 @@
 #include "config/configmanager.hpp"
 #include "creatures/players/grouping/guild.hpp"
 #include "game/game.hpp"
+#include "io/guild_repository.hpp"
 #include "io/ioguild.hpp"
 #include "io/iologindata.hpp"
 #include "kv/kv.hpp"
@@ -187,7 +188,7 @@ void SaveManager::saveGuild(std::shared_ptr<Guild> guild) {
 
 	Benchmark bm_saveGuild;
 	logger.debug("Saving guild {}...", guild->getName());
-	IOGuild::saveGuild(guild);
+	g_guildRepository().saveGuild(guild);
 
 	auto duration = bm_saveGuild.duration();
 	logger.debug("Saving guild {} took {} milliseconds.", guild->getName(), duration);

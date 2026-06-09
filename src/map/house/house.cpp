@@ -12,6 +12,7 @@
 #include "config/configmanager.hpp"
 #include "game/game.hpp"
 #include "game/scheduling/save_manager.hpp"
+#include "io/guild_repository.hpp"
 #include "io/ioguild.hpp"
 #include "creatures/players/player_repository.hpp"
 #include "io/iologindata.hpp"
@@ -738,7 +739,7 @@ void AccessList::addPlayer(const std::string &name) {
 
 namespace {
 	std::shared_ptr<Guild> getGuildByName(const std::string &name) {
-		const uint32_t guildId = IOGuild::getGuildIdByName(name);
+		const uint32_t guildId = g_guildRepository().getGuildIdByName(name);
 		if (guildId == 0) {
 			return nullptr;
 		}
@@ -748,7 +749,7 @@ namespace {
 			return guild;
 		}
 
-		return IOGuild::loadGuild(guildId);
+		return g_guildRepository().loadGuild(guildId);
 	}
 }
 
