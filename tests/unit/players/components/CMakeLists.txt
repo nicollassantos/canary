@@ -6,6 +6,7 @@ target_sources(
             player_inventory_component_test.cpp
             player_mount_component_test.cpp
             player_creature_event_component_test.cpp
+            player_imbuement_component_test.cpp
             player_title_test.cpp
             player_vip_test.cpp
             player_storage_test.cpp
