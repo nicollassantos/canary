@@ -129,4 +129,7 @@
 - [x] **13.10** — PlayerSessionComponent: 8 testes (setProtection/isProtected, setLoginProtection/isLoginProtected/resetLoginProtection, canLogout no tile)
 - [x] **13.11** — WeaponProficiency: 21 testes (addStat/getStat/resetStats, addSkillBonus/getSkillBonus/resetSkillBonuses, powerfulFoe, specializedMagic, getBosstiaryExperience, getBestiaryExperience, getAutoAttackCritical)
 - [x] **13.12** — WheelGemUtils: 11 testes (getHealthValue/getManaValue/getCapacityValue per vocation; unknown modifier → 0)
-- [x] **CHECKPOINT 13** — 508/508 testes ✓
+- [x] **13.13** — ItemAttribute: 13 testes (hasAttribute, getAttributeValue, getAttributeString, removeAttribute)
+- [x] **13.14** — CustomAttribute: 10 testes (constructors int64/string/double/bool, hasValue, getAttribute, setValue)
+- [x] **13.15** — Area (zone geometry): 13 testes (contains, intersects static/instance, PositionIterator)
+- [x] **CHECKPOINT 13** — 544/544 testes ✓
