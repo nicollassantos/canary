@@ -11,4 +11,5 @@ target_sources(
             item_service_test.cpp
             player_interaction_service_test.cpp
             zone_area_test.cpp
+            teleport_guard_test.cpp
 )

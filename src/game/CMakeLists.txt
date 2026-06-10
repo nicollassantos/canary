@@ -16,6 +16,7 @@ target_sources(
             trade/trade_service.cpp
             movement/position.cpp
             movement/teleport.cpp
+            movement/teleport_guard.cpp
             scheduling/events_scheduler.cpp
             scheduling/dispatcher.cpp
             scheduling/task.cpp
