@@ -10,4 +10,5 @@ target_sources(
             combat_service_test.cpp
             item_service_test.cpp
             player_interaction_service_test.cpp
+            zone_area_test.cpp
 )
