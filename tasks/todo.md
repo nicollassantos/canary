@@ -105,7 +105,7 @@
 
 - [x] **11.1** — IMarketRepository + MarketRepositoryDB; todos call sites CRUD migrados (game.cpp, market_service.cpp, protocolgame_send.cpp); InMemoryMarketRepository fixture; 14 testes TDD
 - [x] **11.2** — IGuildRepository + GuildRepositoryDB; 10 call sites migrados; InMemoryGuildRepository fixture; 8 testes
-- [x] **CHECKPOINT FINAL** — 350/350 testes ✓; IMarketRepository + IGuildRepository + IPlayerRepository + IConfigManager + IDatabase portas criadas; all adapters injectable
+- [x] **CHECKPOINT 11** — 350/350 testes ✓; IMarketRepository + IGuildRepository + IPlayerRepository + IConfigManager + IDatabase portas criadas; all adapters injectable
 
 ## Phase 12: Cobertura Adicional (TDD contínuo)
 
@@ -114,3 +114,13 @@
 - [x] **12.3** — PlayerVIP: 17 testes (getMaxEntries/Groups, exists/addInternal, getFreeId, groups CRUD)
 - [x] **12.4** — PlayerTitle: 9 testes (isTitleUnlocked, getCurrentTitle/setCurrentTitle KV, getNameBySex)
 - [x] **CHECKPOINT 12** — 400/400 testes ✓
+
+## Phase 13: Cobertura de Componentes de Player (TDD contínuo)
+
+- [x] **13.1** — PlayerBadge: 8 testes (hasBadge, loyalty, accountAge, tournamentParticipation/Points)
+- [x] **13.2** — PlayerForgeHistory: 8 testes (get empty, add/stores/multiple/dedup-timestamp, remove/correct/noop)
+- [x] **13.3** — PlayerInventoryComponent: 18 testes (getInventoryItem, getInventoryItemsId, getInventoryItemsFromId, getAllInventoryItems, getEquippedItems; Cylinder base cast trick)
+- [x] **13.4** — PlayerMountComponent: 13 testes (getCurrentMount/setCurrentMount, isRandomMounted/setRandomMount, getLastMount kv/storage, hasMount bitflag)
+- [x] **13.5** — PlayerCreatureEventComponent: 12 smoke tests (guard paths, trade/loot early returns, client=null guards)
+- [x] **13.6** — PlayerImbuementComponent: 15 smoke tests (client guards, clearAllImbuements, addItemImbuementStats zero-imbuement, updateImbuementTrackerStats, onApplyImbuement/onClearImbuement null guards)
+- [x] **CHECKPOINT 13** — 474/474 testes ✓

@@ -8,6 +8,7 @@ target_sources(
             player_creature_event_component_test.cpp
             player_imbuement_component_test.cpp
             player_combat_stats_component_test.cpp
+            player_combat_event_component_test.cpp
             player_title_test.cpp
             player_vip_test.cpp
             player_storage_test.cpp
