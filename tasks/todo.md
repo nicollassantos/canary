@@ -132,4 +132,7 @@
 - [x] **13.13** — ItemAttribute: 13 testes (hasAttribute, getAttributeValue, getAttributeString, removeAttribute)
 - [x] **13.14** — CustomAttribute: 10 testes (constructors int64/string/double/bool, hasValue, getAttribute, setValue)
 - [x] **13.15** — Area (zone geometry): 13 testes (contains, intersects static/instance, PositionIterator)
-- [x] **CHECKPOINT 13** — 544/544 testes ✓
+- [x] **13.16** — vector_sort: 11 testes (empty/size, contains, sorted order, erase, erase_if, clear)
+- [x] **13.17** — arraylist: 11 testes (empty/size, push_front order, contains, erase, erase_if, clear)
+- [x] **13.18** — Condition getters: 10 testes (getId/getType/getTicks/getSubId, isPersistent 3 cases, isRemovableOnDeath 3 cases)
+- [x] **CHECKPOINT 13** — 576/576 testes ✓
