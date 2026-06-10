@@ -123,4 +123,10 @@
 - [x] **13.4** — PlayerMountComponent: 13 testes (getCurrentMount/setCurrentMount, isRandomMounted/setRandomMount, getLastMount kv/storage, hasMount bitflag)
 - [x] **13.5** — PlayerCreatureEventComponent: 12 smoke tests (guard paths, trade/loot early returns, client=null guards)
 - [x] **13.6** — PlayerImbuementComponent: 15 smoke tests (client guards, clearAllImbuements, addItemImbuementStats zero-imbuement, updateImbuementTrackerStats, onApplyImbuement/onClearImbuement null guards)
-- [x] **CHECKPOINT 13** — 474/474 testes ✓
+- [x] **13.7** — PlayerCombatStatsComponent: 20 testes (attackRawTotal, attackTotal 3 fight modes, getDistanceAttackSkill, calculateFlatDamageHealing, getCombatTacticsMitigation, getMantra, getShieldAndWeapon)
+- [x] **13.8** — PlayerCombatEventComponent: 12 smoke tests (isPzLocked, hasShield, hazardSystemPoints, onAttackedCreatureBlockHit, onAddCondition, onCleanseCondition, onIdleStatus)
+- [x] **13.9** — PlayerCylinderComponent: 9 testes (getFirstIndex, getLastIndex, getThingIndex, getItemTypeCount)
+- [x] **13.10** — PlayerSessionComponent: 8 testes (setProtection/isProtected, setLoginProtection/isLoginProtected/resetLoginProtection, canLogout no tile)
+- [x] **13.11** — WeaponProficiency: 21 testes (addStat/getStat/resetStats, addSkillBonus/getSkillBonus/resetSkillBonuses, powerfulFoe, specializedMagic, getBosstiaryExperience, getBestiaryExperience, getAutoAttackCritical)
+- [x] **13.12** — WheelGemUtils: 11 testes (getHealthValue/getManaValue/getCapacityValue per vocation; unknown modifier → 0)
+- [x] **CHECKPOINT 13** — 508/508 testes ✓
