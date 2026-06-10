@@ -4,4 +4,6 @@ target_sources(
             string_functions_test.cpp
             map_download_test.cpp
             test_batch_update.cpp
+            arraylist_test.cpp
+            vector_sort_test.cpp
 )
