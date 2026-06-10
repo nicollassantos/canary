@@ -77,3 +77,23 @@ TEST_F(PlayerStashComponentTest, AddItemOnStash_LargeAmount_StoresCorrectly) {
 	player->stashComponent().addItemOnStash(42, bigAmount);
 	EXPECT_EQ(bigAmount, player->stashComponent().getStashItemCount(42));
 }
+
+// --- Regression: isNearDepotBox() const (fix(container) #3995) ---
+
+TEST_F(PlayerStashComponentTest, IsNearDepotBox_ReturnsFalse_WhenNoTiles) {
+	// Player at default position — no depot tiles nearby → false
+	EXPECT_FALSE(player->stashComponent().isNearDepotBox());
+}
+
+TEST_F(PlayerStashComponentTest, IsNearDepotBox_CallableOnConstPlayer) {
+	// Verifies const-correctness: must compile with const Player&
+	const auto &constPlayer = *player;
+	EXPECT_FALSE(constPlayer.isNearDepotBox());
+}
+
+// --- Regression: sendBatchUpdateContainer null-guard (fix(container) #3995) ---
+
+TEST_F(PlayerStashComponentTest, SendBatchUpdateContainer_NoOp_WhenContainerNull) {
+	// Null container must not crash (early-return guard)
+	EXPECT_NO_THROW(player->stashComponent().sendBatchUpdateContainer(nullptr, false));
+}

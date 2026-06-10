@@ -34,7 +34,7 @@ public:
 		m_player(player) { }
 
 	// Depot chest/locker access
-	bool isNearDepotBox();
+	bool isNearDepotBox() const;
 	std::shared_ptr<DepotChest> getDepotChest(uint32_t depotId, bool autoCreate);
 	std::shared_ptr<DepotLocker> getDepotLocker(uint32_t depotId);
 

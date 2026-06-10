@@ -1371,7 +1371,7 @@ uint16_t Player::parseRacebyCharm(charmRune_t charmId, bool set /*= false*/, uin
 	return raceid;
 }
 
-bool Player::isNearDepotBox() {
+bool Player::isNearDepotBox() const {
 	return m_stashComponent.isNearDepotBox();
 }
 
@@ -5220,7 +5220,7 @@ bool Player::shouldCloseContainer(const std::shared_ptr<Container> &container) c
 	if (const auto &depotChest = topParent->getDepotChest()) {
 		for (const auto &[depotId, chest] : depotChests) {
 			if (depotId != 0 && chest == depotChest) {
-				return false;
+				return !isNearDepotBox();
 			}
 		}
 	}

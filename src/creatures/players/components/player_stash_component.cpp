@@ -52,7 +52,7 @@ namespace {
 	}
 } // namespace
 
-bool PlayerStashComponent::isNearDepotBox() {
+bool PlayerStashComponent::isNearDepotBox() const {
 	const Position &pos = m_player.getPosition();
 	for (int32_t cx = -1; cx <= 1; ++cx) {
 		for (int32_t cy = -1; cy <= 1; ++cy) {
@@ -255,12 +255,19 @@ void PlayerStashComponent::sendBatchUpdateContainer(Container* container, bool h
 		m_player.closeContainersOutOfRange();
 	}
 
-	for (const auto &[cid, containerInfo] : m_player.openContainers) {
+	for (auto &[cid, containerInfo] : m_player.openContainers) {
 		if (containerInfo.container.get() != container) {
 			continue;
 		}
 
-		m_player.client->sendContainer(cid, containerInfo.container, hasParent, containerInfo.index);
+		auto &firstIndex = containerInfo.index;
+		const uint32_t containerSize = containerInfo.container->size();
+		if (firstIndex >= containerSize) {
+			const uint32_t pageSize = std::max<uint32_t>(containerInfo.container->capacity(), 1);
+			firstIndex = containerSize == 0 ? 0 : static_cast<uint16_t>(((containerSize - 1) / pageSize) * pageSize);
+		}
+
+		m_player.client->sendContainer(cid, containerInfo.container, hasParent, firstIndex);
 		g_logger().debug("PlayerStashComponent::sendBatchUpdateContainer - Sent batch update for container {} to player {}.", cid, m_player.getName());
 	}
 }
