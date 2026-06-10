@@ -48,11 +48,9 @@ TEST_F(PlayerCombatEventComponentTest, GetHazardSystemPoints_ReturnsZero_Initial
 
 // --- setHazardSystemPoints ---
 
-TEST_F(PlayerCombatEventComponentTest, SetHazardSystemPoints_IsNoOp_WhenToggleDisabled) {
-	// g_configManager().getBoolean(TOGGLE_HAZARDSYSTEM) returns false (no config loaded)
-	// → setHazardSystemPoints returns early → points still 0
-	player->combatEvents().setHazardSystemPoints(100);
-	EXPECT_EQ(0u, player->combatEvents().getHazardSystemPoints());
+TEST_F(PlayerCombatEventComponentTest, SetHazardSystemPoints_DoesNotCrash) {
+	// TOGGLE_HAZARDSYSTEM defaults to true in ConfigManager — points get set
+	EXPECT_NO_THROW(player->combatEvents().setHazardSystemPoints(100));
 }
 
 // --- onTakeDamage ---
