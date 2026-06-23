@@ -15,4 +15,5 @@ target_sources(
             walk_start_policy_test.cpp
             movement_service_test.cpp
             trade_service_test.cpp
+            highscore_service_test.cpp
 )

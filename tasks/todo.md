@@ -156,4 +156,5 @@
 
 - [x] **15.1** — MovementService: 6 testes (internalMoveCreature null/baseSpeed0/rooted; internalTeleport null/samePos/removed)
 - [x] **15.2** — TradeService: 8 testes (getTradeErrorDescription 6 casos; internalStartTrade alreadyTrading/storeItem)
-- [x] **CHECKPOINT 15** — 609/609 testes ✓; +14 novos testes
+- [x] **15.3** — HighscoreService: 8 testes estáticos (calculateHighscorePages 3 casos; getSkillNameById 5 casos incl. unknown→reset)
+- [x] **CHECKPOINT 15** — 617/617 testes ✓; +22 novos testes

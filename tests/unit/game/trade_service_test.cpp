@@ -48,13 +48,6 @@ namespace {
 			DI::setTestContainer(previousContainer);
 		}
 
-		void SetUp() override {
-			// ensure stackable flag on id 101 before each test (shared global state)
-			auto &items = Item::items.getItems();
-			if (items.size() > kStackableItemId) {
-				items[kStackableItemId].stackable = true;
-			}
-		}
 
 	protected:
 		Game game;
@@ -84,13 +77,23 @@ TEST_F(TradeServiceTest, GetTradeErrorDescription_CapacityError_NonStackable_Ret
 }
 
 // NOTENOUGHCAPACITY + stackable item count > 1 → "these objects."
+// setItemCount is used to force count independently of constructor path;
+// stackable flag is set on the type so isStackable() returns true for the call.
 TEST_F(TradeServiceTest, GetTradeErrorDescription_CapacityError_StackableMultiple_ReturnsTheseObjects) {
-	const auto item = Item::CreateItem(kStackableItemId, 5);
+	const auto item = Item::CreateItem(kNormalItemId);
 	ASSERT_NE(nullptr, item);
-	ASSERT_TRUE(item->isStackable());
-	ASSERT_GT(item->getItemCount(), 1);
+	item->setItemCount(5);
+
+	// make the item type appear stackable for the duration of this call
+	auto &itemsVec = Item::items.getItems();
+	ASSERT_GT(itemsVec.size(), kNormalItemId);
+	itemsVec[kNormalItemId].stackable = true;
+
 	const std::string msg = Game::getTradeErrorDescription(RETURNVALUE_NOTENOUGHCAPACITY, item);
 	EXPECT_NE(std::string::npos, msg.find("these objects."));
+	EXPECT_EQ(std::string::npos, msg.find("this object."));
+
+	itemsVec[kNormalItemId].stackable = false;
 }
 
 // NOTENOUGHROOM → "this object."
