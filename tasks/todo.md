@@ -161,4 +161,5 @@
 - [x] **15.5** — CreatureManagementService: 18 testes (getMonsterByID 0+unknown; getNpcByID 0+unknown; getPlayerByID not registered; getCreatureByName empty+unknown; getNpcByName empty+unknown; getPlayerByName empty+not registered+registered; getPlayerByGUID 0+unknown; getPlayerByNameWildcard empty+too long+exact unknown+wildcard prefix unknown)
 - [x] **15.6** — fix WalkStartPolicy segfault: `makeReadyPlayer()` now sets `Group` before `setSpeed(0)` (Player::getStepSpeed → hasFlag crashes on null group)
 - [x] **15.7** — ChatService: 7 testes (playerBroadcastMessage no-flag/with-flag; playerYell level1/YELLTICKS/level10-ok; playerSpeakTo unknown-receiver/registered-receiver)
-- [x] **CHECKPOINT 15** — 646/646 testes ✓; +51 novos testes (total desde Phase 0)
+- [x] **15.8** — ForgeService: 4 testes (addInfluencedMonster null; makeInfluencedMonster/makeFiendishMonster empty monsters; makeFiendishMonster createForgeable=true no monsters)
+- [x] **CHECKPOINT 15** — 650/650 testes ✓; +55 novos testes (total desde Phase 0)
