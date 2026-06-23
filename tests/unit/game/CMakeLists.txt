@@ -18,4 +18,5 @@ target_sources(
             highscore_service_test.cpp
             creature_walk_test.cpp
             creature_management_service_test.cpp
+            chat_service_test.cpp
 )
