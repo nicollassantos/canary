@@ -16,4 +16,5 @@ target_sources(
             movement_service_test.cpp
             trade_service_test.cpp
             highscore_service_test.cpp
+            creature_walk_test.cpp
 )
