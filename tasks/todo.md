@@ -136,3 +136,18 @@
 - [x] **13.17** — arraylist: 11 testes (empty/size, push_front order, contains, erase, erase_if, clear)
 - [x] **13.18** — Condition getters: 10 testes (getId/getType/getTicks/getSubId, isPersistent 3 cases, isRemovableOnDeath 3 cases)
 - [x] **CHECKPOINT 13** — 576/576 testes ✓
+
+## Phase 14: Merge main upstream (6 commits since v3.6.0)
+
+- [x] **14.1** — Verificar 576/576 testes passando antes do merge
+- [x] **14.2a** — `creature.hpp`: adicionar `WalkStartPolicy` enum; atualizar assinaturas `getEventStepTicks`, `startAutoWalk`, `addEventWalk`
+- [x] **14.2b** — `creature.cpp`: aplicar 3 hunks do first-step fix (startAutoWalk, addEventWalk body, getEventStepTicks logic)
+- [x] **14.2c** — `game.cpp`: playerMove + forcePlayerMove → passar `ImmediateWhenReady` como 3º arg
+- [x] **14.2d** — `movement_service.cpp`: playerAutoWalk + forcePlayerAutoWalk → usar policy single vs multi-step
+- [x] **14.3** — DB perf (0c02da916): aplicar hunks matching em `iologindata.cpp`, `iologindata_save_player.cpp`, `database.cpp`
+- [x] **14.4** — Market sort (e6d575bed): `ORDER BY price + created` em `iomarket.cpp`
+- [x] **14.5** — Aceitar wholesale: mazarius.lua, docs, CI, docker
+- [x] **14.6** — Build + 595/595 testes passando (576 → 595 com WalkStartPolicy + 15 outros novos)
+- [x] **14.7** — Testes TDD para WalkStartPolicy (4 casos: EnumValues_AreDistinct, RespectDelay, ImmediateWhenReady, ordering invariant)
+- [x] **14.8** — Commit merge com todo.md atualizado
+- [x] **CHECKPOINT 14** — 595/595 testes ✓; merge integrado

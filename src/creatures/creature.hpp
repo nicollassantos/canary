@@ -208,7 +208,27 @@ public:
 	int32_t getWalkDelay(Direction dir = DIRECTION_NONE);
 	int64_t getTimeSinceLastMove() const;
 
-	int64_t getEventStepTicks(bool onlyDelay = false);
+	/**
+	 * @brief Controls how the first queued walk step is scheduled.
+	 *
+	 * RespectDelay is the safe default for autonomous movement, follow
+	 * recalculations, monsters, and NPCs. ImmediateWhenReady exists only for
+	 * player-facing movement that must preserve responsive input when no walk
+	 * delay is active.
+	 *
+	 * @warning Do not use ImmediateWhenReady for creature AI or follow paths
+	 * unless the movement is intentionally player-controlled. That can
+	 * reintroduce repeated instant reactions on one-tile path recalculations.
+	 */
+	enum class WalkStartPolicy : uint8_t {
+		/// Honor the current walk delay or full step duration before walking.
+		RespectDelay,
+		/// Preserve legacy input responsiveness by requesting the first step
+		/// immediately when walking is ready.
+		ImmediateWhenReady,
+	};
+
+	int64_t getEventStepTicks(WalkStartPolicy startPolicy = WalkStartPolicy::RespectDelay);
 	uint16_t getStepDuration(Direction dir = DIRECTION_NONE);
 	virtual uint16_t getStepSpeed() const {
 		return getSpeed();
@@ -338,8 +358,8 @@ public:
 	std::unordered_set<std::shared_ptr<Zone>> getZones();
 
 	// walk functions
-	void startAutoWalk(const std::vector<Direction> &listDir, bool ignoreConditions = false);
-	void addEventWalk(bool firstStep = false);
+	void startAutoWalk(const std::vector<Direction> &listDir, bool ignoreConditions = false, WalkStartPolicy startPolicy = WalkStartPolicy::RespectDelay);
+	void addEventWalk(WalkStartPolicy startPolicy = WalkStartPolicy::RespectDelay);
 	void stopEventWalk();
 	void resetMovementState();
 

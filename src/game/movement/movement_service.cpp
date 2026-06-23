@@ -317,7 +317,8 @@ void MovementService::playerAutoWalk(uint32_t playerId, const std::vector<Direct
 	player->resetLoginProtection();
 	player->resetIdleTime();
 	player->setNextWalkTask(nullptr);
-	player->startAutoWalk(listDir, false);
+	const auto startPolicy = listDir.size() == 1 ? Creature::WalkStartPolicy::ImmediateWhenReady : Creature::WalkStartPolicy::RespectDelay;
+	player->startAutoWalk(listDir, false, startPolicy);
 }
 
 void MovementService::forcePlayerAutoWalk(uint32_t playerId, const std::vector<Direction> &listDir) {
@@ -332,7 +333,8 @@ void MovementService::forcePlayerAutoWalk(uint32_t playerId, const std::vector<D
 	player->resetLoginProtection();
 	player->resetIdleTime();
 	player->setNextWalkTask(nullptr);
-	player->startAutoWalk(listDir, true);
+	const auto forceStartPolicy = listDir.size() == 1 ? Creature::WalkStartPolicy::ImmediateWhenReady : Creature::WalkStartPolicy::RespectDelay;
+	player->startAutoWalk(listDir, true, forceStartPolicy);
 }
 
 void MovementService::playerStopAutoWalk(uint32_t playerId) {

@@ -1618,7 +1618,7 @@ void Game::playerMove(uint32_t playerId, Direction direction) {
 	player->setNextWalkActionTask(nullptr);
 	player->cancelPush();
 
-	player->startAutoWalk(std::vector<Direction> { direction }, false);
+	player->startAutoWalk(std::vector<Direction> { direction }, false, Creature::WalkStartPolicy::ImmediateWhenReady);
 }
 
 void Game::forcePlayerMove(uint32_t playerId, Direction direction) {
@@ -1632,7 +1632,7 @@ void Game::forcePlayerMove(uint32_t playerId, Direction direction) {
 	player->setNextWalkActionTask(nullptr);
 	player->cancelPush();
 
-	player->startAutoWalk(std::vector<Direction> { direction }, true);
+	player->startAutoWalk(std::vector<Direction> { direction }, true, Creature::WalkStartPolicy::ImmediateWhenReady);
 }
 
 bool Game::playerBroadcastMessage(const std::shared_ptr<Player> &player, const std::string &text) const {

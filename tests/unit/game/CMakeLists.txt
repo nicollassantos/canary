@@ -12,4 +12,5 @@ target_sources(
             player_interaction_service_test.cpp
             zone_area_test.cpp
             teleport_guard_test.cpp
+            walk_start_policy_test.cpp
 )
