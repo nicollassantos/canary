@@ -20,4 +20,5 @@ target_sources(
             creature_management_service_test.cpp
             chat_service_test.cpp
             forge_service_test.cpp
+            loot_service_test.cpp
 )
