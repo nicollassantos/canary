@@ -158,4 +158,6 @@
 - [x] **15.2** — TradeService: 8 testes (getTradeErrorDescription 6 casos; internalStartTrade alreadyTrading/storeItem)
 - [x] **15.3** — HighscoreService: 8 testes estáticos (calculateHighscorePages 3 casos; getSkillNameById 5 casos incl. unknown→reset)
 - [x] **15.4** — Creature walk behavior: 4 testes (startAutoWalk empty/rooted/ignoreConditions/multi-step LIFO)
-- [x] **CHECKPOINT 15** — 621/621 testes ✓; +26 novos testes
+- [x] **15.5** — CreatureManagementService: 18 testes (getMonsterByID 0+unknown; getNpcByID 0+unknown; getPlayerByID not registered; getCreatureByName empty+unknown; getNpcByName empty+unknown; getPlayerByName empty+not registered+registered; getPlayerByGUID 0+unknown; getPlayerByNameWildcard empty+too long+exact unknown+wildcard prefix unknown)
+- [x] **15.6** — fix WalkStartPolicy segfault: `makeReadyPlayer()` now sets `Group` before `setSpeed(0)` (Player::getStepSpeed → hasFlag crashes on null group)
+- [x] **CHECKPOINT 15** — 639/639 testes ✓; +44 novos testes (total desde Phase 0)

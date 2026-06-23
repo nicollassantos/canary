@@ -9,6 +9,7 @@
 
 #include <gtest/gtest.h>
 
+#include "creatures/players/grouping/groups.hpp"
 #include "creatures/players/player.hpp"
 #include "items/tile.hpp"
 
@@ -18,6 +19,7 @@ namespace {
 
 	std::shared_ptr<Player> makeReadyPlayer() {
 		auto player = std::make_shared<Player>();
+		player->setGroup(std::make_shared<Group>());
 		player->setID();
 		auto tile = std::make_shared<DynamicTile>(kPos);
 		tile->addThing(player); // sets groundSpeed = 150
