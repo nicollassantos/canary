@@ -13,4 +13,6 @@ target_sources(
             zone_area_test.cpp
             teleport_guard_test.cpp
             walk_start_policy_test.cpp
+            movement_service_test.cpp
+            trade_service_test.cpp
 )

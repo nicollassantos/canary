@@ -151,3 +151,9 @@
 - [x] **14.7** — Testes TDD para WalkStartPolicy (4 casos: EnumValues_AreDistinct, RespectDelay, ImmediateWhenReady, ordering invariant)
 - [x] **14.8** — Commit merge com todo.md atualizado
 - [x] **CHECKPOINT 14** — 595/595 testes ✓; merge integrado
+
+## Phase 15: Cobertura de Services (TDD contínuo)
+
+- [x] **15.1** — MovementService: 6 testes (internalMoveCreature null/baseSpeed0/rooted; internalTeleport null/samePos/removed)
+- [x] **15.2** — TradeService: 8 testes (getTradeErrorDescription 6 casos; internalStartTrade alreadyTrading/storeItem)
+- [x] **CHECKPOINT 15** — 609/609 testes ✓; +14 novos testes
