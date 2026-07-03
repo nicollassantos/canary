@@ -164,3 +164,17 @@
 - [x] **15.8** — ForgeService: 4 testes (addInfluencedMonster null; makeInfluencedMonster/makeFiendishMonster empty monsters; makeFiendishMonster createForgeable=true no monsters)
 - [x] **15.9** — LootService: 5 testes (getObjectCategory null→NONE; internalCollectManagedItems null-player/null-item→NOTPOSSIBLE; findManagedContainer no-containers/no-backpack→nullptr)
 - [x] **CHECKPOINT 15** — 655/655 testes ✓; +60 novos testes (total desde Phase 0)
+
+## Phase 16: Merge main upstream (10 commits since Phase 14)
+
+- [x] **16.1** — Verificar 655/655 testes passando antes do merge
+- [x] **16.2** — Aceitar wholesale: CI/workflows (b3d9188cb, 3b9b6f0c6, bce1f6308), vcpkg (5aeca4f6d), YAML docs (d415619c8)
+- [x] **16.3** — Forge fix (bd6217f37): `exclude` param em `PlayerForgeComponent::getForgeItemFromId` + call sites + player.cpp delegate + player.hpp
+- [x] **16.4** — NPC protocol (5ee38ce90): `SPEECHBUBBLE_SAILOR/BANKER` em creatures_definitions.hpp + lua_enums.cpp; `playerNpcGreet` else-if; `AddPlayerStats` uint16 level-percent (protocolgame_send.cpp); NPC Lua files wholesale; CLIENT_VERSION 1511→1513
+- [x] **16.5** — Release metadata (68181dcdc, 60f9c62af): `SERVER_RELEASE_VERSION="3.6.1"` + docker/CI wholesale
+- [x] **16.6** — Aceitar multiprotocol novos arquivos (82b4778a5): protocol_profile, transport_codec, protocol_session_hint, protocol_port_utils; atualizar CMakeLists; multiprotocol_test.cpp
+- [x] **16.7** — Aplicar multiprotocol em arquivos existentes: connection (getLocalPort/setTransportCodec → public), protocollogin (resolveLoginLayout + onRecvFirstMessage rewrite), protocolgame (onConnectionAccepted, onRecvFirstMessage, logout, login, connect, writeToOutputBuffer), protocolgame_send (sendLoginChallenge), protocolgame_helpers (helpers anon namespace), canary_server (startup log + warnLegacy860), game.cpp::start() (multi-port), player login log
+- [x] **16.8** — Build + 721/721 testes passando (717 unit + 4 forge integration novos)
+- [x] **16.9** — Port forge integration tests (bd6217f37): 4 testes de regressão forge de origin/main (ForgeFuseItems/ForgeTransfer IdenticalId/SingleCopy)
+- [x] **16.10** — Commit merge com todo.md atualizado
+- [x] **CHECKPOINT 16** — 721/721 testes ✓; SERVER_RELEASE_VERSION="3.6.1"; CLIENT_VERSION=1513; multiprotocol integrado; ChatServiceTest SEGFAULT corrigido (heap injector em TearDownTestSuite)
