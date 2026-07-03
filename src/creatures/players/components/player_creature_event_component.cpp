@@ -69,8 +69,24 @@ void PlayerCreatureEventComponent::onCreatureAppear(const std::shared_ptr<Creatu
 			bed->wakeUp(m_player.getPlayer());
 		}
 
-		auto version = m_player.client->oldProtocol ? m_player.getProtocolVersion() : CLIENT_VERSION;
-		g_logger().info("{} has logged in. (Protocol: {})", m_player.name, version);
+		auto version = m_player.client && m_player.client->oldProtocol ? m_player.getProtocolVersion() : CLIENT_VERSION;
+		const auto* protocolProfile = m_player.client ? m_player.client->getProtocolProfile() : nullptr;
+		if (protocolProfile
+		    && (protocolProfile->assetSignatures.dat != 0 || protocolProfile->assetSignatures.spr != 0 || protocolProfile->assetSignatures.pic != 0)) {
+			g_logger().info(
+				"{} has logged in. (Protocol: {}, Profile: {}, Assets: dat=0x{:08X} spr=0x{:08X} pic=0x{:08X})",
+				m_player.name,
+				version,
+				protocolProfile->name,
+				protocolProfile->assetSignatures.dat,
+				protocolProfile->assetSignatures.spr,
+				protocolProfile->assetSignatures.pic
+			);
+		} else if (protocolProfile) {
+			g_logger().info("{} has logged in. (Protocol: {}, Profile: {})", m_player.name, version, protocolProfile->name);
+		} else {
+			g_logger().info("{} has logged in. (Protocol: {})", m_player.name, version);
+		}
 
 		std::string livestreamPassword;
 		if (auto passwordValue = m_player.kv()->scoped("livestream-system")->get("password")) {

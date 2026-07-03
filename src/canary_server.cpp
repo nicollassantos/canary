@@ -32,6 +32,74 @@
 #include "lua/scripts/scripts.hpp"
 #include "server/network/protocol/protocollogin.hpp"
 #include "server/network/protocol/protocolstatus.hpp"
+#include "server/network/protocol/protocol_port_utils.hpp"
+#include "server/network/protocol/protocol_profile.hpp"
+
+#ifndef USE_PRECOMPILED_HEADERS
+	#include <string_view>
+#endif
+
+namespace {
+	[[nodiscard]] constexpr std::string_view getLuaRuntimeDisplayVersion() {
+#if defined(LUAJIT_VERSION)
+		constexpr std::string_view version = LUAJIT_VERSION;
+		constexpr std::string_view prefix = "LuaJIT ";
+		constexpr auto majorSeparator = version.find('.', prefix.size());
+		if constexpr (majorSeparator != std::string_view::npos) {
+			constexpr auto minorSeparator = version.find('.', majorSeparator + 1);
+			if constexpr (minorSeparator != std::string_view::npos) {
+				return version.substr(0, minorSeparator);
+			}
+		}
+		return version;
+#elif defined(LUA_VERSION)
+		return LUA_VERSION;
+#else
+		return "Lua";
+#endif
+	}
+
+	[[nodiscard]] std::string formatClientVersion(uint16_t v) {
+		return fmt::format("{}.{:02d}", v / 100, v % 100);
+	}
+
+	[[nodiscard]] std::string getClientProtocolPortSummary(bool includeOldProtocolProfiles) {
+		std::vector<std::string> entries;
+		entries.emplace_back(fmt::format("{} -> {}", formatClientVersion(ProtocolProfileRegistry::getCurrentProfile().clientVersion), protocol_port_utils::getModernGamePort()));
+
+		if (includeOldProtocolProfiles) {
+			if (const auto* tibia1100 = ProtocolProfileRegistry::getProfile(ProtocolProfileId::Tibia1100);
+			    tibia1100 && ProtocolProfileRegistry::isProfileAllowed(tibia1100->id)) {
+				entries.emplace_back(fmt::format("11.00 -> {}", protocol_port_utils::getLegacy1100GamePort()));
+			}
+			if (const auto* cipsoft860 = ProtocolProfileRegistry::getProfile(ProtocolProfileId::Cipsoft860Vanilla);
+			    cipsoft860 && ProtocolProfileRegistry::isProfileAllowed(cipsoft860->id)) {
+				entries.emplace_back(fmt::format("8.60 -> {}", protocol_port_utils::getLegacy860GamePort()));
+			}
+		}
+
+		return fmt::format("login {} | world {}", g_configManager().getNumber(LOGIN_PORT), fmt::join(entries, ", "));
+	}
+
+	void warnLegacy860WorldIpConfiguration(Logger &logger, bool allowOldProtocol) {
+		if (!allowOldProtocol) {
+			return;
+		}
+		const auto* cipsoft860 = ProtocolProfileRegistry::getProfile(ProtocolProfileId::Cipsoft860Vanilla);
+		if (!cipsoft860 || !ProtocolProfileRegistry::isProfileAllowed(cipsoft860->id)) {
+			return;
+		}
+		const auto configuredWorldIp = g_configManager().getString(IP);
+		if (protocol_port_utils::legacyIpStringToNumber(configuredWorldIp) != 0) {
+			return;
+		}
+		logger.warn(
+			"Legacy 8.60 clients require a numeric IPv4 server IP, but configured ip is '{}'. "
+			"8.60 clients will be rejected before the character list is sent.",
+			configuredWorldIp
+		);
+	}
+} // namespace
 #include "server/network/webhook/webhook.hpp"
 #include "creatures/players/components/weapon_proficiency.hpp"
 #include "creatures/players/vocations/vocation.hpp"
@@ -104,7 +172,13 @@ int CanaryServer::run() {
 				}
 				validateDatapack();
 
-				logger.info("Server protocol: {}.{:02d}{}", CLIENT_VERSION_UPPER, CLIENT_VERSION_LOWER, g_configManager().getBoolean(OLD_PROTOCOL) ? " and 10x allowed!" : "");
+				const auto allowOldProtocol = g_configManager().getBoolean(OLD_PROTOCOL);
+				logger.info(
+					"Allowed client protocols: {} ({})",
+					ProtocolProfileRegistry::getAllowedClientProtocolDescription(allowOldProtocol),
+					getClientProtocolPortSummary(allowOldProtocol)
+				);
+				warnLegacy860WorldIpConfiguration(logger, allowOldProtocol);
 
 #ifdef FEATURE_METRICS
 				metrics::Options metricsOptions;

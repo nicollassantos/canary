@@ -52,12 +52,17 @@ namespace {
 	public:
 		static void SetUpTestSuite() {
 			previousContainer = DI::getTestContainer();
-			InMemoryLogger::install(injector);
-			DI::setTestContainer(&injector);
+			injector = new di::extension::injector<> {};
+			InMemoryLogger::install(*injector);
+			DI::setTestContainer(injector);
 		}
 
 		static void TearDownTestSuite() {
+			// Restore first so DI singletons created during tests (e.g. Game via g_game())
+			// can still call g_logger() during their destructors.
 			DI::setTestContainer(previousContainer);
+			delete injector;
+			injector = nullptr;
 		}
 
 	protected:
@@ -65,7 +70,7 @@ namespace {
 		InMemoryConfigManager config;
 		ChatService chat { game, config };
 
-		inline static di::extension::injector<> injector {};
+		inline static di::extension::injector<>* injector = nullptr;
 		inline static di::extension::injector<>* previousContainer = nullptr;
 	};
 

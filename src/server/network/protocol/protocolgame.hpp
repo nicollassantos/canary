@@ -10,9 +10,15 @@
 #pragma once
 
 #include "server/network/protocol/protocol.hpp"
+#include "server/network/protocol/protocol_profile.hpp"
+#include "server/network/protocol/protocol_session_hint.hpp"
 #include "game/movement/position.hpp"
 #include "utils/utils_definitions.hpp"
 #include "creatures/players/stash_definitions.hpp"
+
+#ifndef USE_PRECOMPILED_HEADERS
+	#include <optional>
+#endif
 
 enum class PlayerIcon : uint8_t;
 enum class IconBakragore : uint8_t;
@@ -121,6 +127,10 @@ public:
 		return version;
 	}
 
+	[[nodiscard]] const ProtocolProfile* getProtocolProfile() const {
+		return protocolProfile;
+	}
+
 private:
 	ProtocolGame_ptr getThis() {
 		return std::static_pointer_cast<ProtocolGame>(shared_from_this());
@@ -130,6 +140,11 @@ private:
 	void writeToOutputBuffer(NetworkMessage &msg);
 
 	void release() override;
+	void onConnectionAccepted() override;
+
+	[[nodiscard]] bool shouldSuppressPreLoginPacket() const;
+	[[nodiscard]] bool isSessionEnding() const;
+	void clearReusableSessionHints();
 
 	void checkCreatureAsKnown(uint32_t id, bool &known, uint32_t &removedKnown);
 
@@ -601,6 +616,11 @@ private:
 	bool oldProtocol = false;
 	bool isOTC = false;
 	bool isOTCR = false;
+
+	const ProtocolProfile* protocolProfile = &ProtocolProfileRegistry::getCurrentProfile();
+	InitialConnectionBehavior initialConnectionBehavior = ProtocolProfileRegistry::defaultModernInitialBehavior();
+	std::optional<ProtocolSessionHintLease> sessionHintLease;
+	bool suppressPreLoginPackets = false;
 
 	uint16_t otclientV8 = 0;
 	bool m_isLivestreamBroadcaster = false;

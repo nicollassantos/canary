@@ -62,10 +62,77 @@
 #include "enums/imbuement.hpp"
 
 #include "server/network/protocol/protocolgame_helpers.hpp"
+#include "server/network/connection/connection.hpp"
+#include "server/network/protocol/protocol_port_utils.hpp"
+#include "server/network/protocol/transport_codec.hpp"
+
+#ifndef USE_PRECOMPILED_HEADERS
+	#include <chrono>
+#endif
 
 ProtocolGame::ProtocolGame(const Connection_ptr &initConnection) :
 	Protocol(initConnection) {
 	version = CLIENT_VERSION;
+}
+
+void ProtocolGame::onConnectionAccepted() {
+	const auto* portPinnedProfile = ProtocolProfileRegistry::getProfile(ProtocolProfileId::Current);
+	sessionHintLease.reset();
+	auto transportState = InitialTransportState::ResolvedModernDefault;
+
+	if (const auto connection = getConnection()) {
+		portPinnedProfile = getPortPinnedProfile(connection->getLocalPort());
+		if (!portPinnedProfile || !ProtocolProfileRegistry::isProfileAllowed(portPinnedProfile->id)) {
+			connection->setInitialTransportState(InitialTransportState::Rejected);
+			connection->close(FORCE_CLOSE);
+			return;
+		}
+
+		initialConnectionBehavior = portPinnedProfile->initialBehavior;
+		if (portPinnedProfile->id == ProtocolProfileId::Current) {
+			transportState = InitialTransportState::ResolvedModernDefault;
+		} else {
+			transportState = InitialTransportState::ResolvedFromPrelude;
+		}
+
+		if (portPinnedProfile->id == ProtocolProfileId::Cipsoft860Vanilla) {
+			if (auto lease = ProtocolSessionHintStore::getInstance().claimByIp(connection->getIP(), initialConnectionBehavior)) {
+				sessionHintLease = std::move(*lease);
+				transportState = InitialTransportState::ResolvedFromHint;
+			}
+		}
+
+		protocolProfile = portPinnedProfile;
+		if (!protocolProfile || !ProtocolProfileRegistry::isProfileAllowed(protocolProfile->id)) {
+			connection->setInitialTransportState(InitialTransportState::Rejected);
+			connection->close(FORCE_CLOSE);
+			return;
+		}
+
+		connection->setTransportCodec(TransportCodecs::get(initialConnectionBehavior.transport), transportState);
+	}
+
+	if (initialConnectionBehavior.challenge.flow == GameHandshakeFlow::ServerChallengeBeforeLogin) {
+		g_dispatcher().addEvent([self = getThis()] { self->sendLoginChallenge(); }, "ProtocolGame::sendLoginChallenge", std::chrono::milliseconds(CONNECTION_WRITE_TIMEOUT * 1000).count());
+	}
+}
+
+void ProtocolGame::clearReusableSessionHints() {
+	if (loggedIn) {
+		return;
+	}
+	if (initialConnectionBehavior.hasSameWireBehavior(ProtocolProfileRegistry::defaultModernInitialBehavior())) {
+		return;
+	}
+	ProtocolSessionHintStore::getInstance().clearReusableHintsByIp(getIP(), initialConnectionBehavior);
+}
+
+bool ProtocolGame::isSessionEnding() const {
+	return loggedIn && !acceptPackets;
+}
+
+bool ProtocolGame::shouldSuppressPreLoginPacket() const {
+	return !loggedIn && isCipsoft860Profile(protocolProfile);
 }
 
 void ProtocolGame::release() {
@@ -195,7 +262,15 @@ void ProtocolGame::login(const std::string &name, uint32_t accountId, OperatingS
 			}
 		}
 
-		if (!g_game().placeCreature(player, player->getLoginPosition()) && !g_game().placeCreature(player, player->getTemplePosition(), false, true)) {
+		const bool suppressPreLoginPacketsBeforePlacement = isCipsoft860Profile(protocolProfile);
+		const bool previousSuppressPreLoginPackets = suppressPreLoginPackets;
+		if (suppressPreLoginPacketsBeforePlacement) {
+			suppressPreLoginPackets = true;
+		}
+
+		const bool placedCreature = g_game().placeCreature(player, player->getLoginPosition()) || g_game().placeCreature(player, player->getTemplePosition(), false, true);
+		suppressPreLoginPackets = previousSuppressPreLoginPackets;
+		if (!placedCreature) {
 			disconnectClient("Temple position is wrong. Please, contact the administrator.");
 			g_logger().warn("Player {} temple position is wrong", player->getName());
 			return;
@@ -251,8 +326,14 @@ void ProtocolGame::connect(const std::string &playerName, OperatingSystem_t oper
 	player->isConnecting = false;
 
 	player->client = getThis();
+	const bool suppressPreLoginPacketsBeforeConnectBootstrap = isCipsoft860Profile(protocolProfile);
+	const bool previousSuppressPreLoginPackets = suppressPreLoginPackets;
+	if (suppressPreLoginPacketsBeforeConnectBootstrap) {
+		suppressPreLoginPackets = true;
+	}
 	player->openPlayerContainers();
 	sendAddCreature(player, player->getPosition(), 0, true);
+	suppressPreLoginPackets = previousSuppressPreLoginPackets;
 	player->lastIP = player->getIP();
 	player->lastLoginSaved = std::max<time_t>(time(nullptr), player->lastLoginSaved + 1);
 	if (player->isProtected()) {
@@ -298,6 +379,8 @@ void ProtocolGame::logout(bool displayEffect, bool forced) {
 		g_game().addMagicEffect(player->getPosition(), CONST_ME_POFF);
 	}
 
+	acceptPackets = false;
+	clearReusableSessionHints();
 	sendSessionEndInformation(forced ? SESSION_END_FORCECLOSE : SESSION_END_LOGOUT);
 
 	g_game().removeCreature(player, true);
@@ -313,8 +396,30 @@ void ProtocolGame::onRecvFirstMessage(NetworkMessage &msg) {
 	version = msg.get<uint16_t>(); // Protocol version
 	g_logger().trace("Protocol version: {}", version);
 
-	// Old protocol support
-	oldProtocol = g_configManager().getBoolean(OLD_PROTOCOL) && version <= 1100;
+	const auto* gameLoginLayout = ProtocolProfileRegistry::resolveGameLoginLayout(version);
+	if (!gameLoginLayout) {
+		disconnectClient(ProtocolProfileRegistry::getUnsupportedClientProtocolMessage(g_configManager().getBoolean(OLD_PROTOCOL)));
+		return;
+	}
+
+	protocolProfile = ProtocolProfileRegistry::getProfile(gameLoginLayout->profileId);
+	if (!protocolProfile || !ProtocolProfileRegistry::isProfileAllowed(protocolProfile->id)) {
+		disconnectClient("This client protocol is not supported yet.");
+		return;
+	}
+
+	if (!initialConnectionBehavior.hasSameWireBehavior(protocolProfile->initialBehavior)) {
+		disconnect();
+		return;
+	}
+
+	const bool profileOldProtocol = protocolProfile->hasFeature(ProtocolFeature::OldProtocolCompat);
+	if (profileOldProtocol && !g_configManager().getBoolean(OLD_PROTOCOL)) {
+		disconnectClient(ProtocolProfileRegistry::getUnsupportedClientProtocolMessage(false));
+		return;
+	}
+
+	oldProtocol = profileOldProtocol;
 
 	if (oldProtocol) {
 		setChecksumMethod(CHECKSUM_METHOD_ADLER32);
@@ -322,24 +427,31 @@ void ProtocolGame::onRecvFirstMessage(NetworkMessage &msg) {
 		setChecksumMethod(CHECKSUM_METHOD_SEQUENCE);
 	}
 
-	clientVersion = static_cast<int32_t>(msg.get<uint32_t>());
-
-	if (!oldProtocol) {
-		auto clientVersionString = msg.getString(); // Client version (String)
-		g_logger().trace("Client version: {}", clientVersionString);
-		if (version >= 1334) {
-			auto assetHashIdentifier = msg.getString(); // Assets hash identifier
-			g_logger().trace("Client asset hash identifier: {}", assetHashIdentifier);
-		}
+	if (gameLoginLayout->hasClientVersionU32) {
+		clientVersion = static_cast<int32_t>(msg.get<uint32_t>());
+	} else {
+		clientVersion = version;
 	}
 
-	if (version < 1334) {
-		auto datRevision = msg.get<uint16_t>(); // Dat revision
+	if (gameLoginLayout->hasClientVersionString) {
+		auto clientVersionString = msg.getString();
+		g_logger().trace("Client version: {}", clientVersionString);
+	}
+
+	if (gameLoginLayout->hasAssetHashString) {
+		auto assetHashIdentifier = msg.getString();
+		g_logger().trace("Client asset hash identifier: {}", assetHashIdentifier);
+	}
+
+	if (gameLoginLayout->hasContentRevisionU16) {
+		auto datRevision = msg.get<uint16_t>();
 		g_logger().trace("Dat revision: {}", datRevision);
 	}
 
-	auto gamePreviewState = msg.getByte(); // U8 game preview state
-	g_logger().trace("Game preview state: {}", gamePreviewState);
+	if (gameLoginLayout->hasPreviewState) {
+		auto gamePreviewState = msg.getByte();
+		g_logger().trace("Game preview state: {}", gamePreviewState);
+	}
 
 	if (!Protocol::RSA_decrypt(msg)) {
 		g_logger().warn("[ProtocolGame::onRecvFirstMessage] - RSA Decrypt Failed");
@@ -362,11 +474,27 @@ void ProtocolGame::onRecvFirstMessage(NetworkMessage &msg) {
 
 	std::string authType = g_configManager().getString(AUTH_TYPE);
 	std::ostringstream ss;
-	std::string sessionKey = msg.getString();
-	std::string accountDescriptor = sessionKey;
+	std::string sessionKey;
+	std::string accountDescriptor;
 	std::string password;
+	std::string characterName;
 
-	if (authType != "session") {
+	if (gameLoginLayout->authenticationLayout == GameLoginAuthenticationLayout::AccountPassword) {
+		accountDescriptor = msg.getString();
+		if (accountDescriptor.empty()) {
+			ss << "You must enter your username.";
+			disconnectClient(ss.str());
+			return;
+		}
+		characterName = msg.getString();
+		password = msg.getString();
+		sessionKey = accountDescriptor + "\n" + password;
+	} else {
+		sessionKey = msg.getString();
+		accountDescriptor = sessionKey;
+	}
+
+	if (gameLoginLayout->authenticationLayout == GameLoginAuthenticationLayout::SessionKey && authType != "session") {
 		size_t pos = sessionKey.find('\n');
 		if (pos == std::string::npos) {
 			ss << "You must enter your " << (oldProtocol ? "username" : "email") << ".";
@@ -384,12 +512,37 @@ void ProtocolGame::onRecvFirstMessage(NetworkMessage &msg) {
 	}
 
 	if (!oldProtocol && operatingSystem == CLIENTOS_NEW_LINUX) {
-		// TODO: check what new info for linux is send
 		msg.getString();
 		msg.getString();
 	}
 
-	std::string characterName = msg.getString();
+	if (gameLoginLayout->authenticationLayout == GameLoginAuthenticationLayout::SessionKey) {
+		characterName = msg.getString();
+	}
+
+	if (sessionHintLease) {
+		const auto matchedProfileId = ProtocolSessionHintStore::getInstance().consumeAndResolveProfile(*sessionHintLease, sessionKey, characterName, version);
+		if (matchedProfileId) {
+			const auto* matchedProfile = ProtocolProfileRegistry::getProfile(*matchedProfileId);
+			const auto* matchedLayout = ProtocolProfileRegistry::resolveGameLoginLayout(*matchedProfileId);
+			if (!matchedProfile || !matchedLayout || !initialConnectionBehavior.hasSameWireBehavior(matchedProfile->initialBehavior)) {
+				disconnect();
+				return;
+			}
+			const bool matchedOldProtocol = matchedProfile->hasFeature(ProtocolFeature::OldProtocolCompat);
+			if (!ProtocolProfileRegistry::isProfileAllowed(matchedProfile->id) || (matchedOldProtocol && !g_configManager().getBoolean(OLD_PROTOCOL))) {
+				disconnectClient(ProtocolProfileRegistry::getUnsupportedClientProtocolMessage(g_configManager().getBoolean(OLD_PROTOCOL)));
+				return;
+			}
+			protocolProfile = matchedProfile;
+			gameLoginLayout = matchedLayout;
+			oldProtocol = matchedOldProtocol;
+		} else if (!sessionHintLease->behavior.hasSameWireBehavior(ProtocolProfileRegistry::defaultModernInitialBehavior())) {
+			disconnect();
+			return;
+		}
+	}
+	sessionHintLease.reset();
 
 	const auto &onlinePlayer = g_game().getPlayerByName(characterName);
 	const auto &foundPlayer = !onlinePlayer ? g_game().getDeadPlayer(characterName) : onlinePlayer;
@@ -399,35 +552,40 @@ void ProtocolGame::onRecvFirstMessage(NetworkMessage &msg) {
 			return;
 		}
 
-		auto message = fmt::format("You are already connected through another client. Please use only one client at a time!");
-		if (foundPlayer->getProtocolVersion() != getVersion() && foundPlayer->isOldProtocol() != oldProtocol) {
-			message = fmt::format("You are already logged in using protocol '{}'. Please log out from the other session to connect here.", foundPlayer->getProtocolVersion());
+		const auto* existingProfile = foundPlayer->client->getProtocolProfile();
+		const bool sameProtocolProfile = existingProfile && protocolProfile && existingProfile->id == protocolProfile->id;
+		const bool sameLegacyContract = !existingProfile && !protocolProfile && foundPlayer->getProtocolVersion() == getVersion() && foundPlayer->isOldProtocol() == oldProtocol;
+		if (!sameProtocolProfile && !sameLegacyContract) {
+			const auto formatClientVersion = [](uint32_t cv) {
+				return fmt::format("{}.{:02d}", cv / 100, cv % 100);
+			};
+			disconnectClient(fmt::format("This character is already online using client version {}. Please log out from that client before switching to version {}.", formatClientVersion(foundPlayer->getProtocolVersion()), formatClientVersion(getVersion())));
+			return;
 		}
 
-		foundPlayer->client->disconnectClient(message);
+		if (!foundPlayer->client->isSessionEnding()) {
+			foundPlayer->client->disconnectClient("You are already connected through another client. Please use only one client at a time!");
+		}
 	}
 
-	auto timeStamp = msg.get<uint32_t>();
-	uint8_t randNumber = msg.getByte();
-	if (challengeTimestamp != timeStamp || challengeRandom != randNumber) {
-		disconnect();
-		return;
+	if (gameLoginLayout->hasChallengeResponse) {
+		auto timeStamp = msg.get<uint32_t>();
+		uint8_t randNumber = msg.getByte();
+		if (challengeTimestamp != timeStamp || challengeRandom != randNumber) {
+			disconnect();
+			return;
+		}
 	}
 
-	// OTCv8 version detection
-	auto otcV8StringLength = msg.get<uint16_t>();
-	if (otcV8StringLength == 5 && msg.getString(5) == "OTCv8") {
-		otclientV8 = msg.get<uint16_t>(); // 253, 260, 261, ...
+	if (gameLoginLayout->hasOtcV8Probe) {
+		auto otcV8StringLength = msg.get<uint16_t>();
+		if (otcV8StringLength == 5 && msg.getString(5) == "OTCv8") {
+			otclientV8 = msg.get<uint16_t>();
+		}
 	}
 
 	if (!oldProtocol && clientVersion != CLIENT_VERSION) {
-		ss.str(std::string());
-		ss << "Only clients with protocol " << CLIENT_VERSION_UPPER << "." << CLIENT_VERSION_LOWER;
-		if (g_configManager().getBoolean(OLD_PROTOCOL)) {
-			ss << " or 11.00";
-		}
-		ss << " allowed!";
-		disconnectClient(ss.str());
+		disconnectClient(ProtocolProfileRegistry::getUnsupportedClientProtocolMessage(g_configManager().getBoolean(OLD_PROTOCOL)));
 		return;
 	}
 
@@ -493,6 +651,22 @@ void ProtocolGame::disconnectClient(const std::string &message) const {
 }
 
 void ProtocolGame::writeToOutputBuffer(NetworkMessage &msg) {
+	if (msg.getLength() > 0) {
+		const auto opcode = msg.getBuffer()[NetworkMessage::INITIAL_BUFFER_POSITION];
+		if (shouldBlockOutgoingOpcodeForProfile(protocolProfile, opcode)) {
+			g_logger().info(
+				"[{}] Dropped unsupported packet 0x{:02X} for profile '{}'",
+				__FUNCTION__,
+				opcode,
+				protocolProfile ? protocolProfile->name : "unknown"
+			);
+			if (player) {
+				player->sendTextMessage(MESSAGE_FAILURE, getUnsupportedOpcodeMessage(protocolProfile, opcode));
+			}
+			return;
+		}
+	}
+
 	auto writeMessage = [self = getThis(), msg]() mutable {
 		self->getOutputBuffer(msg.getLength())->append(msg);
 		if (self->m_isLivestreamBroadcaster && self->player && !self->m_isLivestreamViewer) {

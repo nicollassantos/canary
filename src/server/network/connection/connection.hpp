@@ -16,6 +16,16 @@
 static constexpr int32_t CONNECTION_WRITE_TIMEOUT = 30;
 static constexpr int32_t CONNECTION_READ_TIMEOUT = 30;
 
+class TransportCodec;
+
+enum class InitialTransportState : uint8_t {
+	Pending,
+	ResolvedModernDefault,
+	ResolvedFromPrelude,
+	ResolvedFromHint,
+	Rejected,
+};
+
 class Protocol;
 using Protocol_ptr = std::shared_ptr<Protocol>;
 class ProtocolGame;
@@ -70,6 +80,17 @@ public:
 
 	uint32_t getIP();
 
+	[[nodiscard]] uint16_t getLocalPort() const {
+		std::error_code error;
+		const auto endpoint = socket.local_endpoint(error);
+		return error ? 0 : endpoint.port();
+	}
+
+	void setTransportCodec(const TransportCodec &codec, InitialTransportState state = InitialTransportState::ResolvedModernDefault);
+	void setInitialTransportState(InitialTransportState state);
+	[[nodiscard]] const TransportCodec &getTransportCodec() const;
+	[[nodiscard]] InitialTransportState getInitialTransportState() const;
+
 private:
 	void parseProxyIdentification(const std::error_code &error);
 	void parseHeader(const std::error_code &error);
@@ -107,6 +128,9 @@ private:
 
 	std::underlying_type_t<ConnectionState_t> connectionState = CONNECTION_STATE_OPEN;
 	bool receivedFirst = false;
+
+	const TransportCodec* transportCodec = nullptr;
+	InitialTransportState initialTransportState = InitialTransportState::Pending;
 
 	friend class ServicePort;
 	friend class ConnectionManager;

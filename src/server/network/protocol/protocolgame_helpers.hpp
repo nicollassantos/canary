@@ -11,6 +11,9 @@
 // Include after all required headers are already in scope.
 #pragma once
 
+#include "server/network/protocol/protocol_profile.hpp"
+#include "server/network/protocol/protocol_port_utils.hpp"
+
 /*
  * NOTE: This namespace is used so that we can add functions without having to declare them in the ".hpp/.hpp" file
  * Do not use functions only in the .cpp scope without having a namespace, it may conflict with functions in other files of the same name
@@ -22,7 +25,144 @@ namespace {
 	constexpr uint64_t PARTY_ANALYZER_THROTTLE_MS = 1000;
 	constexpr size_t UPDATE_CONTAINER_PAYLOAD_SIZE = 1;
 
-	size_t getUnreadBytes(const NetworkMessage &msg) {
+	constexpr uint8_t cipsoft860TalkNone = 0;
+	constexpr uint8_t cipsoft860EventDefaultMessage = 0x18;
+	constexpr uint32_t cipsoft860MaxSignedExperienceLevel = 506;
+	constexpr uint32_t cipsoft860MaxSignedExperience = static_cast<uint32_t>(std::numeric_limits<int32_t>::max());
+
+	[[nodiscard]] const ProtocolProfile* getPortPinnedProfile(uint16_t localPort) {
+		if (localPort != protocol_port_utils::getModernGamePort() && localPort == protocol_port_utils::getLegacy1100GamePort()) {
+			return ProtocolProfileRegistry::getProfile(ProtocolProfileId::Tibia1100);
+		}
+		if (localPort != protocol_port_utils::getModernGamePort() && localPort == protocol_port_utils::getLegacy860GamePort()) {
+			return ProtocolProfileRegistry::getProfile(ProtocolProfileId::Cipsoft860Vanilla);
+		}
+		return ProtocolProfileRegistry::getProfile(ProtocolProfileId::Current);
+	}
+
+	[[nodiscard]] bool isCipsoft860Profile(const ProtocolProfile* profile) {
+		using enum ProtocolProfileId;
+		return profile
+			&& (profile->id == Cipsoft860Vanilla
+		        || profile->id == Cipsoft860ExtendedAssets
+		        || profile->id == Cipsoft860CanaryExtended);
+	}
+
+	[[nodiscard]] bool isTibia1100Profile(const ProtocolProfile* profile) {
+		return profile && profile->id == ProtocolProfileId::Tibia1100;
+	}
+
+	[[nodiscard]] bool hasProtocolFeature(const ProtocolProfile* profile, ProtocolFeature feature) {
+		return profile && profile->hasFeature(feature);
+	}
+
+	[[nodiscard]] std::string_view getProtocolSupportLabel(const ProtocolProfile* profile) {
+		if (isCipsoft860Profile(profile)) {
+			return "8.60";
+		}
+		if (isTibia1100Profile(profile)) {
+			return "11.00";
+		}
+		if (profile && !profile->supportLabel.empty()) {
+			return profile->supportLabel;
+		}
+		return "this client version";
+	}
+
+	[[nodiscard]] bool shouldBlockOutgoingOpcodeForProfile(const ProtocolProfile* profile, uint8_t opcode) {
+		switch (opcode) {
+			case 0xB0:
+				return !hasProtocolFeature(profile, ProtocolFeature::MemorialPackets);
+			default:
+				return false;
+		}
+	}
+
+	[[nodiscard]] std::string getUnsupportedOpcodeMessage(const ProtocolProfile* profile, uint8_t opcode) {
+		switch (opcode) {
+			case 0xB0:
+				return fmt::format("The memorial window is not available in client {}.", getProtocolSupportLabel(profile));
+			default:
+				return "This feature is not available in your client version.";
+		}
+	}
+
+	[[nodiscard]] bool usesLegacyInnerLength(const ProtocolProfile* profile) {
+		return profile
+			&& ProtocolProfileRegistry::getTransportProfile(profile->initialBehavior.transport).encryptedPayload == EncryptedPayloadLayout::LegacyInnerLength;
+	}
+
+	[[nodiscard]] std::optional<Direction> translateAutoWalkDirection(uint8_t rawDirection) {
+		switch (rawDirection) {
+			case 1: return DIRECTION_EAST;
+			case 2: return DIRECTION_NORTHEAST;
+			case 3: return DIRECTION_NORTH;
+			case 4: return DIRECTION_NORTHWEST;
+			case 5: return DIRECTION_WEST;
+			case 6: return DIRECTION_SOUTHWEST;
+			case 7: return DIRECTION_SOUTH;
+			case 8: return DIRECTION_SOUTHEAST;
+			default: return std::nullopt;
+		}
+	}
+
+	[[nodiscard]] uint8_t translateCipsoft860SpeakClassToClient(SpeakClasses talkType) {
+		switch (talkType) {
+			case TALKTYPE_SAY: return 0x01;
+			case TALKTYPE_WHISPER: return 0x02;
+			case TALKTYPE_YELL: return 0x03;
+			case TALKTYPE_PRIVATE_FROM:
+			case TALKTYPE_PRIVATE_TO: return 0x06;
+			case TALKTYPE_CHANNEL_MANAGER: return 0x08;
+			case TALKTYPE_CHANNEL_Y: return 0x07;
+			case TALKTYPE_CHANNEL_O: return 0x0F;
+			case TALKTYPE_SPELL_USE: return 0x01;
+			case TALKTYPE_PRIVATE_NP:
+			case TALKTYPE_NPC_UNKOWN: return 0x05;
+			case TALKTYPE_PRIVATE_PN: return 0x04;
+			case TALKTYPE_BROADCAST: return 0x0C;
+			case TALKTYPE_CHANNEL_R1: return 0x0D;
+			case TALKTYPE_PRIVATE_RED_FROM:
+			case TALKTYPE_PRIVATE_RED_TO: return 0x0E;
+			case TALKTYPE_MONSTER_SAY: return 0x13;
+			case TALKTYPE_MONSTER_YELL: return 0x14;
+			default: return cipsoft860TalkNone;
+		}
+	}
+
+	[[nodiscard]] uint8_t translateCipsoft860MessageClassToClient(MessageClasses messageType) {
+		switch (messageType) {
+			case MESSAGE_LOGIN: return 0x17;
+			case MESSAGE_ADMINISTRATOR:
+			case MESSAGE_GAME_HIGHLIGHT: return 0x15;
+			case MESSAGE_EVENT_ADVANCE: return 0x16;
+			case MESSAGE_FAILURE: return 0x1A;
+			case MESSAGE_LOOK:
+			case MESSAGE_LOOT:
+			case MESSAGE_TRADE:
+			case MESSAGE_REPORT:
+			case MESSAGE_HOTKEY_PRESSED:
+			case MESSAGE_TUTORIAL_HINT:
+			case MESSAGE_THANK_YOU: return 0x19;
+			case MESSAGE_STATUS: return cipsoft860EventDefaultMessage;
+			case MESSAGE_GAMEMASTER_CONSOLE: return 0x12;
+			default: return MESSAGE_NONE;
+		}
+	}
+
+	template <typename UserMap>
+	void addChannelUserNames(NetworkMessage &msg, const UserMap* users) {
+		if (!users) {
+			msg.add<uint16_t>(0x00);
+			return;
+		}
+		msg.add<uint16_t>(users->size());
+		for (const auto &it : *users) {
+			msg.addString(it.second->getName());
+		}
+	}
+
+	[[nodiscard]] size_t getUnreadBytes(const NetworkMessage &msg) {
 		const auto consumedBytes = static_cast<size_t>(msg.getBufferPosition() - NetworkMessage::INITIAL_BUFFER_POSITION);
 		return msg.getLength() > consumedBytes ? msg.getLength() - consumedBytes : 0;
 	}

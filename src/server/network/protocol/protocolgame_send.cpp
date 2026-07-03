@@ -275,6 +275,26 @@ void ProtocolGame::sendLoginChallenge() {
 	static std::ranlux24 generator(rd());
 	static std::uniform_int_distribution<uint16_t> randNumber(0x00, 0xFF);
 
+	if (initialConnectionBehavior.challenge.layout == ChallengeLayout::Cipsoft860LoginChallenge
+	    || initialConnectionBehavior.challenge.layout == ChallengeLayout::Tibia1100LoginChallenge) {
+		output->addByte(0x1F);
+		challengeTimestamp = static_cast<uint32_t>(std::chrono::system_clock::to_time_t(std::chrono::system_clock::now()));
+		output->add<uint32_t>(challengeTimestamp);
+
+		challengeRandom = randNumber(generator);
+		output->addByte(challengeRandom);
+		output->writeLegacyInnerLength();
+		output->writeChecksum(adlerChecksum(output->getOutputBuffer(), output->getLength()));
+
+		send(output);
+		return;
+	}
+
+	if (initialConnectionBehavior.challenge.layout != ChallengeLayout::CurrentLoginChallenge) {
+		disconnect();
+		return;
+	}
+
 	// Skip checksum
 	output->skipBytes(sizeof(uint32_t));
 
@@ -282,7 +302,7 @@ void ProtocolGame::sendLoginChallenge() {
 	output->addByte(0x01);
 	output->addByte(0x1F);
 	// Add timestamp & random number
-	challengeTimestamp = static_cast<uint32_t>(time(nullptr));
+	challengeTimestamp = static_cast<uint32_t>(std::chrono::system_clock::to_time_t(std::chrono::system_clock::now()));
 	output->add<uint32_t>(challengeTimestamp);
 
 	challengeRandom = randNumber(generator);
@@ -5683,7 +5703,16 @@ void ProtocolGame::AddPlayerStats(NetworkMessage &msg) {
 	msg.add<uint64_t>(player->getExperience());
 
 	msg.add<uint16_t>(player->getLevel());
-	msg.addByte(std::min<uint8_t>(player->getLevelPercent(), 100));
+	if (!oldProtocol) {
+		if (clientVersion >= 1513) {
+			const auto levelPercent = std::min<uint16_t>(static_cast<uint16_t>(player->getLevelPercent()) * 100, 10000);
+			msg.add<uint16_t>(levelPercent);
+		} else {
+			msg.addByte(std::min<uint8_t>(player->getLevelPercent(), 100));
+		}
+	} else {
+		msg.addByte(std::min<uint8_t>(player->getLevelPercent(), 100));
+	}
 
 	msg.add<uint16_t>(player->getBaseXpGain()); // base xp gain rate
 
