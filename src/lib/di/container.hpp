@@ -51,7 +51,9 @@ private:
 	inline static di::extension::injector<>* testContainer;
 	const inline static auto defaultContainer = di::make_injector(
 		di::bind<AccountRepository>().to<AccountRepositoryDB>().in(di::singleton),
-		di::bind<IConfigManager>().to<ConfigManager>().in(di::singleton),
+		// Bind the port to the instance g_configManager() loads; a container-owned
+		// ConfigManager would be a second, never-loaded copy.
+		di::bind<IConfigManager>().to(ConfigManager::getInstance()),
 		di::bind<IDatabase>().to<Database>().in(di::singleton),
 		di::bind<IGuildRepository>().to<GuildRepositoryDB>().in(di::singleton),
 		di::bind<IMarketRepository>().to<MarketRepositoryDB>().in(di::singleton),

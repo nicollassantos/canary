@@ -11,6 +11,8 @@
 
 #include "config/in_memory_config_manager.hpp"
 #include "config/config_enums.hpp"
+#include "config/configmanager.hpp"
+#include "lib/di/container.hpp"
 
 TEST(InMemoryConfigManagerTest, GetBooleanReturnsSetValue) {
 	InMemoryConfigManager cfg;
@@ -53,4 +55,19 @@ TEST(InMemoryConfigManagerTest, ResetClearsAllValues) {
 	cfg.reset();
 	EXPECT_FALSE(cfg.getBoolean(ALLOW_CHANGEOUTFIT));
 	EXPECT_EQ(0, cfg.getNumber(MAX_PLAYERS));
+}
+
+// The production container must expose the same ConfigManager that g_configManager() loads;
+// a second, never-loaded instance would silently return defaults through the port.
+TEST(ConfigManagerContainerTest, PortResolvesToLoadedSingleton) {
+	auto* previous = DI::getTestContainer();
+	DI::setTestContainer(nullptr);
+
+	auto &viaPort = IConfigManager::getInstance();
+	auto &viaContainer = DI::get<IConfigManager>();
+
+	DI::setTestContainer(previous);
+
+	EXPECT_EQ(static_cast<IConfigManager*>(&g_configManager()), &viaPort);
+	EXPECT_EQ(&viaPort, &viaContainer);
 }
