@@ -129,6 +129,8 @@ public:
 	static Vocations &getInstance();
 
 	bool loadFromXml();
+	/// Loads vocations from an explicit file (used by tests; production uses the core directory).
+	bool loadFromXml(const std::string &file);
 	bool reload();
 
 	std::shared_ptr<Vocation> getVocation(uint16_t id);

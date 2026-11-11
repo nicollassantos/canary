@@ -26,8 +26,12 @@ Vocations &Vocations::getInstance() {
 }
 
 bool Vocations::loadFromXml() {
+	return loadFromXml(g_configManager().getString(CORE_DIRECTORY) + "/XML/vocations.xml");
+}
+
+bool Vocations::loadFromXml(const std::string &file) {
 	pugi::xml_document doc;
-	auto folder = g_configManager().getString(CORE_DIRECTORY) + "/XML/vocations.xml";
+	const auto &folder = file;
 	pugi::xml_parse_result result = doc.load_file(folder.c_str());
 	if (!result) {
 		printXMLError(__FUNCTION__, folder, result);

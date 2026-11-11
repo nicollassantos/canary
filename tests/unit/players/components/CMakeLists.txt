@@ -16,6 +16,7 @@ target_sources(
             player_stash_component_test.cpp
             player_forge_component_test.cpp
             player_cylinder_component_test.cpp
+            player_death_component_test.cpp
             player_session_component_test.cpp
             player_training_component_test.cpp
             weapon_proficiency_test.cpp

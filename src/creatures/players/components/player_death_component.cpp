@@ -9,6 +9,7 @@
 
 #include "creatures/players/components/player_death_component.hpp"
 
+#include "config/config_port.hpp"
 #include "config/configmanager.hpp"
 #include "creatures/combat/condition.hpp"
 #include "creatures/monsters/monsters.hpp"
@@ -24,8 +25,15 @@
 #include "map/spectators.hpp"
 #include "utils/tools.hpp"
 
+namespace {
+	// Read configuration through the port so tests can install an in-memory config.
+	[[nodiscard]] IConfigManager &config() {
+		return IConfigManager::getInstance();
+	}
+}
+
 void PlayerDeathComponent::death(const std::shared_ptr<Creature> &lastHitCreature) {
-	if (!g_configManager().getBoolean(TOGGLE_MOUNT_IN_PZ) && m_player.isMounted()) {
+	if (!config().getBoolean(TOGGLE_MOUNT_IN_PZ) && m_player.isMounted()) {
 		m_player.dismount();
 		g_game().internalCreatureChangeOutfit(m_player.getPlayer(), m_player.defaultOutfit);
 	}
@@ -183,7 +191,7 @@ void PlayerDeathComponent::death(const std::shared_ptr<Creature> &lastHitCreatur
 		}
 		m_player.sendTextMessage(MESSAGE_EVENT_ADVANCE, deathType.str());
 
-		auto adventurerBlessingLevel = g_configManager().getNumber(ADVENTURERSBLESSING_LEVEL);
+		auto adventurerBlessingLevel = config().getNumber(ADVENTURERSBLESSING_LEVEL);
 		auto willNotLoseBless = m_player.getLevel() < adventurerBlessingLevel && m_player.getVocationId() > VOCATION_NONE;
 
 		std::string bless = m_player.getBlessingsName();
@@ -321,7 +329,7 @@ void PlayerDeathComponent::despawn() {
 		player->vip().notifyStatusChange(m_player.getPlayer(), VipStatus_t::Pending, false);
 	}
 
-	if (m_player.m_party && g_configManager().getBoolean(LEAVE_PARTY_ON_DEATH)) {
+	if (m_player.m_party && config().getBoolean(LEAVE_PARTY_ON_DEATH)) {
 		m_player.m_party->leaveParty(m_player.getPlayer());
 	}
 
@@ -366,14 +374,14 @@ void PlayerDeathComponent::addUnjustifiedDead(const std::shared_ptr<Player> &att
 	}
 
 	if (m_player.getSkull() != SKULL_BLACK) {
-		if (dayKills >= 2 * g_configManager().getNumber(DAY_KILLS_TO_RED) || weekKills >= 2 * g_configManager().getNumber(WEEK_KILLS_TO_RED) || monthKills >= 2 * g_configManager().getNumber(MONTH_KILLS_TO_RED)) {
+		if (dayKills >= 2 * config().getNumber(DAY_KILLS_TO_RED) || weekKills >= 2 * config().getNumber(WEEK_KILLS_TO_RED) || monthKills >= 2 * config().getNumber(MONTH_KILLS_TO_RED)) {
 			m_player.setSkull(SKULL_BLACK);
 			// start black skull time
-			m_player.skullTicks = static_cast<int64_t>(g_configManager().getNumber(BLACK_SKULL_DURATION)) * 24 * 60 * 60;
-		} else if (dayKills >= g_configManager().getNumber(DAY_KILLS_TO_RED) || weekKills >= g_configManager().getNumber(WEEK_KILLS_TO_RED) || monthKills >= g_configManager().getNumber(MONTH_KILLS_TO_RED)) {
+			m_player.skullTicks = static_cast<int64_t>(config().getNumber(BLACK_SKULL_DURATION)) * 24 * 60 * 60;
+		} else if (dayKills >= config().getNumber(DAY_KILLS_TO_RED) || weekKills >= config().getNumber(WEEK_KILLS_TO_RED) || monthKills >= config().getNumber(MONTH_KILLS_TO_RED)) {
 			m_player.setSkull(SKULL_RED);
 			// reset red skull time
-			m_player.skullTicks = static_cast<int64_t>(g_configManager().getNumber(RED_SKULL_DURATION)) * 24 * 60 * 60;
+			m_player.skullTicks = static_cast<int64_t>(config().getNumber(RED_SKULL_DURATION)) * 24 * 60 * 60;
 		}
 	}
 
@@ -389,7 +397,7 @@ double PlayerDeathComponent::getLostPercent() const {
 		}
 	}
 
-	int32_t deathLosePercent = g_configManager().getNumber(DEATH_LOSE_PERCENT);
+	int32_t deathLosePercent = config().getNumber(DEATH_LOSE_PERCENT);
 	if (deathLosePercent != -1) {
 		if (m_player.isPromoted()) {
 			deathLosePercent -= 3;
