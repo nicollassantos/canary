@@ -48,6 +48,7 @@
       "displayName": "Windows - Release (Enabled Tests)",
       "description": "Release build with CANARY_BUILD_TESTS enabled",
       "cacheVariables": {
+        "DEBUG_LOG": "ON",
         "VCPKG_MANIFEST_FEATURES": "tests",
         "CANARY_BUILD_TESTS": "ON"
       }
@@ -110,6 +111,7 @@
       "displayName": "Linux - Release (Enabled Tests)",
       "description": "Release build with CANARY_BUILD_TESTS enabled",
       "cacheVariables": {
+        "DEBUG_LOG": "ON",
         "VCPKG_MANIFEST_FEATURES": "tests",
         "CANARY_BUILD_TESTS": "ON"
       }

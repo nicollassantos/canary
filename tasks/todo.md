@@ -202,7 +202,7 @@
 
 - [x] **18.1** — ConfigManager: instância única — binding DI de `IConfigManager` deve resolver para o mesmo objeto carregado de `g_configManager()` (hoje cria 2ª instância nunca carregada) + teste — `di::bind<IConfigManager>().to(ConfigManager::getInstance())`; teste `ConfigManagerContainerTest`
 - [x] **18.1b** — `worldType = "open-pvp"`: Open PvP não-retro (upstream removeu `toggleServerIsRetroPVP` e passou `"pvp"` a alias de retro); parsing em `game/world_type_config` + 7 testes; smoke com `data-otservbr-global` → `World type set as OPEN-PVP`, zero erros Lua (único erro: `loadLuaMapUnique` uid 14092 item 2473, pré-existente, arquivo não mudou no merge)
-- [ ] **18.2** — Presets de teste com `DEBUG_LOG=ON` (paridade com CI upstream `linux-debug`) → `ConnectionWriteDiagnosticsTest` verde
+- [x] **18.2** — Presets de teste com `DEBUG_LOG=ON` (paridade com CI upstream `linux-debug`; executáveis de teste já compilavam com `-DDEBUG_LOG`, `canary_core` não) → 839/839 unit + 51/51 integration
 - [ ] **18.3** — Testes do `PlayerDeathComponent` (pulados na 10.3: `isPromoted()` quebra com vocação nula) — fixture com vocação válida
 - [ ] **18.4** — `ExpertPvp` (upstream novo): trocar 8× `g_game()` por dependência explícita/porta + testes
 - [ ] **18.5** — Split `protocolgame_send.cpp` (7679 linhas) em arquivos temáticos; CMake + vcxproj
