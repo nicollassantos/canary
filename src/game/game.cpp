@@ -93,48 +93,6 @@ namespace {
 }
 
 namespace InternalGame {
-	void sendBlockEffect(BlockType_t blockType, CombatType_t combatType, const Position &targetPos, const std::shared_ptr<Creature> &source) {
-		if (blockType == BLOCK_DEFENSE) {
-			g_game().addMagicEffect(targetPos, CONST_ME_POFF, source);
-		} else if (blockType == BLOCK_ARMOR) {
-			g_game().addMagicEffect(targetPos, CONST_ME_BLOCKHIT, source);
-		} else if (blockType == BLOCK_DODGE) {
-			g_game().addMagicEffect(targetPos, CONST_ME_DODGE, source);
-		} else if (blockType == BLOCK_IMMUNITY) {
-			uint8_t hitEffect = 0;
-			switch (combatType) {
-				case COMBAT_UNDEFINEDDAMAGE: {
-					return;
-				}
-				case COMBAT_ENERGYDAMAGE:
-				case COMBAT_FIREDAMAGE:
-				case COMBAT_PHYSICALDAMAGE:
-				case COMBAT_ICEDAMAGE:
-				case COMBAT_DEATHDAMAGE: {
-					hitEffect = CONST_ME_BLOCKHIT;
-					break;
-				}
-				case COMBAT_EARTHDAMAGE: {
-					hitEffect = CONST_ME_GREEN_RINGS;
-					break;
-				}
-				case COMBAT_HOLYDAMAGE: {
-					hitEffect = CONST_ME_HOLYDAMAGE;
-					break;
-				}
-				default: {
-					hitEffect = CONST_ME_POFF;
-					break;
-				}
-			}
-			g_game().addMagicEffect(targetPos, hitEffect, source);
-		}
-
-		if (blockType != BLOCK_NONE) {
-			g_game().sendSingleSoundEffect(targetPos, SoundEffect_t::NO_DAMAGE, source);
-		}
-	}
-
 	bool playerCanUseItemOnHouseTile(const std::shared_ptr<Player> &player, const std::shared_ptr<Item> &item) {
 		if (!player || !item) {
 			return false;

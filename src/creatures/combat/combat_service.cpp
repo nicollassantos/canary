@@ -9,6 +9,8 @@
 
 #include "creatures/combat/combat_service.hpp"
 
+#include "creatures/players/vocations/vocation.hpp"
+
 #include "config/configmanager.hpp"
 #include "lua/creature/creatureevent.hpp"
 #include "creatures/monsters/monster.hpp"
@@ -26,11 +28,11 @@
 
 void CombatService::sendBlockEffect(BlockType_t blockType, CombatType_t combatType, const Position &targetPos, const std::shared_ptr<Creature> &source) {
 	if (blockType == BLOCK_DEFENSE) {
-		game_.addMagicEffect(targetPos, CONST_ME_POFF);
+		game_.addMagicEffect(targetPos, CONST_ME_POFF, source);
 	} else if (blockType == BLOCK_ARMOR) {
-		game_.addMagicEffect(targetPos, CONST_ME_BLOCKHIT);
+		game_.addMagicEffect(targetPos, CONST_ME_BLOCKHIT, source);
 	} else if (blockType == BLOCK_DODGE) {
-		game_.addMagicEffect(targetPos, CONST_ME_DODGE);
+		game_.addMagicEffect(targetPos, CONST_ME_DODGE, source);
 	} else if (blockType == BLOCK_IMMUNITY) {
 		uint8_t hitEffect = 0;
 		switch (combatType) {
@@ -58,7 +60,7 @@ void CombatService::sendBlockEffect(BlockType_t blockType, CombatType_t combatTy
 				break;
 			}
 		}
-		game_.addMagicEffect(targetPos, hitEffect);
+		game_.addMagicEffect(targetPos, hitEffect, source);
 	}
 
 	if (blockType != BLOCK_NONE) {

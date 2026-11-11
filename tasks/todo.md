@@ -194,3 +194,6 @@
 - [x] **17.10** — vcxproj: +37 .cpp / +45 .hpp do branch (nova regra AGENTS.md)
 - [x] **17.11** — Testes novos: PlayerRaceIconOverlays (11), PlayerInventoryComponent removeItemOfType/getAllContainers (7)
 - [x] **CHECKPOINT 17** — build canary + canary_ut + canary_it verde; unit 830/831 + integration 51/51. Única falha: `ConnectionWriteDiagnosticsTest.WriteFailureRetainsPeerAndReportsClosureWithBoundedWarnings` (teste upstream exige `DEBUG_LOG=ON`; CI upstream roda testes só em `linux-debug`; preset `linux-release-enabled-tests` não define)
+- [x] **17.12** — Auditoria pós-merge: `CombatService::sendBlockEffect` não tinha recebido o `source` do upstream (cópia morta em game.cpp foi a atualizada) → corrigido e cópia morta removida; auditoria por função em game/player sem outras perdas; repos delegam p/ IO (sem SQL duplicado)
+- [x] **17.13** — Build tree recriado (cache tinha find_* da árvore vcpkg antiga); checagem `-fsyntax-only` não-unity dos .cpp do branch → 2 includes faltando corrigidos
+- [x] **17.14** — Smoke test: servidor sobe (`server online`, datapack data-canary, DB descartável) e encerra limpo via SIGINT

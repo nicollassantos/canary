@@ -1,6 +1,7 @@
 #include "creatures/players/components/player_session_component.hpp"
 
 #include "creatures/players/player.hpp"
+#include "server/network/protocol/protocolgame.hpp"
 #include "creatures/combat/condition.hpp"
 #include "config/configmanager.hpp"
 #include "game/game.hpp"
