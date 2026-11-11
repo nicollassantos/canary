@@ -55,7 +55,7 @@ public:
 
 	// Helpers (also exposed as Player methods for Lua/protocol)
 	std::pair<uint64_t, uint64_t> getForgeSliversAndCores() const;
-	std::shared_ptr<Item> getForgeItemFromId(uint16_t itemId, uint8_t tier) const;
+	std::shared_ptr<Item> getForgeItemFromId(uint16_t itemId, uint8_t tier, const std::shared_ptr<Item> &exclude = nullptr) const;
 
 private:
 	Player &m_player;

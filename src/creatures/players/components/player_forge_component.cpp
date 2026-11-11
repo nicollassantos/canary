@@ -50,9 +50,9 @@ std::pair<uint64_t, uint64_t> PlayerForgeComponent::getForgeSliversAndCores() co
 	return std::make_pair(sliverCount, coreCount);
 }
 
-std::shared_ptr<Item> PlayerForgeComponent::getForgeItemFromId(uint16_t itemId, uint8_t tier) const {
+std::shared_ptr<Item> PlayerForgeComponent::getForgeItemFromId(uint16_t itemId, uint8_t tier, const std::shared_ptr<Item> &exclude /*= nullptr*/) const {
 	for (const auto &item : m_player.getAllInventoryItems(true)) {
-		if (!item) {
+		if (!item || item == exclude) {
 			continue;
 		}
 		if (item->hasImbuements()) {
@@ -187,7 +187,7 @@ void PlayerForgeComponent::forgeFuseItems(ForgeAction_t actionType, uint16_t fir
 		sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
 		return;
 	}
-	const auto &secondForgingItem = getForgeItemFromId(secondItemId, tier);
+	const auto &secondForgingItem = getForgeItemFromId(secondItemId, tier, firstForgingItem);
 	if (!secondForgingItem) {
 		g_logger().error("[Log 2] Player with name {} failed to fuse item with id {}", m_player.getName(), secondItemId);
 		sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
@@ -483,7 +483,7 @@ void PlayerForgeComponent::forgeTransferItemTier(ForgeAction_t actionType, uint1
 		return;
 	}
 
-	const auto &receiveItem = getForgeItemFromId(receiveItemId, 0);
+	const auto &receiveItem = getForgeItemFromId(receiveItemId, 0, donorItem);
 	if (!receiveItem) {
 		g_logger().error("[Log 2] Player with name {} failed to transfer item with id {}", m_player.getName(), receiveItemId);
 		sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);

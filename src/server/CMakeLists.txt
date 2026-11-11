@@ -4,6 +4,9 @@ target_sources(
             network/message/networkmessage.cpp
             network/message/outputmessage.cpp
             network/protocol/protocol.cpp
+            network/protocol/protocol_profile.cpp
+            network/protocol/protocol_session_hint.cpp
+            network/protocol/transport_codec.cpp
             network/protocol/protocolgame.cpp
             network/protocol/protocolgame_send.cpp
             network/commands/game_command_dispatcher.cpp

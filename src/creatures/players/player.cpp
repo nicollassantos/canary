@@ -3089,9 +3089,9 @@ void Player::getAllItemTypeCountAndSubtype(std::map<uint32_t, uint32_t> &countMa
 	}
 }
 
-std::shared_ptr<Item> Player::getForgeItemFromId(uint16_t itemId, uint8_t tier) const {
+std::shared_ptr<Item> Player::getForgeItemFromId(uint16_t itemId, uint8_t tier, const std::shared_ptr<Item> &exclude /*= nullptr*/) const {
 	for (const auto &item : getAllInventoryItems(true)) {
-		if (!item) {
+		if (!item || item == exclude) {
 			continue;
 		}
 		if (item->hasImbuements()) {
