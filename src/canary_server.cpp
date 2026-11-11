@@ -21,6 +21,7 @@
 #include "game/scheduling/dispatcher.hpp"
 #include "game/scheduling/events_scheduler.hpp"
 #include "game/scheduling/monster_compute_service.hpp"
+#include "game/world_type_config.hpp"
 #include "game/zones/zone.hpp"
 #include "io/io_bosstiary.hpp"
 #include "io/iomarket.hpp"
@@ -46,10 +47,6 @@
 #endif
 
 namespace {
-	constexpr auto expertPvpWorldType = "expert-pvp";
-	constexpr auto legacyRetroPvpWorldType = "pvp";
-	constexpr auto retroPvpWorldType = "retro-pvp";
-
 	[[nodiscard]] constexpr std::string_view getLuaRuntimeDisplayVersion() {
 #if defined(LUAJIT_VERSION)
 		constexpr std::string_view version = LUAJIT_VERSION;
@@ -317,24 +314,16 @@ int CanaryServer::run() {
 }
 
 void CanaryServer::setWorldType() {
-	const std::string worldType = asLowerCaseString(g_configManager().getString(WORLD_TYPE));
-	if (worldType == expertPvpWorldType || worldType == legacyRetroPvpWorldType || worldType == retroPvpWorldType) {
-		g_game().setWorldType(WORLD_TYPE_PVP);
-	} else if (worldType == "no-pvp") {
-		g_game().setWorldType(WORLD_TYPE_NO_PVP);
-	} else if (worldType == "pvp-enforced") {
-		g_game().setWorldType(WORLD_TYPE_PVP_ENFORCED);
-	} else {
+	const auto &configuredWorldType = g_configManager().getString(WORLD_TYPE);
+	const auto worldType = world_type_config::parse(configuredWorldType);
+	if (!worldType) {
 		throw FailedToInitializeCanary(
-			fmt::format(
-				"Unknown world type: {}, valid world types are: expert-pvp, retro-pvp, pvp, no-pvp and pvp-enforced",
-				g_configManager().getString(WORLD_TYPE)
-			)
+			fmt::format("Unknown world type: {}, valid world types are: {}", configuredWorldType, world_type_config::validValues)
 		);
 	}
 
-	const auto displayWorldType = worldType == legacyRetroPvpWorldType ? std::string(retroPvpWorldType) : worldType;
-	logger.info("World type set as {}", asUpperCaseString(displayWorldType));
+	g_game().setWorldType(*worldType);
+	logger.info("World type set as {}", world_type_config::displayName(configuredWorldType));
 }
 
 void CanaryServer::loadMaps() const {

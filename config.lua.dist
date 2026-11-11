@@ -25,7 +25,8 @@ toggleMaintainMode = false
 maintainModeMessage = ""
 
 -- Combat settings
--- NOTE: valid values for worldType are: "expert-pvp", "retro-pvp", "pvp", "no-pvp" and "pvp-enforced"
+-- NOTE: valid values for worldType are: "open-pvp", "expert-pvp", "retro-pvp", "pvp", "no-pvp" and "pvp-enforced"
+-- NOTE: "open-pvp" is Open PvP without retro or expert rules (party protection, advanced secure mode and Twist of Fate enabled)
 -- NOTE: "pvp" is kept as a compatibility alias for "retro-pvp"
 -- NOTE: removeBeginningWeaponAmmunition: spears, arrows, bolt have endless ammo (allows training for paladins)
 -- NOTE: refundManaOnBeginningWeapons: wand of vortex and snakebite refund mana used (allows training for mages)

@@ -30,6 +30,8 @@ target_sources(
             scheduling/monster_compute_service.hpp
             scheduling/monster_post_think_queue.cpp
             scheduling/monster_post_think_queue.hpp
+            world_type_config.cpp
+            world_type_config.hpp
             scheduling/task.cpp
             scheduling/save_manager.cpp
             zones/zone.cpp
