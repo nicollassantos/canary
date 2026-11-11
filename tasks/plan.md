@@ -483,3 +483,18 @@ Novo: `tests/unit/creatures/players/death_component_test.cpp`
 - [ ] DI binding adicionado; sem `Database::getInstance()` em GuildRepository
 
 **CHECKPOINT FINAL (8–11):** 50+ novos testes; SaveManager + IOMarket + IOGuild sem singletons globais ✓
+
+---
+
+## Phase 18: Dívidas pós-merge + DI restante
+
+| Task | Escopo | Critérios |
+|---|---|---|
+| 18.1 ConfigManager instância única | S | `inject<IConfigManager>()` e `g_configManager()` retornam o mesmo objeto no container de produção; teste cobre |
+| 18.2 DEBUG_LOG nos presets de teste | XS | `linux-release-enabled-tests` / `windows-release-enabled-tests` com `DEBUG_LOG=ON`; suíte unitária 100% |
+| 18.3 Testes PlayerDeathComponent | S | ≥ 6 testes (death penalty, bless reduction, skull) sem crash por vocação nula |
+| 18.4 ExpertPvp sem `g_game()` | M | dependências explícitas; comportamento inalterado; testes existentes + novos verdes |
+| 18.5 Split protocolgame_send.cpp | L | nenhum arquivo de protocolo > 4k linhas; zero mudança de comportamento; CMake + vcxproj |
+| 18.6 DI restante (Scripts, Metrics, Modules) | L | registrados no container ou bloqueio documentado com causa verificada |
+
+**Verificação por task:** build `linux-release-enabled-tests`, `tools/merge/syntax_check.sh` nos .cpp tocados, `canary_ut` + `canary_it`. Commit por task.

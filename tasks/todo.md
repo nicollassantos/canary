@@ -197,3 +197,12 @@
 - [x] **17.12** — Auditoria pós-merge: `CombatService::sendBlockEffect` não tinha recebido o `source` do upstream (cópia morta em game.cpp foi a atualizada) → corrigido e cópia morta removida; auditoria por função em game/player sem outras perdas; repos delegam p/ IO (sem SQL duplicado)
 - [x] **17.13** — Build tree recriado (cache tinha find_* da árvore vcpkg antiga); checagem `-fsyntax-only` não-unity dos .cpp do branch → 2 includes faltando corrigidos
 - [x] **17.14** — Smoke test: servidor sobe (`server online`, datapack data-canary, DB descartável) e encerra limpo via SIGINT
+
+## Phase 18: Dívidas pós-merge + DI restante
+
+- [ ] **18.1** — ConfigManager: instância única — binding DI de `IConfigManager` deve resolver para o mesmo objeto carregado de `g_configManager()` (hoje cria 2ª instância nunca carregada) + teste
+- [ ] **18.2** — Presets de teste com `DEBUG_LOG=ON` (paridade com CI upstream `linux-debug`) → `ConnectionWriteDiagnosticsTest` verde
+- [ ] **18.3** — Testes do `PlayerDeathComponent` (pulados na 10.3: `isPromoted()` quebra com vocação nula) — fixture com vocação válida
+- [ ] **18.4** — `ExpertPvp` (upstream novo): trocar 8× `g_game()` por dependência explícita/porta + testes
+- [ ] **18.5** — Split `protocolgame_send.cpp` (7679 linhas) em arquivos temáticos; CMake + vcxproj
+- [ ] **18.6** — DI restante: `Scripts`, `metrics::Metrics`, `Modules` (bloqueios anteriores: limite 10 params boost::di, deps circulares)
