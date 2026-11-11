@@ -162,7 +162,16 @@ void PlayerForgeComponent::triggerTranscendence() {
 			},
 			__FUNCTION__
 		);
-		[[maybe_unused]] auto eventId = g_dispatcher().scheduleEvent(task);
+		task->setLane(DispatcherLane::PlayerAction);
+		task->setProducerToken(m_player.getID());
+		auto eventId = g_dispatcher().scheduleEvent(task);
+		if (eventId == 0) {
+			task->setLane(DispatcherLane::Maintenance);
+			eventId = g_dispatcher().scheduleEvent(task);
+			if (eventId == 0) {
+				g_logger().warn("[Player::triggerTranscendence] Failed to schedule the post-transcendence refresh for player {}", m_player.getName());
+			}
+		}
 
 		m_player.wheel().sendGiftOfLifeCooldown();
 		g_game().reloadCreature(m_player.getPlayer());
@@ -184,13 +193,13 @@ void PlayerForgeComponent::forgeFuseItems(ForgeAction_t actionType, uint16_t fir
 	const auto &firstForgingItem = getForgeItemFromId(firstItemId, tier);
 	if (!firstForgingItem) {
 		g_logger().error("[Log 1] Player with name {} failed to fuse item with id {}", m_player.getName(), firstItemId);
-		sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
+		m_player.sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
 		return;
 	}
 	const auto &secondForgingItem = getForgeItemFromId(secondItemId, tier, firstForgingItem);
 	if (!secondForgingItem) {
 		g_logger().error("[Log 2] Player with name {} failed to fuse item with id {}", m_player.getName(), secondItemId);
-		sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
+		m_player.sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
 		return;
 	}
 
@@ -204,7 +213,7 @@ void PlayerForgeComponent::forgeFuseItems(ForgeAction_t actionType, uint16_t fir
 		// Dust check: convergence always spends dust; success skips only on bonus 1.
 		if ((convergence || !success || bonus != 1) && getForgeDusts() < dustCost) {
 			g_logger().error("[{}] Not enough dust to forge for player {}", __FUNCTION__, m_player.getName());
-			sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
+			m_player.sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
 			return;
 		}
 
@@ -212,7 +221,7 @@ void PlayerForgeComponent::forgeFuseItems(ForgeAction_t actionType, uint16_t fir
 		if (!convergence && (!success || bonus != 2) && coreCount != 0
 		    && !m_player.hasItemCountById(ITEM_FORGE_CORE, coreCount, true)) {
 			g_logger().error("[{}] Not enough forge cores for player {}", __FUNCTION__, m_player.getName());
-			sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
+			m_player.sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
 			return;
 		}
 
@@ -227,7 +236,7 @@ void PlayerForgeComponent::forgeFuseItems(ForgeAction_t actionType, uint16_t fir
 				hasMatchingClassification = true;
 				if (!itemClassification->tiers.contains(tier + 1)) {
 					g_logger().error("[{}] Tier {} not found in classification {} for player {}", __FUNCTION__, tier + 1, itemClassification->id, m_player.getName());
-					sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
+					m_player.sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
 					return;
 				}
 				const auto &tierPrices = itemClassification->tiers.at(tier + 1);
@@ -236,12 +245,12 @@ void PlayerForgeComponent::forgeFuseItems(ForgeAction_t actionType, uint16_t fir
 			}
 			if (!hasMatchingClassification) {
 				g_logger().error("[{}] Failed to find classification {} for player {}", __FUNCTION__, firstForgingItem->getClassification(), m_player.getName());
-				sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
+				m_player.sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
 				return;
 			}
 			if (m_player.getMoney() + m_player.getBankBalance() < preGoldCost) {
 				g_logger().error("[{}] Not enough money to forge for player {}", __FUNCTION__, m_player.getName());
-				sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
+				m_player.sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
 				return;
 			}
 		}
@@ -250,20 +259,20 @@ void PlayerForgeComponent::forgeFuseItems(ForgeAction_t actionType, uint16_t fir
 	const auto &exaltationChest = Item::CreateItem(ITEM_EXALTATION_CHEST, 1);
 	if (!exaltationChest) {
 		g_logger().error("Failed to create exaltation chest");
-		sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
+		m_player.sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
 		return;
 	}
 	const auto &exaltationContainer = exaltationChest->getContainer();
 	if (!exaltationContainer) {
 		g_logger().error("Failed to create exaltation container");
-		sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
+		m_player.sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
 		return;
 	}
 
 	auto returnValue = g_game().internalAddItem(m_player.getPlayer(), exaltationContainer, INDEX_WHEREEVER);
 	if (returnValue != RETURNVALUE_NOERROR) {
 		g_logger().error("Failed to add exaltation chest to player with name {}", m_player.getName());
-		sendForgeError(returnValue);
+		m_player.sendForgeError(returnValue);
 		return;
 	}
 
@@ -271,28 +280,28 @@ void PlayerForgeComponent::forgeFuseItems(ForgeAction_t actionType, uint16_t fir
 	    returnValue != RETURNVALUE_NOERROR) {
 		g_logger().error("[Log 1] Failed to remove forge item {} from player with name {}", firstItemId, m_player.getName());
 		m_player.sendCancelMessage(getReturnMessage(returnValue));
-		sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
+		m_player.sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
 		return;
 	}
 	if (returnValue = g_game().internalRemoveItem(secondForgingItem, 1);
 	    returnValue != RETURNVALUE_NOERROR) {
 		g_logger().error("[Log 2] Failed to remove forge item {} from player with name {}", secondItemId, m_player.getName());
 		m_player.sendCancelMessage(getReturnMessage(returnValue));
-		sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
+		m_player.sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
 		return;
 	}
 
 	const auto &firstForgedItem = Item::CreateItem(firstItemId, 1);
 	if (!firstForgedItem) {
 		g_logger().error("[Log 3] Player with name {} failed to fuse item with id {}", m_player.getName(), firstItemId);
-		sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
+		m_player.sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
 		return;
 	}
 	returnValue = g_game().internalAddItem(exaltationContainer, firstForgedItem, INDEX_WHEREEVER);
 	if (returnValue != RETURNVALUE_NOERROR) {
 		g_logger().error("[Log 1] Failed to add forge item {} from player with name {}", firstItemId, m_player.getName());
 		m_player.sendCancelMessage(getReturnMessage(returnValue));
-		sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
+		m_player.sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
 		return;
 	}
 
@@ -319,7 +328,7 @@ void PlayerForgeComponent::forgeFuseItems(ForgeAction_t actionType, uint16_t fir
 		}
 		if (!g_game().removeMoney(m_player.getPlayer(), cost, 0, true)) {
 			g_logger().error("[{}] Failed to remove {} gold from player with name {}", __FUNCTION__, cost, m_player.getName());
-			sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
+			m_player.sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
 			return;
 		}
 		g_metrics().addCounter("balance_decrease", cost, { { "player", m_player.getName() }, { "context", "forge_convergence_fuse" } });
@@ -329,7 +338,7 @@ void PlayerForgeComponent::forgeFuseItems(ForgeAction_t actionType, uint16_t fir
 		const auto &secondForgedItem = Item::CreateItem(secondItemId, 1);
 		if (!secondForgedItem) {
 			g_logger().error("[Log 4] Player with name {} failed to fuse item with id {}", m_player.getName(), secondItemId);
-			sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
+			m_player.sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
 			return;
 		}
 
@@ -338,7 +347,7 @@ void PlayerForgeComponent::forgeFuseItems(ForgeAction_t actionType, uint16_t fir
 		if (returnValue != RETURNVALUE_NOERROR) {
 			g_logger().error("[Log 2] Failed to add forge item {} from player with name {}", secondItemId, m_player.getName());
 			m_player.sendCancelMessage(getReturnMessage(returnValue));
-			sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
+			m_player.sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
 			return;
 		}
 
@@ -352,7 +361,7 @@ void PlayerForgeComponent::forgeFuseItems(ForgeAction_t actionType, uint16_t fir
 			if (bonus != 2) {
 				if (coreCount != 0 && !m_player.removeItemCountById(ITEM_FORGE_CORE, coreCount)) {
 					g_logger().error("[{}][Log 1] Failed to remove item 'id :{} count: {}' from player {}", __FUNCTION__, fmt::underlying(ITEM_FORGE_CORE), coreCount, m_player.getName());
-					sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
+					m_player.sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
 					return;
 				}
 				history.coresCost = coreCount;
@@ -365,7 +374,7 @@ void PlayerForgeComponent::forgeFuseItems(ForgeAction_t actionType, uint16_t fir
 					}
 					if (!itemClassification->tiers.contains(firstForgedItem->getTier())) {
 						g_logger().error("[{}] Failed to find tier {} for item {} in classification {}", __FUNCTION__, firstForgedItem->getTier(), firstForgedItem->getClassification(), itemClassification->id);
-						sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
+						m_player.sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
 						return;
 					}
 					cost = itemClassification->tiers.at(firstForgedItem->getTier()).regularPrice;
@@ -373,7 +382,7 @@ void PlayerForgeComponent::forgeFuseItems(ForgeAction_t actionType, uint16_t fir
 				}
 				if (!g_game().removeMoney(m_player.getPlayer(), cost, 0, true)) {
 					g_logger().error("[{}] Failed to remove {} gold from player with name {}", __FUNCTION__, cost, m_player.getName());
-					sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
+					m_player.sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
 					return;
 				}
 				g_metrics().addCounter("balance_decrease", cost, { { "player", m_player.getName() }, { "context", "forge_fuse" } });
@@ -395,7 +404,7 @@ void PlayerForgeComponent::forgeFuseItems(ForgeAction_t actionType, uint16_t fir
 				if (returnValue != RETURNVALUE_NOERROR) {
 					g_logger().error("[Log 6] Failed to remove forge item {} from player with name {}", secondItemId, m_player.getName());
 					m_player.sendCancelMessage(getReturnMessage(returnValue));
-					sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
+					m_player.sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
 					return;
 				}
 			}
@@ -409,7 +418,7 @@ void PlayerForgeComponent::forgeFuseItems(ForgeAction_t actionType, uint16_t fir
 					if (returnValue != RETURNVALUE_NOERROR) {
 						g_logger().error("[Log 7] Failed to remove forge item {} from player with name {}", secondItemId, m_player.getName());
 						m_player.sendCancelMessage(getReturnMessage(returnValue));
-						sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
+						m_player.sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
 						return;
 					}
 				}
@@ -419,7 +428,7 @@ void PlayerForgeComponent::forgeFuseItems(ForgeAction_t actionType, uint16_t fir
 
 			if (getForgeDusts() < dustCost) {
 				g_logger().error("[Log 7] Failed to remove fuse dusts from player with name {}", m_player.getName());
-				sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
+				m_player.sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
 				return;
 			} else {
 				setForgeDusts(getForgeDusts() - dustCost);
@@ -427,7 +436,7 @@ void PlayerForgeComponent::forgeFuseItems(ForgeAction_t actionType, uint16_t fir
 
 			if (coreCount != 0 && !m_player.removeItemCountById(ITEM_FORGE_CORE, coreCount)) {
 				g_logger().error("[{}][Log 2] Failed to remove item 'id: {}, count: {}' from player {}", __FUNCTION__, fmt::underlying(ITEM_FORGE_CORE), coreCount, m_player.getName());
-				sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
+				m_player.sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
 				return;
 			}
 
@@ -438,7 +447,7 @@ void PlayerForgeComponent::forgeFuseItems(ForgeAction_t actionType, uint16_t fir
 				}
 				if (!itemClassification->tiers.contains(firstForgingItem->getTier() + 1)) {
 					g_logger().error("[{}] Failed to find tier {} for item {} in classification {}", __FUNCTION__, firstForgingItem->getTier() + 1, firstForgingItem->getClassification(), itemClassification->id);
-					sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
+					m_player.sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
 					return;
 				}
 				cost = itemClassification->tiers.at(firstForgingItem->getTier() + 1).regularPrice;
@@ -446,7 +455,7 @@ void PlayerForgeComponent::forgeFuseItems(ForgeAction_t actionType, uint16_t fir
 			}
 			if (!g_game().removeMoney(m_player.getPlayer(), cost, 0, true)) {
 				g_logger().error("[{}] Failed to remove {} gold from player with name {}", __FUNCTION__, cost, m_player.getName());
-				sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
+				m_player.sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
 				return;
 			}
 			g_metrics().addCounter("balance_decrease", cost, { { "player", m_player.getName() }, { "context", "forge_fuse" } });
@@ -479,14 +488,24 @@ void PlayerForgeComponent::forgeTransferItemTier(ForgeAction_t actionType, uint1
 	const auto &donorItem = getForgeItemFromId(donorItemId, tier);
 	if (!donorItem) {
 		g_logger().error("[Log 1] Player with name {} failed to transfer item with id {}", m_player.getName(), donorItemId);
-		sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
+		m_player.sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
+		return;
+	}
+	if (!convergence && donorItem->getTier() == 0) {
+		g_logger().error("[{}] Player {} tried to transfer a tier-0 donor item", __FUNCTION__, m_player.getName());
+		m_player.sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
 		return;
 	}
 
 	const auto &receiveItem = getForgeItemFromId(receiveItemId, 0, donorItem);
 	if (!receiveItem) {
 		g_logger().error("[Log 2] Player with name {} failed to transfer item with id {}", m_player.getName(), receiveItemId);
-		sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
+		m_player.sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
+		return;
+	}
+	if (donorItem->getClassification() != receiveItem->getClassification()) {
+		g_logger().error("[{}] Player {} tried to transfer item classification {} to classification {}", __FUNCTION__, m_player.getName(), donorItem->getClassification(), receiveItem->getClassification());
+		m_player.sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
 		return;
 	}
 
@@ -495,7 +514,7 @@ void PlayerForgeComponent::forgeTransferItemTier(ForgeAction_t actionType, uint1
 	auto dustCost = static_cast<uint64_t>(g_configManager().getNumber(configKey));
 	if (getForgeDusts() < dustCost) {
 		g_logger().error("[{}] Insufficient transfer dust for player with name {}", __FUNCTION__, m_player.getName());
-		sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
+		m_player.sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
 		return;
 	}
 
@@ -507,32 +526,34 @@ void PlayerForgeComponent::forgeTransferItemTier(ForgeAction_t actionType, uint1
 			continue;
 		}
 		hasMatchingClassification = true;
-		const uint8_t toTier = convergence ? donorItem->getTier() : donorItem->getTier() - 1;
-		if (!itemClassification->tiers.contains(toTier)) {
-			g_logger().error("[{}] Failed to find tier {} for item {} in classification {}", __FUNCTION__, toTier, donorItem->getClassification(), itemClassification->id);
-			sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
+		const uint8_t donorTier = donorItem->getTier();
+		const uint8_t toTier = convergence ? donorTier : donorTier - 1;
+		if (!itemClassification->tiers.contains(toTier) || !itemClassification->tiers.contains(donorTier)) {
+			g_logger().error("[{}] Failed to find donor tier {} or result tier {} for item {} in classification {}", __FUNCTION__, donorTier, toTier, donorItem->getClassification(), itemClassification->id);
+			m_player.sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
 			return;
 		}
-		const auto &tierPrices = itemClassification->tiers.at(toTier);
-		cost = convergence ? tierPrices.convergenceTransferPrice : tierPrices.regularPrice;
-		coresAmount = tierPrices.corePrice;
+		const auto &resultTierPrices = itemClassification->tiers.at(toTier);
+		const auto &donorTierPrices = itemClassification->tiers.at(donorTier);
+		cost = convergence ? resultTierPrices.convergenceTransferPrice : donorTierPrices.regularPrice;
+		coresAmount = resultTierPrices.corePrice;
 		break;
 	}
 	if (!hasMatchingClassification) {
 		g_logger().error("[{}] Failed to find classification {} for player {}", __FUNCTION__, donorItem->getClassification(), m_player.getName());
-		sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
+		m_player.sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
 		return;
 	}
 
 	if (!m_player.hasItemCountById(ITEM_FORGE_CORE, coresAmount, true)) {
 		g_logger().error("[{}] Not enough forge cores for player {}", __FUNCTION__, m_player.getName());
-		sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
+		m_player.sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
 		return;
 	}
 
 	if (m_player.getMoney() + m_player.getBankBalance() < cost) {
 		g_logger().error("[{}] Not enough money to transfer for player {}", __FUNCTION__, m_player.getName());
-		sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
+		m_player.sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
 		return;
 	}
 
@@ -541,20 +562,20 @@ void PlayerForgeComponent::forgeTransferItemTier(ForgeAction_t actionType, uint1
 	const auto &exaltationChest = Item::CreateItem(ITEM_EXALTATION_CHEST, 1);
 	if (!exaltationChest) {
 		g_logger().error("Exaltation chest is nullptr");
-		sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
+		m_player.sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
 		return;
 	}
 	const auto &exaltationContainer = exaltationChest->getContainer();
 	if (!exaltationContainer) {
 		g_logger().error("Exaltation container is nullptr");
-		sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
+		m_player.sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
 		return;
 	}
 
 	auto returnValue = g_game().internalAddItem(m_player.getPlayer(), exaltationContainer, INDEX_WHEREEVER);
 	if (returnValue != RETURNVALUE_NOERROR) {
 		g_logger().error("Failed to add exaltation chest to player with name {}", m_player.getName());
-		sendForgeError(returnValue);
+		m_player.sendForgeError(returnValue);
 		return;
 	}
 
@@ -563,7 +584,7 @@ void PlayerForgeComponent::forgeTransferItemTier(ForgeAction_t actionType, uint1
 	    returnValue != RETURNVALUE_NOERROR) {
 		g_logger().error("[Log 1] Failed to remove transfer item {} from player with name {}", donorItemId, m_player.getName());
 		m_player.sendCancelMessage(getReturnMessage(returnValue));
-		sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
+		m_player.sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
 		return;
 	}
 
@@ -571,14 +592,14 @@ void PlayerForgeComponent::forgeTransferItemTier(ForgeAction_t actionType, uint1
 	    returnValue != RETURNVALUE_NOERROR) {
 		g_logger().error("[Log 2] Failed to remove transfer item {} from player with name {}", receiveItemId, m_player.getName());
 		m_player.sendCancelMessage(getReturnMessage(returnValue));
-		sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
+		m_player.sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
 		return;
 	}
 
 	const auto &newReceiveItem = Item::CreateItem(receiveItemId, 1);
 	if (!newReceiveItem) {
 		g_logger().error("[Log 6] Player with name {} failed to fuse item with id {}", m_player.getName(), receiveItemId);
-		sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
+		m_player.sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
 		return;
 	}
 
@@ -591,7 +612,7 @@ void PlayerForgeComponent::forgeTransferItemTier(ForgeAction_t actionType, uint1
 	if (returnValue != RETURNVALUE_NOERROR) {
 		g_logger().error("[Log 7] Failed to add forge item {} from player with name {}", receiveItemId, m_player.getName());
 		m_player.sendCancelMessage(getReturnMessage(returnValue));
-		sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
+		m_player.sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
 		return;
 	}
 
@@ -599,13 +620,13 @@ void PlayerForgeComponent::forgeTransferItemTier(ForgeAction_t actionType, uint1
 
 	if (!m_player.removeItemCountById(ITEM_FORGE_CORE, coresAmount)) {
 		g_logger().error("[{}] Failed to remove item 'id: {}, count: {}' from player {}", __FUNCTION__, fmt::underlying(ITEM_FORGE_CORE), coresAmount, m_player.getName());
-		sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
+		m_player.sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
 		return;
 	}
 
 	if (!g_game().removeMoney(m_player.getPlayer(), cost, 0, true)) {
 		g_logger().error("[{}] Failed to remove {} gold from player with name {}", __FUNCTION__, cost, m_player.getName());
-		sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
+		m_player.sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
 		return;
 	}
 	history.cost = cost;
@@ -631,7 +652,7 @@ void PlayerForgeComponent::forgeResourceConversion(ForgeAction_t actionType) {
 		auto cost = static_cast<uint16_t>(g_configManager().getNumber(FORGE_COST_ONE_SLIVER) * g_configManager().getNumber(FORGE_SLIVER_AMOUNT));
 		if (cost > dusts) {
 			g_logger().error("[{}] Not enough dust", __FUNCTION__);
-			sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
+			m_player.sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
 			return;
 		}
 
@@ -641,7 +662,7 @@ void PlayerForgeComponent::forgeResourceConversion(ForgeAction_t actionType) {
 		if (returnValue != RETURNVALUE_NOERROR) {
 			g_logger().error("Failed to add {} slivers to player with name {}", itemCount, m_player.getName());
 			m_player.sendCancelMessage(getReturnMessage(returnValue));
-			sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
+			m_player.sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
 			return;
 		}
 		history.cost = cost;
@@ -652,13 +673,13 @@ void PlayerForgeComponent::forgeResourceConversion(ForgeAction_t actionType) {
 		auto cost = static_cast<uint16_t>(g_configManager().getNumber(FORGE_CORE_COST));
 		if (cost > sliverCount) {
 			g_logger().error("[{}] Not enough sliver", __FUNCTION__);
-			sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
+			m_player.sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
 			return;
 		}
 
 		if (!m_player.removeItemCountById(ITEM_FORGE_SLIVER, cost)) {
 			g_logger().error("[{}] Failed to remove item 'id: {}, count {}' from player {}", __FUNCTION__, fmt::underlying(ITEM_FORGE_SLIVER), cost, m_player.getName());
-			sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
+			m_player.sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
 			return;
 		}
 
@@ -669,7 +690,7 @@ void PlayerForgeComponent::forgeResourceConversion(ForgeAction_t actionType) {
 		if (returnValue != RETURNVALUE_NOERROR) {
 			g_logger().error("Failed to add one core to player with name {}", m_player.getName());
 			m_player.sendCancelMessage(getReturnMessage(returnValue));
-			sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
+			m_player.sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
 			return;
 		}
 
@@ -679,7 +700,7 @@ void PlayerForgeComponent::forgeResourceConversion(ForgeAction_t actionType) {
 		auto dustLevel = getForgeDustLevel();
 		if (dustLevel >= g_configManager().getNumber(FORGE_MAX_DUST)) {
 			g_logger().error("[{}] Maximum level reached", __FUNCTION__);
-			sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
+			m_player.sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
 			return;
 		}
 
@@ -687,7 +708,7 @@ void PlayerForgeComponent::forgeResourceConversion(ForgeAction_t actionType) {
 		if (const auto dusts = getForgeDusts();
 		    upgradeCost > dusts) {
 			g_logger().error("[{}] Not enough dust", __FUNCTION__);
-			sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
+			m_player.sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
 			return;
 		}
 

@@ -9,6 +9,7 @@ target_sources(
             player_imbuement_component_test.cpp
             player_combat_stats_component_test.cpp
             player_combat_event_component_test.cpp
+            player_race_icon_overlays_test.cpp
             player_title_test.cpp
             player_vip_test.cpp
             player_storage_test.cpp
@@ -18,6 +19,7 @@ target_sources(
             player_session_component_test.cpp
             player_training_component_test.cpp
             weapon_proficiency_test.cpp
+            expert_pvp_test.cpp
 )
 
 add_subdirectory(wheel)

@@ -4,6 +4,7 @@
 #include "creatures/combat/condition.hpp"
 #include "config/configmanager.hpp"
 #include "game/game.hpp"
+#include "game/scheduling/dispatcher.hpp"
 #include "lua/creature/creatureevent.hpp"
 
 void PlayerSessionComponent::addInFightTicks(bool pzlock) {
@@ -14,6 +15,7 @@ void PlayerSessionComponent::addInFightTicks(bool pzlock) {
 	}
 
 	if (pzlock) {
+		m_player.pzLockOnlyUntil = 0;
 		m_player.pzLocked = true;
 		m_player.sendIcons();
 	}
@@ -90,4 +92,49 @@ void PlayerSessionComponent::setProtection(bool status) {
 
 bool PlayerSessionComponent::isProtected() {
 	return m_player.connProtected;
+}
+
+void PlayerSessionComponent::addPzLockTicks() {
+	if (m_player.hasFlag(PlayerFlags_t::NotGainInFight)) {
+		return;
+	}
+
+	const auto duration = static_cast<uint32_t>(g_configManager().getNumber(PZ_LOCKED));
+	const auto expiresAt = OTSYS_TIME() + duration;
+	if (m_player.pzLockOnlyUntil >= expiresAt) {
+		return;
+	}
+
+	m_player.pzLockOnlyUntil = expiresAt;
+	m_player.pzLocked = true;
+	m_player.sendIcons();
+	if (m_player.pzLockEventId != 0) {
+		g_dispatcher().stopEvent(m_player.pzLockEventId);
+	}
+
+	const auto &task = m_player.createPlayerTask(
+		duration,
+		[playerId = m_player.getID()] {
+			const auto &player = g_game().getPlayerByID(playerId);
+			if (!player) {
+				return;
+			}
+
+			player->pzLockEventId = 0;
+			if (player->hasCondition(CONDITION_INFIGHT) || player->pzLockOnlyUntil > OTSYS_TIME()) {
+				return;
+			}
+
+			player->pzLockOnlyUntil = 0;
+			if (player->pzLocked) {
+				player->pzLocked = false;
+				player->sendIcons();
+			}
+			if (player->getSkull() != SKULL_RED && player->getSkull() != SKULL_BLACK) {
+				player->setSkull(SKULL_NONE);
+			}
+		},
+		__FUNCTION__
+	);
+	m_player.pzLockEventId = g_dispatcher().scheduleEvent(task);
 }

@@ -83,6 +83,7 @@ enum PreySlot_t : uint8_t;
 enum SpeakClasses : uint8_t;
 enum ChannelEvent_t : uint8_t;
 enum SquareColor_t : uint8_t;
+enum CreatureMark_t : uint8_t;
 enum Resource_t : uint8_t;
 
 using GuildWarVector = std::vector<uint32_t>;
@@ -115,7 +116,7 @@ struct OpenContainer {
 using MuteCountMap = std::map<uint32_t, uint32_t>;
 
 static constexpr uint16_t PLAYER_MAX_SPEED = std::numeric_limits<uint16_t>::max();
-static constexpr uint16_t PLAYER_MAX_STAFF_SPEED = 1500;
+static constexpr uint16_t PLAYER_MAX_STAFF_SPEED = 65535;
 static constexpr uint16_t PLAYER_MIN_SPEED = 10;
 static constexpr uint8_t PLAYER_SOUND_HEALTH_CHANGE = 10;
 
@@ -200,8 +201,9 @@ public:
 	/**
 	 * @brief Sets the player's virtue.
 	 * @param virtue The virtue to set.
+	 * @param notifyClient Whether to send the updated state to the client.
 	 */
-	void setVirtue(Virtue_t virtue);
+	void setVirtue(Virtue_t virtue, bool notifyClient = true);
 
 	/**
 	 * @brief Sets the player's serene state.
@@ -249,6 +251,14 @@ public:
 
 	static std::shared_ptr<Task> createPlayerTask(uint32_t delay, std::function<void(void)> f, const std::string &context);
 
+	/**
+	 * Assigns the player's runtime creature ID from the database GUID range.
+	 *
+	 * Player runtime IDs are stable for a character identity, not for a single
+	 * online object generation. Delayed or async work must not treat a player
+	 * ID as a generation-safe handle because the same character can reconnect
+	 * and produce a different `Player` object with the same runtime ID.
+	 */
 	void setID() override;
 
 	void setOnline(bool value) override {
@@ -631,7 +641,7 @@ public:
 	void addMessageBuffer();
 	void removeMessageBuffer();
 
-	bool removeItemOfType(uint16_t itemId, uint32_t itemAmount, int32_t subType, bool ignoreEquipped = false) const;
+	bool removeItemOfType(uint16_t itemId, uint32_t itemAmount, int32_t subType, bool ignoreEquipped = false, bool ignoreStoreInbox = false) const;
 	/**
 	 * @param itemAmount is uint32_t because stash item is uint32_t max
 	 */
@@ -737,6 +747,8 @@ public:
 	void setChaseMode(bool mode);
 	void setFightMode(FightMode_t mode);
 	void setSecureMode(bool mode);
+	void setPvpMode(PvpMode_t mode);
+	[[nodiscard]] PvpMode_t getPvpMode() const;
 
 	Faction_t getFaction() const override;
 
@@ -864,6 +876,7 @@ public:
 	int32_t getPartyMantra() const;
 	void updatePartyMantra() const;
 
+	void addPzLockTicks();
 	void addInFightTicks(bool pzlock = false);
 
 	uint64_t getGainedExperience(const std::shared_ptr<Creature> &attacker) const override;
@@ -898,6 +911,8 @@ public:
 	void setSkullTicks(int64_t ticks);
 
 	bool hasAttacked(const std::shared_ptr<Player> &attacked) const;
+	[[nodiscard]] const phmap::flat_hash_set<uint32_t> &getAttackedPlayerGuids() const;
+	[[nodiscard]] const phmap::flat_hash_set<uint32_t> &getAttackerPlayerGuids() const;
 	void addAttacked(const std::shared_ptr<Player> &attacked);
 	void removeAttacked(const std::shared_ptr<Player> &attacked);
 	void clearAttacked();
@@ -945,10 +960,15 @@ public:
 	void sendCreatureReload(const std::shared_ptr<Creature> &creature) const;
 	void sendPrivateMessage(const std::shared_ptr<Player> &speaker, SpeakClasses type, const std::string &text) const;
 	void sendCreatureSquare(const std::shared_ptr<Creature> &creature, SquareColor_t color) const;
+	void sendCreatureMark(const std::shared_ptr<Creature> &creature, CreatureMark_t mark) const;
 	void sendCreatureChangeOutfit(const std::shared_ptr<Creature> &creature, const Outfit_t &outfit) const;
 	void sendCreatureChangeVisible(const std::shared_ptr<Creature> &creature, bool visible);
 	void sendCreatureLight(const std::shared_ptr<Creature> &creature) const;
 	void sendCreatureIcon(const std::shared_ptr<Creature> &creature) const;
+	bool setRaceIconOverlay(uint16_t raceId, CreatureIconModifications_t icon, bool enabled = true);
+	bool clearRaceIconOverlays(CreatureIconModifications_t icon);
+	[[nodiscard]] std::vector<CreatureIcon> getRaceIconOverlays(uint16_t raceId) const;
+	void refreshVisibleCreatureIcons() const;
 	void sendUpdateCreature(const std::shared_ptr<Creature> &creature) const;
 	void sendCreatureWalkthrough(const std::shared_ptr<Creature> &creature, bool walkthrough) const;
 	void sendCreatureShield(const std::shared_ptr<Creature> &creature) const;
@@ -1043,6 +1063,7 @@ public:
 	void sendPartyPlayerVocation(const std::shared_ptr<Player> &player) const;
 	void sendPlayerVocation(const std::shared_ptr<Player> &player) const;
 	void sendDistanceShoot(const Position &from, const Position &to, uint16_t type) const;
+	void sendDistanceShoot(const Position &from, const Position &to, uint16_t type, SourceEffect_t source) const;
 	void sendHouseWindow(const std::shared_ptr<House> &house, uint32_t listId) const;
 	void sendCreatePrivateChannel(uint16_t channelId, const std::string &channelName) const;
 	void sendClosePrivate(uint16_t channelId);
@@ -1053,6 +1074,7 @@ public:
 	void sendClientCheck() const;
 	void sendGameNews() const;
 	void sendMagicEffect(const Position &pos, uint16_t type) const;
+	void sendMagicEffect(const Position &pos, uint16_t type, SourceEffect_t source) const;
 	void removeMagicEffect(const Position &pos, uint16_t type) const;
 	void sendPing();
 	void sendPingBack() const;
@@ -1135,7 +1157,7 @@ public:
 
 	void sendOpenStash(bool isNpc = false) const;
 
-	void sendTakeScreenshot(Screenshot_t screenshotType) const;
+	void sendTakeScreenshot(Screenshot_t screenshotType, uint8_t skillId = 0, uint16_t skillLevel = 0, const std::string &achievementName = "", uint16_t raceId = 0, uint8_t bestiaryStep = 0) const;
 
 	void onThink(uint32_t interval) override;
 
@@ -1651,6 +1673,7 @@ private:
 	size_t getFirstIndex() const override;
 	size_t getLastIndex() const override;
 	uint32_t getItemTypeCount(uint16_t itemId, int32_t subType = -1) const override;
+	uint32_t getItemTypeCount(uint16_t itemId, int32_t subType, bool ignoreEquipped, bool ignoreStoreInbox) const;
 	void stashContainer(const StashContainerList &itemDict);
 	ItemsTierCountList getInventoryItemsId(bool ignoreStoreInbox = false) const;
 
@@ -1682,6 +1705,7 @@ private:
 	void healFromHarmony(uint8_t charges = 1);
 
 	phmap::flat_hash_set<uint32_t> attackedSet {};
+	phmap::flat_hash_set<uint32_t> attackerSet {};
 
 	std::map<uint8_t, OpenContainer> openContainers;
 	std::map<uint32_t, std::shared_ptr<DepotLocker>> depotLockerMap;
@@ -1690,6 +1714,7 @@ private:
 	std::map<uint16_t, uint64_t> itemPriceMap;
 
 	std::map<uint16_t, uint32_t> m_activeFoods;
+	PlayerRaceIconOverlays m_raceIconOverlays;
 
 	std::map<uint64_t, std::shared_ptr<Reward>> rewardMap;
 
@@ -1881,6 +1906,8 @@ private:
 	bool wasMounted = false;
 	bool ghostMode = false;
 	bool pzLocked = false;
+	int64_t pzLockOnlyUntil = 0;
+	uint64_t pzLockEventId = 0;
 	bool isConnecting = false;
 	bool addAttackSkillPoint = false;
 	bool inventoryAbilities[CONST_SLOT_LAST + 1] = {};
@@ -1991,6 +2018,7 @@ private:
 	friend class PlayerSessionComponent;
 
 	PlayerWheel m_wheelPlayer;
+	PlayerPvp m_pvpPlayer;
 	PlayerAchievement m_playerAchievement;
 	PlayerBadge m_playerBadge;
 	PlayerCyclopedia m_playerCyclopedia;

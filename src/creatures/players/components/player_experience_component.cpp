@@ -60,7 +60,7 @@ void PlayerExperienceComponent::addSkillAdvance(skills_t skill, uint64_t count) 
 		if (skill == SKILL_LEVEL) {
 			m_player.sendTakeScreenshot(SCREENSHOT_TYPE_LEVELUP);
 		} else {
-			m_player.sendTakeScreenshot(SCREENSHOT_TYPE_SKILLUP);
+			m_player.sendTakeScreenshot(SCREENSHOT_TYPE_SKILLUP, static_cast<uint8_t>(getCipbiaSkill(skill)), m_player.skills[skill].level);
 		}
 
 		g_creatureEvents().playerAdvance(m_player.getPlayer(), skill, (m_player.skills[skill].level - 1), m_player.skills[skill].level);
@@ -122,10 +122,9 @@ void PlayerExperienceComponent::addManaSpent(uint64_t amount) {
 		std::ostringstream ss;
 		ss << "You advanced to magic level " << m_player.magLevel << '.';
 		m_player.sendTextMessage(MESSAGE_EVENT_ADVANCE, ss.str());
-		m_player.sendTakeScreenshot(SCREENSHOT_TYPE_SKILLUP);
+		m_player.sendTakeScreenshot(SCREENSHOT_TYPE_SKILLUP, static_cast<uint8_t>(getCipbiaSkill(SKILL_MAGLEVEL)), m_player.magLevel);
 
 		g_creatureEvents().playerAdvance(m_player.getPlayer(), SKILL_MAGLEVEL, m_player.magLevel - 1, m_player.magLevel);
-		m_player.sendTakeScreenshot(SCREENSHOT_TYPE_SKILLUP);
 
 		sendUpdateStats = true;
 		currReqMana = nextReqMana;

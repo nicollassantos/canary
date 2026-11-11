@@ -253,10 +253,6 @@ void ChatService::playerSay(uint32_t playerId, uint16_t channelId, SpeakClasses 
 }
 
 bool ChatService::playerSaySpell(const std::shared_ptr<Player> &player, SpeakClasses type, const std::string &text) {
-	if (player->walkExhausted()) {
-		return true;
-	}
-
 	std::string words = text;
 	TalkActionResult_t result = g_talkActions().checkPlayerCanSayTalkAction(player, type, words);
 	if (result == TALKACTION_BREAK) {

@@ -116,29 +116,45 @@ void PlayerInteractionService::playerUseItemEx(uint32_t playerId, const Position
 
 	if (ret != RETURNVALUE_NOERROR) {
 		if (ret == RETURNVALUE_TOOFARAWAY) {
-			Position itemPos = fromPos;
-			uint8_t itemStackPos = fromStackPos;
-
-			if (fromPos.x != 0xFFFF && toPos.x != 0xFFFF && Position::areInRange<1, 1, 0>(fromPos, player->getPosition()) && !Position::areInRange<1, 1, 0>(fromPos, toPos)) {
-				std::shared_ptr<Item> moveItem = nullptr;
-
-				ret = game_.internalMoveItem(item->getParent(), player, INDEX_WHEREEVER, item, item->getItemCount(), &moveItem);
-				if (ret != RETURNVALUE_NOERROR) {
-					player->sendCancelMessage(ret);
-					return;
-				}
-
-				// changing the position since its now in the inventory of the player
-				Game::internalGetPosition(moveItem, itemPos, itemStackPos);
+			const bool requiresPickup = fromPos.x != 0xFFFF
+				&& toPos.x != 0xFFFF
+				&& Position::areInRange<1, 1, 0>(fromPos, player->getPosition())
+				&& !Position::areInRange<1, 1, 0>(fromPos, toPos);
+			if (requiresPickup) {
+				game_.queuePlayerAutoWalkAfterItemPickup(
+					playerId,
+					walkToPos,
+					1,
+					item->getParent(),
+					item,
+					item->getItemCount(),
+					[this, playerId, fromItemId, toPos, toStackPos, toItemId, canTriggerExhaustion](const std::shared_ptr<Player> &walkPlayer, const Position &itemPos, uint8_t itemStackPos) {
+						const auto &task = game_.createPlayerTask(
+							400,
+							[this, playerId, itemPos, itemStackPos, fromItemId, toPos, toStackPos, toItemId] {
+								playerUseItemEx(playerId, itemPos, itemStackPos, fromItemId, toPos, toStackPos, toItemId);
+							},
+							"Game::playerUseItemEx"
+						);
+						if (canTriggerExhaustion) {
+							walkPlayer->setNextPotionActionTask(task);
+						} else {
+							walkPlayer->setNextWalkActionTask(task);
+						}
+					}
+				);
+				return;
 			}
 
 			std::vector<Direction> listDir;
 			if (player->getPathTo(walkToPos, listDir, 0, 1, true, true)) {
-				g_dispatcher().addEvent([this, playerId = player->getID(), listDir] { game_.playerAutoWalk(playerId, listDir); }, __FUNCTION__);
+				if (!game_.queuePlayerAutoWalk(player->getID(), std::move(listDir))) {
+					return;
+				}
 				const auto &task = game_.createPlayerTask(
 					400,
-					[this, playerId, itemPos, itemStackPos, fromItemId, toPos, toStackPos, toItemId] {
-						playerUseItemEx(playerId, itemPos, itemStackPos, fromItemId, toPos, toStackPos, toItemId);
+					[this, playerId, fromPos, fromStackPos, fromItemId, toPos, toStackPos, toItemId] {
+						playerUseItemEx(playerId, fromPos, fromStackPos, fromItemId, toPos, toStackPos, toItemId);
 					},
 					__FUNCTION__
 				);
@@ -257,7 +273,9 @@ void PlayerInteractionService::playerUseItem(uint32_t playerId, const Position &
 		if (ret == RETURNVALUE_TOOFARAWAY) {
 			std::vector<Direction> listDir;
 			if (player->getPathTo(pos, listDir, 0, 1, true, true)) {
-				g_dispatcher().addEvent([this, playerId = player->getID(), listDir] { game_.playerAutoWalk(playerId, listDir); }, __FUNCTION__);
+				if (!game_.queuePlayerAutoWalk(player->getID(), std::move(listDir))) {
+					return;
+				}
 				const auto &task = game_.createPlayerTask(
 					400,
 					[this, playerId, pos, stackPos, index, itemId] {
@@ -340,7 +358,7 @@ void PlayerInteractionService::playerUseWithCreature(uint32_t playerId, const Po
 
 	bool isHotkey = (fromPos.x == 0xFFFF && fromPos.y == 0 && fromPos.z == 0);
 	if (!config_.getBoolean(AIMBOT_HOTKEY_ENABLED)) {
-		if (creature->getPlayer() || isHotkey) {
+		if (isHotkey) {
 			player->sendCancelMessage(RETURNVALUE_DIRECTPLAYERSHOOT);
 			return;
 		}
@@ -405,28 +423,44 @@ void PlayerInteractionService::playerUseWithCreature(uint32_t playerId, const Po
 
 	if (ret != RETURNVALUE_NOERROR) {
 		if (ret == RETURNVALUE_TOOFARAWAY) {
-			Position itemPos = fromPos;
-			uint8_t itemStackPos = fromStackPos;
-
-			if (fromPos.x != 0xFFFF && Position::areInRange<1, 1, 0>(fromPos, player->getPosition()) && !Position::areInRange<1, 1, 0>(fromPos, toPos)) {
-				std::shared_ptr<Item> moveItem = nullptr;
-				ret = game_.internalMoveItem(item->getParent(), player, INDEX_WHEREEVER, item, item->getItemCount(), &moveItem);
-				if (ret != RETURNVALUE_NOERROR) {
-					player->sendCancelMessage(ret);
-					return;
-				}
-
-				// changing the position since its now in the inventory of the player
-				Game::internalGetPosition(moveItem, itemPos, itemStackPos);
+			const bool requiresPickup = fromPos.x != 0xFFFF
+				&& Position::areInRange<1, 1, 0>(fromPos, player->getPosition())
+				&& !Position::areInRange<1, 1, 0>(fromPos, toPos);
+			if (requiresPickup) {
+				game_.queuePlayerAutoWalkAfterItemPickup(
+					playerId,
+					walkToPos,
+					1,
+					item->getParent(),
+					item,
+					item->getItemCount(),
+					[this, playerId, creatureId, itemId, canTriggerExhaustion](const std::shared_ptr<Player> &walkPlayer, const Position &itemPos, uint8_t itemStackPos) {
+						const auto &task = game_.createPlayerTask(
+							400,
+							[this, playerId, itemPos, itemStackPos, creatureId, itemId] {
+								playerUseWithCreature(playerId, itemPos, itemStackPos, creatureId, itemId);
+							},
+							"Game::playerUseWithCreature"
+						);
+						if (canTriggerExhaustion) {
+							walkPlayer->setNextPotionActionTask(task);
+						} else {
+							walkPlayer->setNextWalkActionTask(task);
+						}
+					}
+				);
+				return;
 			}
 
 			std::vector<Direction> listDir;
 			if (player->getPathTo(walkToPos, listDir, 0, 1, true, true)) {
-				g_dispatcher().addEvent([this, playerId = player->getID(), listDir] { game_.playerAutoWalk(playerId, listDir); }, __FUNCTION__);
+				if (!game_.queuePlayerAutoWalk(player->getID(), std::move(listDir))) {
+					return;
+				}
 				const auto &task = game_.createPlayerTask(
 					400,
-					[this, playerId, itemPos, itemStackPos, creatureId, itemId] {
-						playerUseWithCreature(playerId, itemPos, itemStackPos, creatureId, itemId);
+					[this, playerId, fromPos, fromStackPos, creatureId, itemId] {
+						playerUseWithCreature(playerId, fromPos, fromStackPos, creatureId, itemId);
 					},
 					__FUNCTION__
 				);
@@ -587,7 +621,9 @@ void PlayerInteractionService::playerRotateItem(uint32_t playerId, const Positio
 	if (pos.x != 0xFFFF && !Position::areInRange<1, 1, 0>(pos, player->getPosition())) {
 		std::vector<Direction> listDir;
 		if (player->getPathTo(pos, listDir, 0, 1, true, true)) {
-			g_dispatcher().addEvent([this, playerId = player->getID(), listDir] { game_.playerAutoWalk(playerId, listDir); }, __FUNCTION__);
+			if (!game_.queuePlayerAutoWalk(player->getID(), std::move(listDir))) {
+				return;
+			}
 			const auto &task = game_.createPlayerTask(
 				400,
 				[this, playerId, pos, stackPos, itemId] {
@@ -643,7 +679,9 @@ void PlayerInteractionService::playerConfigureShowOffSocket(uint32_t playerId, c
 	if (!Position::areInRange<1, 1, 0>(pos, player->getPosition())) {
 		std::vector<Direction> listDir;
 		if (player->getPathTo(pos, listDir, 0, 1, true, false)) {
-			g_dispatcher().addEvent([this, playerId = player->getID(), listDir] { game_.playerAutoWalk(playerId, listDir); }, __FUNCTION__);
+			if (!game_.queuePlayerAutoWalk(player->getID(), std::move(listDir))) {
+				return;
+			}
 			if (isPodiumOfRenown) {
 				const auto &task = game_.createPlayerTask(
 					400,
@@ -712,7 +750,9 @@ void PlayerInteractionService::playerSetShowOffSocket(uint32_t playerId, Outfit_
 	if (!Position::areInRange<1, 1, 0>(pos, player->getPosition())) {
 		std::vector<Direction> listDir;
 		if (player->getPathTo(pos, listDir, 0, 1, true, false)) {
-			g_dispatcher().addEvent([this, playerId = player->getID(), listDir] { game_.playerAutoWalk(playerId, listDir); }, __FUNCTION__);
+			if (!game_.queuePlayerAutoWalk(player->getID(), std::move(listDir))) {
+				return;
+			}
 			const auto &task = game_.createPlayerTask(
 				400,
 				[this, playerId, pos] {
@@ -866,7 +906,9 @@ void PlayerInteractionService::playerWrapableItem(uint32_t playerId, const Posit
 	if (pos.x != 0xFFFF && !Position::areInRange<1, 1, 0>(pos, player->getPosition())) {
 		std::vector<Direction> listDir;
 		if (player->getPathTo(pos, listDir, 0, 1, true, true)) {
-			g_dispatcher().addEvent([this, playerId = player->getID(), listDir] { game_.playerAutoWalk(playerId, listDir); }, __FUNCTION__);
+			if (!game_.queuePlayerAutoWalk(player->getID(), std::move(listDir))) {
+				return;
+			}
 			const auto &task = game_.createPlayerTask(
 				400,
 				[this, playerId, pos, stackPos, itemId] {
@@ -1059,7 +1101,9 @@ void PlayerInteractionService::playerBrowseField(uint32_t playerId, const Positi
 	if (!Position::areInRange<1, 1>(playerPos, pos)) {
 		std::vector<Direction> listDir;
 		if (player->getPathTo(pos, listDir, 0, 1, true, true)) {
-			g_dispatcher().addEvent([this, playerId = player->getID(), listDir] { game_.playerAutoWalk(playerId, listDir); }, __FUNCTION__);
+			if (!game_.queuePlayerAutoWalk(player->getID(), std::move(listDir))) {
+				return;
+			}
 			const auto &task = game_.createPlayerTask(
 				400,
 				[this, playerId, pos] {
@@ -1401,6 +1445,172 @@ void PlayerInteractionService::playerRequestEditVip(uint32_t playerId, uint32_t 
 	player->vip().edit(guid, description, icon, notify, vipGroupsId);
 }
 
+namespace {
+	Slots_t getSlotType(const ItemType &it) {
+		Slots_t slot = CONST_SLOT_RIGHT;
+		if (it.weaponType != WeaponType_t::WEAPON_SHIELD) {
+			int32_t slotPosition = it.slotPosition;
+
+			if (slotPosition & SLOTP_HEAD) {
+				slot = CONST_SLOT_HEAD;
+			} else if (slotPosition & SLOTP_NECKLACE) {
+				slot = CONST_SLOT_NECKLACE;
+			} else if (slotPosition & SLOTP_ARMOR) {
+				slot = CONST_SLOT_ARMOR;
+			} else if (slotPosition & SLOTP_LEGS) {
+				slot = CONST_SLOT_LEGS;
+			} else if (slotPosition & SLOTP_FEET) {
+				slot = CONST_SLOT_FEET;
+			} else if (slotPosition & SLOTP_RING) {
+				slot = CONST_SLOT_RING;
+			} else if (slotPosition & SLOTP_AMMO) {
+				slot = CONST_SLOT_AMMO;
+			} else if (slotPosition & SLOTP_TWO_HAND || slotPosition & SLOTP_LEFT) {
+				slot = CONST_SLOT_LEFT;
+			}
+		}
+
+		return slot;
+	}
+
+	std::shared_ptr<Item> searchForItem(const std::shared_ptr<Container> &container, uint16_t itemId, bool hasTier /* = false*/, uint8_t tier /* = 0*/) {
+		if (!container) {
+			return nullptr;
+		}
+
+		for (ContainerIterator it = container->iterator(); it.hasNext(); it.advance()) {
+			if ((*it)->getID() == itemId && (!hasTier || (*it)->getTier() == tier)) {
+				return *it;
+			}
+		}
+
+		return nullptr;
+	}
+}
+
+void PlayerInteractionService::playerEquipItem(uint32_t playerId, uint16_t itemId, bool hasTier /* = false*/, uint8_t tier /* = 0*/) {
+	const auto &player = game_.getPlayerByID(playerId);
+	if (!player) {
+		return;
+	}
+
+	const ItemType &it = Item::items[itemId];
+	Slots_t slot = getSlotType(it);
+
+	if (slot == CONST_SLOT_NECKLACE) {
+		if (!player->canEquipNecklace()) {
+			return;
+		}
+	} else if (slot == CONST_SLOT_RING) {
+		if (!player->canEquipRing()) {
+			return;
+		}
+	} else if (!player->canDoAction()) {
+		uint32_t delay = player->getNextActionTime();
+		if (delay > 0) {
+			const auto &task = game_.createPlayerTask(
+				delay,
+				[this, playerId, itemId, hasTier, tier] {
+					playerEquipItem(playerId, itemId, hasTier, tier);
+				},
+				fmt::format("{} - Player::setNextActionTask ", __FUNCTION__)
+			);
+			player->setNextActionTask(task);
+		}
+		return;
+	}
+
+	if (player->hasCondition(CONDITION_FEARED)) {
+		/*
+		 *	When player is feared the player can´t equip any items.
+		 */
+		player->sendTextMessage(MESSAGE_FAILURE, "You are feared.");
+		return;
+	}
+
+	const auto &item = player->getInventoryItem(CONST_SLOT_BACKPACK);
+	const auto &backpack = item ? item->getContainer() : nullptr;
+
+	const auto &slotItem = player->getInventoryItem(slot);
+	auto equipItem = searchForItem(backpack, it.id, hasTier, tier);
+	if (!equipItem) {
+		const auto &lootPouch = player->getLootPouch();
+		equipItem = searchForItem(lootPouch, it.id, hasTier, tier);
+	}
+	ReturnValue ret = RETURNVALUE_NOERROR;
+
+	if (slotItem && slotItem->getID() == it.id && (!hasTier || slotItem->getTier() == tier)) {
+		ret = game_.internalCollectManagedItems(player, slotItem, game_.getObjectCategory(slotItem), false);
+	} else if (equipItem) {
+		// Shield slot item
+		const auto &rightItem = player->getInventoryItem(CONST_SLOT_RIGHT);
+
+		// Check Ammo item
+		if (it.weaponType == WEAPON_AMMO) {
+			if (rightItem && rightItem->isQuiver()) {
+				ret = game_.internalMoveItem(equipItem->getParent(), rightItem->getContainer(), 0, equipItem, equipItem->getItemCount(), nullptr);
+			}
+		} else {
+			const auto &leftItem = player->getInventoryItem(CONST_SLOT_LEFT);
+
+			const int32_t &slotPosition = equipItem->getSlotPosition();
+			// Checks if a two-handed item is being equipped in the left slot when the right slot is already occupied and move to backpack
+			if (
+				(slotPosition & SLOTP_LEFT)
+				&& (slotPosition & SLOTP_TWO_HAND)
+				&& rightItem
+				&& !(it.weaponType == WEAPON_DISTANCE)
+				&& !rightItem->isQuiver()
+				&& (!leftItem || leftItem->getWeaponType() != WEAPON_DISTANCE)
+			) {
+				ret = game_.internalCollectManagedItems(player, rightItem, game_.getObjectCategory(rightItem), false);
+			}
+
+			// Check if trying to equip a quiver while another quiver is already equipped in the right slot
+			if (slot == CONST_SLOT_RIGHT && rightItem && rightItem->isQuiver() && it.isQuiver()) {
+				// Replace the existing quiver with the new one
+				ret = game_.internalMoveItem(rightItem->getParent(), player, INDEX_WHEREEVER, rightItem, rightItem->getItemCount(), nullptr);
+				if (ret != RETURNVALUE_NOERROR) {
+					player->sendCancelMessage(ret);
+					return;
+				}
+			} else {
+				// Check if trying to equip a shield while a two-handed weapon is equipped in the left slot
+				if (slot == CONST_SLOT_RIGHT && leftItem && leftItem->getSlotPosition() & SLOTP_TWO_HAND) {
+					// Unequip the two-handed weapon from the left slot
+					ret = game_.internalMoveItem(leftItem->getParent(), player, INDEX_WHEREEVER, leftItem, leftItem->getItemCount(), nullptr);
+					if (ret != RETURNVALUE_NOERROR) {
+						player->sendCancelMessage(ret);
+						return;
+					}
+				}
+			}
+
+			if (slotItem) {
+				ret = game_.internalCollectManagedItems(player, slotItem, game_.getObjectCategory(slotItem), false);
+				// If the item is not collected, move it to any available container slot
+				if (ret != RETURNVALUE_NOERROR) {
+					ret = game_.internalMoveItem(slotItem->getParent(), player, INDEX_WHEREEVER, slotItem, slotItem->getItemCount(), nullptr);
+				}
+			}
+
+			ret = game_.internalMoveItem(equipItem->getParent(), player, slot, equipItem, equipItem->getItemCount(), nullptr);
+		}
+	}
+
+	if (ret != RETURNVALUE_NOERROR) {
+		player->sendCancelMessage(ret);
+		return;
+	}
+	if (slot == CONST_SLOT_NECKLACE) {
+		player->setNextNecklaceAction(OTSYS_TIME() + config_.getNumber(ACTIONS_DELAY_INTERVAL));
+	} else if (slot == CONST_SLOT_RING) {
+		player->setNextRingAction(OTSYS_TIME() + config_.getNumber(ACTIONS_DELAY_INTERVAL));
+	} else {
+		player->setNextAction(OTSYS_TIME() + config_.getNumber(ACTIONS_DELAY_INTERVAL));
+	}
+}
+
 void PlayerInteractionService::playerCheckActivity(const std::string &playerName, int interval) {
 	const auto &player = game_.getPlayerByName(playerName);
 	if (!player) {
@@ -1430,7 +1640,7 @@ void PlayerInteractionService::playerCheckActivity(const std::string &playerName
 	}
 
 	[[maybe_unused]] auto eventId = g_dispatcher().scheduleEvent(
-		1000, [this, playerName, interval] { playerCheckActivity(playerName, interval); }, "Game::playerCheckActivity"
+		1000, [this, playerName, interval] { playerCheckActivity(playerName, interval); }, "Game::playerCheckActivity", DispatcherLane::PlayerAction, player->getID()
 	);
 }
 

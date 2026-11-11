@@ -236,7 +236,9 @@ void OutfitService::playerSetMonsterPodium(uint32_t playerId, uint32_t monsterRa
 	if (!Position::areInRange<1, 1, 0>(pos, player->getPosition())) {
 		if (std::vector<Direction> listDir;
 		    player->getPathTo(pos, listDir, 0, 1, true, false)) {
-			g_dispatcher().addEvent([this, playerId = player->getID(), listDir] { game_.playerAutoWalk(playerId, listDir); }, __FUNCTION__);
+			if (!game_.queuePlayerAutoWalk(player->getID(), std::move(listDir))) {
+				return;
+			}
 			const auto &task = game_.createPlayerTask(
 				400,
 				[this, playerId, pos] {
@@ -340,7 +342,9 @@ void OutfitService::playerRotatePodium(uint32_t playerId, const Position &pos, u
 	if (pos.x != 0xFFFF && !Position::areInRange<1, 1, 0>(pos, player->getPosition())) {
 		if (std::vector<Direction> listDir;
 		    player->getPathTo(pos, listDir, 0, 1, true, true)) {
-			g_dispatcher().addEvent([this, playerId = player->getID(), listDir] { game_.playerAutoWalk(playerId, listDir); }, __FUNCTION__);
+			if (!game_.queuePlayerAutoWalk(player->getID(), std::move(listDir))) {
+				return;
+			}
 			const auto &task = game_.createPlayerTask(
 				400,
 				[this, playerId, pos, stackPos, itemId] {

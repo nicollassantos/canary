@@ -255,7 +255,7 @@ bool CreatureManagementService::placeCreature(const std::shared_ptr<Creature> &c
 		spectator->onCreatureAppear(creature, true);
 	}
 
-	if (hasPlayerSpectators) {
+	if (hasPlayerSpectators || (creature->getMonsterRaw() && g_configManager().getBoolean(MONSTER_PERF_TEST_FORCE_ACTIVE))) {
 		game_.addCreatureCheck(creature);
 	}
 

@@ -47,8 +47,8 @@ private:
 		TextMessage &message, const CreatureVector &spectators, int32_t realDamage
 	);
 	void sendEffects(
-		const std::shared_ptr<Creature> &target, const CombatDamage &damage, const Position &targetPos,
-		TextMessage &message, const CreatureVector &spectators
+		const std::shared_ptr<Creature> &attacker, const std::shared_ptr<Creature> &target, const CombatDamage &damage,
+		const Position &targetPos, TextMessage &message, const CreatureVector &spectators
 	);
 	void sendMessages(
 		const std::shared_ptr<Creature> &attacker, const std::shared_ptr<Creature> &target, const CombatDamage &damage,

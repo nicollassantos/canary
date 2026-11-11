@@ -24,6 +24,11 @@
 namespace {
 	constexpr uint64_t PARTY_ANALYZER_THROTTLE_MS = 1000;
 	constexpr size_t UPDATE_CONTAINER_PAYLOAD_SIZE = 1;
+	constexpr uint8_t CREATURE_MARK_TIMED_SQUARE_TYPE = 0x01;
+	constexpr uint8_t CREATURE_MARK_PERSISTENT_SQUARE_TYPE = 0x02;
+	constexpr uint8_t CLIENT_PACKET_TASKBOARD = 0x5F;
+	constexpr uint8_t CLIENT_PACKET_SOUL_SEALS_FIGHT_MONSTER = 0xBA;
+	constexpr uint8_t CLIENT_PACKET_OFFER_DESCRIPTION = 0xE8;
 
 	constexpr uint8_t cipsoft860TalkNone = 0;
 	constexpr uint8_t cipsoft860EventDefaultMessage = 0x18;
@@ -34,9 +39,11 @@ namespace {
 		if (localPort != protocol_port_utils::getModernGamePort() && localPort == protocol_port_utils::getLegacy1100GamePort()) {
 			return ProtocolProfileRegistry::getProfile(ProtocolProfileId::Tibia1100);
 		}
+
 		if (localPort != protocol_port_utils::getModernGamePort() && localPort == protocol_port_utils::getLegacy860GamePort()) {
 			return ProtocolProfileRegistry::getProfile(ProtocolProfileId::Cipsoft860Vanilla);
 		}
+
 		return ProtocolProfileRegistry::getProfile(ProtocolProfileId::Current);
 	}
 
@@ -50,6 +57,10 @@ namespace {
 
 	[[nodiscard]] bool isTibia1100Profile(const ProtocolProfile* profile) {
 		return profile && profile->id == ProtocolProfileId::Tibia1100;
+	}
+
+	[[nodiscard]] bool isCurrentProtocolProfile(const ProtocolProfile* profile) {
+		return profile && profile->id == ProtocolProfileId::Current;
 	}
 
 	[[nodiscard]] bool hasProtocolFeature(const ProtocolProfile* profile, ProtocolFeature feature) {
@@ -94,60 +105,108 @@ namespace {
 
 	[[nodiscard]] std::optional<Direction> translateAutoWalkDirection(uint8_t rawDirection) {
 		switch (rawDirection) {
-			case 1: return DIRECTION_EAST;
-			case 2: return DIRECTION_NORTHEAST;
-			case 3: return DIRECTION_NORTH;
-			case 4: return DIRECTION_NORTHWEST;
-			case 5: return DIRECTION_WEST;
-			case 6: return DIRECTION_SOUTHWEST;
-			case 7: return DIRECTION_SOUTH;
-			case 8: return DIRECTION_SOUTHEAST;
-			default: return std::nullopt;
+			case 1:
+				return DIRECTION_EAST;
+			case 2:
+				return DIRECTION_NORTHEAST;
+			case 3:
+				return DIRECTION_NORTH;
+			case 4:
+				return DIRECTION_NORTHWEST;
+			case 5:
+				return DIRECTION_WEST;
+			case 6:
+				return DIRECTION_SOUTHWEST;
+			case 7:
+				return DIRECTION_SOUTH;
+			case 8:
+				return DIRECTION_SOUTHEAST;
+			default:
+				return std::nullopt;
 		}
 	}
 
 	[[nodiscard]] uint8_t translateCipsoft860SpeakClassToClient(SpeakClasses talkType) {
 		switch (talkType) {
-			case TALKTYPE_SAY: return 0x01;
-			case TALKTYPE_WHISPER: return 0x02;
-			case TALKTYPE_YELL: return 0x03;
+			case TALKTYPE_SAY:
+				return 0x01;
+			case TALKTYPE_WHISPER:
+				return 0x02;
+			case TALKTYPE_YELL:
+				return 0x03;
 			case TALKTYPE_PRIVATE_FROM:
-			case TALKTYPE_PRIVATE_TO: return 0x06;
-			case TALKTYPE_CHANNEL_MANAGER: return 0x08;
-			case TALKTYPE_CHANNEL_Y: return 0x07;
-			case TALKTYPE_CHANNEL_O: return 0x0F;
-			case TALKTYPE_SPELL_USE: return 0x01;
+			case TALKTYPE_PRIVATE_TO:
+				return 0x06;
+			case TALKTYPE_CHANNEL_MANAGER:
+				return 0x08;
+			case TALKTYPE_CHANNEL_Y:
+				return 0x07;
+			case TALKTYPE_CHANNEL_O:
+				return 0x0F;
+			case TALKTYPE_SPELL_USE:
+				return 0x01;
 			case TALKTYPE_PRIVATE_NP:
-			case TALKTYPE_NPC_UNKOWN: return 0x05;
-			case TALKTYPE_PRIVATE_PN: return 0x04;
-			case TALKTYPE_BROADCAST: return 0x0C;
-			case TALKTYPE_CHANNEL_R1: return 0x0D;
+			case TALKTYPE_NPC_UNKOWN:
+				return 0x05;
+			case TALKTYPE_PRIVATE_PN:
+				return 0x04;
+			case TALKTYPE_BROADCAST:
+				return 0x0C;
+			case TALKTYPE_CHANNEL_R1:
+				return 0x0D;
 			case TALKTYPE_PRIVATE_RED_FROM:
-			case TALKTYPE_PRIVATE_RED_TO: return 0x0E;
-			case TALKTYPE_MONSTER_SAY: return 0x13;
-			case TALKTYPE_MONSTER_YELL: return 0x14;
-			default: return cipsoft860TalkNone;
+			case TALKTYPE_PRIVATE_RED_TO:
+				return 0x0E;
+			case TALKTYPE_MONSTER_SAY:
+				return 0x13;
+			case TALKTYPE_MONSTER_YELL:
+				return 0x14;
+			default:
+				return cipsoft860TalkNone;
 		}
 	}
 
 	[[nodiscard]] uint8_t translateCipsoft860MessageClassToClient(MessageClasses messageType) {
 		switch (messageType) {
-			case MESSAGE_LOGIN: return 0x17;
+			case MESSAGE_LOGIN:
+				return 0x17;
 			case MESSAGE_ADMINISTRATOR:
-			case MESSAGE_GAME_HIGHLIGHT: return 0x15;
-			case MESSAGE_EVENT_ADVANCE: return 0x16;
-			case MESSAGE_FAILURE: return 0x1A;
+			case MESSAGE_GAME_HIGHLIGHT:
+				return 0x15;
+			case MESSAGE_EVENT_ADVANCE:
+				return 0x16;
+			case MESSAGE_FAILURE:
+				return 0x1A;
 			case MESSAGE_LOOK:
 			case MESSAGE_LOOT:
 			case MESSAGE_TRADE:
 			case MESSAGE_REPORT:
 			case MESSAGE_HOTKEY_PRESSED:
 			case MESSAGE_TUTORIAL_HINT:
-			case MESSAGE_THANK_YOU: return 0x19;
-			case MESSAGE_STATUS: return cipsoft860EventDefaultMessage;
-			case MESSAGE_GAMEMASTER_CONSOLE: return 0x12;
-			default: return MESSAGE_NONE;
+			case MESSAGE_THANK_YOU:
+				return 0x19;
+			case MESSAGE_STATUS:
+				return cipsoft860EventDefaultMessage;
+			case MESSAGE_GAMEMASTER_CONSOLE:
+				return 0x12;
+			default:
+				return MESSAGE_NONE;
 		}
+	}
+
+	[[nodiscard]] uint16_t getViewerAwareItemId(const std::shared_ptr<Player> &viewer, const std::shared_ptr<Item> &item) {
+		if (!viewer || !item || !ExpertPvp::isEnabled()) {
+			return item ? item->getID() : 0;
+		}
+
+		const auto fieldContext = ExpertPvp::getFieldContext(item);
+		const auto relation = ExpertPvp::classifyFieldRelation(fieldContext, viewer);
+		const auto decision = ExpertPvp::getFieldClientId(fieldContext, relation.facts);
+		if (!decision.handled || decision.clientItemId == 0) {
+			return item->getID();
+		}
+
+		return decision.clientItemId;
 	}
 
 	template <typename UserMap>
@@ -156,6 +215,7 @@ namespace {
 			msg.add<uint16_t>(0x00);
 			return;
 		}
+
 		msg.add<uint16_t>(users->size());
 		for (const auto &it : *users) {
 			msg.addString(it.second->getName());
@@ -163,11 +223,76 @@ namespace {
 	}
 
 	[[nodiscard]] size_t getUnreadBytes(const NetworkMessage &msg) {
-		const auto consumedBytes = static_cast<size_t>(msg.getBufferPosition() - NetworkMessage::INITIAL_BUFFER_POSITION);
-		return msg.getLength() > consumedBytes ? msg.getLength() - consumedBytes : 0;
+		return msg.getUnreadBytes();
 	}
 
-	std::string getMarketDetailImbuementEffect(uint16_t itemId) {
+	[[nodiscard]] bool hasClientBuildPrefix(std::string_view versionString, std::string_view buildPrefix) {
+		return versionString.size() >= buildPrefix.size()
+			&& versionString.substr(0, buildPrefix.size()) == buildPrefix;
+	}
+
+	[[nodiscard]] bool supportsWeaponProficiencyDetailList(std::string_view versionString) {
+		// 15.25 builds are not byte-identical here. Unknown builds keep the
+		// shorter shape until a capture proves the trailing list is required.
+		const bool known = hasClientBuildPrefix(versionString, "15.25.794c2e")
+			|| hasClientBuildPrefix(versionString, "15.25.d96c64");
+		if (!known && hasClientBuildPrefix(versionString, "15.25.")) {
+			g_logger().debug("[WeaponProficiency] unrecognized 15.25 build '{}'; detail list will not be sent.", versionString);
+		}
+		return known;
+	}
+
+	/**
+	 * @brief Checks whether the 0xC4 payload should include the trailing detail-list section.
+	 *
+	 * The runtime profile feature gates the current weapon-proficiency packet family.
+	 * The login build string gates the trailing list inside that packet because known
+	 * 15.25 builds are not byte-identical: earlier builds debug if the empty trailing
+	 * list count is sent, while captured later builds require that list boundary.
+	 */
+	[[nodiscard]] bool shouldSendWeaponProficiencyDetailList(const ProtocolProfile* profile, std::string_view versionString) {
+		return profile
+			&& profile->hasFeature(ProtocolFeature::OfficialWeaponProficiencyPayload)
+			&& supportsWeaponProficiencyDetailList(versionString);
+	}
+
+	[[nodiscard]] bool shouldDispatchRecvbyteModuleForProfile(const ProtocolProfile* profile, uint8_t recvbyte) {
+		if (recvbyte == CLIENT_PACKET_TASKBOARD) {
+			return profile && profile->hasFeature(ProtocolFeature::OfficialTaskboardPackets);
+		}
+
+		if (recvbyte == CLIENT_PACKET_SOUL_SEALS_FIGHT_MONSTER) {
+			return profile && profile->hasFeature(ProtocolFeature::OfficialSoulSealsPackets);
+		}
+
+		if (recvbyte == CLIENT_PACKET_OFFER_DESCRIPTION && profile && profile->hasFeature(ProtocolFeature::CurrentPayload)) {
+			return false;
+		}
+
+		return true;
+	}
+
+	[[nodiscard]] bool resourceBalanceUsesU32(uint8_t resourceType) {
+		switch (resourceType) {
+			case RESOURCE_CHARM:
+			case RESOURCE_MINOR_CHARM:
+			case RESOURCE_MAX_CHARM:
+			case RESOURCE_MAX_MINOR_CHARM:
+			case RESOURCE_NPC_TRADE_QUEST_FLAG_CURRENCY:
+			case RESOURCE_UNSPENT_SKILL_POINTS:
+			case RESOURCE_BOUNTY_POINTS:
+			case RESOURCE_SOULSEALS:
+				return true;
+			default:
+				return false;
+		}
+	}
+
+	[[nodiscard]] bool itemTypeHasSubtype(uint16_t itemId) {
+		return Item::items.hasItemType(itemId) && Item::items[itemId].hasSubType();
+	}
+
+	[[nodiscard]] std::string getMarketDetailImbuementEffect(uint16_t itemId) {
 		if (const auto* imbuement = g_imbuements().getImbuementByScrollID(itemId); imbuement != nullptr) {
 			return imbuement->getDescription();
 		}

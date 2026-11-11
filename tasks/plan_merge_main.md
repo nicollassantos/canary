@@ -502,3 +502,42 @@ Update `tasks/todo.md` Phase 16 entries to `[x]`.
 | `config.lua.dist` may have new config keys (`OLD_PROTOCOL_PORT`, legacy port configs) that interact with `config_enums.hpp` | Med | Accept `config.lua.dist` from main; verify `config_enums.hpp` has matching entries |
 | `clientVersion` field used in send hunks — may not be defined in our `protocolgame_send.cpp` scope | Med | Check if `clientVersion` is a member of `ProtocolGame`; trace its definition |
 | Integration tests in `forge_it.cpp` may need MySQL (same as other integration tests) | Low | Follow existing pattern — expected to be skipped without DB |
+
+---
+
+# Phase 17: Merge main upstream (107 commits, 60f9c62af..666a60f6f)
+
+## Findings before merging
+
+- `d2c13d162` (Phase 16) committed only part of the ported tree; ~1050 files stayed in the
+  working tree. They were committed first as `fix(merge): complete phase 16 upstream port`.
+- All previous "merges" were single-parent ports, so `git merge-base HEAD origin/main` was still
+  `1df549ec5` (v3.6.0). Classifying every file touched by `1df549ec5..60f9c62af` showed
+  1076 ported verbatim, 29 never ported (docs, workflows, AGENTS.md, quests.lua,
+  icons_functions.lua, vcxproj) and 18 adapted; `protocolgame.cpp` was missing ~220 lines of the
+  multiprotocol port (8.60 tile description, special text messages, 11.00 imbuement window).
+
+## Approach
+
+1. Real two-parent `git merge origin/main` (base `1df549ec5`), so the next merge only sees new
+   upstream commits.
+2. Ported and never-ported files resolve to `origin/main` by construction (ours == mid or ours == base).
+3. Adapted files: take `origin/main` and re-apply only the branch customisations
+   (friend classes, forward declarations, DI ports).
+4. Files whose functions moved (game.cpp → services, player.cpp → components,
+   protocolgame.cpp → protocolgame_send.cpp / protocolgame_helpers.hpp): function-level 3-way
+   merge. Each upstream function is matched by name+parameter types to its current location
+   (best similarity to the base body) and merged there with `git merge-file`; new upstream
+   functions are inserted after their upstream predecessor; signature changes are handled by hand.
+5. Hunks that merged cleanly into services/components still need `game_.` / `m_player.`
+   qualification — rely on the compiler plus a grep for unqualified calls in added lines.
+6. Re-apply the architecture to new upstream code until the checkpoints hold again
+   (game.cpp < 4k, player.cpp < 7k).
+
+## Environment notes
+
+- The new `cmake/SharedBuildCache.cmake` rejects a `VCPKG_INSTALLED_DIR` outside the build tree:
+  configure with `-UVCPKG_INSTALLED_DIR -U_VCPKG_INSTALLED_DIR` once.
+- The vcpkg baseline moved to `9eec002df`; the local `VCPKG_ROOT` must be checked out at that
+  commit and re-bootstrapped (`./bootstrap-vcpkg.sh -disableMetrics`), matching
+  `.github/scripts/bootstrap_vcpkg.py`.

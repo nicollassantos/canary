@@ -13,6 +13,8 @@
 #include "creatures/players/player.hpp"
 #include "items/containers/container.hpp"
 #include "items/item.hpp"
+#include "game/game.hpp"
+#include "utils/batch_update.hpp"
 #include "utils/utils_definitions.hpp"
 
 std::shared_ptr<Item> PlayerInventoryComponent::getInventoryItem(Slots_t slot) const {
@@ -174,4 +176,154 @@ std::unordered_map<std::pair<uint16_t, uint8_t>, double, PairHash, PairEqual> Pl
 	}
 
 	return equippedAugments;
+}
+
+namespace {
+	[[nodiscard]] uint32_t appendMatchingItem(
+		const std::shared_ptr<Item> &item,
+		uint16_t itemId,
+		int32_t subType,
+		std::vector<std::shared_ptr<Item>> &itemList
+	) {
+		if (!item || item->getID() != itemId) {
+			return 0;
+		}
+
+		const auto itemCount = Item::countByType(item, subType);
+		if (itemCount > 0) {
+			itemList.push_back(item);
+		}
+		return itemCount;
+	}
+}
+
+bool PlayerInventoryComponent::removeItemOfType(uint16_t itemId, uint32_t amount, int32_t subType, bool ignoreEquipped, bool ignoreStoreInbox) const {
+	if (amount == 0) {
+		return true;
+	}
+
+	std::vector<std::shared_ptr<Item>> itemList;
+
+	uint32_t count = 0;
+	for (int32_t i = CONST_SLOT_FIRST; i <= CONST_SLOT_LAST; i++) {
+		if (ignoreStoreInbox && i == CONST_SLOT_STORE_INBOX) {
+			continue;
+		}
+		const auto &item = m_player.inventory[i];
+		if (!item) {
+			continue;
+		}
+
+		if (!ignoreEquipped && item->getID() == itemId) {
+			count += appendMatchingItem(item, itemId, subType, itemList);
+			if (count >= amount) {
+				g_game().internalRemoveItems(itemList, amount, Item::items[itemId].stackable);
+				return true;
+			}
+			continue;
+		}
+
+		const auto &container = item->getContainer();
+		if (!container) {
+			continue;
+		}
+
+		for (ContainerIterator it = container->iterator(); it.hasNext(); it.advance()) {
+			count += appendMatchingItem(*it, itemId, subType, itemList);
+			if (count >= amount) {
+				g_game().internalRemoveItems(itemList, amount, Item::items[itemId].stackable);
+				return true;
+			}
+		}
+	}
+
+	return false;
+}
+
+bool PlayerInventoryComponent::removeItemCountById(uint16_t itemId, uint32_t itemAmount, bool removeFromStash) {
+	// Here we guarantee that the player has at least the necessary amount of items he needs, if not, we return
+	if (!m_player.hasItemCountById(itemId, itemAmount, removeFromStash)) {
+		return false;
+	}
+
+	BatchUpdate batchUpdate(m_player.getPlayer());
+	std::unordered_set<Container*> batchedContainers;
+	uint32_t amountToRemove = itemAmount;
+	// Check items from inventory
+	for (const auto &item : getAllInventoryItems()) {
+		if (!item || item->getID() != itemId) {
+			continue;
+		}
+
+		if (const auto &parent = item->getParent()) {
+			if (const auto &container = parent->getContainer()) {
+				if (batchedContainers.emplace(container.get()).second) {
+					batchUpdate.add(container);
+				}
+			}
+		}
+
+		// If the item quantity is already needed, remove the quantity and stop the loop
+		if (item->getItemAmount() >= amountToRemove) {
+			g_game().internalRemoveItem(item, amountToRemove);
+			return true;
+		}
+
+		// If not, we continue removing items and checking the next slot.
+		const auto removedAmount = item->getItemAmount();
+		g_game().internalRemoveItem(item);
+		amountToRemove -= removedAmount;
+	}
+
+	// If there are not enough items in the inventory, we will remove the remaining from stash
+	if (removeFromStash && amountToRemove > 0 && m_player.withdrawItem(itemId, amountToRemove)) {
+		return true;
+	}
+
+	return false;
+}
+
+std::vector<std::shared_ptr<Container>> PlayerInventoryComponent::getAllContainers(bool onlyFromMainBackpack) const {
+	std::vector<std::shared_ptr<Container>> containersCache;
+
+	// Add main backpack to the cache
+	if (onlyFromMainBackpack) {
+		const auto &mainBp = m_player.getBackpack();
+		if (mainBp) {
+			containersCache.emplace_back(mainBp);
+		}
+	}
+
+	// Gather all containers from player inventory
+	for (uint32_t slot = CONST_SLOT_FIRST; slot <= CONST_SLOT_AMMO; ++slot) {
+		// Skip slots check if onlyFromMainBackpack is true
+		if (onlyFromMainBackpack) {
+			break;
+		}
+
+		const auto &slotItem = getInventoryItem(static_cast<Slots_t>(slot));
+		if (!slotItem) {
+			continue;
+		}
+
+		if (auto container = slotItem->getContainer()) {
+			containersCache.emplace_back(container);
+		}
+	}
+
+	// Add all nested containers to the cache
+	for (size_t i = 0; i < containersCache.size(); i++) {
+		const auto &container = containersCache[i];
+		if (!container) {
+			continue;
+		}
+
+		for (const auto &item : container->getItemList()) {
+			if (auto subContainer = item->getContainer()) {
+				containersCache.emplace_back(subContainer);
+			}
+		}
+	}
+
+	return containersCache;
 }

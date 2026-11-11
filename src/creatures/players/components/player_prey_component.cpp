@@ -237,7 +237,14 @@ void PlayerPreyComponent::initializeTaskHunting() {
 		}
 	}
 
-	if (m_player.client && g_configManager().getBoolean(TASK_HUNTING_ENABLED) && !m_player.client->oldProtocol) {
+	const auto* protocolProfile = m_player.client ? m_player.client->getProtocolProfile() : nullptr;
+	const bool usesOfficialTaskboardPackets = protocolProfile
+		&& protocolProfile->hasFeature(ProtocolFeature::OfficialTaskboardPackets);
+	const bool canSendLegacyTaskHuntingBaseData = m_player.client
+		&& g_configManager().getBoolean(TASK_HUNTING_ENABLED)
+		&& !m_player.client->oldProtocol
+		&& !usesOfficialTaskboardPackets;
+	if (canSendLegacyTaskHuntingBaseData) {
 		auto buffer = g_ioprey().getTaskHuntingBaseDate();
 		m_player.client->writeToOutputBuffer(buffer);
 	}

@@ -594,15 +594,18 @@ size_t PlayerCylinderComponent::getLastIndex() const {
 	return CONST_SLOT_LAST + 1;
 }
 
-uint32_t PlayerCylinderComponent::getItemTypeCount(uint16_t itemId, int32_t subType /*= -1*/) const {
+uint32_t PlayerCylinderComponent::getItemTypeCount(uint16_t itemId, int32_t subType, bool ignoreEquipped, bool ignoreStoreInbox) const {
 	uint32_t count = 0;
 	for (int32_t i = CONST_SLOT_FIRST; i <= CONST_SLOT_LAST; i++) {
+		if (ignoreStoreInbox && i == CONST_SLOT_STORE_INBOX) {
+			continue;
+		}
 		const auto &item = m_player.inventory[i];
 		if (!item) {
 			continue;
 		}
 
-		if (item->getID() == itemId) {
+		if (!ignoreEquipped && item->getID() == itemId) {
 			count += Item::countByType(item, subType);
 		}
 

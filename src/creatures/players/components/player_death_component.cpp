@@ -13,6 +13,7 @@
 #include "creatures/combat/condition.hpp"
 #include "creatures/monsters/monsters.hpp"
 #include "creatures/players/player.hpp"
+#include "creatures/players/components/pvp/expert_pvp.hpp"
 #include "creatures/players/grouping/party.hpp"
 #include "creatures/players/vocations/vocation.hpp"
 #include "game/game.hpp"
@@ -230,10 +231,12 @@ void PlayerDeathComponent::death(const std::shared_ptr<Creature> &lastHitCreatur
 			auto condition = *it;
 			// isSupress block to delete spells conditions (ensures that the player cannot, for example, reset the cooldown time of the familiar and summon several)
 			if (condition->isPersistent() && condition->isRemovableOnDeath()) {
+				const ConditionType_t type = condition->getType();
 				it = m_player.conditions.erase(it);
+				m_player.trackRemovedCondition(type);
 
 				condition->endCondition(m_player.getPlayer());
-				m_player.onEndCondition(condition->getType());
+				m_player.onEndCondition(type);
 			} else {
 				++it;
 			}
@@ -246,10 +249,12 @@ void PlayerDeathComponent::death(const std::shared_ptr<Creature> &lastHitCreatur
 		while (it != end) {
 			auto condition = *it;
 			if (condition->isPersistent()) {
+				const ConditionType_t type = condition->getType();
 				it = m_player.conditions.erase(it);
+				m_player.trackRemovedCondition(type);
 
 				condition->endCondition(m_player.getPlayer());
-				m_player.onEndCondition(condition->getType());
+				m_player.onEndCondition(type);
 			} else {
 				++it;
 			}
@@ -394,7 +399,7 @@ double PlayerDeathComponent::getLostPercent() const {
 		return std::max<int32_t>(0, deathLosePercent) / 100.;
 	}
 
-	bool isRetro = g_configManager().getBoolean(TOGGLE_SERVER_IS_RETRO);
+	bool isRetro = ExpertPvp::isRetroPvpWorldType();
 	const auto factor = (isRetro ? 6.31 : 8);
 	double percentReduction = (blessingCount * factor) / 100.;
 

@@ -19,6 +19,7 @@
 #include "creatures/monsters/monster.hpp"
 #include "creatures/monsters/monsters.hpp"
 #include "creatures/npcs/npc.hpp"
+#include "creatures/players/components/pvp/expert_pvp.hpp"
 #include "creatures/players/grouping/party.hpp"
 #include "creatures/players/grouping/team_finder.hpp"
 #include "creatures/players/highscore_category.hpp"
@@ -27,6 +28,7 @@
 #include "enums/player_wheel.hpp"
 #include "database/databasetasks.hpp"
 #include "game/scheduling/dispatcher.hpp"
+#include "game/scheduling/monster_post_think_queue.hpp"
 #include "game/scheduling/save_manager.hpp"
 #include "game/zones/zone.hpp"
 #include "io/io_bosstiary.hpp"
@@ -74,14 +76,30 @@
 
 std::vector<std::weak_ptr<Creature>> checkCreatureLists[EVENT_CREATURECOUNT];
 
+namespace {
+	SourceEffect_t classifyGraphicalEffectSource(const std::shared_ptr<Creature> &source, const std::shared_ptr<Creature> &spectator) {
+		using enum SourceEffect_t;
+		if (!source || source->getNpc()) {
+			return GLOBAL;
+		}
+		if (source == spectator) {
+			return OWN;
+		}
+		if (source->getPlayer()) {
+			return OTHERS;
+		}
+		return CREATURES;
+	}
+}
+
 namespace InternalGame {
 	void sendBlockEffect(BlockType_t blockType, CombatType_t combatType, const Position &targetPos, const std::shared_ptr<Creature> &source) {
 		if (blockType == BLOCK_DEFENSE) {
-			g_game().addMagicEffect(targetPos, CONST_ME_POFF);
+			g_game().addMagicEffect(targetPos, CONST_ME_POFF, source);
 		} else if (blockType == BLOCK_ARMOR) {
-			g_game().addMagicEffect(targetPos, CONST_ME_BLOCKHIT);
+			g_game().addMagicEffect(targetPos, CONST_ME_BLOCKHIT, source);
 		} else if (blockType == BLOCK_DODGE) {
-			g_game().addMagicEffect(targetPos, CONST_ME_DODGE);
+			g_game().addMagicEffect(targetPos, CONST_ME_DODGE, source);
 		} else if (blockType == BLOCK_IMMUNITY) {
 			uint8_t hitEffect = 0;
 			switch (combatType) {
@@ -109,7 +127,7 @@ namespace InternalGame {
 					break;
 				}
 			}
-			g_game().addMagicEffect(targetPos, hitEffect);
+			g_game().addMagicEffect(targetPos, hitEffect, source);
 		}
 
 		if (blockType != BLOCK_NONE) {
@@ -565,22 +583,22 @@ void Game::start(ServiceManager* manager) {
 	lightHour = (minutes * LIGHT_DAY_LENGTH) / 60;
 
 	[[maybe_unused]] auto eventId1 = g_dispatcher().scheduleEvent(
-		EVENT_MS + 1000, [this] { createFiendishMonsters(); }, "Game::createFiendishMonsters"
+		EVENT_MS + 1000, [this] { createFiendishMonsters(); }, "Game::createFiendishMonsters", DispatcherLane::Maintenance
 	);
 	[[maybe_unused]] auto eventId2 = g_dispatcher().scheduleEvent(
-		EVENT_MS + 1000, [this] { createInfluencedMonsters(); }, "Game::createInfluencedMonsters"
+		EVENT_MS + 1000, [this] { createInfluencedMonsters(); }, "Game::createInfluencedMonsters", DispatcherLane::Maintenance
 	);
 	[[maybe_unused]] auto eventId3 = g_dispatcher().cycleEvent(
-		EVENT_MS, [this] { updateForgeableMonsters(); }, "Game::updateForgeableMonsters"
+		EVENT_MS, [this] { updateForgeableMonsters(); }, "Game::updateForgeableMonsters", DispatcherLane::Maintenance
 	);
 	[[maybe_unused]] auto eventId4 = g_dispatcher().cycleEvent(
-		EVENT_LIGHTINTERVAL_MS, [this] { checkLight(); }, "Game::checkLight"
+		EVENT_LIGHTINTERVAL_MS, [this] { checkLight(); }, "Game::checkLight", DispatcherLane::Maintenance
 	);
 	[[maybe_unused]] auto eventId5 = g_dispatcher().cycleEvent(
 		EVENT_CHECK_CREATURE_INTERVAL, [this] { checkCreatures(); }, "Game::checkCreatures"
 	);
 	[[maybe_unused]] auto eventId6 = g_dispatcher().cycleEvent(
-		EVENT_LUA_GARBAGE_COLLECTION, [this] { g_luaEnvironment().collectGarbage(); }, "Calling GC"
+		EVENT_LUA_GARBAGE_COLLECTION, [this] { g_luaEnvironment().collectGarbage(); }, "Calling GC", DispatcherLane::Maintenance
 	);
 	auto marketItemsPriceIntervalMinutes = g_configManager().getNumber(MARKET_REFRESH_PRICES);
 	if (marketItemsPriceIntervalMinutes > 0) {
@@ -589,12 +607,12 @@ void Game::start(ServiceManager* manager) {
 			marketItemsPriceIntervalMS = 60000;
 		}
 		[[maybe_unused]] auto eventId7 = g_dispatcher().cycleEvent(
-			marketItemsPriceIntervalMS, [this] { loadItemsPrice(); }, "Game::loadItemsPrice"
+			marketItemsPriceIntervalMS, [this] { loadItemsPrice(); }, "Game::loadItemsPrice", DispatcherLane::Maintenance
 		);
 	}
 
 	[[maybe_unused]] auto eventId8 = g_dispatcher().cycleEvent(
-		UPDATE_PLAYERS_ONLINE_DB, [this] { updatePlayersOnline(); }, "Game::updatePlayersOnline"
+		UPDATE_PLAYERS_ONLINE_DB, [this] { updatePlayersOnline(); }, "Game::updatePlayersOnline", DispatcherLane::Maintenance
 	);
 }
 
@@ -1456,168 +1474,8 @@ uint64_t Game::getItemMarketAveragePrice(uint16_t itemId, uint8_t tier) const {
 	return 0;
 }
 
-std::shared_ptr<Item> searchForItem(const std::shared_ptr<Container> &container, uint16_t itemId, bool hasTier /* = false*/, uint8_t tier /* = 0*/) {
-	if (!container) {
-		return nullptr;
-	}
-
-	for (ContainerIterator it = container->iterator(); it.hasNext(); it.advance()) {
-		if ((*it)->getID() == itemId && (!hasTier || (*it)->getTier() == tier)) {
-			return *it;
-		}
-	}
-
-	return nullptr;
-}
-
-Slots_t getSlotType(const ItemType &it) {
-	Slots_t slot = CONST_SLOT_RIGHT;
-	if (it.weaponType != WeaponType_t::WEAPON_SHIELD) {
-		int32_t slotPosition = it.slotPosition;
-
-		if (slotPosition & SLOTP_HEAD) {
-			slot = CONST_SLOT_HEAD;
-		} else if (slotPosition & SLOTP_NECKLACE) {
-			slot = CONST_SLOT_NECKLACE;
-		} else if (slotPosition & SLOTP_ARMOR) {
-			slot = CONST_SLOT_ARMOR;
-		} else if (slotPosition & SLOTP_LEGS) {
-			slot = CONST_SLOT_LEGS;
-		} else if (slotPosition & SLOTP_FEET) {
-			slot = CONST_SLOT_FEET;
-		} else if (slotPosition & SLOTP_RING) {
-			slot = CONST_SLOT_RING;
-		} else if (slotPosition & SLOTP_AMMO) {
-			slot = CONST_SLOT_AMMO;
-		} else if (slotPosition & SLOTP_TWO_HAND || slotPosition & SLOTP_LEFT) {
-			slot = CONST_SLOT_LEFT;
-		}
-	}
-
-	return slot;
-}
-
 void Game::playerEquipItem(uint32_t playerId, uint16_t itemId, bool hasTier /* = false*/, uint8_t tier /* = 0*/) {
-	const auto &player = getPlayerByID(playerId);
-	if (!player) {
-		return;
-	}
-
-	const ItemType &it = Item::items[itemId];
-	Slots_t slot = getSlotType(it);
-
-	if (slot == CONST_SLOT_NECKLACE) {
-		if (!player->canEquipNecklace()) {
-			return;
-		}
-	} else if (slot == CONST_SLOT_RING) {
-		if (!player->canEquipRing()) {
-			return;
-		}
-	} else if (!player->canDoAction()) {
-		uint32_t delay = player->getNextActionTime();
-		if (delay > 0) {
-			const auto &task = createPlayerTask(
-				delay,
-				[this, playerId, itemId, hasTier, tier] {
-					playerEquipItem(playerId, itemId, hasTier, tier);
-				},
-				fmt::format("{} - Player::setNextActionTask ", __FUNCTION__)
-			);
-			player->setNextActionTask(task);
-		}
-		return;
-	}
-
-	if (player->hasCondition(CONDITION_FEARED)) {
-		/*
-		 *	When player is feared the player can´t equip any items.
-		 */
-		player->sendTextMessage(MESSAGE_FAILURE, "You are feared.");
-		return;
-	}
-
-	const auto &item = player->getInventoryItem(CONST_SLOT_BACKPACK);
-	const auto &backpack = item ? item->getContainer() : nullptr;
-
-	const auto &slotItem = player->getInventoryItem(slot);
-	auto equipItem = searchForItem(backpack, it.id, hasTier, tier);
-	if (!equipItem) {
-		const auto &lootPouch = player->getLootPouch();
-		equipItem = searchForItem(lootPouch, it.id, hasTier, tier);
-	}
-	ReturnValue ret = RETURNVALUE_NOERROR;
-
-	if (slotItem && slotItem->getID() == it.id && (!hasTier || slotItem->getTier() == tier)) {
-		ret = internalCollectManagedItems(player, slotItem, getObjectCategory(slotItem), false);
-	} else if (equipItem) {
-		// Shield slot item
-		const auto &rightItem = player->getInventoryItem(CONST_SLOT_RIGHT);
-
-		// Check Ammo item
-		if (it.weaponType == WEAPON_AMMO) {
-			if (rightItem && rightItem->isQuiver()) {
-				ret = internalMoveItem(equipItem->getParent(), rightItem->getContainer(), 0, equipItem, equipItem->getItemCount(), nullptr);
-			}
-		} else {
-			const auto &leftItem = player->getInventoryItem(CONST_SLOT_LEFT);
-
-			const int32_t &slotPosition = equipItem->getSlotPosition();
-			// Checks if a two-handed item is being equipped in the left slot when the right slot is already occupied and move to backpack
-			if (
-				(slotPosition & SLOTP_LEFT)
-				&& (slotPosition & SLOTP_TWO_HAND)
-				&& rightItem
-				&& !(it.weaponType == WEAPON_DISTANCE)
-				&& !rightItem->isQuiver()
-				&& (!leftItem || leftItem->getWeaponType() != WEAPON_DISTANCE)
-			) {
-				ret = internalCollectManagedItems(player, rightItem, getObjectCategory(rightItem), false);
-			}
-
-			// Check if trying to equip a quiver while another quiver is already equipped in the right slot
-			if (slot == CONST_SLOT_RIGHT && rightItem && rightItem->isQuiver() && it.isQuiver()) {
-				// Replace the existing quiver with the new one
-				ret = internalMoveItem(rightItem->getParent(), player, INDEX_WHEREEVER, rightItem, rightItem->getItemCount(), nullptr);
-				if (ret != RETURNVALUE_NOERROR) {
-					player->sendCancelMessage(ret);
-					return;
-				}
-			} else {
-				// Check if trying to equip a shield while a two-handed weapon is equipped in the left slot
-				if (slot == CONST_SLOT_RIGHT && leftItem && leftItem->getSlotPosition() & SLOTP_TWO_HAND) {
-					// Unequip the two-handed weapon from the left slot
-					ret = internalMoveItem(leftItem->getParent(), player, INDEX_WHEREEVER, leftItem, leftItem->getItemCount(), nullptr);
-					if (ret != RETURNVALUE_NOERROR) {
-						player->sendCancelMessage(ret);
-						return;
-					}
-				}
-			}
-
-			if (slotItem) {
-				ret = internalCollectManagedItems(player, slotItem, getObjectCategory(slotItem), false);
-				// If the item is not collected, move it to any available container slot
-				if (ret != RETURNVALUE_NOERROR) {
-					ret = internalMoveItem(slotItem->getParent(), player, INDEX_WHEREEVER, slotItem, slotItem->getItemCount(), nullptr);
-				}
-			}
-
-			ret = internalMoveItem(equipItem->getParent(), player, slot, equipItem, equipItem->getItemCount(), nullptr);
-		}
-	}
-
-	if (ret != RETURNVALUE_NOERROR) {
-		player->sendCancelMessage(ret);
-		return;
-	}
-	if (slot == CONST_SLOT_NECKLACE) {
-		player->setNextNecklaceAction(OTSYS_TIME() + g_configManager().getNumber(ACTIONS_DELAY_INTERVAL));
-	} else if (slot == CONST_SLOT_RING) {
-		player->setNextRingAction(OTSYS_TIME() + g_configManager().getNumber(ACTIONS_DELAY_INTERVAL));
-	} else {
-		player->setNextAction(OTSYS_TIME() + g_configManager().getNumber(ACTIONS_DELAY_INTERVAL));
-	}
+	m_interactionService->playerEquipItem(playerId, itemId, hasTier, tier);
 }
 
 void Game::playerMove(uint32_t playerId, Direction direction) {
@@ -1694,6 +1552,22 @@ void Game::playerReceivePingBack(uint32_t playerId) {
 
 void Game::playerAutoWalk(uint32_t playerId, const std::vector<Direction> &listDir) {
 	m_movementService->playerAutoWalk(playerId, listDir);
+}
+
+bool Game::queuePlayerAutoWalk(uint32_t playerId, std::vector<Direction> listDir) {
+	return m_movementService->queuePlayerAutoWalk(playerId, std::move(listDir));
+}
+
+void Game::queuePlayerAutoWalkAfterItemPickup(
+	uint32_t playerId,
+	const Position &walkToPos,
+	int32_t maxTargetDistance,
+	const std::shared_ptr<Cylinder> &fromCylinder,
+	const std::shared_ptr<Item> &item,
+	uint32_t count,
+	std::function<void(const std::shared_ptr<Player> &, const Position &, uint8_t)> &&afterPickup
+) {
+	m_movementService->queuePlayerAutoWalkAfterItemPickup(playerId, walkToPos, maxTargetDistance, fromCylinder, item, count, std::move(afterPickup));
 }
 
 void Game::forcePlayerAutoWalk(uint32_t playerId, const std::vector<Direction> &listDir) {
@@ -1964,7 +1838,7 @@ void Game::playerFollowCreature(uint32_t playerId, uint32_t creatureId) {
 	player->setFollowCreature(getCreatureByID(creatureId));
 }
 
-void Game::playerSetFightModes(uint32_t playerId, FightMode_t fightMode, bool chaseMode, bool secureMode) {
+void Game::playerSetFightModes(uint32_t playerId, FightMode_t fightMode, bool chaseMode, bool secureMode, PvpMode_t pvpMode) {
 	const auto &player = getPlayerByID(playerId);
 	if (!player) {
 		return;
@@ -1973,6 +1847,9 @@ void Game::playerSetFightModes(uint32_t playerId, FightMode_t fightMode, bool ch
 	player->setFightMode(fightMode);
 	player->setChaseMode(chaseMode);
 	player->setSecureMode(secureMode);
+	if (ExpertPvp::isEnabled()) {
+		player->setPvpMode(pvpMode);
+	}
 }
 
 void Game::playerRequestAddVip(uint32_t playerId, const std::string &name) {
@@ -2180,10 +2057,20 @@ void Game::addCreatureCheck(const std::shared_ptr<Creature> &creature) {
 		return;
 	}
 
-	g_dispatcher().addEvent([this, index = uniform_random(0, EVENT_CREATURECOUNT - 1), creature] {
+	auto commit = [this, creature = std::weak_ptr<Creature>(creature)] {
+		const auto index = uniform_random(0, EVENT_CREATURECOUNT - 1);
 		checkCreatureLists[index].emplace_back(creature);
-	},
-	                        "Game::addCreatureCheck");
+	};
+	const auto &dispatcherContext = g_dispatcher().context();
+	if (dispatcherContext.getType() != DispatcherType::None && !dispatcherContext.isBarrierParallel()) {
+		commit();
+		return;
+	}
+
+	const bool accepted = g_dispatcher().addEvent(std::move(commit), "Game::addCreatureCheck");
+	if (!accepted) {
+		creature->inCheckCreaturesVector.store(false);
+	}
 }
 
 void Game::removeCreatureCheck(const std::shared_ptr<Creature> &creature) {
@@ -2193,22 +2080,22 @@ void Game::removeCreatureCheck(const std::shared_ptr<Creature> &creature) {
 	}
 }
 
+bool Game::queueMonsterPostThink(uint32_t monsterId, bool playerVisible) {
+	return monster_post_think::enqueue(monsterId, playerVisible);
+}
+
 void Game::checkCreatures() {
 	metrics::method_latency measure(__METRICS_METHOD_NAME__);
 	static size_t index = 0;
 
-	std::erase_if(checkCreatureLists[index], [this](const std::weak_ptr<Creature> &weak) {
+	std::erase_if(checkCreatureLists[index], [](const std::weak_ptr<Creature> &weak) {
 		if (const auto creature = weak.lock()) {
 			if (creature->creatureCheck && creature->isAlive()) {
 				creature->onThink(EVENT_CREATURE_THINK_INTERVAL);
-				if (creature->getMonster()) {
-					// The monster's onThink is executed asynchronously,
-					// so the target is updated later, so we need to postpone the actions below.
-					g_dispatcher().addEvent([creature] {
-						if (creature->isAlive()) {
-							creature->onAttacking(EVENT_CREATURE_THINK_INTERVAL);
-							creature->executeConditions(EVENT_CREATURE_THINK_INTERVAL);
-						} }, __FUNCTION__);
+				if (auto* monster = creature->getMonsterRaw()) {
+					// The async completion queues this post-think only after target and
+					// follow decisions for the coalesced tick have finished.
+					(void)monster->trySchedulePostThink();
 				} else {
 					creature->onAttacking(EVENT_CREATURE_THINK_INTERVAL);
 					creature->executeConditions(EVENT_CREATURE_THINK_INTERVAL);
@@ -2381,13 +2268,22 @@ void Game::addPlayerVocation(const std::shared_ptr<Player> &target) {
 
 void Game::addMagicEffect(const Position &pos, uint16_t effect) {
 	auto spectators = Spectators().find<Player>(pos, true);
-	addMagicEffect(spectators.data(), pos, effect);
+	addMagicEffect(spectators.data(), pos, effect, nullptr);
 }
 
 void Game::addMagicEffect(const CreatureVector &spectators, const Position &pos, uint16_t effect) {
+	addMagicEffect(spectators, pos, effect, nullptr);
+}
+
+void Game::addMagicEffect(const Position &pos, uint16_t effect, const std::shared_ptr<Creature> &source) {
+	auto spectators = Spectators().find<Player>(pos, true);
+	addMagicEffect(spectators.data(), pos, effect, source);
+}
+
+void Game::addMagicEffect(const CreatureVector &spectators, const Position &pos, uint16_t effect, const std::shared_ptr<Creature> &source) {
 	for (const auto &spectator : spectators) {
 		if (const auto &tmpPlayer = spectator->getPlayer()) {
-			tmpPlayer->sendMagicEffect(pos, effect);
+			tmpPlayer->sendMagicEffect(pos, effect, classifyGraphicalEffectSource(source, spectator));
 		}
 	}
 }
@@ -2407,13 +2303,24 @@ void Game::removeMagicEffect(const CreatureVector &spectators, const Position &p
 
 void Game::addDistanceEffect(const Position &fromPos, const Position &toPos, uint16_t effect) {
 	auto spectators = Spectators().find<Player>(fromPos).find<Player>(toPos);
-	addDistanceEffect(spectators.data(), fromPos, toPos, effect);
+	addDistanceEffect(spectators.data(), fromPos, toPos, effect, nullptr);
 }
 
 void Game::addDistanceEffect(const CreatureVector &spectators, const Position &fromPos, const Position &toPos, uint16_t effect) {
+	addDistanceEffect(spectators, fromPos, toPos, effect, nullptr);
+}
+
+void Game::addDistanceEffect(const Position &fromPos, const Position &toPos, uint16_t effect, const std::shared_ptr<Creature> &source) {
+	auto spectators = Spectators().find<Player>(fromPos).find<Player>(toPos);
+	addDistanceEffect(spectators.data(), fromPos, toPos, effect, source);
+}
+
+void Game::addDistanceEffect(
+	const CreatureVector &spectators, const Position &fromPos, const Position &toPos, uint16_t effect, const std::shared_ptr<Creature> &source
+) {
 	for (const auto &spectator : spectators) {
 		if (const auto &tmpPlayer = spectator->getPlayer()) {
-			tmpPlayer->sendDistanceShoot(fromPos, toPos, effect);
+			tmpPlayer->sendDistanceShoot(fromPos, toPos, effect, classifyGraphicalEffectSource(source, spectator));
 		}
 	}
 }
@@ -3275,6 +3182,7 @@ void Game::removePlayer(const std::shared_ptr<Player> &player) {
 	mappedPlayerNames.erase(lowercase_name);
 	wildcardTree->remove(lowercase_name);
 	players.erase(player->getID());
+	ExpertPvp::refreshAllVisibleSituationMarks();
 }
 
 void Game::addNpc(const std::shared_ptr<Npc> &npc) {
@@ -3552,7 +3460,7 @@ bool Game::removeInfluencedMonster(uint32_t id, bool create /* = false*/) {
 
 		if (create) {
 			[[maybe_unused]] auto eventId = g_dispatcher().scheduleEvent(
-				10 * 1000, [this] { makeInfluencedMonster(); }, "Game::makeInfluencedMonster"
+				10 * 1000, [this] { makeInfluencedMonster(); }, "Game::makeInfluencedMonster", DispatcherLane::Maintenance
 			);
 		}
 	} else {
@@ -3570,7 +3478,7 @@ bool Game::removeFiendishMonster(uint32_t id, bool create /* = true*/) {
 
 		if (create) {
 			[[maybe_unused]] auto eventId = g_dispatcher().scheduleEvent(
-				270 * 1000, [this] { makeFiendishMonster(0, false); }, "Game::makeFiendishMonster"
+				270 * 1000, [this] { makeFiendishMonster(0, false); }, "Game::makeFiendishMonster", DispatcherLane::Maintenance
 			);
 		}
 	} else {

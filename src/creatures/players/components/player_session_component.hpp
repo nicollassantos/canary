@@ -16,6 +16,7 @@ public:
 	bool canLogout();
 
 	void addInFightTicks(bool pzlock = false);
+	void addPzLockTicks();
 
 	void setLoginProtection(int64_t time);
 	bool isLoginProtected() const;

@@ -40,7 +40,7 @@ public:
 	int32_t getThingIndex(const std::shared_ptr<Thing> &thing) const;
 	size_t getFirstIndex() const;
 	size_t getLastIndex() const;
-	uint32_t getItemTypeCount(uint16_t itemId, int32_t subType = -1) const;
+	uint32_t getItemTypeCount(uint16_t itemId, int32_t subType = -1, bool ignoreEquipped = false, bool ignoreStoreInbox = false) const;
 
 	void internalAddThing(const std::shared_ptr<Thing> &thing);
 	void internalAddThing(uint32_t index, const std::shared_ptr<Thing> &thing);

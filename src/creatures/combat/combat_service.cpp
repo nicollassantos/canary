@@ -214,7 +214,7 @@ bool CombatService::combatBlockHit(CombatDamage &damage, const std::shared_ptr<C
 			if (secondaryReflectPercent > 0 || secondaryReflectFlat > 0) {
 				if (!canReflect) {
 					int32_t reflectFlat = -static_cast<int32_t>(secondaryReflectFlat);
-					int32_t reflectPercent = std::ceil(damage.primary.value * secondaryReflectPercent / 100.);
+					int32_t reflectPercent = std::ceil(damage.secondary.value * secondaryReflectPercent / 100.);
 					int32_t reflectLimit = std::ceil(attacker->getMaxHealth() * 0.01);
 					damageReflected.primary.value = std::max(-reflectLimit, reflectFlat + reflectPercent);
 					damageReflected.primary.type = damage.secondary.type;
@@ -228,7 +228,7 @@ bool CombatService::combatBlockHit(CombatDamage &damage, const std::shared_ptr<C
 					canReflect = true;
 				} else {
 					damageReflected.secondary.type = damage.secondary.type;
-					damageReflected.primary.value = std::ceil(damage.secondary.value * secondaryReflectPercent / 100.) + std::max(-static_cast<int32_t>(std::ceil(attacker->getMaxHealth() * 0.01)), std::max(damage.secondary.value, -(static_cast<int32_t>(secondaryReflectFlat))));
+					damageReflected.secondary.value = std::ceil(damage.secondary.value * secondaryReflectPercent / 100.) + std::max(-static_cast<int32_t>(std::ceil(attacker->getMaxHealth() * 0.01)), std::max(damage.secondary.value, -(static_cast<int32_t>(secondaryReflectFlat))));
 				}
 			}
 		}
@@ -982,7 +982,7 @@ void CombatService::sendDamageMessageAndEffects(
 	message.primary.value = damage.primary.value;
 	message.secondary.value = damage.secondary.value;
 
-	sendEffects(target, damage, targetPos, message, spectators);
+	sendEffects(attacker, target, damage, targetPos, message, spectators);
 
 	if (shouldSendMessage(message)) {
 		sendMessages(attacker, target, damage, targetPos, attackerPlayer, targetPlayer, message, spectators, realDamage);
@@ -1140,21 +1140,21 @@ void CombatService::buildMessageAsAttacker(
 }
 
 void CombatService::sendEffects(
-	const std::shared_ptr<Creature> &target, const CombatDamage &damage, const Position &targetPos, TextMessage &message,
-	const CreatureVector &spectators
+	const std::shared_ptr<Creature> &attacker, const std::shared_ptr<Creature> &target, const CombatDamage &damage,
+	const Position &targetPos, TextMessage &message, const CreatureVector &spectators
 ) {
 	uint16_t hitEffect;
 	if (message.primary.value) {
 		combatGetTypeInfo(damage.primary.type, target, message.primary.color, hitEffect);
 		if (hitEffect != CONST_ME_NONE) {
-			game_.addMagicEffect(spectators, targetPos, hitEffect);
+			game_.addMagicEffect(spectators, targetPos, hitEffect, attacker);
 		}
 	}
 
 	if (message.secondary.value) {
 		combatGetTypeInfo(damage.secondary.type, target, message.secondary.color, hitEffect);
 		if (hitEffect != CONST_ME_NONE) {
-			game_.addMagicEffect(spectators, targetPos, hitEffect);
+			game_.addMagicEffect(spectators, targetPos, hitEffect, attacker);
 		}
 	}
 }
@@ -1188,7 +1188,7 @@ void CombatService::applyManaLeech(
 ) const {
 	// Wheel of destiny bonus - mana leech chance and amount
 	auto wheelLeechAmount = attackerPlayer->wheel().checkDrainBodyLeech(target, SKILL_MANA_LEECH_AMOUNT);
-	uint16_t manaSkill = attackerPlayer->getSkillLevel(SKILL_MANA_LEECH_AMOUNT) + wheelLeechAmount + damage.manaLeech;
+	int64_t manaSkill = static_cast<int64_t>(attackerPlayer->getSkillLevel(SKILL_MANA_LEECH_AMOUNT)) + wheelLeechAmount + damage.manaLeech;
 
 	// Void charm rune
 	if (targetMonster && attackerPlayer->parseRacebyCharm(CHARM_VOID) == targetMonster->getRaceId()) {
@@ -1197,7 +1197,8 @@ void CombatService::applyManaLeech(
 		}
 	}
 
-	if (manaSkill == 0) {
+	const auto boundedManaSkill = static_cast<uint16_t>(std::clamp<int64_t>(manaSkill, 0, std::numeric_limits<uint16_t>::max()));
+	if (boundedManaSkill == 0) {
 		return;
 	}
 
@@ -1207,7 +1208,7 @@ void CombatService::applyManaLeech(
 	int affected = damage.affected;
 	tmpDamage.origin = ORIGIN_SPELL;
 	tmpDamage.primary.type = COMBAT_MANADRAIN;
-	tmpDamage.primary.value = calculateLeechAmount(realDamage, manaSkill, affected);
+	tmpDamage.primary.value = calculateLeechAmount(realDamage, boundedManaSkill, affected);
 
 	Combat::doCombatMana(nullptr, attackerPlayer, tmpDamage, tmpParams);
 }
@@ -1217,7 +1218,7 @@ void CombatService::applyLifeLeech(
 ) const {
 	// Wheel of destiny bonus - life leech chance and amount
 	auto wheelLeechAmount = attackerPlayer->wheel().checkDrainBodyLeech(target, SKILL_LIFE_LEECH_AMOUNT);
-	uint16_t lifeSkill = attackerPlayer->getSkillLevel(SKILL_LIFE_LEECH_AMOUNT) + wheelLeechAmount + damage.lifeLeech;
+	int64_t lifeSkill = static_cast<int64_t>(attackerPlayer->getSkillLevel(SKILL_LIFE_LEECH_AMOUNT)) + wheelLeechAmount + damage.lifeLeech;
 
 	if (targetMonster && attackerPlayer->parseRacebyCharm(CHARM_VAMP) == targetMonster->getRaceId()) {
 		if (const auto &charm = g_iobestiary().getBestiaryCharm(CHARM_VAMP)) {
@@ -1225,7 +1226,8 @@ void CombatService::applyLifeLeech(
 		}
 	}
 
-	if (lifeSkill == 0) {
+	const auto boundedLifeSkill = static_cast<uint16_t>(std::clamp<int64_t>(lifeSkill, 0, std::numeric_limits<uint16_t>::max()));
+	if (boundedLifeSkill == 0) {
 		return;
 	}
 
@@ -1235,7 +1237,7 @@ void CombatService::applyLifeLeech(
 	int affected = damage.affected;
 	tmpDamage.origin = ORIGIN_SPELL;
 	tmpDamage.primary.type = COMBAT_HEALING;
-	tmpDamage.primary.value = calculateLeechAmount(realDamage, lifeSkill, affected);
+	tmpDamage.primary.value = calculateLeechAmount(realDamage, boundedLifeSkill, affected);
 
 	Combat::doCombatHealth(nullptr, attackerPlayer, tmpDamage, tmpParams);
 }

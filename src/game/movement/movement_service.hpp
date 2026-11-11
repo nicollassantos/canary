@@ -10,6 +10,7 @@
 #pragma once
 
 #include <cstdint>
+#include <functional>
 #include <memory>
 #include <vector>
 
@@ -37,6 +38,16 @@ public:
 	void playerMoveCreatureByID(uint32_t playerId, uint32_t movingCreatureId, const Position &movingCreatureOrigPos, const Position &toPos);
 	void playerMoveCreature(const std::shared_ptr<Player> &player, const std::shared_ptr<Creature> &movingCreature, const Position &movingCreatureOrigPos, const std::shared_ptr<Tile> &toTile);
 
+	bool queuePlayerAutoWalk(uint32_t playerId, std::vector<Direction> listDir);
+	void queuePlayerAutoWalkAfterItemPickup(
+		uint32_t playerId,
+		const Position &walkToPos,
+		int32_t maxTargetDistance,
+		const std::shared_ptr<Cylinder> &fromCylinder,
+		const std::shared_ptr<Item> &item,
+		uint32_t count,
+		std::function<void(const std::shared_ptr<Player> &, const Position &, uint8_t)> &&afterPickup
+	);
 	void playerAutoWalk(uint32_t playerId, const std::vector<Direction> &listDir);
 	void forcePlayerAutoWalk(uint32_t playerId, const std::vector<Direction> &listDir);
 	void playerStopAutoWalk(uint32_t playerId);

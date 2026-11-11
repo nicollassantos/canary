@@ -175,3 +175,60 @@ TEST_F(PlayerInventoryComponentTest, GetEquippedItems_ExcludesStoreInboxSlot) {
 	// STORE_INBOX is not in the hardcoded valid_slots list
 	EXPECT_TRUE(player->inventoryComponent().getEquippedItems().empty());
 }
+
+// --- removeItemOfType ---
+
+TEST_F(PlayerInventoryComponentTest, RemoveItemOfType_ReturnsTrue_WhenAmountIsZero) {
+	EXPECT_TRUE(player->inventoryComponent().removeItemOfType(100, 0, -1));
+}
+
+TEST_F(PlayerInventoryComponentTest, RemoveItemOfType_ReturnsFalse_WhenItemMissing) {
+	EXPECT_FALSE(player->inventoryComponent().removeItemOfType(100, 1, -1));
+}
+
+TEST_F(PlayerInventoryComponentTest, RemoveItemOfType_ReturnsFalse_WhenNotEnoughItems) {
+	auto item = Item::CreateItem(100);
+	equip(CONST_SLOT_HEAD, item);
+
+	EXPECT_FALSE(player->inventoryComponent().removeItemOfType(100, 2, -1));
+	EXPECT_EQ(item, player->inventoryComponent().getInventoryItem(CONST_SLOT_HEAD));
+}
+
+TEST_F(PlayerInventoryComponentTest, RemoveItemOfType_SkipsEquippedItems_WhenIgnoreEquipped) {
+	auto item = Item::CreateItem(100);
+	equip(CONST_SLOT_HEAD, item);
+
+	EXPECT_FALSE(player->inventoryComponent().removeItemOfType(100, 1, -1, true));
+	EXPECT_EQ(item, player->inventoryComponent().getInventoryItem(CONST_SLOT_HEAD));
+}
+
+// --- getAllContainers ---
+
+TEST_F(PlayerInventoryComponentTest, GetAllContainers_ReturnsEmpty_ForNewPlayer) {
+	EXPECT_TRUE(player->inventoryComponent().getAllContainers(false).empty());
+	EXPECT_TRUE(player->inventoryComponent().getAllContainers(true).empty());
+}
+
+TEST_F(PlayerInventoryComponentTest, GetAllContainers_IgnoresNonContainerSlots) {
+	// Construct the base Item directly: Item::CreateItem may yield a Container for fixture item types.
+	const auto plainItem = std::make_shared<Item>(static_cast<uint16_t>(100));
+	ASSERT_EQ(nullptr, plainItem->getContainer());
+
+	equip(CONST_SLOT_HEAD, plainItem);
+	EXPECT_TRUE(player->inventoryComponent().getAllContainers(false).empty());
+}
+
+TEST_F(PlayerInventoryComponentTest, GetAllContainers_CollectsBackpackSlotContainer) {
+	auto backpack = Item::CreateItem(1987);
+	ASSERT_NE(nullptr, backpack);
+	ASSERT_NE(nullptr, backpack->getContainer());
+	equip(CONST_SLOT_BACKPACK, backpack);
+
+	const auto fromSlots = player->inventoryComponent().getAllContainers(false);
+	ASSERT_EQ(1U, fromSlots.size());
+	EXPECT_EQ(backpack->getContainer(), fromSlots.front());
+
+	const auto fromMainBackpack = player->inventoryComponent().getAllContainers(true);
+	ASSERT_EQ(1U, fromMainBackpack.size());
+	EXPECT_EQ(backpack->getContainer(), fromMainBackpack.front());
+}

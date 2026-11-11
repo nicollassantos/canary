@@ -243,6 +243,7 @@ uint32_t ForgeService::makeFiendishMonster(uint32_t forgeableMonsterId /* = 0*/,
 			[this, monster] { updateFiendishMonsterStatus(monster->getID(), monster->getName()); },
 			__FUNCTION__
 		);
+		schedulerTask->setLane(DispatcherLane::Maintenance);
 		game_.forgeMonsterEventIds[monster->getID()] = g_dispatcher().scheduleEvent(schedulerTask);
 		return monster->getID();
 	}

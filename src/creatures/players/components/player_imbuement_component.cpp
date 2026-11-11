@@ -422,8 +422,13 @@ void PlayerImbuementComponent::updateImbuementTrackerStats() const {
 					player->m_pendingImbuementTrackerEventId = 0;
 					player->updateImbuementTrackerStats();
 				},
-				__FUNCTION__
+				__FUNCTION__,
+				DispatcherLane::PlayerAction,
+				m_player.getID()
 			);
+			if (m_player.m_pendingImbuementTrackerEventId == 0) {
+				m_player.m_hasPendingImbuementTrackerUpdate = false;
+			}
 		}
 		return;
 	}

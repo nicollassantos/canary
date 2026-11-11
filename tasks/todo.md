@@ -178,3 +178,19 @@
 - [x] **16.9** — Port forge integration tests (bd6217f37): 4 testes de regressão forge de origin/main (ForgeFuseItems/ForgeTransfer IdenticalId/SingleCopy)
 - [x] **16.10** — Commit merge com todo.md atualizado
 - [x] **CHECKPOINT 16** — 721/721 testes ✓; SERVER_RELEASE_VERSION="3.6.1"; CLIENT_VERSION=1513; multiprotocol integrado; ChatServiceTest SEGFAULT corrigido (heap injector em TearDownTestSuite)
+
+## Phase 17: Merge main upstream (107 commits, 60f9c62af..666a60f6f) — merge real com 2 parentes
+
+- [x] **17.0** — Completar porte Phase 16: commit dos ~1050 arquivos que ficaram fora de d2c13d162 (core.hpp 3.6.1/1513, NPC Lua, multiprotocol connection/protocol/CMake)
+- [x] **17.1** — Baseline: build + 670/670 unit tests antes do merge; backup local `backup/solid-pre-phase17-wip`
+- [x] **17.2** — Classificar arquivos tocados por 1df549ec5..60f9c62af: 1076 portados idênticos, 29 nunca portados (docs/workflows/AGENTS.md/quests.lua/icons_functions.lua/vcxproj), 18 adaptados → portados/nunca-portados resolvidos para origin/main
+- [x] **17.3** — Merge real `git merge origin/main` (base 1df549ec5) — próximos merges usam base 666a60f6f
+- [x] **17.4** — Adaptados: canary_server/protocol.hpp/protocollogin.hpp/pch/connection.hpp → main (diferenças eram cosméticas); creature.hpp/protocolgame.hpp → main + friends/fwd decls do branch; configmanager.hpp → overrides + deferUntilLoaded/isLoaded
+- [x] **17.5** — protocolgame: merge 3-way por função entre protocolgame.cpp / protocolgame_send.cpp / protocolgame_helpers.hpp (82 take-theirs, 39 novas, 4 merges manuais); completou porte multiprotocol que faltava (GetCipsoft860TileDescription, sendCipsoft860SpecialTextMessage, Tibia1100 imbuement, AddPlayerStats 8.60)
+- [x] **17.6** — game.cpp → services: merge 3-way por função no local real (18 conflitos resolvidos em Movement/Interaction/Trade/Loot/Outfit/Chat/Forge/CreatureManagement; `sendEffects` +attacker em CombatService; `playerSetFightModes` +PvpMode)
+- [x] **17.7** — player.cpp → components: 11 conflitos resolvidos em Experience/Training/Death/Session/CombatEvent/Prey/CreatureEvent/Cylinder; qualificadores `m_player.` em hunks limpos
+- [x] **17.8** — Aplicar arquitetura ao código novo: `monster_post_think` (game/scheduling), `queuePlayerAutoWalk*` → MovementService, `playerEquipItem` → PlayerInteractionService, `getItemTypeCount(4)`/`removeItemOfType`/`removeItemCountById`/`getAllContainers` → components, `addPzLockTicks` → PlayerSessionComponent, `PlayerRaceIconOverlays` (domínio puro)
+- [x] **17.9** — Limites: game.cpp < 4k; player.cpp < 7k; protocolgame.cpp < 7k
+- [x] **17.10** — vcxproj: +37 .cpp / +45 .hpp do branch (nova regra AGENTS.md)
+- [x] **17.11** — Testes novos: PlayerRaceIconOverlays (11), PlayerInventoryComponent removeItemOfType/getAllContainers (7)
+- [x] **CHECKPOINT 17** — build canary + canary_ut + canary_it verde; unit 830/831 + integration 51/51. Única falha: `ConnectionWriteDiagnosticsTest.WriteFailureRetainsPeerAndReportsClosureWithBoundedWarnings` (teste upstream exige `DEBUG_LOG=ON`; CI upstream roda testes só em `linux-debug`; preset `linux-release-enabled-tests` não define)

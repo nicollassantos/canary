@@ -20,6 +20,7 @@
 
 class Player;
 class Item;
+class Container;
 enum Slots_t : uint8_t;
 enum class Augment_t : uint8_t;
 
@@ -37,6 +38,10 @@ public:
 	[[nodiscard]] std::vector<std::shared_ptr<Item>> getEquippedAugmentItemsByType(Augment_t augmentType) const;
 	[[nodiscard]] std::vector<std::shared_ptr<Item>> getEquippedAugmentItems() const;
 	[[nodiscard]] std::unordered_map<std::pair<uint16_t, uint8_t>, double, PairHash, PairEqual> getEquippedAugments() const;
+
+	bool removeItemOfType(uint16_t itemId, uint32_t amount, int32_t subType, bool ignoreEquipped = false, bool ignoreStoreInbox = false) const;
+	bool removeItemCountById(uint16_t itemId, uint32_t itemAmount, bool removeFromStash = true);
+	[[nodiscard]] std::vector<std::shared_ptr<Container>> getAllContainers(bool onlyFromMainBackpack) const;
 
 private:
 	Player &m_player;

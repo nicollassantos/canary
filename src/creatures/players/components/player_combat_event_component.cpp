@@ -1,6 +1,8 @@
 #include "creatures/players/components/player_combat_event_component.hpp"
 
 #include "creatures/players/player.hpp"
+#include "creatures/players/components/pvp/expert_pvp.hpp"
+#include "lua/callbacks/events_callbacks.hpp"
 #include "creatures/players/grouping/party.hpp"
 #include "creatures/combat/combat.hpp"
 #include "creatures/combat/condition.hpp"
@@ -185,6 +187,8 @@ void PlayerCombatEventComponent::doAttacking(uint32_t interval) {
 					creature->checkCreatureAttack(true);
 				} }, __FUNCTION__
 		);
+		task->setLane(DispatcherLane::PlayerAction);
+		task->setProducerToken(m_player.getID());
 
 		if (!classicSpeed) {
 			m_player.setNextActionTask(task, false);
@@ -370,11 +374,17 @@ void PlayerCombatEventComponent::onEndCondition(ConditionType_t type) {
 	const auto &conditionFight = m_player.getCondition(CONDITION_INFIGHT);
 	if (type == CONDITION_INFIGHT && !conditionFight) {
 		onIdleStatus();
-		m_player.pzLocked = false;
+		const bool hasPzLockOnly = m_player.pzLockOnlyUntil > OTSYS_TIME();
+		if (hasPzLockOnly) {
+			m_player.pzLocked = true;
+		} else {
+			m_player.pzLockOnlyUntil = 0;
+			m_player.pzLocked = false;
+		}
 		m_player.clearAttacked();
 		m_player.sendOpenPvpSituations();
 
-		if (m_player.getSkull() != SKULL_RED && m_player.getSkull() != SKULL_BLACK) {
+		if (!hasPzLockOnly && m_player.getSkull() != SKULL_RED && m_player.getSkull() != SKULL_BLACK) {
 			m_player.setSkull(SKULL_NONE);
 		}
 	}
@@ -437,7 +447,7 @@ void PlayerCombatEventComponent::onAttackedCreature(const std::shared_ptr<Creatu
 	}
 
 	const auto &targetPlayer = target->getPlayer();
-	if (targetPlayer && !m_player.isPartner(targetPlayer) && !m_player.isGuildMate(targetPlayer)) {
+	if (targetPlayer && !ExpertPvp::isEnabled() && !m_player.isPartner(targetPlayer) && !m_player.isGuildMate(targetPlayer)) {
 		if (!m_player.pzLocked && g_game().getWorldType() == WORLD_TYPE_PVP_ENFORCED) {
 			m_player.pzLocked = true;
 			m_player.sendIcons();
@@ -548,7 +558,7 @@ bool PlayerCombatEventComponent::onKilledPlayer(const std::shared_ptr<Player> &t
 				for (auto &kill : target->unjustifiedKills) {
 					if (kill.target == m_player.getGUID() && kill.unavenged) {
 						kill.unavenged = false;
-						m_player.attackedSet.erase(target->guid);
+						m_player.removeAttacked(target);
 						break;
 					}
 				}
@@ -588,6 +598,7 @@ bool PlayerCombatEventComponent::onKilledMonster(const std::shared_ptr<Monster> 
 		return false;
 	}
 	if (!monster->getSoulPit()) {
+		g_callbacks().executeCallback(EventCallback_t::playerOnKill, m_player.getPlayer(), monster);
 		addHuntingTaskKill(mType);
 		addBestiaryKill(mType);
 		addBosstiaryKill(mType);

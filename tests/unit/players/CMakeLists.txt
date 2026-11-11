@@ -13,5 +13,7 @@ add_subdirectory(imbuements)
 
 target_sources(
     canary_ut
-    PRIVATE forge_test.cpp party_test.cpp
+    PRIVATE forge_test.cpp
+            party_test.cpp
+            ip_throttle_prune_test.cpp
 )

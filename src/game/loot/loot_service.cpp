@@ -478,7 +478,9 @@ void LootService::playerQuickLoot(uint32_t playerId, const Position &pos, uint16
 			// need to walk to the corpse first before looting it
 			std::vector<Direction> listDir;
 			if (player->getPathTo(pos, listDir, 0, 1, true, true)) {
-				g_dispatcher().addEvent([this, playerId = player->getID(), listDir] { game_.playerAutoWalk(playerId, listDir); }, __FUNCTION__);
+				if (!game_.queuePlayerAutoWalk(player->getID(), std::move(listDir))) {
+					return;
+				}
 				const auto &task = game_.createPlayerTask(
 					300,
 					[this, playerId = player->getID(), pos, itemId, stackPos, defaultItem, lootAllCorpses, autoLoot] {
