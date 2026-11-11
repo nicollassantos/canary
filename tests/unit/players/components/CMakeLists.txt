@@ -21,6 +21,7 @@ target_sources(
             player_training_component_test.cpp
             weapon_proficiency_test.cpp
             expert_pvp_test.cpp
+            expert_pvp_world_test.cpp
 )
 
 add_subdirectory(wheel)

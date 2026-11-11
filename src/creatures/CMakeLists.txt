@@ -59,6 +59,7 @@ target_sources(
             players/components/player_race_icon_overlays.cpp
             players/components/player_title.cpp
             players/components/pvp/expert_pvp.cpp
+            players/components/pvp/expert_pvp_world.cpp
             players/components/pvp/player_pvp.cpp
             players/components/wheel/player_wheel.cpp
             players/components/player_vip.cpp

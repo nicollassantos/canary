@@ -8,6 +8,7 @@
  */
 
 #include "creatures/players/components/pvp/expert_pvp.hpp"
+#include "creatures/players/components/pvp/expert_pvp_world.hpp"
 
 #include "config/configmanager.hpp"
 #include "creatures/creature.hpp"
@@ -45,8 +46,12 @@ namespace {
 	constexpr auto legacyRetroPvpWorldType = "pvp";
 	constexpr auto retroPvpWorldType = "retro-pvp";
 
+	[[nodiscard]] ExpertPvpWorld &world() {
+		return ExpertPvpWorld::getInstance();
+	}
+
 	[[nodiscard]] std::string getConfiguredWorldType() {
-		return asLowerCaseString(g_configManager().getString(WORLD_TYPE));
+		return world().getConfiguredWorldType();
 	}
 
 	[[nodiscard]] bool isAccessPlayer(const std::shared_ptr<const Player> &player) {
@@ -158,7 +163,7 @@ namespace {
 		}
 
 		const auto matches = [&predicate, &subject](uint32_t opponentGuid) {
-			const auto &opponent = g_game().getPlayerByGUID(opponentGuid);
+			const auto &opponent = world().getPlayerByGUID(opponentGuid);
 			return opponent && opponent != subject && predicate(opponent);
 		};
 		return std::ranges::any_of(subject->getAttackedPlayerGuids(), matches) || std::ranges::any_of(subject->getAttackerPlayerGuids(), matches);
@@ -208,12 +213,12 @@ namespace {
 		}
 
 		for (const auto targetGuid : ownerPlayer->getAttackedPlayerGuids()) {
-			if (g_game().getPlayerByGUID(targetGuid)) {
+			if (world().getPlayerByGUID(targetGuid)) {
 				context.ownerTargetsAtCast.emplace_back(targetGuid);
 			}
 		}
 		for (const auto attackerGuid : ownerPlayer->getAttackerPlayerGuids()) {
-			if (g_game().getPlayerByGUID(attackerGuid)) {
+			if (world().getPlayerByGUID(attackerGuid)) {
 				context.ownerAttackersAtCast.emplace_back(attackerGuid);
 			}
 		}
@@ -242,7 +247,7 @@ namespace {
 			return false;
 		}
 
-		if (g_game().getWorldType() != WORLD_TYPE_PVP || actor.get() == subjectPlayer.get()) {
+		if (world().getWorldType() != WORLD_TYPE_PVP || actor.get() == subjectPlayer.get()) {
 			return false;
 		}
 
@@ -327,8 +332,8 @@ namespace {
 			return;
 		}
 
-		const auto &owner = g_game().getPlayerByGUID(ownerGuid);
-		const auto &subject = g_game().getPlayerByGUID(subjectGuid);
+		const auto &owner = world().getPlayerByGUID(ownerGuid);
+		const auto &subject = world().getPlayerByGUID(subjectGuid);
 		if (!owner || !subject) {
 			return;
 		}
@@ -531,7 +536,7 @@ ExpertPvpRelationResult ExpertPvp::classifyFieldRelation(const ExpertFieldContex
 		return classifyRelation(context);
 	}
 
-	if (const auto &ownerPlayer = g_game().getPlayerByGUID(fieldContext.ownerGuid)) {
+	if (const auto &ownerPlayer = world().getPlayerByGUID(fieldContext.ownerGuid)) {
 		auto relation = classifyRelation(ownerPlayer, subject);
 		relation.facts.actorGuid = fieldContext.ownerGuid;
 		relation.facts.actorMode = fieldContext.ownerMode;
@@ -899,8 +904,7 @@ void ExpertPvp::refreshAllVisibleSituationMarks() {
 		return;
 	}
 
-	for (const auto &viewerEntry : g_game().getPlayers()) {
-		const auto &viewer = viewerEntry.second;
+	for (const auto &viewer : world().getOnlinePlayers()) {
 		if (!viewer) {
 			continue;
 		}

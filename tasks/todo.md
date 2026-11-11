@@ -204,6 +204,6 @@
 - [x] **18.1b** — `worldType = "open-pvp"`: Open PvP não-retro (upstream removeu `toggleServerIsRetroPVP` e passou `"pvp"` a alias de retro); parsing em `game/world_type_config` + 7 testes; smoke com `data-otservbr-global` → `World type set as OPEN-PVP`, zero erros Lua (único erro: `loadLuaMapUnique` uid 14092 item 2473, pré-existente, arquivo não mudou no merge)
 - [x] **18.2** — Presets de teste com `DEBUG_LOG=ON` (paridade com CI upstream `linux-debug`; executáveis de teste já compilavam com `-DDEBUG_LOG`, `canary_core` não) → 839/839 unit + 51/51 integration
 - [x] **18.3** — `PlayerDeathComponent` lê config pela porta `IConfigManager`; `Vocations::loadFromXml(file)` para fixtures; 10 testes (getLostPercent fixo/fórmula/promoção/bless/clamp; addUnjustifiedDead self/abaixo/red/black) — 849/849
-- [ ] **18.4** — `ExpertPvp` (upstream novo): trocar 8× `g_game()` por dependência explícita/porta + testes
+- [x] **18.4** — `ExpertPvp`: porta `ExpertPvpWorld` (classe concreta virtual — injector de teste auto-constrói concretos não-ligados; abstratos dariam assert) com adapter padrão sobre `g_game()`/config; 0× `g_game()`/`g_configManager()` em expert_pvp.cpp; 6 testes com mundo falso — 855/855
 - [ ] **18.5** — Split `protocolgame_send.cpp` (7679 linhas) em arquivos temáticos; CMake + vcxproj
 - [ ] **18.6** — DI restante: `Scripts`, `metrics::Metrics`, `Modules` (bloqueios anteriores: limite 10 params boost::di, deps circulares)
