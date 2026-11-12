@@ -552,3 +552,12 @@ Fora de escopo: `gameWorldAuthentication` (lógica de autenticação, sem teste,
 | 22.5 Highscores protegem o MySQL | S | página de entradas fresca no cache é servida sem query; intervalo mínimo de 1s por player; teto global de 8 queries em andamento (contador decrementa sempre, inclusive se o player saiu); métricas `highscore_requests_total`, `highscore_served_from_cache`, `highscore_requests_rejected{reason}`; testes com fake (relógio controlável). Motivo: `Database` usa uma única conexão com mutex, então highscores em fila atrasam saves |
 
 Fora de escopo: SQL em arquivos que existem upstream (`player_forge_history`, `player_wheel`, `player_cyclopedia`, `player_badge`, `ban`, Lua `db_functions`). Cada movimento entra no mapa §5b do `tasks/AGENTS.md` e no README de merge no mesmo commit.
+
+## Phase 23 (proposta, não aberta): caminhos cliente → banco síncrono + observabilidade
+
+Motivo: a conexão do `Database` é única e protegida por mutex. Uma query síncrona disparada por pacote do cliente para o loop principal (dispatcher) para todos os jogadores e disputa a vez com os saves. Exemplo confirmado no código: `MarketService::playerBrowseMarket`, `playerBrowseMarketOwnOffers` e `playerBrowseMarketOwnHistory` chamam `g_marketRepository()` de forma síncrona. O único freio hoje é `maxPacketsPerSecond = 25` por conexão.
+
+- 23.0: build tree `linux-release-metrics` (vcpkg com OpenTelemetry) para validar o código de métricas; documentar as duas chaves (preset + `metricsEnablePrometheus`).
+- 23.1: inventário de todo handler de pacote que chega ao banco de forma síncrona (mercado, cyclopedia, badges, wheel, forge history, loja…), com latência medida (`metrics::method_latency` / contador por handler).
+- 23.2: mercado no molde da 22.5 (cache ou leitura assíncrona, intervalo por player, teto global, métricas).
+- 23.3: demais caminhos priorizados pela medição.
