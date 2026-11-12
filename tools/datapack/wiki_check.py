@@ -491,7 +491,7 @@ def main(argv=None):
     parser.add_argument("--items", default="data/items/items.xml")
     parser.add_argument("--appearances", default="data/items/appearances.dat")
     parser.add_argument("--manifest", default="tools/datapack/fixes.json")
-    parser.add_argument("--kinds", default="max_count,add_loot", help="plan: comma-separated kinds")
+    parser.add_argument("--kinds", default="max_count,add_loot,chance", help="plan: comma-separated kinds")
     parser.add_argument("--dry-run", action="store_true", help="apply: report what would change")
     args = parser.parse_args(argv)
     commands = {"extract": command_extract, "fetch": command_fetch, "report": command_report, "plan": command_plan, "apply": command_apply}

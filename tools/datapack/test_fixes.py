@@ -136,6 +136,38 @@ class PlanTest(unittest.TestCase):
         self.assertEqual(7, planned[0]["source"]["loot_revid"])
 
 
+class ChanceTest(unittest.TestCase):
+    def test_chance_is_set_on_the_single_entry(self):
+        text, outcomes = fixes.apply_to_text(MONSTER, [{"kind": "chance", "file": "beast.lua", "item": "beast fang", "chance": 15000}], BY_ID)
+        self.assertEqual(["applied"], outcomes)
+        self.assertIn("{ id = 9001, chance = 15000 }, -- beast fang", text)
+        again, outcomes = fixes.apply_to_text(text, [{"kind": "chance", "file": "beast.lua", "item": "beast fang", "chance": 15000}], BY_ID)
+        self.assertEqual(["already"], outcomes)
+        self.assertEqual(text, again)
+
+    def test_chance_with_several_entries_is_a_failure(self):
+        doubled = MONSTER.replace('{ name = "beast hide", chance = 500 },', '{ name = "beast hide", chance = 500 },\n\t{ name = "beast hide", chance = 300 },')
+        _, outcomes = fixes.apply_to_text(doubled, [{"kind": "chance", "file": "beast.lua", "item": "beast hide", "chance": 900}], BY_ID)
+        self.assertEqual(["several entries"], outcomes)
+
+    def test_chance_plan_rules(self):
+        def finding(item, ours, wiki, entries=1):
+            return {"kind": "loot_chance", "subject": item, "datapack_chance": ours, "wiki_chance": wiki, "times": 50, "kills": 9000, "entries": entries}
+        report = {"monsters": [
+            {"name": "New Beast", "file": "new.lua", "loot_block": {"version": "13.2", "kills": 9000}, "findings": [
+                finding("beast fang", 20000, 15000), finding("gold coin", 50000, 90000), finding("beast hide", 500, 900, entries=2),
+                finding("rare gem", 100, 9000)]},
+            {"name": "Old Beast", "file": "old.lua", "loot_block": {"version": "8.6", "kills": 90000}, "findings": [finding("beast fang", 20000, 15000)]},
+        ]}
+        planned, review = fixes.plan(report, {}, stackable=set(), kinds=("chance",))
+        self.assertEqual([("New Beast", "beast fang", 15000)], [(f["monster"], f["item"], f["chance"]) for f in planned])
+        reasons = {(r["monster"], r["item"]): r["reason"] for r in review}
+        self.assertIn("currency", reasons[("New Beast", "gold coin")])
+        self.assertIn("entries", reasons[("New Beast", "beast hide")])
+        self.assertIn("too large", reasons[("New Beast", "rare gem")])
+        self.assertIn("old statistics", reasons[("Old Beast", "beast fang")])
+
+
 class MergeTest(unittest.TestCase):
     def test_earlier_fixes_are_kept_and_same_key_is_replaced(self):
         earlier = [max_count("gold coin", 60), add("rare gem", 1200)]

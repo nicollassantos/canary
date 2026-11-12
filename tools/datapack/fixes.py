@@ -5,11 +5,13 @@ entry names the monster file, the item, the new value and the wiki sample it cam
 edits the files from the manifest only, so after an upstream merge the same manifest re-applies
 on top of upstream's version ("take theirs, re-apply"). Applying twice changes nothing.
 
-Kinds handled (first batch, chosen by the user):
+Kinds handled (chosen by the user, batch by batch):
 - max_count: raise an item's maxCount to the largest amount the wiki observed (stackable items
   only: the server ignores maxCount for the rest);
 - add_loot: add an item the wiki drops and the datapack lacks, when its name resolves to exactly
-  one item.
+  one item;
+- chance: set an item's chance to the wiki rate when the datapack falls outside the binomial
+  interval (single entry only, recent statistics, no money, within MAX_CHANCE_FACTOR).
 """
 import json
 import os
@@ -21,6 +23,9 @@ MAX_COUNT_FLOOR = 20
 # Items are only added from statistics of this client version or newer: older samples describe
 # loot tables Tibia has changed since.
 MIN_ADD_VERSION = 12
+# A chance is only changed within this factor of the wiki rate; beyond it the gap is more likely a
+# different loot semantic (or a page error) than drift.
+MAX_CHANCE_FACTOR = 5
 # Money is never added: the datapack pays high gold amounts as several gold coin entries where the
 # wiki records platinum coins, so adding coins would raise a monster's money drop.
 CURRENCY = frozenset({"gold coin", "platinum coin", "crystal coin"})
@@ -83,7 +88,7 @@ def load_stackable(path):
 
 # --- plan: report -> manifest ----------------------------------------------------------------
 
-def plan(report, by_name, stackable, kinds=("max_count", "add_loot"), bosses=frozenset()):
+def plan(report, by_name, stackable, kinds=("max_count", "add_loot", "chance"), bosses=frozenset()):
     """Fixes for the chosen kinds plus the findings left for manual review, with the reason.
 
     Bosses (bosstiary) are always left for review: their loot comes from the reward chest, so the
@@ -93,7 +98,7 @@ def plan(report, by_name, stackable, kinds=("max_count", "add_loot"), bosses=fro
     for monster in report["monsters"]:
         if monster["name"] in bosses:
             for finding in monster["findings"]:
-                if finding["kind"] in ("loot_count", "loot_missing"):
+                if finding["kind"] in ("loot_count", "loot_missing", "loot_chance"):
                     review.append({"monster": monster["name"], "item": finding["subject"], "reason": "boss: reward chest loot, review by hand"})
             continue
         block = monster.get("loot_block") or {}
@@ -109,6 +114,23 @@ def plan(report, by_name, stackable, kinds=("max_count", "add_loot"), bosses=fro
                     review.append({"monster": monster["name"], "item": item, "reason": f"jump from {old} to {new} is too large to trust", "wiki": new})
                 else:
                     fixes.append({"kind": "max_count", "file": monster["file"], "monster": monster["name"], "item": item, "maxCount": new, "source": source})
+            elif finding["kind"] == "loot_chance" and "chance" in kinds:
+                major = int((re.findall(r"\d+", str(source.get("version") or "")) or [0])[0])
+                ours, wiki = finding["datapack_chance"], max(1, int(finding["wiki_chance"]))
+                reason = None
+                if major < MIN_ADD_VERSION:
+                    reason = f"old statistics (version {source.get('version')})"
+                elif item in CURRENCY:
+                    reason = "currency: compare with the existing coin entries"
+                elif finding.get("entries", 1) != 1:
+                    reason = f"{finding.get('entries')} entries share the item; split by hand"
+                elif not (1 / MAX_CHANCE_FACTOR <= ours / wiki <= MAX_CHANCE_FACTOR):
+                    reason = f"gap from {ours} to {wiki} is too large to trust"
+                if reason:
+                    review.append({"monster": monster["name"], "item": item, "reason": reason})
+                else:
+                    fixes.append({"kind": "chance", "file": monster["file"], "monster": monster["name"], "item": item, "chance": wiki,
+                                  "source": {**source, "times": finding["times"], "kills": finding["kills"]}})
             elif finding["kind"] == "loot_missing" and "add_loot" in kinds:
                 major = int((re.findall(r"\d+", str(source.get("version") or "")) or [0])[0])
                 if item in CURRENCY:
@@ -187,6 +209,18 @@ def apply_to_text(text, fixes, by_id):
                 body = re.sub(r"\bmaxCount\s*=\s*\d+", f"maxCount = {fix['maxCount']}", body)
             else:
                 body = re.sub(r"(\bchance\s*=\s*\d+)", rf"\1, maxCount = {fix['maxCount']}", body, count=1)
+            lines[index] = f"{match.group('indent')}{{{body}}}{match.group('tail')}"
+            outcomes.append("applied")
+        elif fix["kind"] == "chance":
+            if len(matching) != 1:
+                outcomes.append("item not in loot" if not matching else "several entries")
+                continue
+            index, match = matching[0]
+            body = match.group("body")
+            if entry_number(body, "chance") == fix["chance"]:
+                outcomes.append("already")
+                continue
+            body = re.sub(r"\bchance\s*=\s*\d+", f"chance = {fix['chance']}", body, count=1)
             lines[index] = f"{match.group('indent')}{{{body}}}{match.group('tail')}"
             outcomes.append("applied")
         elif fix["kind"] == "add_loot":
