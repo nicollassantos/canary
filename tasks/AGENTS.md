@@ -7,15 +7,23 @@ Leia este arquivo inteiro antes de mexer na branch. Depois, para o detalhe de ca
 ## 1. O que é o projeto
 
 - Servidor Canary (MMORPG, C++20). Branch de trabalho: `nicollassantos/solid`.
-- **Objetivo do fork: ser uma versão do Canary altamente testável e estável.** Use isso para
-  priorizar:
+- **Objetivo do fork: ser uma versão do Canary altamente testável, estável e fácil de manter
+  à mão.** Use isso para priorizar:
   - portas e fakes onde permitem testar comportamento que hoje não tem teste;
   - testes de integração (MySQL) para todo SQL;
   - correções de estabilidade: lifetime de callbacks, null-deref, perda de itens ou ouro;
   - smoke boot a cada fase.
 
-  Refatoração que só renomeia, sem ganho de teste ou estabilidade, não vale o custo de conflito
-  nos merges.
+- Manutenção manual: um humano precisa achar o código e fazer o merge sem depender das
+  ferramentas.
+  - Prefira arquivos e funções pequenos, com nomes que digam o que fazem.
+  - Uma porta só quando ela paga com teste; nada de camadas extras.
+  - Mantenha a assinatura do upstream quando possível (só muda o receptor).
+  - Registre cada movimento de código no mapa da seção 5b.
+  - Comentários explicam o porquê, não o quê.
+
+  Refatoração que só renomeia, sem ganho de teste, estabilidade ou clareza, não vale o custo de
+  conflito nos merges.
 - `origin` = fork `nicollassantos/canary`. `origin/main` espelha o `main` do projeto original
   (opentibiabr/canary).
 - A branch faz duas coisas ao mesmo tempo:
