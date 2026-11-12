@@ -47,7 +47,7 @@ Leia este arquivo inteiro antes de mexer na branch. Depois, para o detalhe de ca
   `src/creatures/*/…_service.cpp` (CombatService, CreatureManagementService).
 - **Player components** (`src/creatures/players/components/player_*_component.cpp`): pedaços de
   `player.cpp` movidos para lá. `Player` mantém delegates. Leem config por
-  `IConfigManager::getInstance()` (zero `g_configManager()`). Ainda usam `g_game()` (Phase 20.3).
+  `IConfigManager::getInstance()` (zero `g_configManager()`). Na 20.3, parte das chamadas `g_game()` passou para `CreatureFeedback`/`WorldRegistry`.
 - **ProtocolGame** dividido em `protocolgame.cpp` (parse/login), `protocolgame_send.cpp` (núcleo),
   `_send_cyclopedia.cpp`, `_send_economy.cpp` (market/store/forge/prey/imbuement),
   `_send_social.cpp` (chat/VIP/party) e `protocolgame_helpers.hpp`.
@@ -160,7 +160,7 @@ Ferramentas e passo a passo: `tools/merge/README.md`. Resumo e lições:
    upstream removeu `toggleServerIsRetroPVP`); a branch adicionou `"open-pvp"`
    (`game/world_type_config`). Multiprotocolo e Expert PvP vieram do upstream.
 
-## 6. Estado atual (Phase 20, em andamento)
+## 6. Estado atual (Phase 20 concluída)
 
 Linha de base da Phase 20: `g_game()` 1143 e `g_configManager()` 458 em `src/*.cpp`. Nos
 components há 183 `g_game()`: 93 em arquivos só da branch e 90 em arquivos que também existem
@@ -184,29 +184,42 @@ upstream.
     `historySize` e `lastHistoryState`.
   - Diff conferido: o corpo do reembolso só trocou a fonte dos dados (struct no lugar de
     `DBResult`) e passou a receber `game`/`players` injetados.
-- **20.2 VIP**: concluída (commit logo após `55c20905e`). Os 10 métodos VIP saíram de
+- **20.2 VIP**: concluída no commit `183a8d83e`. Os 10 métodos VIP saíram de
   `IOLoginData` e foram para `VipRepositoryDB(IDatabase&)`, idênticos, com `std::ignore =` nos
   `executeQuery` soltos (`IDatabase::executeQuery` é `[[nodiscard]]`). Testes em
   `tests/integration/io/vip_repository_db_it.cpp`. O trigger `oncreate_accounts` cria 3 grupos
   padrão com AUTO_INCREMENT global, então os testes escolhem um id de grupo livre. Resultado:
   ut 874/874, it 68/68.
-- **20.3 Components sem `g_game()`**: só arquivos da branch (forge 26, mount 11, death 11,
-  creature_event 10, imbuement 9, session 6, experience 6, stash 5, combat_event 5,
-  inventory 4). **Não** criar uma porta "mundo" gorda (são 48 métodos distintos). Fazer portas
-  pequenas por papel, resolvidas na chamada:
-  - itens: `internalRemoveItem(s)`, `internalAddItem`, `internalPlayerAddItem`,
-    `transformItem`, `removeMoney`;
-  - estado e efeitos da criatura: `changeSpeed`, `changePlayerSpeed`, `addCreatureHealth`,
-    `addPlayerMana`, `addMagicEffect`, `internalCreatureChangeOutfit`, `reloadCreature`,
-    `sendSingleSoundEffect`;
-  - registro e mundo: `getPlayerByID`, `getCreatureByID`, `getPlayers`, `add/removePlayer`,
-    `removeCreature`, `checkPlayersRecord`, `getBedBySleeper`, `getWorldType`;
-  - catálogos (`mounts`, `getItemsClassifications`, `outfitSupportsMount`) à parte.
+- **Antes da 20.3**: o teste `DatabasePortIsTheConnectedGlobalDatabase` (commit `ddac88f5c`)
+  prova que o `IDatabase` injetado é o `Database` conectado. Smoke boot com
+  data-otservbr-global: online em 7s, zero `[error]`, exit 0.
+- **20.3 Components do branch com portas por papel**: concluída. 93 → 57 `g_game()` nos
+  arquivos só da branch; o total em `src` caiu de 1140 para 1104 linhas, sem contar os 16 dos
+  adapters. Resultado: ut 885/885, it 68/68.
+  - `CreatureFeedback` (`components/creature_feedback.{hpp,cpp}`, `g_creatureFeedback()`):
+    `changeSpeed`, `changePlayerSpeed`, `addCreatureHealth`, `addPlayerMana`,
+    `internalCreatureChangeOutfit`, `reloadCreature`, `addMagicEffect(pos, effect)`,
+    `sendSingleSoundEffect`. Foram 20 chamadas.
+  - `WorldRegistry` (`components/world_registry.{hpp,cpp}`, `g_worldRegistry()`):
+    `getPlayerByID`, `getCreatureByID`, `getPlayers`, `addPlayer`, `removePlayer`,
+    `removeCreature`, `checkPlayersRecord`, `getWorldType`. Foram 16 chamadas.
+  - As duas são concretas e virtuais, com assinaturas iguais às de `Game` (só o receptor muda;
+    tabela em `tools/merge/README.md`), binding `.in(di::singleton)` e resolução por chamada.
+    Fakes: `tests/fixture/creatures/recording_creature_feedback.hpp` e
+    `fake_world_registry.hpp`. Testes: `creature_feedback_test.cpp` (5) e
+    `world_registry_test.cpp` (5).
+  - **Ficam em `g_game()` de propósito**:
+    - mutação de itens (forge, imbuement, inventory, stash): um fake que não move itens deixa a
+      lógica sem teste;
+    - chamadas para outros casos de uso (`internalCloseTrade`, follow/attack, `internalTeleport`,
+      `getBedBySleeper`);
+    - catálogos (`mounts`, `getItemsClassifications`, `outfitSupportsMount`).
 
-  Arquivos que existem upstream (`player_attached_effects`, `wheel/player_wheel`, cyclopedia,
-  title, badge, achievement, vip, storage, weapon_proficiency) ficam fora, para reduzir
-  conflito de merge. Confira com
-  `git ls-tree -r --name-only origin/main src/creatures/players/components`.
+  Arquivos que também existem upstream (`player_attached_effects`, `wheel/player_wheel`,
+  cyclopedia, title, badge, achievement, vip, storage, weapon_proficiency) continuam com
+  `g_game()`, para reduzir conflito de merge.
+  - Nova porta só quando um fake permitir um teste que hoje não é possível; caso contrário é
+    só renomear e custa conflito.
 - Fora de escopo por decisão: load/save de player em `IOLoginData` (~2000 linhas em
   `src/io/functions/`, que o upstream edita com frequência).
 
@@ -231,6 +244,6 @@ upstream.
 | 15 | Cobertura de services |
 | 18 | Instância única de config; `open-pvp`; `DEBUG_LOG` nos presets de teste; `ExpertPvpWorld`; split do `protocolgame_send`; `Scripts` no DI |
 | 19 | Services sem singletons; components com config pela porta; IO estático → portas (`IVipRepository`, `DI::port`); `GuildRepositoryDB` dono do SQL |
-| 20 | Em andamento (seção 6) |
+| 20 | Market e VIP com SQL nos adapters; portas `CreatureFeedback`/`WorldRegistry` nos components (seção 6) |
 
 Contagem de testes no fim da Phase 19: `canary_ut` 867/867 e `canary_it` 56/56.

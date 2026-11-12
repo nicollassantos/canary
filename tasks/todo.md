@@ -225,5 +225,6 @@
 
 - [x] **20.1** — Market: `MarketRepositoryDB(IDatabase&, IConfigManager&)` dono do SQL + estatísticas (mapas + mutex); `IOMarket` removido; porta `checkExpiredOffers` → `loadExpiredOffers(cutoff, callback)` (callback só captura valores); refund de expiradas → `game/market/market_expiry` (corpo movido sem reordenar mover-histórico→reembolso, diff conferido); 4 unit (refund) + 8 IT (MySQL) + 1 container — 874/874 + 64/64; totais g_game 1140 / g_configManager 452 (contagem por linha, `git grep`)
 - [x] **20.2** — VIP: `VipRepositoryDB(IDatabase&)` dono do SQL (10 métodos movidos idênticos; só `std::ignore` nos `executeQuery` soltos); VIP sai de `IOLoginData`; 4 testes IT (entrada, edição/remoção, ciclo de grupo, membro de grupo) — 874/874 + 68/68
-- [ ] **20.3** — Components do branch sem `g_game()` (portas por papel, resolvidas na chamada)
-- [ ] **CHECKPOINT 20**
+- [x] **20.3pre** — teste prova que `IDatabase` injetado == `Database` conectado (mesma classe de bug da 18.1); smoke boot data-otservbr-global online 7s, zero `[error]`, exit 0
+- [x] **20.3** — Components do branch: portas por papel `CreatureFeedback` (8 métodos, 20 chamadas) e `WorldRegistry` (8 métodos, 16 chamadas), concretas-virtuais, assinaturas = `Game` (só receptor muda; tabela em `tools/merge/README.md`); 93 → 57 `g_game()` nos arquivos só do branch; itens/use cases/catálogos ficam em `g_game()` (justificado em `tasks/AGENTS.md`); 10 testes com fakes — 885/885 + 68/68
+- [x] **CHECKPOINT 20** — `IOMarket` removido, SQL de market/VIP/guild nos adapters; `g_game()` 1143 → 1104 (+16 nos adapters das portas), `g_configManager()` 458 → 452
