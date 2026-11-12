@@ -10,6 +10,7 @@
 #include <gtest/gtest.h>
 
 #include "database/database.hpp"
+#include "database/databasetasks.hpp"
 #include "io/guild_repository_db.hpp"
 #include "io/market_repository_db.hpp"
 #include "lib/di/container.hpp"
@@ -76,3 +77,21 @@ TEST(ContainerSingletonsTest, DatabasePortIsTheConnectedGlobalDatabase) {
 	EXPECT_EQ(static_cast<IDatabase*>(&g_database()), &DI::get<IDatabase>());
 	EXPECT_EQ(&DI::get<IDatabase>(), &IDatabase::getInstance());
 }
+
+// A test container that does not bind them must not get its own Database or DatabaseTasks:
+// async queries would then run on a connection nobody connected.
+TEST(ContainerSingletonsTest, DatabaseAndTasksIgnoreAnUnrelatedTestContainer) {
+	di::extension::injector<> unrelated;
+	auto* previous = DI::getTestContainer();
+	DI::setTestContainer(&unrelated);
+	const auto* databaseInTest = &g_database();
+	const auto* tasksInTest = &g_databaseTasks();
+	DI::setTestContainer(nullptr);
+	const auto* database = &g_database();
+	const auto* tasks = &g_databaseTasks();
+	DI::setTestContainer(previous);
+
+	EXPECT_EQ(database, databaseInTest);
+	EXPECT_EQ(tasks, tasksInTest);
+}
+

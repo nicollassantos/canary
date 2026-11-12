@@ -18,7 +18,10 @@ DatabaseTasks::DatabaseTasks(ThreadPool &threadPool, Database &db) :
 }
 
 DatabaseTasks &DatabaseTasks::getInstance() {
-	return inject<DatabaseTasks>();
+	// DI::port, like Database::getInstance: with no test binding this is the production instance,
+	// built on the same Database as g_database(). inject<> would give a test container its own
+	// DatabaseTasks on a separate, unconnected Database.
+	return DI::port<DatabaseTasks>();
 }
 
 void DatabaseTasks::execute(const std::string &query, const std::function<void(DBResult_ptr, bool)> &callback /* nullptr */) {
