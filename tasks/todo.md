@@ -298,7 +298,7 @@
     - `DatabaseTasks::store` sempre despacha o callback e `storeQuery` não lança, logo a vaga do highscore só vaza no shutdown.
   - Observação para a 23.2: em erro recuperável de conexão, `Database::storeQuery`/`executeQuery` repetem para sempre (`goto retry` + sleep de 1s) **segurando o mutex**; MySQL fora do ar trava toda query síncrona do loop principal.
   - Inventário: `getPlayersByAccount(acc, allowOffline = true)` carrega cada personagem da conta do banco (multiplicador).
-- [ ] **CHECKPOINT 23** — parada em ponto estável em 2026-11-12 (pendências em `tasks/AGENTS.md` §6d); 976/976 + 90/90, preset de métricas ok
+- [ ] **CHECKPOINT 23** — parada em ponto estável em 2026-11-12 (pendências em `tasks/AGENTS.md` §6d); 979/979 + 90/90, preset de métricas ok
 
 ### Achados do bot de ataque (`/home/nicollas/teste/proxy-bot`, lido sem executar) — próximas tasks da 23
 - **Stresser**: 1024 goroutines numa conexão; modos `pathfinder` (usar item com moeda → posição distante fixa, força pathfinding), `outfit` (`0xD2` + `0xD3` em laço; resposta grande para pedido pequeno), `walk`/`leftright`, `follow` (seguir/cancelar alternado).

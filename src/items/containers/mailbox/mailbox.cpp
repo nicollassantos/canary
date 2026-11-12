@@ -10,6 +10,7 @@
 #include "items/containers/mailbox/mailbox.hpp"
 
 #include "creatures/players/player.hpp"
+#include "creatures/players/player_repository.hpp"
 #include "game/game.hpp"
 #include "game/scheduling/save_manager.hpp"
 #include "items/containers/inbox/inbox.hpp"
@@ -88,7 +89,7 @@ bool Mailbox::sendItem(const std::shared_ptr<Item> &item) const {
 		}
 	}
 
-	const auto &player = g_game().getPlayerByName(receiver, true);
+	const auto &player = resolveReceiver(receiver);
 	std::string writer;
 	time_t date = getTimeNow();
 	std::string text;
@@ -116,6 +117,23 @@ bool Mailbox::sendItem(const std::shared_ptr<Item> &item) const {
 		}
 	}
 	return false;
+}
+
+std::shared_ptr<Player> Mailbox::resolveReceiver(const std::string &name) {
+	if (name.empty() || name.size() > NETWORKMESSAGE_PLAYERNAME_MAXLENGTH) {
+		return nullptr;
+	}
+
+	if (const auto &online = g_game().getPlayerByName(name)) {
+		return online;
+	}
+
+	// Offline delivery loads the whole character; a name that matches nobody stops at this lookup.
+	if (g_playerRepository().getGuidByName(name) == 0) {
+		return nullptr;
+	}
+
+	return g_game().getPlayerByName(name, true);
 }
 
 bool Mailbox::getReceiver(const std::shared_ptr<Item> &item, std::string &name) const {

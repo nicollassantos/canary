@@ -42,6 +42,10 @@ public:
 	void postAddNotification(const std::shared_ptr<Thing> &thing, const std::shared_ptr<Cylinder> &oldParent, int32_t index, CylinderLink_t link = LINK_OWNER) override;
 	void postRemoveNotification(const std::shared_ptr<Thing> &thing, const std::shared_ptr<Cylinder> &newParent, int32_t index, CylinderLink_t link = LINK_OWNER) override;
 
+	/// The player a label names: online first; an offline player is loaded whole only after a
+	/// light existence check, since the label is player-written text.
+	static std::shared_ptr<Player> resolveReceiver(const std::string &name);
+
 private:
 	bool getReceiver(const std::shared_ptr<Item> &item, std::string &name) const;
 	bool sendItem(const std::shared_ptr<Item> &item) const;
