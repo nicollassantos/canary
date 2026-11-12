@@ -56,8 +56,13 @@ bool IOLoginData::gameWorldAuthentication(const std::string &accountDescriptor, 
 		return false;
 	}
 
-	if (players[characterName] != 0) {
-		g_logger().error("Account [{}] player [{}] not found or deleted.", accountDescriptor, characterName);
+	// The account list leaves out characters marked for deletion, so a name missing from it is
+	// refused. Compared ignoring case, like the SQL lookup above.
+	const bool listed = std::ranges::any_of(players, [&characterName](const auto &entry) {
+		return entry.second == 0 && caseInsensitiveCompare(entry.first, characterName);
+	});
+	if (!listed) {
+		g_logger().error("IP [{}] account [{}] player [{}] not found or deleted.", convertIPToString(ip), accountDescriptor, characterName);
 		return false;
 	}
 

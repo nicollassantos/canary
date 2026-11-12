@@ -233,6 +233,17 @@ código vive na branch. **Ao mover código em qualquer fase, acrescente a linha 
 | `src/canary_server.cpp`: parsing de `worldType` | `src/game/world_type_config.cpp` (`world_type_config::parse`) | se o upstream mudar nomes de world type, atualizar o parse e `world_type_config_test.cpp`; manter `"open-pvp"` |
 | `src/creatures/players/components/pvp/expert_pvp.cpp` | mesmo arquivo, com `g_game()`/config → `world()` (`ExpertPvpWorld`) | merge normal; manter `world().` nas linhas tocadas |
 
+**Correções e trocas da branch dentro de arquivos do upstream** (o merge **não** pode
+desfazer; se o upstream mexer nessas linhas, reaplique):
+
+| Arquivo upstream | O que a branch mudou | Por quê |
+|---|---|---|
+| `src/io/iologindata.cpp` `gameWorldAuthentication` | personagem marcado para deleção é recusado (busca sem diferenciar maiúsculas na lista da conta); IP no log | o `players[name] != 0` original nunca recusava, porque a lista da conta já exclui deletados (teste `CharacterMarkedForDeletionIsRefused`) |
+| `src/account/account_repository.cpp` | `inject<AccountRepository>()` → `DI::port<AccountRepository>()` | testes com container próprio caíam (nullptr) em tudo que passa por `Account` |
+| `src/creatures/players/components/player_vip.cpp` | `IOLoginData::*VIP*` → `g_vipRepository()`; guarda de `account` nulo em `edit` | porta VIP (19.3); null-deref |
+| `src/creatures/players/components/pvp/expert_pvp.cpp` | `g_game()`/config → `world()` | porta `ExpertPvpWorld` (18.4) |
+| `src/server/network/connection/connection.cpp` | preâmbulo "world name" que não bate com `serverName` vira aviso + fechamento | diagnóstico de login (`b6fe41f24`) |
+
 Chamadas: o upstream chama `IOLoginData::`/`IOMarket::`/`IOGuild::` fora de `src/io`. Na
 branch, toda chamada passa por `g_playerRepository()`/`g_vipRepository()`/
 `g_marketRepository()`/`g_guildRepository()` (tabela "Call sites" do README). Depois de cada
