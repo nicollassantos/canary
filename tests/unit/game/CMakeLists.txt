@@ -30,6 +30,7 @@ target_sources(
             highscore_requests_test.cpp
             outfit_throttle_test.cpp
             items_price_test.cpp
+            house_list_update_test.cpp
             movement_service_test.cpp
             trade_service_test.cpp
             highscore_service_test.cpp

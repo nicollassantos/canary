@@ -9,7 +9,11 @@
 
 #pragma once
 
+#include "utils/request_cooldown.hpp"
+#include "utils/tools.hpp"
+
 #include <cstdint>
+#include <functional>
 #include <memory>
 #include <string>
 #include <vector>
@@ -25,6 +29,11 @@ struct Position;
 
 class PlayerInteractionService {
 public:
+	/// A house access list edit parses the whole text (regex) and may look up every name in the
+	/// database; legitimate lists are at most 100 short lines.
+	static constexpr size_t MaxHouseListLength = 8192;
+	static constexpr int64_t HouseListCooldownMs = 1000;
+
 	PlayerInteractionService(Game &game, IConfigManager &config) :
 		game_(game), config_(config) { }
 
@@ -63,7 +72,16 @@ public:
 
 	void playerCheckActivity(const std::string &playerName, int interval);
 
+	[[nodiscard]] uint64_t rejectedHouseListUpdates() const {
+		return rejectedHouseLists;
+	}
+
+	/// Milliseconds clock for the cooldowns; tests replace it.
+	std::function<int64_t()> now = [] { return OTSYS_TIME(); };
+
 private:
 	Game &game_;
 	IConfigManager &config_;
+	RequestCooldown houseListCooldown { HouseListCooldownMs };
+	uint64_t rejectedHouseLists = 0;
 };

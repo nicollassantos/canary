@@ -1248,6 +1248,21 @@ void PlayerInteractionService::playerUpdateHouseWindow(uint32_t playerId, uint8_
 		return;
 	}
 
+	// Checked before the list is parsed: the parser runs a regex over the whole text and may query
+	// the database once per name.
+	const char* rejected = nullptr;
+	if (text.size() > MaxHouseListLength) {
+		rejected = "too_long";
+	} else if (!houseListCooldown.tryTake(playerId, now())) {
+		rejected = "cooldown";
+	}
+	if (rejected) {
+		++rejectedHouseLists;
+		g_metrics().addCounter("house_list_updates_rejected", 1, { { "reason", rejected } });
+		player->setEditHouse(nullptr);
+		return;
+	}
+
 	uint32_t internalWindowTextId;
 	uint32_t internalListId;
 

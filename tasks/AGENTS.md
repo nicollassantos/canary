@@ -34,6 +34,7 @@ Leia este arquivo inteiro antes de mexer na branch. Depois, para o detalhe de ca
     número de pacotes por opcode);
   - pacotes que travaram o dispatcher por 50 ms ou mais: `slow_packets_total{opcode}`;
   - conexões recusadas pelo teto de conexões não logadas por IP: `connections_refused_total{reason="per_ip_pending_limit"}` (se subir com jogadores reais, aumente `maxPendingConnectionsPerIp`);
+  - edições de lista de casa recusadas: `house_list_updates_rejected{reason="too_long"|"cooldown"}`;
   - pedidos de outfit ignorados pelo intervalo: `outfit_requests_throttled{request="window"|"change"}`;
   - clientes desconectados por fila de saída cheia: `connection_output_queue_overflow_total`
     (acompanhe depois de ligar em produção; se derrubar gente com lag, suba
@@ -266,6 +267,8 @@ desfazer; se o upstream mexer nessas linhas, reaplique):
 |---|---|---|
 | `src/io/iologindata.cpp` `gameWorldAuthentication` | personagem marcado para deleção é recusado (busca sem diferenciar maiúsculas na lista da conta); IP no log | o `players[name] != 0` original nunca recusava, porque a lista da conta já exclui deletados (teste `CharacterMarkedForDeletionIsRefused`) |
 | `src/database/database.cpp` `Database::getInstance` | `inject<Database>()` → `DI::port<Database>()` | com um container de teste ativo, `inject<>` criava um `Database` separado; os adapters (que recebem o `IDatabase` do container de produção) falavam com outra conexão, nunca conectada, e o `escapeBlob` sem handle derrubava o processo. Agora `g_database()` e o `IDatabase` injetado são o mesmo objeto também nos testes |
+| `src/database/databasetasks.cpp` `DatabaseTasks::getInstance` | `inject<DatabaseTasks>()` → `DI::port<DatabaseTasks>()` | mesmo caso do `Database`: com container de teste, as tarefas assíncronas rodariam num `Database` separado e não conectado (teste `DatabaseAndTasksIgnoreAnUnrelatedTestContainer`) |
+| `game.cpp` `Game::playerUpdateHouseWindow` (hoje em `player_interaction_service.cpp`) | antes do parse: texto acima de 8 KB recusado; 1 edição/s por player (`RequestCooldown`); métrica `house_list_updates_rejected{reason}`; a janela de edição é consumida mesmo na recusa | o parse roda um regex sobre o texto inteiro (até ~64 KB) e pode fazer até 100 `SELECT` síncronos por envio |
 | `src/account/account_repository.cpp` | `inject<AccountRepository>()` → `DI::port<AccountRepository>()` | testes com container próprio caíam (nullptr) em tudo que passa por `Account` |
 | `src/creatures/players/components/player_vip.cpp` | `IOLoginData::*VIP*` → `g_vipRepository()`; guarda de `account` nulo em `edit` | porta VIP (19.3); null-deref |
 | `src/creatures/players/components/pvp/expert_pvp.cpp` | `g_game()`/config → `world()` | porta `ExpertPvpWorld` (18.4) |
@@ -430,14 +433,9 @@ Pendente (ordem sugerida):
 2. Segunda conexão MySQL para `DatabaseTasks`.
 3. A* antes do intervalo de ação em "usar item (com)": medir com `[PacketWatch]` em produção
    antes de mudar, porque altera o tempo de reação do jogo.
-4. Lista de acesso de casa (até 100 `SELECT` + regex por edição).
 5. Teste manual dos highscores no cliente.
 6. Medir o custo do `packet_watch::Scope` por pacote no build de métricas (copia o nome do player
    e registra um histograma em todo pacote).
-7. `DatabaseTasks::getInstance` ainda usa `inject<>`: com um container de teste, ele recebe um
-   `Database` separado e não conectado. O primeiro teste de integração que passar por
-   `appendHistory`/`loadStatistics`/`loadExpiredOffers` vai cair. Passe para `DI::port` (o pool
-   de threads de produção precisa estar iniciado no teste).
 8. A consulta de ofertas usada só para preços (`loadActiveOffers`) ainda traz o nome do dono por
    subconsulta; `rebuildItemsPrice` só precisa de item, tier e preço.
 
