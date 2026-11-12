@@ -26,15 +26,23 @@ place where each function lives today.
 
    P=src/server/network/protocol
    python3 tools/merge/split_merge.py --src $P/protocolgame.cpp \
-       --ours $P/protocolgame.cpp $P/protocolgame_send.cpp $P/protocolgame_helpers.hpp \
+       --ours $P/protocolgame.cpp $P/protocolgame_send.cpp $P/protocolgame_send_cyclopedia.cpp \
+              $P/protocolgame_send_economy.cpp $P/protocolgame_send_social.cpp $P/protocolgame_helpers.hpp \
        --helpers $P/protocolgame_helpers.hpp
 
    python3 tools/merge/moved_merge.py --src src/game/game.cpp \
-       src/game/game.cpp src/game/*/*_service.cpp src/creatures/*/*_service.cpp src/items/item_service.cpp
+       src/game/game.cpp src/game/*/*_service.cpp src/creatures/*/*_service.cpp src/items/item_service.cpp \
+       src/game/scheduling/monster_post_think_queue.cpp
 
    python3 tools/merge/moved_merge.py --src src/creatures/players/player.cpp \
-       src/creatures/players/player.cpp src/creatures/players/components/player_*_component.cpp
+       src/creatures/players/player.cpp src/creatures/players/components/player_*_component.cpp \
+       src/creatures/players/components/player_race_icon_overlays.cpp
    ```
+
+   Since Phase 18.5 `protocolgame_send.cpp` is itself split into four files; without the three
+   `_send_*` files, 88 upstream functions would find no local copy. Coverage was checked in
+   Phase 22: every upstream function of `protocolgame.cpp` and `player.cpp` finds a copy.
+   For `game.cpp`, 20 namespace helpers do not match by name (see "Namespace helpers" below).
 
 4. Review the tool output:
    - `merged_conflict*`: resolve the `<<<<<<< ours` / `>>>>>>> theirs` markers. In services and
@@ -136,3 +144,16 @@ Then:
 - New upstream VIP and name/guid/balance functions land in `iologindata.cpp` (home). Move them
   to `VipRepositoryDB` or `PlayerRepositoryDB` when they are plain SQL; leave player
   load/save there.
+
+## Namespace helpers of `game.cpp` that never match by name
+
+The chunker keys namespace members separately, and some were renamed. When upstream changes
+them, port the change by hand (`git diff <base> origin/main -- src/game/game.cpp`).
+
+| Upstream `game.cpp` | Branch |
+|---|---|
+| `InternalGame` teleport guard: `teleportStack`, `tryInsertTeleportStack`, `eraseTeleportStack`, `pointerTeleportKey`, `teleportGuardKey`, `pruneTeleportGuardStates`, `shouldBlockTeleportRate`, `recordTeleportGuardBlock`, `teleportGuardReasonName`, `logTeleportGuardBlock` | `src/game/movement/teleport_guard.cpp` (`TeleportGuard::tryEnterStack`, `pointerKey`, `guardKey`, `pruneStates`, `shouldBlockRate`, `recordBlock`, ...) |
+| `InternalGame::playerCanUseItemOnHouseTile` | `src/game/game_helpers.hpp` (used by the interaction and outfit services) |
+| `InternalGame::playerCanUseItemWithOnHouseTile` | removed: dead code upstream too |
+| money helpers `removeItemFromOwner`, `deliverChange`, `processMoneyEntry`, `addItemToCylinder`, `addCoinStack`, `addCoins` | anonymous namespace of `src/items/item_service.cpp` |
+| market helpers `removeInventoryMoneyToBank`, `withdrawMarketFunds`, `checkCanInitCreateMarketOffer` | anonymous namespace of `src/game/market/market_service.cpp` |

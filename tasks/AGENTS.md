@@ -162,11 +162,38 @@ Ferramentas e passo a passo: `tools/merge/README.md`. Resumo e lições:
    arquivo.
 5. Aplicar a arquitetura ao código novo do upstream: função nova em `Game` vai para service,
    em `Player` vai para component, e IO estático novo vai para porta.
-6. Build, `syntax_check.sh`, ut + it e smoke boot (seção 7). Registrar a fase no `todo.md` e o
-   mapeamento upstream→local em `plan_merge_main.md`.
+6. Build, `syntax_check.sh`, ut + it e smoke boot (seção 7). Registrar a fase no `todo.md` e
+   atualizar o mapa da seção 5b.
 7. Mudanças upstream conhecidas que afetam a branch: `"pvp"` virou alias de retro-pvp (o
    upstream removeu `toggleServerIsRetroPVP`); a branch adicionou `"open-pvp"`
    (`game/world_type_config`). Multiprotocolo e Expert PvP vieram do upstream.
+
+## 5b. Mapa upstream → branch (o `main` sempre chega no formato do upstream)
+
+O `origin/main` sempre traz o código como ele está no projeto original: `game.cpp`, `player.cpp`
+e `protocolgame.cpp` inteiros, `iomarket`/`ioguild` existindo, `g_game()`/`g_configManager()`
+em toda parte. Toda mudança upstream num desses lugares precisa chegar ao caminho onde o
+código vive na branch. **Ao mover código em qualquer fase, acrescente a linha aqui e em
+`tools/merge/README.md` no mesmo commit.**
+
+| Upstream (como vem no `main`) | Onde está na branch | O que fazer no merge |
+|---|---|---|
+| `src/game/game.cpp` | `game.cpp` (delegates e o que sobrou) e os services: `src/game/{chat,cyclopedia,forge,highscore,interaction,loot,market,movement,outfit,sound,trade}/*_service.cpp`, `src/items/item_service.cpp`, `src/creatures/combat/combat_service.cpp`, `src/creatures/management/creature_management_service.cpp`, `src/game/scheduling/monster_post_think_queue.cpp` | `moved_merge.py` (comando no README). Nas linhas tocadas: `g_game().` → `game_.`, `g_configManager()` → `config_` |
+| helpers de namespace do `game.cpp` (teleport guard, dinheiro, market, `playerCanUseItemOnHouseTile`) | `teleport_guard.cpp`, `item_service.cpp`, `market_service.cpp`, `game_helpers.hpp` | manual: não casam por nome (tabela "Namespace helpers" do README) |
+| `src/creatures/players/player.cpp` | `player.cpp` (delegates) e `src/creatures/players/components/player_*_component.cpp`, `player_race_icon_overlays.cpp` | `moved_merge.py`. Nas linhas tocadas: `m_player.` nos membros; `g_configManager()` → `IConfigManager::getInstance()`; `g_game().X` → `g_creatureFeedback().X`/`g_worldRegistry().X` conforme a tabela "Receiver substitutions" |
+| `src/server/network/protocol/protocolgame.cpp` | `protocolgame.cpp` (parse/login), `protocolgame_send.cpp`, `protocolgame_send_cyclopedia.cpp`, `protocolgame_send_economy.cpp`, `protocolgame_send_social.cpp`, `protocolgame_helpers.hpp`; despacho de comandos em `src/server/network/commands/game_command_dispatcher.cpp` | `split_merge.py` com os **6** arquivos (comando no README) |
+| `src/io/iomarket.{cpp,hpp}` | `src/io/market_repository_db.cpp`; expiração/reembolso em `src/game/market/market_expiry.cpp` | apagado na branch: `moved_merge.py` + port manual de `processExpiredOffers`/`getTierFromDatabaseTable`; `git rm` de novo |
+| `src/io/ioguild.{cpp,hpp}` | `src/io/guild_repository_db.cpp` | apagado: `moved_merge.py`; `git rm` de novo |
+| `src/io/iologindata.cpp`: VIP; `getNameByGuid`/`getGuidByName`/`getGuidByNameEx`/`formatPlayerName`/`increaseBankBalance` | `src/creatures/players/vip_repository_db.cpp`, `src/creatures/players/player_repository_db.cpp` | `moved_merge.py` com os 3 arquivos; load/save continuam em `iologindata.cpp` |
+| `src/canary_server.cpp`: parsing de `worldType` | `src/game/world_type_config.cpp` (`world_type_config::parse`) | se o upstream mudar nomes de world type, atualizar o parse e `world_type_config_test.cpp`; manter `"open-pvp"` |
+| `src/creatures/players/components/pvp/expert_pvp.cpp` | mesmo arquivo, com `g_game()`/config → `world()` (`ExpertPvpWorld`) | merge normal; manter `world().` nas linhas tocadas |
+
+Código novo do upstream:
+- Função nova em `Game` vai para o service do assunto.
+- Função nova em `Player` vai para o component.
+- IO estático novo vai para porta/adapter.
+- Se `game.cpp` passar de 4k linhas ou `player.cpp` de 7k, mova antes de commitar o merge.
+- Escreva a linha correspondente nesta tabela.
 
 ## 6. Estado atual (Phase 20 concluída)
 
