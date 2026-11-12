@@ -350,6 +350,18 @@ upstream.
   mesmo dono não se sobrescrevem.
 - Resultado: ut 888/888, it 72/72.
 
+## 6c. Phase 22 (concluída)
+
+- **22.0**: mapa upstream → branch (§5b), tabela de chamadas IO → portas, `tools/merge/coverage_check.py`.
+- **22.1**: `players_online` → `PlayerRepositoryDB::updateOnlinePlayers`. IT fora do
+  `databaseTest`, porque o `BEGIN` do `DBTransaction` faz commit implícito da transação do harness.
+- **22.2**: highscores → `IHighscoreRepository`/`HighscoreRepositoryDB`; callback sem `[this]`.
+- **22.3**: 7 testes de login. **Bug corrigido**: personagem marcado para deleção entrava no
+  mundo.
+- **22.4/22.5**: caches de highscore com teto; página 0 recusada; página fresca sem query;
+  intervalo de 1s por player; teto global de 8 queries; métricas.
+- Resultado: ut 908/908, it 85/85. Pendente: abrir a janela de highscores no cliente uma vez.
+
 ## 7. Smoke test do servidor (banco descartável)
 
 1. Copiar `config.lua` para o scratchpad trocando `mysqlDatabase` para `"canary_smoke_<fase>"` e
@@ -395,6 +407,7 @@ O tier fica sem cobertura: as ofertas usam tier 0, e o unit test não consegue a
 | 19 | Services sem singletons; components com config pela porta; IO estático → portas (`IVipRepository`, `DI::port`); `GuildRepositoryDB` dono do SQL |
 | 20 | Market e VIP com SQL nos adapters; portas `CreatureFeedback`/`WorldRegistry` nos components (seção 6) |
 | 21 | `PlayerRepositoryDB` dono do SQL de nome/guid/saldo; reembolso de venda coberto (seção 6b) |
+| 22 | SQL de `players_online` e de highscores nos adapters; correção do login de personagem deletado; highscores protegem memória e MySQL (seção 6c) |
 
 Contagem de testes: fim da Phase 19, `canary_ut` 867/867 e `canary_it` 56/56; fim da Phase 20,
-885/885 e 68/68; fim da Phase 21, 888/888 e 72/72.
+885/885 e 68/68; fim da Phase 21, 888/888 e 72/72; fim da Phase 22, 908/908 e 85/85.
