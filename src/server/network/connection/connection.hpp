@@ -74,8 +74,14 @@ public:
 	Connection(asio::io_service &initIoService, ConstServicePort_ptr initservicePort);
 	// Constructor end
 
+	/// Output messages queued across all connections; each holds a NETWORKMESSAGE_MAXSIZE buffer.
+	static size_t totalQueuedOutputMessages();
+	/// Under the global budget (maxOutputQueueMessagesTotal) only connections already holding this
+	/// many queued messages are dropped, so clients that read normally are never cut.
+	static constexpr size_t OUTPUT_QUEUE_FAIR_SHARE = 64;
+
 	// Destructor
-	~Connection() = default;
+	~Connection();
 
 	// Singleton - ensures we don't accidentally copy it
 	Connection(const Connection &) = delete;
@@ -157,6 +163,14 @@ private:
 	std::error_code firstReadError;
 
 	friend class ServicePort;
+	// Every output queue change goes through these so the global count stays exact.
+	void enqueueOutput(const OutputMessage_ptr &message);
+	void popOutputFront();
+	void clearOutput();
+	void clearOutputExceptFront();
+	// Drops a client that does not read its output; `reason` labels the metric.
+	void dropSlowReader(std::string_view reason, size_t totalQueued);
+
 	friend class ConnectionManager;
 	friend class ConnectionWriteDiagnosticsTest;
 };

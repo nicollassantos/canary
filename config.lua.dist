@@ -82,6 +82,11 @@ maxPacketsPerSecond = 25
 -- to ~100 per second, so 2048 is about 128 MB and ~20 s of a frozen client. Above it the client is
 -- disconnected (warning + connection_output_queue_overflow_total metric). 0 disables the limit.
 maxOutputQueueMessages = 2048
+-- NOTE: maxOutputQueueMessagesTotal caps the output messages queued on all connections together
+-- (~64 KB each, so 16384 is about 1 GB). When the total reaches it, only a connection that tries to
+-- queue more while already holding 64 or more messages (a client that is not reading) is dropped;
+-- clients that read normally are never cut. 0 disables the limit.
+maxOutputQueueMessagesTotal = 16384
 -- NOTE: maxPendingConnectionsPerIp caps the connections one IP may keep open before logging in to the
 -- game world (the connect rate is already limited, but a client opening one connection every ~600 ms
 -- kept them all). Logged-in players do not count, so many players behind one carrier-grade NAT IP are

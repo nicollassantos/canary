@@ -106,7 +106,7 @@ protected:
 		message->addByte(0x31);
 		message->addByte(0x72);
 		message->addByte(0xA5);
-		connection->messageQueue.push_back(message);
+		connection->enqueueOutput(message);
 		return message;
 	}
 
@@ -559,3 +559,56 @@ TEST_F(ConnectionWriteDiagnosticsTest, OverflowWithAWriteInFlightKeepsItsBufferA
 	io.run_for(std::chrono::seconds(2));
 	EXPECT_TRUE(isClosed());
 }
+
+// Global budget: with the total queued output at maxOutputQueueMessagesTotal, a connection that already
+// holds Connection::OUTPUT_QUEUE_FAIR_SHARE messages (a client not reading) is dropped.
+TEST_F(ConnectionWriteDiagnosticsTest, GlobalBudgetDropsTheConnectionHoldingAFairShare) {
+	const auto baseline = Connection::totalQueuedOutputMessages();
+	const auto share = static_cast<int32_t>(Connection::OUTPUT_QUEUE_FAIR_SHARE);
+	config->setNumber(MAX_OUTPUT_QUEUE_MESSAGES, 0);
+	config->setNumber(MAX_OUTPUT_QUEUE_MESSAGES_TOTAL, static_cast<int32_t>(baseline) + share);
+	for (int32_t sent = 0; sent < share; ++sent) {
+		connection->send(OutputMessagePool::getOutputMessage());
+	}
+	ASSERT_FALSE(isClosed());
+	EXPECT_EQ(baseline + Connection::OUTPUT_QUEUE_FAIR_SHARE, Connection::totalQueuedOutputMessages());
+
+	connection->send(OutputMessagePool::getOutputMessage());
+
+	EXPECT_TRUE(isClosed());
+	const auto diagnostics = diagnosticsFor("[Connection::send]");
+	ASSERT_EQ(1U, diagnostics.size());
+	EXPECT_NE(std::string::npos, diagnostics.front().second.find("on all connections"));
+}
+
+// Under pressure, a connection with a short queue (it reads normally) keeps working.
+TEST_F(ConnectionWriteDiagnosticsTest, GlobalBudgetSparesConnectionsBelowTheFairShare) {
+	const auto baseline = Connection::totalQueuedOutputMessages();
+	config->setNumber(MAX_OUTPUT_QUEUE_MESSAGES, 0);
+	config->setNumber(MAX_OUTPUT_QUEUE_MESSAGES_TOTAL, static_cast<int32_t>(baseline) + 1);
+	for (int32_t sent = 0; sent < 10; ++sent) {
+		connection->send(OutputMessagePool::getOutputMessage());
+	}
+
+	EXPECT_FALSE(isClosed());
+	EXPECT_TRUE(diagnosticsFor("[Connection::send]").empty());
+}
+
+// The global count follows every way messages leave the queue, including the destructor.
+TEST_F(ConnectionWriteDiagnosticsTest, GlobalCountReturnsToBaselineWhenTheConnectionGoes) {
+	const auto baseline = Connection::totalQueuedOutputMessages();
+	config->setNumber(MAX_OUTPUT_QUEUE_MESSAGES, 4);
+	for (int32_t sent = 0; sent < 6; ++sent) {
+		connection->send(OutputMessagePool::getOutputMessage());
+	}
+	EXPECT_TRUE(isClosed());
+	EXPECT_LE(Connection::totalQueuedOutputMessages(), baseline + 1);
+
+	connection->close(true);
+	io.restart();
+	io.poll();
+	connection.reset();
+	EXPECT_EQ(baseline, Connection::totalQueuedOutputMessages());
+	connection = ConnectionManager::getInstance().createConnection(io, nullptr);
+}
+

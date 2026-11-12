@@ -36,6 +36,8 @@ namespace {
 	constexpr auto PROTOCOL_RELEASE_WARNING_INTERVAL = std::chrono::seconds(5);
 	constexpr auto WRITE_ERROR_WARNING_INTERVAL = std::chrono::seconds(5);
 	std::atomic<uint64_t> nextConnectionId { 1 };
+	// Output messages queued across all connections (see Connection::enqueueOutput).
+	std::atomic<size_t> totalQueuedOutput { 0 };
 
 	// 12.00+ clients open the game socket with "<world name>\n". When that name does not
 	// share its first two characters with serverName, the bytes fall through to length
@@ -155,6 +157,46 @@ Connection::Connection(asio::io_service &initIoService, ConstServicePort_ptr ini
 	transportCodec(&TransportCodecs::rawClientFirst()),
 	socket(initIoService), m_msg(),
 	connectionId(nextConnectionId.fetch_add(1, std::memory_order_relaxed)) {
+}
+
+Connection::~Connection() {
+	clearOutput();
+}
+
+size_t Connection::totalQueuedOutputMessages() {
+	return totalQueuedOutput.load(std::memory_order_relaxed);
+}
+
+void Connection::enqueueOutput(const OutputMessage_ptr &message) {
+	messageQueue.emplace_back(message);
+	totalQueuedOutput.fetch_add(1, std::memory_order_relaxed);
+}
+
+void Connection::popOutputFront() {
+	messageQueue.pop_front();
+	totalQueuedOutput.fetch_sub(1, std::memory_order_relaxed);
+}
+
+void Connection::clearOutput() {
+	totalQueuedOutput.fetch_sub(messageQueue.size(), std::memory_order_relaxed);
+	messageQueue.clear();
+}
+
+void Connection::clearOutputExceptFront() {
+	if (messageQueue.empty()) {
+		return;
+	}
+	totalQueuedOutput.fetch_sub(messageQueue.size() - 1, std::memory_order_relaxed);
+	messageQueue.erase(std::next(messageQueue.begin()), messageQueue.end());
+}
+
+void Connection::dropSlowReader(std::string_view reason, size_t totalQueued) {
+	g_logger().warn("[Connection::send] - {} disconnected: {} output messages queued ({} on all connections), the client is not reading.", convertIPToString(getIP()), messageQueue.size(), totalQueued);
+	g_metrics().addCounter("connection_output_queue_overflow_total", 1, { { "reason", std::string(reason) } });
+	// Free the queued buffers now, but keep the front: it may be the message asio is still
+	// writing. Its completion (aborted by the close) releases it.
+	clearOutputExceptFront();
+	close(FORCE_CLOSE);
 }
 
 void Connection::close(bool force, const std::source_location &source) {
@@ -475,21 +517,23 @@ void Connection::send(const OutputMessage_ptr &outputMessage) {
 	}
 
 	// A client that stops reading, or reads a trickle, never trips the per-write timeout, so the
-	// queue itself is bounded (maxOutputQueueMessages; 0 disables). Each queued message holds a
+	// queue itself is bounded per connection (maxOutputQueueMessages) and across all connections
+	// (maxOutputQueueMessagesTotal); 0 disables either. Each queued message holds a
 	// NETWORKMESSAGE_MAXSIZE buffer.
 	const auto maxQueued = IConfigManager::getInstance().getNumber(MAX_OUTPUT_QUEUE_MESSAGES);
 	if (maxQueued > 0 && messageQueue.size() >= static_cast<size_t>(maxQueued)) {
-		g_logger().warn("[Connection::send] - {} disconnected: {} output messages queued, the client is not reading.", convertIPToString(getIP()), messageQueue.size());
-		g_metrics().addCounter("connection_output_queue_overflow_total", 1);
-		// Free the queued buffers now, but keep the front: it may be the message asio is still
-		// writing. Its completion (aborted by the close) releases it.
-		messageQueue.erase(std::next(messageQueue.begin()), messageQueue.end());
-		close(FORCE_CLOSE);
+		dropSlowReader("connection", totalQueuedOutputMessages());
+		return;
+	}
+	const auto maxQueuedTotal = IConfigManager::getInstance().getNumber(MAX_OUTPUT_QUEUE_MESSAGES_TOTAL);
+	const auto totalQueued = totalQueuedOutputMessages();
+	if (maxQueuedTotal > 0 && totalQueued >= static_cast<size_t>(maxQueuedTotal) && messageQueue.size() >= OUTPUT_QUEUE_FAIR_SHARE) {
+		dropSlowReader("global", totalQueued);
 		return;
 	}
 
 	bool noPendingWrite = messageQueue.empty();
-	messageQueue.emplace_back(outputMessage);
+	enqueueOutput(outputMessage);
 
 	if (noPendingWrite) {
 		if (socket.is_open()) {
@@ -509,7 +553,7 @@ void Connection::send(const OutputMessage_ptr &outputMessage) {
 void Connection::internalWorker() {
 	std::unique_lock lock(connectionLock);
 	if (!socket.is_open()) {
-		messageQueue.clear();
+		clearOutput();
 		return;
 	}
 
@@ -573,7 +617,7 @@ InitialTransportState Connection::getInitialTransportState() const {
 void Connection::internalSend(const OutputMessage_ptr &outputMessage) {
 	// A forced close can occur while protocol preparation releases the connection lock.
 	if (!socket.is_open()) {
-		messageQueue.clear();
+		clearOutput();
 		return;
 	}
 
@@ -623,17 +667,17 @@ void Connection::onWriteOperation(const std::error_code &error, size_t bytesTran
 
 	if (error) {
 		logWriteError(error, bytesTransferred, requestedBytes, socketOpenAtStart);
-		messageQueue.clear();
+		clearOutput();
 		close(FORCE_CLOSE);
 		return;
 	}
 
 	if (!socket.is_open()) {
-		messageQueue.clear();
+		clearOutput();
 		return;
 	}
 
-	messageQueue.pop_front();
+	popOutputFront();
 
 	if (!messageQueue.empty()) {
 		const auto outputMessage = messageQueue.front();
