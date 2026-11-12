@@ -22,6 +22,7 @@
 #include "io/io_wheel.hpp"
 #include "kv/kv.hpp"
 #include "kv/kv_definitions.hpp"
+#include "lib/metrics/metrics.hpp"
 #include "server/network/message/networkmessage.hpp"
 #include "server/network/protocol/protocolgame.hpp"
 #include "creatures/players/components/wheel/wheel_definitions.hpp"
@@ -1046,7 +1047,10 @@ std::shared_ptr<KV> PlayerWheel::gemsGradeKV(WheelFragmentType_t type, uint8_t p
 }
 
 uint8_t PlayerWheel::getGemGrade(WheelFragmentType_t type, uint8_t pos) const {
-	return type == WheelFragmentType_t::Lesser ? m_basicGrades[pos] : m_supremeGrades[pos];
+	if (type == WheelFragmentType_t::Lesser) {
+		return pos < m_basicGrades.size() ? m_basicGrades[pos] : 0;
+	}
+	return pos < m_supremeGrades.size() ? m_supremeGrades[pos] : 0;
 }
 
 std::vector<PlayerWheelGem> PlayerWheel::getRevealedGems() const {
@@ -1445,7 +1449,33 @@ void PlayerWheel::addGradeModifiers(NetworkMessage &msg) const {
 	}
 }
 
+bool PlayerWheel::isGradablePosition(WheelFragmentType_t fragmentType, uint8_t pos, uint8_t vocationBaseId) {
+	const auto isPos = [pos](auto modifier) {
+		return static_cast<uint8_t>(modifier) == pos;
+	};
+
+	switch (fragmentType) {
+		case WheelFragmentType_t::Lesser:
+			return pos < std::tuple_size_v<decltype(m_basicGrades)> && std::ranges::any_of(modsBasicPosition, isPos);
+		case WheelFragmentType_t::Greater: {
+			const auto modsSupremeIt = modsSupremePositionByVocation.find(vocationBaseId);
+			return modsSupremeIt != modsSupremePositionByVocation.end()
+				&& pos < std::tuple_size_v<decltype(m_supremeGrades)>
+				&& std::ranges::any_of(modsSupremeIt->second.get(), isPos);
+		}
+		default:
+			return false;
+	}
+}
+
 void PlayerWheel::improveGemGrade(WheelFragmentType_t fragmentType, uint8_t pos) {
+	const auto &vocation = m_player.getVocation();
+	if (!isGradablePosition(fragmentType, pos, vocation ? vocation->getBaseId() : 0)) {
+		g_logger().warn("[{}] Player {} sent an invalid gem grade position {} for fragment type {}", __FUNCTION__, m_player.getName(), pos, fmt::underlying(fragmentType));
+		g_metrics().addCounter("wheel_requests_rejected", 1, { { "reason", "invalid_grade_position" } });
+		return;
+	}
+
 	uint16_t fragmentId = 0;
 	uint32_t value = 0;
 	uint8_t quantity = 0;

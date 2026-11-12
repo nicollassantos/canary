@@ -126,6 +126,11 @@ public:
 	void addGems(NetworkMessage &msg) const;
 	void addGradeModifiers(NetworkMessage &msg) const;
 	void improveGemGrade(WheelFragmentType_t fragmentType, uint8_t pos);
+	/**
+	 * @brief Whether a client-sent grade position names a modifier slot of this fragment type and vocation.
+	 * @details The position indexes the grade tables, so it must be checked before any table access.
+	 */
+	static bool isGradablePosition(WheelFragmentType_t fragmentType, uint8_t pos, uint8_t vocationBaseId);
 	void sendOpenWheelWindow(NetworkMessage &msg, uint32_t ownerId);
 	void sendGiftOfLifeCooldown() const;
 
