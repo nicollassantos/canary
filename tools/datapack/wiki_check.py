@@ -6,6 +6,8 @@ Report only: nothing in the datapack is changed. Steps (each can run alone):
     python3 -I tools/datapack/wiki_check.py extract   # luajit extractor -> monsters.jsonl
     python3 -I tools/datapack/wiki_check.py fetch     # TibiaWiki pages -> cache (about 1 request/s)
     python3 -I tools/datapack/wiki_check.py report    # -> report.json and report.md
+    python3 -I tools/datapack/wiki_check.py plan      # reviewed kinds -> tools/datapack/fixes.json
+    python3 -I tools/datapack/wiki_check.py apply     # fixes.json -> monster files (idempotent)
 
 Output and cache live in build/datapack-wiki (gitignored); pass --out to change it.
 Facts used: loot statistics (kills, times an item dropped, amounts), hit points, experience,
@@ -27,6 +29,9 @@ import time
 import urllib.parse
 import urllib.request
 import xml.etree.ElementTree as ElementTree
+
+# Run with `python3 -I`, which leaves the script's own directory off sys.path.
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 API = "https://tibia.fandom.com/api.php"
@@ -442,14 +447,50 @@ def render_markdown(report, total):
     return "\n".join(lines) + "\n"
 
 
+def command_plan(args):
+    import fixes as fixes_module
+
+    with open(os.path.join(args.out, "report.json"), encoding="utf-8") as handle:
+        report = json.load(handle)
+    by_name, _ = load_items(os.path.join(ROOT, args.items))
+    stackable = fixes_module.load_stackable(os.path.join(ROOT, args.appearances))
+    fixes, review = fixes_module.plan(report, by_name, stackable, kinds=tuple(args.kinds.split(",")))
+    note = ("Datapack corrections from TibiaWiki loot statistics (CC BY-SA facts: chances, amounts). "
+            "Regenerate with `wiki_check.py plan`, apply with `wiki_check.py apply`; applying twice changes nothing.")
+    fixes_module.write_manifest(os.path.join(ROOT, args.manifest), fixes, review, note)
+    kinds = {}
+    for fix in fixes:
+        kinds[fix["kind"]] = kinds.get(fix["kind"], 0) + 1
+    print(f"{len(fixes)} fixes {kinds}, {len(review)} left for review -> {args.manifest}")
+    return 0
+
+
+def command_apply(args):
+    import fixes as fixes_module
+
+    with open(os.path.join(ROOT, args.manifest), encoding="utf-8") as handle:
+        manifest = json.load(handle)
+    _, by_id = load_items(os.path.join(ROOT, args.items))
+    summary, failures = fixes_module.apply_manifest(manifest, ROOT, by_id, write=not args.dry_run)
+    print(("dry run: " if args.dry_run else "") + ", ".join(f"{k}: {v}" for k, v in sorted(summary.items())))
+    for failure in failures[:20]:
+        print(f"  {failure['file']}: {failure['kind']} {failure['item']} -> {failure['outcome']}")
+    return 1 if failures else 0
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("command", choices=["extract", "fetch", "report"])
+    parser.add_argument("command", choices=["extract", "fetch", "report", "plan", "apply"])
     parser.add_argument("--out", default=os.path.join(ROOT, "build", "datapack-wiki"))
     parser.add_argument("--monsters", default="data-otservbr-global/monster")
     parser.add_argument("--items", default="data/items/items.xml")
+    parser.add_argument("--appearances", default="data/items/appearances.dat")
+    parser.add_argument("--manifest", default="tools/datapack/fixes.json")
+    parser.add_argument("--kinds", default="max_count,add_loot", help="plan: comma-separated kinds")
+    parser.add_argument("--dry-run", action="store_true", help="apply: report what would change")
     args = parser.parse_args(argv)
-    return {"extract": command_extract, "fetch": command_fetch, "report": command_report}[args.command](args)
+    commands = {"extract": command_extract, "fetch": command_fetch, "report": command_report, "plan": command_plan, "apply": command_apply}
+    return commands[args.command](args)
 
 
 if __name__ == "__main__":

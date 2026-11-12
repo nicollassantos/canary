@@ -1,0 +1,147 @@
+#!/usr/bin/env python3
+"""Tests for fixes.py (manifest planning and idempotent application).
+
+    python3 -I tools/datapack/test_fixes.py
+"""
+import os
+import sys
+import tempfile
+import unittest
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import fixes  # noqa: E402
+
+MONSTER = """local mType = Game.createMonsterType("Sample Beast")
+local monster = {}
+
+monster.loot = {
+	{ name = "gold coin", chance = 90000, maxCount = 40 },
+	{ id = 9001, chance = 20000 }, -- beast fang
+	{ name = "beast hide", chance = 500 },
+}
+
+mType:register(monster)
+"""
+
+BY_ID = {3031: "gold coin", 9001: "beast fang", 9002: "beast hide", 9003: "rare gem", 9005: "magic dust"}
+
+
+def max_count(item, value):
+    return {"kind": "max_count", "file": "beast.lua", "item": item, "maxCount": value}
+
+
+def add(item, chance, count=None):
+    fix = {"kind": "add_loot", "file": "beast.lua", "item": item, "chance": chance}
+    if count:
+        fix["maxCount"] = count
+    return fix
+
+
+class ApplyTest(unittest.TestCase):
+    def test_max_count_is_raised_in_place(self):
+        text, outcomes = fixes.apply_to_text(MONSTER, [max_count("gold coin", 60)], BY_ID)
+        self.assertEqual(["applied"], outcomes)
+        self.assertIn('{ name = "gold coin", chance = 90000, maxCount = 60 },', text)
+
+    def test_max_count_is_added_to_an_id_entry_and_keeps_its_comment(self):
+        text, _ = fixes.apply_to_text(MONSTER, [max_count("beast fang", 3)], BY_ID)
+        self.assertIn("{ id = 9001, chance = 20000, maxCount = 3 }, -- beast fang", text)
+
+    def test_max_count_never_lowers(self):
+        text, outcomes = fixes.apply_to_text(MONSTER, [max_count("gold coin", 30)], BY_ID)
+        self.assertEqual(["already"], outcomes)
+        self.assertEqual(MONSTER, text)
+
+    def test_new_item_is_inserted_in_chance_order(self):
+        text, outcomes = fixes.apply_to_text(MONSTER, [add("rare gem", 1200), add("magic dust", 50, 4)], BY_ID)
+        self.assertEqual(["applied", "applied"], outcomes)
+        lines = [line.strip() for line in text.splitlines()]
+        gem = lines.index('{ name = "rare gem", chance = 1200 },')
+        self.assertEqual('{ name = "beast hide", chance = 500 },', lines[gem + 1])
+        self.assertEqual('{ name = "magic dust", chance = 50, maxCount = 4 },', lines[lines.index('{ name = "beast hide", chance = 500 },') + 1])
+
+    def test_applying_twice_changes_nothing(self):
+        batch = [max_count("gold coin", 60), add("rare gem", 1200)]
+        once, _ = fixes.apply_to_text(MONSTER, batch, BY_ID)
+        twice, outcomes = fixes.apply_to_text(once, batch, BY_ID)
+        self.assertEqual(once, twice)
+        self.assertEqual(["already", "already"], outcomes)
+
+    def test_item_added_by_upstream_is_left_alone(self):
+        upstream = MONSTER.replace('{ name = "beast hide", chance = 500 },', '{ name = "beast hide", chance = 500 },\n\t{ id = 9003, chance = 900 },')
+        text, outcomes = fixes.apply_to_text(upstream, [add("rare gem", 1200)], BY_ID)
+        self.assertEqual(["already"], outcomes)
+        self.assertEqual(upstream, text)
+
+    def test_empty_loot_block_gets_the_entry(self):
+        empty = 'local mType = Game.createMonsterType("X")\nlocal monster = {}\nmonster.loot = {}\nmType:register(monster)\n'
+        text, outcomes = fixes.apply_to_text(empty, [add("rare gem", 1200)], BY_ID)
+        self.assertEqual(["applied"], outcomes)
+        self.assertIn('monster.loot = {\n\t{ name = "rare gem", chance = 1200 },\n}', text)
+
+    def test_missing_loot_block_is_a_failure(self):
+        _, outcomes = fixes.apply_to_text("local monster = {}\n", [add("rare gem", 1200)], BY_ID)
+        self.assertEqual(["no monster.loot block"], outcomes)
+
+    def test_manifest_application_writes_files_and_reports(self):
+        with tempfile.TemporaryDirectory() as root:
+            with open(os.path.join(root, "beast.lua"), "w", encoding="utf-8") as handle:
+                handle.write(MONSTER)
+            manifest = {"fixes": [max_count("gold coin", 60), add("rare gem", 1200), {**add("x", 5), "file": "gone.lua"}]}
+            summary, failures = fixes.apply_manifest(manifest, root, BY_ID)
+            self.assertEqual({"applied": 2, "file missing": 1}, summary)
+            self.assertEqual(["gone.lua"], [f["file"] for f in failures])
+            summary, _ = fixes.apply_manifest({"fixes": manifest["fixes"][:2]}, root, BY_ID)
+            self.assertEqual({"already": 2}, summary)
+
+
+class PlanTest(unittest.TestCase):
+    REPORT = {"monsters": [{"name": "Sample Beast", "file": "beast.lua", "loot_revid": 7,
+                            "loot_block": {"version": "13.0", "kills": 5000},
+                            "findings": [
+                                {"kind": "loot_count", "subject": "gold coin", "datapack_max": 40, "wiki_observed_max": 60},
+                                {"kind": "loot_count", "subject": "beast hide", "datapack_max": 1, "wiki_observed_max": 2},
+                                {"kind": "loot_count", "subject": "beast fang", "datapack_max": 3, "wiki_observed_max": 400},
+                                {"kind": "loot_missing", "subject": "rare gem", "wiki_chance": 1200, "times": 60, "max_amount": 1},
+                                {"kind": "loot_missing", "subject": "dragon trophy", "wiki_chance": 77, "times": 13, "max_amount": 1},
+                                {"kind": "loot_chance", "subject": "gold coin", "datapack_chance": 1, "wiki_chance": 2},
+                            ]}]}
+    BY_NAME = {"gold coin": {3031}, "beast hide": {9002}, "beast fang": {9001}, "rare gem": {9003}, "dragon trophy": {2681, 2682}}
+
+    def test_only_safe_fixes_are_planned(self):
+        planned, review = fixes.plan(self.REPORT, self.BY_NAME, stackable={3031, 9001})
+        self.assertEqual([("add_loot", "rare gem"), ("max_count", "gold coin")], [(f["kind"], f["item"]) for f in planned])
+        reasons = {r["item"]: r["reason"] for r in review}
+        self.assertIn("not stackable", reasons["beast hide"])
+        self.assertIn("too large", reasons["beast fang"])
+        self.assertIn("2 items", reasons["dragon trophy"])
+        self.assertEqual(7, planned[0]["source"]["loot_revid"])
+
+
+class StackableTest(unittest.TestCase):
+    def test_cumulative_flag_is_read_from_the_protobuf(self):
+        def varint(n):
+            out = bytearray()
+            while True:
+                byte = n & 0x7F
+                n >>= 7
+                out.append(byte | (0x80 if n else 0))
+                if not n:
+                    return bytes(out)
+
+        def field(number, payload):
+            return varint(number << 3 | 2) + varint(len(payload)) + payload
+
+        flags = varint(6 << 3) + varint(1)
+        stack = field(1, varint(1 << 3) + varint(3031) + field(3, flags))
+        single = field(1, varint(1 << 3) + varint(3280) + field(3, b""))
+        with tempfile.NamedTemporaryFile(delete=False) as handle:
+            handle.write(stack + single)
+        try:
+            self.assertEqual({3031}, fixes.load_stackable(handle.name))
+        finally:
+            os.unlink(handle.name)
+
+
+if __name__ == "__main__":
+    unittest.main()
