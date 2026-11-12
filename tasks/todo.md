@@ -218,3 +218,12 @@
 - [x] **19.3** — 28 → 0 chamadas `IOLoginData::`/`IOMarket::` fora de `src/io/`: `IPlayerRepository` += loadPlayerById(disableIrrelevantInfo)/formatPlayerName/getGuidByNameEx/gameWorldAuthentication; nova porta `IVipRepository` (+`VipRepositoryDB`, fixture em memória); `IMarketRepository` += checkExpiredOffers/updateStatistics/estatísticas; `DI::port<T>()` (fake de teste ou binding de produção) para todas as portas; guarda de `account` em `PlayerVIP::edit` (null deref); 4 testes VIP — 866/866 + 51/51
 - [x] **19.4** — `GuildRepositoryDB(IDatabase &)` dono do SQL (injeção por construtor); `IOGuild` removido; 5 testes de integração com MySQL + 1 teste de container — 867/867 + 56/56
 - [x] **CHECKPOINT 19** — services 0 singletons; components 0 `g_configManager()`; 0 IO estático fora de `src/io/`; totais: g_game 1143 / g_configManager 458 (de 1148 / 526)
+
+## Phase 20: Adapters donos do SQL + mundo injetado nos components do branch
+
+> Linha de base: g_game 1143 / g_configManager 458; components 183 `g_game()` (93 em arquivos só do branch, 90 em arquivos upstream)
+
+- [ ] **20.1** — Market: `MarketRepositoryDB(IDatabase&, IConfigManager&)` dono do SQL + estatísticas; `IOMarket` removido; refund de expiradas → `game/market`; testes IT + unit
+- [ ] **20.2** — VIP: `VipRepositoryDB(IDatabase&)` dono do SQL; VIP sai de `IOLoginData`; testes IT
+- [ ] **20.3** — Components do branch sem `g_game()` (portas por papel, resolvidas na chamada)
+- [ ] **CHECKPOINT 20**

@@ -511,3 +511,17 @@ Novo: `tests/unit/creatures/players/death_component_test.cpp`
 | 19.4 GuildRepositoryDB dono do SQL | M | adapter usa `IDatabase` injetado; `IOGuild` vira fachada ou é removido; teste de integração |
 
 **Verificação por task:** build `linux-release-enabled-tests`, `tools/merge/syntax_check.sh`, `canary_ut` + `canary_it`; contagem de singletons registrada no todo.
+
+## Phase 20: Adapters donos do SQL + mundo injetado nos components do branch
+
+> Linha de base: `g_game()` 1143 / `g_configManager()` 458 em src/*.cpp. Components: 183 `g_game()` — 93 em arquivos só do branch (forge 26, mount 11, death 11, creature_event 10, imbuement 9, session 6, experience 6, stash 5, combat_event 5, inventory 4) e 90 em arquivos que existem upstream (attached_effects 37, wheel 30, cyclopedia 7, title 6, achievement 4, badge 3, expert_pvp_world 3). Grep: `grep -c 'g_game()' src/creatures/players/components/*.cpp src/creatures/players/components/*/*.cpp`.
+
+| Task | Escopo | Critérios |
+|---|---|---|
+| 20.1 Market: `MarketRepositoryDB(IDatabase&, IConfigManager&)` dono do SQL | M | `IOMarket` removido; estatísticas + mutex no adapter (singleton DI); refund de ofertas expiradas sai do IO para `game/market` (lógica de jogo), corpo movido sem reordenar update/refund; callback reagendado sem capturas de `this`/referência; testes de integração (MySQL) + unitários do refund |
+| 20.2 VIP: `VipRepositoryDB(IDatabase&)` dono do SQL | S | métodos VIP saem de `IOLoginData`; testes de integração |
+| 20.3 Components do branch sem `g_game()` | M | portas pequenas por papel (não um "mundo" gordo), resolvidas na chamada; metas por arquivo; arquivos que existem upstream ficam fora |
+
+Fora de escopo: load/save de player em `IOLoginData` (~2000 linhas, upstream edita com frequência); catálogos `getAttachedEffects`/`getIOWheel` em arquivos upstream.
+
+**Verificação por task:** build `linux-release-enabled-tests` (preset), `tools/merge/syntax_check.sh`, `canary_ut` + `canary_it`; contagens registradas no todo. Diff não-commitado de `connection.cpp`/teste de diagnóstico não é desta fase — commits por caminho explícito.
