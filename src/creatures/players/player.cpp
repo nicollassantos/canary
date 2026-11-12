@@ -1281,13 +1281,16 @@ void Player::setMaxMinorCharmEchoes(uint32_t points) {
 }
 
 uint8_t Player::getCharmTier(charmRune_t charmId) const {
-	if (charmId == CHARM_NONE || charmId > charmsArray.size()) {
+	if (charmId < 0 || static_cast<size_t>(charmId) >= charmsArray.size()) {
 		return 0;
 	}
 	return charmsArray[charmId].tier;
 }
 
 void Player::setCharmTier(charmRune_t charmId, uint8_t newTier) {
+	if (charmId < 0 || static_cast<size_t>(charmId) >= charmsArray.size()) {
+		return;
+	}
 	charmsArray[charmId].tier = newTier;
 }
 

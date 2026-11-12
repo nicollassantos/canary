@@ -499,6 +499,12 @@ void IOBestiary::sendBuyCharmRune(const std::shared_ptr<Player> &player, uint8_t
 		int32_t value = bitToggle(player->getUnlockedRunesBit(), charm, true);
 		player->setUnlockedRunesBit(value);
 	} else if (action == 1) {
+		if (!hasCharmUnlockedRuneBit(charm, player->getUnlockedRunesBit())) {
+			g_logger().warn("[{}] Player {} tried to assign the locked charm {} to race {}", __FUNCTION__, player->getName(), fmt::underlying(charm->id), raceId);
+			g_metrics().addCounter("charm_requests_rejected", 1, { { "reason", "locked_charm" } });
+			return;
+		}
+
 		std::list<charmRune_t> usedRunes = getCharmUsedRuneBitAll(player);
 		uint16_t limitRunes = 2;
 
