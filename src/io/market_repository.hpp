@@ -70,9 +70,10 @@ public:
 	virtual void loadExpiredOffers(time_t lastExpireDate, std::function<void(std::vector<ExpiredMarketOffer>)> onLoaded) = 0;
 	/// Synchronous; used at boot. The periodic refresh uses loadStatistics + setStatistics.
 	virtual void updateStatistics() = 0;
-	/// Loads the statistics off the game thread; onLoaded runs later on the dispatcher with the new
-	/// maps (purchase, sale). It must not capture state that can die first.
-	virtual void loadStatistics(std::function<void(StatisticsMap purchase, StatisticsMap sale)> onLoaded) = 0;
+	/// Loads the statistics off the game thread; onLoaded runs later on the dispatcher. `loaded` is
+	/// false when the query returned nothing (error or empty history): keep the cached statistics
+	/// then, as updateStatistics does. onLoaded must not capture state that can die first.
+	virtual void loadStatistics(std::function<void(bool loaded, StatisticsMap purchase, StatisticsMap sale)> onLoaded) = 0;
 	virtual void setStatistics(StatisticsMap purchase, StatisticsMap sale) = 0;
 	/// Loads every active offer of one side off the game thread; onLoaded runs on the dispatcher.
 	virtual void loadActiveOffers(MarketAction_t action, std::function<void(MarketOfferList)> onLoaded) = 0;

@@ -345,14 +345,15 @@ void MarketRepositoryDB::updateStatistics() {
 	setStatistics(std::move(newPurchase), std::move(newSale));
 }
 
-void MarketRepositoryDB::loadStatistics(std::function<void(StatisticsMap purchase, StatisticsMap sale)> onLoaded) {
-	// Off the game thread: on a large market_history this query takes tens to hundreds of ms.
+void MarketRepositoryDB::loadStatistics(std::function<void(bool loaded, StatisticsMap purchase, StatisticsMap sale)> onLoaded) {
+	// The query runs off the game thread (tens to hundreds of ms on a large market_history); the
+	// grouped rows are parsed in the callback, on the dispatcher.
 	const int32_t maxTier = config_.getNumber(FORGE_MAX_ITEM_TIER);
 	g_databaseTasks().store(statisticsQuery(), [maxTier, onLoaded = std::move(onLoaded)](const DBResult_ptr &result, bool) {
 		StatisticsMap newPurchase;
 		StatisticsMap newSale;
 		readStatistics(result, maxTier, newPurchase, newSale);
-		onLoaded(std::move(newPurchase), std::move(newSale));
+		onLoaded(result != nullptr, std::move(newPurchase), std::move(newSale));
 	});
 }
 

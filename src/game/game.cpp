@@ -621,8 +621,11 @@ void Game::setGameState(GameState_t newState) {
 void Game::loadItemsPrice() {
 	// Both queries run off the game thread (on a large market_history the statistics take tens to
 	// hundreds of ms); the prices are rebuilt when the rows arrive. Callbacks capture nothing.
-	g_marketRepository().loadStatistics([](IMarketRepository::StatisticsMap purchase, IMarketRepository::StatisticsMap sale) {
-		g_marketRepository().setStatistics(std::move(purchase), std::move(sale));
+	g_marketRepository().loadStatistics([](bool loaded, IMarketRepository::StatisticsMap purchase, IMarketRepository::StatisticsMap sale) {
+		// No rows (error or empty history): keep the cached statistics, as updateStatistics does.
+		if (loaded) {
+			g_marketRepository().setStatistics(std::move(purchase), std::move(sale));
+		}
 		g_marketRepository().loadActiveOffers(MARKETACTION_BUY, [](MarketOfferList buyOffers) {
 			g_game().rebuildItemsPrice(g_marketRepository().getPurchaseStatistics(), buyOffers);
 		});

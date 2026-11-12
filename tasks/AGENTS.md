@@ -191,6 +191,11 @@ build/linux-release-enabled-tests/tests/integration/canary_it --gtest_brief=1
   `tests/test.env` (`TESTS_ENV_DEFAULT`) ou `TEST_ENV_FILE`. Cada teste roda dentro de
   `BEGIN`/`ROLLBACK` (`databaseTest`). Caminhos async (`g_databaseTasks()`) ficam fora dessa
   transação; não teste por integração.
+- Duas lições de validação:
+  - um binário gtest que cai não imprime resumo, então confira o **exit code** (o grep de
+    "PASSED" sozinho engana);
+  - rode o `tools/merge/syntax_check.sh` **depois** do build, porque com o PCH desatualizado
+    ele acusa erros falsos.
 - vcpkg: se `vcpkg.json` mudar o baseline, faça checkout de `$VCPKG_ROOT` nesse commit e rode
   `bootstrap-vcpkg.sh`. Se o `CMakeCache.txt` apontar `find_*` para um `vcpkg_installed` antigo,
   recrie `build/<preset>`. `VCPKG_INSTALLED_DIR` precisa ficar dentro do build tree
@@ -268,7 +273,7 @@ desfazer; se o upstream mexer nessas linhas, reaplique):
 | `src/server/network/connection/connection.cpp` `Connection::send` e `internalSend` | teto da fila de saída (`maxOutputQueueMessages`, padrão 2048, `0` desativa): ao estourar, descarta a fila **menos a mensagem da frente**, desconecta, loga com IP e conta `connection_output_queue_overflow_total`; o handler do `async_write` captura a própria `OutputMessage` | ataque de leitor lento: a fila não tinha teto e o timeout de escrita é por escrita (cada mensagem segura ~64 KB) |
 | `src/config/config_enums.hpp`, `src/config/configmanager.cpp`, `config.lua.dist` | chaves `MAX_OUTPUT_QUEUE_MESSAGES` / `maxOutputQueueMessages` (padrão 2048) e `MAX_PENDING_CONNECTIONS_PER_IP` / `maxPendingConnectionsPerIp` (padrão 10, só conexões ainda não logadas), ao lado de `maxPacketsPerSecond` | limites escolhidos pelo usuário |
 | `src/server/server.cpp` `ServicePort::onAccept` e `ConnectionManager` (`connection.hpp/.cpp`) | `ConnectionManager::admitFromIp` depois do `Ban::acceptConnection`; a vaga é liberada no `releaseConnection` e no login (`ProtocolGame::login`/`connect` chamam `markLoggedIn`); contador em `src/server/network/connection/ip_connection_limiter.cpp`; métrica `connections_refused_total{reason="per_ip_pending_limit"}`, aviso limitado por taxa | só a taxa de conexão era limitada; um bot acumulava sockets sem logar. Conta só quem não logou por causa do CGNAT (muitos jogadores reais num IP), decisão do usuário |
-| `src/items/bed.cpp` `BedItem::canUse`; `src/map/house/house.cpp/.hpp` | o nível de acesso do dorminhoco vem de `g_playerRepository().loadHouseAccessFacts(guid)` (uma consulta) e dos overloads novos `House::getHouseAccessLevel(const HouseAccessFacts &)` / `AccessList::isInList(guid, guildRankId)`, que espelham as versões com `Player` (mantenha as duas em sincronia) | usar uma cama ocupada carregava o dorminhoco inteiro (~20 queries + itens) no loop do jogo a cada uso (~5/s por player), o vetor do ataque real relatado |
+| `src/items/bed.cpp` `BedItem::canUse`; `src/map/house/house.cpp/.hpp` | o nível de acesso do dorminhoco vem de `g_playerRepository().loadHouseAccessFacts(guid)` (uma consulta) e dos overloads novos `House::getHouseAccessLevel(const HouseAccessFacts &)` / `AccessList::isInList(guid, guildRankId)`, que espelham as versões com `Player` (mantenha as duas em sincronia) | usar uma cama ocupada carregava o dorminhoco inteiro (~20 queries + itens) no loop do jogo a cada uso (~5/s por player). Caminho caro achado na auditoria; **não confirmado** que seja o bug real de cama relatado pelo usuário (pergunte qual era) |
 | `src/canary_server.cpp` `initializeDatabase` | `schema_hardening::ensureIndexes(...)` logo depois de `DatabaseManager::updateDatabase()` | índices da branch sem migration numerada: `src/database/schema_hardening.cpp` só adiciona índices `solid_*` que faltam (sem conflito com as migrations do upstream, sem editar `schema.sql`, nunca remove). Primeiro: `solid_market_history_stats` |
 | `game.cpp` `Game::playerRequestOutfit` (hoje em `outfit_service.cpp`) e `OutfitService::playerChangeOutfit(uint32_t, ...)` | intervalo por player: janela de outfit 1 vez/s, troca 1 vez a cada 500 ms (`RequestCooldown`, `src/utils/request_cooldown.hpp`); métrica `outfit_requests_throttled{request}`. O overload com `Player` (chamadas internas) não é limitado | `shine`/`ddos` do bot: `0xD2` monta a janela inteira e `0xD3` é transmitido a todos os espectadores |
 | `src/server/network/protocol/protocolgame.cpp` `ProtocolGame::parsePacket` | `const packet_watch::Scope packetWatch(recvbyte, player, getIP());` logo após ler o opcode (+ include) | latência por opcode e aviso de pacote lento com player/IP (`src/server/network/protocol/packet_watch.cpp`) |
@@ -297,7 +302,7 @@ Código novo do upstream:
 - Se `game.cpp` passar de 4k linhas ou `player.cpp` de 7k, mova antes de commitar o merge.
 - Escreva a linha correspondente nesta tabela.
 
-## 6. Estado atual (Phase 20 concluída)
+## 6. Phase 20 (concluída)
 
 Linha de base da Phase 20: `g_game()` 1143 e `g_configManager()` 458 em `src/*.cpp`. Nos
 components há 183 `g_game()`: 93 em arquivos só da branch e 90 em arquivos que também existem
@@ -411,18 +416,31 @@ Medir e conter o que o cliente (ou um bot) consegue fazer o servidor gastar. Fei
   - teto de conexões não logadas por IP (`maxPendingConnectionsPerIp`, que não afeta CGNAT);
   - índice `solid_market_history_stats` via `schema_hardening` (sem migration numerada);
   - cama sem load completo do dorminhoco;
-  - preços do mercado fora do loop;
+  - preços do mercado com as consultas fora do loop (o parse das linhas agrupadas ainda roda no
+    dispatcher; sem linhas, o cache antigo é mantido);
   - `Database::getInstance` por `DI::port`.
 - **Verificado sem mudança:** o `move` do bot é bloqueado pelas checagens de `playerMoveItem`;
   a posse de outfit é validada (`canWear`).
 
 Pendente (ordem sugerida):
+0. **Antes de produção:** uma sessão com client real no build de métricas (login, relog, andar,
+   outfit, highscores trocando páginas rápido, cama) e depois um scrape de `/metrics`. O teto de
+   conexões por IP já foi provado com sockets TCP reais no smoke (10 mantidas, 2 recusadas);
+   login, `packet_watch` e intervalos de outfit/highscore com client real ainda não.
 1. Orçamento global da fila de saída.
 2. Segunda conexão MySQL para `DatabaseTasks`.
 3. A* antes do intervalo de ação em "usar item (com)": medir com `[PacketWatch]` em produção
    antes de mudar, porque altera o tempo de reação do jogo.
 4. Lista de acesso de casa (até 100 `SELECT` + regex por edição).
 5. Teste manual dos highscores no cliente.
+6. Medir o custo do `packet_watch::Scope` por pacote no build de métricas (copia o nome do player
+   e registra um histograma em todo pacote).
+7. `DatabaseTasks::getInstance` ainda usa `inject<>`: com um container de teste, ele recebe um
+   `Database` separado e não conectado. O primeiro teste de integração que passar por
+   `appendHistory`/`loadStatistics`/`loadExpiredOffers` vai cair. Passe para `DI::port` (o pool
+   de threads de produção precisa estar iniciado no teste).
+8. A consulta de ofertas usada só para preços (`loadActiveOffers`) ainda traz o nome do dono por
+   subconsulta; `rebuildItemsPrice` só precisa de item, tier e preço.
 
 Resultado atual: ut 933/933, it 90/90, presets de testes e de métricas compilando, smoke ok.
 

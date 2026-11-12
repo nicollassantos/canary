@@ -211,10 +211,15 @@ public:
 		++statisticsUpdates;
 	}
 
-	void loadStatistics(std::function<void(StatisticsMap purchase, StatisticsMap sale)> onLoaded) override {
+	void loadStatistics(std::function<void(bool loaded, StatisticsMap purchase, StatisticsMap sale)> onLoaded) override {
 		++statisticsUpdates;
-		onLoaded(purchaseStatistics, saleStatistics);
+		onLoaded(statisticsLoad, statisticsLoad ? nextPurchaseStatistics : StatisticsMap {}, statisticsLoad ? nextSaleStatistics : StatisticsMap {});
 	}
+
+	/// What the next loadStatistics delivers; statisticsLoad = false simulates no rows.
+	StatisticsMap nextPurchaseStatistics;
+	StatisticsMap nextSaleStatistics;
+	bool statisticsLoad = true;
 
 	void setStatistics(StatisticsMap purchase, StatisticsMap sale) override {
 		purchaseStatistics = std::move(purchase);

@@ -43,7 +43,7 @@ public:
 
 	void loadExpiredOffers(time_t lastExpireDate, std::function<void(std::vector<ExpiredMarketOffer>)> onLoaded) override;
 	void updateStatistics() override;
-	void loadStatistics(std::function<void(StatisticsMap purchase, StatisticsMap sale)> onLoaded) override;
+	void loadStatistics(std::function<void(bool loaded, StatisticsMap purchase, StatisticsMap sale)> onLoaded) override;
 	void setStatistics(StatisticsMap purchase, StatisticsMap sale) override;
 	void loadActiveOffers(MarketAction_t action, std::function<void(MarketOfferList)> onLoaded) override;
 	[[nodiscard]] StatisticsMap getPurchaseStatistics() const override;

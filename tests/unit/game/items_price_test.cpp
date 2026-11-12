@@ -79,7 +79,9 @@ TEST_F(ItemsPriceTest, LowerBuyOfferKeepsTheAverage) {
 TEST_F(ItemsPriceTest, RefreshUsesTheRepositoryStatisticsAndOffers) {
 	auto &market = dynamic_cast<InMemoryMarketRepository &>(IMarketRepository::getInstance());
 	market.reset();
-	market.purchaseStatistics[61001][0] = accepted(4, 400);
+	market.statisticsLoad = true;
+	market.nextPurchaseStatistics.clear();
+	market.nextPurchaseStatistics[61001][0] = accepted(4, 400);
 	market.createOffer(1, MARKETACTION_BUY, 61002, 1, 75, 0, false);
 
 	g_game().loadItemsPrice();
@@ -87,4 +89,19 @@ TEST_F(ItemsPriceTest, RefreshUsesTheRepositoryStatisticsAndOffers) {
 	const auto &prices = g_game().getItemsPrice();
 	EXPECT_EQ(100U, prices.at(61001).at(0));
 	EXPECT_EQ(75U, prices.at(61002).at(0));
+	EXPECT_TRUE(market.getPurchaseStatistics().contains(61001));
+}
+
+// A failed or empty statistics load must not wipe the cached statistics.
+TEST_F(ItemsPriceTest, RefreshWithoutRowsKeepsTheCachedStatistics) {
+	auto &market = dynamic_cast<InMemoryMarketRepository &>(IMarketRepository::getInstance());
+	market.reset();
+	market.purchaseStatistics.clear();
+	market.purchaseStatistics[61003][0] = accepted(1, 10);
+	market.statisticsLoad = false;
+
+	g_game().loadItemsPrice();
+
+	EXPECT_TRUE(market.getPurchaseStatistics().contains(61003));
+	market.statisticsLoad = true;
 }
