@@ -61,11 +61,13 @@ Leia este arquivo inteiro antes de mexer na branch. Depois, para o detalhe de ca
 | `IConfigManager` (`config/config_port.hpp`) | `ConfigManager` (binding para **a instância carregada**) | `config/in_memory_config_manager.hpp` |
 | `IDatabase` (`database/database_port.hpp`) | `Database` | — (testes de integração usam MySQL) |
 | `IPlayerRepository` | `PlayerRepositoryDB` (ainda delega para `IOLoginData`) | `creatures/in_memory_player_repository.hpp` |
-| `IVipRepository` | `VipRepositoryDB` (Phase 20.2 leva o SQL para dentro) | `creatures/in_memory_vip_repository.hpp` |
+| `IVipRepository` | `VipRepositoryDB(IDatabase&)`, dono do SQL desde a 20.2 | `creatures/in_memory_vip_repository.hpp` |
 | `IMarketRepository` | `MarketRepositoryDB(IDatabase&, IConfigManager&)`, dono do SQL desde a 20.1 | `io/in_memory_market_repository.hpp` |
 | `IGuildRepository` | `GuildRepositoryDB(IDatabase&)`, dono do SQL; `IOGuild` removido | `io/in_memory_guild_repository.hpp` |
 | `IPlayerStorageRepository` | `PlayerStorageRepositoryDB` | — |
 | `ExpertPvpWorld` | a própria classe (concreta, métodos virtuais sobre `g_game()`) | fake por herança |
+| `CreatureFeedback` (`g_creatureFeedback()`) | a própria classe (concreta, sobre `g_game()`) | `creatures/recording_creature_feedback.hpp` |
+| `WorldRegistry` (`g_worldRegistry()`) | a própria classe (concreta, sobre `g_game()`) | `creatures/fake_world_registry.hpp` |
 
 - Container: `src/lib/di/container.hpp`. `DI::port<T>()` devolve o fake se o container de teste
   tiver binding de `T`; senão, o binding de produção. Todas as `getInstance()` de portas usam
@@ -86,9 +88,11 @@ Leia este arquivo inteiro antes de mexer na branch. Depois, para o detalhe de ca
 - `cfg()` do injector é protegido. Para perguntar se há binding, use `DI::isBound`/`isBound<T>()`.
 - `Modules`/`metrics::Metrics` resolvem por binding implícito. Binding explícito esbarra em
   ciclo de include (os headers incluem `container.hpp`).
-- Testes: `DI::setTestContainer(&injector)` no `SetUpTestSuite` e restaurar o anterior no
-  `TearDownTestSuite`. Use injector estático (`inline static`); injector local destruído antes
-  da hora já causou segfault.
+- Testes: guarde `DI::getTestContainer()`, instale o seu com `DI::setTestContainer(...)` e, na
+  desmontagem, **restaure o anterior antes de destruir o injector**. Destruir o injector ainda
+  instalado já causou segfault. Funcionam dois formatos: injector por teste
+  (`std::unique_ptr`, como em `player_death_component_test.cpp`) ou `inline static` por suíte
+  (`SetUpTestSuite`/`TearDownTestSuite`).
 
 ### Regras de C++ que já quebraram o build
 
@@ -151,7 +155,11 @@ Ferramentas e passo a passo: `tools/merge/README.md`. Resumo e lições:
      arquivo certo.
    - `*_has_duplicates`: há cópia morta. Na Phase 17, a mudança de `sendBlockEffect` caiu numa
      cópia morta em `game.cpp`, e o código vivo era o `CombatService`.
-4. `audit_moved.py` para `game.cpp` e `player.cpp` precisa dar zero misses.
+4. `audit_moved.py` para `game.cpp` e `player.cpp` precisa dar zero misses. Arquivos que o
+   upstream ainda tem e a branch apagou (`iomarket`, `ioguild`, bloco VIP de `iologindata`)
+   seguem a seção "Upstream files deleted on the branch" de `tools/merge/README.md`. Linhas
+   com receptor trocado nos components seguem a tabela "Receiver substitutions" do mesmo
+   arquivo.
 5. Aplicar a arquitetura ao código novo do upstream: função nova em `Game` vai para service,
    em `Player` vai para component, e IO estático novo vai para porta.
 6. Build, `syntax_check.sh`, ut + it e smoke boot (seção 7). Registrar a fase no `todo.md` e o
@@ -192,7 +200,11 @@ upstream.
   ut 874/874, it 68/68.
 - **Antes da 20.3**: o teste `DatabasePortIsTheConnectedGlobalDatabase` (commit `ddac88f5c`)
   prova que o `IDatabase` injetado é o `Database` conectado. Smoke boot com
-  data-otservbr-global: online em 7s, zero `[error]`, exit 0.
+  data-otservbr-global: online em 7s, zero `[error]`, exit 0. Smoke com oferta semeada (uma
+  oferta de compra expirada, 2 × 500) confirmou o caminho real: oferta removida, 1 linha
+  `EXPIRED` no histórico, saldo do dono 1000.
+  - **Sem cobertura em banco real**: reembolso de oferta de venda (itens na inbox) e o
+    `moveOfferToHistory` com sucesso nos testes de integração (o insert do histórico é async).
 - **20.3 Components do branch com portas por papel**: concluída. 93 → 57 `g_game()` nos
   arquivos só da branch; o total em `src` caiu de 1140 para 1104 linhas, sem contar os 16 dos
   adapters. Resultado: ut 885/885, it 68/68.
@@ -246,4 +258,5 @@ upstream.
 | 19 | Services sem singletons; components com config pela porta; IO estático → portas (`IVipRepository`, `DI::port`); `GuildRepositoryDB` dono do SQL |
 | 20 | Market e VIP com SQL nos adapters; portas `CreatureFeedback`/`WorldRegistry` nos components (seção 6) |
 
-Contagem de testes no fim da Phase 19: `canary_ut` 867/867 e `canary_it` 56/56.
+Contagem de testes: fim da Phase 19, `canary_ut` 867/867 e `canary_it` 56/56; fim da Phase 20,
+885/885 e 68/68.

@@ -90,3 +90,42 @@ port receiver.
 `g_configManager()` in components became `IConfigManager::getInstance()` (Phase 19.2).
 Upstream-owned component files (`git ls-tree origin/main src/creatures/players/components`)
 keep `g_game()`.
+
+## Upstream files deleted on the branch
+
+Upstream still has these files; the branch moved their code into adapters and deleted them.
+A merge reports them as modify/delete conflicts. Port the upstream changes, then
+`git rm` the upstream copy again.
+
+| Upstream | Branch |
+|---|---|
+| `src/io/iomarket.{cpp,hpp}` (`IOMarket::*`) | `src/io/market_repository_db.cpp` (`MarketRepositoryDB::*`, SQL and statistics) |
+| `IOMarket::processExpiredOffers`, `IOMarket::checkExpiredOffers` | `src/game/market/market_expiry.cpp` (`market_expiry::*`) plus `MarketRepositoryDB::loadExpiredOffers` |
+| `IOMarket::getTierFromDatabaseTable` | anonymous-namespace `getTierFromDatabaseTable(value, maxTier)` in `market_repository_db.cpp` |
+| `src/io/ioguild.{cpp,hpp}` (`IOGuild::*`) | `src/io/guild_repository_db.cpp` (`GuildRepositoryDB::*`) |
+| VIP block of `src/io/iologindata.cpp` (`IOLoginData::*VIP*`) | `src/creatures/players/vip_repository_db.cpp` (`VipRepositoryDB::*`) |
+
+`moved_merge.py` reads `--src` from the base and upstream revisions, so it works with a
+deleted local file. Keys are matched without the class name (`IOMarket::x` ↔
+`MarketRepositoryDB::x`):
+
+```sh
+python3 tools/merge/moved_merge.py --src src/io/iomarket.cpp src/io/market_repository_db.cpp src/game/market/market_expiry.cpp
+python3 tools/merge/moved_merge.py --src src/io/ioguild.cpp src/io/guild_repository_db.cpp
+python3 tools/merge/moved_merge.py --src src/io/iologindata.cpp src/io/iologindata.cpp src/creatures/players/vip_repository_db.cpp
+git rm src/io/iomarket.cpp src/io/iomarket.hpp src/io/ioguild.cpp src/io/ioguild.hpp
+```
+
+Then:
+
+- The adapters swapped the receivers: `Database::getInstance()`/`g_database()` → `db_` and
+  `g_configManager()` → `config_`. In the tier helper, `getTierFromDatabaseTable(x)` became
+  `getTierFromDatabaseTable(x, maxTier)`. Conflicts on those lines keep the adapter's receiver
+  and take upstream's logic.
+- `processExpiredOffers` and `getTierFromDatabaseTable` do not match automatically, because
+  they are namespaced and have new signatures. Diff them by hand with
+  `git diff <base> origin/main -- src/io/iomarket.cpp`. The expiry body reads an
+  `ExpiredMarketOffer` instead of a `DBResult` row.
+- New upstream `IOMarket`/`IOGuild` functions land in the home file as `IOMarket::foo`. Turn
+  them into adapter members and declare them in the port; check `inserted_home`.
+- New upstream VIP functions land in `iologindata.cpp` (home). Move them to `VipRepositoryDB`.
