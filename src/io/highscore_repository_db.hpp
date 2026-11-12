@@ -44,6 +44,10 @@ public:
 	std::string generateHighscoreOrGetCachedQueryForEntries(const std::string &categoryName, uint32_t page, uint8_t entriesPerPage, uint32_t vocation);
 	std::string generateHighscoreOrGetCachedQueryForOurRank(const std::string &categoryName, uint8_t entriesPerPage, uint32_t playerGUID, uint32_t vocation);
 
+	[[nodiscard]] size_t queryCacheSize() const {
+		return queryCache.size();
+	}
+
 private:
 	void run(const std::string &query, OnLoaded onLoaded) const;
 

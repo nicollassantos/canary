@@ -740,6 +740,7 @@
     <ClInclude Include="..\src\game\highscore\highscore_service.hpp" />
     <ClInclude Include="..\src\game\interaction\player_interaction_service.hpp" />
     <ClInclude Include="..\src\game\loot\loot_service.hpp" />
+    <ClInclude Include="..\src\game\highscore\highscore_cache.hpp" />
     <ClInclude Include="..\src\game\market\market_expiry.hpp" />
     <ClInclude Include="..\src\game\market\market_service.hpp" />
     <ClInclude Include="..\src\game\movement\movement_service.hpp" />

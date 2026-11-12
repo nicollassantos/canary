@@ -109,6 +109,20 @@ TEST_F(HighscoreRequestsTest, ZeroEntriesPerPageNeverReachesTheRepository) {
 	EXPECT_FALSE(player->hasAsyncOngoingTask(PlayerAsyncTask_Highscore));
 }
 
+// Page 0 only comes from a crafted packet; it must not reach the database.
+TEST_F(HighscoreRequestsTest, PageZeroIsRejectedBeforeTheRepository) {
+	service.playerHighscores(player, HIGHSCORE_GETENTRIES, 0, AllVocations, "", 0, 20);
+
+	EXPECT_FALSE(repository->lastRequest.has_value());
+	EXPECT_FALSE(player->hasAsyncOngoingTask(PlayerAsyncTask_Highscore));
+}
+
+TEST_F(HighscoreRequestsTest, OurRankIgnoresThePageField) {
+	service.playerHighscores(player, HIGHSCORE_OURRANK, 0, AllVocations, "", 0, 20);
+
+	EXPECT_TRUE(repository->lastRequest.has_value());
+}
+
 TEST_F(HighscoreRequestsTest, UnbuildableQueryLeavesNoPendingTask) {
 	repository->buildsQuery = false;
 

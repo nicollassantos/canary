@@ -549,4 +549,6 @@ Fora de escopo: `gameWorldAuthentication` (lógica de autenticação, sem teste,
 | 22.3 Testes de `gameWorldAuthentication` | S | só testes de integração do login (senha certa/errada, personagem de outra conta, conta inexistente) |
 | 22.4 Caches de highscore com limite | S | entradas expiradas são removidas; chave com página/GUID do cliente não cresce sem limite; teste |
 
+| 22.5 Highscores protegem o MySQL | S | página de entradas fresca no cache é servida sem query; intervalo mínimo de 1s por player; teto global de 8 queries em andamento (contador decrementa sempre, inclusive se o player saiu); métricas `highscore_requests_total`, `highscore_served_from_cache`, `highscore_requests_rejected{reason}`; testes com fake (relógio controlável). Motivo: `Database` usa uma única conexão com mutex, então highscores em fila atrasam saves |
+
 Fora de escopo: SQL em arquivos que existem upstream (`player_forge_history`, `player_wheel`, `player_cyclopedia`, `player_badge`, `ban`, Lua `db_functions`). Cada movimento entra no mapa §5b do `tasks/AGENTS.md` e no README de merge no mesmo commit.

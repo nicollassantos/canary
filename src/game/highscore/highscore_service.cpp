@@ -3,7 +3,9 @@
 #include "creatures/players/vocations/vocation.hpp"
 #include "game/game.hpp"
 #include "game/game_definitions.hpp"
+#include "game/highscore/highscore_cache.hpp"
 #include "io/highscore_repository.hpp"
+#include "lib/metrics/metrics.hpp"
 #include "server/server_definitions.hpp"
 #include "utils/tools.hpp"
 
@@ -39,6 +41,9 @@ void HighscoreService::processHighscoreResults(Game &game, std::optional<Highsco
 		player->sendHighscores(cacheEntry.characters, category, vocationCID, cacheEntry.page, static_cast<uint16_t>(cacheEntry.entriesPerPage), updateTimer);
 	} else {
 		player->sendHighscores(result->characters, category, vocationCID, page, static_cast<uint16_t>(pages), getTimeNow());
+		if (const auto dropped = highscore_cache::prune(game.highscoreCache, now, HIGHSCORE_CACHE_EXPIRATION_TIME)) {
+			g_metrics().addCounter("highscore_cache_evictions", static_cast<double>(dropped), { { "cache", "result" } });
+		}
 		game.highscoreCache[cacheKey] = { std::move(result->characters), page, pages, now };
 	}
 }
@@ -55,7 +60,9 @@ void HighscoreService::playerHighscores(const std::shared_ptr<Player> &player, H
 	if (player->hasAsyncOngoingTask(PlayerAsyncTask_Highscore)) {
 		return;
 	}
-	if (entriesPerPage == 0) {
+	// Page 0 only comes from a crafted packet: (page - 1) would wrap and still run the full ranking.
+	if (entriesPerPage == 0 || (type == HIGHSCORE_GETENTRIES && page == 0)) {
+		g_metrics().addCounter("highscore_requests_rejected", 1, { { "reason", entriesPerPage == 0 ? "zero_entries" : "page_zero" } });
 		player->sendHighscoresNoData();
 		return;
 	}

@@ -13,7 +13,14 @@
 #include "database/database.hpp"
 #include "database/databasetasks.hpp"
 #include "enums/account_group_type.hpp"
+#include "game/highscore/highscore_cache.hpp"
+#include "lib/metrics/metrics.hpp"
 #include "lib/di/container.hpp"
+
+namespace {
+	// Built queries only depend on their key, but the keys come from the client.
+	constexpr std::chrono::minutes QueryCacheTtl { 10 };
+}
 
 IHighscoreRepository &IHighscoreRepository::getInstance() {
 	return DI::port<IHighscoreRepository>();
@@ -159,7 +166,11 @@ std::string HighscoreRepositoryDB::generateVocationConditionHighscore(uint32_t v
 }
 
 void HighscoreRepositoryDB::cacheQueryHighscore(const std::string &key, const std::string &query, uint32_t page, uint8_t entriesPerPage) {
-	QueryHighscoreCacheEntry queryEntry { query, page, entriesPerPage, std::chrono::steady_clock::now() };
+	const auto now = std::chrono::steady_clock::now();
+	if (const auto dropped = highscore_cache::prune(queryCache, now, QueryCacheTtl)) {
+		g_metrics().addCounter("highscore_cache_evictions", static_cast<double>(dropped), { { "cache", "query" } });
+	}
+	QueryHighscoreCacheEntry queryEntry { query, page, entriesPerPage, now };
 	queryCache[key] = queryEntry;
 }
 
