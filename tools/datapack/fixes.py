@@ -11,7 +11,11 @@ Kinds handled (chosen by the user, batch by batch):
 - add_loot: add an item the wiki drops and the datapack lacks, when its name resolves to exactly
   one item;
 - chance: set an item's chance to the wiki rate when the datapack falls outside the binomial
-  interval (single entry only, recent statistics, no money, within MAX_CHANCE_FACTOR).
+  interval (single entry only, recent statistics, no money, within MAX_CHANCE_FACTOR);
+- stat (experience, maxHealth, armor), element (damage modifier) and immunity (paralyze,
+  invisible): only when the datapack raceId equals the wiki race_id, so a quest variant that
+  shares a name with another creature is never touched; stats also need a ratio within
+  STAT_FACTOR and neither side at 0.
 """
 import json
 import os
@@ -26,6 +30,9 @@ MIN_ADD_VERSION = 12
 # A chance is only changed within this factor of the wiki rate; beyond it the gap is more likely a
 # different loot semantic (or a page error) than drift.
 MAX_CHANCE_FACTOR = 5
+# Hit points, experience and armor change only within this factor (variants and quest copies show
+# larger gaps).
+STAT_FACTOR = 2
 # Money is never added: the datapack pays high gold amounts as several gold coin entries where the
 # wiki records platinum coins, so adding coins would raise a monster's money drop.
 CURRENCY = frozenset({"gold coin", "platinum coin", "crystal coin"})
@@ -88,7 +95,7 @@ def load_stackable(path):
 
 # --- plan: report -> manifest ----------------------------------------------------------------
 
-def plan(report, by_name, stackable, kinds=("max_count", "add_loot", "chance"), bosses=frozenset()):
+def plan(report, by_name, stackable, kinds=("max_count", "add_loot", "chance", "stat", "element", "immunity"), bosses=frozenset(), element_types=None):
     """Fixes for the chosen kinds plus the findings left for manual review, with the reason.
 
     Bosses (bosstiary) are always left for review: their loot comes from the reward chest, so the
@@ -98,11 +105,12 @@ def plan(report, by_name, stackable, kinds=("max_count", "add_loot", "chance"), 
     for monster in report["monsters"]:
         if monster["name"] in bosses:
             for finding in monster["findings"]:
-                if finding["kind"] in ("loot_count", "loot_missing", "loot_chance"):
+                if finding["kind"] in ("loot_count", "loot_missing", "loot_chance", "stat", "element", "immunity"):
                     review.append({"monster": monster["name"], "item": finding["subject"], "reason": "boss: reward chest loot, review by hand"})
             continue
         block = monster.get("loot_block") or {}
         source = {"version": block.get("version"), "kills": block.get("kills"), "loot_revid": monster.get("loot_revid")}
+        same_creature = bool(monster.get("race_id")) and bool(monster.get("wiki_race_id")) and int(monster["race_id"]) == int(monster["wiki_race_id"])
         for finding in monster["findings"]:
             item = finding["subject"]
             ids = sorted(by_name.get(item, set()))
@@ -114,6 +122,25 @@ def plan(report, by_name, stackable, kinds=("max_count", "add_loot", "chance"), 
                     review.append({"monster": monster["name"], "item": item, "reason": f"jump from {old} to {new} is too large to trust", "wiki": new})
                 else:
                     fixes.append({"kind": "max_count", "file": monster["file"], "monster": monster["name"], "item": item, "maxCount": new, "source": source})
+            elif finding["kind"] in ("stat", "element", "immunity") and finding["kind"] in kinds:
+                page = {"revid": monster.get("revid")}
+                if not same_creature:
+                    review.append({"monster": monster["name"], "item": finding["subject"], "reason": "race id missing or different from the wiki"})
+                    continue
+                if finding["kind"] == "stat":
+                    ours, wiki = float(finding["datapack"]), float(finding["wiki"])
+                    if ours <= 0 or wiki <= 0 or not (1 / STAT_FACTOR <= ours / wiki <= STAT_FACTOR):
+                        review.append({"monster": monster["name"], "item": finding["subject"], "reason": f"stat gap from {ours:g} to {wiki:g} is too large to trust"})
+                        continue
+                    fixes.append({"kind": "stat", "file": monster["file"], "monster": monster["name"], "item": finding["subject"], "value": int(round(wiki)), "source": page})
+                elif finding["kind"] == "element":
+                    combat = (element_types or {}).get(finding["subject"])
+                    if not combat:
+                        review.append({"monster": monster["name"], "item": finding["subject"], "reason": "unknown element"})
+                        continue
+                    fixes.append({"kind": "element", "file": monster["file"], "monster": monster["name"], "item": combat, "percent": int(round(float(finding["wiki"]))), "source": page})
+                else:
+                    fixes.append({"kind": "immunity", "file": monster["file"], "monster": monster["name"], "item": finding["subject"], "condition": bool(finding["wiki"]), "source": page})
             elif finding["kind"] == "loot_chance" and "chance" in kinds:
                 major = int((re.findall(r"\d+", str(source.get("version") or "")) or [0])[0])
                 ours, wiki = finding["datapack_chance"], max(1, int(finding["wiki_chance"]))
@@ -182,11 +209,84 @@ def entry_number(body, key):
     return int(match.group(1)) if match else None
 
 
+STAT_LINES = {
+    "experience": [r"^(monster\.experience\s*=\s*)(\d+)"],
+    "maxHealth": [r"^(monster\.health\s*=\s*)(\d+)", r"^(monster\.maxHealth\s*=\s*)(\d+)"],
+}
+
+
+def block_span(text, name):
+    """(start, end) of the inside of `monster.<name> = { ... }`, or None."""
+    match = re.search(rf"^monster\.{name}\s*=\s*\{{", text, re.M)
+    if not match:
+        return None
+    depth, pos = 1, match.end()
+    while depth and pos < len(text):
+        depth += {"{": 1, "}": -1}.get(text[pos], 0)
+        pos += 1
+    return match.end(), pos - 1
+
+
+def set_numbers(text, patterns, value, flags=re.M):
+    """Set every `patterns` match to value; None when a pattern is missing, else (text, changed)."""
+    changed = False
+    for pattern in patterns:
+        match = re.search(pattern, text, flags)
+        if not match:
+            return None
+        if match.group(2) != str(value):
+            text = text[:match.start(2)] + str(value) + text[match.end(2):]
+            changed = True
+    return text, changed
+
+
+def apply_attribute(text, fix):
+    """Stat, element and immunity fixes; returns (text, outcome)."""
+    if fix["kind"] == "stat":
+        if fix["item"] == "armor":
+            span = block_span(text, "defenses")
+            if span is None:
+                return text, "no monster.defenses block"
+            inner = set_numbers(text[span[0]:span[1]], [r"^(\s*armor\s*=\s*)(\d+)"], fix["value"])
+            if inner is None:
+                return text, "no armor line"
+            return text[:span[0]] + inner[0] + text[span[1]:], "applied" if inner[1] else "already"
+        result = set_numbers(text, STAT_LINES.get(fix["item"], []), fix["value"]) if fix["item"] in STAT_LINES else None
+        if result is None:
+            return text, f"no {fix['item']} line"
+        return result[0], "applied" if result[1] else "already"
+    if fix["kind"] == "element":
+        span = block_span(text, "elements")
+        if span is None:
+            return text, "no monster.elements block"
+        inner = set_numbers(text[span[0]:span[1]], [rf"(\{{\s*type\s*=\s*{re.escape(fix['item'])}\s*,\s*percent\s*=\s*)(-?\d+)"], fix["percent"], flags=0)
+        if inner is None:
+            return text, "element not listed"
+        return text[:span[0]] + inner[0] + text[span[1]:], "applied" if inner[1] else "already"
+    span = block_span(text, "immunities")
+    if span is None:
+        return text, "no monster.immunities block"
+    body = text[span[0]:span[1]]
+    pattern = rf'(\{{\s*type\s*=\s*"{re.escape(fix["item"])}"\s*,\s*condition\s*=\s*)(true|false)'
+    match = re.search(pattern, body)
+    if not match:
+        return text, "immunity not listed"
+    wanted = "true" if fix["condition"] else "false"
+    if match.group(2) == wanted:
+        return text, "already"
+    body = body[:match.start(2)] + wanted + body[match.end(2):]
+    return text[:span[0]] + body + text[span[1]:], "applied"
+
+
 def apply_to_text(text, fixes, by_id):
     """Apply one file's fixes; returns (new text, outcomes) with outcome per fix:
     'applied', 'already' or a failure reason."""
     outcomes = []
     for fix in fixes:
+        if fix["kind"] in ("stat", "element", "immunity"):
+            text, outcome = apply_attribute(text, fix)
+            outcomes.append(outcome)
+            continue
         span = loot_span(text)
         if span is None:
             outcomes.append("no monster.loot block")

@@ -387,7 +387,8 @@ def command_report(args):
         findings, used = compare(monster, infobox, blocks, by_name, by_id, checked)
         if findings:
             report["monsters"].append({"name": monster["name"], "file": os.path.relpath(monster["file"], ROOT) if os.path.isabs(monster["file"]) else monster["file"],
-                                       "revid": page.get("revid"), "loot_revid": loot_page.get("revid"), "loot_block": used, "findings": findings})
+                                       "revid": page.get("revid"), "loot_revid": loot_page.get("revid"), "loot_block": used, "findings": findings,
+                                       "race_id": monster.get("raceId"), "wiki_race_id": parse_number(infobox.get("race_id"))})
     move_systematic(report, checked)
     totals = {}
     for entry in report["monsters"]:
@@ -455,7 +456,8 @@ def command_plan(args):
     by_name, _ = load_items(os.path.join(ROOT, args.items))
     stackable = fixes_module.load_stackable(os.path.join(ROOT, args.appearances))
     bosses = {m["name"] for m in load_monsters(args.out) if m.get("bosstiary")}
-    fixes, review = fixes_module.plan(report, by_name, stackable, kinds=tuple(args.kinds.split(",")), bosses=bosses)
+    element_types = {key: combat for combat, key in ELEMENTS.items()}
+    fixes, review = fixes_module.plan(report, by_name, stackable, kinds=tuple(args.kinds.split(",")), bosses=bosses, element_types=element_types)
     manifest_path = os.path.join(ROOT, args.manifest)
     if os.path.exists(manifest_path):
         with open(manifest_path, encoding="utf-8") as handle:
@@ -491,7 +493,7 @@ def main(argv=None):
     parser.add_argument("--items", default="data/items/items.xml")
     parser.add_argument("--appearances", default="data/items/appearances.dat")
     parser.add_argument("--manifest", default="tools/datapack/fixes.json")
-    parser.add_argument("--kinds", default="max_count,add_loot,chance", help="plan: comma-separated kinds")
+    parser.add_argument("--kinds", default="max_count,add_loot,chance,stat,element,immunity", help="plan: comma-separated kinds")
     parser.add_argument("--dry-run", action="store_true", help="apply: report what would change")
     args = parser.parse_args(argv)
     commands = {"extract": command_extract, "fetch": command_fetch, "report": command_report, "plan": command_plan, "apply": command_apply}

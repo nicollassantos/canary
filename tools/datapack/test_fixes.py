@@ -168,6 +168,66 @@ class ChanceTest(unittest.TestCase):
         self.assertIn("old statistics", reasons[("Old Beast", "beast fang")])
 
 
+ATTRIBUTES = """local monster = {}
+monster.experience = 700
+monster.health = 1000
+monster.maxHealth = 1000
+monster.defenses = {
+	defense = 30,
+	armor = 25,
+	mitigation = 0.99,
+	{ name = "combat", interval = 2000, chance = 15, minDamage = 40, maxDamage = 70 },
+}
+monster.elements = {
+	{ type = COMBAT_PHYSICALDAMAGE, percent = 0 },
+	{ type = COMBAT_FIREDAMAGE, percent = 100 },
+	{ type = COMBAT_ICEDAMAGE, percent = -10 },
+}
+monster.immunities = {
+	{ type = "paralyze", condition = true },
+	{ type = "invisible", condition = false },
+}
+"""
+
+
+class AttributeTest(unittest.TestCase):
+    def test_stats_elements_and_immunities_are_set(self):
+        batch = [
+            {"kind": "stat", "item": "experience", "value": 750},
+            {"kind": "stat", "item": "maxHealth", "value": 1100},
+            {"kind": "stat", "item": "armor", "value": 30},
+            {"kind": "element", "item": "COMBAT_FIREDAMAGE", "percent": 80},
+            {"kind": "element", "item": "COMBAT_ICEDAMAGE", "percent": -15},
+            {"kind": "immunity", "item": "invisible", "condition": True},
+        ]
+        text, outcomes = fixes.apply_to_text(ATTRIBUTES, batch, BY_ID)
+        self.assertEqual(["applied"] * 6, outcomes)
+        for line in ("monster.experience = 750", "monster.health = 1100", "monster.maxHealth = 1100", "\tarmor = 30,",
+                     "{ type = COMBAT_FIREDAMAGE, percent = 80 }", "{ type = COMBAT_ICEDAMAGE, percent = -15 }",
+                     '{ type = "invisible", condition = true }', "mitigation = 0.99"):
+            self.assertIn(line, text)
+        again, outcomes = fixes.apply_to_text(text, batch, BY_ID)
+        self.assertEqual(text, again)
+        self.assertEqual(["already"] * 6, outcomes)
+
+    def test_attribute_plan_needs_the_same_creature(self):
+        def entry(name, race, wiki_race, findings):
+            return {"name": name, "file": name + ".lua", "race_id": race, "wiki_race_id": wiki_race, "revid": 3, "findings": findings}
+        report = {"monsters": [
+            entry("Same", 34, 34.0, [{"kind": "stat", "subject": "experience", "datapack": 700, "wiki": 750.0},
+                                    {"kind": "stat", "subject": "maxHealth", "datapack": 1000, "wiki": 5000.0},
+                                    {"kind": "element", "subject": "fireDmgMod", "datapack": 100, "wiki": 80.0},
+                                    {"kind": "immunity", "subject": "paralyze", "datapack": False, "wiki": True}]),
+            entry("Variant", None, 34.0, [{"kind": "stat", "subject": "experience", "datapack": 700, "wiki": 750.0}]),
+        ]}
+        planned, review = fixes.plan(report, {}, set(), kinds=("stat", "element", "immunity"), element_types={"fireDmgMod": "COMBAT_FIREDAMAGE"})
+        self.assertEqual({("stat", "experience", 750), ("element", "COMBAT_FIREDAMAGE", 80), ("immunity", "paralyze", True)},
+                         {(f["kind"], f["item"], f.get("value", f.get("percent", f.get("condition")))) for f in planned})
+        reasons = {(r["monster"], r["item"]): r["reason"] for r in review}
+        self.assertIn("too large", reasons[("Same", "maxHealth")])
+        self.assertIn("race id", reasons[("Variant", "experience")])
+
+
 class MergeTest(unittest.TestCase):
     def test_earlier_fixes_are_kept_and_same_key_is_replaced(self):
         earlier = [max_count("gold coin", 60), add("rare gem", 1200)]
