@@ -546,8 +546,16 @@ Resultado atual: ver a última linha de validação no `todo.md` (CHECKPOINT 23)
   bestiário. O wiki diz que mitigation depende de escudo, defesa e **postura de combate**; a razão
   constante ~0,63 é compatível com valores de postura/fórmula diferente. Sem fonte que diga qual
   postura o wiki registra, não mexer.
-- **Pendente (24.5):** próximos lotes a decidir com o usuário: chances, atributos/elementos e a
-  lista de revisão manual.
+- **Lotes seguintes:** 1014 chances (24.5a), 277 atributos (24.5b, só com raceId igual ao do
+  wiki), 58 fixes em bosses de corpo (24.5d). Total no manifesto: 2024.
+- **Boss = `rewardBoss`, não bosstiary:** 136 monstros `rewardBoss` estão fora do bosstiary (ex.:
+  Ferumbras Mortal Shell, Necropharus, um Cave Spider de quest). O loot deles vem do baú: cada
+  participante rola a tabela com `lootFactor` (`data/scripts/systems/reward_chest.lua`: 2× solo),
+  então a chance do datapack é base e não se compara ao wiki. A primeira versão da regra olhava o
+  bosstiary e aplicou 104 fixes neles; foram revertidos (`40ed1a2cd`). Bosses de corpo seguem as
+  regras normais.
+- **Pendente (24.6):** a lista `review` do manifesto (5449) com os motivos: estatística antiga,
+  baú de recompensa, race id ausente/diferente, saltos grandes, moeda, nomes ambíguos.
 
 ## 7. Smoke test do servidor (banco descartável)
 

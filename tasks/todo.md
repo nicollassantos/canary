@@ -307,7 +307,11 @@
 - [x] **24.3** — Merge: manifesto `tools/datapack/fixes.json` (acumula) + `wiki_check.py apply` sobre a versão do upstream; registrado no §5b e em `tools/merge/README.md` (`11cdbb8eb`, `997af9180`, `f80cc3e1c`)
 - [x] **24.4a** — `maxCount` elevado ao observado: 514 entradas em 340 arquivos (só empilháveis, nunca baixa, sem bosses, sem saltos grandes) (`a70a1e4f4`); smoke sem aviso de loot
 - [x] **24.4b** — Loot que faltava: 265 entradas em 129 arquivos (sem moeda, só estatística 12+, nome único, sem bosses) (`734c13139`); smoke sem aviso de loot
-- [ ] **24.5** — Próximos lotes, a decidir com o usuário: chances (~3700 fora do intervalo), HP/XP/armor/elementos/imunidades, lista de revisão manual do manifesto (bosses, moeda, estatística antiga, nomes ambíguos, saltos grandes)
+- [x] **24.5a** — Chances: 1014 em 188 arquivos (entrada única, estatística 12+, sem moeda, sem boss, até 5×) (`6555c5a0f`); ex.: Icecold Book com ultimate mana potion 100% → 21%
+- [x] **24.5b** — Atributos: 77 XP, 22 armor, 1 HP, 117 elementos, 60 imunidades em 175 arquivos, só com raceId igual ao do wiki e até 2× (`13f72af07`)
+- [x] **24.5c** — **Erro corrigido:** a regra de boss só olhava o bosstiary; 136 monstros `rewardBoss` fora dele levaram 104 fixes de loot em 28 arquivos. Ferramenta passa a usar `rewardBoss` (`f4d88150d`); arquivos restaurados ao estado de `997af9180` e manifesto reaplicado (`40ed1a2cd`)
+- [x] **24.5d** — Bosses de corpo (bosstiary sem `rewardBoss`) entram nas regras normais: 58 fixes em 20 arquivos (`e8d7ae27b`, `1be498cc3`). Bosses de baú ficam fora: cada participante rola a tabela com fator de contribuição (2× solo), então a chance do datapack é base, não comparável ao wiki
+- [ ] **24.6** — Lista de revisão (5449): estatística antiga, baú de recompensa, race id diferente, saltos grandes, moeda, nomes ambíguos — decidir com o usuário
 
 ### Achados do bot de ataque (`/home/nicollas/teste/proxy-bot`, lido sem executar) — próximas tasks da 23
 - **Stresser**: 1024 goroutines numa conexão; modos `pathfinder` (usar item com moeda → posição distante fixa, força pathfinding), `outfit` (`0xD2` + `0xD3` em laço; resposta grande para pedido pequeno), `walk`/`leftright`, `follow` (seguir/cancelar alternado).
