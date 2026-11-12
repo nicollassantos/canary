@@ -238,6 +238,13 @@ class MergeTest(unittest.TestCase):
         self.assertIn(("max_count", "gold coin"), [(f["kind"], f["item"]) for f in merged])
 
 
+class DropTest(unittest.TestCase):
+    def test_fixes_of_excluded_monsters_leave_the_manifest(self):
+        kept, dropped = fixes.drop_excluded([{**add("rare gem", 10), "monster": "Boss"}, {**add("x", 5), "monster": "Beast"}], {"Boss"})
+        self.assertEqual(["Beast"], [f["monster"] for f in kept])
+        self.assertEqual(["Boss"], [f["monster"] for f in dropped])
+
+
 class StackableTest(unittest.TestCase):
     def test_cumulative_flag_is_read_from_the_protobuf(self):
         def varint(n):

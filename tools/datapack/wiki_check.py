@@ -455,13 +455,16 @@ def command_plan(args):
         report = json.load(handle)
     by_name, _ = load_items(os.path.join(ROOT, args.items))
     stackable = fixes_module.load_stackable(os.path.join(ROOT, args.appearances))
-    bosses = {m["name"] for m in load_monsters(args.out) if m.get("bosstiary")}
+    bosses = {m["name"] for m in load_monsters(args.out) if m.get("bosstiary") or m.get("rewardBoss")}
     element_types = {key: combat for combat, key in ELEMENTS.items()}
     fixes, review = fixes_module.plan(report, by_name, stackable, kinds=tuple(args.kinds.split(",")), bosses=bosses, element_types=element_types)
     manifest_path = os.path.join(ROOT, args.manifest)
     if os.path.exists(manifest_path):
         with open(manifest_path, encoding="utf-8") as handle:
             fixes = fixes_module.merge_fixes(json.load(handle).get("fixes", []), fixes)
+        fixes, dropped = fixes_module.drop_excluded(fixes, bosses)
+        for path in sorted({fix["file"] for fix in dropped}):
+            print(f"  dropped fixes for {path}: restore it and re-run apply")
     note = ("Datapack corrections from TibiaWiki loot statistics (CC BY-SA facts: chances, amounts). "
             "Regenerate with `wiki_check.py plan`, apply with `wiki_check.py apply`; applying twice changes nothing.")
     fixes_module.write_manifest(manifest_path, fixes, review, note)

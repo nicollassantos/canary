@@ -98,8 +98,9 @@ def load_stackable(path):
 def plan(report, by_name, stackable, kinds=("max_count", "add_loot", "chance", "stat", "element", "immunity"), bosses=frozenset(), element_types=None):
     """Fixes for the chosen kinds plus the findings left for manual review, with the reason.
 
-    Bosses (bosstiary) are always left for review: their loot comes from the reward chest, so the
-    wiki's amounts and rates do not describe one roll of the loot table.
+    Bosses (bosstiary, and every monster flagged rewardBoss) are always left for review: their loot
+    comes from the reward chest, so the wiki's amounts and rates do not describe one roll of the
+    loot table.
     """
     fixes, review = [], []
     for monster in report["monsters"]:
@@ -368,6 +369,13 @@ def apply_manifest(manifest, root, by_id, write=True):
             with open(full, "w", encoding="utf-8") as handle:
                 handle.write(new_text)
     return summary, failures
+
+
+def drop_excluded(fixes, excluded_monsters):
+    """Fixes for monsters a later rule excludes leave the manifest (their files must then be
+    restored and the manifest re-applied)."""
+    kept = [fix for fix in fixes if fix.get("monster") not in excluded_monsters]
+    return kept, [fix for fix in fixes if fix.get("monster") in excluded_monsters]
 
 
 def merge_fixes(existing, new):

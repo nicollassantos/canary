@@ -136,6 +136,7 @@ local function summarize(entry)
 		raceId = m.raceId,
 		bestiary = type(m.Bestiary) == "table" and m.Bestiary.class or nil,
 		bosstiary = type(m.bosstiary) == "table" and true or nil,
+		rewardBoss = type(m.flags) == "table" and m.flags.rewardBoss == true or nil,
 		armor = defenses.armor,
 		mitigation = defenses.mitigation,
 		elements = m.elements,
