@@ -571,7 +571,7 @@ Casos já lidos no código:
 
 Pendente com o usuário: testar highscores no cliente trocando filtros e páginas rápido (o intervalo responde "sem dados").
 
-## Phase 24 (proposta, depois do hardening): datapack atualizado a partir do TibiaWiki
+## Phase 24 (aberta em 2026-11-12): datapack atualizado a partir do TibiaWiki
 
 Pedido do usuário (2026-11-12): depois do hardening, vasculhar o TibiaWiki em busca de ajustes no datapack (loot, drops e o resto) e atualizar nossos arquivos.
 
@@ -583,3 +583,22 @@ Pedido do usuário (2026-11-12): depois do hardening, vasculhar o TibiaWiki em b
   3. Correções em lotes pequenos em `data-otservbr-global/monster/`.
   4. Testes de carga do datapack e smoke boot a cada lote.
 - **Cuidado com o merge:** o upstream também edita `data-otservbr-global`. Cada lote fica pequeno e por arquivo de monstro, e conflitos seguem a regra do §5b.
+
+### Como o servidor usa o loot (base da comparação)
+
+- `MonsterType:generateLootRoll` (`data/libs/functions/monstertype.lua`) rola **cada entrada de forma independente**: cai se `getLootRandom()` (0–100000 dividido pela taxa) for menor que `chance × fator × (0,95–1,05)`. `chance` está em 1/100000 (89920 = 89,92%).
+- Quantidade de empilhável: uniforme em `[minCount, maxCount]` (padrão 1); item com cargas usa as cargas; os demais, 1.
+- Entradas repetidas do mesmo item somam no mesmo resultado, então a chance de "o item aparecer" é `1 − Π(1 − p_i)`. É isso que se compara com o `times/kills` do wiki.
+- Nome de loot resolve por `Item::items.nameToItems`: nome desconhecido gera aviso; nome com vários ids usa o primeiro e avisa. Uma adição só pode ser proposta se o nome do wiki resolver para um único item.
+
+### Tasks
+
+- **24.1** — Ferramenta de relatório em `tools/datapack/` (sem editar o datapack):
+  - extrator `luajit` com stubs que carrega cada arquivo de monstro e emite JSON (nome, HP, XP, armor, mitigation, elementos, imunidades, loot com `id`/`name`/`chance`/`minCount`/`maxCount`/`child`); contagem conferida com o que o servidor registra;
+  - coletor da API do MediaWiki (`redirects=1`, mapeia `normalized`/`redirects`, segue `continue`, separa `missing`, guarda revid e data de cada página), cache fora do repositório, ~1 pedido/s, User-Agent genérico;
+  - parser dos blocos `Loot2` (por versão, comparada numericamente; o mais novo com kills suficientes; ignora `Empty`; aceita linha sem `amount`);
+  - comparador: chance fora de um intervalo binomial em torno de `times/kills`; `maxCount` do datapack abaixo da maior quantidade observada (a observada é só um limite inferior); item faltando/sobrando; HP, XP, armor, elementos (`percent` do datapack = 100 − `DmgMod` do wiki, a confirmar em amostra). Campo que diverge na maioria dos monstros vira questão de unidade, não 1600 achados;
+  - testes Python com fixtures sintéticas no formato do wiki; relatório gerado fora do repositório.
+- **24.2** — Revisão do relatório pelo usuário. Nada é removido automaticamente (drops de evento, quest e do fork são legítimos); o wiki é editável por qualquer um, então revids fixos e limites para saltos grandes.
+- **24.3** — Decidir com o usuário a estratégia de merge antes do primeiro lote (o upstream reescreve esses blocos de loot): de preferência um `--apply` idempotente que reaplica as correções sobre a versão do upstream. Registrar no §5b.
+- **24.4** — Lotes pequenos de correção, com carga do datapack e smoke a cada lote.

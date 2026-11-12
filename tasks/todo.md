@@ -286,7 +286,7 @@
     - transferência de casa: load completo de personagem offline por pacote antes de checar dono (`3713d6544`);
     - report de violação: alvo do pacote no caminho do arquivo (**append em arquivo arbitrário** com `..`) e sem limite de taxa (`aca095141`);
     - store (Lua): busca usada como padrão Lua → **um pacote congela o servidor**; transferência de 0 coins com 4 queries (`89799b1b2`).
-    Regras destiladas no §2b do `tasks/AGENTS.md`; harness `tools/lua/store_parsers_check.lua`. Pendentes no §6d (mailbox, regras do leilão, troca de nome no store)
+    Regras destiladas no §2b do `tasks/AGENTS.md`; harness `tools/lua/store_parsers_check.lua`. Depois: mailbox (só checagem leve de existência, escolha do usuário; `2d963e4d9`), regras do leilão (`0a35eea6c`) e nome no store (`7c66ceb18`)
   - Proposta (próxima fase): **segunda conexão MySQL só para `DatabaseTasks`**. Com uma conexão única, uma consulta de fundo (~100 ms com 300k linhas) ainda faz o loop esperar se ele precisar do banco no mesmo instante
   - Pendente: orçamento global da fila de saída (somando as conexões), a medir
   - [x] **23.3a-fix** — Use-after-free introduzido pelo `34c4e384a`: esvaziar a fila com uma escrita em andamento liberava o buffer que o asio ainda lia. Agora o handler do `async_write` segura a `OutputMessage` e o estouro mantém a mensagem da frente; teste `OverflowWithAWriteInFlightKeepsItsBufferAlive` — 916/916 + 85/85, preset de métricas ok
@@ -299,6 +299,13 @@
   - Observação para a 23.2: em erro recuperável de conexão, `Database::storeQuery`/`executeQuery` repetem para sempre (`goto retry` + sleep de 1s) **segurando o mutex**; MySQL fora do ar trava toda query síncrona do loop principal.
   - Inventário: `getPlayersByAccount(acc, allowOffline = true)` carrega cada personagem da conta do banco (multiplicador).
 - [ ] **CHECKPOINT 23** — parada em ponto estável em 2026-11-12 (pendências em `tasks/AGENTS.md` §6d); 986/986 + 90/90, preset de métricas ok
+
+## Phase 24 — datapack a partir do TibiaWiki (aberta em 2026-11-12; plano em `tasks/plan.md`)
+
+- [ ] **24.1** — Ferramenta de relatório (`tools/datapack/`): extrator luajit, coletor da API com cache, parser `Loot2`, comparador com intervalo binomial, testes Python
+- [ ] **24.2** — Revisão do relatório pelo usuário
+- [ ] **24.3** — Estratégia de merge decidida com o usuário (`--apply` idempotente?) e registrada no §5b
+- [ ] **24.4** — Lotes de correção com carga do datapack e smoke
 
 ### Achados do bot de ataque (`/home/nicollas/teste/proxy-bot`, lido sem executar) — próximas tasks da 23
 - **Stresser**: 1024 goroutines numa conexão; modos `pathfinder` (usar item com moeda → posição distante fixa, força pathfinding), `outfit` (`0xD2` + `0xD3` em laço; resposta grande para pedido pequeno), `walk`/`leftright`, `follow` (seguir/cancelar alternado).
