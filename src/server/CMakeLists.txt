@@ -7,6 +7,9 @@ target_sources(
             network/protocol/protocol_profile.cpp
             network/protocol/protocolgame.cpp
             network/protocol/protocolgame_send.cpp
+            network/protocol/protocolgame_send_cyclopedia.cpp
+            network/protocol/protocolgame_send_economy.cpp
+            network/protocol/protocolgame_send_social.cpp
             network/commands/game_command_dispatcher.cpp
             network/protocol/protocollogin.cpp
             network/protocol/protocol_session_hint.cpp
