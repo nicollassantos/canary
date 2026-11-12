@@ -25,7 +25,7 @@ Leia este arquivo inteiro antes de mexer na branch. Depois, para o detalhe de ca
   usuário se vão para commit próprio ou se devem ser descartadas. Nunca faça stash, reset ou
   commit por conta própria. Exemplo: o aviso de preâmbulo "world name" em `connection.cpp`
   ficou fora de commit da Phase 17 até a 20; o usuário mandou manter e ele entrou em
-  `55c20905e`.
+  `b6fe41f24`.
 - Fluxo por fase: o usuário pede "abra a Phase N e pode iniciar". Aí registrar a fase em
   `tasks/plan.md` e `tasks/todo.md` (commit `docs(tasks): ...`), executar task a task (build +
   testes + commit por task), fechar com o CHECKPOINT no `todo.md` e um relatório curto.
@@ -192,13 +192,13 @@ upstream.
     `historySize` e `lastHistoryState`.
   - Diff conferido: o corpo do reembolso só trocou a fonte dos dados (struct no lugar de
     `DBResult`) e passou a receber `game`/`players` injetados.
-- **20.2 VIP**: concluída no commit `183a8d83e`. Os 10 métodos VIP saíram de
+- **20.2 VIP**: concluída no commit `da75f9b33`. Os 10 métodos VIP saíram de
   `IOLoginData` e foram para `VipRepositoryDB(IDatabase&)`, idênticos, com `std::ignore =` nos
   `executeQuery` soltos (`IDatabase::executeQuery` é `[[nodiscard]]`). Testes em
   `tests/integration/io/vip_repository_db_it.cpp`. O trigger `oncreate_accounts` cria 3 grupos
   padrão com AUTO_INCREMENT global, então os testes escolhem um id de grupo livre. Resultado:
   ut 874/874, it 68/68.
-- **Antes da 20.3**: o teste `DatabasePortIsTheConnectedGlobalDatabase` (commit `ddac88f5c`)
+- **Antes da 20.3**: o teste `DatabasePortIsTheConnectedGlobalDatabase` (commit `178c4bd55`)
   prova que o `IDatabase` injetado é o `Database` conectado. Smoke boot com
   data-otservbr-global: online em 7s, zero `[error]`, exit 0. Smoke com oferta semeada (uma
   oferta de compra expirada, 2 × 500) confirmou o caminho real: oferta removida, 1 linha
