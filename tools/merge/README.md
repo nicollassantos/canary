@@ -129,6 +129,10 @@ Then:
   `ExpiredMarketOffer` instead of a `DBResult` row.
 - New upstream `IOMarket`/`IOGuild` functions land in the home file as `IOMarket::foo`. Turn
   them into adapter members and declare them in the port; check `inserted_home`.
+- The `iologindata` run reports `gameWorldAuthentication`, `loadPlayerById` and `savePlayer`
+  as `*_has_duplicates`. The live bodies are in `iologindata.cpp`; the copies in
+  `player_repository_db.cpp` are one-line delegates. The tool picks the copy most similar to
+  the base, which is the live body, so leave the delegates alone.
 - New upstream VIP and name/guid/balance functions land in `iologindata.cpp` (home). Move them
   to `VipRepositoryDB` or `PlayerRepositoryDB` when they are plain SQL; leave player
   load/save there.

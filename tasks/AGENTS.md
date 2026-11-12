@@ -251,8 +251,9 @@ upstream.
   - `Item::items` vem do items.xml real nos testes, então ids baixos têm grupo próprio (101
     é "earth", splash). Normalize `group`/`type` e restaure.
   - `Item::setTier` lê o `g_configManager()` global, sem config em unit test.
-- **21.3**: smoke semeado com dois donos (compra e venda offline) passou (ver `todo.md`).
-  Arquivos de seed usados: uma conta e um player por dono, e a oferta com `created = 1`.
+- **21.3**: smoke semeado passou com dois donos e com um único dono (receita na seção 7).
+  `SaveManager::savePlayer` salva player offline de forma síncrona, então a venda e a compra do
+  mesmo dono não se sobrescrevem.
 - Resultado: ut 888/888, it 72/72.
 
 ## 7. Smoke test do servidor (banco descartável)
@@ -266,6 +267,28 @@ upstream.
    encerramento limpo (exit 0) e checar `error|warn` no log. O único erro conhecido e
    pré-existente é `loadLuaMapUnique` uid 14092 item 2473 (data-otservbr-global).
 5. `DROP DATABASE` e apagar a config e a senha copiadas.
+
+**Smoke semeado do market** (único teste do reembolso de expiradas num banco real): depois de
+importar o `schema.sql` e antes de subir, insira as linhas abaixo; depois do SIGINT e antes do
+`DROP`, confira os valores. `created = 1` faz as ofertas já nascerem expiradas, e o reembolso
+roda no startup.
+
+```sql
+INSERT INTO `accounts` (`id`, `name`, `email`, `password`, `type`, `premdays`, `lastday`, `creation`) VALUES (990003, 'smoke_trader', 'smoke_trader@test.invalid', '', 1, 0, 0, 0);
+INSERT INTO `players` (`name`, `account_id`, `conditions`) VALUES ('Smoke Trader', 990003, '');
+-- sell offer: 150 small emeralds (stackable) -> must come back to the offline owner's inbox
+INSERT INTO `market_offers` (`player_id`, `sale`, `itemtype`, `amount`, `created`, `anonymous`, `price`, `tier`) VALUES ((SELECT `id` FROM `players` WHERE `name` = 'Smoke Trader'), 1, 3032, 150, 1, 0, 20, 0);
+-- buy offer: 2 x 500 -> must come back as bank balance
+INSERT INTO `market_offers` (`player_id`, `sale`, `itemtype`, `amount`, `created`, `anonymous`, `price`, `tier`) VALUES ((SELECT `id` FROM `players` WHERE `name` = 'Smoke Trader'), 0, 3031, 2, 1, 0, 500, 0);
+```
+
+Valores esperados:
+- `market_offers` vazio;
+- 2 linhas em `market_history` com `state = 2` (EXPIRED);
+- `players.balance` do dono igual a 1000;
+- `SUM(count)` em `player_inboxitems` com `itemtype = 3032` igual a 150 (duas linhas: 100 + 50).
+
+O tier fica sem cobertura: as ofertas usam tier 0, e o unit test não consegue afirmar o tier.
 
 ## 8. Histórico resumido
 
