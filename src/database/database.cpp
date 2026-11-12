@@ -39,7 +39,10 @@ Database::~Database() {
 }
 
 Database &Database::getInstance() {
-	return inject<Database>();
+	// DI::port: with no test binding this is the production container's instance, the same object
+	// injected as IDatabase into the repository adapters. inject<> would hand a test container its
+	// own, separate Database, so adapters and g_database() would talk to different connections.
+	return DI::port<Database>();
 }
 
 IDatabase &IDatabase::getInstance() {
