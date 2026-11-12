@@ -108,6 +108,19 @@ class PlanTest(unittest.TestCase):
                             ]}]}
     BY_NAME = {"gold coin": {3031}, "beast hide": {9002}, "beast fang": {9001}, "rare gem": {9003}, "dragon trophy": {2681, 2682}}
 
+    def test_currency_and_old_statistics_are_not_added(self):
+        report = {"monsters": [
+            {"name": "Rich Beast", "file": "rich.lua", "loot_block": {"version": "14.1", "kills": 900},
+             "findings": [{"kind": "loot_missing", "subject": "platinum coin", "wiki_chance": 50000, "times": 450, "max_amount": 3}]},
+            {"name": "Old Beast", "file": "old.lua", "loot_block": {"version": "8.6", "kills": 90000},
+             "findings": [{"kind": "loot_missing", "subject": "rare gem", "wiki_chance": 1200, "times": 1080, "max_amount": 1}]},
+        ]}
+        planned, review = fixes.plan(report, {"platinum coin": {3035}, "rare gem": {9003}}, stackable={3035})
+        self.assertEqual([], planned)
+        reasons = {r["item"]: r["reason"] for r in review}
+        self.assertIn("currency", reasons["platinum coin"])
+        self.assertIn("old statistics", reasons["rare gem"])
+
     def test_bosses_are_left_for_review(self):
         planned, review = fixes.plan(self.REPORT, self.BY_NAME, stackable={3031, 9001}, bosses={"Sample Beast"})
         self.assertEqual([], planned)
@@ -121,6 +134,16 @@ class PlanTest(unittest.TestCase):
         self.assertIn("too large", reasons["beast fang"])
         self.assertIn("2 items", reasons["dragon trophy"])
         self.assertEqual(7, planned[0]["source"]["loot_revid"])
+
+
+class MergeTest(unittest.TestCase):
+    def test_earlier_fixes_are_kept_and_same_key_is_replaced(self):
+        earlier = [max_count("gold coin", 60), add("rare gem", 1200)]
+        later = [add("rare gem", 1500), add("magic dust", 50)]
+        merged = fixes.merge_fixes(earlier, later)
+        self.assertEqual(3, len(merged))
+        self.assertEqual(1500, next(f for f in merged if f["item"] == "rare gem")["chance"])
+        self.assertIn(("max_count", "gold coin"), [(f["kind"], f["item"]) for f in merged])
 
 
 class StackableTest(unittest.TestCase):

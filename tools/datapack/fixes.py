@@ -18,6 +18,12 @@ import re
 # A wiki amount far above the datapack's is more likely a page error or vandalism than a fix.
 MAX_COUNT_GROWTH = 5
 MAX_COUNT_FLOOR = 20
+# Items are only added from statistics of this client version or newer: older samples describe
+# loot tables Tibia has changed since.
+MIN_ADD_VERSION = 12
+# Money is never added: the datapack pays high gold amounts as several gold coin entries where the
+# wiki records platinum coins, so adding coins would raise a monster's money drop.
+CURRENCY = frozenset({"gold coin", "platinum coin", "crystal coin"})
 
 
 # --- appearances.dat (protobuf, decoded by hand: only object.id and object.flags.cumulative) ---
@@ -104,6 +110,13 @@ def plan(report, by_name, stackable, kinds=("max_count", "add_loot"), bosses=fro
                 else:
                     fixes.append({"kind": "max_count", "file": monster["file"], "monster": monster["name"], "item": item, "maxCount": new, "source": source})
             elif finding["kind"] == "loot_missing" and "add_loot" in kinds:
+                major = int((re.findall(r"\d+", str(source.get("version") or "")) or [0])[0])
+                if item in CURRENCY:
+                    review.append({"monster": monster["name"], "item": item, "reason": "currency: compare with the existing coin entries"})
+                    continue
+                if major < MIN_ADD_VERSION:
+                    review.append({"monster": monster["name"], "item": item, "reason": f"old statistics (version {source.get('version')})"})
+                    continue
                 if len(ids) != 1:
                     review.append({"monster": monster["name"], "item": item, "reason": f"name resolves to {len(ids)} items", "ids": ids})
                     continue
@@ -221,6 +234,15 @@ def apply_manifest(manifest, root, by_id, write=True):
             with open(full, "w", encoding="utf-8") as handle:
                 handle.write(new_text)
     return summary, failures
+
+
+def merge_fixes(existing, new):
+    """The manifest accumulates: applied fixes disappear from later reports, so a new plan keeps
+    every earlier fix and only replaces one for the same file, kind and item."""
+    key = lambda fix: (fix["file"], fix["kind"], fix["item"])
+    merged = {key(fix): fix for fix in existing}
+    merged.update({key(fix): fix for fix in new})
+    return sorted(merged.values(), key=lambda f: (f["file"], f["kind"], f["item"]))
 
 
 def write_manifest(path, fixes, review, note):
