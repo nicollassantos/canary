@@ -205,6 +205,15 @@ código vive na branch. **Ao mover código em qualquer fase, acrescente a linha 
 | `src/canary_server.cpp`: parsing de `worldType` | `src/game/world_type_config.cpp` (`world_type_config::parse`) | se o upstream mudar nomes de world type, atualizar o parse e `world_type_config_test.cpp`; manter `"open-pvp"` |
 | `src/creatures/players/components/pvp/expert_pvp.cpp` | mesmo arquivo, com `g_game()`/config → `world()` (`ExpertPvpWorld`) | merge normal; manter `world().` nas linhas tocadas |
 
+Chamadas: o upstream chama `IOLoginData::`/`IOMarket::`/`IOGuild::` fora de `src/io`. Na
+branch, toda chamada passa por `g_playerRepository()`/`g_vipRepository()`/
+`g_marketRepository()`/`g_guildRepository()` (tabela "Call sites" do README). Depois de cada
+merge, o `git grep` do README precisa voltar vazio.
+
+Cobertura: depois de mover código ou de um merge, rode `tools/merge/coverage_check.py` para
+`game.cpp`, `player.cpp` e `protocolgame.cpp`; o resultado precisa ser 0 funções sem cópia local
+(fora os helpers de namespace listados). Na Phase 22 o resultado foi 416/416, 830/830 e 398/398.
+
 Código novo do upstream:
 - Função nova em `Game` vai para o service do assunto.
 - Função nova em `Player` vai para o component.

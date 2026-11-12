@@ -13,6 +13,7 @@ place where each function lives today.
 | `moved_merge.py` | Merges a god-object file whose functions moved into services/components (`game.cpp`, `player.cpp`). |
 | `audit_moved.py` | Checks that lines upstream added to moved functions reached every full copy of the body. |
 | `syntax_check.sh` | Compiles single `.cpp` files with `-fsyntax-only` using the unity build's flags, to catch includes hidden by unity batches. |
+| `coverage_check.py` | Lists upstream functions of a file that have no copy in the branch files given. Run it after every code move and every merge; 0 missing (or only the listed namespace helpers) is required. |
 
 ## Workflow
 
@@ -157,3 +158,23 @@ them, port the change by hand (`git diff <base> origin/main -- src/game/game.cpp
 | `InternalGame::playerCanUseItemWithOnHouseTile` | removed: dead code upstream too |
 | money helpers `removeItemFromOwner`, `deliverChange`, `processMoneyEntry`, `addItemToCylinder`, `addCoinStack`, `addCoins` | anonymous namespace of `src/items/item_service.cpp` |
 | market helpers `removeInventoryMoneyToBank`, `withdrawMarketFunds`, `checkCanInitCreateMarketOffer` | anonymous namespace of `src/game/market/market_service.cpp` |
+
+## Call sites of deleted or wrapped IO statics
+
+Upstream code outside `src/io` still calls the IO statics. On the branch every such call goes
+through a port, so a new upstream call must be rewritten when it is merged:
+
+| Upstream call | Branch call |
+|---|---|
+| `IOLoginData::loadPlayerById(`, `loadPlayerByName(`, `savePlayer(`, `getGuidByName(`, `getNameByGuid(`, `getGuidByNameEx(`, `formatPlayerName(`, `increaseBankBalance(`, `gameWorldAuthentication(` | `g_playerRepository().<same>(` |
+| `IOLoginData::getVIPEntries(` and the other VIP functions | `g_vipRepository().<same>(` |
+| `IOMarket::<x>(` | `g_marketRepository().<x>(` (`checkExpiredOffers` → `market_expiry::checkExpiredOffers()`) |
+| `IOGuild::<x>(` | `g_guildRepository().<x>(` |
+
+A stray upstream call still compiles for `IOLoginData` (load/save remain there) and silently
+bypasses the port. After every merge this must print nothing:
+
+```sh
+git grep -nE 'IOLoginData::|IOMarket::|IOGuild::' -- src ':!src/io/iologindata*' ':!src/io/functions/*' ':!*_repository_db.cpp'
+```
+
