@@ -111,6 +111,18 @@ def parse_number(value):
     return float(match.group(1)) if match else None
 
 
+def certain_number(value):
+    """Like parse_number, but None for values the wiki marks as uncertain (`100%?`, `~500`)."""
+    if value is None or "?" in value or "~" in value:
+        return None
+    return parse_number(value)
+
+
+def datapack_race(monster):
+    """The datapack's race id: bestiary raceId, or the bosstiary bossRaceId for bosses."""
+    return monster.get("raceId") or monster.get("bossRaceId")
+
+
 def version_key(version):
     return tuple(int(part) for part in re.findall(r"\d+", version or ""))
 
@@ -219,10 +231,10 @@ def compare(monster, infobox, blocks, by_name, by_id, checked=None):
 
     if infobox:
         wiki_race = parse_number(infobox.get("race_id"))
-        if wiki_race and monster.get("raceId") and int(wiki_race) != int(monster["raceId"]):
-            add("race_id", "race id", datapack=monster["raceId"], wiki=int(wiki_race))
+        if wiki_race and datapack_race(monster) and int(wiki_race) != int(datapack_race(monster)):
+            add("race_id", "race id", datapack=datapack_race(monster), wiki=int(wiki_race))
         for field, key in (("maxHealth", "hp"), ("experience", "exp"), ("armor", "armor")):
-            wiki_value = parse_number(infobox.get(key))
+            wiki_value = certain_number(infobox.get(key))
             ours = monster.get(field)
             if wiki_value is not None and ours is not None:
                 mark(field)
@@ -235,7 +247,7 @@ def compare(monster, infobox, blocks, by_name, by_id, checked=None):
                 add("stat", "mitigation", datapack=monster["mitigation"], wiki=wiki_mitigation)
         for element in monster.get("elements") or []:
             key = ELEMENTS.get(str(element.get("type")))
-            wiki_mod = parse_number(infobox.get(key)) if key else None
+            wiki_mod = certain_number(infobox.get(key)) if key else None
             if wiki_mod is None or element.get("percent") is None:
                 continue
             expected = 100 - wiki_mod
@@ -243,7 +255,7 @@ def compare(monster, infobox, blocks, by_name, by_id, checked=None):
                 add("element", key, datapack=element["percent"], wiki=expected)
         immunities = {str(i.get("type")): bool(i.get("condition")) for i in monster.get("immunities") or [] if isinstance(i, dict)}
         for immunity, key in (("paralyze", "paraimmune"), ("invisible", "senseinvis")):
-            flag = (infobox.get(key) or "").strip().lower()
+            flag = (infobox.get(key) or "").strip().lower()  # "yes?" is uncertain and skipped
             if flag in ("yes", "no") and immunity in immunities and immunities[immunity] != (flag == "yes"):
                 add("immunity", immunity, datapack=immunities[immunity], wiki=flag == "yes")
 
@@ -388,7 +400,7 @@ def command_report(args):
         if findings:
             report["monsters"].append({"name": monster["name"], "file": os.path.relpath(monster["file"], ROOT) if os.path.isabs(monster["file"]) else monster["file"],
                                        "revid": page.get("revid"), "loot_revid": loot_page.get("revid"), "loot_block": used, "findings": findings,
-                                       "race_id": monster.get("raceId"), "wiki_race_id": parse_number(infobox.get("race_id"))})
+                                       "race_id": datapack_race(monster), "wiki_race_id": parse_number(infobox.get("race_id"))})
     move_systematic(report, checked)
     totals = {}
     for entry in report["monsters"]:
@@ -448,34 +460,64 @@ def render_markdown(report, total):
     return "\n".join(lines) + "\n"
 
 
+def monster_info(monsters, cache_dir):
+    """Per monster: datapack race id, wiki race id, reward-chest flag and uncertain infobox keys."""
+    keys = ["hp", "exp", "armor", "paraimmune", "senseinvis"] + list(ELEMENTS.values())
+    info = {}
+    for monster in monsters:
+        page = read_cached(cache_dir, monster["name"]) or {}
+        infobox = parse_infobox(page.get("text") or "")
+        info[monster["name"]] = {
+            "race": datapack_race(monster),
+            "wiki_race": parse_number(infobox.get("race_id")),
+            "reward": bool(monster.get("rewardBoss")),
+            "uncertain": {k for k in keys if any(mark in infobox.get(k, "") for mark in "?~")},
+        }
+    return info
+
+
 def command_plan(args):
     import fixes as fixes_module
 
     with open(os.path.join(args.out, "report.json"), encoding="utf-8") as handle:
         report = json.load(handle)
+    monsters = load_monsters(args.out)
     by_name, _ = load_items(os.path.join(ROOT, args.items))
     stackable = fixes_module.load_stackable(os.path.join(ROOT, args.appearances))
     # Reward-chest monsters roll their table once per participant with a contribution factor
     # (data/scripts/systems/reward_chest.lua: 2x for a solo kill), so their datapack chances are
     # base values the wiki's per-player rates cannot check. Bosses that leave loot in the corpse
     # roll like any creature and follow the normal rules.
-    bosses = {m["name"] for m in load_monsters(args.out) if m.get("rewardBoss")}
+    bosses = {m["name"] for m in monsters if m.get("rewardBoss")}
     element_types = {key: combat for combat, key in ELEMENTS.items()}
     fixes, review = fixes_module.plan(report, by_name, stackable, kinds=tuple(args.kinds.split(",")), bosses=bosses, element_types=element_types)
     manifest_path = os.path.join(ROOT, args.manifest)
     if os.path.exists(manifest_path):
         with open(manifest_path, encoding="utf-8") as handle:
             fixes = fixes_module.merge_fixes(json.load(handle).get("fixes", []), fixes)
-        fixes, dropped = fixes_module.drop_excluded(fixes, bosses)
-        for path in sorted({fix["file"] for fix in dropped}):
-            print(f"  dropped fixes for {path}: restore it and re-run apply")
-    note = ("Datapack corrections from TibiaWiki loot statistics (CC BY-SA facts: chances, amounts). "
-            "Regenerate with `wiki_check.py plan`, apply with `wiki_check.py apply`; applying twice changes nothing.")
-    fixes_module.write_manifest(manifest_path, fixes, review, note)
-    kinds = {}
+    # Every fix, old or new, is re-checked with the current rules; the ones that no longer hold
+    # leave the manifest and their files must be restored before re-applying it.
+    info = monster_info(monsters, os.path.join(args.out, "cache", "creature"))
+    kept, dropped = [], []
     for fix in fixes:
+        reason = fixes_module.validate(fix, info.get(fix.get("monster")), {combat: key for combat, key in ELEMENTS.items()})
+        if reason:
+            dropped.append({**fix, "dropped": reason})
+            review.append({"monster": fix.get("monster"), "item": fix["item"], "reason": reason})
+        else:
+            kept.append(fix)
+    note = ("Datapack corrections from TibiaWiki (CC BY-SA facts: chances, amounts, stats). `from` is the value the fix "
+            "replaces; apply changes a value only while the file still holds it. Regenerate with `wiki_check.py plan`, "
+            "apply with `wiki_check.py apply`; applying twice changes nothing.")
+    fixes_module.write_manifest(manifest_path, kept, note)
+    with open(os.path.join(args.out, "review.json"), "w", encoding="utf-8") as handle:
+        json.dump({"review": review, "dropped": dropped}, handle, indent=1, ensure_ascii=False)
+    kinds = {}
+    for fix in kept:
         kinds[fix["kind"]] = kinds.get(fix["kind"], 0) + 1
-    print(f"{len(fixes)} fixes {kinds}, {len(review)} left for review -> {args.manifest}")
+    print(f"{len(kept)} fixes {kinds}, {len(review)} left for review -> {args.manifest}, {os.path.join(args.out, 'review.json')}")
+    for path in sorted({fix["file"] for fix in dropped}):
+        print(f"  dropped fixes for {path}: restore it and re-run apply")
     return 0
 
 

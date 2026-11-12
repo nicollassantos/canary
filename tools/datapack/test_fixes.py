@@ -96,7 +96,7 @@ class ApplyTest(unittest.TestCase):
 
 
 class PlanTest(unittest.TestCase):
-    REPORT = {"monsters": [{"name": "Sample Beast", "file": "beast.lua", "loot_revid": 7,
+    REPORT = {"monsters": [{"name": "Sample Beast", "file": "beast.lua", "loot_revid": 7, "race_id": 900, "wiki_race_id": 900.0,
                             "loot_block": {"version": "13.0", "kills": 5000},
                             "findings": [
                                 {"kind": "loot_count", "subject": "gold coin", "datapack_max": 40, "wiki_observed_max": 60},
@@ -110,9 +110,9 @@ class PlanTest(unittest.TestCase):
 
     def test_currency_and_old_statistics_are_not_added(self):
         report = {"monsters": [
-            {"name": "Rich Beast", "file": "rich.lua", "loot_block": {"version": "14.1", "kills": 900},
+            {"name": "Rich Beast", "file": "rich.lua", "race_id": 1, "loot_block": {"version": "14.1", "kills": 900},
              "findings": [{"kind": "loot_missing", "subject": "platinum coin", "wiki_chance": 50000, "times": 450, "max_amount": 3}]},
-            {"name": "Old Beast", "file": "old.lua", "loot_block": {"version": "8.6", "kills": 90000},
+            {"name": "Old Beast", "file": "old.lua", "race_id": 2, "loot_block": {"version": "8.6", "kills": 90000},
              "findings": [{"kind": "loot_missing", "subject": "rare gem", "wiki_chance": 1200, "times": 1080, "max_amount": 1}]},
         ]}
         planned, review = fixes.plan(report, {"platinum coin": {3035}, "rare gem": {9003}}, stackable={3035})
@@ -120,6 +120,16 @@ class PlanTest(unittest.TestCase):
         reasons = {r["item"]: r["reason"] for r in review}
         self.assertIn("currency", reasons["platinum coin"])
         self.assertIn("old statistics", reasons["rare gem"])
+
+    def test_loot_of_a_creature_without_race_id_is_left_for_review(self):
+        report = {"monsters": [{**self.REPORT["monsters"][0], "race_id": None}]}
+        planned, review = fixes.plan(report, self.BY_NAME, stackable={3031, 9001})
+        self.assertEqual([], planned)
+        self.assertTrue(all("identity" in r["reason"] for r in review))
+
+    def test_planned_fixes_record_the_value_they_replace(self):
+        planned, _ = fixes.plan(self.REPORT, self.BY_NAME, stackable={3031, 9001})
+        self.assertEqual(40, next(f for f in planned if f["kind"] == "max_count")["from"])
 
     def test_bosses_are_left_for_review(self):
         planned, review = fixes.plan(self.REPORT, self.BY_NAME, stackable={3031, 9001}, bosses={"Sample Beast"})
@@ -154,10 +164,10 @@ class ChanceTest(unittest.TestCase):
         def finding(item, ours, wiki, entries=1):
             return {"kind": "loot_chance", "subject": item, "datapack_chance": ours, "wiki_chance": wiki, "times": 50, "kills": 9000, "entries": entries}
         report = {"monsters": [
-            {"name": "New Beast", "file": "new.lua", "loot_block": {"version": "13.2", "kills": 9000}, "findings": [
+            {"name": "New Beast", "file": "new.lua", "race_id": 3, "loot_block": {"version": "13.2", "kills": 9000}, "findings": [
                 finding("beast fang", 20000, 15000), finding("gold coin", 50000, 90000), finding("beast hide", 500, 900, entries=2),
                 finding("rare gem", 100, 9000)]},
-            {"name": "Old Beast", "file": "old.lua", "loot_block": {"version": "8.6", "kills": 90000}, "findings": [finding("beast fang", 20000, 15000)]},
+            {"name": "Old Beast", "file": "old.lua", "race_id": 4, "loot_block": {"version": "8.6", "kills": 90000}, "findings": [finding("beast fang", 20000, 15000)]},
         ]}
         planned, review = fixes.plan(report, {}, stackable=set(), kinds=("chance",))
         self.assertEqual([("New Beast", "beast fang", 15000)], [(f["monster"], f["item"], f["chance"]) for f in planned])
@@ -238,11 +248,47 @@ class MergeTest(unittest.TestCase):
         self.assertIn(("max_count", "gold coin"), [(f["kind"], f["item"]) for f in merged])
 
 
-class DropTest(unittest.TestCase):
-    def test_fixes_of_excluded_monsters_leave_the_manifest(self):
-        kept, dropped = fixes.drop_excluded([{**add("rare gem", 10), "monster": "Boss"}, {**add("x", 5), "monster": "Beast"}], {"Boss"})
-        self.assertEqual(["Beast"], [f["monster"] for f in kept])
-        self.assertEqual(["Boss"], [f["monster"] for f in dropped])
+class ValidateTest(unittest.TestCase):
+    ELEMENT_KEYS = {"COMBAT_DROWNDAMAGE": "drownDmgMod"}
+
+    def check(self, fix, **info):
+        return fixes.validate(fix, info, self.ELEMENT_KEYS)
+
+    def test_loot_needs_a_datapack_race_id_that_matches_when_the_wiki_has_one(self):
+        self.assertIsNone(self.check(add("rare gem", 10), race=34, wiki_race=34))
+        self.assertIsNone(self.check(add("rare gem", 10), race=34, wiki_race=None))
+        self.assertIn("no race id", self.check(add("rare gem", 10), race=None, wiki_race=34))
+        self.assertIn("differs", self.check(add("rare gem", 10), race=35, wiki_race=34))
+
+    def test_reward_chest_monsters_are_refused(self):
+        self.assertIn("reward chest", self.check(add("rare gem", 10), race=34, wiki_race=34, reward=True))
+
+    def test_attributes_need_matching_ids_and_a_certain_value(self):
+        element = {"kind": "element", "item": "COMBAT_DROWNDAMAGE", "percent": 0}
+        self.assertIsNone(self.check(element, race=34, wiki_race=34, uncertain=set()))
+        self.assertIn("uncertain", self.check(element, race=34, wiki_race=34, uncertain={"drownDmgMod"}))
+        self.assertIn("race id", self.check(element, race=34, wiki_race=None))
+
+
+class ConflictTest(unittest.TestCase):
+    def test_value_changed_upstream_is_reported_not_overwritten(self):
+        batch = [{**max_count("gold coin", 60), "from": 30},
+                 {"kind": "chance", "file": "beast.lua", "item": "beast hide", "chance": 900, "from": 700}]
+        text, outcomes = fixes.apply_to_text(MONSTER, batch, BY_ID)
+        self.assertEqual(MONSTER, text)
+        self.assertTrue(all(o.startswith("changed upstream") for o in outcomes))
+
+    def test_attribute_changed_upstream_is_reported(self):
+        fix = {"kind": "stat", "item": "experience", "value": 750, "from": 650}
+        text, outcomes = fixes.apply_to_text(ATTRIBUTES, [fix], BY_ID)
+        self.assertEqual(ATTRIBUTES, text)
+        self.assertTrue(outcomes[0].startswith("changed upstream"))
+
+    def test_value_still_at_from_is_changed(self):
+        fix = {"kind": "stat", "item": "experience", "value": 750, "from": 700}
+        text, outcomes = fixes.apply_to_text(ATTRIBUTES, [fix], BY_ID)
+        self.assertEqual(["applied"], outcomes)
+        self.assertIn("monster.experience = 750", text)
 
 
 class StackableTest(unittest.TestCase):

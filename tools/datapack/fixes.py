@@ -95,6 +95,45 @@ def load_stackable(path):
 
 # --- plan: report -> manifest ----------------------------------------------------------------
 
+LOOT_KINDS = ("max_count", "add_loot", "chance")
+STAT_KEYS = {"experience": "exp", "maxHealth": "hp", "armor": "armor"}
+IMMUNITY_KEYS = {"paralyze": "paraimmune", "invisible": "senseinvis"}
+
+
+def identity_problem(race, wiki_race):
+    """Why a loot fix cannot be trusted to target the wiki's creature, or None.
+
+    The datapack must carry a race id (bestiary raceId or bosstiary bossRaceId): quest variants and
+    event copies often reuse a regular creature's name without one. When the wiki page also has a
+    race_id, the two must match.
+    """
+    if not race:
+        return "creature identity not confirmed: the datapack has no race id"
+    if wiki_race and int(race) != int(wiki_race):
+        return "race id differs from the wiki"
+    return None
+
+
+def validate(fix, info, element_keys):
+    """Re-check a manifest fix with the current rules; returns the reason it no longer holds, or None.
+
+    `info` describes the fix's monster: race, wiki_race, reward (rewardBoss) and uncertain (infobox
+    keys whose value the wiki marks with ? or ~). Unknown monsters are kept.
+    """
+    if info is None:
+        return None
+    if info.get("reward"):
+        return "reward chest: chances are base values scaled per participant"
+    if fix["kind"] in LOOT_KINDS:
+        return identity_problem(info.get("race"), info.get("wiki_race"))
+    race, wiki_race = info.get("race"), info.get("wiki_race")
+    if not race or not wiki_race or int(race) != int(wiki_race):
+        return "race id missing or different from the wiki"
+    key = {"stat": STAT_KEYS, "immunity": IMMUNITY_KEYS}.get(fix["kind"], element_keys).get(fix["item"])
+    if key in info.get("uncertain", ()):
+        return "the wiki marks this value as uncertain"
+    return None
+
 def plan(report, by_name, stackable, kinds=("max_count", "add_loot", "chance", "stat", "element", "immunity"), bosses=frozenset(), element_types=None):
     """Fixes for the chosen kinds plus the findings left for manual review, with the reason.
 
@@ -112,9 +151,13 @@ def plan(report, by_name, stackable, kinds=("max_count", "add_loot", "chance", "
         block = monster.get("loot_block") or {}
         source = {"version": block.get("version"), "kills": block.get("kills"), "loot_revid": monster.get("loot_revid")}
         same_creature = bool(monster.get("race_id")) and bool(monster.get("wiki_race_id")) and int(monster["race_id"]) == int(monster["wiki_race_id"])
+        loot_identity = identity_problem(monster.get("race_id"), monster.get("wiki_race_id"))
         for finding in monster["findings"]:
             item = finding["subject"]
             ids = sorted(by_name.get(item, set()))
+            if finding["kind"] in ("loot_count", "loot_chance", "loot_missing") and loot_identity:
+                review.append({"monster": monster["name"], "item": item, "reason": loot_identity})
+                continue
             if finding["kind"] == "loot_count" and "max_count" in kinds:
                 old, new = finding["datapack_max"], finding["wiki_observed_max"]
                 if not ids or not all(i in stackable for i in ids):
@@ -122,7 +165,7 @@ def plan(report, by_name, stackable, kinds=("max_count", "add_loot", "chance", "
                 elif new > max(old * MAX_COUNT_GROWTH, MAX_COUNT_FLOOR):
                     review.append({"monster": monster["name"], "item": item, "reason": f"jump from {old} to {new} is too large to trust", "wiki": new})
                 else:
-                    fixes.append({"kind": "max_count", "file": monster["file"], "monster": monster["name"], "item": item, "maxCount": new, "source": source})
+                    fixes.append({"kind": "max_count", "file": monster["file"], "monster": monster["name"], "item": item, "maxCount": new, "from": old, "source": source})
             elif finding["kind"] in ("stat", "element", "immunity") and finding["kind"] in kinds:
                 page = {"revid": monster.get("revid")}
                 if not same_creature:
@@ -133,15 +176,18 @@ def plan(report, by_name, stackable, kinds=("max_count", "add_loot", "chance", "
                     if ours <= 0 or wiki <= 0 or not (1 / STAT_FACTOR <= ours / wiki <= STAT_FACTOR):
                         review.append({"monster": monster["name"], "item": finding["subject"], "reason": f"stat gap from {ours:g} to {wiki:g} is too large to trust"})
                         continue
-                    fixes.append({"kind": "stat", "file": monster["file"], "monster": monster["name"], "item": finding["subject"], "value": int(round(wiki)), "source": page})
+                    fixes.append({"kind": "stat", "file": monster["file"], "monster": monster["name"], "item": finding["subject"], "value": int(round(wiki)),
+                                  "from": int(round(ours)), "source": page})
                 elif finding["kind"] == "element":
                     combat = (element_types or {}).get(finding["subject"])
                     if not combat:
                         review.append({"monster": monster["name"], "item": finding["subject"], "reason": "unknown element"})
                         continue
-                    fixes.append({"kind": "element", "file": monster["file"], "monster": monster["name"], "item": combat, "percent": int(round(float(finding["wiki"]))), "source": page})
+                    fixes.append({"kind": "element", "file": monster["file"], "monster": monster["name"], "item": combat, "percent": int(round(float(finding["wiki"]))),
+                                  "from": int(round(float(finding["datapack"]))), "source": page})
                 else:
-                    fixes.append({"kind": "immunity", "file": monster["file"], "monster": monster["name"], "item": finding["subject"], "condition": bool(finding["wiki"]), "source": page})
+                    fixes.append({"kind": "immunity", "file": monster["file"], "monster": monster["name"], "item": finding["subject"], "condition": bool(finding["wiki"]),
+                                  "from": bool(finding["datapack"]), "source": page})
             elif finding["kind"] == "loot_chance" and "chance" in kinds:
                 major = int((re.findall(r"\d+", str(source.get("version") or "")) or [0])[0])
                 ours, wiki = finding["datapack_chance"], max(1, int(finding["wiki_chance"]))
@@ -157,7 +203,7 @@ def plan(report, by_name, stackable, kinds=("max_count", "add_loot", "chance", "
                 if reason:
                     review.append({"monster": monster["name"], "item": item, "reason": reason})
                 else:
-                    fixes.append({"kind": "chance", "file": monster["file"], "monster": monster["name"], "item": item, "chance": wiki,
+                    fixes.append({"kind": "chance", "file": monster["file"], "monster": monster["name"], "item": item, "chance": wiki, "from": ours,
                                   "source": {**source, "times": finding["times"], "kills": finding["kills"]}})
             elif finding["kind"] == "loot_missing" and "add_loot" in kinds:
                 major = int((re.findall(r"\d+", str(source.get("version") or "")) or [0])[0])
@@ -228,55 +274,46 @@ def block_span(text, name):
     return match.end(), pos - 1
 
 
-def set_numbers(text, patterns, value, flags=re.M):
-    """Set every `patterns` match to value; None when a pattern is missing, else (text, changed)."""
-    changed = False
-    for pattern in patterns:
-        match = re.search(pattern, text, flags)
-        if not match:
-            return None
-        if match.group(2) != str(value):
-            text = text[:match.start(2)] + str(value) + text[match.end(2):]
-            changed = True
-    return text, changed
+def attribute_target(fix):
+    """(scope block or None, [patterns], wanted value, textual kind) for a stat/element/immunity fix."""
+    if fix["kind"] == "stat":
+        if fix["item"] == "armor":
+            return "defenses", [r"^(\s*armor\s*=\s*)(\d+)"], fix["value"]
+        return None, STAT_LINES.get(fix["item"], []), fix["value"]
+    if fix["kind"] == "element":
+        return "elements", [rf"(\{{\s*type\s*=\s*{re.escape(fix['item'])}\s*,\s*percent\s*=\s*)(-?\d+)"], fix["percent"]
+    return "immunities", [rf'(\{{\s*type\s*=\s*"{re.escape(fix["item"])}"\s*,\s*condition\s*=\s*)(true|false)'], fix["condition"]
 
 
 def apply_attribute(text, fix):
-    """Stat, element and immunity fixes; returns (text, outcome)."""
-    if fix["kind"] == "stat":
-        if fix["item"] == "armor":
-            span = block_span(text, "defenses")
-            if span is None:
-                return text, "no monster.defenses block"
-            inner = set_numbers(text[span[0]:span[1]], [r"^(\s*armor\s*=\s*)(\d+)"], fix["value"])
-            if inner is None:
-                return text, "no armor line"
-            return text[:span[0]] + inner[0] + text[span[1]:], "applied" if inner[1] else "already"
-        result = set_numbers(text, STAT_LINES.get(fix["item"], []), fix["value"]) if fix["item"] in STAT_LINES else None
-        if result is None:
-            return text, f"no {fix['item']} line"
-        return result[0], "applied" if result[1] else "already"
-    if fix["kind"] == "element":
-        span = block_span(text, "elements")
+    """Stat, element and immunity fixes; returns (text, outcome). The value changes only when the
+    file still holds the fix's `from` value (or no `from` is recorded); otherwise the conflict is
+    reported and the file left alone."""
+    scope, patterns, wanted = attribute_target(fix)
+    if not patterns:
+        return text, f"no {fix['item']} line"
+    start, end = 0, len(text)
+    if scope:
+        span = block_span(text, scope)
         if span is None:
-            return text, "no monster.elements block"
-        inner = set_numbers(text[span[0]:span[1]], [rf"(\{{\s*type\s*=\s*{re.escape(fix['item'])}\s*,\s*percent\s*=\s*)(-?\d+)"], fix["percent"], flags=0)
-        if inner is None:
-            return text, "element not listed"
-        return text[:span[0]] + inner[0] + text[span[1]:], "applied" if inner[1] else "already"
-    span = block_span(text, "immunities")
-    if span is None:
-        return text, "no monster.immunities block"
-    body = text[span[0]:span[1]]
-    pattern = rf'(\{{\s*type\s*=\s*"{re.escape(fix["item"])}"\s*,\s*condition\s*=\s*)(true|false)'
-    match = re.search(pattern, body)
-    if not match:
-        return text, "immunity not listed"
-    wanted = "true" if fix["condition"] else "false"
-    if match.group(2) == wanted:
+            return text, f"no monster.{scope} block"
+        start, end = span
+    body = text[start:end]
+    flags = re.M if fix["kind"] == "stat" else 0
+    matches = [re.search(pattern, body, flags) for pattern in patterns]
+    if not all(matches):
+        return text, f"{fix['item']} not listed"
+    as_value = (lambda raw: raw == "true") if fix["kind"] == "immunity" else int
+    current = as_value(matches[-1].group(2))
+    if current == wanted:
         return text, "already"
-    body = body[:match.start(2)] + wanted + body[match.end(2):]
-    return text[:span[0]] + body + text[span[1]:], "applied"
+    if "from" in fix and current != fix["from"]:
+        return text, f"changed upstream ({fix['item']} {matches[-1].group(2)})"
+    rendered = ("true" if wanted else "false") if fix["kind"] == "immunity" else str(wanted)
+    for pattern in patterns:
+        match = re.search(pattern, body, flags)
+        body = body[:match.start(2)] + rendered + body[match.end(2):]
+    return text[:start] + body + text[end:], "applied"
 
 
 def apply_to_text(text, fixes, by_id):
@@ -303,8 +340,12 @@ def apply_to_text(text, fixes, by_id):
                 continue
             index, match = max(matching, key=lambda im: entry_number(im[1].group("body"), "maxCount") or 1)
             body = match.group("body")
-            if (entry_number(body, "maxCount") or 1) >= fix["maxCount"]:
+            current = entry_number(body, "maxCount") or 1
+            if current >= fix["maxCount"]:
                 outcomes.append("already")
+                continue
+            if "from" in fix and current != fix["from"]:
+                outcomes.append(f"changed upstream (maxCount {current})")
                 continue
             if entry_number(body, "maxCount") is not None:
                 body = re.sub(r"\bmaxCount\s*=\s*\d+", f"maxCount = {fix['maxCount']}", body)
@@ -318,8 +359,12 @@ def apply_to_text(text, fixes, by_id):
                 continue
             index, match = matching[0]
             body = match.group("body")
-            if entry_number(body, "chance") == fix["chance"]:
+            current = entry_number(body, "chance")
+            if current == fix["chance"]:
                 outcomes.append("already")
+                continue
+            if "from" in fix and current != fix["from"]:
+                outcomes.append(f"changed upstream (chance {current})")
                 continue
             body = re.sub(r"\bchance\s*=\s*\d+", f"chance = {fix['chance']}", body, count=1)
             lines[index] = f"{match.group('indent')}{{{body}}}{match.group('tail')}"
@@ -371,13 +416,6 @@ def apply_manifest(manifest, root, by_id, write=True):
     return summary, failures
 
 
-def drop_excluded(fixes, excluded_monsters):
-    """Fixes for monsters a later rule excludes leave the manifest (their files must then be
-    restored and the manifest re-applied)."""
-    kept = [fix for fix in fixes if fix.get("monster") not in excluded_monsters]
-    return kept, [fix for fix in fixes if fix.get("monster") in excluded_monsters]
-
-
 def merge_fixes(existing, new):
     """The manifest accumulates: applied fixes disappear from later reports, so a new plan keeps
     every earlier fix and only replaces one for the same file, kind and item."""
@@ -387,7 +425,7 @@ def merge_fixes(existing, new):
     return sorted(merged.values(), key=lambda f: (f["file"], f["kind"], f["item"]))
 
 
-def write_manifest(path, fixes, review, note):
+def write_manifest(path, fixes, note):
     with open(path, "w", encoding="utf-8") as handle:
-        json.dump({"note": note, "fixes": fixes, "review": review}, handle, indent=1, ensure_ascii=False)
+        json.dump({"note": note, "fixes": fixes}, handle, indent=1, ensure_ascii=False)
         handle.write("\n")
