@@ -445,8 +445,9 @@ void Connection::send(const OutputMessage_ptr &outputMessage) {
 	if (maxQueued > 0 && messageQueue.size() >= static_cast<size_t>(maxQueued)) {
 		g_logger().warn("[Connection::send] - {} disconnected: {} output messages queued, the client is not reading.", convertIPToString(getIP()), messageQueue.size());
 		g_metrics().addCounter("connection_output_queue_overflow_total", 1);
-		// Free the queued buffers now instead of when a pending worker runs.
-		messageQueue.clear();
+		// Free the queued buffers now, but keep the front: it may be the message asio is still
+		// writing. Its completion (aborted by the close) releases it.
+		messageQueue.erase(std::next(messageQueue.begin()), messageQueue.end());
 		close(FORCE_CLOSE);
 		return;
 	}
@@ -546,7 +547,9 @@ void Connection::internalSend(const OutputMessage_ptr &outputMessage) {
 	try {
 		const auto requestedBytes = outputMessage->getLength();
 		const auto socketOpenAtStart = socket.is_open();
-		asio::async_write(socket, asio::buffer(outputMessage->getOutputBuffer(), requestedBytes), [self = shared_from_this(), requestedBytes, socketOpenAtStart](const std::error_code &error, size_t bytesTransferred) {
+		// The handler owns the message: asio reads its buffer until the completion runs, even if the
+		// queue is cleared or trimmed meanwhile.
+		asio::async_write(socket, asio::buffer(outputMessage->getOutputBuffer(), requestedBytes), [self = shared_from_this(), outputMessage, requestedBytes, socketOpenAtStart](const std::error_code &error, size_t bytesTransferred) {
 			self->onWriteOperation(error, bytesTransferred, requestedBytes, socketOpenAtStart);
 		});
 	} catch (const std::system_error &e) {

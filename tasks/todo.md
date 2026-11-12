@@ -252,6 +252,7 @@
 - [x] **23.1** — `packet_watch::Scope` em `ProtocolGame::parsePacket`: latência por opcode (`method_latency{method="packet_0xNN"}`), `slow_packets_total{opcode}`, aviso `[PacketWatch]` (≥50ms, no máx. 1 a cada 5s, com contagem de suprimidos); 4 testes — 912/912 + 85/85; compila nos presets de testes e de métricas
 - [ ] **23.2** — Inventário de fora para dentro com dados semeados (queries por caminho, multiplicador do cliente, `EXPLAIN`)
 - [ ] **23.3** — Correções priorizadas pela medição (cama primeiro se confirmada)
+  - [x] **23.3a-fix** — Use-after-free introduzido pelo `34c4e384a`: esvaziar a fila com uma escrita em andamento liberava o buffer que o asio ainda lia. Agora o handler do `async_write` segura a `OutputMessage` e o estouro mantém a mensagem da frente; teste `OverflowWithAWriteInFlightKeepsItsBufferAlive` — 916/916 + 85/85, preset de métricas ok
   - [x] **23.3a** — Teto da fila de saída por conexão (ataque de leitor lento do bot): `maxOutputQueueMessages` (padrão 2048 ≈ 128 MB / ~20 s de cliente parado, `0` desativa; valor escolhido pelo usuário); estouro → esvazia a fila, desconecta, aviso com IP, `connection_output_queue_overflow_total`; lido pela porta `IConfigManager`; 3 testes; `config.lua` local atualizado com a chave
 - [ ] **23.4** — Pendências da 22 (irmãos, vaga do highscore, handoff)
   - Auditoria feita (só leitura):
@@ -267,5 +268,16 @@
 - **Leitor lento** ("server throttling" do bot): lê a saída do servidor devagar. `Connection::messageQueue` **não tem teto** e o timeout de escrita (30s) vale por escrita, então um gotejamento nunca estoura → fila e memória crescem. Corrigir: teto por conexão (bytes/mensagens) + desconexão + métrica.
 - Limite atual `maxPacketsPerSecond` = 25 por média em janela de ~3s (permite rajadas de ~75); medir com o `packet_watch` antes de mudar.
 - **Attacker** = automação de "moves" com cooldown (não é DoS).
+- Catálogo completo de `/bot` (lido em 2026-11-12):
+  - `shine`: 100× (`0xD2` abre a janela de outfit + `0xD3` troca cores) a cada 25ms;
+  - `ddos`: 16 goroutines em laço infinito de `0xD2` + `0xD3`;
+  - `outfit <lookType>`: `0xD2` + `0xD3` com lookType escolhido. **Posse validada**: o servidor só troca se `player->canWear(...)`. O custo é volume: `0xD2` monta a janela inteira (outfits/montarias) e `0xD3` não tem intervalo e é transmitido a todos os espectadores;
+  - `move`: um `0x78` fixo (mover item de uma posição do mapa para um container); conferir as checagens de distância/alcance em `playerMoveItem`;
+  - `fish`/`attack`/`heal`: automação;
+  - `stress`: modos acima;
+  - `debug`: só alterna o log do bot.
+- Achado do código: no "usar item com" para destino longe, o `getPathTo` roda **antes** do `canDoAction`, então um A* por pacote (limitado por `maxSearchDist = 7`).
+- Índices (levantados no `information_schema`, não no texto do `schema.sql`, porque as FKs criam índice implícito): tabelas por player estão indexadas; `market_history` sofre varredura completa no `updateStatistics`, chamado por `Game::loadItemsPrice` **periodicamente no dispatcher**; 7 índices redundantes (`player_items.player_id`, `player_spells.player_id`, `player_wheeldata` igual à PK, `account_viplist.account_id`, `account_vipgrouplist.account_id`/`vipgroup_id`, `house_lists.house_id_index`). Regra: índice novo só pelo passo idempotente da branch no boot (sem migration numerada, sem editar `schema.sql`); remover redundantes só depois de medir e com aprovação.
+- Pendências da revisão: medir o `market_history` com centenas de milhares de linhas (com e sem índice); digests do `performance_schema` (também pega SQL do datapack Lua); custo do `packet_watch::Scope` no build com métricas; o que limita conexões por IP antes e depois do login.
 - **Segurança**: `metricsPrometheusAddress` padrão `0.0.0.0:9464` expõe métricas (latências, começo do SQL) a qualquer um; em produção usar `127.0.0.1:9464` ou firewall liberando só o Prometheus.
 

@@ -229,6 +229,11 @@ protected:
 		return diagnostics;
 	}
 
+	// Starts the write without running io, so it stays in flight.
+	void beginWrite(const OutputMessage_ptr &message) {
+		connection->internalSend(message);
+	}
+
 	size_t queuedMessages() const {
 		return connection->messageQueue.size();
 	}
@@ -504,7 +509,8 @@ TEST_F(ConnectionWriteDiagnosticsTest, OutputQueueBeyondTheLimitClosesTheConnect
 	connection->send(OutputMessagePool::getOutputMessage());
 
 	EXPECT_TRUE(isClosed());
-	EXPECT_EQ(0U, queuedMessages());
+	// Only the front may stay: it can be the message asio is still writing.
+	EXPECT_LE(queuedMessages(), 1U);
 	const auto diagnostics = diagnosticsFor("[Connection::send]");
 	ASSERT_EQ(1U, diagnostics.size());
 	EXPECT_EQ("warning", diagnostics.front().first);
@@ -530,4 +536,26 @@ TEST_F(ConnectionWriteDiagnosticsTest, ZeroOutputQueueLimitDisablesTheCheck) {
 
 	EXPECT_FALSE(isClosed());
 	EXPECT_EQ(64U, queuedMessages());
+}
+
+// The real slow-reader case: a write is in flight when the queue overflows. The message asio is
+// still writing must stay alive until its completion runs.
+TEST_F(ConnectionWriteDiagnosticsTest, OverflowWithAWriteInFlightKeepsItsBufferAlive) {
+	constexpr int32_t Limit = 8;
+	config->setNumber(MAX_OUTPUT_QUEUE_MESSAGES, Limit);
+	const auto inFlight = queueMessage();
+	beginWrite(inFlight);
+	for (int32_t sent = 1; sent < Limit; ++sent) {
+		connection->send(OutputMessagePool::getOutputMessage());
+	}
+	ASSERT_FALSE(isClosed());
+
+	connection->send(OutputMessagePool::getOutputMessage());
+
+	EXPECT_TRUE(isClosed());
+	// Owned by the test and by the pending write, not only by the (now trimmed) queue.
+	EXPECT_GE(inFlight.use_count(), 2);
+	io.restart();
+	io.run_for(std::chrono::seconds(2));
+	EXPECT_TRUE(isClosed());
 }
