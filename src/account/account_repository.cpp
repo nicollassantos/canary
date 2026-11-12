@@ -12,5 +12,6 @@
 #include "lib/di/container.hpp"
 
 AccountRepository &AccountRepository::getInstance() {
-	return inject<AccountRepository>();
+	// Test fake when a test binds one, otherwise the production adapter (see DI::port).
+	return DI::port<AccountRepository>();
 }
