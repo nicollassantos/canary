@@ -78,7 +78,7 @@ monster.voices = {
 
 monster.loot = {
 	{ id = 6499, chance = 100000 }, -- demonic essence
-	{ id = 3031, chance = 100000, maxCount = 194 }, -- gold coin
+	{ id = 3031, chance = 100000, maxCount = 195 }, -- gold coin
 	{ id = 8899, chance = 54000 }, -- slightly rusted legs
 	{ id = 8896, chance = 45000 }, -- slightly rusted armor
 	{ id = 238, chance = 27000 }, -- great mana potion
