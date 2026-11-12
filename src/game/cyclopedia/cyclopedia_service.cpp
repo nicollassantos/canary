@@ -18,6 +18,7 @@
 #include "game/game_definitions.hpp"
 #include "creatures/players/player_repository.hpp"
 #include "io/iologindata.hpp"
+#include "lib/metrics/metrics.hpp"
 #include "map/house/house.hpp"
 #include "map/house/housetile.hpp"
 
@@ -155,9 +156,19 @@ void CyclopediaService::playerCyclopediaHouseBid(uint32_t playerId, uint32_t hou
 		return;
 	}
 
+	// Rented, transferring and moving-out houses keep their owner (and a transfer keeps the heir
+	// in the bidder fields); only a house nobody owns is up for auction.
+	if (house->getOwner() != 0 || house->getState() != CyclopediaHouseState::Available) {
+		g_logger().warn("[{}] Player {} bid on house {}, which is not up for auction", __FUNCTION__, player->getName(), houseId);
+		g_metrics().addCounter("house_auction_requests_rejected", 1, { { "reason", "not_on_auction" } });
+		player->sendHouseAuctionMessage(houseId, HouseAuctionType::Bid, enumToValue(BidErrorMessage::Internal));
+		return;
+	}
+
 	auto ret = player->canBidHouse(houseId);
 	if (ret != BidErrorMessage::NoError) {
 		player->sendHouseAuctionMessage(houseId, HouseAuctionType::Bid, enumToValue(ret));
+		return;
 	}
 	ret = BidErrorMessage::NotEnoughMoney;
 	auto retSuccess = BidSuccessMessage::BidSuccess;
