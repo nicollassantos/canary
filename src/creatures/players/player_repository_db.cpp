@@ -9,6 +9,10 @@
 
 #include "creatures/players/player_repository_db.hpp"
 
+#include "creatures/players/grouping/groups.hpp"
+#include "database/database.hpp"
+#include "database/database_port.hpp"
+#include "game/game.hpp"
 #include "io/iologindata.hpp"
 #include "lib/di/container.hpp"
 
@@ -28,26 +32,63 @@ bool PlayerRepositoryDB::savePlayer(const std::shared_ptr<Player> &player) {
 	return IOLoginData::savePlayer(player);
 }
 
-uint32_t PlayerRepositoryDB::getGuidByName(const std::string &name) {
-	return IOLoginData::getGuidByName(name);
+bool PlayerRepositoryDB::gameWorldAuthentication(const std::string &accountDescriptor, const std::string &sessionOrPassword, std::string &characterName, uint32_t &accountId, bool oldProtocol, uint32_t ip) {
+	return IOLoginData::gameWorldAuthentication(accountDescriptor, sessionOrPassword, characterName, accountId, oldProtocol, ip);
 }
 
 std::string PlayerRepositoryDB::getNameByGuid(uint32_t guid) {
-	return IOLoginData::getNameByGuid(guid);
+	std::ostringstream query;
+	query << "SELECT `name` FROM `players` WHERE `id` = " << guid;
+	DBResult_ptr result = db_.storeQuery(query.str());
+	if (!result) {
+		return {};
+	}
+	return result->getString("name");
 }
 
-void PlayerRepositoryDB::increaseBankBalance(uint32_t guid, uint64_t amount) {
-	IOLoginData::increaseBankBalance(guid, amount);
-}
-
-bool PlayerRepositoryDB::formatPlayerName(std::string &name) {
-	return IOLoginData::formatPlayerName(name);
+uint32_t PlayerRepositoryDB::getGuidByName(const std::string &name) {
+	std::ostringstream query;
+	query << "SELECT `id` FROM `players` WHERE `name` = " << db_.escapeString(name);
+	DBResult_ptr result = db_.storeQuery(query.str());
+	if (!result) {
+		return 0;
+	}
+	return result->getNumber<uint32_t>("id");
 }
 
 bool PlayerRepositoryDB::getGuidByNameEx(uint32_t &guid, bool &specialVip, std::string &name) {
-	return IOLoginData::getGuidByNameEx(guid, specialVip, name);
+	std::ostringstream query;
+	query << "SELECT `name`, `id`, `group_id`, `account_id` FROM `players` WHERE `name` = " << db_.escapeString(name);
+	DBResult_ptr result = db_.storeQuery(query.str());
+	if (!result) {
+		return false;
+	}
+
+	name = result->getString("name");
+	guid = result->getNumber<uint32_t>("id");
+	if (auto group = g_game().groups.getGroup(result->getNumber<uint16_t>("group_id"))) {
+		specialVip = group->flags[Groups::getFlagNumber(PlayerFlags_t::SpecialVIP)];
+	} else {
+		specialVip = false;
+	}
+	return true;
 }
 
-bool PlayerRepositoryDB::gameWorldAuthentication(const std::string &accountDescriptor, const std::string &sessionOrPassword, std::string &characterName, uint32_t &accountId, bool oldProtocol, uint32_t ip) {
-	return IOLoginData::gameWorldAuthentication(accountDescriptor, sessionOrPassword, characterName, accountId, oldProtocol, ip);
+bool PlayerRepositoryDB::formatPlayerName(std::string &name) {
+	std::ostringstream query;
+	query << "SELECT `name` FROM `players` WHERE `name` = " << db_.escapeString(name);
+
+	DBResult_ptr result = db_.storeQuery(query.str());
+	if (!result) {
+		return false;
+	}
+
+	name = result->getString("name");
+	return true;
+}
+
+void PlayerRepositoryDB::increaseBankBalance(uint32_t guid, uint64_t bankBalance) {
+	std::ostringstream query;
+	query << "UPDATE `players` SET `balance` = `balance` + " << bankBalance << " WHERE `id` = " << guid;
+	std::ignore = db_.executeQuery(query.str());
 }

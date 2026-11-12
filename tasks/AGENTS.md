@@ -60,7 +60,7 @@ Leia este arquivo inteiro antes de mexer na branch. Depois, para o detalhe de ca
 |---|---|---|
 | `IConfigManager` (`config/config_port.hpp`) | `ConfigManager` (binding para **a instância carregada**) | `config/in_memory_config_manager.hpp` |
 | `IDatabase` (`database/database_port.hpp`) | `Database` | — (testes de integração usam MySQL) |
-| `IPlayerRepository` | `PlayerRepositoryDB` (ainda delega para `IOLoginData`) | `creatures/in_memory_player_repository.hpp` |
+| `IPlayerRepository` | `PlayerRepositoryDB(IDatabase&)`: dono do SQL de nome/guid/saldo desde a 21.1; load/save e `gameWorldAuthentication` ainda delegam para `IOLoginData` | `creatures/in_memory_player_repository.hpp` |
 | `IVipRepository` | `VipRepositoryDB(IDatabase&)`, dono do SQL desde a 20.2 | `creatures/in_memory_vip_repository.hpp` |
 | `IMarketRepository` | `MarketRepositoryDB(IDatabase&, IConfigManager&)`, dono do SQL desde a 20.1 | `io/in_memory_market_repository.hpp` |
 | `IGuildRepository` | `GuildRepositoryDB(IDatabase&)`, dono do SQL; `IOGuild` removido | `io/in_memory_guild_repository.hpp` |
@@ -156,7 +156,7 @@ Ferramentas e passo a passo: `tools/merge/README.md`. Resumo e lições:
    - `*_has_duplicates`: há cópia morta. Na Phase 17, a mudança de `sendBlockEffect` caiu numa
      cópia morta em `game.cpp`, e o código vivo era o `CombatService`.
 4. `audit_moved.py` para `game.cpp` e `player.cpp` precisa dar zero misses. Arquivos que o
-   upstream ainda tem e a branch apagou (`iomarket`, `ioguild`, bloco VIP de `iologindata`)
+   upstream ainda tem e a branch apagou (`iomarket`, `ioguild`, blocos VIP e nome/guid/saldo de `iologindata`)
    seguem a seção "Upstream files deleted on the branch" de `tools/merge/README.md`. Linhas
    com receptor trocado nos components seguem a tabela "Receiver substitutions" do mesmo
    arquivo.

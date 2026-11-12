@@ -104,6 +104,7 @@ A merge reports them as modify/delete conflicts. Port the upstream changes, then
 | `IOMarket::getTierFromDatabaseTable` | anonymous-namespace `getTierFromDatabaseTable(value, maxTier)` in `market_repository_db.cpp` |
 | `src/io/ioguild.{cpp,hpp}` (`IOGuild::*`) | `src/io/guild_repository_db.cpp` (`GuildRepositoryDB::*`) |
 | VIP block of `src/io/iologindata.cpp` (`IOLoginData::*VIP*`) | `src/creatures/players/vip_repository_db.cpp` (`VipRepositoryDB::*`) |
+| `IOLoginData::getNameByGuid`, `getGuidByName`, `getGuidByNameEx`, `formatPlayerName`, `increaseBankBalance` | `src/creatures/players/player_repository_db.cpp` (`PlayerRepositoryDB::*`) |
 
 `moved_merge.py` reads `--src` from the base and upstream revisions, so it works with a
 deleted local file. Keys are matched without the class name (`IOMarket::x` ↔
@@ -112,7 +113,7 @@ deleted local file. Keys are matched without the class name (`IOMarket::x` ↔
 ```sh
 python3 tools/merge/moved_merge.py --src src/io/iomarket.cpp src/io/market_repository_db.cpp src/game/market/market_expiry.cpp
 python3 tools/merge/moved_merge.py --src src/io/ioguild.cpp src/io/guild_repository_db.cpp
-python3 tools/merge/moved_merge.py --src src/io/iologindata.cpp src/io/iologindata.cpp src/creatures/players/vip_repository_db.cpp
+python3 tools/merge/moved_merge.py --src src/io/iologindata.cpp src/io/iologindata.cpp src/creatures/players/vip_repository_db.cpp src/creatures/players/player_repository_db.cpp
 git rm src/io/iomarket.cpp src/io/iomarket.hpp src/io/ioguild.cpp src/io/ioguild.hpp
 ```
 
@@ -128,4 +129,6 @@ Then:
   `ExpiredMarketOffer` instead of a `DBResult` row.
 - New upstream `IOMarket`/`IOGuild` functions land in the home file as `IOMarket::foo`. Turn
   them into adapter members and declare them in the port; check `inserted_home`.
-- New upstream VIP functions land in `iologindata.cpp` (home). Move them to `VipRepositoryDB`.
+- New upstream VIP and name/guid/balance functions land in `iologindata.cpp` (home). Move them
+  to `VipRepositoryDB` or `PlayerRepositoryDB` when they are plain SQL; leave player
+  load/save there.

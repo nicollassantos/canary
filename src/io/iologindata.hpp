@@ -56,11 +56,6 @@ public:
 	 * @param player A shared pointer to the Player instance. Must not be nullptr.
 	 */
 	static void saveOnlyDataForOnlinePlayer(const std::shared_ptr<Player> &player);
-	static uint32_t getGuidByName(const std::string &name);
-	static bool getGuidByNameEx(uint32_t &guid, bool &specialVip, std::string &name);
-	static std::string getNameByGuid(uint32_t guid);
-	static bool formatPlayerName(std::string &name);
-	static void increaseBankBalance(uint32_t guid, uint64_t bankBalance);
 
 
 private:
