@@ -25,6 +25,7 @@
 	#include <limits>
 	#include <magic_enum/magic_enum.hpp>
 	#include <optional>
+	#include <string_view>
 	#include <utility>
 #endif
 
@@ -33,6 +34,17 @@ namespace {
 	constexpr auto PROTOCOL_RELEASE_WARNING_INTERVAL = std::chrono::seconds(5);
 	constexpr auto WRITE_ERROR_WARNING_INTERVAL = std::chrono::seconds(5);
 	std::atomic<uint64_t> nextConnectionId { 1 };
+
+	// 12.00+ clients open the game socket with "<world name>\n". When that name does not
+	// share its first two characters with serverName, the bytes fall through to length
+	// header parsing. Two printable ASCII bytes always decode above INPUTMESSAGE_MAXSIZE,
+	// so they can never start a valid packet and are safe to report as a text preamble.
+	static_assert(0x2020 > INPUTMESSAGE_MAXSIZE, "printable two-byte header must never be a valid packet length");
+
+	bool looksLikeTextPreamble(const uint8_t* header) {
+		const auto isPrintable = [](uint8_t c) { return c >= 0x20 && c <= 0x7E; };
+		return isPrintable(header[0]) && isPrintable(header[1]);
+	}
 
 	std::optional<uint64_t> takeWriteErrorWarning() {
 		static std::mutex warningLock;
@@ -248,6 +260,11 @@ void Connection::parseProxyIdentification(const std::error_code &error) {
 	std::string serverName = g_configManager().getString(SERVER_NAME) + "\n";
 	if (connectionState == CONNECTION_STATE_IDENTIFYING) {
 		if (msgBuffer[1] == 0x00 || strncasecmp(charData, &serverName[0], 2) != 0) {
+			if (looksLikeTextPreamble(msgBuffer)) {
+				g_logger().warn("[Connection::parseProxyIdentification] - {} sent a world name preamble starting with \"{}\" but serverName is \"{}\". The world name returned by the login server must match serverName in config.lua.", convertIPToString(getIP()), std::string_view(charData, 2), g_configManager().getString(SERVER_NAME));
+				close(FORCE_CLOSE);
+				return;
+			}
 			// Probably not proxy identification so let's try standard parsing method
 			connectionState = CONNECTION_STATE_OPEN;
 			parseHeader(error);

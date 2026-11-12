@@ -17,6 +17,7 @@
 	#include <iostream>
 	#include <mutex>
 	#include <string>
+	#include <string_view>
 	#include <thread>
 	#include <utility>
 	#include <vector>
@@ -206,15 +207,31 @@ protected:
 		expectReadErrorRetained(&Connection::parsePacket);
 	}
 
-	std::vector<std::pair<std::string, std::string>> writeDiagnostics() const {
+	void receiveIdentificationHeader(uint8_t first, uint8_t second) {
+		connection->connectionState = CONNECTION_STATE_IDENTIFYING;
+		auto* buffer = connection->m_msg.getBuffer();
+		buffer[0] = first;
+		buffer[1] = second;
+		connection->parseProxyIdentification({});
+	}
+
+	std::vector<std::pair<std::string, std::string>> diagnosticsFor(std::string_view tag) const {
 		std::vector<std::pair<std::string, std::string>> diagnostics;
 		for (size_t index = 0; index < logger->logCount(); ++index) {
 			auto entry = logger->getLogEntry(index);
-			if (entry.second.find("[Connection::onWriteOperation]") != std::string::npos) {
+			if (entry.second.find(tag) != std::string::npos) {
 				diagnostics.push_back(std::move(entry));
 			}
 		}
 		return diagnostics;
+	}
+
+	std::vector<std::pair<std::string, std::string>> writeDiagnostics() const {
+		return diagnosticsFor("[Connection::onWriteOperation]");
+	}
+
+	std::vector<std::pair<std::string, std::string>> identificationDiagnostics() const {
+		return diagnosticsFor("[Connection::parseProxyIdentification]");
 	}
 
 	asio::io_context io;
@@ -440,4 +457,23 @@ TEST_F(ConnectionWriteDiagnosticsTest, QueuedGracefulCloseSendsAllMessages) {
 	ASSERT_EQ(6, asio::read(peer, asio::buffer(received), error));
 	EXPECT_FALSE(error);
 	EXPECT_EQ((std::array<uint8_t, 6> { 0x31, 0x72, 0xA5, 0x31, 0x72, 0xA5 }), received);
+}
+
+TEST_F(ConnectionWriteDiagnosticsTest, MismatchedWorldNamePreambleIsReportedAndClosed) {
+	// 12.00+ clients open the game socket with "<world name>\n"; "OpenTibiaBR Canary\n"
+	// does not share its first two characters with the configured serverName.
+	receiveIdentificationHeader('O', 'p');
+	const auto diagnostics = identificationDiagnostics();
+	ASSERT_EQ(1, diagnostics.size());
+	const auto &[level, diagnostic] = diagnostics.front();
+	EXPECT_EQ("warning", level);
+	EXPECT_NE(std::string::npos, diagnostic.find("127.0.0.1"));
+	EXPECT_NE(std::string::npos, diagnostic.find("\"Op\""));
+	EXPECT_NE(std::string::npos, diagnostic.find("serverName"));
+	EXPECT_FALSE(socketOpen());
+}
+
+TEST_F(ConnectionWriteDiagnosticsTest, BinaryLengthHeaderIsNotReportedAsPreamble) {
+	receiveIdentificationHeader(0x2C, 0x01);
+	EXPECT_TRUE(identificationDiagnostics().empty());
 }
