@@ -48,6 +48,22 @@ namespace {
 		return isPrintable(header[0]) && isPrintable(header[1]);
 	}
 
+	// A refused IP usually retries in a loop: one warning per interval, with the refusals counted.
+	std::optional<uint64_t> takeIpLimitWarning() {
+		static std::mutex warningLock;
+		static auto nextWarningAt = std::chrono::steady_clock::time_point {};
+		static uint64_t suppressed = 0;
+
+		std::scoped_lock lock(warningLock);
+		const auto now = std::chrono::steady_clock::now();
+		if (now < nextWarningAt) {
+			++suppressed;
+			return std::nullopt;
+		}
+		nextWarningAt = now + WRITE_ERROR_WARNING_INTERVAL;
+		return std::exchange(suppressed, 0);
+	}
+
 	std::optional<uint64_t> takeWriteErrorWarning() {
 		static std::mutex warningLock;
 		static auto nextWarningAt = std::chrono::steady_clock::time_point {};
@@ -90,7 +106,27 @@ Connection_ptr ConnectionManager::createConnection(asio::io_service &io_service,
 }
 
 void ConnectionManager::releaseConnection(const Connection_ptr &connection) {
+	ipLimiter.release(connection.get());
 	connections.erase(connection);
+}
+
+bool ConnectionManager::admitFromIp(const Connection_ptr &connection, uint32_t ip) {
+	const auto maxPerIp = IConfigManager::getInstance().getNumber(MAX_PENDING_CONNECTIONS_PER_IP);
+	if (ipLimiter.admit(connection.get(), ip, maxPerIp)) {
+		return true;
+	}
+
+	g_metrics().addCounter("connections_refused_total", 1, { { "reason", "per_ip_pending_limit" } });
+	if (const auto suppressed = takeIpLimitWarning()) {
+		g_logger().warn("[ConnectionManager::admitFromIp] - {} refused: already {} connections not logged in (maxPendingConnectionsPerIp = {}); {} more refusals since the last warning", convertIPToString(ip), ipLimiter.openFrom(ip), maxPerIp, *suppressed);
+	}
+	return false;
+}
+
+void ConnectionManager::markLoggedIn(const Connection_ptr &connection) {
+	if (connection) {
+		ipLimiter.release(connection.get());
+	}
 }
 
 void ConnectionManager::closeAll() {

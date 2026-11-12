@@ -82,6 +82,12 @@ maxPacketsPerSecond = 25
 -- to ~100 per second, so 2048 is about 128 MB and ~20 s of a frozen client. Above it the client is
 -- disconnected (warning + connection_output_queue_overflow_total metric). 0 disables the limit.
 maxOutputQueueMessages = 2048
+-- NOTE: maxPendingConnectionsPerIp caps the connections one IP may keep open before logging in to the
+-- game world (the connect rate is already limited, but a client opening one connection every ~600 ms
+-- kept them all). Logged-in players do not count, so many players behind one carrier-grade NAT IP are
+-- fine. Above it new connections are refused (rate-limited warning + connections_refused_total
+-- metric). 0 disables the limit.
+maxPendingConnectionsPerIp = 10
 maxPlayersOnlinePerAccount = 1
 maxPlayersOutsidePZPerAccount = 1
 

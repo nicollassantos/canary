@@ -4,4 +4,5 @@ target_sources(
             network/message/networkmessage_test.cpp
             network/protocol/multiprotocol_test.cpp
             network/protocol/packet_watch_test.cpp
+            network/connection/ip_connection_limiter_test.cpp
 )

@@ -293,6 +293,8 @@ void ProtocolGame::login(const std::string &name, uint32_t accountId, OperatingS
 		player->lastLoginSaved = std::max<time_t>(time(nullptr), player->lastLoginSaved + 1);
 		player->loginProtectionTime = OTSYS_TIME() + g_configManager().getNumber(LOGIN_PROTECTION_TIME);
 		acceptPackets = true;
+		// Logged in: this connection no longer counts against maxPendingConnectionsPerIp.
+		ConnectionManager::getInstance().markLoggedIn(getConnection());
 	} else {
 		if (eventConnect != 0 || !g_configManager().getBoolean(REPLACE_KICK_ON_LOGIN)) {
 			// Already trying to connect
@@ -364,6 +366,8 @@ void ProtocolGame::connect(const std::string &playerName, OperatingSystem_t oper
 	}
 	player->resetIdleTime();
 	acceptPackets = true;
+	// Logged in: this connection no longer counts against maxPendingConnectionsPerIp.
+	ConnectionManager::getInstance().markLoggedIn(getConnection());
 }
 
 void ProtocolGame::logout(bool displayEffect, bool forced) {

@@ -1,6 +1,7 @@
 target_sources(
     ${CORE_TARGET_NAME}
     PRIVATE network/connection/connection.cpp
+            network/connection/ip_connection_limiter.cpp
             network/message/networkmessage.cpp
             network/message/outputmessage.cpp
             network/protocol/protocol.cpp

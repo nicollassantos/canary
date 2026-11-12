@@ -239,6 +239,7 @@
     <ClInclude Include="..\src\server\network\protocol\protocol_session_hint.hpp" />
     <ClInclude Include="..\src\server\network\protocol\protocolgame.hpp" />
     <ClInclude Include="..\src\server\network\protocol\packet_watch.hpp" />
+    <ClInclude Include="..\src\server\network\connection\ip_connection_limiter.hpp" />
     <ClInclude Include="..\src\server\network\protocol\protocollogin.hpp" />
     <ClInclude Include="..\src\server\network\protocol\protocolstatus.hpp" />
     <ClInclude Include="..\src\server\network\protocol\transport_codec.hpp" />
@@ -509,6 +510,7 @@
     <ClCompile Include="..\src\server\network\protocol\protocolgame_send_economy.cpp" />
     <ClCompile Include="..\src\server\network\protocol\protocolgame_send_social.cpp" />
     <ClCompile Include="..\src\server\network\protocol\packet_watch.cpp" />
+    <ClCompile Include="..\src\server\network\connection\ip_connection_limiter.cpp" />
     <ClCompile Include="..\src\game\scheduling\monster_post_think_queue.cpp" />
     <ClCompile Include="..\src\creatures\players\components\player_race_icon_overlays.cpp" />
     <ClCompile Include="..\src\game\world_type_config.cpp" />

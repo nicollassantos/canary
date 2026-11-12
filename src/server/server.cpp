@@ -99,7 +99,7 @@ void ServicePort::onAccept(const Connection_ptr &connection, const std::error_co
 		}
 
 		const auto remote_ip = connection->getIP();
-		if (remote_ip != 0 && inject<Ban>().acceptConnection(remote_ip)) {
+		if (remote_ip != 0 && inject<Ban>().acceptConnection(remote_ip) && ConnectionManager::getInstance().admitFromIp(connection, remote_ip)) {
 			const Service_ptr service = services.front();
 			if (service->is_single_socket()) {
 				connection->accept(service->make_protocol(connection));

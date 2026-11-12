@@ -9,6 +9,8 @@
 
 #pragma once
 
+#include "server/network/connection/ip_connection_limiter.hpp"
+
 #include <chrono>
 #include <source_location>
 #include <string>
@@ -55,9 +57,15 @@ public:
 	Connection_ptr createConnection(asio::io_service &io_service, const ConstServicePort_ptr &servicePort);
 	void releaseConnection(const Connection_ptr &connection);
 	void closeAll();
+	/// Called once the remote IP is known; false when the IP already holds maxPendingConnectionsPerIp
+	/// connections that have not logged in (the caller closes it).
+	bool admitFromIp(const Connection_ptr &connection, uint32_t ip);
+	/// The connection logged in to the game world: it no longer counts against its IP.
+	void markLoggedIn(const Connection_ptr &connection);
 
 private:
 	phmap::parallel_flat_hash_set_m<Connection_ptr> connections;
+	IpConnectionLimiter ipLimiter;
 };
 
 class Connection : public std::enable_shared_from_this<Connection> {
