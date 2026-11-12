@@ -133,7 +133,11 @@ build/linux-release-enabled-tests/tests/integration/canary_it --gtest_brief=1
 
 Ferramentas e passo a passo: `tools/merge/README.md`. Resumo e lições:
 
-1. Árvore limpa (fora o diff do usuário citado acima), baseline verde e branch de backup local.
+1. Árvore limpa, baseline verde e branch de backup local. Se o diff não commitado de
+   `connection.cpp` (seção 2) ainda existir, **pergunte ao usuário** se ele vai para um commit
+   próprio ou se deve ser descartado. Sem commit, um reset ou checkout o perde, e o git recusa
+   o merge se o upstream também tiver mudado o arquivo. Não faça stash, reset ou commit dele
+   por conta própria.
 2. `git fetch origin && git merge --no-commit origin/main`. É merge real com dois pais. O último
    merge foi `deba5a464`, com base upstream `666a60f6f`; o próximo considera só commits novos
    depois desse ponto.
