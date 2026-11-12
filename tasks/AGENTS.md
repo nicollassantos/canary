@@ -203,8 +203,9 @@ upstream.
   data-otservbr-global: online em 7s, zero `[error]`, exit 0. Smoke com oferta semeada (uma
   oferta de compra expirada, 2 × 500) confirmou o caminho real: oferta removida, 1 linha
   `EXPIRED` no histórico, saldo do dono 1000.
-  - **Sem cobertura em banco real**: reembolso de oferta de venda (itens na inbox) e o
-    `moveOfferToHistory` com sucesso nos testes de integração (o insert do histórico é async).
+  - Na Phase 21, o reembolso de venda ganhou unit tests (dono online) e smoke semeado (dono
+    offline, inbox salva). A linha de histórico já foi comprovada pelo smoke; o insert é async,
+    então os testes de integração não cobrem o sucesso de `moveOfferToHistory`.
 - **20.3 Components do branch com portas por papel**: concluída. 93 → 57 `g_game()` nos
   arquivos só da branch; o total em `src` caiu de 1140 para 1104 linhas, sem contar os 16 dos
   adapters. Resultado: ut 885/885, it 68/68.
@@ -235,6 +236,25 @@ upstream.
 - Fora de escopo por decisão: load/save de player em `IOLoginData` (~2000 linhas em
   `src/io/functions/`, que o upstream edita com frequência).
 
+## 6b. Phase 21 (concluída)
+
+- **21.1**: `PlayerRepositoryDB(IDatabase&)` agora é dono de `getNameByGuid`, `getGuidByName`,
+  `getGuidByNameEx`, `formatPlayerName` e `increaseBankBalance` (movidos idênticos). Ficam em
+  `IOLoginData` o load/save de player, `gameWorldAuthentication` (lógica de autenticação, sem
+  teste) e `getAccountType` (código morto, mas o arquivo é do upstream). Defeito conhecido:
+  `getGuidByNameEx` lê `g_game().groups`. Testes em
+  `tests/integration/io/player_repository_db_it.cpp`.
+- **21.2**: `tests/unit/game/market_expiry_test.cpp` cobre o reembolso de venda (empilhável
+  100 + 50, não empilhável 1 por unidade, dono desconhecido). Achados:
+  - `Player()` não cria inbox; use `Player(nullptr)`, como a produção.
+  - O container insere no início da lista.
+  - `Item::items` vem do items.xml real nos testes, então ids baixos têm grupo próprio (101
+    é "earth", splash). Normalize `group`/`type` e restaure.
+  - `Item::setTier` lê o `g_configManager()` global, sem config em unit test.
+- **21.3**: smoke semeado com dois donos (compra e venda offline) passou (ver `todo.md`).
+  Arquivos de seed usados: uma conta e um player por dono, e a oferta com `created = 1`.
+- Resultado: ut 888/888, it 72/72.
+
 ## 7. Smoke test do servidor (banco descartável)
 
 1. Copiar `config.lua` para o scratchpad trocando `mysqlDatabase` para `"canary_smoke_<fase>"` e
@@ -257,6 +277,7 @@ upstream.
 | 18 | Instância única de config; `open-pvp`; `DEBUG_LOG` nos presets de teste; `ExpertPvpWorld`; split do `protocolgame_send`; `Scripts` no DI |
 | 19 | Services sem singletons; components com config pela porta; IO estático → portas (`IVipRepository`, `DI::port`); `GuildRepositoryDB` dono do SQL |
 | 20 | Market e VIP com SQL nos adapters; portas `CreatureFeedback`/`WorldRegistry` nos components (seção 6) |
+| 21 | `PlayerRepositoryDB` dono do SQL de nome/guid/saldo; reembolso de venda coberto (seção 6b) |
 
 Contagem de testes: fim da Phase 19, `canary_ut` 867/867 e `canary_it` 56/56; fim da Phase 20,
-885/885 e 68/68.
+885/885 e 68/68; fim da Phase 21, 888/888 e 72/72.
