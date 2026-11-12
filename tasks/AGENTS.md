@@ -397,6 +397,35 @@ upstream.
   intervalo de 1s por player; teto global de 8 queries; métricas.
 - Resultado: ut 908/908, it 85/85. Pendente: abrir a janela de highscores no cliente uma vez.
 
+## 6d. Phase 23 (em andamento, parada em ponto estável)
+
+Medir e conter o que o cliente (ou um bot) consegue fazer o servidor gastar. Feito:
+- **Monitoramento:** build `linux-release-metrics` validado (com `/metrics` respondendo) e
+  `packet_watch` (latência por opcode e aviso de pacote lento com player/IP).
+- **Inventário medido:** tabela no `todo.md` (23.2); catálogo do bot de ataque em
+  `/home/nicollas/teste/proxy-bot`, lido sem executar.
+- **Correções:**
+  - teto da fila de saída (`maxOutputQueueMessages`), com o use-after-free da versão inicial
+    corrigido;
+  - intervalos de outfit;
+  - teto de conexões não logadas por IP (`maxPendingConnectionsPerIp`, que não afeta CGNAT);
+  - índice `solid_market_history_stats` via `schema_hardening` (sem migration numerada);
+  - cama sem load completo do dorminhoco;
+  - preços do mercado fora do loop;
+  - `Database::getInstance` por `DI::port`.
+- **Verificado sem mudança:** o `move` do bot é bloqueado pelas checagens de `playerMoveItem`;
+  a posse de outfit é validada (`canWear`).
+
+Pendente (ordem sugerida):
+1. Orçamento global da fila de saída.
+2. Segunda conexão MySQL para `DatabaseTasks`.
+3. A* antes do intervalo de ação em "usar item (com)": medir com `[PacketWatch]` em produção
+   antes de mudar, porque altera o tempo de reação do jogo.
+4. Lista de acesso de casa (até 100 `SELECT` + regex por edição).
+5. Teste manual dos highscores no cliente.
+
+Resultado atual: ut 933/933, it 90/90, presets de testes e de métricas compilando, smoke ok.
+
 ## 7. Smoke test do servidor (banco descartável)
 
 1. Copiar `config.lua` para o scratchpad trocando `mysqlDatabase` para `"canary_smoke_<fase>"` e
