@@ -99,6 +99,42 @@ Leia este arquivo inteiro antes de mexer na branch. Depois, para o detalhe de ca
   sobrescrito por um processo externo com o conteúdo local; o usuário reverteu. Confira o diff
   antes de commitar.
 - PR/comentários em PR só com pedido explícito.
+- Regras e notas do fork ficam **só neste arquivo** (`tasks/AGENTS.md`). Não criar outros
+  `AGENTS.md`; o da raiz é do upstream (mexer nele gera conflito de merge).
+
+## 2b. Entrada do cliente: regras contra defeitos recorrentes
+
+Todo valor lido de um pacote é hostil: concorrentes rodam clients modificados e bots contra a
+base. Cada regra vem de um defeito explorável por pacote forjado (tabela de correções do §5b).
+
+**C++:**
+- Índice, slot ou id do pacote: checar contra o tamanho da tabela **e** contra o conjunto
+  permitido (vocação, desbloqueio, bestiário, dono) antes de qualquer acesso. Nunca indexar
+  `std::array`/`std::vector` direto com valor do pacote. Testar com valor fora da tabela e com
+  valor dentro dela mas não permitido.
+- Recusa retorna: depois de mandar o erro ao cliente, `return`. Mandar o erro e seguir executa a
+  ação recusada mesmo assim.
+- Checagens baratas antes do trabalho caro: nada de `getPlayerByName(..., true)`,
+  `getPlayerByGUID(..., true)` ou `loadPlayerBy*` (personagem inteiro carregado no dispatcher)
+  antes de dono, estado, tamanho e intervalo. Testar com `InMemoryPlayerRepository::playerLoads`.
+- Nome do pacote acima de `NETWORKMESSAGE_PLAYERNAME_MAXLENGTH`: recusar antes de query ou log.
+- Texto que vira caminho ou conteúdo de arquivo: só caracteres de nome
+  (`PlayerInteractionService::isReportableName`), nunca `/`, `\`, `.` ou bytes de controle;
+  limitar tamanho e taxa.
+- Pedido que chega ao banco, a arquivo ou a broadcast: `RequestCooldown` por player
+  (`src/utils/request_cooldown.hpp`) e métrica `*_rejected{reason}`, para o ataque aparecer no
+  Prometheus.
+
+**Lua (datapack):**
+- Texto do cliente nunca é padrão Lua (segundo argumento de `string.match`/`find`/`gmatch`/`gsub`):
+  usar `s:find(texto, 1, true)`. Um padrão forjado de ~20 bytes faz backtracking por segundos a
+  cada chamada e congela o dispatcher; um malformado dá erro de script.
+- Caminho de arquivo nunca montado com texto do cliente sem restringir a caracteres de nome
+  (de preferência checado no C++ antes do evento).
+- Moeda e quantidade do pacote: no mínimo 1 e dentro do limite antes de query ou mutação.
+- Strings do pacote: limitar o tamanho antes de query, laço ou resposta.
+- Validação: `luajit -bl <arquivo>` e `luac5.4 -p <arquivo>`, mais um harness com stubs como
+  `tools/lua/store_parsers_check.lua` (rodar também contra o arquivo do upstream: lá tem que falhar).
 
 ## 3. Arquitetura e padrões em uso
 
@@ -434,6 +470,16 @@ Medir e conter o que o cliente (ou um bot) consegue fazer o servidor gastar. Fei
   - `Database::getInstance` por `DI::port`.
 - **Verificado sem mudança:** o `move` do bot é bloqueado pelas checagens de `playerMoveItem`;
   a posse de outfit é validada (`canWear`).
+- **Auditoria de pacotes (valores do cliente usados como índice, id, nome ou caminho):** corrigidos
+  VIP (crash), grade de gema do wheel (corrupção de memória), charm não comprado, prey em boss,
+  lance de leilão (regras ignoradas, casa com dono, sequestro de transferência), transferência
+  (load offline por pacote), report de violação (caminho de arquivo e disco) e busca/transferência
+  do store em Lua (padrão Lua travava o servidor; transferência de 0 coins); detalhes na tabela
+  de correções do §5b, regras no §2b. Verificados sem mudança: índice de prey (`raceIdList`), slot de inventário,
+  ações de gema (`getGem` limitado), slots de pontos do wheel (enum), slot de imbuement
+  (`canAddImbuement`), tier do forge (`tiers.contains`), perks de proficiência, aceite no mercado
+  (`isUIExhausted(1000)` e troca real), info de personagem da Cyclopedia (só o próprio),
+  `playerDebugAssert` (sem chamador), `follow` (pathfinding assíncrono).
 
 Pendente (ordem sugerida):
 0. **Antes de produção:** uma sessão com client real no build de métricas (login, relog, andar,
@@ -448,6 +494,17 @@ Pendente (ordem sugerida):
    e registra um histograma em todo pacote).
 8. A consulta de ofertas usada só para preços (`loadActiveOffers`) ainda traz o nome do dono por
    subconsulta; `rebuildItemsPrice` só precisa de item, tier e preço.
+9. **Mailbox** (`Mailbox::sendItem`): carta para destinatário offline faz `getPlayerByName(nome, true)`
+   (load completo) e `savePlayer` síncrono no dispatcher, a cada item empurrado na caixa (~5/s por
+   player pelo intervalo de ação); nome inexistente faz o load e loga `error` com o texto da
+   etiqueta. Mesma classe da cama. Falta decidir com o usuário: checar existência com consulta
+   leve antes do load e limitar entregas offline por remetente (afeta quem manda muitos parcels).
+10. Leilão de casas: `Account::setHouseBidId` nunca é chamado, então "um lance por conta"
+    (`OnlyOneBid`) não vale; e o dono do lance pode baixar o próprio lance abaixo do segundo maior
+    (`processBankAuction` com `replace`), vendendo a casa abaixo da oferta concorrente.
+11. Troca de nome no store (`canChangeToName`, `data/libs/gamestore/store.lua`): lista negra de
+    caracteres; bytes não ASCII e de controle passam (nome com homóglifo imitando staff). Trocar
+    por lista branca (letras, espaço, `'`, `-`). Exige compra com coins.
 
 Resultado atual: ut 933/933, it 90/90, presets de testes e de métricas compilando, smoke ok.
 
