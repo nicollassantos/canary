@@ -7,8 +7,24 @@ Leia este arquivo inteiro antes de mexer na branch. Depois, para o detalhe de ca
 ## 1. O que é o projeto
 
 - Servidor Canary (MMORPG, C++20). Branch de trabalho: `nicollassantos/solid`.
-- **Objetivo do fork: ser uma versão do Canary altamente testável, estável e fácil de manter
-  à mão.** Use isso para priorizar:
+- **Modelo de ameaça: o cliente é hostil.** OTServers são muito atacados por concorrentes. A
+  base é aberta: quem conhece um bug, ou o corrigiu só no próprio servidor, usa esse bug como
+  ataque contra os outros. Exemplo real: um bug ao usar cama, explorado com milhares de
+  jogadores online, levou dias de debug. Por isso:
+  - toda entrada vinda do cliente (pacotes, ids, posições, contagens, páginas, textos) é
+    validada na fronteira;
+  - falha vira rejeição segura, nunca crash, corrupção ou loop;
+  - recursos que o cliente controla (caches, filas, timers) têm limite;
+  - toda rejeição ou anomalia deixa rastro para depurar (player, IP, pacote, argumentos, com log
+    limitado por taxa) e uma métrica.
+- **Monitorar cada aspecto:** OpenTelemetry → Prometheus (`FEATURE_METRICS`, presets
+  `*-release-metrics`, exporter em `metricsPrometheusAddress` (padrão `0.0.0.0:9464`), stack em
+  `metrics/docker-compose.yml` + `metrics/prometheus/prometheus.yml`). Caminho novo ou
+  endurecido ganha contador ou latência (`g_metrics().addCounter`, `metrics::method_latency`).
+  O preset de testes compila os stubs no-op, então valide também com um preset `-metrics`
+  quando mexer em métricas.
+- **Objetivo do fork: ser uma versão do Canary extremamente sólida, altamente testável, fácil
+  de depurar, de manter à mão e de monitorar.** Use isso para priorizar:
   - portas e fakes onde permitem testar comportamento que hoje não tem teste;
   - testes de integração (MySQL) para todo SQL;
   - correções de estabilidade: lifetime de callbacks, null-deref, perda de itens ou ouro;
@@ -203,6 +219,8 @@ código vive na branch. **Ao mover código em qualquer fase, acrescente a linha 
 | `src/io/ioguild.{cpp,hpp}` | `src/io/guild_repository_db.cpp` | apagado: `moved_merge.py`; `git rm` de novo |
 | `src/io/iologindata.cpp`: VIP; `getNameByGuid`/`getGuidByName`/`getGuidByNameEx`/`formatPlayerName`/`increaseBankBalance` | `src/creatures/players/vip_repository_db.cpp`, `src/creatures/players/player_repository_db.cpp` | `moved_merge.py` com os 3 arquivos; load/save continuam em `iologindata.cpp` |
 | `game.cpp` `Game::updatePlayersOnline` | `CyclopediaService::updatePlayersOnline` (monta a lista de GUIDs) e `PlayerRepositoryDB::updateOnlinePlayers` (SQL) | manual: corpo dividido (README, "split between a service and an adapter") |
+| `game.cpp` highscores: `generateHighscoreQuery`, `generateVocationConditionHighscore`, `cacheQueryHighscore`, `generateHighscoreOrGetCachedQueryFor*`, `queryCache` | `src/io/highscore_repository_db.cpp` (`HighscoreRepositoryDB`, mesmos nomes) | `moved_merge.py` casa por nome (adapter no comando do `game.cpp`); `QueryHighscoreCacheEntry`/`queryCache` e os delegates privados saíram do `game.hpp` |
+| `game.cpp` `Game::playerHighscores` e `Game::processHighscoreResults` | `HighscoreService` (pedido, task assíncrona, cache de resultado, envio) e `HighscoreRepositoryDB` (query, parse) | manual: corpo dividido (README) |
 | `src/canary_server.cpp`: parsing de `worldType` | `src/game/world_type_config.cpp` (`world_type_config::parse`) | se o upstream mudar nomes de world type, atualizar o parse e `world_type_config_test.cpp`; manter `"open-pvp"` |
 | `src/creatures/players/components/pvp/expert_pvp.cpp` | mesmo arquivo, com `g_game()`/config → `world()` (`ExpertPvpWorld`) | merge normal; manter `world().` nas linhas tocadas |
 
