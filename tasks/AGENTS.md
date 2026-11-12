@@ -535,8 +535,19 @@ Resultado atual: ver a última linha de validação no `todo.md` (CHECKPOINT 23)
   unidade; investigar antes de mexer); muitos chances do datapack batem com estatísticas antigas
   (8.6) e não com as atuais; nomes ambíguos no `items.xml` (ex.: dragon trophy → 2681/2682)
   precisam de escolha manual.
-- **Pendente:** 24.2 revisão do usuário (página de revisão publicada), 24.3 estratégia de merge
-  (proposta: `--apply` idempotente que reaplica as correções sobre a versão do upstream), 24.4 lotes.
+- **Correções aplicadas** pelo manifesto `tools/datapack/fixes.json` (`plan` acumula; `apply`
+  idempotente): 514 `maxCount` (24.4a) e 265 itens de loot (24.4b). Regras do `plan`: só
+  empilhável para `maxCount`, nunca baixa, sem bosses (loot do baú de recompensa), salto acima de
+  5× (e de 20) vai para revisão; adição sem moeda (o datapack paga muito gold em várias entradas de
+  gold coin onde o wiki registra platinum), só estatística da versão 12+, só nome que resolve para
+  um item. O resto fica na lista `review` do manifesto com o motivo.
+- **Mitigation investigada:** o servidor usa `info.mitigation × multiplicador de defesa` como % de
+  redução de dano (`Monster::getMitigation`, `Creature::mitigateDamage`) e manda o valor cru ao
+  bestiário. O wiki diz que mitigation depende de escudo, defesa e **postura de combate**; a razão
+  constante ~0,63 é compatível com valores de postura/fórmula diferente. Sem fonte que diga qual
+  postura o wiki registra, não mexer.
+- **Pendente (24.5):** próximos lotes a decidir com o usuário: chances, atributos/elementos e a
+  lista de revisão manual.
 
 ## 7. Smoke test do servidor (banco descartável)
 

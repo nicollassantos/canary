@@ -303,9 +303,11 @@
 ## Phase 24 — datapack a partir do TibiaWiki (aberta em 2026-11-12; plano em `tasks/plan.md`)
 
 - [x] **24.1** — Ferramenta de relatório (`tools/datapack/`, `f79d68e8b`): extrator luajit (1655 monstros, igual ao servidor), coletor da API com cache em `build/datapack-wiki`, parser `Loot2`, comparador com intervalo binomial, 15 testes Python. Primeira rodada: 1571 de 1655 comparados, 1087 com diferenças (chance 3712, quantidade 1366, faltando 1197, só no datapack 386, atributos/elementos ~1100); mitigation separada como questão sistemática (689 de 690, datapack ≈ 0,63 × wiki). Página de revisão publicada para o usuário
-- [ ] **24.2** — Revisão do relatório pelo usuário
-- [ ] **24.3** — Estratégia de merge decidida com o usuário (`--apply` idempotente?) e registrada no §5b
-- [ ] **24.4** — Lotes de correção com carga do datapack e smoke
+- [x] **24.2** — Revisão: usuário aceitou o primeiro lote (quantidades e itens faltando com nome único), o `--apply` idempotente e investigar mitigation antes de mexer
+- [x] **24.3** — Merge: manifesto `tools/datapack/fixes.json` (acumula) + `wiki_check.py apply` sobre a versão do upstream; registrado no §5b e em `tools/merge/README.md` (`11cdbb8eb`, `997af9180`, `f80cc3e1c`)
+- [x] **24.4a** — `maxCount` elevado ao observado: 514 entradas em 340 arquivos (só empilháveis, nunca baixa, sem bosses, sem saltos grandes) (`a70a1e4f4`); smoke sem aviso de loot
+- [x] **24.4b** — Loot que faltava: 265 entradas em 129 arquivos (sem moeda, só estatística 12+, nome único, sem bosses) (`734c13139`); smoke sem aviso de loot
+- [ ] **24.5** — Próximos lotes, a decidir com o usuário: chances (~3700 fora do intervalo), HP/XP/armor/elementos/imunidades, lista de revisão manual do manifesto (bosses, moeda, estatística antiga, nomes ambíguos, saltos grandes)
 
 ### Achados do bot de ataque (`/home/nicollas/teste/proxy-bot`, lido sem executar) — próximas tasks da 23
 - **Stresser**: 1024 goroutines numa conexão; modos `pathfinder` (usar item com moeda → posição distante fixa, força pathfinding), `outfit` (`0xD2` + `0xD3` em laço; resposta grande para pedido pequeno), `walk`/`leftright`, `follow` (seguir/cancelar alternado).
