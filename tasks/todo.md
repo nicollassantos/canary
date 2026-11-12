@@ -235,3 +235,12 @@
 - [x] **21.2** — 3 unit tests do reembolso de venda: dono online recebe 150 empilháveis como 100 + 50, 3 não empilháveis como 3 itens, dono desconhecido → só histórico; `InMemoryPlayerRepository` no container (sem MySQL); `ItemType` normalizado e restaurado. Tier não afirmado: `Item::setTier` lê o `g_configManager()` global (não carregado em unit test). Achados: `Player()` não cria inbox (produção usa `Player(nullptr)`); container insere no início
 - [x] **21.3** — Smoke semeado (data-otservbr-global, banco descartável): oferta de compra 2×500 de um dono e de venda de 150 small emeralds (3032) de outro dono offline → `market_offers` vazio, 2 linhas `EXPIRED`, saldo do comprador 1000, inbox do vendedor 2 linhas somando 150; exit 0. Segundo smoke com um único dono (venda antes da compra) também passou: saldo 1000, inbox 150. `SaveManager::savePlayer` salva player offline de forma síncrona (`doSavePlayer`), então não há sobrescrita de saldo; a separação de donos no primeiro smoke só isolava os dois caminhos
 - [x] **CHECKPOINT 21** — `IOLoginData` agora só tem load/save + `gameWorldAuthentication` (+ `getAccountType` morto, mantido por ser do upstream); reembolso de expiradas coberto (compra e venda, online e offline); 888/888 + 72/72
+
+## Phase 22: SQL restante dos services em adapters + estabilidade de highscores + testes de login
+
+- [x] **22.0** — Mapa upstream → branch (§5b), tabela de chamadas IO → portas, `tools/merge/coverage_check.py` (achou 88 funções do protocolgame fora do comando de merge; corrigido); cobertura 416/416 game.cpp, 830/830 player.cpp, 398/398 protocolgame.cpp
+- [ ] **22.1** — `players_online` via `IPlayerRepository::updateOnlinePlayers`
+- [ ] **22.2** — Highscores: `IHighscoreRepository` + `HighscoreRepositoryDB`; callback sem `[this]`
+- [ ] **22.3** — Testes de integração de `gameWorldAuthentication`
+- [ ] **22.4** — Caches de highscore com limite (hoje crescem sem fim, upstream também)
+- [ ] **CHECKPOINT 22**

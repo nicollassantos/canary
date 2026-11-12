@@ -537,3 +537,16 @@ Fora de escopo: load/save de player em `IOLoginData` (~2000 linhas, upstream edi
 | 21.3 Smoke semeado com oferta de venda | S | dono offline: carregar, entregar na inbox, salvar; linhas da inbox somam a quantidade; oferta de compra também passa pelo `increaseBankBalance` movido |
 
 Fora de escopo: `gameWorldAuthentication` (lógica de autenticação, sem teste, fica em `IOLoginData`); `IOLoginData::getAccountType` (código morto, mas o arquivo é do upstream, então apagar só gera conflito); load/save de player. Defeito conhecido: `getGuidByNameEx` lê `g_game().groups`, e para tirar isso seria preciso alargar a porta.
+
+## Phase 22: SQL restante dos services em adapters + estabilidade de highscores + testes de login
+
+> Objetivo do fork: testável, estável, fácil de manter à mão (ver `tasks/AGENTS.md` §1).
+
+| Task | Escopo | Critérios |
+|---|---|---|
+| 22.1 `players_online` | S | `IPlayerRepository::updateOnlinePlayers(guids)`; SQL + transação movidos de `CyclopediaService` para `PlayerRepositoryDB` sem mudar a lógica; unit test do service com repositório em memória; IT fora do `databaseTest` (o `BEGIN` do `DBTransaction` faz commit implícito da transação do harness), limpando as próprias linhas |
+| 22.2 Highscores | M | porta `IHighscoreRepository` + `HighscoreRepositoryDB` (as 4 funções de query movidas com o mesmo nome/assinatura, para o `moved_merge.py` ainda casar); o adapter roda a query e entrega um `std::optional<HighscorePage>` já parseado; o callback diferido só captura valores (sai o `[this]`); a ordem player → reset da task → sem dados → cache é mantida; unit tests do service com fake; IT (empate divide rank, página "our rank", filtro de vocação, GM excluído e `total`, página 0) |
+| 22.3 Testes de `gameWorldAuthentication` | S | só testes de integração do login (senha certa/errada, personagem de outra conta, conta inexistente) |
+| 22.4 Caches de highscore com limite | S | entradas expiradas são removidas; chave com página/GUID do cliente não cresce sem limite; teste |
+
+Fora de escopo: SQL em arquivos que existem upstream (`player_forge_history`, `player_wheel`, `player_cyclopedia`, `player_badge`, `ban`, Lua `db_functions`). Cada movimento entra no mapa §5b do `tasks/AGENTS.md` e no README de merge no mesmo commit.
