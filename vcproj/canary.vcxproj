@@ -94,7 +94,6 @@
     <ClInclude Include="..\src\io\functions\iologindata_save_player.hpp" />
     <ClInclude Include="..\src\io\io_wheel.hpp" />
     <ClInclude Include="..\src\io\iobestiary.hpp" />
-    <ClInclude Include="..\src\io\ioguild.hpp" />
     <ClInclude Include="..\src\io\iologindata.hpp" />
     <ClInclude Include="..\src\io\iomap.hpp" />
     <ClInclude Include="..\src\io\iomapserialize.hpp" />
@@ -331,7 +330,6 @@
     <ClCompile Include="..\src\io\functions\iologindata_save_player.cpp" />
     <ClCompile Include="..\src\io\io_wheel.cpp" />
     <ClCompile Include="..\src\io\iobestiary.cpp" />
-    <ClCompile Include="..\src\io\ioguild.cpp" />
     <ClCompile Include="..\src\io\iologindata.cpp" />
     <ClCompile Include="..\src\io\iomap.cpp" />
     <ClCompile Include="..\src\io\iomapserialize.cpp" />

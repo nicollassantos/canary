@@ -20,7 +20,6 @@
 #include "enums/object_category.hpp"
 #include "game/game.hpp"
 #include "io/guild_repository.hpp"
-#include "io/ioguild.hpp"
 #include "io/ioprey.hpp"
 #include "items/containers/depot/depotchest.hpp"
 #include "items/containers/inbox/inbox.hpp"

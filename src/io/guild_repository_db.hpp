@@ -11,12 +11,19 @@
 
 #include "io/guild_repository.hpp"
 
+class IDatabase;
+
+/// IGuildRepository adapter that owns the guild SQL; the database is injected.
 class GuildRepositoryDB final : public IGuildRepository {
 public:
-	GuildRepositoryDB() = default;
+	explicit GuildRepositoryDB(IDatabase &db) :
+		db_(db) { }
 
 	[[nodiscard]] std::shared_ptr<Guild> loadGuild(uint32_t guildId) override;
 	void saveGuild(const std::shared_ptr<Guild> &guild) override;
 	[[nodiscard]] uint32_t getGuildIdByName(const std::string &name) override;
 	void getWarList(uint32_t guildId, GuildWarVector &guildWarVector) override;
+
+private:
+	IDatabase &db_;
 };

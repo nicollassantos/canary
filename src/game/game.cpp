@@ -35,7 +35,6 @@
 #include "io/io_wheel.hpp"
 #include "io/iobestiary.hpp"
 #include "io/guild_repository.hpp"
-#include "io/ioguild.hpp"
 #include "io/iologindata.hpp"
 #include "io/market_repository.hpp"
 #include "io/iomarket.hpp"

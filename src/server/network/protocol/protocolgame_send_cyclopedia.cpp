@@ -43,7 +43,6 @@
 #include "io/market_repository.hpp"
 #include "io/iologindata.hpp"
 #include "io/iomarket.hpp"
-#include "io/ioguild.hpp"
 #include "io/ioprey.hpp"
 #include "items/items_classification.hpp"
 #include "items/weapons/weapons.hpp"

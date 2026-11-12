@@ -13,7 +13,6 @@
 #include "creatures/players/grouping/guild.hpp"
 #include "game/game.hpp"
 #include "io/guild_repository.hpp"
-#include "io/ioguild.hpp"
 #include "io/iologindata.hpp"
 #include "kv/kv.hpp"
 #include "lib/di/container.hpp"

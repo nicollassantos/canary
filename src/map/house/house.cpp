@@ -13,7 +13,6 @@
 #include "game/game.hpp"
 #include "game/scheduling/save_manager.hpp"
 #include "io/guild_repository.hpp"
-#include "io/ioguild.hpp"
 #include "creatures/players/player_repository.hpp"
 #include "io/iologindata.hpp"
 #include "items/bed.hpp"

@@ -9,6 +9,7 @@
 
 #include <gtest/gtest.h>
 
+#include "io/guild_repository_db.hpp"
 #include "lib/di/container.hpp"
 #include "lib/metrics/metrics.hpp"
 #include "lua/modules/modules.hpp"
@@ -50,4 +51,11 @@ TEST(ContainerSingletonsTest, MetricsResolvesToOneInstance) {
 	ProductionContainerScope scope;
 	EXPECT_EQ(&g_metrics(), &g_metrics());
 	EXPECT_EQ(&g_metrics(), &DI::get<metrics::Metrics>());
+}
+
+TEST(ContainerSingletonsTest, GuildRepositoryIsConstructedWithInjectedDatabase) {
+	ProductionContainerScope scope;
+	auto &repository = IGuildRepository::getInstance();
+	EXPECT_NE(nullptr, dynamic_cast<GuildRepositoryDB*>(&repository));
+	EXPECT_EQ(&repository, &IGuildRepository::getInstance());
 }
