@@ -280,8 +280,12 @@ def compare(monster, infobox, blocks, by_name, by_id, checked=None):
             continue
         probability, max_count, entries = ours[name]
         if strong and not (low_p <= probability <= high_p):
+            # Other version blocks are independent samples: they let a large gap be confirmed.
+            others = [[b["version"], b["kills"], b["items"].get(name, (0, 1, 1))[0]] for b in blocks
+                      if b is not block and b["kills"] >= MIN_KILLS]
             add("loot_chance", name, datapack_chance=round(probability * MAX_CHANCE), wiki_chance=round(observed * MAX_CHANCE),
-                wiki_low=round(low_p * MAX_CHANCE), wiki_high=round(high_p * MAX_CHANCE), times=times, kills=kills, entries=entries)
+                wiki_low=round(low_p * MAX_CHANCE), wiki_high=round(high_p * MAX_CHANCE), times=times, kills=kills, entries=entries,
+                other_versions=others)
         if high > max_count:
             add("loot_count", name, datapack_max=max_count, wiki_observed_max=high)
     if strong:
@@ -490,7 +494,13 @@ def command_plan(args):
     # roll like any creature and follow the normal rules.
     bosses = {m["name"] for m in monsters if m.get("rewardBoss")}
     element_types = {key: combat for combat, key in ELEMENTS.items()}
-    fixes, review = fixes_module.plan(report, by_name, stackable, kinds=tuple(args.kinds.split(",")), bosses=bosses, element_types=element_types)
+    reviewed_path = os.path.join(ROOT, "tools/datapack/reviewed.json")
+    reviewed = []
+    if os.path.exists(reviewed_path):
+        with open(reviewed_path, encoding="utf-8") as handle:
+            reviewed = json.load(handle)["decisions"]
+    fixes, review = fixes_module.plan(report, by_name, stackable, kinds=tuple(args.kinds.split(",")), bosses=bosses, element_types=element_types,
+                                      reviewed=reviewed)
     manifest_path = os.path.join(ROOT, args.manifest)
     if os.path.exists(manifest_path):
         with open(manifest_path, encoding="utf-8") as handle:

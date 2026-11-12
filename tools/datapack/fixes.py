@@ -30,6 +30,12 @@ MIN_ADD_VERSION = 12
 # A chance is only changed within this factor of the wiki rate; beyond it the gap is more likely a
 # different loot semantic (or a page error) than drift.
 MAX_CHANCE_FACTOR = 5
+# A chance beyond MAX_CHANCE_FACTOR is still corrected when the evidence is independent of a single
+# page block: another version block agrees with the wiki rate (within CONFIRM_FACTOR) and none agrees
+# with the datapack, or the only block is large (LARGE_SAMPLE drops over LARGE_KILLS kills).
+CONFIRM_FACTOR = 2
+LARGE_SAMPLE = 30
+LARGE_KILLS = 1000
 # Hit points, experience and armor change only within this factor (variants and quest copies show
 # larger gaps).
 STAT_FACTOR = 2
@@ -134,7 +140,25 @@ def validate(fix, info, element_keys):
         return "the wiki marks this value as uncertain"
     return None
 
-def plan(report, by_name, stackable, kinds=("max_count", "add_loot", "chance", "stat", "element", "immunity"), bosses=frozenset(), element_types=None):
+def gap_evidence(finding):
+    """Why a chance gap beyond MAX_CHANCE_FACTOR can be trusted, or None."""
+    ours, wiki = finding["datapack_chance"] / 100000, max(1, finding["wiki_chance"]) / 100000
+    rates = [times / kills for _, kills, times in finding.get("other_versions", []) if kills and times]
+    near = lambda rate, target: target > 0 and 1 / CONFIRM_FACTOR <= rate / target <= CONFIRM_FACTOR
+    if any(near(rate, ours) for rate in rates):
+        return None
+    if any(near(rate, wiki) for rate in rates):
+        return "confirmed by another version"
+    if not finding.get("other_versions") and finding["times"] >= LARGE_SAMPLE and finding["kills"] >= LARGE_KILLS:
+        return "single large sample"
+    return None
+
+
+def plan(report, by_name, stackable, kinds=("max_count", "add_loot", "chance", "stat", "element", "immunity"), bosses=frozenset(), element_types=None,
+         reviewed=()):
+    """`reviewed` holds case-by-case decisions (tools/datapack/reviewed.json): stat findings to apply
+    despite the STAT_FACTOR rule, each with a note. Identity and certainty still apply (validate)."""
+    approved = {(d["monster"], d["kind"], d["item"]) for d in reviewed if d.get("decision") == "apply"}
     """Fixes for the chosen kinds plus the findings left for manual review, with the reason.
 
     Reward-chest monsters (`bosses`, flagged rewardBoss) are always left for review: each
@@ -173,7 +197,8 @@ def plan(report, by_name, stackable, kinds=("max_count", "add_loot", "chance", "
                     continue
                 if finding["kind"] == "stat":
                     ours, wiki = float(finding["datapack"]), float(finding["wiki"])
-                    if ours <= 0 or wiki <= 0 or not (1 / STAT_FACTOR <= ours / wiki <= STAT_FACTOR):
+                    manual = (monster["name"], "stat", finding["subject"]) in approved
+                    if not manual and (ours <= 0 or wiki <= 0 or not (1 / STAT_FACTOR <= ours / wiki <= STAT_FACTOR)):
                         review.append({"monster": monster["name"], "item": finding["subject"], "reason": f"stat gap from {ours:g} to {wiki:g} is too large to trust"})
                         continue
                     fixes.append({"kind": "stat", "file": monster["file"], "monster": monster["name"], "item": finding["subject"], "value": int(round(wiki)),
@@ -199,7 +224,11 @@ def plan(report, by_name, stackable, kinds=("max_count", "add_loot", "chance", "
                 elif finding.get("entries", 1) != 1:
                     reason = f"{finding.get('entries')} entries share the item; split by hand"
                 elif not (1 / MAX_CHANCE_FACTOR <= ours / wiki <= MAX_CHANCE_FACTOR):
-                    reason = f"gap from {ours} to {wiki} is too large to trust"
+                    evidence = gap_evidence(finding)
+                    if evidence:
+                        source = {**source, "evidence": evidence}
+                    else:
+                        reason = f"gap from {ours} to {wiki} is too large to trust and not confirmed by another version"
                 if reason:
                     review.append({"monster": monster["name"], "item": item, "reason": reason})
                 else:

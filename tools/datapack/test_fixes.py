@@ -166,7 +166,7 @@ class ChanceTest(unittest.TestCase):
         report = {"monsters": [
             {"name": "New Beast", "file": "new.lua", "race_id": 3, "loot_block": {"version": "13.2", "kills": 9000}, "findings": [
                 finding("beast fang", 20000, 15000), finding("gold coin", 50000, 90000), finding("beast hide", 500, 900, entries=2),
-                finding("rare gem", 100, 9000)]},
+                {**finding("rare gem", 100, 9000), "times": 10}]},  # small single sample: not trusted
             {"name": "Old Beast", "file": "old.lua", "race_id": 4, "loot_block": {"version": "8.6", "kills": 90000}, "findings": [finding("beast fang", 20000, 15000)]},
         ]}
         planned, review = fixes.plan(report, {}, stackable=set(), kinds=("chance",))
@@ -236,6 +236,35 @@ class AttributeTest(unittest.TestCase):
         reasons = {(r["monster"], r["item"]): r["reason"] for r in review}
         self.assertIn("too large", reasons[("Same", "maxHealth")])
         self.assertIn("race id", reasons[("Variant", "experience")])
+
+
+class GapEvidenceTest(unittest.TestCase):
+    def finding(self, ours, wiki, times, kills, others=()):
+        return {"datapack_chance": ours, "wiki_chance": wiki, "times": times, "kills": kills, "other_versions": list(others)}
+
+    def test_another_version_confirms_the_wiki_rate(self):
+        self.assertEqual("confirmed by another version", fixes.gap_evidence(self.finding(500, 67066, 112, 167, [["12.31", 3834, 2365]])))
+
+    def test_a_version_that_agrees_with_the_datapack_blocks_the_fix(self):
+        self.assertIsNone(fixes.gap_evidence(self.finding(5090, 922, 380, 41224, [["15.23", 13095, 395], ["14.12", 1151, 60]])))
+
+    def test_single_block_needs_a_large_sample(self):
+        self.assertEqual("single large sample", fixes.gap_evidence(self.finding(250, 13492, 1580, 11711)))
+        self.assertIsNone(fixes.gap_evidence(self.finding(18920, 149, 1, 669)))
+
+    def test_versions_that_disagree_with_both_block_the_fix(self):
+        self.assertIsNone(fixes.gap_evidence(self.finding(1080, 25, 1, 4053, [["8.6", 19837, 0]])))
+
+
+class ReviewedTest(unittest.TestCase):
+    def test_reviewed_stat_bypasses_the_factor_rule(self):
+        report = {"monsters": [{"name": "Shock Head", "file": "shock.lua", "race_id": 5, "wiki_race_id": 5.0, "revid": 1,
+                                "findings": [{"kind": "stat", "subject": "armor", "datapack": 30, "wiki": 78.0}]}]}
+        planned, review = fixes.plan(report, {}, set(), kinds=("stat",))
+        self.assertEqual([], planned)
+        decisions = [{"monster": "Shock Head", "kind": "stat", "item": "armor", "decision": "apply", "note": "bestiary armor"}]
+        planned, _ = fixes.plan(report, {}, set(), kinds=("stat",), reviewed=decisions)
+        self.assertEqual([(78, 30)], [(f["value"], f["from"]) for f in planned])
 
 
 class MergeTest(unittest.TestCase):
