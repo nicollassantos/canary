@@ -43,6 +43,7 @@ public:
 		onlinePlayers.clear();
 		onlineUpdates = 0;
 		failOnlineUpdate = false;
+		playerLoads = 0;
 		return *this;
 	}
 
@@ -57,6 +58,7 @@ public:
 	}
 
 	bool loadPlayerByName(const std::shared_ptr<Player> &player, const std::string &name) override {
+		++playerLoads;
 		auto it = byName.find(name);
 		if (it == byName.end()) {
 			return false;
@@ -67,6 +69,7 @@ public:
 	}
 
 	bool loadPlayerById(const std::shared_ptr<Player> &player, uint32_t id, bool = true) override {
+		++playerLoads;
 		auto it = byId.find(id);
 		if (it == byId.end()) {
 			return false;
@@ -136,6 +139,7 @@ public:
 	/// Last list written by updateOnlinePlayers, in the order the caller sent it.
 	std::vector<uint32_t> onlinePlayers;
 	uint32_t onlineUpdates = 0;
+	size_t playerLoads = 0;
 	bool failOnlineUpdate = false;
 
 	uint64_t getBankBalance(uint32_t guid) const {

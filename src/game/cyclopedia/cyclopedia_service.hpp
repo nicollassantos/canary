@@ -9,7 +9,11 @@
 
 #pragma once
 
+#include "utils/request_cooldown.hpp"
+#include "utils/tools.hpp"
+
 #include <cstdint>
+#include <functional>
 #include <memory>
 #include <string>
 
@@ -36,7 +40,20 @@ public:
 	void playerCyclopediaHouseRejectTransfer(uint32_t playerId, uint32_t houseId);
 	bool processBankAuction(std::shared_ptr<Player> player, const std::shared_ptr<House> &house, uint64_t bid, bool replace = false);
 
+	/// A transfer request names its recipient, and an offline recipient is loaded whole from the
+	/// database on the dispatcher, so each player gets one request per interval.
+	static constexpr int64_t HouseTransferCooldownMs = 1000;
+
+	[[nodiscard]] size_t throttledHouseTransfers() const {
+		return throttledHouseTransfers_;
+	}
+
+	/// Clock in milliseconds; tests replace it.
+	std::function<int64_t()> now = [] { return OTSYS_TIME(); };
+
 private:
 	Game &game_;
 	IConfigManager &config_;
+	RequestCooldown houseTransferCooldown { HouseTransferCooldownMs };
+	size_t throttledHouseTransfers_ = 0;
 };

@@ -285,8 +285,16 @@ void CyclopediaService::playerCyclopediaHouseTransfer(uint32_t playerId, uint32_
 		return;
 	}
 
-	const std::shared_ptr<Player> &newOwner = game_.getPlayerByName(newOwnerName, true);
-	if (!newOwner) {
+	// The recipient lookup below may load a whole offline character, so every cheap check comes first.
+	if (!houseTransferCooldown.tryTake(playerId, now())) {
+		++throttledHouseTransfers_;
+		g_metrics().addCounter("house_auction_requests_rejected", 1, { { "reason", "transfer_throttled" } });
+		return;
+	}
+
+	if (newOwnerName.size() > NETWORKMESSAGE_PLAYERNAME_MAXLENGTH) {
+		g_logger().warn("[{}] Player {} sent a house transfer recipient name of {} characters", __FUNCTION__, owner->getName(), newOwnerName.size());
+		g_metrics().addCounter("house_auction_requests_rejected", 1, { { "reason", "recipient_name_too_long" } });
 		owner->sendHouseAuctionMessage(houseId, HouseAuctionType::Transfer, enumToValue(TransferErrorMessage::CharacterNotExist));
 		return;
 	}
@@ -294,6 +302,17 @@ void CyclopediaService::playerCyclopediaHouseTransfer(uint32_t playerId, uint32_
 	const auto house = game_.map.houses.getHouseByClientId(houseId);
 	if (!house || house->getState() != CyclopediaHouseState::Rented) {
 		owner->sendHouseAuctionMessage(houseId, HouseAuctionType::Transfer, enumToValue(TransferErrorMessage::Internal));
+		return;
+	}
+
+	if (house->getOwner() != owner->getGUID()) {
+		owner->sendHouseAuctionMessage(houseId, HouseAuctionType::Transfer, enumToValue(TransferErrorMessage::NotHouseOwner));
+		return;
+	}
+
+	const std::shared_ptr<Player> &newOwner = game_.getPlayerByName(newOwnerName, true);
+	if (!newOwner) {
+		owner->sendHouseAuctionMessage(houseId, HouseAuctionType::Transfer, enumToValue(TransferErrorMessage::CharacterNotExist));
 		return;
 	}
 
