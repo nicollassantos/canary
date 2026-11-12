@@ -1656,3 +1656,44 @@ void PlayerInteractionService::playerReportBug(uint32_t playerId, const std::str
 	g_callbacks().executeCallback(EventCallback_t::playerOnReportBug, player, report, position, category);
 }
 
+bool PlayerInteractionService::isReportableName(std::string_view name) {
+	if (name.empty() || name.size() > NETWORKMESSAGE_PLAYERNAME_MAXLENGTH) {
+		return false;
+	}
+
+	return std::ranges::all_of(name, [](char c) {
+		const auto byte = static_cast<unsigned char>(c);
+		return std::isalpha(byte) != 0 || c == ' ' || c == '\'' || c == '-';
+	});
+}
+
+void PlayerInteractionService::playerReportRuleViolationReport(uint32_t playerId, const std::string &targetName, uint8_t reportType, uint8_t reportReason, const std::string &comment, const std::string &translation) {
+	const auto &player = game_.getPlayerByID(playerId);
+	if (!player) {
+		return;
+	}
+
+	if (!isReportableName(targetName)) {
+		++rejectedRuleViolationReportCount;
+		g_logger().warn("[{}] Player {} sent a rule violation report with an invalid target name ({} bytes)", __FUNCTION__, player->getName(), targetName.size());
+		g_metrics().addCounter("rule_violation_reports_rejected", 1, { { "reason", "invalid_target" } });
+		return;
+	}
+
+	if (!ruleViolationReportCooldown.tryTake(playerId, now())) {
+		++rejectedRuleViolationReportCount;
+		g_metrics().addCounter("rule_violation_reports_rejected", 1, { { "reason", "cooldown" } });
+		return;
+	}
+
+	// Same bound as bug reports: the datapack appends both texts to a file.
+	const auto bounded = [](const std::string &text) {
+		return text.size() > MaxBugReportLength ? text.substr(0, MaxBugReportLength) : text;
+	};
+	const std::string boundedComment = bounded(comment);
+	const std::string boundedTranslation = bounded(translation);
+
+	g_events().eventPlayerOnReportRuleViolation(player, targetName, reportType, reportReason, boundedComment, boundedTranslation);
+	g_callbacks().executeCallback(EventCallback_t::playerOnReportRuleViolation, player, targetName, reportType, reportReason, boundedComment, boundedTranslation);
+}
+

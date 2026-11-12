@@ -2687,13 +2687,7 @@ std::string Game::getSkillNameById(uint8_t &skill) {
 }
 
 void Game::playerReportRuleViolationReport(uint32_t playerId, const std::string &targetName, uint8_t reportType, uint8_t reportReason, const std::string &comment, const std::string &translation) {
-	const auto &player = getPlayerByID(playerId);
-	if (!player) {
-		return;
-	}
-
-	g_events().eventPlayerOnReportRuleViolation(player, targetName, reportType, reportReason, comment, translation);
-	g_callbacks().executeCallback(EventCallback_t::playerOnReportRuleViolation, player, targetName, reportType, reportReason, comment, translation);
+	m_interactionService->playerReportRuleViolationReport(playerId, targetName, reportType, reportReason, comment, translation);
 }
 
 void Game::playerReportBug(uint32_t playerId, const std::string &message, const Position &position, uint8_t category) {

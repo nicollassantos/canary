@@ -16,6 +16,7 @@
 #include <functional>
 #include <memory>
 #include <string>
+#include <string_view>
 #include <vector>
 
 class Game;
@@ -37,6 +38,9 @@ public:
 	/// size and rate are bounded to keep a client from filling the disk.
 	static constexpr size_t MaxBugReportLength = 2048;
 	static constexpr int64_t BugReportCooldownMs = 60000;
+	/// Rule violation reports go to reports/players/<reporter>-<target>-<type>.txt (datapack), one
+	/// file per target, so the target must be a plain name and reports are rate limited.
+	static constexpr int64_t RuleViolationReportCooldownMs = 10000;
 
 	PlayerInteractionService(Game &game, IConfigManager &config) :
 		game_(game), config_(config) { }
@@ -77,9 +81,18 @@ public:
 	void playerCheckActivity(const std::string &playerName, int interval);
 
 	void playerReportBug(uint32_t playerId, const std::string &message, const Position &position, uint8_t category);
+	void playerReportRuleViolationReport(uint32_t playerId, const std::string &targetName, uint8_t reportType, uint8_t reportReason, const std::string &comment, const std::string &translation);
+
+	/// A player name as the client shows it: 1 to 30 letters, spaces, apostrophes or hyphens.
+	/// The report target ends up in a file path, so nothing else is accepted.
+	static bool isReportableName(std::string_view name);
 
 	[[nodiscard]] uint64_t rejectedBugReports() const {
 		return rejectedBugReportCount;
+	}
+
+	[[nodiscard]] uint64_t rejectedRuleViolationReports() const {
+		return rejectedRuleViolationReportCount;
 	}
 
 	[[nodiscard]] uint64_t rejectedHouseListUpdates() const {
@@ -96,4 +109,6 @@ private:
 	uint64_t rejectedHouseLists = 0;
 	RequestCooldown bugReportCooldown { BugReportCooldownMs };
 	uint64_t rejectedBugReportCount = 0;
+	RequestCooldown ruleViolationReportCooldown { RuleViolationReportCooldownMs };
+	uint64_t rejectedRuleViolationReportCount = 0;
 };
