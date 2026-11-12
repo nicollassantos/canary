@@ -498,3 +498,16 @@ Novo: `tests/unit/creatures/players/death_component_test.cpp`
 | 18.6 DI restante (Scripts, Metrics, Modules) | L | registrados no container ou bloqueio documentado com causa verificada |
 
 **Verificação por task:** build `linux-release-enabled-tests`, `tools/merge/syntax_check.sh` nos .cpp tocados, `canary_ut` + `canary_it`. Commit por task.
+
+---
+
+## Phase 19: DI sobre singletons nas camadas já extraídas
+
+| Task | Escopo | Critérios |
+|---|---|---|
+| 19.1 Services sem `g_game()`/`g_configManager()` | S | 0 chamadas em `*_service.cpp`; comportamento inalterado |
+| 19.2 Components com config via porta | M | 0 `g_configManager()` em `player_*_component.cpp`; testes de component instalam config em memória |
+| 19.3 IO estático → portas | M | 0 `IOLoginData::`/`IOMarket::` fora de `src/io/` e dos adapters `*_repository_db.cpp` |
+| 19.4 GuildRepositoryDB dono do SQL | M | adapter usa `IDatabase` injetado; `IOGuild` vira fachada ou é removido; teste de integração |
+
+**Verificação por task:** build `linux-release-enabled-tests`, `tools/merge/syntax_check.sh`, `canary_ut` + `canary_it`; contagem de singletons registrada no todo.

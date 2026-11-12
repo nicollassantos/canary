@@ -208,3 +208,12 @@
 - [x] **18.5** — Split `protocolgame_send.cpp` 7679 → `_send.cpp` 3748 (core/containers) + `_send_cyclopedia.cpp` 1562 + `_send_economy.cpp` 1467 (market/store/forge/prey/imbuement) + `_send_social.cpp` 1109 (chat/VIP/party); 204 funções conservadas byte-a-byte; CMake + vcxproj
 - [x] **18.6** — DI restante: `Scripts` no container (causa real do erro boost::di `has_to_many_constructor_parameters` era o ctor privado, não o membro por valor); `Modules` e `metrics::Metrics` já resolviam via `inject<T>()` (binding implícito) — binding explícito bloqueado por ciclo de include (`modules.hpp`/`metrics.hpp` incluem `container.hpp`); 3 testes provam instância única; smoke boot/shutdown com data-otservbr-global exit 0 — 858/858 + 51/51
 - [x] **CHECKPOINT 18** — Phase 18 completa
+
+## Phase 19: DI sobre singletons nas camadas já extraídas
+
+> Linha de base: `g_game()` 1148 / `g_configManager()` 526 chamadas em src/*.cpp
+
+- [ ] **19.1** — Services sem singletons: usar `game_`/`config_` injetados (forge 12, market 5, combat 3, interaction 2, creature_management 1 = 23 chamadas → 0)
+- [ ] **19.2** — Player components leem config pela porta `IConfigManager` (49 chamadas `g_configManager()` → 0) + fixtures de teste instalam `InMemoryConfigManager`
+- [ ] **19.3** — Call sites `IOLoginData::` (21) / `IOMarket::` (7) fora de `src/io/` → portas `IPlayerRepository` / `IMarketRepository`
+- [ ] **19.4** — `GuildRepositoryDB` com SQL próprio via `IDatabase` (deixa de delegar a `IOGuild`); testes com DB de integração
