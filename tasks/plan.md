@@ -553,11 +553,20 @@ Fora de escopo: `gameWorldAuthentication` (lógica de autenticação, sem teste,
 
 Fora de escopo: SQL em arquivos que existem upstream (`player_forge_history`, `player_wheel`, `player_cyclopedia`, `player_badge`, `ban`, Lua `db_functions`). Cada movimento entra no mapa §5b do `tasks/AGENTS.md` e no README de merge no mesmo commit.
 
-## Phase 23 (proposta, não aberta): caminhos cliente → banco síncrono + observabilidade
+## Phase 23: medir e conter caminhos cliente → banco síncrono
 
-Motivo: a conexão do `Database` é única e protegida por mutex. Uma query síncrona disparada por pacote do cliente para o loop principal (dispatcher) para todos os jogadores e disputa a vez com os saves. Exemplo confirmado no código: `MarketService::playerBrowseMarket`, `playerBrowseMarketOwnOffers` e `playerBrowseMarketOwnHistory` chamam `g_marketRepository()` de forma síncrona. O único freio hoje é `maxPacketsPerSecond = 25` por conexão.
+Motivo: a conexão do `Database` é única e protegida por mutex. Uma query síncrona disparada por pacote do cliente para o loop principal para todos os jogadores e disputa a vez com os saves. Ordem: **medir primeiro** (instrumento de dispatch + inventário com dados semeados), **depois corrigir** (fazer menos trabalho → cache limitado → limite de taxa → assíncrono), sempre test-first e com linha na tabela de correções em arquivos upstream (§5b).
 
-- 23.0: build tree `linux-release-metrics` (vcpkg com OpenTelemetry) para validar o código de métricas; documentar as duas chaves (preset + `metricsEnablePrometheus`).
-- 23.1: inventário de todo handler de pacote que chega ao banco de forma síncrona (mercado, cyclopedia, badges, wheel, forge history, loja…), com latência medida (`metrics::method_latency` / contador por handler).
-- 23.2: mercado no molde da 22.5 (cache ou leitura assíncrona, intervalo por player, teto global, métricas).
-- 23.3: demais caminhos priorizados pela medição.
+Casos já lidos no código:
+- `BedItem::canUse`: usar a cama ocupada de uma casa carrega o dorminhoco inteiro do MySQL (`loadPlayerById`, ~20+ queries: inventário, depot, inbox, store inbox, recompensas, storages…) só para comparar nível de acesso. O uso de item é limitado por `timeBetweenActions` (200ms ≈ 5/s por player).
+- Navegação do mercado (`MarketService::playerBrowseMarket*`): queries síncronas por pedido.
+
+| Task | Escopo | Critérios |
+|---|---|---|
+| 23.0 Build com métricas | S | build tree `linux-release-metrics` (vcpkg com OpenTelemetry); os contadores da 22.4/22.5 compilam com `FEATURE_METRICS=ON`; documentar o uso |
+| 23.1 Instrumento de dispatch | M | onde os pacotes são despachados: contador e histograma de latência rotulados só por opcode; aviso de dispatch lento, limitado por taxa (padrão `takeWriteErrorWarning`), com opcode, player, IP e ms; testes |
+| 23.2 Inventário de fora para dentro | M | partindo dos pacotes: chamadas com `allowOffline = true` em `getPlayerByGUID`/`getPlayerByName`, `loadPlayerBy*`, repositórios síncronos. Para cada caminho: gatilho, limitador existente, número de queries (delta de `Questions` em teste de integração), se o cliente controla um multiplicador. Medido com dados semeados (dezenas de milhares de ofertas, um player cheio de itens) e `EXPLAIN` nas queries do mercado. `house.cpp:733` dentro de laço sobre lista do cliente? |
+| 23.3 Correções priorizadas pela medição | M | cama primeiro, se a medição confirmar; mercado só se os números mostrarem custo |
+| 23.4 Pendências da 22 | S | auditoria de irmãos (outros leitores de `getAccountPlayers`; `[this` em callbacks do dispatcher/`g_databaseTasks()` em arquivos da branch); vazamento de vaga do highscore se um callback se perder (`DatabaseTasks::store` sempre chama de volta?); seção 6 do AGENTS como estado atual |
+
+Pendente com o usuário: testar highscores no cliente trocando filtros e páginas rápido (o intervalo responde "sem dados").

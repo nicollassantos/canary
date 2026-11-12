@@ -245,3 +245,13 @@
 - [x] **22.4** — `highscore_cache::prune` (remove expiradas; no teto de 4096, o cache é limpo) antes de inserir nos dois caches (query e resultado) + métrica `highscore_cache_evictions{cache}`; página 0 em `HIGHSCORE_GETENTRIES` recusada antes da query + `highscore_requests_rejected{reason}`; 4 unit (prune e teto com 8192 páginas) + 2 do service (página 0, our rank ignora página) — 905/905 + 85/85
 - [x] **22.5** — Highscores protegem o MySQL: página de entradas fresca no cache sai sem query (mesmo dentro do intervalo); 1s por player (`takeRequestSlot`, mapa podado); teto de 8 queries em andamento no servidor, liberado no topo de `processHighscoreResults` (vale para player que saiu); métricas `highscore_requests_total{type}`, `highscore_served_from_cache`, `highscore_requests_rejected{reason}`; fake com fila de callbacks e relógio controlável; 3 testes novos — 908/908 + 85/85
 - [x] **CHECKPOINT 22** — 908/908 + 85/85; smoke semeado (data-otservbr-global, banco descartável): online 7s, 0 `[error]`, exit 0, reembolso conferido (saldo 1000, inbox 150); cobertura 416/416 game.cpp, 830/830 player.cpp, 398/398 protocolgame.cpp; grep de IO estático vazio; game.cpp 3787 linhas, player.cpp 6984; `g_game()` 1121 linhas = 1104 da Phase 20 + 16 dos adapters `CreatureFeedback`/`WorldRegistry` (antes não rastreados pelo `git grep`) + 1 do callback de highscore, que resolve o `Game` na chegada de propósito. **Bug de segurança corrigido**: login em personagem marcado para deleção. **Pendente**: abrir a janela de highscores no cliente uma vez (o caminho assíncrono não roda no boot)
+
+## Phase 23: medir e conter caminhos cliente → banco síncrono
+
+- [ ] **23.0** — Build `linux-release-metrics`; contadores da 22.4/22.5 compilam com `FEATURE_METRICS=ON`
+- [ ] **23.1** — Instrumento de dispatch: contador + latência por opcode; aviso de dispatch lento limitado por taxa (opcode, player, IP, ms)
+- [ ] **23.2** — Inventário de fora para dentro com dados semeados (queries por caminho, multiplicador do cliente, `EXPLAIN`)
+- [ ] **23.3** — Correções priorizadas pela medição (cama primeiro se confirmada)
+- [ ] **23.4** — Pendências da 22 (irmãos, vaga do highscore, handoff)
+- [ ] **CHECKPOINT 23**
+
