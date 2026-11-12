@@ -21,10 +21,11 @@ Leia este arquivo inteiro antes de mexer na branch. Depois, para o detalhe de ca
 - Responder ao usuário em português. Commits, PRs e comentários de código em inglês.
 - **Nunca dar push**, em especial para `origin/main`. Commits só locais, um por task, com
   Conventional Commits, terminando em `Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>`.
-- `git add` só com caminhos explícitos. Existe um diff não commitado que **não é nosso**
-  (`src/server/network/connection/connection.cpp` e
-  `tests/unit/server/network/connection/connection_write_diagnostics_test.cpp`, avisando sobre o
-  preâmbulo "world name"). Não reverter e não incluir em commit.
+- `git add` só com caminhos explícitos. Mudanças não commitadas que não são suas: pergunte ao
+  usuário se vão para commit próprio ou se devem ser descartadas. Nunca faça stash, reset ou
+  commit por conta própria. Exemplo: o aviso de preâmbulo "world name" em `connection.cpp`
+  ficou fora de commit da Phase 17 até a 20; o usuário mandou manter e ele entrou em
+  `55c20905e`.
 - Fluxo por fase: o usuário pede "abra a Phase N e pode iniciar". Aí registrar a fase em
   `tasks/plan.md` e `tasks/todo.md` (commit `docs(tasks): ...`), executar task a task (build +
   testes + commit por task), fechar com o CHECKPOINT no `todo.md` e um relatório curto.
@@ -133,11 +134,9 @@ build/linux-release-enabled-tests/tests/integration/canary_it --gtest_brief=1
 
 Ferramentas e passo a passo: `tools/merge/README.md`. Resumo e lições:
 
-1. Árvore limpa, baseline verde e branch de backup local. Se o diff não commitado de
-   `connection.cpp` (seção 2) ainda existir, **pergunte ao usuário** se ele vai para um commit
-   próprio ou se deve ser descartado. Sem commit, um reset ou checkout o perde, e o git recusa
-   o merge se o upstream também tiver mudado o arquivo. Não faça stash, reset ou commit dele
-   por conta própria.
+1. Árvore limpa, baseline verde e branch de backup local. Se houver diff não commitado que não
+   é seu, **pergunte ao usuário** antes (seção 2). Sem commit, um reset ou checkout o perde, e o
+   git recusa o merge se o upstream também tiver mudado o arquivo.
 2. `git fetch origin && git merge --no-commit origin/main`. É merge real com dois pais. O último
    merge foi `deba5a464`, com base upstream `666a60f6f`; o próximo considera só commits novos
    depois desse ponto.
@@ -185,13 +184,12 @@ upstream.
     `historySize` e `lastHistoryState`.
   - Diff conferido: o corpo do reembolso só trocou a fonte dos dados (struct no lugar de
     `DBResult`) e passou a receber `game`/`players` injetados.
-- **20.2 VIP** (não iniciada no `src/`): levar os 10 métodos VIP de `IOLoginData` (fim de
-  `src/io/iologindata.cpp` e declarações no `.hpp`) para `VipRepositoryDB(IDatabase&)`, trocando
-  `Database::getInstance()`/`g_database()` por `db_` e usando `std::ignore =` nos
-  `executeQuery` soltos (`IDatabase::executeQuery` é `[[nodiscard]]`). Só `VipRepositoryDB`
-  chama esses métodos. Testes de integração: adicionar, editar e remover entrada; ciclo de
-  grupo; membro de grupo. O trigger `oncreate_accounts` cria 3 grupos padrão com
-  AUTO_INCREMENT global, então os testes escolhem um id de grupo livre.
+- **20.2 VIP**: concluída (commit logo após `55c20905e`). Os 10 métodos VIP saíram de
+  `IOLoginData` e foram para `VipRepositoryDB(IDatabase&)`, idênticos, com `std::ignore =` nos
+  `executeQuery` soltos (`IDatabase::executeQuery` é `[[nodiscard]]`). Testes em
+  `tests/integration/io/vip_repository_db_it.cpp`. O trigger `oncreate_accounts` cria 3 grupos
+  padrão com AUTO_INCREMENT global, então os testes escolhem um id de grupo livre. Resultado:
+  ut 874/874, it 68/68.
 - **20.3 Components sem `g_game()`**: só arquivos da branch (forge 26, mount 11, death 11,
   creature_event 10, imbuement 9, session 6, experience 6, stash 5, combat_event 5,
   inventory 4). **Não** criar uma porta "mundo" gorda (são 48 métodos distintos). Fazer portas

@@ -11,10 +11,13 @@
 
 #include "creatures/players/vip_repository.hpp"
 
-/// IVipRepository adapter backed by the database through IOLoginData.
+class IDatabase;
+
+/// IVipRepository adapter that owns the VIP list SQL; the database is injected.
 class VipRepositoryDB final : public IVipRepository {
 public:
-	VipRepositoryDB() = default;
+	explicit VipRepositoryDB(IDatabase &db) :
+		db_(db) { }
 
 	[[nodiscard]] std::vector<VIPEntry> getVIPEntries(uint32_t accountId) override;
 	void addVIPEntry(uint32_t accountId, uint32_t guid, const std::string &description, uint32_t icon, bool notify) override;
@@ -27,4 +30,7 @@ public:
 	void removeVIPGroupEntry(uint8_t groupId, uint32_t accountId) override;
 	void addGuidVIPGroupEntry(uint8_t groupId, uint32_t accountId, uint32_t guid) override;
 	void removeGuidVIPGroupEntry(uint32_t accountId, uint32_t guid) override;
+
+private:
+	IDatabase &db_;
 };
