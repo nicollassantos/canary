@@ -68,28 +68,6 @@ void HighscoreService::processHighscoreResults(Game &game, std::optional<Highsco
 	return static_cast<uint16_t>((totalEntries + entriesPerPage - 1) / entriesPerPage);
 }
 
-bool HighscoreService::takeRequestSlot(uint32_t playerGuid, int64_t nowMs) {
-	// One entry per player who asked recently; drop the stale ones before the map gets large.
-	if (lastRequestAt.size() >= highscore_cache::MaxEntries) {
-		for (auto it = lastRequestAt.begin(); it != lastRequestAt.end();) {
-			if (nowMs - it->second >= RequestCooldownMs) {
-				it = lastRequestAt.erase(it);
-			} else {
-				++it;
-			}
-		}
-	}
-
-	const auto [it, inserted] = lastRequestAt.try_emplace(playerGuid, nowMs);
-	if (!inserted) {
-		if (nowMs - it->second < RequestCooldownMs) {
-			return false;
-		}
-		it->second = nowMs;
-	}
-	return true;
-}
-
 void HighscoreService::playerHighscores(const std::shared_ptr<Player> &player, HighscoreType_t type, uint8_t category, uint32_t vocation, const std::string &, uint16_t page, uint8_t entriesPerPage) {
 	if (player->hasAsyncOngoingTask(PlayerAsyncTask_Highscore)) {
 		return;
@@ -117,7 +95,7 @@ void HighscoreService::playerHighscores(const std::shared_ptr<Player> &player, H
 		}
 	}
 
-	if (!takeRequestSlot(player->getGUID(), now())) {
+	if (!requestCooldown.tryTake(player->getGUID(), now())) {
 		g_metrics().addCounter("highscore_requests_rejected", 1, { { "reason", "cooldown" } });
 		player->sendHighscoresNoData();
 		return;

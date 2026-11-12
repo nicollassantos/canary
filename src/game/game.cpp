@@ -1786,16 +1786,7 @@ void Game::playerTurn(uint32_t playerId, Direction dir) {
 }
 
 void Game::playerRequestOutfit(uint32_t playerId) {
-	if (!g_configManager().getBoolean(ALLOW_CHANGEOUTFIT)) {
-		return;
-	}
-
-	const auto &player = getPlayerByID(playerId);
-	if (!player) {
-		return;
-	}
-
-	player->sendOutfitWindow();
+	m_outfitService->playerRequestOutfit(playerId);
 }
 
 void Game::playerToggleMount(uint32_t playerId, bool mount) {

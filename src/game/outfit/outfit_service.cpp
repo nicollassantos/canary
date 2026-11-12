@@ -9,6 +9,8 @@
 
 #include "game/outfit/outfit_service.hpp"
 
+#include "lib/metrics/metrics.hpp"
+
 #include "config/configmanager.hpp"
 #include "creatures/appearance/attached_effects/attached_effects.hpp"
 #include "creatures/appearance/mounts/mounts.hpp"
@@ -26,12 +28,41 @@
 
 using namespace GameHelpers;
 
+void OutfitService::playerRequestOutfit(uint32_t playerId) {
+	if (!config_.getBoolean(ALLOW_CHANGEOUTFIT)) {
+		return;
+	}
+
+	const auto &player = game_.getPlayerByID(playerId);
+	if (!player) {
+		return;
+	}
+
+	if (!outfitWindowCooldown.tryTake(playerId, now())) {
+		++throttled;
+		g_metrics().addCounter("outfit_requests_throttled", 1, { { "request", "window" } });
+		return;
+	}
+
+	player->sendOutfitWindow();
+}
+
 void OutfitService::playerChangeOutfit(uint32_t playerId, Outfit_t outfit, bool setMount, uint8_t isMountRandomized) {
 	if (!config_.getBoolean(ALLOW_CHANGEOUTFIT)) {
 		return;
 	}
 
 	const auto &player = game_.getPlayerByID(playerId);
+	if (!player) {
+		return;
+	}
+
+	if (!outfitChangeCooldown.tryTake(playerId, now())) {
+		++throttled;
+		g_metrics().addCounter("outfit_requests_throttled", 1, { { "request", "change" } });
+		return;
+	}
+
 	playerChangeOutfit(player, outfit, setMount, isMountRandomized);
 }
 

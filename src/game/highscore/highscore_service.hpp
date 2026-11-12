@@ -1,11 +1,11 @@
 #pragma once
 
 #include "io/highscore_repository.hpp"
+#include "utils/request_cooldown.hpp"
 #include "utils/tools.hpp"
 
 #include <cstdint>
 #include <functional>
-#include <parallel_hashmap/phmap.h>
 #include <memory>
 #include <string>
 
@@ -48,13 +48,11 @@ public:
 	std::function<int64_t()> now = [] { return OTSYS_TIME(); };
 
 private:
-	/// True when the player may send a request at `nowMs`; records the request.
-	bool takeRequestSlot(uint32_t playerGuid, int64_t nowMs);
 	[[nodiscard]] static std::string cacheKey(uint8_t category, uint32_t vocationId, uint8_t entriesPerPage, uint32_t page);
 	static void sendCached(const std::shared_ptr<Player> &player, const HighscoreCacheEntry &entry, uint8_t category, uint32_t vocationCID);
 
 	Game &game_;
-	phmap::flat_hash_map<uint32_t, int64_t> lastRequestAt;
+	RequestCooldown requestCooldown { RequestCooldownMs };
 	// Queries handed to the repository whose rows have not arrived yet (dispatcher thread only).
 	inline static uint32_t inFlight = 0;
 };
