@@ -9,6 +9,7 @@
 
 #include <gtest/gtest.h>
 
+#include "database/database.hpp"
 #include "io/guild_repository_db.hpp"
 #include "io/market_repository_db.hpp"
 #include "lib/di/container.hpp"
@@ -67,4 +68,11 @@ TEST(ContainerSingletonsTest, MarketRepositoryIsOneInjectedInstance) {
 	auto &repository = IMarketRepository::getInstance();
 	EXPECT_NE(nullptr, dynamic_cast<MarketRepositoryDB*>(&repository));
 	EXPECT_EQ(&repository, &g_marketRepository());
+}
+
+// Repositories receive IDatabase by injection; it must be the Database that g_database() connects.
+TEST(ContainerSingletonsTest, DatabasePortIsTheConnectedGlobalDatabase) {
+	ProductionContainerScope scope;
+	EXPECT_EQ(static_cast<IDatabase*>(&g_database()), &DI::get<IDatabase>());
+	EXPECT_EQ(&DI::get<IDatabase>(), &IDatabase::getInstance());
 }
