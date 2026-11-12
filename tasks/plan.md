@@ -525,3 +525,15 @@ Novo: `tests/unit/creatures/players/death_component_test.cpp`
 Fora de escopo: load/save de player em `IOLoginData` (~2000 linhas, upstream edita com frequência); catálogos `getAttachedEffects`/`getIOWheel` em arquivos upstream.
 
 **Verificação por task:** build `linux-release-enabled-tests` (preset), `tools/merge/syntax_check.sh`, `canary_ut` + `canary_it`; contagens registradas no todo. Diff não-commitado de `connection.cpp`/teste de diagnóstico não é desta fase — commits por caminho explícito.
+
+## Phase 21: `PlayerRepositoryDB` dono do SQL de nomes/saldo + cobertura do reembolso de venda
+
+> Upstream `main` = fork `main` = merge-base `666a60f6f` (sem merge pendente em 2026-11-11).
+
+| Task | Escopo | Critérios |
+|---|---|---|
+| 21.1 `PlayerRepositoryDB(IDatabase&)` | S | `getNameByGuid`, `getGuidByName`, `getGuidByNameEx`, `formatPlayerName`, `increaseBankBalance` movidos de `IOLoginData` idênticos (diff conferido); testes de integração (nome com aspas, busca com outra caixa devolve a grafia gravada, aumento de saldo, desconhecido → 0/false/vazio); README de merge + `tasks/AGENTS.md` atualizados |
+| 21.2 Reembolso de oferta de venda | S | unit test: dono online recebe 150 empilháveis como 100 + 50, N não empilháveis como N itens, tier aplicado; nenhum acesso a MySQL/SaveManager (repositório em memória instalado); `ItemType` restaurado no TearDown |
+| 21.3 Smoke semeado com oferta de venda | S | dono offline: carregar, entregar na inbox, salvar; linhas da inbox somam a quantidade; oferta de compra também passa pelo `increaseBankBalance` movido |
+
+Fora de escopo: `gameWorldAuthentication` (lógica de autenticação, sem teste, fica em `IOLoginData`); `IOLoginData::getAccountType` (código morto, mas o arquivo é do upstream, então apagar só gera conflito); load/save de player. Defeito conhecido: `getGuidByNameEx` lê `g_game().groups`, e para tirar isso seria preciso alargar a porta.

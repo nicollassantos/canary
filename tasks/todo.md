@@ -228,3 +228,10 @@
 - [x] **20.3pre** — teste prova que `IDatabase` injetado == `Database` conectado (mesma classe de bug da 18.1); smoke boot data-otservbr-global online 7s, zero `[error]`, exit 0
 - [x] **20.3** — Components do branch: portas por papel `CreatureFeedback` (8 métodos, 20 chamadas) e `WorldRegistry` (8 métodos, 16 chamadas), concretas-virtuais, assinaturas = `Game` (só receptor muda; tabela em `tools/merge/README.md`); 93 → 57 `g_game()` nos arquivos só do branch; itens/use cases/catálogos ficam em `g_game()` (justificado em `tasks/AGENTS.md`); 10 testes com fakes — 885/885 + 68/68
 - [x] **CHECKPOINT 20** — `IOMarket` removido, SQL de market/VIP/guild nos adapters; `g_game()` 1143 → 1104 (+16 nos adapters das portas), `g_configManager()` 458 → 452
+
+## Phase 21: `PlayerRepositoryDB` dono do SQL de nomes/saldo + cobertura do reembolso de venda
+
+- [ ] **21.1** — `PlayerRepositoryDB(IDatabase&)` dono de `getNameByGuid`/`getGuidByName`/`getGuidByNameEx`/`formatPlayerName`/`increaseBankBalance`; testes IT; docs de merge
+- [ ] **21.2** — Unit test do reembolso de oferta de venda (dono online; empilhável 100+50, não empilhável, tier)
+- [ ] **21.3** — Smoke semeado com oferta de venda (dono offline → inbox salva)
+- [ ] **CHECKPOINT 21**
