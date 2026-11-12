@@ -231,7 +231,7 @@
 
 ## Phase 21: `PlayerRepositoryDB` dono do SQL de nomes/saldo + cobertura do reembolso de venda
 
-- [ ] **21.1** — `PlayerRepositoryDB(IDatabase&)` dono de `getNameByGuid`/`getGuidByName`/`getGuidByNameEx`/`formatPlayerName`/`increaseBankBalance`; testes IT; docs de merge
-- [ ] **21.2** — Unit test do reembolso de oferta de venda (dono online; empilhável 100+50, não empilhável, tier)
+- [x] **21.1** — `PlayerRepositoryDB(IDatabase&)` dono de `getNameByGuid`/`getGuidByName`/`getGuidByNameEx`/`formatPlayerName`/`increaseBankBalance` (movidos idênticos; só `std::ignore`); 4 testes IT (aspas, caixa diferente → grafia gravada, saldo, desconhecidos); README de merge + AGENTS — 888/888 + 72/72
+- [x] **21.2** — 3 unit tests do reembolso de venda: dono online recebe 150 empilháveis como 100 + 50, 3 não empilháveis como 3 itens, dono desconhecido → só histórico; `InMemoryPlayerRepository` no container (sem MySQL); `ItemType` normalizado e restaurado. Tier não afirmado: `Item::setTier` lê o `g_configManager()` global (não carregado em unit test). Achados: `Player()` não cria inbox (produção usa `Player(nullptr)`); container insere no início
 - [ ] **21.3** — Smoke semeado com oferta de venda (dono offline → inbox salva)
 - [ ] **CHECKPOINT 21**
