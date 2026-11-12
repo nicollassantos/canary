@@ -183,6 +183,42 @@ public:
 		return true;
 	}
 
+	void checkExpiredOffers() override {
+		++expiredOfferChecks;
+	}
+
+	void updateStatistics() override {
+		++statisticsUpdates;
+	}
+
+	StatisticsMap getPurchaseStatistics() const override {
+		return purchaseStatistics;
+	}
+
+	StatisticsMap getSaleStatistics() const override {
+		return saleStatistics;
+	}
+
+	StatisticsSnapshot getStatistics(uint16_t itemId, uint8_t tier) const override {
+		StatisticsSnapshot snapshot;
+		const auto find = [itemId, tier](const StatisticsMap &map) -> std::optional<MarketStatistics> {
+			const auto item = map.find(itemId);
+			if (item == map.end()) {
+				return std::nullopt;
+			}
+			const auto entry = item->second.find(tier);
+			return entry == item->second.end() ? std::nullopt : std::optional<MarketStatistics>(entry->second);
+		};
+		snapshot.purchase = find(purchaseStatistics);
+		snapshot.sale = find(saleStatistics);
+		return snapshot;
+	}
+
+	StatisticsMap purchaseStatistics;
+	StatisticsMap saleStatistics;
+	uint32_t expiredOfferChecks = 0;
+	uint32_t statisticsUpdates = 0;
+
 private:
 	std::unordered_map<uint32_t, StoredOffer> offers;
 	std::vector<StoredHistory> history;

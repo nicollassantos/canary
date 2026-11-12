@@ -41,6 +41,7 @@
 #include "creatures/players/components/weapon_proficiency.hpp"
 #include "creatures/players/vocations/vocation.hpp"
 #include "utils/benchmark.hpp"
+#include "io/market_repository.hpp"
 
 #ifndef USE_PRECOMPILED_HEADERS
 	#include <string_view>
@@ -224,8 +225,8 @@ int CanaryServer::run() {
 				setupHousesRent();
 				g_game().transferHouseItemsToDepot();
 
-				IOMarket::checkExpiredOffers();
-				IOMarket::getInstance().updateStatistics();
+				g_marketRepository().checkExpiredOffers();
+				g_marketRepository().updateStatistics();
 
 				logger.info("Loaded all modules, server starting up...");
 

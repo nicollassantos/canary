@@ -13,7 +13,7 @@
 #include "lib/di/container.hpp"
 
 IMarketRepository &IMarketRepository::getInstance() {
-	return inject<IMarketRepository>();
+	return DI::port<IMarketRepository>();
 }
 
 MarketOfferList MarketRepositoryDB::getActiveOffers(MarketAction_t action) {
@@ -58,4 +58,25 @@ void MarketRepositoryDB::appendHistory(uint32_t playerId, MarketAction_t type, u
 
 bool MarketRepositoryDB::moveOfferToHistory(uint32_t offerId, MarketOfferState_t state) {
 	return IOMarket::moveOfferToHistory(offerId, state);
+}
+
+void MarketRepositoryDB::checkExpiredOffers() {
+	IOMarket::checkExpiredOffers();
+}
+
+void MarketRepositoryDB::updateStatistics() {
+	IOMarket::getInstance().updateStatistics();
+}
+
+IMarketRepository::StatisticsMap MarketRepositoryDB::getPurchaseStatistics() const {
+	return IOMarket::getInstance().getPurchaseStatistics();
+}
+
+IMarketRepository::StatisticsMap MarketRepositoryDB::getSaleStatistics() const {
+	return IOMarket::getInstance().getSaleStatistics();
+}
+
+IMarketRepository::StatisticsSnapshot MarketRepositoryDB::getStatistics(uint16_t itemId, uint8_t tier) const {
+	const auto snapshot = IOMarket::getInstance().getStatistics(itemId, tier);
+	return { snapshot.purchase, snapshot.sale };
 }

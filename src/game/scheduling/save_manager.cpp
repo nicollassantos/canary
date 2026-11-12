@@ -18,6 +18,7 @@
 #include "kv/kv.hpp"
 #include "lib/di/container.hpp"
 #include "creatures/players/player.hpp"
+#include "creatures/players/player_repository.hpp"
 
 SaveManager::SaveManager(ThreadPool &threadPool, KVStore &kvStore, Logger &logger, Game &game) :
 	threadPool(threadPool), kv(kvStore), logger(logger), game(game) { }
@@ -162,7 +163,7 @@ bool SaveManager::doSavePlayer(std::shared_ptr<Player> player) {
 		logger.debug("Saving player {}.", player->getName());
 	}
 
-	bool saveSuccess = IOLoginData::savePlayer(player);
+	bool saveSuccess = g_playerRepository().savePlayer(player);
 	if (!saveSuccess) {
 		logger.error("Failed to save player {}.", player->getName());
 	}

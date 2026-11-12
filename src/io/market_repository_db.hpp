@@ -29,4 +29,10 @@ public:
 
 	void appendHistory(uint32_t playerId, MarketAction_t type, uint16_t itemId, uint16_t amount, uint64_t price, time_t timestamp, uint8_t tier, MarketOfferState_t state) override;
 	bool moveOfferToHistory(uint32_t offerId, MarketOfferState_t state) override;
+
+	void checkExpiredOffers() override;
+	void updateStatistics() override;
+	[[nodiscard]] StatisticsMap getPurchaseStatistics() const override;
+	[[nodiscard]] StatisticsMap getSaleStatistics() const override;
+	[[nodiscard]] StatisticsSnapshot getStatistics(uint16_t itemId, uint8_t tier) const override;
 };

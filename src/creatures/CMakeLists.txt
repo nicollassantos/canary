@@ -36,6 +36,7 @@ target_sources(
             players/storages/storages.cpp
             players/player.cpp
             players/player_repository_db.cpp
+            players/vip_repository_db.cpp
             players/components/player_achievement.cpp
             players/components/player_attached_effects.cpp
             players/components/player_badge.cpp

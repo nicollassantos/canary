@@ -23,6 +23,7 @@
 #include "map/spectators.hpp"
 #include "server/network/protocol/protocolgame.hpp"
 #include "utils/tools.hpp"
+#include "creatures/players/player_repository.hpp"
 
 bool ChatService::playerBroadcastMessage(const std::shared_ptr<Player> &player, const std::string &text) const {
 	if (!player->hasFlag(PlayerFlags_t::CanBroadcast)) {
@@ -144,7 +145,7 @@ void ChatService::playerOpenPrivateChannel(uint32_t playerId, std::string &recei
 		return;
 	}
 
-	if (!IOLoginData::formatPlayerName(receiver)) {
+	if (!g_playerRepository().formatPlayerName(receiver)) {
 		player->sendCancelMessage("A player with this name does not exist.");
 		return;
 	}

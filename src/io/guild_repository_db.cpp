@@ -13,7 +13,7 @@
 #include "lib/di/container.hpp"
 
 IGuildRepository &IGuildRepository::getInstance() {
-	return inject<IGuildRepository>();
+	return DI::port<IGuildRepository>();
 }
 
 std::shared_ptr<Guild> GuildRepositoryDB::loadGuild(uint32_t guildId) {

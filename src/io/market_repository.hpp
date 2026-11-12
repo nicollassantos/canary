@@ -13,6 +13,12 @@
 #include <ctime>
 
 #include "creatures/creatures_definitions.hpp"
+#include "io/io_definitions.hpp"
+
+#ifndef USE_PRECOMPILED_HEADERS
+	#include <map>
+	#include <optional>
+#endif
 
 class IMarketRepository {
 public:
@@ -38,6 +44,20 @@ public:
 
 	virtual void appendHistory(uint32_t playerId, MarketAction_t type, uint16_t itemId, uint16_t amount, uint64_t price, time_t timestamp, uint8_t tier, MarketOfferState_t state) = 0;
 	virtual bool moveOfferToHistory(uint32_t offerId, MarketOfferState_t state) = 0;
+
+	// [item id, [tier, statistics]]
+	using StatisticsMap = std::map<uint16_t, std::map<uint8_t, MarketStatistics>>;
+	struct StatisticsSnapshot {
+		std::optional<MarketStatistics> purchase;
+		std::optional<MarketStatistics> sale;
+	};
+
+	/// Moves expired offers to history and refunds their owners.
+	virtual void checkExpiredOffers() = 0;
+	virtual void updateStatistics() = 0;
+	[[nodiscard]] virtual StatisticsMap getPurchaseStatistics() const = 0;
+	[[nodiscard]] virtual StatisticsMap getSaleStatistics() const = 0;
+	[[nodiscard]] virtual StatisticsSnapshot getStatistics(uint16_t itemId, uint8_t tier) const = 0;
 };
 
 constexpr auto g_marketRepository = IMarketRepository::getInstance;

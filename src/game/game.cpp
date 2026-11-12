@@ -73,6 +73,7 @@
 #include "enums/object_category.hpp"
 
 #include <appearances.pb.h>
+#include "creatures/players/player_repository.hpp"
 
 std::vector<std::weak_ptr<Creature>> checkCreatureLists[EVENT_CREATURECOUNT];
 
@@ -620,10 +621,10 @@ void Game::setGameState(GameState_t newState) {
 }
 
 void Game::loadItemsPrice() {
-	IOMarket::getInstance().updateStatistics();
+	g_marketRepository().updateStatistics();
 
 	// Update purchased offers (market_history)
-	const auto &stats = IOMarket::getInstance().getPurchaseStatistics();
+	const auto &stats = g_marketRepository().getPurchaseStatistics();
 	for (const auto &[itemId, itemStats] : stats) {
 		std::map<uint8_t, uint64_t> tierToPrice;
 		for (const auto &[tier, tierStats] : itemStats) {
@@ -1333,8 +1334,7 @@ uint64_t Game::getItemMarketAveragePrice(uint16_t itemId, uint8_t tier) const {
 		return 10000;
 	}
 
-	const auto &market = IOMarket::getInstance();
-	const auto snapshot = market.getStatistics(itemId, tier);
+	const auto snapshot = g_marketRepository().getStatistics(itemId, tier);
 
 	uint64_t purchaseAverage = 0;
 	uint64_t saleAverage = 0;
@@ -3439,7 +3439,7 @@ void Game::transferHouseItemsToDepot() {
 		auto house = map.houses.getHouse(houseId);
 		if (house) {
 			auto offlinePlayer = std::make_shared<Player>(nullptr);
-			if (!IOLoginData::loadPlayerById(offlinePlayer, playerGuid)) {
+			if (!g_playerRepository().loadPlayerById(offlinePlayer, playerGuid)) {
 				continue;
 			}
 

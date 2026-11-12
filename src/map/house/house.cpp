@@ -275,7 +275,7 @@ bool House::transferToDepot() const {
 		transferToDepot(player);
 	} else {
 		const auto tmpPlayer = std::make_shared<Player>(nullptr);
-		if (!IOLoginData::loadPlayerById(tmpPlayer, owner)) {
+		if (!g_playerRepository().loadPlayerById(tmpPlayer, owner)) {
 			return false;
 		}
 

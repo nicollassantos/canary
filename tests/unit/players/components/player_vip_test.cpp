@@ -11,6 +11,8 @@
 
 #include "creatures/players/grouping/groups.hpp"
 #include "creatures/players/player.hpp"
+#include "account/in_memory_account_repository.hpp"
+#include "creatures/in_memory_vip_repository.hpp"
 #include "lib/logging/in_memory_logger.hpp"
 
 namespace {
@@ -158,4 +160,73 @@ TEST_F(PlayerVIPTest, GetGroupsIdGuidBelongs_ReturnsAllGroups_WhenGuidAddedToMul
 	ASSERT_EQ(2u, groups.size());
 	EXPECT_TRUE(std::ranges::find(groups, uint8_t { 1 }) != groups.end());
 	EXPECT_TRUE(std::ranges::find(groups, uint8_t { 2 }) != groups.end());
+}
+
+// --- persistence through the IVipRepository port ---
+
+class PlayerVIPPersistenceTest : public ::testing::Test {
+protected:
+	static constexpr uint32_t kAccountId = 42;
+
+	void SetUp() override {
+		previousContainer = DI::getTestContainer();
+		InMemoryLogger::install(injector);
+		tests::InMemoryAccountRepository::install(injector);
+		InMemoryVipRepository::install(injector);
+		DI::setTestContainer(&injector);
+		repository = &dynamic_cast<InMemoryVipRepository &>(IVipRepository::getInstance());
+
+		player = std::make_shared<Player>();
+		player->setGroup(std::make_shared<Group>());
+		(void)player->setAccount(kAccountId);
+		ASSERT_EQ(kAccountId, player->getAccountId());
+	}
+
+	void TearDown() override {
+		DI::setTestContainer(previousContainer);
+	}
+
+	di::extension::injector<> injector {};
+	di::extension::injector<>* previousContainer = nullptr;
+	InMemoryVipRepository* repository = nullptr;
+	std::shared_ptr<Player> player;
+};
+
+TEST_F(PlayerVIPPersistenceTest, AddPersistsEntryForAccount) {
+	ASSERT_TRUE(player->vip().add(500, "Friend", VipStatus_t::Offline));
+	EXPECT_TRUE(repository->hasEntry(kAccountId, 500));
+}
+
+TEST_F(PlayerVIPPersistenceTest, RemoveDeletesPersistedEntry) {
+	ASSERT_TRUE(player->vip().add(500, "Friend", VipStatus_t::Offline));
+	ASSERT_TRUE(player->vip().remove(500));
+	EXPECT_FALSE(repository->hasEntry(kAccountId, 500));
+}
+
+TEST_F(PlayerVIPPersistenceTest, EditPersistsDescriptionAndGroups) {
+	player->vip().addGroup("Friends");
+	ASSERT_TRUE(player->vip().add(500, "Friend", VipStatus_t::Offline));
+	const auto group = player->vip().getGroupByName("Friends");
+	ASSERT_NE(nullptr, group);
+	ASSERT_TRUE(repository->hasGroup(group->id, kAccountId));
+
+	ASSERT_TRUE(player->vip().edit(500, "best friend", 3, true, { group->id }));
+	EXPECT_EQ("best friend", repository->entry(kAccountId, 500).description);
+	EXPECT_EQ(3U, repository->entry(kAccountId, 500).icon);
+	EXPECT_TRUE(repository->isGroupMember(kAccountId, 500, group->id));
+}
+
+TEST(PlayerVIPNoAccountTest, EditWithoutAccountDoesNotDereferenceAccount) {
+	auto* previous = DI::getTestContainer();
+	di::extension::injector<> injector {};
+	InMemoryLogger::install(injector);
+	InMemoryVipRepository::install(injector);
+	DI::setTestContainer(&injector);
+
+	auto player = std::make_shared<Player>();
+	player->setGroup(std::make_shared<Group>());
+	ASSERT_TRUE(player->vip().addInternal(500));
+	EXPECT_TRUE(player->vip().edit(500, "note", 0, false, {}));
+
+	DI::setTestContainer(previous);
 }

@@ -513,6 +513,7 @@
     <ClCompile Include="..\src\creatures\players\components\player_race_icon_overlays.cpp" />
     <ClCompile Include="..\src\game\world_type_config.cpp" />
     <ClCompile Include="..\src\creatures\players\components\pvp\expert_pvp_world.cpp" />
+    <ClCompile Include="..\src\creatures\players\vip_repository_db.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\pch.cpp">
@@ -758,6 +759,8 @@
     <ClInclude Include="..\src\creatures\players\components\player_race_icon_overlays.hpp" />
     <ClInclude Include="..\src\game\world_type_config.hpp" />
     <ClInclude Include="..\src\creatures\players\components\pvp\expert_pvp_world.hpp" />
+    <ClInclude Include="..\src\creatures\players\vip_repository.hpp" />
+    <ClInclude Include="..\src\creatures\players\vip_repository_db.hpp" />
   </ItemGroup>
   <Target Name="ValidateProtoCompileDependencies" BeforeTargets="ProtoCompile" Condition="'$(RunProtoCompile)'=='true'">
     <Error Text="vcpkg MSBuild targets were not found. Set VCPKG_ROOT or pass /p:VcpkgRoot=... so manifest dependencies can be installed before protobuf generation."

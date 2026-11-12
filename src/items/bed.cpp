@@ -123,7 +123,7 @@ bool BedItem::canUse(const std::shared_ptr<Player> &player) {
 	}
 
 	const auto sleeper = std::make_shared<Player>(nullptr);
-	if (!IOLoginData::loadPlayerById(sleeper, sleeperGUID)) {
+	if (!g_playerRepository().loadPlayerById(sleeper, sleeperGUID)) {
 		return false;
 	}
 
@@ -225,7 +225,7 @@ void BedItem::wakeUp(const std::shared_ptr<Player> &player) {
 	if (sleeperGUID != 0) {
 		if (player == nullptr) {
 			auto regenPlayer = std::make_shared<Player>(nullptr);
-			if (IOLoginData::loadPlayerById(regenPlayer, sleeperGUID)) {
+			if (g_playerRepository().loadPlayerById(regenPlayer, sleeperGUID)) {
 				regeneratePlayer(regenPlayer);
 				g_saveManager().savePlayer(regenPlayer);
 			}

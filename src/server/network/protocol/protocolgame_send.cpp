@@ -40,6 +40,7 @@
 #include "creatures/players/player_repository.hpp"
 #include "io/market_repository.hpp"
 #include "io/iologindata.hpp"
+#include "creatures/players/vip_repository.hpp"
 #include "io/iomarket.hpp"
 #include "io/ioguild.hpp"
 #include "io/ioprey.hpp"
@@ -1934,7 +1935,7 @@ void ProtocolGame::sendAddCreature(const std::shared_ptr<Creature> &creature, co
 		sendVIPGroups();
 	}
 
-	const auto &vipEntries = IOLoginData::getVIPEntries(player->getAccountId());
+	const auto &vipEntries = g_vipRepository().getVIPEntries(player->getAccountId());
 
 	if (player->isAccessPlayer()) {
 		for (const VIPEntry &entry : vipEntries) {

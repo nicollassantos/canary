@@ -12,7 +12,7 @@
 
 #include "account/account.hpp"
 #include "creatures/players/grouping/groups.hpp"
-#include "io/iologindata.hpp"
+#include "creatures/players/vip_repository.hpp"
 #include "server/network/protocol/protocolgame.hpp"
 
 const uint8_t PlayerVIP::firstID = 1;
@@ -67,7 +67,7 @@ bool PlayerVIP::remove(uint32_t vipGuid) {
 
 	vipGuids.erase(vipGuid);
 	if (m_player.account) {
-		IOLoginData::removeVIPEntry(m_player.account->getID(), vipGuid);
+		g_vipRepository().removeVIPEntry(m_player.account->getID(), vipGuid);
 	}
 
 	return true;
@@ -85,7 +85,7 @@ bool PlayerVIP::add(uint32_t vipGuid, const std::string &vipName, VipStatus_t vi
 	}
 
 	if (m_player.account) {
-		IOLoginData::addVIPEntry(m_player.account->getID(), vipGuid, "", 0, false);
+		g_vipRepository().addVIPEntry(m_player.account->getID(), vipGuid, "", 0, false);
 	}
 
 	if (m_player.client) {
@@ -110,16 +110,17 @@ bool PlayerVIP::edit(uint32_t vipGuid, const std::string &description, uint32_t 
 	}
 
 	if (m_player.account) {
-		IOLoginData::editVIPEntry(m_player.account->getID(), vipGuid, description, icon, notify);
+		g_vipRepository().editVIPEntry(m_player.account->getID(), vipGuid, description, icon, notify);
+		g_vipRepository().removeGuidVIPGroupEntry(m_player.account->getID(), vipGuid);
 	}
-
-	IOLoginData::removeGuidVIPGroupEntry(m_player.account->getID(), vipGuid);
 
 	for (const auto &groupId : groupsId) {
 		const auto &group = getGroupByID(groupId);
 		if (group) {
 			group->vipGroupGuids.insert(vipGuid);
-			IOLoginData::addGuidVIPGroupEntry(group->id, m_player.account->getID(), vipGuid);
+			if (m_player.account) {
+				g_vipRepository().addGuidVIPGroupEntry(group->id, m_player.account->getID(), vipGuid);
+			}
 		}
 	}
 
@@ -174,7 +175,7 @@ void PlayerVIP::removeGroup(uint8_t groupId) {
 	vipGroups.erase(it);
 
 	if (m_player.account) {
-		IOLoginData::removeVIPGroupEntry(groupId, m_player.account->getID());
+		g_vipRepository().removeVIPGroupEntry(groupId, m_player.account->getID());
 	}
 
 	if (m_player.client) {
@@ -198,7 +199,7 @@ void PlayerVIP::addGroup(const std::string &name, bool customizable /*= true */)
 	vipGroups.emplace_back(vipGroup);
 
 	if (m_player.account) {
-		IOLoginData::addVIPGroupEntry(vipGroup->id, m_player.account->getID(), vipGroup->name, vipGroup->customizable);
+		g_vipRepository().addVIPGroupEntry(vipGroup->id, m_player.account->getID(), vipGroup->name, vipGroup->customizable);
 	}
 
 	if (m_player.client) {
@@ -217,7 +218,7 @@ void PlayerVIP::editGroup(uint8_t groupId, const std::string &newName, bool cust
 	vipGroup->customizable = customizable;
 
 	if (m_player.account) {
-		IOLoginData::editVIPGroupEntry(vipGroup->id, m_player.account->getID(), vipGroup->name, vipGroup->customizable);
+		g_vipRepository().editVIPGroupEntry(vipGroup->id, m_player.account->getID(), vipGroup->name, vipGroup->customizable);
 	}
 
 	if (m_player.client) {

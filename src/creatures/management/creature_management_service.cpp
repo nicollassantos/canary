@@ -13,6 +13,7 @@
 #include "map/spectators.hpp"
 #include "utils/tools.hpp"
 #include "utils/wildcardtree.hpp"
+#include "creatures/players/player_repository.hpp"
 
 std::shared_ptr<Creature> CreatureManagementService::getCreatureByID(uint32_t id) {
 	if (id >= Player::getFirstID() && id <= Player::getLastID()) {
@@ -67,7 +68,7 @@ std::shared_ptr<Player> CreatureManagementService::getPlayerByID(uint32_t id, bo
 		return nullptr;
 	}
 	std::shared_ptr<Player> tmpPlayer = std::make_shared<Player>(nullptr);
-	if (!IOLoginData::loadPlayerById(tmpPlayer, id)) {
+	if (!g_playerRepository().loadPlayerById(tmpPlayer, id)) {
 		return nullptr;
 	}
 	tmpPlayer->setOnline(false);
@@ -123,7 +124,7 @@ std::shared_ptr<Player> CreatureManagementService::getPlayerByName(const std::st
 			return nullptr;
 		}
 		std::shared_ptr<Player> tmpPlayer = std::make_shared<Player>(nullptr);
-		if (!IOLoginData::loadPlayerByName(tmpPlayer, s)) {
+		if (!g_playerRepository().loadPlayerByName(tmpPlayer, s)) {
 			if (!isNewName) {
 				g_logger().error("Failed to load player {} from database", s);
 			} else {
@@ -150,7 +151,7 @@ std::shared_ptr<Player> CreatureManagementService::getPlayerByGUID(const uint32_
 		return nullptr;
 	}
 	std::shared_ptr<Player> tmpPlayer = std::make_shared<Player>(nullptr);
-	if (!IOLoginData::loadPlayerById(tmpPlayer, guid)) {
+	if (!g_playerRepository().loadPlayerById(tmpPlayer, guid)) {
 		return nullptr;
 	}
 	tmpPlayer->setOnline(false);

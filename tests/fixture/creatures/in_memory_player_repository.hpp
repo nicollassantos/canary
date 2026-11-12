@@ -62,7 +62,7 @@ public:
 		return true;
 	}
 
-	bool loadPlayerById(const std::shared_ptr<Player> &player, uint32_t id) override {
+	bool loadPlayerById(const std::shared_ptr<Player> &player, uint32_t id, bool = true) override {
 		auto it = byId.find(id);
 		if (it == byId.end()) {
 			return false;
@@ -86,12 +86,45 @@ public:
 		bankBalances[guid] += amount;
 	}
 
+	bool formatPlayerName(std::string &name) override {
+		const auto it = findByNameInsensitive(name);
+		if (it == byName.end()) {
+			return false;
+		}
+		name = it->second.name;
+		return true;
+	}
+
+	bool getGuidByNameEx(uint32_t &guid, bool &specialVip, std::string &name) override {
+		const auto it = findByNameInsensitive(name);
+		if (it == byName.end()) {
+			return false;
+		}
+		guid = it->second.id;
+		specialVip = false;
+		name = it->second.name;
+		return true;
+	}
+
+	bool gameWorldAuthentication(const std::string &, const std::string &, std::string &, uint32_t &, bool, uint32_t) override {
+		return false;
+	}
+
 	uint64_t getBankBalance(uint32_t guid) const {
 		auto it = bankBalances.find(guid);
 		return it != bankBalances.end() ? it->second : 0;
 	}
 
 private:
+	std::unordered_map<std::string, PlayerRecord>::const_iterator findByNameInsensitive(const std::string &name) const {
+		const auto lower = [](std::string value) {
+			std::ranges::transform(value, value.begin(), [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
+			return value;
+		};
+		const auto wanted = lower(name);
+		return std::ranges::find_if(byName, [&](const auto &entry) { return lower(entry.first) == wanted; });
+	}
+
 	std::unordered_map<std::string, PlayerRecord> byName;
 	std::unordered_map<uint32_t, PlayerRecord> byId;
 	std::unordered_map<uint32_t, uint64_t> bankBalances;

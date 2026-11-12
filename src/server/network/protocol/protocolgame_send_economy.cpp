@@ -1053,7 +1053,7 @@ void ProtocolGame::sendMarketDetail(uint16_t itemId, uint8_t tier) {
 		}
 	}
 
-	const auto &purchaseStatsMap = IOMarket::getInstance().getPurchaseStatistics();
+	const auto &purchaseStatsMap = g_marketRepository().getPurchaseStatistics();
 	auto purchaseIterator = purchaseStatsMap.find(itemId);
 	if (purchaseIterator != purchaseStatsMap.end()) {
 		const auto &tierStatsMap = purchaseIterator->second;
@@ -1078,7 +1078,7 @@ void ProtocolGame::sendMarketDetail(uint16_t itemId, uint8_t tier) {
 		msg.addByte(0x00); // send to old protocol ?
 	}
 
-	const auto &saleStatsMap = IOMarket::getInstance().getSaleStatistics();
+	const auto &saleStatsMap = g_marketRepository().getSaleStatistics();
 	auto saleIterator = saleStatsMap.find(itemId);
 	if (saleIterator != saleStatsMap.end()) {
 		const auto &tierStatsMap = saleIterator->second;

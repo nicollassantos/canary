@@ -18,6 +18,7 @@
 #include "creatures/players/grouping/familiars.hpp"
 #include "creatures/players/imbuements/imbuements.hpp"
 #include "creatures/players/player_repository_db.hpp"
+#include "creatures/players/vip_repository_db.hpp"
 #include "io/guild_repository_db.hpp"
 #include "io/market_repository_db.hpp"
 #include "creatures/players/vocations/vocation.hpp"
@@ -60,6 +61,7 @@ private:
 		di::bind<IGuildRepository>().to<GuildRepositoryDB>().in(di::singleton),
 		di::bind<IMarketRepository>().to<MarketRepositoryDB>().in(di::singleton),
 		di::bind<IPlayerRepository>().to<PlayerRepositoryDB>().in(di::singleton),
+		di::bind<IVipRepository>().to<VipRepositoryDB>().in(di::singleton),
 		di::bind<KVStore>().to<KVSQL>().in(di::singleton),
 		di::bind<Logger>().to<LogWithSpdLog>().in(di::singleton),
 		// Phase 7.1 — infrastructure singletons
@@ -104,13 +106,16 @@ public:
 	}
 
 	/**
-	 * True when a test container is active and binds T explicitly. Ports with no
-	 * concrete default use it to keep the global instance when a test does not
-	 * install a fake.
+	 * Resolves a port (abstract dependency): the test container's binding when a test
+	 * installed a fake, otherwise the production binding. Tests that do not fake a port
+	 * keep the production adapter instead of asserting on an unbound abstract type.
 	 */
 	template <class T>
-	inline static bool isBoundInTestContainer() {
-		return testContainer && testContainer->isBound<T>();
+	inline static T &port() {
+		if (testContainer && testContainer->isBound<T>()) {
+			return testContainer->create<T &>();
+		}
+		return defaultContainer.create<T &>();
 	}
 
 	/**

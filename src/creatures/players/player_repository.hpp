@@ -25,13 +25,20 @@ public:
 
 	static IPlayerRepository &getInstance();
 
-	[[nodiscard]] virtual bool loadPlayerById(const std::shared_ptr<Player> &player, uint32_t id) = 0;
+	[[nodiscard]] virtual bool loadPlayerById(const std::shared_ptr<Player> &player, uint32_t id, bool disableIrrelevantInfo = true) = 0;
 	[[nodiscard]] virtual bool loadPlayerByName(const std::shared_ptr<Player> &player, const std::string &name) = 0;
 	[[nodiscard]] virtual bool savePlayer(const std::shared_ptr<Player> &player) = 0;
 
 	[[nodiscard]] virtual uint32_t getGuidByName(const std::string &name) = 0;
 	[[nodiscard]] virtual std::string getNameByGuid(uint32_t guid) = 0;
 	virtual void increaseBankBalance(uint32_t guid, uint64_t amount) = 0;
+
+	/// Normalises `name` to the stored character name; false when no such character exists.
+	[[nodiscard]] virtual bool formatPlayerName(std::string &name) = 0;
+	/// Resolves guid and special-VIP flag by name, normalising `name`; false when not found.
+	[[nodiscard]] virtual bool getGuidByNameEx(uint32_t &guid, bool &specialVip, std::string &name) = 0;
+	/// Validates a game-world login and resolves the account id.
+	[[nodiscard]] virtual bool gameWorldAuthentication(const std::string &accountDescriptor, const std::string &sessionOrPassword, std::string &characterName, uint32_t &accountId, bool oldProtocol, uint32_t ip) = 0;
 };
 
 constexpr auto g_playerRepository = IPlayerRepository::getInstance;

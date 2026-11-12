@@ -30,6 +30,7 @@
 #include "map/map.hpp"
 #include "map/spectators.hpp"
 #include "utils/tools.hpp"
+#include "creatures/players/player_repository.hpp"
 
 using namespace GameHelpers;
 
@@ -1376,7 +1377,7 @@ void PlayerInteractionService::playerRequestAddVip(uint32_t playerId, const std:
 		uint32_t guid;
 		bool specialVip;
 		std::string formattedName = name;
-		if (!IOLoginData::getGuidByNameEx(guid, specialVip, formattedName)) {
+		if (!g_playerRepository().getGuidByNameEx(guid, specialVip, formattedName)) {
 			player->sendTextMessage(MESSAGE_FAILURE, "A player with this name does not exist.");
 			return;
 		}
