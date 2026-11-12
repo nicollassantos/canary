@@ -338,7 +338,12 @@ void IOPrey::parsePreyAction(const std::shared_ptr<Player> &player, PreySlot_t s
 		} else if (player->getPreyWithMonster(raceId)) {
 			player->sendMessageDialog("This creature is already selected on another slot.");
 			return;
-		} else if (mtype && !mtype->info.isPreyable) {
+		} else if (!mtype) {
+			// The window lists only the bestiary; any other race id (a boss's, for one) comes from a crafted packet.
+			g_logger().warn("[{}] Player {} tried to select race {} outside the bestiary on prey", __FUNCTION__, player->getName(), raceId);
+			g_metrics().addCounter("prey_requests_rejected", 1, { { "reason", "unknown_race" } });
+			return;
+		} else if (!mtype->info.isPreyable) {
 			player->sendMessageDialog("This creature can't be select on prey. Please choose another one.");
 			return;
 		}

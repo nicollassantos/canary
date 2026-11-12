@@ -4,4 +4,5 @@ target_sources(
             guild_repository_test.cpp
             highscore_cache_test.cpp
             market_repository_test.cpp
+            prey_selection_test.cpp
 )
