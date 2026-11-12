@@ -77,6 +77,11 @@ serverMotd = "Welcome to the OTServBR-Global!"
 statusTimeout = 5 * 1000
 replaceKickOnLogin = true
 maxPacketsPerSecond = 25
+-- NOTE: maxOutputQueueMessages caps the output messages waiting for one client that stopped reading
+-- (or reads very slowly, a known attack). Each queued message holds ~64 KB and a busy area queues up
+-- to ~100 per second, so 2048 is about 128 MB and ~20 s of a frozen client. Above it the client is
+-- disconnected (warning + connection_output_queue_overflow_total metric). 0 disables the limit.
+maxOutputQueueMessages = 2048
 maxPlayersOnlinePerAccount = 1
 maxPlayersOutsidePZPerAccount = 1
 

@@ -33,6 +33,9 @@ Leia este arquivo inteiro antes de mexer na branch. Depois, para o detalhe de ca
   - latência por pacote: `method_latency_microseconds_bucket{method=~"packet_.*"}` (o `_count` é o
     número de pacotes por opcode);
   - pacotes que travaram o dispatcher por 50 ms ou mais: `slow_packets_total{opcode}`;
+  - clientes desconectados por fila de saída cheia: `connection_output_queue_overflow_total`
+    (acompanhe depois de ligar em produção; se derrubar gente com lag, suba
+    `maxOutputQueueMessages`);
   - highscores: `highscore_requests_total`, `highscore_requests_rejected{reason}`,
     `highscore_served_from_cache`, `highscore_cache_evictions{cache}`.
 
@@ -258,6 +261,8 @@ desfazer; se o upstream mexer nessas linhas, reaplique):
 | `src/creatures/players/components/player_vip.cpp` | `IOLoginData::*VIP*` → `g_vipRepository()`; guarda de `account` nulo em `edit` | porta VIP (19.3); null-deref |
 | `src/creatures/players/components/pvp/expert_pvp.cpp` | `g_game()`/config → `world()` | porta `ExpertPvpWorld` (18.4) |
 | `src/server/network/connection/connection.cpp` | preâmbulo "world name" que não bate com `serverName` vira aviso + fechamento | diagnóstico de login (`b6fe41f24`) |
+| `src/server/network/connection/connection.cpp` `Connection::send` | teto da fila de saída (`maxOutputQueueMessages`, padrão 2048, `0` desativa): ao estourar, esvazia a fila, desconecta, loga com IP e conta `connection_output_queue_overflow_total` | ataque de leitor lento: a fila não tinha teto e o timeout de escrita é por escrita (cada mensagem segura ~64 KB) |
+| `src/config/config_enums.hpp`, `src/config/configmanager.cpp`, `config.lua.dist` | chave `MAX_OUTPUT_QUEUE_MESSAGES` / `maxOutputQueueMessages` (padrão 2048) ao lado de `maxPacketsPerSecond` | limite acima, escolhido pelo usuário (configurável, 2048) |
 | `src/server/network/protocol/protocolgame.cpp` `ProtocolGame::parsePacket` | `const packet_watch::Scope packetWatch(recvbyte, player, getIP());` logo após ler o opcode (+ include) | latência por opcode e aviso de pacote lento com player/IP (`src/server/network/protocol/packet_watch.cpp`) |
 | `game.cpp` `cacheQueryHighscore` (hoje em `highscore_repository_db.cpp`) e `processHighscoreResults` (hoje em `highscore_service.cpp`) | `highscore_cache::prune` antes de inserir (expiradas saem; no teto, o cache é limpo) + métrica `highscore_cache_evictions` | as chaves vêm do cliente; no upstream os caches crescem sem fim |
 | `game.cpp` `playerHighscores` (hoje em `highscore_service.cpp`) | página 0 em `HIGHSCORE_GETENTRIES` é recusada antes da query; página fresca no cache de resultado sai sem query; intervalo de 1s por player; teto de 8 queries em andamento no servidor (contador liberado no topo de `processHighscoreResults`, mesmo se o player saiu); métricas `highscore_requests_total{type}`, `highscore_served_from_cache`, `highscore_requests_rejected{reason}` | `(page - 1)` dava underflow e rodava o ranking inteiro; toda query de highscore ocupa a única conexão do `Database` (com mutex) e atrasa saves, e bots com vários personagens podiam saturá-la |

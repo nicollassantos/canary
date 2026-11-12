@@ -315,6 +315,7 @@ bool ConfigManager::load() {
 	loadIntConfig(L, MAX_MARKET_OFFERS_AT_A_TIME_PER_PLAYER, "maxMarketOffersAtATimePerPlayer", 100);
 	loadIntConfig(L, MAX_MESSAGEBUFFER, "maxMessageBuffer", 4);
 	loadIntConfig(L, MAX_PACKETS_PER_SECOND, "maxPacketsPerSecond", 25);
+	loadIntConfig(L, MAX_OUTPUT_QUEUE_MESSAGES, "maxOutputQueueMessages", 2048);
 	loadIntConfig(L, MAX_PLAYERS_OUTSIDE_PZ_PER_ACCOUNT, "maxPlayersOutsidePZPerAccount", 1);
 	loadIntConfig(L, MAX_PLAYERS_PER_ACCOUNT, "maxPlayersOnlinePerAccount", 1);
 	loadIntConfig(L, MAX_PLAYERS, "maxPlayers", 0);

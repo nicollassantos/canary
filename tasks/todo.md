@@ -252,6 +252,7 @@
 - [x] **23.1** — `packet_watch::Scope` em `ProtocolGame::parsePacket`: latência por opcode (`method_latency{method="packet_0xNN"}`), `slow_packets_total{opcode}`, aviso `[PacketWatch]` (≥50ms, no máx. 1 a cada 5s, com contagem de suprimidos); 4 testes — 912/912 + 85/85; compila nos presets de testes e de métricas
 - [ ] **23.2** — Inventário de fora para dentro com dados semeados (queries por caminho, multiplicador do cliente, `EXPLAIN`)
 - [ ] **23.3** — Correções priorizadas pela medição (cama primeiro se confirmada)
+  - [x] **23.3a** — Teto da fila de saída por conexão (ataque de leitor lento do bot): `maxOutputQueueMessages` (padrão 2048 ≈ 128 MB / ~20 s de cliente parado, `0` desativa; valor escolhido pelo usuário); estouro → esvazia a fila, desconecta, aviso com IP, `connection_output_queue_overflow_total`; lido pela porta `IConfigManager`; 3 testes; `config.lua` local atualizado com a chave
 - [ ] **23.4** — Pendências da 22 (irmãos, vaga do highscore, handoff)
   - Auditoria feita (só leitura):
     - outros leitores de `getAccountPlayers` (`protocollogin`, `CreatureManagementService::getPlayersByAccount`, `PlayerBadge::getPlayersInfoByAccount`) percorrem a lista e não repetem o bug do login;

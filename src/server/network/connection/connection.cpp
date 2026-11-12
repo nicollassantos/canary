@@ -9,8 +9,10 @@
 
 #include "server/network/connection/connection.hpp"
 
+#include "config/config_port.hpp"
 #include "config/configmanager.hpp"
 #include "lib/di/container.hpp"
+#include "lib/metrics/metrics.hpp"
 #include "server/network/message/outputmessage.hpp"
 #include "server/network/protocol/protocol.hpp"
 #include "server/network/protocol/transport_codec.hpp"
@@ -433,6 +435,19 @@ void Connection::resumeWork() {
 void Connection::send(const OutputMessage_ptr &outputMessage) {
 	std::scoped_lock lock(connectionLock);
 	if (connectionState == CONNECTION_STATE_CLOSED) {
+		return;
+	}
+
+	// A client that stops reading, or reads a trickle, never trips the per-write timeout, so the
+	// queue itself is bounded (maxOutputQueueMessages; 0 disables). Each queued message holds a
+	// NETWORKMESSAGE_MAXSIZE buffer.
+	const auto maxQueued = IConfigManager::getInstance().getNumber(MAX_OUTPUT_QUEUE_MESSAGES);
+	if (maxQueued > 0 && messageQueue.size() >= static_cast<size_t>(maxQueued)) {
+		g_logger().warn("[Connection::send] - {} disconnected: {} output messages queued, the client is not reading.", convertIPToString(getIP()), messageQueue.size());
+		g_metrics().addCounter("connection_output_queue_overflow_total", 1);
+		// Free the queued buffers now instead of when a pending worker runs.
+		messageQueue.clear();
+		close(FORCE_CLOSE);
 		return;
 	}
 

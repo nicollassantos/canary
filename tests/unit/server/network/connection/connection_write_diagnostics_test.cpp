@@ -9,6 +9,7 @@
 #include "server/network/message/outputmessage.hpp"
 #include "server/network/protocol/protocol.hpp"
 #include "game/scheduling/dispatcher.hpp"
+#include "config/in_memory_config_manager.hpp"
 #include "lib/logging/in_memory_logger.hpp"
 
 #ifndef USE_PRECOMPILED_HEADERS
@@ -74,10 +75,12 @@ protected:
 		previousContainer = DI::getTestContainer();
 		injector = std::make_unique<di::extension::injector<>>();
 		InMemoryLogger::install(*injector);
+		InMemoryConfigManager::install(*injector);
 		injector->install(di::bind<Dispatcher>.to<LoopbackDispatcher>().in(di::singleton));
 		DI::setTestContainer(injector.get());
 		logger = &dynamic_cast<InMemoryLogger &>(g_logger());
 		logger->reset();
+		config = &dynamic_cast<InMemoryConfigManager &>(IConfigManager::getInstance());
 		connection = ConnectionManager::getInstance().createConnection(io, nullptr);
 		asio::ip::tcp::acceptor acceptor(io, { asio::ip::address_v4::loopback(), 0 });
 		peer.connect(acceptor.local_endpoint());
@@ -226,6 +229,14 @@ protected:
 		return diagnostics;
 	}
 
+	size_t queuedMessages() const {
+		return connection->messageQueue.size();
+	}
+
+	bool isClosed() const {
+		return connection->connectionState == CONNECTION_STATE_CLOSED;
+	}
+
 	std::vector<std::pair<std::string, std::string>> writeDiagnostics() const {
 		return diagnosticsFor("[Connection::onWriteOperation]");
 	}
@@ -234,6 +245,7 @@ protected:
 		return diagnosticsFor("[Connection::parseProxyIdentification]");
 	}
 
+	InMemoryConfigManager* config = nullptr;
 	asio::io_context io;
 	asio::ip::tcp::socket peer { io };
 	Connection_ptr connection;
@@ -476,4 +488,46 @@ TEST_F(ConnectionWriteDiagnosticsTest, MismatchedWorldNamePreambleIsReportedAndC
 TEST_F(ConnectionWriteDiagnosticsTest, BinaryLengthHeaderIsNotReportedAsPreamble) {
 	receiveIdentificationHeader(0x2C, 0x01);
 	EXPECT_TRUE(identificationDiagnostics().empty());
+}
+
+// A client that stops reading (or reads a trickle) must not make the server queue output forever:
+// every queued OutputMessage holds a NETWORKMESSAGE_MAXSIZE buffer. Limit: maxOutputQueueMessages.
+TEST_F(ConnectionWriteDiagnosticsTest, OutputQueueBeyondTheLimitClosesTheConnection) {
+	constexpr int32_t Limit = 8;
+	config->setNumber(MAX_OUTPUT_QUEUE_MESSAGES, Limit);
+	for (int32_t sent = 0; sent < Limit; ++sent) {
+		connection->send(OutputMessagePool::getOutputMessage());
+	}
+	ASSERT_EQ(static_cast<size_t>(Limit), queuedMessages());
+	ASSERT_FALSE(isClosed());
+
+	connection->send(OutputMessagePool::getOutputMessage());
+
+	EXPECT_TRUE(isClosed());
+	EXPECT_EQ(0U, queuedMessages());
+	const auto diagnostics = diagnosticsFor("[Connection::send]");
+	ASSERT_EQ(1U, diagnostics.size());
+	EXPECT_EQ("warning", diagnostics.front().first);
+	EXPECT_NE(std::string::npos, diagnostics.front().second.find("127.0.0.1"));
+}
+
+TEST_F(ConnectionWriteDiagnosticsTest, OutputQueueAtTheLimitKeepsTheConnectionOpen) {
+	constexpr int32_t Limit = 8;
+	config->setNumber(MAX_OUTPUT_QUEUE_MESSAGES, Limit);
+	for (int32_t sent = 0; sent < Limit; ++sent) {
+		connection->send(OutputMessagePool::getOutputMessage());
+	}
+
+	EXPECT_FALSE(isClosed());
+	EXPECT_TRUE(diagnosticsFor("[Connection::send]").empty());
+}
+
+TEST_F(ConnectionWriteDiagnosticsTest, ZeroOutputQueueLimitDisablesTheCheck) {
+	config->setNumber(MAX_OUTPUT_QUEUE_MESSAGES, 0);
+	for (int32_t sent = 0; sent < 64; ++sent) {
+		connection->send(OutputMessagePool::getOutputMessage());
+	}
+
+	EXPECT_FALSE(isClosed());
+	EXPECT_EQ(64U, queuedMessages());
 }
