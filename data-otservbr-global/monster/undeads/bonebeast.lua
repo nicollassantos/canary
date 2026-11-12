@@ -87,6 +87,7 @@ monster.loot = {
 	{ name = "health potion", chance = 540 },
 	{ name = "bonebeast trophy", chance = 120 },
 	{ name = "bony tail", chance = 9780 },
+	{ name = "stone skin amulet", chance = 99 },
 }
 
 monster.attacks = {

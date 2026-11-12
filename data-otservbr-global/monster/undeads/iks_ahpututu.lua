@@ -77,6 +77,7 @@ monster.loot = {
 	{ id = 281, chance = 7100 }, -- giant shimmering pearl (green)
 	{ name = "tiger Eye", chance = 7100 },
 	{ name = "strong mana potion", chance = 6380, maxCount = 4 },
+	{ name = "stone skin amulet", chance = 5588 },
 	{ name = "small sapphire", chance = 4370, maxCount = 5 },
 	{ name = "daedal chisel", chance = 2910 },
 	{ name = "opal", chance = 1640, maxCount = 2 },

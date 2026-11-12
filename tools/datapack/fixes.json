@@ -554,6 +554,78 @@
    }
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/bosses/the_flaming_orchid.lua",
+   "monster": "The Flaming Orchid",
+   "item": "flask of demonic blood",
+   "id": 6558,
+   "chance": 37407,
+   "source": {
+    "version": "13.30.14423",
+    "kills": 270,
+    "loot_revid": 1212399,
+    "times": 101
+   },
+   "maxCount": 3
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/bosses/the_flaming_orchid.lua",
+   "monster": "The Flaming Orchid",
+   "item": "great mana potion",
+   "id": 238,
+   "chance": 19259,
+   "source": {
+    "version": "13.30.14423",
+    "kills": 270,
+    "loot_revid": 1212399,
+    "times": 52
+   },
+   "maxCount": 5
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/bosses/the_flaming_orchid.lua",
+   "monster": "The Flaming Orchid",
+   "item": "magma legs",
+   "id": 821,
+   "chance": 2222,
+   "source": {
+    "version": "13.30.14423",
+    "kills": 270,
+    "loot_revid": 1212399,
+    "times": 6
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/bosses/the_flaming_orchid.lua",
+   "monster": "The Flaming Orchid",
+   "item": "underworld rod",
+   "id": 8082,
+   "chance": 5926,
+   "source": {
+    "version": "13.30.14423",
+    "kills": 270,
+    "loot_revid": 1212399,
+    "times": 16
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/bosses/the_flaming_orchid.lua",
+   "monster": "The Flaming Orchid",
+   "item": "violet gem",
+   "id": 3036,
+   "chance": 2963,
+   "source": {
+    "version": "13.30.14423",
+    "kills": 270,
+    "loot_revid": 1212399,
+    "times": 8
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/bosses/the_flaming_orchid.lua",
    "monster": "The Flaming Orchid",
@@ -686,6 +758,21 @@
    }
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/constructs/biting_book.lua",
+   "monster": "Biting Book",
+   "item": "meat",
+   "id": 3577,
+   "chance": 2994,
+   "source": {
+    "version": "13.22.14282",
+    "kills": 167,
+    "loot_revid": 1210419,
+    "times": 5
+   },
+   "maxCount": 5
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/constructs/biting_book.lua",
    "monster": "Biting Book",
@@ -743,6 +830,34 @@
     "version": "9.1",
     "kills": 26589,
     "loot_revid": 1105566
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/constructs/glooth_golem.lua",
+   "monster": "Glooth Golem",
+   "item": "glooth spear",
+   "id": 21158,
+   "chance": 1491,
+   "source": {
+    "version": "12.31.9471",
+    "kills": 16835,
+    "loot_revid": 1213377,
+    "times": 251
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/constructs/glooth_golem.lua",
+   "monster": "Glooth Golem",
+   "item": "green gem",
+   "id": 3038,
+   "chance": 71,
+   "source": {
+    "version": "12.31.9471",
+    "kills": 16835,
+    "loot_revid": 1213377,
+    "times": 12
    }
   },
   {
@@ -827,6 +942,20 @@
     "version": "9.6",
     "kills": 14077,
     "loot_revid": 1209974
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/constructs/metal_gargoyle.lua",
+   "monster": "Metal Gargoyle",
+   "item": "iron ore",
+   "id": 5880,
+   "chance": 403,
+   "source": {
+    "version": "12.31",
+    "kills": 12395,
+    "loot_revid": 1213378,
+    "times": 50
    }
   },
   {
@@ -926,6 +1055,20 @@
    }
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/dawnport/mountain_troll.lua",
+   "monster": "Mountain Troll",
+   "item": "bow",
+   "id": 3350,
+   "chance": 2240,
+   "source": {
+    "version": "13.32.14520",
+    "kills": 759,
+    "loot_revid": 1121029,
+    "times": 17
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/dawnport/mountain_troll.lua",
    "monster": "Mountain Troll",
@@ -935,6 +1078,91 @@
     "version": "13.32.14520",
     "kills": 759,
     "loot_revid": 1121029
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/dawnport/muglex_clan_assassin.lua",
+   "monster": "Muglex Clan Assassin",
+   "item": "brass legs",
+   "id": 3372,
+   "chance": 845,
+   "source": {
+    "version": "15.12.c7d92c",
+    "kills": 1420,
+    "loot_revid": 1210563,
+    "times": 12
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/dawnport/muglex_clan_assassin.lua",
+   "monster": "Muglex Clan Assassin",
+   "item": "mana potion",
+   "id": 268,
+   "chance": 20493,
+   "source": {
+    "version": "15.12.c7d92c",
+    "kills": 1420,
+    "loot_revid": 1210563,
+    "times": 291
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/dawnport/muglex_clan_footman.lua",
+   "monster": "Muglex Clan Footman",
+   "item": "brass legs",
+   "id": 3372,
+   "chance": 792,
+   "source": {
+    "version": "15.12.c7d92c",
+    "kills": 1895,
+    "loot_revid": 1210564,
+    "times": 15
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/dawnport/muglex_clan_footman.lua",
+   "monster": "Muglex Clan Footman",
+   "item": "health potion",
+   "id": 266,
+   "chance": 18575,
+   "source": {
+    "version": "15.12.c7d92c",
+    "kills": 1895,
+    "loot_revid": 1210564,
+    "times": 352
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/dawnport/muglex_clan_footman.lua",
+   "monster": "Muglex Clan Footman",
+   "item": "poison arrow",
+   "id": 3448,
+   "chance": 6280,
+   "source": {
+    "version": "15.12.c7d92c",
+    "kills": 1895,
+    "loot_revid": 1210564,
+    "times": 119
+   },
+   "maxCount": 4
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/dawnport/muglex_clan_footman.lua",
+   "monster": "Muglex Clan Footman",
+   "item": "ranger's cloak",
+   "id": 3571,
+   "chance": 528,
+   "source": {
+    "version": "15.12.c7d92c",
+    "kills": 1895,
+    "loot_revid": 1210564,
+    "times": 10
    }
   },
   {
@@ -995,6 +1223,20 @@
     "version": "9.1",
     "kills": 1878,
     "loot_revid": 1002900
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/demons/brinebrute_inferniarch.lua",
+   "monster": "Brinebrute Inferniarch",
+   "item": "green gem",
+   "id": 3038,
+   "chance": 1656,
+   "source": {
+    "version": "15.24.95dcf3",
+    "kills": 785,
+    "loot_revid": 1212913,
+    "times": 13
    }
   },
   {
@@ -1178,6 +1420,49 @@
    }
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/demons/fury.lua",
+   "monster": "Fury",
+   "item": "assassin star",
+   "id": 7368,
+   "chance": 104,
+   "source": {
+    "version": "12.31",
+    "kills": 21131,
+    "loot_revid": 1213556,
+    "times": 22
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/demons/fury.lua",
+   "monster": "Fury",
+   "item": "slightly rusted legs",
+   "id": 8899,
+   "chance": 9981,
+   "source": {
+    "version": "12.31",
+    "kills": 21131,
+    "loot_revid": 1213556,
+    "times": 2109
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/demons/fury.lua",
+   "monster": "Fury",
+   "item": "small amethyst",
+   "id": 3033,
+   "chance": 8007,
+   "source": {
+    "version": "12.31",
+    "kills": 21131,
+    "loot_revid": 1213556,
+    "times": 1692
+   },
+   "maxCount": 3
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/demons/fury.lua",
    "monster": "Fury",
@@ -1199,6 +1484,48 @@
     "version": "12.31",
     "kills": 24468,
     "loot_revid": 1213557
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/demons/hellflayer.lua",
+   "monster": "Hellflayer",
+   "item": "magic plate armor",
+   "id": 3366,
+   "chance": 136,
+   "source": {
+    "version": "15.32.87b266",
+    "kills": 37374,
+    "loot_revid": 1213558,
+    "times": 51
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/demons/hellflayer.lua",
+   "monster": "Hellflayer",
+   "item": "rift shield",
+   "id": 22726,
+   "chance": 498,
+   "source": {
+    "version": "15.32.87b266",
+    "kills": 37374,
+    "loot_revid": 1213558,
+    "times": 186
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/demons/hellflayer.lua",
+   "monster": "Hellflayer",
+   "item": "violet gem",
+   "id": 3036,
+   "chance": 1001,
+   "source": {
+    "version": "15.32.87b266",
+    "kills": 37374,
+    "loot_revid": 1213558,
+    "times": 374
    }
   },
   {
@@ -1238,6 +1565,20 @@
    }
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/demons/hellhunter_inferniarch.lua",
+   "monster": "Hellhunter Inferniarch",
+   "item": "composite hornbow",
+   "id": 8027,
+   "chance": 109,
+   "source": {
+    "version": "15.24.95dcf3",
+    "kills": 11006,
+    "loot_revid": 1211356,
+    "times": 12
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/demons/hellhunter_inferniarch.lua",
    "monster": "Hellhunter Inferniarch",
@@ -1248,6 +1589,51 @@
     "kills": 11006,
     "loot_revid": 1211356
    }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/demons/juggernaut.lua",
+   "monster": "Juggernaut",
+   "item": "small amethyst",
+   "id": 3033,
+   "chance": 12648,
+   "source": {
+    "version": "12.31.9580",
+    "kills": 4230,
+    "loot_revid": 1212889,
+    "times": 535
+   },
+   "maxCount": 5
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/demons/juggernaut.lua",
+   "monster": "Juggernaut",
+   "item": "small diamond",
+   "id": 3028,
+   "chance": 12837,
+   "source": {
+    "version": "12.31.9580",
+    "kills": 4230,
+    "loot_revid": 1212889,
+    "times": 543
+   },
+   "maxCount": 5
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/demons/juggernaut.lua",
+   "monster": "Juggernaut",
+   "item": "small topaz",
+   "id": 9057,
+   "chance": 13121,
+   "source": {
+    "version": "12.31.9580",
+    "kills": 4230,
+    "loot_revid": 1212889,
+    "times": 555
+   },
+   "maxCount": 5
   },
   {
    "kind": "max_count",
@@ -1343,6 +1729,20 @@
     "version": "12.31",
     "kills": 15039,
     "loot_revid": 1212425
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/demons/plaguesmith.lua",
+   "monster": "Plaguesmith",
+   "item": "war horn",
+   "id": 2958,
+   "chance": 52,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 11517,
+    "loot_revid": 1210592,
+    "times": 6
    }
   },
   {
@@ -1523,6 +1923,48 @@
     "version": "15.33.c9e45e",
     "kills": 705,
     "loot_revid": 1213061
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/demons/vexclaw.lua",
+   "monster": "Vexclaw",
+   "item": "mastermind shield",
+   "id": 3414,
+   "chance": 296,
+   "source": {
+    "version": "15.32.87b266",
+    "kills": 41224,
+    "loot_revid": 1213560,
+    "times": 122
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/dragons/dragolisk.lua",
+   "monster": "Dragolisk",
+   "item": "ultimate health potion",
+   "id": 7643,
+   "chance": 2057,
+   "source": {
+    "version": "14.11.0fbf6c",
+    "kills": 2285,
+    "loot_revid": 1204384,
+    "times": 47
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/dragons/dragolisk.lua",
+   "monster": "Dragolisk",
+   "item": "ultimate mana potion",
+   "id": 23373,
+   "chance": 919,
+   "source": {
+    "version": "14.11.0fbf6c",
+    "kills": 2285,
+    "loot_revid": 1204384,
+    "times": 21
    }
   },
   {
@@ -1802,6 +2244,34 @@
    }
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/dragons/war_dragon.lua",
+   "monster": "Wardragon",
+   "item": "ultimate health potion",
+   "id": 7643,
+   "chance": 4728,
+   "source": {
+    "version": "14.11.0fbf6c",
+    "kills": 2115,
+    "loot_revid": 1204645,
+    "times": 100
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/dragons/war_dragon.lua",
+   "monster": "Wardragon",
+   "item": "ultimate mana potion",
+   "id": 23373,
+   "chance": 1749,
+   "source": {
+    "version": "14.11.0fbf6c",
+    "kills": 2115,
+    "loot_revid": 1204645,
+    "times": 37
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/dragons/wyrm.lua",
    "monster": "Wyrm",
@@ -1823,6 +2293,34 @@
     "version": "8.6",
     "kills": 78867,
     "loot_revid": 1213452
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/elementals/candy_floss_elemental.lua",
+   "monster": "Candy Floss Elemental",
+   "item": "might ring",
+   "id": 3048,
+   "chance": 2051,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 1414,
+    "loot_revid": 1212363,
+    "times": 29
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/elementals/cliff_strider.lua",
+   "monster": "Cliff Strider",
+   "item": "might ring",
+   "id": 3048,
+   "chance": 1178,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 3311,
+    "loot_revid": 1212120,
+    "times": 39
    }
   },
   {
@@ -1850,6 +2348,20 @@
    }
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/elementals/energy_elemental.lua",
+   "monster": "Energy Elemental",
+   "item": "might ring",
+   "id": 3048,
+   "chance": 3308,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 1723,
+    "loot_revid": 1212957,
+    "times": 57
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/elementals/energy_elemental.lua",
    "monster": "Energy Elemental",
@@ -1859,6 +2371,76 @@
     "version": "14.12.5229e4",
     "kills": 1723,
     "loot_revid": 1212957
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/elementals/high_voltage_elemental.lua",
+   "monster": "High Voltage Elemental",
+   "item": "lightning pendant",
+   "id": 816,
+   "chance": 409,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 2198,
+    "loot_revid": 1204460,
+    "times": 9
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/elementals/high_voltage_elemental.lua",
+   "monster": "High Voltage Elemental",
+   "item": "lightning robe",
+   "id": 825,
+   "chance": 227,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 2198,
+    "loot_revid": 1204460,
+    "times": 5
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/elementals/high_voltage_elemental.lua",
+   "monster": "High Voltage Elemental",
+   "item": "might ring",
+   "id": 3048,
+   "chance": 864,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 2198,
+    "loot_revid": 1204460,
+    "times": 19
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/elementals/high_voltage_elemental.lua",
+   "monster": "High Voltage Elemental",
+   "item": "spellbook of warding",
+   "id": 8073,
+   "chance": 500,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 2198,
+    "loot_revid": 1204460,
+    "times": 11
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/elementals/high_voltage_elemental.lua",
+   "monster": "High Voltage Elemental",
+   "item": "wand of cosmic energy",
+   "id": 3073,
+   "chance": 500,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 2198,
+    "loot_revid": 1204460,
+    "times": 11
    }
   },
   {
@@ -1886,6 +2468,20 @@
    }
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/elementals/honey_elemental.lua",
+   "monster": "Honey Elemental",
+   "item": "might ring",
+   "id": 3048,
+   "chance": 2484,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 2174,
+    "loot_revid": 1212423,
+    "times": 54
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/elementals/honey_elemental.lua",
    "monster": "Honey Elemental",
@@ -1895,6 +2491,62 @@
     "version": "14.12.5229e4",
     "kills": 2174,
     "loot_revid": 1212423
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/elementals/ironblight.lua",
+   "monster": "Ironblight",
+   "item": "crystal mace",
+   "id": 3333,
+   "chance": 503,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 4776,
+    "loot_revid": 1212121,
+    "times": 24
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/elementals/ironblight.lua",
+   "monster": "Ironblight",
+   "item": "might ring",
+   "id": 3048,
+   "chance": 712,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 4776,
+    "loot_revid": 1212121,
+    "times": 34
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/elementals/knowledge_elemental.lua",
+   "monster": "Knowledge Elemental",
+   "item": "obsidian lance",
+   "id": 3313,
+   "chance": 3398,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 206,
+    "loot_revid": 1210529,
+    "times": 7
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/elementals/knowledge_elemental.lua",
+   "monster": "Knowledge Elemental",
+   "item": "silver amulet",
+   "id": 3054,
+   "chance": 4369,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 206,
+    "loot_revid": 1210529,
+    "times": 9
    }
   },
   {
@@ -1934,6 +2586,35 @@
    }
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/elementals/massive_earth_elemental.lua",
+   "monster": "Massive Earth Elemental",
+   "item": "might ring",
+   "id": 3048,
+   "chance": 3316,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 1357,
+    "loot_revid": 1209979,
+    "times": 45
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/elementals/massive_earth_elemental.lua",
+   "monster": "Massive Earth Elemental",
+   "item": "small diamond",
+   "id": 3028,
+   "chance": 4864,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 1357,
+    "loot_revid": 1209979,
+    "times": 66
+   },
+   "maxCount": 2
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/elementals/massive_earth_elemental.lua",
    "monster": "Massive Earth Elemental",
@@ -1943,6 +2624,35 @@
     "version": "14.12.5229e4",
     "kills": 1357,
     "loot_revid": 1209979
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/elementals/massive_energy_elemental.lua",
+   "monster": "Massive Energy Elemental",
+   "item": "flash arrow",
+   "id": 761,
+   "chance": 7547,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 265,
+    "loot_revid": 1213002,
+    "times": 20
+   },
+   "maxCount": 15
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/elementals/massive_energy_elemental.lua",
+   "monster": "Massive Energy Elemental",
+   "item": "might ring",
+   "id": 3048,
+   "chance": 2264,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 265,
+    "loot_revid": 1213002,
+    "times": 6
    }
   },
   {
@@ -1958,6 +2668,20 @@
    }
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/elementals/massive_fire_elemental.lua",
+   "monster": "Massive Fire Elemental",
+   "item": "might ring",
+   "id": 3048,
+   "chance": 3394,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 1856,
+    "loot_revid": 1210553,
+    "times": 63
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/elementals/massive_fire_elemental.lua",
    "monster": "Massive Fire Elemental",
@@ -1970,6 +2694,76 @@
    }
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/elementals/massive_water_elemental.lua",
+   "monster": "Massive Water Elemental",
+   "item": "might ring",
+   "id": 3048,
+   "chance": 3538,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 650,
+    "loot_revid": 1209981,
+    "times": 23
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/elementals/sulphur_spouter.lua",
+   "monster": "Sulphur Spouter",
+   "item": "might ring",
+   "id": 3048,
+   "chance": 2437,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 1313,
+    "loot_revid": 1196183,
+    "times": 32
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/elementals/water_elemental.lua",
+   "monster": "Water Elemental",
+   "item": "might ring",
+   "id": 3048,
+   "chance": 1112,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 1349,
+    "loot_revid": 1212203,
+    "times": 15
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/event_creatures/memory_creatures/memory_of_a_book.lua",
+   "monster": "Memory of a Book",
+   "item": "blue crystal shard",
+   "id": 16119,
+   "chance": 6806,
+   "source": {
+    "version": "12.85.11542",
+    "kills": 191,
+    "loot_revid": 1170036,
+    "times": 13
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/event_creatures/memory_creatures/memory_of_a_book.lua",
+   "monster": "Memory of a Book",
+   "item": "fishbone",
+   "id": 3111,
+   "chance": 8901,
+   "source": {
+    "version": "12.85.11542",
+    "kills": 191,
+    "loot_revid": 1170036,
+    "times": 17
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/event_creatures/memory_creatures/memory_of_a_book.lua",
    "monster": "Memory of a Book",
@@ -1979,6 +2773,49 @@
     "version": "12.85.11542",
     "kills": 191,
     "loot_revid": 1170036
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/event_creatures/memory_creatures/memory_of_a_carnisylvan.lua",
+   "monster": "Memory of a Carnisylvan",
+   "item": "fire mushroom",
+   "id": 3731,
+   "chance": 8271,
+   "source": {
+    "version": "12.85.11542",
+    "kills": 266,
+    "loot_revid": 1170037,
+    "times": 22
+   },
+   "maxCount": 3
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/event_creatures/memory_creatures/memory_of_a_carnisylvan.lua",
+   "monster": "Memory of a Carnisylvan",
+   "item": "great spirit potion",
+   "id": 7642,
+   "chance": 12030,
+   "source": {
+    "version": "12.85.11542",
+    "kills": 266,
+    "loot_revid": 1170037,
+    "times": 32
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/event_creatures/memory_creatures/memory_of_a_carnisylvan.lua",
+   "monster": "Memory of a Carnisylvan",
+   "item": "mushroom pie",
+   "id": 16103,
+   "chance": 3008,
+   "source": {
+    "version": "12.85.11542",
+    "kills": 266,
+    "loot_revid": 1170037,
+    "times": 8
    }
   },
   {
@@ -2004,6 +2841,21 @@
     "kills": 194,
     "loot_revid": 1160047
    }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/event_creatures/memory_creatures/memory_of_a_faun.lua",
+   "monster": "Memory of a Faun",
+   "item": "great health potion",
+   "id": 239,
+   "chance": 11250,
+   "source": {
+    "version": "12.85.11542",
+    "kills": 240,
+    "loot_revid": 1160048,
+    "times": 27
+   },
+   "maxCount": 2
   },
   {
    "kind": "max_count",
@@ -2126,6 +2978,21 @@
    }
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/event_creatures/memory_creatures/memory_of_a_manticore.lua",
+   "monster": "Memory of a Manticore",
+   "item": "rainbow quartz",
+   "id": 25737,
+   "chance": 3968,
+   "source": {
+    "version": "12.85.11542",
+    "kills": 126,
+    "loot_revid": 1160054,
+    "times": 5
+   },
+   "maxCount": 3
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/event_creatures/memory_creatures/memory_of_a_manticore.lua",
    "monster": "Memory of a Manticore",
@@ -2147,6 +3014,34 @@
     "version": "12.85.11542",
     "kills": 126,
     "loot_revid": 1160054
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/event_creatures/memory_creatures/memory_of_a_pirate.lua",
+   "monster": "Memory of a Pirate",
+   "item": "small emerald",
+   "id": 3032,
+   "chance": 6931,
+   "source": {
+    "version": "12.85.11542",
+    "kills": 101,
+    "loot_revid": 1160055,
+    "times": 7
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/event_creatures/memory_creatures/memory_of_a_pirate.lua",
+   "monster": "Memory of a Pirate",
+   "item": "small ruby",
+   "id": 3030,
+   "chance": 11881,
+   "source": {
+    "version": "12.85.11542",
+    "kills": 101,
+    "loot_revid": 1160055,
+    "times": 12
    }
   },
   {
@@ -2186,6 +3081,49 @@
    }
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/event_creatures/memory_creatures/memory_of_a_werelion.lua",
+   "monster": "Memory of a Werelion",
+   "item": "coral brooch",
+   "id": 24391,
+   "chance": 2344,
+   "source": {
+    "version": "12.85.11542",
+    "kills": 256,
+    "loot_revid": 1160058,
+    "times": 6
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/event_creatures/memory_creatures/memory_of_a_werelion.lua",
+   "monster": "Memory of a Werelion",
+   "item": "rainbow quartz",
+   "id": 25737,
+   "chance": 4297,
+   "source": {
+    "version": "12.85.11542",
+    "kills": 256,
+    "loot_revid": 1160058,
+    "times": 11
+   },
+   "maxCount": 3
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/event_creatures/memory_creatures/memory_of_a_werelion.lua",
+   "monster": "Memory of a Werelion",
+   "item": "silver brooch",
+   "id": 3017,
+   "chance": 4688,
+   "source": {
+    "version": "12.85.11542",
+    "kills": 256,
+    "loot_revid": 1160058,
+    "times": 12
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/event_creatures/memory_creatures/memory_of_a_werelion.lua",
    "monster": "Memory of a Werelion",
@@ -2207,6 +3145,35 @@
     "version": "12.85.11542",
     "kills": 256,
     "loot_revid": 1160058
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/event_creatures/memory_creatures/memory_of_a_wolf.lua",
+   "monster": "Memory of a Wolf",
+   "item": "meat",
+   "id": 3577,
+   "chance": 36190,
+   "source": {
+    "version": "12.85.11542",
+    "kills": 105,
+    "loot_revid": 1170038,
+    "times": 38
+   },
+   "maxCount": 4
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/event_creatures/memory_creatures/memory_of_a_wolf.lua",
+   "monster": "Memory of a Wolf",
+   "item": "small sapphire",
+   "id": 3029,
+   "chance": 8571,
+   "source": {
+    "version": "12.85.11542",
+    "kills": 105,
+    "loot_revid": 1170038,
+    "times": 9
    }
   },
   {
@@ -2282,6 +3249,34 @@
    }
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/extra_dimensional/breach_brood.lua",
+   "monster": "Breach Brood",
+   "item": "blue gem",
+   "id": 3041,
+   "chance": 315,
+   "source": {
+    "version": "15.00.249ccc",
+    "kills": 29494,
+    "loot_revid": 1212340,
+    "times": 93
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/extra_dimensional/breach_brood.lua",
+   "monster": "Breach Brood",
+   "item": "lightning legs",
+   "id": 822,
+   "chance": 105,
+   "source": {
+    "version": "15.00.249ccc",
+    "kills": 29494,
+    "loot_revid": 1212340,
+    "times": 31
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/extra_dimensional/dread_intruder.lua",
    "monster": "Dread Intruder",
@@ -2303,6 +3298,34 @@
     "version": "8.6",
     "kills": 10918,
     "loot_revid": 1210219
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/extra_dimensional/reality_reaver.lua",
+   "monster": "Reality Reaver",
+   "item": "focus cape",
+   "id": 8043,
+   "chance": 392,
+   "source": {
+    "version": "15.00.249ccc",
+    "kills": 29845,
+    "loot_revid": 1212342,
+    "times": 117
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/extra_dimensional/reality_reaver.lua",
+   "monster": "Reality Reaver",
+   "item": "wand of starstorm",
+   "id": 8092,
+   "chance": 888,
+   "source": {
+    "version": "15.00.249ccc",
+    "kills": 29845,
+    "loot_revid": 1212342,
+    "times": 265
    }
   },
   {
@@ -2351,6 +3374,20 @@
     "version": "14.12.5229e4",
     "kills": 5519,
     "loot_revid": 1202513
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/fey/dark_faun.lua",
+   "monster": "Dark Faun",
+   "item": "fairy wings",
+   "id": 25694,
+   "chance": 14087,
+   "source": {
+    "version": "12.90.12182",
+    "kills": 7262,
+    "loot_revid": 1213366,
+    "times": 1023
    }
   },
   {
@@ -2486,6 +3523,35 @@
    }
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/fey/twisted_pooka.lua",
+   "monster": "Twisted Pooka",
+   "item": "cookie",
+   "id": 3598,
+   "chance": 3839,
+   "source": {
+    "version": "12.90.12182",
+    "kills": 3751,
+    "loot_revid": 1213373,
+    "times": 144
+   },
+   "maxCount": 5
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/fey/twisted_pooka.lua",
+   "monster": "Twisted Pooka",
+   "item": "stone herb",
+   "id": 3735,
+   "chance": 6958,
+   "source": {
+    "version": "12.90.12182",
+    "kills": 3751,
+    "loot_revid": 1213373,
+    "times": 261
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/fey/twisted_pooka.lua",
    "monster": "Twisted Pooka",
@@ -2510,6 +3576,104 @@
    }
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/giants/ogre_rowdy.lua",
+   "monster": "Ogre Rowdy",
+   "item": "blue crystal shard",
+   "id": 16119,
+   "chance": 3426,
+   "source": {
+    "version": "12.20",
+    "kills": 2685,
+    "loot_revid": 1210571,
+    "times": 92
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/giants/ogre_rowdy.lua",
+   "monster": "Ogre Rowdy",
+   "item": "blue gem",
+   "id": 3041,
+   "chance": 1825,
+   "source": {
+    "version": "12.20",
+    "kills": 2685,
+    "loot_revid": 1210571,
+    "times": 49
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/giants/ogre_rowdy.lua",
+   "monster": "Ogre Rowdy",
+   "item": "onyx chip",
+   "id": 22193,
+   "chance": 2272,
+   "source": {
+    "version": "12.20",
+    "kills": 2685,
+    "loot_revid": 1210571,
+    "times": 61
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/giants/ogre_rowdy.lua",
+   "monster": "Ogre Rowdy",
+   "item": "opal",
+   "id": 22194,
+   "chance": 1788,
+   "source": {
+    "version": "12.20",
+    "kills": 2685,
+    "loot_revid": 1210571,
+    "times": 48
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/giants/ogre_rowdy.lua",
+   "monster": "Ogre Rowdy",
+   "item": "prismatic quartz",
+   "id": 24962,
+   "chance": 3985,
+   "source": {
+    "version": "12.20",
+    "kills": 2685,
+    "loot_revid": 1210571,
+    "times": 107
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/giants/ogre_rowdy.lua",
+   "monster": "Ogre Rowdy",
+   "item": "small emerald",
+   "id": 3032,
+   "chance": 5698,
+   "source": {
+    "version": "12.20",
+    "kills": 2685,
+    "loot_revid": 1210571,
+    "times": 153
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/giants/ogre_rowdy.lua",
+   "monster": "Ogre Rowdy",
+   "item": "violet crystal shard",
+   "id": 16120,
+   "chance": 4283,
+   "source": {
+    "version": "12.20",
+    "kills": 2685,
+    "loot_revid": 1210571,
+    "times": 115
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/giants/ogre_rowdy.lua",
    "monster": "Ogre Rowdy",
@@ -2519,6 +3683,218 @@
     "version": "12.20",
     "kills": 2685,
     "loot_revid": 1210571
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/giants/ogre_ruffian.lua",
+   "monster": "Ogre Ruffian",
+   "item": "blue gem",
+   "id": 3041,
+   "chance": 969,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 929,
+    "loot_revid": 1210572,
+    "times": 9
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/giants/ogre_ruffian.lua",
+   "monster": "Ogre Ruffian",
+   "item": "cyan crystal fragment",
+   "id": 16125,
+   "chance": 7104,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 929,
+    "loot_revid": 1210572,
+    "times": 66
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/giants/ogre_ruffian.lua",
+   "monster": "Ogre Ruffian",
+   "item": "green crystal splinter",
+   "id": 16122,
+   "chance": 1292,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 929,
+    "loot_revid": 1210572,
+    "times": 12
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/giants/ogre_ruffian.lua",
+   "monster": "Ogre Ruffian",
+   "item": "ogre klubba",
+   "id": 22171,
+   "chance": 1076,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 929,
+    "loot_revid": 1210572,
+    "times": 10
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/giants/ogre_ruffian.lua",
+   "monster": "Ogre Ruffian",
+   "item": "onyx chip",
+   "id": 22193,
+   "chance": 2583,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 929,
+    "loot_revid": 1210572,
+    "times": 24
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/giants/ogre_ruffian.lua",
+   "monster": "Ogre Ruffian",
+   "item": "small emerald",
+   "id": 3032,
+   "chance": 5490,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 929,
+    "loot_revid": 1210572,
+    "times": 51
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/giants/ogre_ruffian.lua",
+   "monster": "Ogre Ruffian",
+   "item": "small enchanted emerald",
+   "id": 677,
+   "chance": 1076,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 929,
+    "loot_revid": 1210572,
+    "times": 10
+   },
+   "maxCount": 2
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/giants/ogre_ruffian.lua",
+   "monster": "Ogre Ruffian",
+   "item": "small sapphire",
+   "id": 3029,
+   "chance": 18407,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 929,
+    "loot_revid": 1210572,
+    "times": 171
+   },
+   "maxCount": 2
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/giants/ogre_ruffian.lua",
+   "monster": "Ogre Ruffian",
+   "item": "yellow gem",
+   "id": 3037,
+   "chance": 2691,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 929,
+    "loot_revid": 1210572,
+    "times": 25
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/giants/ogre_sage.lua",
+   "monster": "Ogre Sage",
+   "item": "green crystal fragment",
+   "id": 16127,
+   "chance": 6052,
+   "source": {
+    "version": "12.20",
+    "kills": 1487,
+    "loot_revid": 1207158,
+    "times": 90
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/giants/ogre_sage.lua",
+   "monster": "Ogre Sage",
+   "item": "ogre scepta",
+   "id": 22183,
+   "chance": 740,
+   "source": {
+    "version": "12.20",
+    "kills": 1487,
+    "loot_revid": 1207158,
+    "times": 11
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/giants/ogre_sage.lua",
+   "monster": "Ogre Sage",
+   "item": "terra amulet",
+   "id": 814,
+   "chance": 8406,
+   "source": {
+    "version": "12.20",
+    "kills": 1487,
+    "loot_revid": 1207158,
+    "times": 125
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/giants/ogre_sage.lua",
+   "monster": "Ogre Sage",
+   "item": "violet crystal shard",
+   "id": 16120,
+   "chance": 6859,
+   "source": {
+    "version": "12.20",
+    "kills": 1487,
+    "loot_revid": 1207158,
+    "times": 102
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/giants/ogre_sage.lua",
+   "monster": "Ogre Sage",
+   "item": "violet gem",
+   "id": 3036,
+   "chance": 3026,
+   "source": {
+    "version": "12.20",
+    "kills": 1487,
+    "loot_revid": 1207158,
+    "times": 45
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/giants/ogre_sage.lua",
+   "monster": "Ogre Sage",
+   "item": "yellow gem",
+   "id": 3037,
+   "chance": 4775,
+   "source": {
+    "version": "12.20",
+    "kills": 1487,
+    "loot_revid": 1207158,
+    "times": 71
    }
   },
   {
@@ -2942,6 +4318,20 @@
    }
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/humans/burning_gladiator.lua",
+   "monster": "Burning Gladiator",
+   "item": "golden mask",
+   "id": 31324,
+   "chance": 766,
+   "source": {
+    "version": "12.31.9580",
+    "kills": 13965,
+    "loot_revid": 1212492,
+    "times": 107
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/humans/burning_gladiator.lua",
    "monster": "Burning Gladiator",
@@ -2951,6 +4341,106 @@
     "version": "12.31.9580",
     "kills": 13965,
     "loot_revid": 1212492
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/humans/cobra_assassin.lua",
+   "monster": "Cobra Assassin",
+   "item": "gold ingot",
+   "id": 9058,
+   "chance": 4511,
+   "source": {
+    "version": "12.65.10733",
+    "kills": 43916,
+    "loot_revid": 1209633,
+    "times": 1981
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/humans/cobra_assassin.lua",
+   "monster": "Cobra Assassin",
+   "item": "green crystal fragment",
+   "id": 16127,
+   "chance": 3299,
+   "source": {
+    "version": "12.65.10733",
+    "kills": 43916,
+    "loot_revid": 1209633,
+    "times": 1449
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/humans/cobra_assassin.lua",
+   "monster": "Cobra Assassin",
+   "item": "green crystal shard",
+   "id": 16121,
+   "chance": 6619,
+   "source": {
+    "version": "12.65.10733",
+    "kills": 43916,
+    "loot_revid": 1209633,
+    "times": 2907
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/humans/cobra_assassin.lua",
+   "monster": "Cobra Assassin",
+   "item": "opal",
+   "id": 22194,
+   "chance": 32234,
+   "source": {
+    "version": "12.65.10733",
+    "kills": 43916,
+    "loot_revid": 1209633,
+    "times": 14156
+   },
+   "maxCount": 5
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/humans/cobra_assassin.lua",
+   "monster": "Cobra Assassin",
+   "item": "red crystal fragment",
+   "id": 16126,
+   "chance": 870,
+   "source": {
+    "version": "12.65.10733",
+    "kills": 43916,
+    "loot_revid": 1209633,
+    "times": 382
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/humans/cobra_assassin.lua",
+   "monster": "Cobra Assassin",
+   "item": "small emerald",
+   "id": 3032,
+   "chance": 27512,
+   "source": {
+    "version": "12.65.10733",
+    "kills": 43916,
+    "loot_revid": 1209633,
+    "times": 12082
+   },
+   "maxCount": 3
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/humans/cobra_assassin.lua",
+   "monster": "Cobra Assassin",
+   "item": "soul orb",
+   "id": 5944,
+   "chance": 1967,
+   "source": {
+    "version": "12.65.10733",
+    "kills": 43916,
+    "loot_revid": 1209633,
+    "times": 864
    }
   },
   {
@@ -3098,6 +4588,20 @@
    }
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/humans/priestess_of_the_wild_sun.lua",
+   "monster": "Priestess of the Wild Sun",
+   "item": "golden mask",
+   "id": 31324,
+   "chance": 716,
+   "source": {
+    "version": "12.31.9580",
+    "kills": 11588,
+    "loot_revid": 1212494,
+    "times": 83
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/humans/priestess_of_the_wild_sun.lua",
    "monster": "Priestess of the Wild Sun",
@@ -3146,6 +4650,50 @@
    }
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/lycanthropes/werebadger.lua",
+   "monster": "Werebadger",
+   "item": "great mana potion",
+   "id": 238,
+   "chance": 1891,
+   "source": {
+    "version": "12.90.12182",
+    "kills": 12959,
+    "loot_revid": 1212562,
+    "times": 245
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/lycanthropes/werebadger.lua",
+   "monster": "Werebadger",
+   "item": "small enchanted amethyst",
+   "id": 678,
+   "chance": 1404,
+   "source": {
+    "version": "12.90.12182",
+    "kills": 12959,
+    "loot_revid": 1212562,
+    "times": 182
+   },
+   "maxCount": 2
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/lycanthropes/werebear.lua",
+   "monster": "Werebear",
+   "item": "small enchanted sapphire",
+   "id": 675,
+   "chance": 1637,
+   "source": {
+    "version": "12.90.12182",
+    "kills": 6230,
+    "loot_revid": 1212563,
+    "times": 102
+   },
+   "maxCount": 2
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/lycanthropes/werebear.lua",
    "monster": "Werebear",
@@ -3170,6 +4718,20 @@
    }
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/lycanthropes/werefox.lua",
+   "monster": "Werefox",
+   "item": "moonlight crystals",
+   "id": 22083,
+   "chance": 1089,
+   "source": {
+    "version": "12.90.12182",
+    "kills": 11023,
+    "loot_revid": 1212565,
+    "times": 120
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/lycanthropes/werefox.lua",
    "monster": "Werefox",
@@ -3179,6 +4741,34 @@
     "version": "12.90.12182",
     "kills": 11023,
     "loot_revid": 1212565
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/lycanthropes/werehyaena.lua",
+   "monster": "Werehyaena",
+   "item": "moonlight crystals",
+   "id": 22083,
+   "chance": 1300,
+   "source": {
+    "version": "12.90.12182",
+    "kills": 11230,
+    "loot_revid": 1207273,
+    "times": 146
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/lycanthropes/werehyaena_shaman.lua",
+   "monster": "Werehyaena Shaman",
+   "item": "black shield",
+   "id": 3429,
+   "chance": 2648,
+   "source": {
+    "version": "12.90.12182",
+    "kills": 5174,
+    "loot_revid": 1207274,
+    "times": 137
    }
   },
   {
@@ -3218,6 +4808,34 @@
    }
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/lycanthropes/werelion.lua",
+   "monster": "Werelion",
+   "item": "dark armor",
+   "id": 3383,
+   "chance": 23479,
+   "source": {
+    "version": "13.22.14282",
+    "kills": 7692,
+    "loot_revid": 1213067,
+    "times": 1806
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/lycanthropes/werelion.lua",
+   "monster": "Werelion",
+   "item": "moonlight crystals",
+   "id": 22083,
+   "chance": 910,
+   "source": {
+    "version": "13.22.14282",
+    "kills": 7692,
+    "loot_revid": 1213067,
+    "times": 70
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/lycanthropes/werelion.lua",
    "monster": "Werelion",
@@ -3239,6 +4857,34 @@
     "version": "13.22.14282",
     "kills": 7692,
     "loot_revid": 1213067
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/lycanthropes/werelioness.lua",
+   "monster": "Werelioness",
+   "item": "leather helmet",
+   "id": 3355,
+   "chance": 9965,
+   "source": {
+    "version": "13.22.14282",
+    "kills": 7647,
+    "loot_revid": 1213068,
+    "times": 762
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/lycanthropes/werelioness.lua",
+   "monster": "Werelioness",
+   "item": "moonlight crystals",
+   "id": 22083,
+   "chance": 915,
+   "source": {
+    "version": "13.22.14282",
+    "kills": 7647,
+    "loot_revid": 1213068,
+    "times": 70
    }
   },
   {
@@ -3288,6 +4934,133 @@
     "kills": 7647,
     "loot_revid": 1213068
    }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/lycanthropes/werewolf.lua",
+   "monster": "Werewolf",
+   "item": "moonlight crystals",
+   "id": 22083,
+   "chance": 1426,
+   "source": {
+    "version": "12.90.12182",
+    "kills": 5612,
+    "loot_revid": 1212566,
+    "times": 80
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/magicals/animated_feather.lua",
+   "monster": "Animated Feather",
+   "item": "crystal mace",
+   "id": 3333,
+   "chance": 2886,
+   "source": {
+    "version": "12.31.9580",
+    "kills": 11711,
+    "loot_revid": 1206935,
+    "times": 338
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/magicals/animated_feather.lua",
+   "monster": "Animated Feather",
+   "item": "crystalline armor",
+   "id": 8050,
+   "chance": 188,
+   "source": {
+    "version": "12.31.9580",
+    "kills": 11711,
+    "loot_revid": 1206935,
+    "times": 22
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/magicals/animated_feather.lua",
+   "monster": "Animated Feather",
+   "item": "diamond sceptre",
+   "id": 7387,
+   "chance": 4628,
+   "source": {
+    "version": "12.31.9580",
+    "kills": 11711,
+    "loot_revid": 1206935,
+    "times": 542
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/magicals/animated_feather.lua",
+   "monster": "Animated Feather",
+   "item": "glacial rod",
+   "id": 16118,
+   "chance": 965,
+   "source": {
+    "version": "12.31.9580",
+    "kills": 11711,
+    "loot_revid": 1206935,
+    "times": 113
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/magicals/animated_feather.lua",
+   "monster": "Animated Feather",
+   "item": "glacier amulet",
+   "id": 815,
+   "chance": 2997,
+   "source": {
+    "version": "12.31.9580",
+    "kills": 11711,
+    "loot_revid": 1206935,
+    "times": 351
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/magicals/animated_feather.lua",
+   "monster": "Animated Feather",
+   "item": "leviathan's amulet",
+   "id": 9303,
+   "chance": 367,
+   "source": {
+    "version": "12.31.9580",
+    "kills": 11711,
+    "loot_revid": 1206935,
+    "times": 43
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/magicals/animated_feather.lua",
+   "monster": "Animated Feather",
+   "item": "sapphire hammer",
+   "id": 7437,
+   "chance": 888,
+   "source": {
+    "version": "12.31.9580",
+    "kills": 11711,
+    "loot_revid": 1206935,
+    "times": 104
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/magicals/animated_feather.lua",
+   "monster": "Animated Feather",
+   "item": "ultimate mana potion",
+   "id": 23373,
+   "chance": 17420,
+   "source": {
+    "version": "12.31.9580",
+    "kills": 11711,
+    "loot_revid": 1206935,
+    "times": 2040
+   },
+   "maxCount": 2
   },
   {
    "kind": "max_count",
@@ -3350,6 +5123,20 @@
    }
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/magicals/brain_squid.lua",
+   "monster": "Brain Squid",
+   "item": "spellweaver's robe",
+   "id": 10438,
+   "chance": 433,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 7856,
+    "loot_revid": 1204337,
+    "times": 34
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/magicals/brain_squid.lua",
    "monster": "Brain Squid",
@@ -3371,6 +5158,20 @@
     "version": "12.31.9530",
     "kills": 7856,
     "loot_revid": 1204337
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/magicals/braindeath.lua",
+   "monster": "Braindeath",
+   "item": "stone skin amulet",
+   "id": 3081,
+   "chance": 668,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 1347,
+    "loot_revid": 1212912,
+    "times": 9
    }
   },
   {
@@ -3431,6 +5232,62 @@
     "version": "8.6",
     "kills": 14269,
     "loot_revid": 1212364
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/magicals/choking_fear.lua",
+   "monster": "Choking Fear",
+   "item": "red piece of cloth",
+   "id": 5911,
+   "chance": 761,
+   "source": {
+    "version": "15.32.87b266",
+    "kills": 9598,
+    "loot_revid": 1213416,
+    "times": 73
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/magicals/choking_fear.lua",
+   "monster": "Choking Fear",
+   "item": "shadow sceptre",
+   "id": 7451,
+   "chance": 688,
+   "source": {
+    "version": "15.32.87b266",
+    "kills": 9598,
+    "loot_revid": 1213416,
+    "times": 66
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/magicals/choking_fear.lua",
+   "monster": "Choking Fear",
+   "item": "terra mantle",
+   "id": 811,
+   "chance": 396,
+   "source": {
+    "version": "15.32.87b266",
+    "kills": 9598,
+    "loot_revid": 1213416,
+    "times": 38
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/magicals/choking_fear.lua",
+   "monster": "Choking Fear",
+   "item": "traditional sai",
+   "id": 10389,
+   "chance": 979,
+   "source": {
+    "version": "15.32.87b266",
+    "kills": 9598,
+    "loot_revid": 1213416,
+    "times": 94
    }
   },
   {
@@ -3530,6 +5387,90 @@
    }
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/magicals/energuardian_of_tales.lua",
+   "monster": "Energuardian of Tales",
+   "item": "lightning pendant",
+   "id": 816,
+   "chance": 4405,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 8558,
+    "loot_revid": 1204402,
+    "times": 377
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/magicals/energuardian_of_tales.lua",
+   "monster": "Energuardian of Tales",
+   "item": "might ring",
+   "id": 3048,
+   "chance": 2279,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 8558,
+    "loot_revid": 1204402,
+    "times": 195
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/magicals/energuardian_of_tales.lua",
+   "monster": "Energuardian of Tales",
+   "item": "platinum amulet",
+   "id": 3055,
+   "chance": 2314,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 8558,
+    "loot_revid": 1204402,
+    "times": 198
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/magicals/energuardian_of_tales.lua",
+   "monster": "Energuardian of Tales",
+   "item": "shockwave amulet",
+   "id": 9304,
+   "chance": 771,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 8558,
+    "loot_revid": 1204402,
+    "times": 66
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/magicals/energuardian_of_tales.lua",
+   "monster": "Energuardian of Tales",
+   "item": "spellweaver's robe",
+   "id": 10438,
+   "chance": 958,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 8558,
+    "loot_revid": 1204402,
+    "times": 82
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/magicals/energuardian_of_tales.lua",
+   "monster": "Energuardian of Tales",
+   "item": "wand of defiance",
+   "id": 16096,
+   "chance": 1285,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 8558,
+    "loot_revid": 1204402,
+    "times": 110
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/magicals/energuardian_of_tales.lua",
    "monster": "Energuardian of Tales",
@@ -3602,6 +5543,20 @@
    }
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/magicals/frazzlemaw.lua",
+   "monster": "Frazzlemaw",
+   "item": "remains of a fish",
+   "id": 3125,
+   "chance": 8113,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 11574,
+    "loot_revid": 1213417,
+    "times": 939
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/magicals/gazer.lua",
    "monster": "Gazer",
@@ -3650,6 +5605,34 @@
    }
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/magicals/guzzlemaw.lua",
+   "monster": "Guzzlemaw",
+   "item": "remains of a fish",
+   "id": 3125,
+   "chance": 7452,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 4683,
+    "loot_revid": 1213418,
+    "times": 349
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/magicals/icecold_book.lua",
+   "monster": "Icecold Book",
+   "item": "leviathan's amulet",
+   "id": 9303,
+   "chance": 145,
+   "source": {
+    "version": "12.31.9580",
+    "kills": 13780,
+    "loot_revid": 1207086,
+    "times": 20
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/magicals/icecold_book.lua",
    "monster": "Icecold Book",
@@ -3659,6 +5642,119 @@
     "version": "12.31.9580",
     "kills": 13780,
     "loot_revid": 1207086
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/magicals/lamassu.lua",
+   "monster": "Lamassu",
+   "item": "blue gem",
+   "id": 3041,
+   "chance": 1638,
+   "source": {
+    "version": "12.20",
+    "kills": 4091,
+    "loot_revid": 1212994,
+    "times": 67
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/magicals/lamassu.lua",
+   "monster": "Lamassu",
+   "item": "green crystal fragment",
+   "id": 16127,
+   "chance": 3838,
+   "source": {
+    "version": "12.20",
+    "kills": 4091,
+    "loot_revid": 1212994,
+    "times": 157
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/magicals/lamassu.lua",
+   "monster": "Lamassu",
+   "item": "green crystal shard",
+   "id": 16121,
+   "chance": 1149,
+   "source": {
+    "version": "12.20",
+    "kills": 4091,
+    "loot_revid": 1212994,
+    "times": 47
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/magicals/lamassu.lua",
+   "monster": "Lamassu",
+   "item": "green crystal splinter",
+   "id": 16122,
+   "chance": 3398,
+   "source": {
+    "version": "12.20",
+    "kills": 4091,
+    "loot_revid": 1212994,
+    "times": 139
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/magicals/lamassu.lua",
+   "monster": "Lamassu",
+   "item": "onyx chip",
+   "id": 22193,
+   "chance": 4131,
+   "source": {
+    "version": "12.20",
+    "kills": 4091,
+    "loot_revid": 1212994,
+    "times": 169
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/magicals/lamassu.lua",
+   "monster": "Lamassu",
+   "item": "opal",
+   "id": 22194,
+   "chance": 6771,
+   "source": {
+    "version": "12.20",
+    "kills": 4091,
+    "loot_revid": 1212994,
+    "times": 277
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/magicals/lamassu.lua",
+   "monster": "Lamassu",
+   "item": "rainbow quartz",
+   "id": 25737,
+   "chance": 3422,
+   "source": {
+    "version": "12.20",
+    "kills": 4091,
+    "loot_revid": 1212994,
+    "times": 140
+   },
+   "maxCount": 2
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/magicals/lamassu.lua",
+   "monster": "Lamassu",
+   "item": "small emerald",
+   "id": 3032,
+   "chance": 5353,
+   "source": {
+    "version": "12.20",
+    "kills": 4091,
+    "loot_revid": 1212994,
+    "times": 219
    }
   },
   {
@@ -3830,6 +5926,62 @@
    }
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/magicals/retching_horror.lua",
+   "monster": "Retching Horror",
+   "item": "butcher's axe",
+   "id": 7412,
+   "chance": 490,
+   "source": {
+    "version": "15.32.87b266",
+    "kills": 8158,
+    "loot_revid": 1213082,
+    "times": 40
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/magicals/retching_horror.lua",
+   "monster": "Retching Horror",
+   "item": "cluster of solace",
+   "id": 20062,
+   "chance": 429,
+   "source": {
+    "version": "15.32.87b266",
+    "kills": 8158,
+    "loot_revid": 1213082,
+    "times": 35
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/magicals/retching_horror.lua",
+   "monster": "Retching Horror",
+   "item": "onyx flail",
+   "id": 7421,
+   "chance": 576,
+   "source": {
+    "version": "15.32.87b266",
+    "kills": 8158,
+    "loot_revid": 1213082,
+    "times": 47
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/magicals/retching_horror.lua",
+   "monster": "Retching Horror",
+   "item": "steel boots",
+   "id": 3554,
+   "chance": 221,
+   "source": {
+    "version": "15.32.87b266",
+    "kills": 8158,
+    "loot_revid": 1213082,
+    "times": 18
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/magicals/rorc.lua",
    "monster": "Rorc",
@@ -3866,6 +6018,132 @@
    }
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/magicals/sphinx.lua",
+   "monster": "Sphinx",
+   "item": "blue gem",
+   "id": 3041,
+   "chance": 4316,
+   "source": {
+    "version": "12.20",
+    "kills": 28288,
+    "loot_revid": 1213047,
+    "times": 1221
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/magicals/sphinx.lua",
+   "monster": "Sphinx",
+   "item": "green gem",
+   "id": 3038,
+   "chance": 5465,
+   "source": {
+    "version": "12.20",
+    "kills": 28288,
+    "loot_revid": 1213047,
+    "times": 1546
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/magicals/sphinx.lua",
+   "monster": "Sphinx",
+   "item": "white pearl",
+   "id": 3026,
+   "chance": 3298,
+   "source": {
+    "version": "12.20",
+    "kills": 28288,
+    "loot_revid": 1213047,
+    "times": 933
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/magicals/squid_warden.lua",
+   "monster": "Squid Warden",
+   "item": "crystal mace",
+   "id": 3333,
+   "chance": 5033,
+   "source": {
+    "version": "12.31.9580",
+    "kills": 11584,
+    "loot_revid": 1207234,
+    "times": 583
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/magicals/squid_warden.lua",
+   "monster": "Squid Warden",
+   "item": "crystalline armor",
+   "id": 8050,
+   "chance": 665,
+   "source": {
+    "version": "12.31.9580",
+    "kills": 11584,
+    "loot_revid": 1207234,
+    "times": 77
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/magicals/squid_warden.lua",
+   "monster": "Squid Warden",
+   "item": "diamond sceptre",
+   "id": 7387,
+   "chance": 4213,
+   "source": {
+    "version": "12.31.9580",
+    "kills": 11584,
+    "loot_revid": 1207234,
+    "times": 488
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/magicals/squid_warden.lua",
+   "monster": "Squid Warden",
+   "item": "glacial rod",
+   "id": 16118,
+   "chance": 751,
+   "source": {
+    "version": "12.31.9580",
+    "kills": 11584,
+    "loot_revid": 1207234,
+    "times": 87
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/magicals/squid_warden.lua",
+   "monster": "Squid Warden",
+   "item": "leviathan's amulet",
+   "id": 9303,
+   "chance": 276,
+   "source": {
+    "version": "12.31.9580",
+    "kills": 11584,
+    "loot_revid": 1207234,
+    "times": 32
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/magicals/squid_warden.lua",
+   "monster": "Squid Warden",
+   "item": "sapphire hammer",
+   "id": 7437,
+   "chance": 932,
+   "source": {
+    "version": "12.31.9580",
+    "kills": 11584,
+    "loot_revid": 1207234,
+    "times": 108
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/magicals/squid_warden.lua",
    "monster": "Squid Warden",
@@ -3875,6 +6153,62 @@
     "version": "12.31.9580",
     "kills": 11584,
     "loot_revid": 1207234
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/magicals/terrorsleep.lua",
+   "monster": "Terrorsleep",
+   "item": "blue piece of cloth",
+   "id": 5912,
+   "chance": 4052,
+   "source": {
+    "version": "15.00.249ccc",
+    "kills": 839,
+    "loot_revid": 1212497,
+    "times": 34
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/magicals/terrorsleep.lua",
+   "monster": "Terrorsleep",
+   "item": "blue robe",
+   "id": 3567,
+   "chance": 1907,
+   "source": {
+    "version": "15.00.249ccc",
+    "kills": 839,
+    "loot_revid": 1212497,
+    "times": 16
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/magicals/terrorsleep.lua",
+   "monster": "Terrorsleep",
+   "item": "cluster of solace",
+   "id": 20062,
+   "chance": 1073,
+   "source": {
+    "version": "15.00.249ccc",
+    "kills": 839,
+    "loot_revid": 1212497,
+    "times": 9
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/magicals/terrorsleep.lua",
+   "monster": "Terrorsleep",
+   "item": "fish fin",
+   "id": 5895,
+   "chance": 2384,
+   "source": {
+    "version": "15.00.249ccc",
+    "kills": 839,
+    "loot_revid": 1212497,
+    "times": 20
    }
   },
   {
@@ -3926,6 +6260,34 @@
    }
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/magicals/thanatursus.lua",
+   "monster": "Thanatursus",
+   "item": "halberd",
+   "id": 3269,
+   "chance": 12218,
+   "source": {
+    "version": "12.00",
+    "kills": 10165,
+    "loot_revid": 1211670,
+    "times": 1242
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/magicals/thanatursus.lua",
+   "monster": "Thanatursus",
+   "item": "ham",
+   "id": 3582,
+   "chance": 15170,
+   "source": {
+    "version": "12.00",
+    "kills": 10165,
+    "loot_revid": 1211670,
+    "times": 1542
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/magicals/thanatursus.lua",
    "monster": "Thanatursus",
@@ -3938,6 +6300,20 @@
    }
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/magicals/weakened_frazzlemaw.lua",
+   "monster": "Weakened Frazzlemaw",
+   "item": "remains of a fish",
+   "id": 3125,
+   "chance": 9695,
+   "source": {
+    "version": "12.90.12182",
+    "kills": 26683,
+    "loot_revid": 1211909,
+    "times": 2587
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/mammals/crystal_wolf.lua",
    "monster": "Crystal Wolf",
@@ -3947,6 +6323,34 @@
     "version": "9.1",
     "kills": 68,
     "loot_revid": 1130124
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/mammals/ghost_wolf.lua",
+   "monster": "Ghost Wolf",
+   "item": "stone skin amulet",
+   "id": 3081,
+   "chance": 189,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 2647,
+    "loot_revid": 1209682,
+    "times": 5
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/mammals/ghoulish_hyaena.lua",
+   "monster": "Ghoulish Hyaena",
+   "item": "stone skin amulet",
+   "id": 3081,
+   "chance": 1421,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 774,
+    "loot_revid": 1204951,
+    "times": 11
    }
   },
   {
@@ -4007,6 +6411,20 @@
     "version": "10.7",
     "kills": 30875,
     "loot_revid": 1212761
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/mammals/vampire_pig.lua",
+   "monster": "Vampire Pig",
+   "item": "stone skin amulet",
+   "id": 3081,
+   "chance": 1935,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 930,
+    "loot_revid": 1207263,
+    "times": 18
    }
   },
   {
@@ -4250,6 +6668,21 @@
    }
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/cults_of_tibia/misguided_bully.lua",
+   "monster": "Misguided Bully",
+   "item": "meat",
+   "id": 3577,
+   "chance": 50725,
+   "source": {
+    "version": "15.25.bd5a04",
+    "kills": 207,
+    "loot_revid": 1206058,
+    "times": 105
+   },
+   "maxCount": 2
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/quests/cults_of_tibia/orc_cult_inquisitor.lua",
    "monster": "Orc Cult Inquisitor",
@@ -4379,6 +6812,174 @@
     "version": "10.7",
     "kills": 807,
     "loot_revid": 1209653
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/ferumbras_ascension/bosses/ferumbras_mortal_shell.lua",
+   "monster": "Ferumbras Mortal Shell",
+   "item": "golden legs",
+   "id": 3364,
+   "chance": 12500,
+   "source": {
+    "version": "12.86.11580",
+    "kills": 160,
+    "loot_revid": 1212781,
+    "times": 20
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/ferumbras_ascension/bosses/ferumbras_mortal_shell.lua",
+   "monster": "Ferumbras Mortal Shell",
+   "item": "haunted blade",
+   "id": 7407,
+   "chance": 11875,
+   "source": {
+    "version": "12.86.11580",
+    "kills": 160,
+    "loot_revid": 1212781,
+    "times": 19
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/ferumbras_ascension/bosses/ferumbras_mortal_shell.lua",
+   "monster": "Ferumbras Mortal Shell",
+   "item": "rift lance",
+   "id": 22727,
+   "chance": 25000,
+   "source": {
+    "version": "12.86.11580",
+    "kills": 160,
+    "loot_revid": 1212781,
+    "times": 40
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/ferumbras_ascension/bosses/ferumbras_mortal_shell.lua",
+   "monster": "Ferumbras Mortal Shell",
+   "item": "rift shield",
+   "id": 22726,
+   "chance": 25000,
+   "source": {
+    "version": "12.86.11580",
+    "kills": 160,
+    "loot_revid": 1212781,
+    "times": 40
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/ferumbras_ascension/bosses/ferumbras_mortal_shell.lua",
+   "monster": "Ferumbras Mortal Shell",
+   "item": "runed sword",
+   "id": 7417,
+   "chance": 3750,
+   "source": {
+    "version": "12.86.11580",
+    "kills": 160,
+    "loot_revid": 1212781,
+    "times": 6
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/ferumbras_ascension/bosses/ferumbras_mortal_shell.lua",
+   "monster": "Ferumbras Mortal Shell",
+   "item": "shadow sceptre",
+   "id": 7451,
+   "chance": 8125,
+   "source": {
+    "version": "12.86.11580",
+    "kills": 160,
+    "loot_revid": 1212781,
+    "times": 13
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/ferumbras_ascension/bosses/ferumbras_mortal_shell.lua",
+   "monster": "Ferumbras Mortal Shell",
+   "item": "soul orb",
+   "id": 5944,
+   "chance": 38750,
+   "source": {
+    "version": "12.86.11580",
+    "kills": 160,
+    "loot_revid": 1212781,
+    "times": 62
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/ferumbras_ascension/bosses/ferumbras_mortal_shell.lua",
+   "monster": "Ferumbras Mortal Shell",
+   "item": "spellbook of dark mysteries",
+   "id": 8090,
+   "chance": 4375,
+   "source": {
+    "version": "12.86.11580",
+    "kills": 160,
+    "loot_revid": 1212781,
+    "times": 7
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/ferumbras_ascension/bosses/ferumbras_mortal_shell.lua",
+   "monster": "Ferumbras Mortal Shell",
+   "item": "spellbook of lost souls",
+   "id": 8075,
+   "chance": 7500,
+   "source": {
+    "version": "12.86.11580",
+    "kills": 160,
+    "loot_revid": 1212781,
+    "times": 12
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/ferumbras_ascension/bosses/ferumbras_mortal_shell.lua",
+   "monster": "Ferumbras Mortal Shell",
+   "item": "spellbook of mind control",
+   "id": 8074,
+   "chance": 7500,
+   "source": {
+    "version": "12.86.11580",
+    "kills": 160,
+    "loot_revid": 1212781,
+    "times": 12
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/ferumbras_ascension/bosses/ferumbras_mortal_shell.lua",
+   "monster": "Ferumbras Mortal Shell",
+   "item": "terra legs",
+   "id": 812,
+   "chance": 16250,
+   "source": {
+    "version": "12.86.11580",
+    "kills": 160,
+    "loot_revid": 1212781,
+    "times": 26
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/ferumbras_ascension/bosses/ferumbras_mortal_shell.lua",
+   "monster": "Ferumbras Mortal Shell",
+   "item": "vile axe",
+   "id": 7388,
+   "chance": 4375,
+   "source": {
+    "version": "12.86.11580",
+    "kills": 160,
+    "loot_revid": 1212781,
+    "times": 7
    }
   },
   {
@@ -4898,6 +7499,78 @@
    }
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/rotten_blood/bloated_man-maggot.lua",
+   "monster": "Bloated Man-Maggot",
+   "item": "devil helmet",
+   "id": 3356,
+   "chance": 6329,
+   "source": {
+    "version": "15.32.87b266",
+    "kills": 553,
+    "loot_revid": 1206607,
+    "times": 35
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/rotten_blood/bloated_man-maggot.lua",
+   "monster": "Bloated Man-Maggot",
+   "item": "small topaz",
+   "id": 9057,
+   "chance": 5787,
+   "source": {
+    "version": "15.32.87b266",
+    "kills": 553,
+    "loot_revid": 1206607,
+    "times": 32
+   },
+   "maxCount": 3
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/rotten_blood/converter.lua",
+   "monster": "Converter",
+   "item": "lightning legs",
+   "id": 822,
+   "chance": 437,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 1373,
+    "loot_revid": 1198885,
+    "times": 6
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/rotten_blood/converter.lua",
+   "monster": "Converter",
+   "item": "might ring",
+   "id": 3048,
+   "chance": 1602,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 1373,
+    "loot_revid": 1198885,
+    "times": 22
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/rotten_blood/converter.lua",
+   "monster": "Converter",
+   "item": "ultimate mana potion",
+   "id": 23373,
+   "chance": 1894,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 1373,
+    "loot_revid": 1198885,
+    "times": 26
+   },
+   "maxCount": 3
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/quests/rotten_blood/converter.lua",
    "monster": "Converter",
@@ -4907,6 +7580,62 @@
     "version": "14.12.5229e4",
     "kills": 1373,
     "loot_revid": 1198885
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/rotten_blood/darklight_construct.lua",
+   "monster": "Darklight Construct",
+   "item": "green gem",
+   "id": 3038,
+   "chance": 603,
+   "source": {
+    "version": "13.22.14242",
+    "kills": 829,
+    "loot_revid": 1198886,
+    "times": 5
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/rotten_blood/darklight_emitter.lua",
+   "monster": "Darklight Emitter",
+   "item": "green gem",
+   "id": 3038,
+   "chance": 505,
+   "source": {
+    "version": "13.22.14242",
+    "kills": 1584,
+    "loot_revid": 1198887,
+    "times": 8
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/rotten_blood/darklight_source.lua",
+   "monster": "Darklight Source",
+   "item": "crystalline armor",
+   "id": 8050,
+   "chance": 400,
+   "source": {
+    "version": "14.00.7103e2",
+    "kills": 4495,
+    "loot_revid": 1197279,
+    "times": 18
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/rotten_blood/darklight_striker.lua",
+   "monster": "Darklight Striker",
+   "item": "white gem",
+   "id": 32769,
+   "chance": 443,
+   "source": {
+    "version": "14.00.7103e2",
+    "kills": 8348,
+    "loot_revid": 1197280,
+    "times": 37
    }
   },
   {
@@ -4922,6 +7651,20 @@
    }
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/rotten_blood/oozing_corpus.lua",
+   "monster": "Oozing Corpus",
+   "item": "stone skin amulet",
+   "id": 3081,
+   "chance": 628,
+   "source": {
+    "version": "15.32.87b266",
+    "kills": 796,
+    "loot_revid": 1206609,
+    "times": 5
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/quests/rotten_blood/oozing_corpus.lua",
    "monster": "Oozing Corpus",
@@ -4934,6 +7677,120 @@
    }
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/rotten_blood/sopping_carcass.lua",
+   "monster": "Sopping Carcass",
+   "item": "decayed finger bone",
+   "id": 43846,
+   "chance": 8580,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 338,
+    "loot_revid": 1195225,
+    "times": 29
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/rotten_blood/sopping_carcass.lua",
+   "monster": "Sopping Carcass",
+   "item": "ripper lance",
+   "id": 3346,
+   "chance": 2071,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 338,
+    "loot_revid": 1195225,
+    "times": 7
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/rotten_blood/sopping_carcass.lua",
+   "monster": "Sopping Carcass",
+   "item": "rotten roots",
+   "id": 43849,
+   "chance": 5325,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 338,
+    "loot_revid": 1195225,
+    "times": 18
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/rotten_blood/sopping_carcass.lua",
+   "monster": "Sopping Carcass",
+   "item": "skull helmet",
+   "id": 5741,
+   "chance": 2367,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 338,
+    "loot_revid": 1195225,
+    "times": 8
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/rotten_blood/sopping_carcass.lua",
+   "monster": "Sopping Carcass",
+   "item": "soul orb",
+   "id": 5944,
+   "chance": 15976,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 338,
+    "loot_revid": 1195225,
+    "times": 54
+   },
+   "maxCount": 3
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/rotten_blood/sopping_carcass.lua",
+   "monster": "Sopping Carcass",
+   "item": "ultimate mana potion",
+   "id": 23373,
+   "chance": 4142,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 338,
+    "loot_revid": 1195225,
+    "times": 14
+   },
+   "maxCount": 3
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/rotten_blood/sopping_carcass.lua",
+   "monster": "Sopping Carcass",
+   "item": "underworld rod",
+   "id": 8082,
+   "chance": 2959,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 338,
+    "loot_revid": 1195225,
+    "times": 10
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/rotten_blood/sopping_carcass.lua",
+   "monster": "Sopping Carcass",
+   "item": "yellow gem",
+   "id": 3037,
+   "chance": 5325,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 338,
+    "loot_revid": 1195225,
+    "times": 18
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/quests/rotten_blood/sopping_corpus.lua",
    "monster": "Sopping Corpus",
@@ -4943,6 +7800,90 @@
     "version": "15.32.87b266",
     "kills": 381,
     "loot_revid": 1206611
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/soul_war/normal_monsters/distorted_phantom.lua",
+   "monster": "Distorted Phantom",
+   "item": "stone skin amulet",
+   "id": 3081,
+   "chance": 1726,
+   "source": {
+    "version": "15.00.249ccc",
+    "kills": 3128,
+    "loot_revid": 1212308,
+    "times": 54
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/soul_war/normal_monsters/furious_crater/courage_leech.lua",
+   "monster": "Courage Leech",
+   "item": "twiceslicer",
+   "id": 11657,
+   "chance": 617,
+   "source": {
+    "version": "12.66.10866",
+    "kills": 9892,
+    "loot_revid": 1193553,
+    "times": 61
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/soul_war/normal_monsters/furious_crater/vibrant_phantom.lua",
+   "monster": "Vibrant Phantom",
+   "item": "stone skin amulet",
+   "id": 3081,
+   "chance": 359,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 2231,
+    "loot_revid": 1193661,
+    "times": 8
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/soul_war/normal_monsters/infernal_phantom.lua",
+   "monster": "Infernal Phantom",
+   "item": "stone skin amulet",
+   "id": 3081,
+   "chance": 3665,
+   "source": {
+    "version": "15.11.b91244",
+    "kills": 191,
+    "loot_revid": 1197828,
+    "times": 7
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/soul_war/normal_monsters/knight's_apparition.lua",
+   "monster": "Knight's Apparition",
+   "item": "jade hammer",
+   "id": 7422,
+   "chance": 820,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 2072,
+    "loot_revid": 1212310,
+    "times": 17
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/soul_war/normal_monsters/turbulent_elemental.lua",
+   "monster": "Turbulent Elemental",
+   "item": "might ring",
+   "id": 3048,
+   "chance": 716,
+   "source": {
+    "version": "15.32.fc9100",
+    "kills": 1815,
+    "loot_revid": 1199857,
+    "times": 13
    }
   },
   {
@@ -5378,6 +8319,34 @@
    }
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/reptiles/naga_archer.lua",
+   "monster": "Naga Archer",
+   "item": "bullseye potion",
+   "id": 7443,
+   "chance": 226,
+   "source": {
+    "version": "13.22.14242",
+    "kills": 3102,
+    "loot_revid": 1210351,
+    "times": 7
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/reptiles/naga_archer.lua",
+   "monster": "Naga Archer",
+   "item": "gemmed figurine",
+   "id": 24392,
+   "chance": 258,
+   "source": {
+    "version": "13.22.14242",
+    "kills": 3102,
+    "loot_revid": 1210351,
+    "times": 8
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/reptiles/naga_warrior.lua",
    "monster": "Naga Warrior",
@@ -5546,6 +8515,20 @@
    }
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/undeads/blightwalker.lua",
+   "monster": "Blightwalker",
+   "item": "stone skin amulet",
+   "id": 3081,
+   "chance": 293,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 44683,
+    "loot_revid": 1212887,
+    "times": 131
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/undeads/blightwalker.lua",
    "monster": "Blightwalker",
@@ -5555,6 +8538,34 @@
     "version": "14.12.5229e4",
     "kills": 44683,
     "loot_revid": 1212887
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/undeads/blood_beast.lua",
+   "monster": "Blood Beast",
+   "item": "poisoned fang",
+   "id": 21195,
+   "chance": 15779,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 9183,
+    "loot_revid": 1212870,
+    "times": 1449
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/undeads/blood_beast.lua",
+   "monster": "Blood Beast",
+   "item": "stone skin amulet",
+   "id": 3081,
+   "chance": 98,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 9183,
+    "loot_revid": 1212870,
+    "times": 9
    }
   },
   {
@@ -5570,6 +8581,90 @@
    }
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/undeads/bonebeast.lua",
+   "monster": "Bonebeast",
+   "item": "stone skin amulet",
+   "id": 3081,
+   "chance": 99,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 7039,
+    "loot_revid": 1212910,
+    "times": 7
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/undeads/crypt_shambler.lua",
+   "monster": "Crypt Shambler",
+   "item": "two handed sword",
+   "id": 3265,
+   "chance": 1653,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 3086,
+    "loot_revid": 1212931,
+    "times": 51
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/undeads/crypt_warrior.lua",
+   "monster": "Crypt Warrior",
+   "item": "brown mushroom",
+   "id": 3725,
+   "chance": 3973,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 1460,
+    "loot_revid": 1209878,
+    "times": 58
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/undeads/crypt_warrior.lua",
+   "monster": "Crypt Warrior",
+   "item": "mace",
+   "id": 3286,
+   "chance": 2671,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 1460,
+    "loot_revid": 1209878,
+    "times": 39
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/undeads/crypt_warrior.lua",
+   "monster": "Crypt Warrior",
+   "item": "mammoth whopper",
+   "id": 7381,
+   "chance": 2192,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 1460,
+    "loot_revid": 1209878,
+    "times": 32
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/undeads/crypt_warrior.lua",
+   "monster": "Crypt Warrior",
+   "item": "stone skin amulet",
+   "id": 3081,
+   "chance": 753,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 1460,
+    "loot_revid": 1209878,
+    "times": 11
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/undeads/crypt_warrior.lua",
    "monster": "Crypt Warrior",
@@ -5582,6 +8677,35 @@
    }
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/undeads/cursed_ape.lua",
+   "monster": "Cursed Ape",
+   "item": "banana",
+   "id": 3587,
+   "chance": 40910,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 3537,
+    "loot_revid": 1212769,
+    "times": 1447
+   },
+   "maxCount": 12
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/undeads/cursed_ape.lua",
+   "monster": "Cursed Ape",
+   "item": "stone skin amulet",
+   "id": 3081,
+   "chance": 650,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 3537,
+    "loot_revid": 1212769,
+    "times": 23
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/undeads/cursed_ape.lua",
    "monster": "Cursed Ape",
@@ -5591,6 +8715,20 @@
     "version": "14.12.5229e4",
     "kills": 3537,
     "loot_revid": 1212769
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/undeads/cursed_prospector.lua",
+   "monster": "Cursed Prospector",
+   "item": "stone skin amulet",
+   "id": 3081,
+   "chance": 2813,
+   "source": {
+    "version": "15.03.afe753",
+    "kills": 2666,
+    "loot_revid": 1209883,
+    "times": 75
    }
   },
   {
@@ -5615,6 +8753,34 @@
     "version": "15.03.afe753",
     "kills": 2666,
     "loot_revid": 1209883
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/undeads/demon_skeleton.lua",
+   "monster": "Demon Skeleton",
+   "item": "stone skin amulet",
+   "id": 3081,
+   "chance": 61,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 8189,
+    "loot_revid": 1213437,
+    "times": 5
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/undeads/evil_prospector.lua",
+   "monster": "Evil Prospector",
+   "item": "stone skin amulet",
+   "id": 3081,
+   "chance": 3758,
+   "source": {
+    "version": "15.03.afe753",
+    "kills": 745,
+    "loot_revid": 1209920,
+    "times": 28
    }
   },
   {
@@ -5654,6 +8820,20 @@
    }
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/undeads/freakish_lost_soul.lua",
+   "monster": "Freakish Lost Soul",
+   "item": "stone skin amulet",
+   "id": 3081,
+   "chance": 261,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 2295,
+    "loot_revid": 1208099,
+    "times": 6
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/undeads/freakish_lost_soul.lua",
    "monster": "Freakish Lost Soul",
@@ -5690,6 +8870,20 @@
    }
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/undeads/grave_guard.lua",
+   "monster": "Grave Guard",
+   "item": "stone skin amulet",
+   "id": 3081,
+   "chance": 3659,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 164,
+    "loot_revid": 1201845,
+    "times": 6
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/undeads/grave_guard.lua",
    "monster": "Grave Guard",
@@ -5699,6 +8893,20 @@
     "version": "14.12.5229e4",
     "kills": 164,
     "loot_revid": 1201845
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/undeads/gravedigger.lua",
+   "monster": "Gravedigger",
+   "item": "stone skin amulet",
+   "id": 3081,
+   "chance": 4893,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 327,
+    "loot_revid": 1208575,
+    "times": 16
    }
   },
   {
@@ -5738,6 +8946,20 @@
    }
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/undeads/hand_of_cursed_fate.lua",
+   "monster": "Hand of Cursed Fate",
+   "item": "blue gem",
+   "id": 3041,
+   "chance": 990,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 606,
+    "loot_revid": 1212347,
+    "times": 6
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/undeads/hand_of_cursed_fate.lua",
    "monster": "Hand of Cursed Fate",
@@ -5750,6 +8972,34 @@
    }
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/undeads/honour_guard.lua",
+   "monster": "Honour Guard",
+   "item": "stone skin amulet",
+   "id": 3081,
+   "chance": 1384,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 3034,
+    "loot_revid": 1212792,
+    "times": 42
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/undeads/iks_ahpututu.lua",
+   "monster": "Iks Ahpututu",
+   "item": "stone skin amulet",
+   "id": 3081,
+   "chance": 5588,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 340,
+    "loot_revid": 1212664,
+    "times": 19
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/undeads/iks_ahpututu.lua",
    "monster": "Iks Ahpututu",
@@ -5759,6 +9009,20 @@
     "version": "14.12.5229e4",
     "kills": 340,
     "loot_revid": 1212664
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/undeads/iks_aucar.lua",
+   "monster": "Iks Aucar",
+   "item": "stone skin amulet",
+   "id": 3081,
+   "chance": 427,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 6799,
+    "loot_revid": 1212770,
+    "times": 29
    }
   },
   {
@@ -5783,6 +9047,34 @@
     "version": "14.12.5229e4",
     "kills": 6799,
     "loot_revid": 1212770
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/undeads/iks_chuka.lua",
+   "monster": "Iks Chuka",
+   "item": "gold ingot",
+   "id": 9058,
+   "chance": 1483,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 6069,
+    "loot_revid": 1212771,
+    "times": 90
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/undeads/iks_chuka.lua",
+   "monster": "Iks Chuka",
+   "item": "stone skin amulet",
+   "id": 3081,
+   "chance": 478,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 6069,
+    "loot_revid": 1212771,
+    "times": 29
    }
   },
   {
@@ -5822,6 +9114,20 @@
    }
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/undeads/iks_churrascan.lua",
+   "monster": "Iks Churrascan",
+   "item": "stone skin amulet",
+   "id": 3081,
+   "chance": 2549,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 1687,
+    "loot_revid": 1212667,
+    "times": 43
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/undeads/iks_churrascan.lua",
    "monster": "Iks Churrascan",
@@ -5831,6 +9137,48 @@
     "version": "14.12.5229e4",
     "kills": 1687,
     "loot_revid": 1212667
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/undeads/iks_pututu.lua",
+   "monster": "Iks Pututu",
+   "item": "ritual tooth",
+   "id": 40528,
+   "chance": 1151,
+   "source": {
+    "version": "15.00.249ccc",
+    "kills": 4518,
+    "loot_revid": 1212772,
+    "times": 52
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/undeads/iks_pututu.lua",
+   "monster": "Iks Pututu",
+   "item": "rotten feather",
+   "id": 40527,
+   "chance": 1284,
+   "source": {
+    "version": "15.00.249ccc",
+    "kills": 4518,
+    "loot_revid": 1212772,
+    "times": 58
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/undeads/iks_pututu.lua",
+   "monster": "Iks Pututu",
+   "item": "stone skin amulet",
+   "id": 3081,
+   "chance": 775,
+   "source": {
+    "version": "15.00.249ccc",
+    "kills": 4518,
+    "loot_revid": 1212772,
+    "times": 35
    }
   },
   {
@@ -5858,6 +9206,34 @@
    }
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/undeads/iks_yapunac.lua",
+   "monster": "Iks Yapunac",
+   "item": "ancient iks ritual chalice",
+   "id": 44432,
+   "chance": 187,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 4802,
+    "loot_revid": 1210218,
+    "times": 9
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/undeads/iks_yapunac.lua",
+   "monster": "Iks Yapunac",
+   "item": "yapunac dagger",
+   "id": 44440,
+   "chance": 13786,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 4802,
+    "loot_revid": 1210218,
+    "times": 662
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/undeads/lich.lua",
    "monster": "Lich",
@@ -5870,6 +9246,62 @@
    }
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/undeads/mummy.lua",
+   "monster": "Mummy",
+   "item": "stone skin amulet",
+   "id": 3081,
+   "chance": 91,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 6582,
+    "loot_revid": 1213442,
+    "times": 6
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/undeads/pirate_ghost.lua",
+   "monster": "Pirate Ghost",
+   "item": "stone skin amulet",
+   "id": 3081,
+   "chance": 1926,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 675,
+    "loot_revid": 1213024,
+    "times": 13
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/undeads/pirate_skeleton.lua",
+   "monster": "Pirate Skeleton",
+   "item": "stone skin amulet",
+   "id": 3081,
+   "chance": 3054,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 1408,
+    "loot_revid": 1213026,
+    "times": 43
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/undeads/putrid_mummy.lua",
+   "monster": "Putrid Mummy",
+   "item": "stone skin amulet",
+   "id": 3081,
+   "chance": 75,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 6668,
+    "loot_revid": 1212857,
+    "times": 5
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/undeads/putrid_mummy.lua",
    "monster": "Putrid Mummy",
@@ -5879,6 +9311,104 @@
     "version": "14.12.5229e4",
     "kills": 6668,
     "loot_revid": 1212857
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/undeads/ripper_spectre.lua",
+   "monster": "Ripper Spectre",
+   "item": "stone skin amulet",
+   "id": 3081,
+   "chance": 78,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 10222,
+    "loot_revid": 1211386,
+    "times": 8
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/undeads/skeleton_elite_warrior.lua",
+   "monster": "Skeleton Elite Warrior",
+   "item": "bone toothpick",
+   "id": 24380,
+   "chance": 5204,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 1883,
+    "loot_revid": 1212611,
+    "times": 98
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/undeads/skeleton_elite_warrior.lua",
+   "monster": "Skeleton Elite Warrior",
+   "item": "brown mushroom",
+   "id": 3725,
+   "chance": 2071,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 1883,
+    "loot_revid": 1212611,
+    "times": 39
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/undeads/skeleton_elite_warrior.lua",
+   "monster": "Skeleton Elite Warrior",
+   "item": "mace",
+   "id": 3286,
+   "chance": 1753,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 1883,
+    "loot_revid": 1212611,
+    "times": 33
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/undeads/skeleton_elite_warrior.lua",
+   "monster": "Skeleton Elite Warrior",
+   "item": "mammoth whopper",
+   "id": 7381,
+   "chance": 5364,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 1883,
+    "loot_revid": 1212611,
+    "times": 101
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/undeads/skeleton_elite_warrior.lua",
+   "monster": "Skeleton Elite Warrior",
+   "item": "stone skin amulet",
+   "id": 3081,
+   "chance": 319,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 1883,
+    "loot_revid": 1212611,
+    "times": 6
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/undeads/souleater.lua",
+   "monster": "Souleater",
+   "item": "stone skin amulet",
+   "id": 3081,
+   "chance": 130,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 4628,
+    "loot_revid": 1210033,
+    "times": 6
    }
   },
   {
@@ -5906,6 +9436,34 @@
    }
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/undeads/tarnished_spirit.lua",
+   "monster": "Tarnished Spirit",
+   "item": "stone skin amulet",
+   "id": 3081,
+   "chance": 4303,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 674,
+    "loot_revid": 1213450,
+    "times": 29
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/undeads/tomb_servant.lua",
+   "monster": "Tomb Servant",
+   "item": "stone skin amulet",
+   "id": 3081,
+   "chance": 1205,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 747,
+    "loot_revid": 1202113,
+    "times": 9
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/undeads/undead_cavebear.lua",
    "monster": "Undead Cavebear",
@@ -5915,6 +9473,34 @@
     "version": "8.6",
     "kills": 194,
     "loot_revid": 1184453
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/undeads/undead_dragon.lua",
+   "monster": "Undead Dragon",
+   "item": "blue gem",
+   "id": 3041,
+   "chance": 923,
+   "source": {
+    "version": "15.32.87b266",
+    "kills": 37807,
+    "loot_revid": 1212890,
+    "times": 349
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/undeads/undead_dragon.lua",
+   "monster": "Undead Dragon",
+   "item": "stone skin amulet",
+   "id": 3081,
+   "chance": 426,
+   "source": {
+    "version": "15.32.87b266",
+    "kills": 37807,
+    "loot_revid": 1212890,
+    "times": 161
    }
   },
   {
@@ -5942,6 +9528,20 @@
    }
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/undeads/undead_elite_gladiator.lua",
+   "monster": "Undead Elite Gladiator",
+   "item": "stone skin amulet",
+   "id": 3081,
+   "chance": 359,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 1950,
+    "loot_revid": 1212612,
+    "times": 7
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/undeads/undead_gladiator.lua",
    "monster": "Undead Gladiator",
@@ -5954,6 +9554,76 @@
    }
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/undeads/undead_mine_worker.lua",
+   "monster": "Undead Mine Worker",
+   "item": "stone skin amulet",
+   "id": 3081,
+   "chance": 4145,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 193,
+    "loot_revid": 1210656,
+    "times": 8
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/undeads/vampire.lua",
+   "monster": "Vampire",
+   "item": "stone skin amulet",
+   "id": 3081,
+   "chance": 58,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 12169,
+    "loot_revid": 1213063,
+    "times": 7
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/undeads/vampire_bride.lua",
+   "monster": "Vampire Bride",
+   "item": "mysterious voodoo skull",
+   "id": 5668,
+   "chance": 75,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 6651,
+    "loot_revid": 1206499,
+    "times": 5
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/undeads/vampire_bride.lua",
+   "monster": "Vampire Bride",
+   "item": "stone skin amulet",
+   "id": 3081,
+   "chance": 135,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 6651,
+    "loot_revid": 1206499,
+    "times": 9
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/undeads/vampire_viscount.lua",
+   "monster": "Vampire Viscount",
+   "item": "stone skin amulet",
+   "id": 3081,
+   "chance": 277,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 2526,
+    "loot_revid": 1206500,
+    "times": 7
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/undeads/vicious_manbat.lua",
    "monster": "Vicious Manbat",
@@ -5963,6 +9633,34 @@
     "version": "10.1",
     "kills": 262,
     "loot_revid": 1170302
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/undeads/white_shade.lua",
+   "monster": "White Shade",
+   "item": "stone skin amulet",
+   "id": 3081,
+   "chance": 4310,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 464,
+    "loot_revid": 1213451,
+    "times": 20
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/undeads/zombie.lua",
+   "monster": "Zombie",
+   "item": "stone skin amulet",
+   "id": 3081,
+   "chance": 753,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 5577,
+    "loot_revid": 1213453,
+    "times": 42
    }
   },
   {
@@ -6122,6 +9820,34 @@
    }
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/vermins/tarantula.lua",
+   "monster": "Tarantula",
+   "item": "monk robe",
+   "id": 50258,
+   "chance": 331,
+   "source": {
+    "version": "15.00.249ccc",
+    "kills": 15405,
+    "loot_revid": 1212671,
+    "times": 51
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/vermins/tremendous_tyrant.lua",
+   "monster": "Tremendous Tyrant",
+   "item": "lightning legs",
+   "id": 822,
+   "chance": 3758,
+   "source": {
+    "version": "12.85.11525",
+    "kills": 1783,
+    "loot_revid": 1207445,
+    "times": 67
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/vermins/tremendous_tyrant.lua",
    "monster": "Tremendous Tyrant",
@@ -6158,6 +9884,20 @@
    }
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/vermins/wiggler.lua",
+   "monster": "Wiggler",
+   "item": "green piece of cloth",
+   "id": 5910,
+   "chance": 809,
+   "source": {
+    "version": "15.24.95dcf3",
+    "kills": 865,
+    "loot_revid": 1209807,
+    "times": 7
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/vermins/wiggler.lua",
    "monster": "Wiggler",
@@ -6176,6 +9916,61 @@
    "item": "fish",
    "reason": "not stackable; maxCount has no effect",
    "wiki": 2
+  },
+  {
+   "monster": "Salamander",
+   "item": "insectoid eggs",
+   "reason": "old statistics (version 9.8)"
+  },
+  {
+   "monster": "Salamander",
+   "item": "insectoid egg",
+   "reason": "old statistics (version 9.8)"
+  },
+  {
+   "monster": "Deepling Brawler",
+   "item": "small emerald",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Quara Looter",
+   "item": "ring of orange plasma",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Quara Plunderer",
+   "item": "quara eye",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Quara Plunderer",
+   "item": "spellbook of mind control",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Quara Plunderer",
+   "item": "demon shield",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Quara Plunderer",
+   "item": "demonrage sword",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Renegade Quara Hydromancer",
+   "item": "giant shimmering pearl (green)",
+   "reason": "old statistics (version 10.7)"
+  },
+  {
+   "monster": "Renegade Quara Pincher",
+   "item": "giant shimmering pearl (brown)",
+   "reason": "old statistics (version 10.7)"
+  },
+  {
+   "monster": "Shark",
+   "item": "giant shimmering pearl (brown)",
+   "reason": "old statistics (version 9.4)"
   },
   {
    "monster": "Dire Penguin",
@@ -6926,6 +10721,30 @@
    "reason": "boss: reward chest loot, review by hand"
   },
   {
+   "monster": "The Flaming Orchid",
+   "item": "crystal ring",
+   "reason": "name resolves to 2 items",
+   "ids": [
+    3007,
+    6093
+   ]
+  },
+  {
+   "monster": "The Flaming Orchid",
+   "item": "rose milk cake",
+   "reason": "name resolves to 0 items",
+   "ids": []
+  },
+  {
+   "monster": "The Flaming Orchid",
+   "item": "death ring",
+   "reason": "name resolves to 2 items",
+   "ids": [
+    6299,
+    6300
+   ]
+  },
+  {
    "monster": "The Monster",
    "item": "platinum coin",
    "reason": "boss: reward chest loot, review by hand"
@@ -7031,6 +10850,11 @@
    "reason": "boss: reward chest loot, review by hand"
   },
   {
+   "monster": "Zavarash",
+   "item": "onyx flail",
+   "reason": "old statistics (version 10.5)"
+  },
+  {
    "monster": "Zevelon Duskbringer",
    "item": "gold coin",
    "reason": "boss: reward chest loot, review by hand"
@@ -7072,10 +10896,178 @@
    "wiki": 46
   },
   {
+   "monster": "Diamond Servant",
+   "item": "crystal pedestal (cyan)",
+   "reason": "old statistics (version 9.1)"
+  },
+  {
+   "monster": "Diamond Servant Replica",
+   "item": "platinum coin",
+   "reason": "currency: compare with the existing coin entries"
+  },
+  {
+   "monster": "Diamond Servant Replica",
+   "item": "crystal pedestal (cyan)",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Enraged Crystal Golem",
+   "item": "crystalline arrow",
+   "reason": "old statistics (version 9.6)"
+  },
+  {
+   "monster": "Golden Servant Replica",
+   "item": "platinum coin",
+   "reason": "currency: compare with the existing coin entries"
+  },
+  {
+   "monster": "Iron Servant",
+   "item": "health potion",
+   "reason": "old statistics (version 9.1)"
+  },
+  {
+   "monster": "Iron Servant Replica",
+   "item": "heavily rusted armor",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Walker",
+   "item": "small amethyst",
+   "reason": "old statistics (version 10.5)"
+  },
+  {
+   "monster": "Walker",
+   "item": "crystal mace",
+   "reason": "old statistics (version 10.5)"
+  },
+  {
+   "monster": "War Golem",
+   "item": "crystal pedestal (red)",
+   "reason": "name resolves to 0 items",
+   "ids": []
+  },
+  {
+   "monster": "Worker Golem",
+   "item": "crystal pedestal (cyan)",
+   "reason": "old statistics (version 9.1)"
+  },
+  {
+   "monster": "Juvenile Cyclops",
+   "item": "health potion",
+   "reason": "old statistics (version 10.93)"
+  },
+  {
    "monster": "Lesser Fire Devil",
    "item": "torch",
    "reason": "not stackable; maxCount has no effect",
    "wiki": 2
+  },
+  {
+   "monster": "Mountain Troll",
+   "item": "lightest missile rune",
+   "reason": "name resolves to 2 items",
+   "ids": [
+    21352,
+    21432
+   ]
+  },
+  {
+   "monster": "Muglex Clan Assassin",
+   "item": "rope",
+   "reason": "name resolves to 7 items",
+   "ids": [
+    3003,
+    6981,
+    6982,
+    6983,
+    7884,
+    7895,
+    31366
+   ]
+  },
+  {
+   "monster": "Muglex Clan Footman",
+   "item": "simple arrow",
+   "reason": "name resolves to 9 items",
+   "ids": [
+    21470,
+    22043,
+    22044,
+    22045,
+    22046,
+    22047,
+    22048,
+    22049,
+    22050
+   ]
+  },
+  {
+   "monster": "Muglex Clan Footman",
+   "item": "spellbook",
+   "reason": "name resolves to 2 items",
+   "ids": [
+    3059,
+    3101
+   ]
+  },
+  {
+   "monster": "Scar Tribe Warrior",
+   "item": "studded legs",
+   "reason": "old statistics (version 10.55)"
+  },
+  {
+   "monster": "Troll-Trained Salamander",
+   "item": "insectoid egg",
+   "reason": "old statistics (version 10.93)"
+  },
+  {
+   "monster": "Troll-Trained Salamander",
+   "item": "bow",
+   "reason": "old statistics (version 10.93)"
+  },
+  {
+   "monster": "Troll-Trained Salamander",
+   "item": "lightest missile rune",
+   "reason": "old statistics (version 10.93)"
+  },
+  {
+   "monster": "Troll-Trained Salamander",
+   "item": "spear",
+   "reason": "old statistics (version 10.93)"
+  },
+  {
+   "monster": "Woodling",
+   "item": "hatchet",
+   "reason": "old statistics (version 10.93)"
+  },
+  {
+   "monster": "Askarak Demon",
+   "item": "platinum coin",
+   "reason": "currency: compare with the existing coin entries"
+  },
+  {
+   "monster": "Brinebrute Inferniarch",
+   "item": "crystal coin",
+   "reason": "currency: compare with the existing coin entries"
+  },
+  {
+   "monster": "Dawnfire Asura",
+   "item": "red gem",
+   "reason": "name resolves to 2 items",
+   "ids": [
+    3039,
+    36706
+   ]
+  },
+  {
+   "monster": "Demon Outcast",
+   "item": "crown armor",
+   "reason": "old statistics (version 10.3)"
+  },
+  {
+   "monster": "Diabolic Imp",
+   "item": "platinum coin",
+   "reason": "currency: compare with the existing coin entries"
   },
   {
    "monster": "Floating Savant",
@@ -7084,10 +11076,65 @@
    "wiki": 4
   },
   {
+   "monster": "Floating Savant",
+   "item": "book of necromantic rituals",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Floating Savant",
+   "item": "black skull",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Hellfire Fighter",
+   "item": "platinum coin",
+   "reason": "currency: compare with the existing coin entries"
+  },
+  {
+   "monster": "Hellflayer",
+   "item": "giant shimmering pearl (green)",
+   "reason": "name resolves to 0 items",
+   "ids": []
+  },
+  {
+   "monster": "Juggernaut",
+   "item": "giant shimmering pearl (green)",
+   "reason": "name resolves to 0 items",
+   "ids": []
+  },
+  {
    "monster": "True Frost Flower Asura",
    "item": "oriental shoes",
    "reason": "not stackable; maxCount has no effect",
    "wiki": 2
+  },
+  {
+   "monster": "Dragolisk",
+   "item": "red gem",
+   "reason": "name resolves to 2 items",
+   "ids": [
+    3039,
+    36706
+   ]
+  },
+  {
+   "monster": "Dragon",
+   "item": "dragon trophy",
+   "reason": "name resolves to 2 items",
+   "ids": [
+    2681,
+    2682
+   ]
+  },
+  {
+   "monster": "Dragon Lord",
+   "item": "book (gemmed)",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Frost Dragon",
+   "item": "book (gemmed)",
+   "reason": "old statistics (version 8.6)"
   },
   {
    "monster": "Ghastly Dragon",
@@ -7102,9 +11149,800 @@
    "wiki": 2
   },
   {
+   "monster": "Mega Dragon",
+   "item": "ultimate health potion",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Mega Dragon",
+   "item": "ultimate mana potion",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Earth Elemental",
+   "item": "might ring",
+   "reason": "old statistics (version 9.1)"
+  },
+  {
+   "monster": "Foam Stalker",
+   "item": "giant shimmering pearl (green)",
+   "reason": "name resolves to 0 items",
+   "ids": []
+  },
+  {
+   "monster": "Foam Stalker",
+   "item": "collar of orange plasma",
+   "reason": "name resolves to 2 items",
+   "ids": [
+    50152,
+    50153
+   ]
+  },
+  {
+   "monster": "High Voltage Elemental",
+   "item": "energy ring",
+   "reason": "name resolves to 2 items",
+   "ids": [
+    3051,
+    3088
+   ]
+  },
+  {
+   "monster": "Massive Fire Elemental",
+   "item": "platinum coin",
+   "reason": "currency: compare with the existing coin entries"
+  },
+  {
+   "monster": "Sulphur Spouter",
+   "item": "giant shimmering pearl (green)",
+   "reason": "name resolves to 0 items",
+   "ids": []
+  },
+  {
+   "monster": "Grynch Clan Goblin",
+   "item": "snowman package",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Grynch Clan Goblin",
+   "item": "bottle",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Grynch Clan Goblin",
+   "item": "broom",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Grynch Clan Goblin",
+   "item": "watch",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Grynch Clan Goblin",
+   "item": "picture (landscape)",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Grynch Clan Goblin",
+   "item": "cream cake",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Grynch Clan Goblin",
+   "item": "rope",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Grynch Clan Goblin",
+   "item": "small white pillow",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Memory of a Book",
+   "item": "skull",
+   "reason": "name resolves to 24 items",
+   "ids": [
+    3114,
+    3132,
+    5015,
+    5016,
+    7558,
+    7563,
+    7568,
+    7569,
+    7574,
+    7575,
+    9175,
+    9590,
+    10876,
+    11959,
+    11960,
+    11965,
+    11966,
+    12194,
+    12198,
+    12200,
+    12201,
+    19081,
+    28489,
+    30207
+   ]
+  },
+  {
+   "monster": "Memory of a Carnisylvan",
+   "item": "wooden trash",
+   "reason": "name resolves to 9 items",
+   "ids": [
+    398,
+    3135,
+    3136,
+    3137,
+    3138,
+    3139,
+    3140,
+    4849,
+    34249
+   ]
+  },
+  {
+   "monster": "Memory of a Carnisylvan",
+   "item": "giant shimmering pearl",
+   "reason": "name resolves to 2 items",
+   "ids": [
+    281,
+    282
+   ]
+  },
+  {
+   "monster": "Memory of a Dwarf",
+   "item": "glacier mask",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Memory of a Dwarf",
+   "item": "double axe",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Memory of a Dwarf",
+   "item": "ring of healing",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Memory of a Faun",
+   "item": "candy floss (large)",
+   "reason": "name resolves to 0 items",
+   "ids": []
+  },
+  {
+   "monster": "Memory of a Frazzlemaw",
+   "item": "bone",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Memory of a Frazzlemaw",
+   "item": "fish tail",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Memory of a Frazzlemaw",
+   "item": "fish",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Memory of a Frazzlemaw",
+   "item": "crystal rubbish",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Memory of a Frazzlemaw",
+   "item": "big bone",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Memory of a Frazzlemaw",
+   "item": "bottle of champagne",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Memory of a Fungus",
+   "item": "strong mana potion",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Memory of a Fungus",
+   "item": "candy floss (large)",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Memory of a Golem",
+   "item": "ultimate health potion",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Memory of a Golem",
+   "item": "candy floss (large)",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Memory of a Hero",
+   "item": "scroll",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Memory of a Hero",
+   "item": "bow",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Memory of a Hydra",
+   "item": "ham",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Memory of a Lizard",
+   "item": "candy floss (large)",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Memory of a Lizard",
+   "item": "platinum coin",
+   "reason": "currency: compare with the existing coin entries"
+  },
+  {
+   "monster": "Memory of a Mammoth",
+   "item": "small topaz",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Memory of a Mammoth",
+   "item": "candy floss (large)",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Memory of a Pirate",
+   "item": "torch",
+   "reason": "name resolves to 15 items",
+   "ids": [
+    2920,
+    2922,
+    2924,
+    11039,
+    11040,
+    11041,
+    11042,
+    11048,
+    11050,
+    11054,
+    11055,
+    11058,
+    11059,
+    11060,
+    11061
+   ]
+  },
+  {
+   "monster": "Memory of a Scarab",
+   "item": "candy floss (large)",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Memory of a Shaper",
+   "item": "cave turnip",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Memory of a Shaper",
+   "item": "orichalcum pearl",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Memory of a Vampire",
+   "item": "platinum coin",
+   "reason": "currency: compare with the existing coin entries"
+  },
+  {
+   "monster": "Memory of a Vampire",
+   "item": "skull",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Memory of a Vampire",
+   "item": "candy floss (large)",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Memory of a Wolf",
+   "item": "gold coin",
+   "reason": "currency: compare with the existing coin entries"
+  },
+  {
+   "monster": "Memory of a Yalahari",
+   "item": "violet gem",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Memory of a Yalahari",
+   "item": "gold nugget",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Memory of an Amazon",
+   "item": "sabre",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Memory of an Amazon",
+   "item": "candy floss (large)",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Memory of an Amazon",
+   "item": "small ruby",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Memory of an Amazon",
+   "item": "special fx box",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Memory of an Elf",
+   "item": "scroll",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Memory of an Elf",
+   "item": "melon",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Memory of an Elf",
+   "item": "sling herb",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Memory of an Elf",
+   "item": "arrow",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Memory of an Elf",
+   "item": "candy floss (large)",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Memory of an Elf",
+   "item": "health potion",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Memory of an Elf",
+   "item": "sandals",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Memory of an Elf",
+   "item": "grave flower",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Memory of an Insectoid",
+   "item": "candy floss (large)",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Memory of an Insectoid",
+   "item": "green gem",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Memory of an Ogre",
+   "item": "meat",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Memory of an Ogre",
+   "item": "cookie",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Memory of an Ogre",
+   "item": "candy floss (large)",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
    "monster": "The Mutated Pumpkin",
    "item": "pumpkin",
    "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Breach Brood",
+   "item": "ring of green plasma",
+   "reason": "name resolves to 2 items",
+   "ids": [
+    23531,
+    23532
+   ]
+  },
+  {
+   "monster": "Breach Brood",
+   "item": "ring of blue plasma",
+   "reason": "name resolves to 2 items",
+   "ids": [
+    23529,
+    23530
+   ]
+  },
+  {
+   "monster": "Breach Brood",
+   "item": "ring of orange plasma",
+   "reason": "name resolves to 2 items",
+   "ids": [
+    50150,
+    50151
+   ]
+  },
+  {
+   "monster": "Breach Brood",
+   "item": "ring of red plasma",
+   "reason": "name resolves to 2 items",
+   "ids": [
+    23533,
+    23534
+   ]
+  },
+  {
+   "monster": "Breach Brood",
+   "item": "collar of green plasma",
+   "reason": "name resolves to 2 items",
+   "ids": [
+    23527,
+    23543
+   ]
+  },
+  {
+   "monster": "Breach Brood",
+   "item": "collar of orange plasma",
+   "reason": "name resolves to 2 items",
+   "ids": [
+    50152,
+    50153
+   ]
+  },
+  {
+   "monster": "Dread Intruder",
+   "item": "ring of orange plasma",
+   "reason": "name resolves to 2 items",
+   "ids": [
+    50150,
+    50151
+   ]
+  },
+  {
+   "monster": "Dread Intruder",
+   "item": "ring of green plasma",
+   "reason": "name resolves to 2 items",
+   "ids": [
+    23531,
+    23532
+   ]
+  },
+  {
+   "monster": "Dread Intruder",
+   "item": "collar of red plasma",
+   "reason": "name resolves to 2 items",
+   "ids": [
+    23528,
+    23544
+   ]
+  },
+  {
+   "monster": "Dread Intruder",
+   "item": "collar of orange plasma",
+   "reason": "name resolves to 2 items",
+   "ids": [
+    50152,
+    50153
+   ]
+  },
+  {
+   "monster": "Instable Sparkion",
+   "item": "cyan crystal fragment",
+   "reason": "old statistics (version 11.41)"
+  },
+  {
+   "monster": "Instable Sparkion",
+   "item": "small sapphire",
+   "reason": "old statistics (version 11.41)"
+  },
+  {
+   "monster": "Instable Sparkion",
+   "item": "wand of cosmic energy",
+   "reason": "old statistics (version 11.41)"
+  },
+  {
+   "monster": "Mitmah Scout",
+   "item": "ceremonial brush",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Mitmah Seer",
+   "item": "ceremonial brush",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Reality Reaver",
+   "item": "ring of red plasma",
+   "reason": "name resolves to 2 items",
+   "ids": [
+    23533,
+    23534
+   ]
+  },
+  {
+   "monster": "Reality Reaver",
+   "item": "collar of orange plasma",
+   "reason": "name resolves to 2 items",
+   "ids": [
+    50152,
+    50153
+   ]
+  },
+  {
+   "monster": "Reality Reaver",
+   "item": "ring of orange plasma",
+   "reason": "name resolves to 2 items",
+   "ids": [
+    50150,
+    50151
+   ]
+  },
+  {
+   "monster": "Reality Reaver",
+   "item": "collar of blue plasma",
+   "reason": "name resolves to 2 items",
+   "ids": [
+    23526,
+    23542
+   ]
+  },
+  {
+   "monster": "Sparkion",
+   "item": "ring of orange plasma",
+   "reason": "name resolves to 2 items",
+   "ids": [
+    50150,
+    50151
+   ]
+  },
+  {
+   "monster": "Sparkion",
+   "item": "collar of orange plasma",
+   "reason": "name resolves to 2 items",
+   "ids": [
+    50152,
+    50153
+   ]
+  },
+  {
+   "monster": "Stabilizing Dread Intruder",
+   "item": "violet gem",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Stabilizing Reality Reaver",
+   "item": "lightning headband",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Stabilizing Reality Reaver",
+   "item": "focus cape",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Dark Faun",
+   "item": "die",
+   "reason": "name resolves to 6 items",
+   "ids": [
+    5792,
+    5793,
+    5794,
+    5795,
+    5796,
+    5797
+   ]
+  },
+  {
+   "monster": "Dryad",
+   "item": "white mushroom",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Dryad",
+   "item": "seeds",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Dryad",
+   "item": "coconut shoes",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Dryad",
+   "item": "leaf legs",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Dryad",
+   "item": "flower wreath",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Dryad",
+   "item": "flower dress",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Dryad",
+   "item": "orange mushroom",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Dryad",
+   "item": "carrot on a stick",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Dryad",
+   "item": "small amethyst",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Pooka",
+   "item": "cookie",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Cyclops",
+   "item": "old rag",
+   "reason": "old statistics (version 11.02)"
+  },
+  {
+   "monster": "Ogre Brute",
+   "item": "small stone",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Ogre Brute",
+   "item": "club ring",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Ogre Brute",
+   "item": "ancient stone",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Ogre Rowdy",
+   "item": "giant shimmering pearl (brown)",
+   "reason": "name resolves to 0 items",
+   "ids": []
+  },
+  {
+   "monster": "Ogre Ruffian",
+   "item": "red gem",
+   "reason": "name resolves to 2 items",
+   "ids": [
+    3039,
+    36706
+   ]
+  },
+  {
+   "monster": "Ogre Savage",
+   "item": "ogre choppa",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Ogre Shaman",
+   "item": "onyx chip",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Broken Shaper",
+   "item": "rusted armor",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Broken Shaper",
+   "item": "coral brooch",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Broken Shaper",
+   "item": "white piece of cloth",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Broken Shaper",
+   "item": "green piece of cloth",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Broken Shaper",
+   "item": "red piece of cloth",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Bulltaur Alchemist",
+   "item": "bulltaur horn",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Bulltaur Alchemist",
+   "item": "encrypted notes",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Bulltaur Alchemist",
+   "item": "strange substance",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Bulltaur Brute",
+   "item": "bulltaur horn",
+   "reason": "name resolves to 0 items",
+   "ids": []
+  },
+  {
+   "monster": "Bulltaur Brute",
+   "item": "bulltaur armor scrap",
+   "reason": "name resolves to 0 items",
+   "ids": []
+  },
+  {
+   "monster": "Bulltaur Brute",
+   "item": "bulltaur hoof",
+   "reason": "name resolves to 0 items",
+   "ids": []
+  },
+  {
+   "monster": "Bulltaur Forgepriest",
+   "item": "bulltaur horn",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Bulltaur Forgepriest",
+   "item": "staff piece",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Bulltaur Forgepriest",
+   "item": "idol of the forge",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Crazed Winter Rearguard",
+   "item": "ice flower (item)",
+   "reason": "name resolves to 0 items",
+   "ids": []
+  },
+  {
+   "monster": "Crazed Winter Vanguard",
+   "item": "ice flower (item)",
+   "reason": "name resolves to 0 items",
+   "ids": []
+  },
+  {
+   "monster": "Dworc Fleshhunter",
+   "item": "leather armor",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Dworc Venomsniper",
+   "item": "throwing knife",
+   "reason": "old statistics (version 8.6)"
   },
   {
    "monster": "Insane Siren",
@@ -7113,10 +11951,507 @@
    "wiki": 2
   },
   {
+   "monster": "Lost Basher",
+   "item": "wimp tooth chain",
+   "reason": "old statistics (version 9.8)"
+  },
+  {
+   "monster": "Lost Basher",
+   "item": "red hair dye",
+   "reason": "old statistics (version 9.8)"
+  },
+  {
+   "monster": "Lost Basher",
+   "item": "bone fetish",
+   "reason": "old statistics (version 9.8)"
+  },
+  {
+   "monster": "Lost Basher",
+   "item": "dwarven ring",
+   "reason": "old statistics (version 9.8)"
+  },
+  {
+   "monster": "Lost Basher",
+   "item": "knight axe",
+   "reason": "old statistics (version 9.8)"
+  },
+  {
+   "monster": "Lost Husher",
+   "item": "holy ash",
+   "reason": "old statistics (version 9.8)"
+  },
+  {
+   "monster": "Lost Husher",
+   "item": "lost husher's staff",
+   "reason": "old statistics (version 9.8)"
+  },
+  {
+   "monster": "Lost Husher",
+   "item": "bone fetish",
+   "reason": "old statistics (version 9.8)"
+  },
+  {
+   "monster": "Lost Husher",
+   "item": "basalt fetish",
+   "reason": "old statistics (version 9.8)"
+  },
+  {
+   "monster": "Lost Husher",
+   "item": "dwarven ring",
+   "reason": "old statistics (version 9.8)"
+  },
+  {
+   "monster": "Lost Husher",
+   "item": "knight axe",
+   "reason": "old statistics (version 9.8)"
+  },
+  {
+   "monster": "Lost Thrower",
+   "item": "red hair dye",
+   "reason": "old statistics (version 9.8)"
+  },
+  {
+   "monster": "Lost Thrower",
+   "item": "bloody dwarven beard",
+   "reason": "old statistics (version 9.8)"
+  },
+  {
+   "monster": "Minotaur Amazon",
+   "item": "minotaur trophy",
+   "reason": "old statistics (version 10.5)"
+  },
+  {
+   "monster": "Minotaur Bruiser",
+   "item": "studded armor",
+   "reason": "old statistics (version 10.93)"
+  },
+  {
+   "monster": "Minotaur Cult Follower",
+   "item": "gold ingot",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Minotaur Cult Follower",
+   "item": "minotaur trophy",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Minotaur Cult Prophet",
+   "item": "minotaur trophy",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Minotaur Invader",
+   "item": "platinum coin",
+   "reason": "currency: compare with the existing coin entries"
+  },
+  {
+   "monster": "Minotaur Invader",
+   "item": "small topaz",
+   "reason": "old statistics (version 10.7)"
+  },
+  {
+   "monster": "Minotaur Invader",
+   "item": "small amethyst",
+   "reason": "old statistics (version 10.7)"
+  },
+  {
+   "monster": "Minotaur Invader",
+   "item": "small ruby",
+   "reason": "old statistics (version 10.7)"
+  },
+  {
+   "monster": "Minotaur Invader",
+   "item": "mooh'tah plate",
+   "reason": "old statistics (version 10.7)"
+  },
+  {
+   "monster": "Minotaur Invader",
+   "item": "blue piece of cloth",
+   "reason": "old statistics (version 10.7)"
+  },
+  {
+   "monster": "Minotaur Invader",
+   "item": "guardian shield",
+   "reason": "old statistics (version 10.7)"
+  },
+  {
+   "monster": "Minotaur Invader",
+   "item": "red gem",
+   "reason": "old statistics (version 10.7)"
+  },
+  {
+   "monster": "Minotaur Invader",
+   "item": "red piece of cloth",
+   "reason": "old statistics (version 10.7)"
+  },
+  {
+   "monster": "Minotaur Invader",
+   "item": "knight axe",
+   "reason": "old statistics (version 10.7)"
+  },
+  {
+   "monster": "Minotaur Invader",
+   "item": "warrior helmet",
+   "reason": "old statistics (version 10.7)"
+  },
+  {
+   "monster": "Minotaur Invader",
+   "item": "titan axe",
+   "reason": "old statistics (version 10.7)"
+  },
+  {
+   "monster": "Minotaur Invader",
+   "item": "blue gem",
+   "reason": "old statistics (version 10.7)"
+  },
+  {
+   "monster": "Moohtant",
+   "item": "red gem",
+   "reason": "old statistics (version 10.5)"
+  },
+  {
    "monster": "Orc Rider",
    "item": "orcish axe",
    "reason": "not stackable; maxCount has no effect",
    "wiki": 2
+  },
+  {
+   "monster": "Orc Shaman",
+   "item": "book (grey)",
+   "reason": "old statistics (version 11.02)"
+  },
+  {
+   "monster": "Shaper Matriarch",
+   "item": "rusted helmet",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Soul-Broken Harbinger",
+   "item": "ice flower (item)",
+   "reason": "name resolves to 0 items",
+   "ids": []
+  },
+  {
+   "monster": "Twisted Shaper",
+   "item": "vortex bolt",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Twisted Shaper",
+   "item": "gemmed figurine",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Twisted Shaper",
+   "item": "piggy bank",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Twisted Shaper",
+   "item": "piece of marble rock",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Worm Priestess",
+   "item": "small sapphire",
+   "reason": "old statistics (version 10.5)"
+  },
+  {
+   "monster": "Young Troll",
+   "item": "spear",
+   "reason": "old statistics (version 9.63)"
+  },
+  {
+   "monster": "Young Troll",
+   "item": "leather helmet",
+   "reason": "old statistics (version 9.63)"
+  },
+  {
+   "monster": "Young Troll",
+   "item": "leather boots",
+   "reason": "old statistics (version 9.63)"
+  },
+  {
+   "monster": "Young Troll",
+   "item": "wooden shield",
+   "reason": "old statistics (version 9.63)"
+  },
+  {
+   "monster": "Acolyte of the Cult",
+   "item": "book (orange)",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Acolyte of the Cult",
+   "item": "music sheet (second verse)",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Adept of the Cult",
+   "item": "book (orange)",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Adept of the Cult",
+   "item": "music sheet (third verse)",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Assassin",
+   "item": "throwing star",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Barbarian Brutetamer",
+   "item": "book (grey)",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Barbarian Skullhunter",
+   "item": "ring of orange plasma",
+   "reason": "name resolves to 2 items",
+   "ids": [
+    50150,
+    50151
+   ]
+  },
+  {
+   "monster": "Blood Priest",
+   "item": "noble axe",
+   "reason": "old statistics (version 10.1)"
+  },
+  {
+   "monster": "Cobra Vizier",
+   "item": "giant shimmering pearl (brown)",
+   "reason": "name resolves to 0 items",
+   "ids": []
+  },
+  {
+   "monster": "Dark Apprentice",
+   "item": "dead frog",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Dark Magician",
+   "item": "small enchanted amethyst",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Dark Magician",
+   "item": "necrotic rod",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Enlightened of the Cult",
+   "item": "book (orange)",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Enlightened of the Cult",
+   "item": "music sheet (fourth verse)",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Enlightened of the Cult",
+   "item": "mysterious voodoo skull",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Gang Member",
+   "item": "mace",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Gang Member",
+   "item": "brown bread",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Glooth Bandit",
+   "item": "terra hood",
+   "reason": "old statistics (version 10.7)"
+  },
+  {
+   "monster": "Glooth Brigand",
+   "item": "giant shimmering pearl (green)",
+   "reason": "old statistics (version 10.7)"
+  },
+  {
+   "monster": "Glooth Brigand",
+   "item": "glooth blade",
+   "reason": "old statistics (version 10.7)"
+  },
+  {
+   "monster": "Glooth Brigand",
+   "item": "glooth axe",
+   "reason": "old statistics (version 10.7)"
+  },
+  {
+   "monster": "Glooth Brigand",
+   "item": "terra legs",
+   "reason": "old statistics (version 10.7)"
+  },
+  {
+   "monster": "Mad Scientist",
+   "item": "powder herb",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Mad Scientist",
+   "item": "cream cake",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Monk of the Order",
+   "item": "bread",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Monk of the Order",
+   "item": "gold coin",
+   "reason": "currency: compare with the existing coin entries"
+  },
+  {
+   "monster": "Monk of the Order",
+   "item": "book of prayers",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Monk of the Order",
+   "item": "rope belt",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Monk of the Order",
+   "item": "ankh",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Monk of the Order",
+   "item": "brown flask",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Monk of the Order",
+   "item": "scroll",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Novice of the Cult",
+   "item": "music sheet (first verse)",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Novice of the Cult",
+   "item": "book (orange)",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Pirate Buccaneer",
+   "item": "treasure map (pirate)",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Pirate Cutthroat",
+   "item": "treasure map (pirate)",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Pirate Marauder",
+   "item": "treasure map (pirate)",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Poisonous Carnisylvan",
+   "item": "wooden trash",
+   "reason": "name resolves to 9 items",
+   "ids": [
+    398,
+    3135,
+    3136,
+    3137,
+    3138,
+    3139,
+    3140,
+    4849,
+    34249
+   ]
+  },
+  {
+   "monster": "Poisonous Carnisylvan",
+   "item": "giant shimmering pearl (green)",
+   "reason": "name resolves to 0 items",
+   "ids": []
+  },
+  {
+   "monster": "Priestess",
+   "item": "book (orange)",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Renegade Knight",
+   "item": "platinum coin",
+   "reason": "currency: compare with the existing coin entries"
+  },
+  {
+   "monster": "Renegade Knight",
+   "item": "two handed sword",
+   "reason": "old statistics (version 10.8)"
+  },
+  {
+   "monster": "Renegade Knight",
+   "item": "small ruby",
+   "reason": "old statistics (version 10.8)"
+  },
+  {
+   "monster": "Renegade Knight",
+   "item": "red piece of cloth",
+   "reason": "old statistics (version 10.8)"
+  },
+  {
+   "monster": "Renegade Knight",
+   "item": "war hammer",
+   "reason": "old statistics (version 10.8)"
+  },
+  {
+   "monster": "Renegade Knight",
+   "item": "piggy bank",
+   "reason": "old statistics (version 10.8)"
+  },
+  {
+   "monster": "Usurper Archer",
+   "item": "giant shimmering pearl (green)",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Usurper Knight",
+   "item": "collar of orange plasma",
+   "reason": "name resolves to 2 items",
+   "ids": [
+    50152,
+    50153
+   ]
+  },
+  {
+   "monster": "Usurper Warlock",
+   "item": "giant shimmering pearl (green)",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Vicious Squire",
+   "item": "small amethyst",
+   "reason": "old statistics (version 10.8)"
+  },
+  {
+   "monster": "Vicious Squire",
+   "item": "small emerald",
+   "reason": "old statistics (version 10.8)"
+  },
+  {
+   "monster": "Vicious Squire",
+   "item": "piggy bank",
+   "reason": "old statistics (version 10.8)"
   },
   {
    "monster": "Vile Grandmaster",
@@ -7125,10 +12460,86 @@
    "wiki": 174
   },
   {
+   "monster": "Vile Grandmaster",
+   "item": "piggy bank",
+   "reason": "old statistics (version 10.8)"
+  },
+  {
+   "monster": "Feral Werecrocodile",
+   "item": "ring of orange plasma",
+   "reason": "name resolves to 2 items",
+   "ids": [
+    50150,
+    50151
+   ]
+  },
+  {
+   "monster": "White Weretiger",
+   "item": "ring of orange plasma",
+   "reason": "name resolves to 2 items",
+   "ids": [
+    50150,
+    50151
+   ]
+  },
+  {
+   "monster": "Blue Djinn",
+   "item": "book (blue)",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Brain Squid",
+   "item": "inkwell (black)",
+   "reason": "name resolves to 0 items",
+   "ids": []
+  },
+  {
    "monster": "Brain Squid",
    "item": "lightning headband",
    "reason": "not stackable; maxCount has no effect",
    "wiki": 2
+  },
+  {
+   "monster": "Candy Horror",
+   "item": "red gem",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Feversleep",
+   "item": "small ruby",
+   "reason": "old statistics (version 10.3)"
+  },
+  {
+   "monster": "Feversleep",
+   "item": "cluster of solace",
+   "reason": "old statistics (version 10.3)"
+  },
+  {
+   "monster": "Frazzlemaw",
+   "item": "sai",
+   "reason": "name resolves to 0 items",
+   "ids": []
+  },
+  {
+   "monster": "Gargoyle",
+   "item": "small stone",
+   "reason": "old statistics (version 9.86)"
+  },
+  {
+   "monster": "Green Djinn",
+   "item": "small oil lamp",
+   "reason": "old statistics (version 8.54)"
+  },
+  {
+   "monster": "Green Djinn",
+   "item": "book (green)",
+   "reason": "old statistics (version 8.54)"
+  },
+  {
+   "monster": "Guzzlemaw",
+   "item": "sai",
+   "reason": "name resolves to 0 items",
+   "ids": []
   },
   {
    "monster": "Lamassu",
@@ -7137,10 +12548,83 @@
    "wiki": 2
   },
   {
+   "monster": "Lumbering Carnivor",
+   "item": "giant shimmering pearl (brown)",
+   "reason": "name resolves to 0 items",
+   "ids": []
+  },
+  {
+   "monster": "Nibblemaw",
+   "item": "strong health potion",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Nibblemaw",
+   "item": "onyx chip",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Rage Squid",
+   "item": "inkwell (black)",
+   "reason": "name resolves to 0 items",
+   "ids": []
+  },
+  {
+   "monster": "Squid Warden",
+   "item": "inkwell (black)",
+   "reason": "name resolves to 0 items",
+   "ids": []
+  },
+  {
+   "monster": "Terrorsleep",
+   "item": "collar of orange plasma",
+   "reason": "name resolves to 2 items",
+   "ids": [
+    50152,
+    50153
+   ]
+  },
+  {
+   "monster": "Gore Horn",
+   "item": "gore horn (item)",
+   "reason": "name resolves to 0 items",
+   "ids": []
+  },
+  {
    "monster": "Mutated Tiger",
    "item": "life ring",
    "reason": "not stackable; maxCount has no effect",
    "wiki": 2
+  },
+  {
+   "monster": "Stone Rhino",
+   "item": "tusk shield",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "War Wolf",
+   "item": "wolf trophy",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "White Lion",
+   "item": "yellow gem",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Omnivora",
+   "item": "death ring",
+   "reason": "old statistics (version 10.8)"
+  },
+  {
+   "monster": "Spit Nettle",
+   "item": "grave flower",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Spit Nettle",
+   "item": "seeds",
+   "reason": "old statistics (version 8.6)"
   },
   {
    "monster": "Ratmiral Blackwhiskers",
@@ -7281,6 +12765,11 @@
    "monster": "Vashresamun",
    "item": "great mana potion",
    "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Barkless Fanatic",
+   "item": "torn shirt",
+   "reason": "old statistics (version 8.6)"
   },
   {
    "monster": "Essence of Malice",
@@ -7763,6 +13252,86 @@
    "reason": "boss: reward chest loot, review by hand"
   },
   {
+   "monster": "Cult Believer",
+   "item": "cultish robe",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Cult Believer",
+   "item": "small amethyst",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Cult Believer",
+   "item": "small emerald",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Cult Believer",
+   "item": "piggy bank",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Cult Enforcer",
+   "item": "cultish robe",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Cult Enforcer",
+   "item": "small emerald",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Cult Enforcer",
+   "item": "small amethyst",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Cult Scholar",
+   "item": "cultish robe",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Cult Scholar",
+   "item": "small amethyst",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Cult Scholar",
+   "item": "small emerald",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Goldhanded Cultist",
+   "item": "platinum coin",
+   "reason": "currency: compare with the existing coin entries"
+  },
+  {
+   "monster": "Misguided Thief",
+   "item": "stone skin amulet",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Misguided Thief",
+   "item": "gold ring",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Orc Cult Priest",
+   "item": "berserk potion",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Orc Cult Priest",
+   "item": "wand of decay",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Orc Cultist",
+   "item": "berserk potion",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
    "monster": "Ancient Spawn of Morgathla",
    "item": "platinum coin",
    "reason": "boss: reward chest loot, review by hand"
@@ -8013,6 +13582,46 @@
    "reason": "boss: reward chest loot, review by hand"
   },
   {
+   "monster": "Depowered Minotaur",
+   "item": "strong mana potion",
+   "reason": "old statistics (version 10.7)"
+  },
+  {
+   "monster": "Depowered Minotaur",
+   "item": "meat",
+   "reason": "old statistics (version 10.7)"
+  },
+  {
+   "monster": "Depowered Minotaur",
+   "item": "small ruby",
+   "reason": "old statistics (version 10.7)"
+  },
+  {
+   "monster": "Depowered Minotaur",
+   "item": "small emerald",
+   "reason": "old statistics (version 10.7)"
+  },
+  {
+   "monster": "Depowered Minotaur",
+   "item": "small diamond",
+   "reason": "old statistics (version 10.7)"
+  },
+  {
+   "monster": "Depowered Minotaur",
+   "item": "mooh'tah plate",
+   "reason": "old statistics (version 10.7)"
+  },
+  {
+   "monster": "Depowered Minotaur",
+   "item": "club ring",
+   "reason": "old statistics (version 10.7)"
+  },
+  {
+   "monster": "Depowered Minotaur",
+   "item": "cowtana",
+   "reason": "old statistics (version 10.7)"
+  },
+  {
    "monster": "The Ravager",
    "item": "black pearl",
    "reason": "boss: reward chest loot, review by hand"
@@ -8169,6 +13778,21 @@
    "monster": "Vok the Freakish",
    "item": "emerald bangle",
    "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Ferumbras Mortal Shell",
+   "item": "ferumbras' staff (blunt)",
+   "reason": "name resolves to 0 items",
+   "ids": []
+  },
+  {
+   "monster": "Ferumbras Mortal Shell",
+   "item": "rift lamp",
+   "reason": "name resolves to 2 items",
+   "ids": [
+    22725,
+    22734
+   ]
   },
   {
    "monster": "Mazoran",
@@ -10026,6 +15650,51 @@
    "reason": "boss: reward chest loot, review by hand"
   },
   {
+   "monster": "Tentacle of the Deep Terror",
+   "item": "platinum coin",
+   "reason": "currency: compare with the existing coin entries"
+  },
+  {
+   "monster": "Demodras",
+   "item": "book (gemmed)",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Ethershreck",
+   "item": "sai",
+   "reason": "old statistics (version 9.5)"
+  },
+  {
+   "monster": "Ethershreck",
+   "item": "guardian boots",
+   "reason": "old statistics (version 9.5)"
+  },
+  {
+   "monster": "Ethershreck",
+   "item": "zaoan sword",
+   "reason": "old statistics (version 9.5)"
+  },
+  {
+   "monster": "Fleshcrawler",
+   "item": "knight armor",
+   "reason": "old statistics (version 9.2)"
+  },
+  {
+   "monster": "Shardhead",
+   "item": "platinum coin",
+   "reason": "currency: compare with the existing coin entries"
+  },
+  {
+   "monster": "Shardhead",
+   "item": "small sapphire",
+   "reason": "old statistics (version 9.2)"
+  },
+  {
+   "monster": "Shardhead",
+   "item": "small diamond",
+   "reason": "old statistics (version 9.2)"
+  },
+  {
    "monster": "Shardhead",
    "item": "ice cube",
    "reason": "not stackable; maxCount has no effect",
@@ -10036,6 +15705,26 @@
    "item": "assassin star",
    "reason": "jump from 2 to 95 is too large to trust",
    "wiki": 95
+  },
+  {
+   "monster": "The Bloodweb",
+   "item": "platinum coin",
+   "reason": "currency: compare with the existing coin entries"
+  },
+  {
+   "monster": "The Bloodweb",
+   "item": "ice cube",
+   "reason": "old statistics (version 9.2)"
+  },
+  {
+   "monster": "The Bloodweb",
+   "item": "sai",
+   "reason": "old statistics (version 9.2)"
+  },
+  {
+   "monster": "The Snapper",
+   "item": "life ring",
+   "reason": "old statistics (version 9.2)"
   },
   {
    "monster": "Bragrumol",
@@ -10194,6 +15883,16 @@
    "reason": "boss: reward chest loot, review by hand"
   },
   {
+   "monster": "Horadron",
+   "item": "butcher's axe",
+   "reason": "old statistics (version 10.3)"
+  },
+  {
+   "monster": "Horadron",
+   "item": "spellscroll of prophecies",
+   "reason": "old statistics (version 10.3)"
+  },
+  {
    "monster": "Omrafir",
    "item": "platinum coin",
    "reason": "boss: reward chest loot, review by hand"
@@ -10242,6 +15941,125 @@
    "monster": "Omrafir",
    "item": "blue crystal shard",
    "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Terofar",
+   "item": "small diamond",
+   "reason": "old statistics (version 10.5)"
+  },
+  {
+   "monster": "Terofar",
+   "item": "small ruby",
+   "reason": "old statistics (version 10.5)"
+  },
+  {
+   "monster": "Terofar",
+   "item": "small topaz",
+   "reason": "old statistics (version 10.5)"
+  },
+  {
+   "monster": "Terofar",
+   "item": "small sapphire",
+   "reason": "old statistics (version 10.5)"
+  },
+  {
+   "monster": "Terofar",
+   "item": "small amethyst",
+   "reason": "old statistics (version 10.5)"
+  },
+  {
+   "monster": "Terofar",
+   "item": "small emerald",
+   "reason": "old statistics (version 10.5)"
+  },
+  {
+   "monster": "Bloated Man-Maggot",
+   "item": "life ring",
+   "reason": "name resolves to 2 items",
+   "ids": [
+    3052,
+    3089
+   ]
+  },
+  {
+   "monster": "Converter",
+   "item": "darklight core (object)",
+   "reason": "name resolves to 0 items",
+   "ids": []
+  },
+  {
+   "monster": "Converter",
+   "item": "darklight matter (object)",
+   "reason": "name resolves to 0 items",
+   "ids": []
+  },
+  {
+   "monster": "Darklight Construct",
+   "item": "darklight core (object)",
+   "reason": "name resolves to 0 items",
+   "ids": []
+  },
+  {
+   "monster": "Darklight Emitter",
+   "item": "darklight core (object)",
+   "reason": "name resolves to 0 items",
+   "ids": []
+  },
+  {
+   "monster": "Darklight Matter",
+   "item": "darklight core (object)",
+   "reason": "name resolves to 0 items",
+   "ids": []
+  },
+  {
+   "monster": "Darklight Matter",
+   "item": "darklight matter (object)",
+   "reason": "name resolves to 0 items",
+   "ids": []
+  },
+  {
+   "monster": "Darklight Source",
+   "item": "darklight core (object)",
+   "reason": "name resolves to 0 items",
+   "ids": []
+  },
+  {
+   "monster": "Darklight Striker",
+   "item": "darklight core (object)",
+   "reason": "name resolves to 0 items",
+   "ids": []
+  },
+  {
+   "monster": "Sopping Carcass",
+   "item": "crystal coin",
+   "reason": "currency: compare with the existing coin entries"
+  },
+  {
+   "monster": "Sopping Carcass",
+   "item": "lichen gobbler",
+   "reason": "name resolves to 0 items",
+   "ids": []
+  },
+  {
+   "monster": "Sopping Carcass",
+   "item": "red gem",
+   "reason": "name resolves to 2 items",
+   "ids": [
+    3039,
+    36706
+   ]
+  },
+  {
+   "monster": "Walking Pillar",
+   "item": "darklight core (object)",
+   "reason": "name resolves to 0 items",
+   "ids": []
+  },
+  {
+   "monster": "Wandering Pillar",
+   "item": "darklight core (object)",
+   "reason": "name resolves to 0 items",
+   "ids": []
   },
   {
    "monster": "Dreadful Disruptor",
@@ -10462,6 +16280,117 @@
    "monster": "Goshnar's Spite",
    "item": "mastermind potion",
    "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Bony Sea Devil",
+   "item": "giant shimmering pearl (green)",
+   "reason": "name resolves to 0 items",
+   "ids": []
+  },
+  {
+   "monster": "Bony Sea Devil",
+   "item": "rod (creature product)",
+   "reason": "name resolves to 0 items",
+   "ids": []
+  },
+  {
+   "monster": "Brachiodemon",
+   "item": "head (brachiodemon)",
+   "reason": "name resolves to 0 items",
+   "ids": []
+  },
+  {
+   "monster": "Distorted Phantom",
+   "item": "ring of orange plasma",
+   "reason": "name resolves to 2 items",
+   "ids": [
+    50150,
+    50151
+   ]
+  },
+  {
+   "monster": "Cloak of Terror",
+   "item": "crown (plant)",
+   "reason": "name resolves to 0 items",
+   "ids": []
+  },
+  {
+   "monster": "Vibrant Phantom",
+   "item": "giant shimmering pearl (brown)",
+   "reason": "name resolves to 0 items",
+   "ids": []
+  },
+  {
+   "monster": "Many Faces",
+   "item": "head (many faces)",
+   "reason": "name resolves to 0 items",
+   "ids": []
+  },
+  {
+   "monster": "Monk's Apparition",
+   "item": "warrior helmet",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Monk's Apparition",
+   "item": "great spirit potion",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Monk's Apparition",
+   "item": "violet gem",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Monk's Apparition",
+   "item": "glacier mask",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Monk's Apparition",
+   "item": "ring of orange plasma",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Monk's Apparition",
+   "item": "wood cape",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Monk's Apparition",
+   "item": "skull helmet",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Monk's Apparition",
+   "item": "collar of orange plasma",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Monk's Apparition",
+   "item": "composite hornbow",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Rotten Golem",
+   "item": "giant shimmering pearl (green)",
+   "reason": "name resolves to 0 items",
+   "ids": []
+  },
+  {
+   "monster": "Sorcerer's Apparition",
+   "item": "giant shimmering pearl (brown)",
+   "reason": "name resolves to 0 items",
+   "ids": []
+  },
+  {
+   "monster": "Sorcerer's Apparition",
+   "item": "ring of orange plasma",
+   "reason": "name resolves to 2 items",
+   "ids": [
+    50150,
+    50151
+   ]
   },
   {
    "monster": "Black Vixen",
@@ -10814,9 +16743,59 @@
    "reason": "boss: reward chest loot, review by hand"
   },
   {
+   "monster": "Blazing Fire Elemental",
+   "item": "coal",
+   "reason": "old statistics (version 9.1)"
+  },
+  {
+   "monster": "Blistering Fire Elemental",
+   "item": "fiery heart",
+   "reason": "old statistics (version 9.1)"
+  },
+  {
+   "monster": "Jagged Earth Elemental",
+   "item": "lump of earth",
+   "reason": "old statistics (version 9.1)"
+  },
+  {
+   "monster": "Jagged Earth Elemental",
+   "item": "small stone",
+   "reason": "old statistics (version 9.1)"
+  },
+  {
+   "monster": "Jagged Earth Elemental",
+   "item": "clay lump",
+   "reason": "old statistics (version 9.1)"
+  },
+  {
+   "monster": "Jagged Earth Elemental",
+   "item": "coal",
+   "reason": "old statistics (version 9.1)"
+  },
+  {
    "monster": "Lord of the Elements",
    "item": "small amethyst",
    "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Muddy Earth Elemental",
+   "item": "lump of earth",
+   "reason": "old statistics (version 9.1)"
+  },
+  {
+   "monster": "Muddy Earth Elemental",
+   "item": "clay lump",
+   "reason": "old statistics (version 9.1)"
+  },
+  {
+   "monster": "Muddy Earth Elemental",
+   "item": "coal",
+   "reason": "old statistics (version 9.1)"
+  },
+  {
+   "monster": "Roaring Water Elemental",
+   "item": "giant shimmering pearl",
+   "reason": "old statistics (version 8.6)"
   },
   {
    "monster": "Gelidrazah the Frozen",
@@ -10912,6 +16891,36 @@
    "monster": "Zorvorax",
    "item": "demonic essence",
    "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Haunted Dragon",
+   "item": "ancient coin",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Haunted Dragon",
+   "item": "mind stone",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Haunted Dragon",
+   "item": "dragon necklace",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Haunted Dragon",
+   "item": "red gem",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Haunted Dragon",
+   "item": "dark shield",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Haunted Dragon",
+   "item": "dark armor",
+   "reason": "old statistics (version 8.6)"
   },
   {
    "monster": "Annihilon",
@@ -11167,6 +17176,196 @@
    "monster": "Drume",
    "item": "violet gem",
    "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Usurper Commander",
+   "item": "platinum coin",
+   "reason": "currency: compare with the existing coin entries"
+  },
+  {
+   "monster": "Usurper Commander",
+   "item": "fur shred",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Usurper Commander",
+   "item": "axe",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Usurper Commander",
+   "item": "lion cloak patch",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Usurper Commander",
+   "item": "lion crest",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Usurper Commander",
+   "item": "giant shimmering pearl (brown)",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Usurper Commander",
+   "item": "bow",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Usurper Commander",
+   "item": "gold ingot",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Usurper Commander",
+   "item": "spellbook of warding",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Usurper Commander",
+   "item": "springsprout rod",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Usurper Commander",
+   "item": "wand of voodoo",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Usurper Commander",
+   "item": "green gem",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Usurper Commander",
+   "item": "violet gem",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Usurper Commander",
+   "item": "ring of blue plasma",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Usurper Commander",
+   "item": "ring of red plasma",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Usurper Commander",
+   "item": "blue crystal shard",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Usurper Commander",
+   "item": "bullseye potion",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Percht",
+   "item": "grainy fireworks powder",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Percht",
+   "item": "versicolour fireworks powder",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Percht",
+   "item": "blue fireworks powder",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Percht",
+   "item": "green fireworks powder",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Percht",
+   "item": "purple fireworks powder",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Percht",
+   "item": "turquoise fireworks powder",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Percht",
+   "item": "orange fireworks powder",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Percht",
+   "item": "red fireworks powder",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Percht",
+   "item": "yellow fireworks powder",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Schiach",
+   "item": "fireworks capsule",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Schiach",
+   "item": "grainy fireworks powder",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Schiach",
+   "item": "versicolour fireworks powder",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Schiach",
+   "item": "rainbow quartz",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Schiach",
+   "item": "blue fireworks powder",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Schiach",
+   "item": "turquoise fireworks powder",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Schiach",
+   "item": "green fireworks powder",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Schiach",
+   "item": "yellow fireworks powder",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Schiach",
+   "item": "purple fireworks powder",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Schiach",
+   "item": "orange fireworks powder",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Schiach",
+   "item": "red fireworks powder",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Schiach",
+   "item": "glacial rod",
+   "reason": "old statistics (version 8.6)"
   },
   {
    "monster": "The Percht Queen",
@@ -11809,6 +18008,51 @@
    "reason": "boss: reward chest loot, review by hand"
   },
   {
+   "monster": "Neutral Deepling Warrior",
+   "item": "gold coin",
+   "reason": "currency: compare with the existing coin entries"
+  },
+  {
+   "monster": "Neutral Deepling Warrior",
+   "item": "deepling ridge",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Neutral Deepling Warrior",
+   "item": "deepling filet",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Neutral Deepling Warrior",
+   "item": "great health potion",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Neutral Deepling Warrior",
+   "item": "deepling warts",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Neutral Deepling Warrior",
+   "item": "deeptags",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Neutral Deepling Warrior",
+   "item": "great mana potion",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Neutral Deepling Warrior",
+   "item": "heavy trident",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Neutral Deepling Warrior",
+   "item": "life ring",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
    "monster": "The Blazing Rose",
    "item": "gold coin",
    "reason": "boss: reward chest loot, review by hand"
@@ -12154,6 +18398,31 @@
    "reason": "boss: reward chest loot, review by hand"
   },
   {
+   "monster": "Control Tower",
+   "item": "gearwheel chain",
+   "reason": "old statistics (version 10.7)"
+  },
+  {
+   "monster": "Control Tower",
+   "item": "flask of rust remover",
+   "reason": "old statistics (version 10.7)"
+  },
+  {
+   "monster": "Control Tower",
+   "item": "gear wheel",
+   "reason": "old statistics (version 10.7)"
+  },
+  {
+   "monster": "Control Tower",
+   "item": "war crystal",
+   "reason": "old statistics (version 10.7)"
+  },
+  {
+   "monster": "Control Tower",
+   "item": "heat core",
+   "reason": "old statistics (version 10.7)"
+  },
+  {
    "monster": "Ferumbras",
    "item": "gold coin",
    "reason": "boss: reward chest loot, review by hand"
@@ -12192,6 +18461,31 @@
    "monster": "Furyosa",
    "item": "jalapeno pepper",
    "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Glooth Battery",
+   "item": "great mana potion",
+   "reason": "old statistics (version 10.7)"
+  },
+  {
+   "monster": "Glooth Battery",
+   "item": "flask of rust remover",
+   "reason": "old statistics (version 10.7)"
+  },
+  {
+   "monster": "Glooth Battery",
+   "item": "gear wheel",
+   "reason": "old statistics (version 10.7)"
+  },
+  {
+   "monster": "Glooth Battery",
+   "item": "gearwheel chain",
+   "reason": "old statistics (version 10.7)"
+  },
+  {
+   "monster": "Glooth Battery",
+   "item": "iron ore",
+   "reason": "old statistics (version 10.7)"
   },
   {
    "monster": "Glooth Fairy",
@@ -12569,15 +18863,105 @@
    "reason": "boss: reward chest loot, review by hand"
   },
   {
+   "monster": "Corrupt Naga",
+   "item": "platinum coin",
+   "reason": "currency: compare with the existing coin entries"
+  },
+  {
    "monster": "Dreadmaw",
    "item": "gold coin",
    "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Killer Caiman",
+   "item": "giant shimmering pearl (green)",
+   "reason": "old statistics (version 9.5)"
+  },
+  {
+   "monster": "Liodile",
+   "item": "great spirit potion",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Lizard Chosen",
+   "item": "collar of orange plasma",
+   "reason": "name resolves to 2 items",
+   "ids": [
+    50152,
+    50153
+   ]
+  },
+  {
+   "monster": "Lizard Snakecharmer",
+   "item": "dead snake",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Sea Serpent",
+   "item": "leviathan's amulet",
+   "reason": "old statistics (version 9.5)"
+  },
+  {
+   "monster": "Seacrest Serpent",
+   "item": "giant shimmering pearl (green)",
+   "reason": "old statistics (version 10.7)"
+  },
+  {
+   "monster": "Stonerefiner",
+   "item": "rat cheese",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Two-Headed Turtle",
+   "item": "giant shimmering pearl (green)",
+   "reason": "name resolves to 0 items",
+   "ids": []
+  },
+  {
+   "monster": "Two-Headed Turtle",
+   "item": "turtle shell",
+   "reason": "name resolves to 21 items",
+   "ids": [
+    5899,
+    39246,
+    39247,
+    39248,
+    39249,
+    39250,
+    39251,
+    39252,
+    39253,
+    39254,
+    39255,
+    39256,
+    39257,
+    39258,
+    39259,
+    39260,
+    39261,
+    39262,
+    39263,
+    39264,
+    39265
+   ]
   },
   {
    "monster": "Ink Blob",
    "item": "platinum coin",
    "reason": "jump from 4 to 25 is too large to trust",
    "wiki": 25
+  },
+  {
+   "monster": "Ink Blob",
+   "item": "inkwell (black)",
+   "reason": "name resolves to 0 items",
+   "ids": []
+  },
+  {
+   "monster": "Ink Blob",
+   "item": "giant shimmering pearl (brown)",
+   "reason": "name resolves to 0 items",
+   "ids": []
   },
   {
    "monster": "Ahau",
@@ -12618,6 +19002,204 @@
    "monster": "Ahau",
    "item": "amber (item)",
    "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Blightwalker",
+   "item": "giant shimmering pearl (green)",
+   "reason": "name resolves to 0 items",
+   "ids": []
+  },
+  {
+   "monster": "Falcon Knight",
+   "item": "giant shimmering pearl (green)",
+   "reason": "name resolves to 0 items",
+   "ids": []
+  },
+  {
+   "monster": "Falcon Paladin",
+   "item": "giant shimmering pearl (green)",
+   "reason": "name resolves to 0 items",
+   "ids": []
+  },
+  {
+   "monster": "Flimsy Lost Soul",
+   "item": "lost soul (item)",
+   "reason": "name resolves to 0 items",
+   "ids": []
+  },
+  {
+   "monster": "Freakish Lost Soul",
+   "item": "lost soul (item)",
+   "reason": "name resolves to 0 items",
+   "ids": []
+  },
+  {
+   "monster": "Ghost",
+   "item": "book (orange)",
+   "reason": "name resolves to 0 items",
+   "ids": []
+  },
+  {
+   "monster": "Hand of Cursed Fate",
+   "item": "book (orange)",
+   "reason": "name resolves to 0 items",
+   "ids": []
+  },
+  {
+   "monster": "Iks Ahpututu",
+   "item": "giant shimmering pearl (green)",
+   "reason": "name resolves to 0 items",
+   "ids": []
+  },
+  {
+   "monster": "Iks Pututu",
+   "item": "giant shimmering pearl (green)",
+   "reason": "name resolves to 0 items",
+   "ids": []
+  },
+  {
+   "monster": "Iks Pututu",
+   "item": "ring of orange plasma",
+   "reason": "name resolves to 2 items",
+   "ids": [
+    50150,
+    50151
+   ]
+  },
+  {
+   "monster": "Mean Lost Soul",
+   "item": "lost soul (item)",
+   "reason": "name resolves to 0 items",
+   "ids": []
+  },
+  {
+   "monster": "Pirate Ghost",
+   "item": "parchment (rewritable)",
+   "reason": "name resolves to 0 items",
+   "ids": []
+  },
+  {
+   "monster": "Putrid Mummy",
+   "item": "broken flask",
+   "reason": "name resolves to 2 items",
+   "ids": [
+    2878,
+    2894
+   ]
+  },
+  {
+   "monster": "Skeleton Elite Warrior",
+   "item": "sword",
+   "reason": "name resolves to 3 items",
+   "ids": [
+    3264,
+    5856,
+    5857
+   ]
+  },
+  {
+   "monster": "Tarnished Spirit",
+   "item": "book (orange)",
+   "reason": "name resolves to 0 items",
+   "ids": []
+  },
+  {
+   "monster": "Vicious Manbat",
+   "item": "tooth file",
+   "reason": "old statistics (version 10.1)"
+  },
+  {
+   "monster": "Vicious Manbat",
+   "item": "strong mana potion",
+   "reason": "old statistics (version 10.1)"
+  },
+  {
+   "monster": "Vicious Manbat",
+   "item": "small ruby",
+   "reason": "old statistics (version 10.1)"
+  },
+  {
+   "monster": "Vicious Manbat",
+   "item": "strong health potion",
+   "reason": "old statistics (version 10.1)"
+  },
+  {
+   "monster": "Vicious Manbat",
+   "item": "vampire teeth",
+   "reason": "old statistics (version 10.1)"
+  },
+  {
+   "monster": "Vicious Manbat",
+   "item": "blood preservation",
+   "reason": "old statistics (version 10.1)"
+  },
+  {
+   "monster": "Vicious Manbat",
+   "item": "bat wing",
+   "reason": "old statistics (version 10.1)"
+  },
+  {
+   "monster": "Zombie",
+   "item": "life ring",
+   "reason": "name resolves to 2 items",
+   "ids": [
+    3052,
+    3089
+   ]
+  },
+  {
+   "monster": "Blemished Spawn",
+   "item": "giant shimmering pearl (green)",
+   "reason": "name resolves to 0 items",
+   "ids": []
+  },
+  {
+   "monster": "Cave Chimera",
+   "item": "giant shimmering pearl (green)",
+   "reason": "name resolves to 0 items",
+   "ids": []
+  },
+  {
+   "monster": "Crawler",
+   "item": "platinum coin",
+   "reason": "currency: compare with the existing coin entries"
+  },
+  {
+   "monster": "Deepworm",
+   "item": "giant shimmering pearl (brown)",
+   "reason": "name resolves to 0 items",
+   "ids": []
+  },
+  {
+   "monster": "Diremaw",
+   "item": "giant shimmering pearl (green)",
+   "reason": "name resolves to 0 items",
+   "ids": []
+  },
+  {
+   "monster": "Drillworm",
+   "item": "dwarven ring",
+   "reason": "old statistics (version 9.8)"
+  },
+  {
+   "monster": "Hive Overseer",
+   "item": "giant shimmering pearl (brown)",
+   "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Kollos",
+   "item": "giant shimmering pearl (brown)",
+   "reason": "old statistics (version 9.4)"
+  },
+  {
+   "monster": "Spidris",
+   "item": "giant shimmering pearl (green)",
+   "reason": "old statistics (version 9.4)"
+  },
+  {
+   "monster": "Spidris Elite",
+   "item": "giant shimmering pearl (green)",
+   "reason": "old statistics (version 9.4)"
   }
  ]
 }

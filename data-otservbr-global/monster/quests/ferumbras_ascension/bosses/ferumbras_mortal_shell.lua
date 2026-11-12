@@ -79,6 +79,18 @@ monster.voices = {
 }
 
 monster.loot = {
+	{ name = "soul orb", chance = 38750 },
+	{ name = "rift lance", chance = 25000 },
+	{ name = "rift shield", chance = 25000 },
+	{ name = "terra legs", chance = 16250 },
+	{ name = "golden legs", chance = 12500 },
+	{ name = "haunted blade", chance = 11875 },
+	{ name = "shadow sceptre", chance = 8125 },
+	{ name = "spellbook of lost souls", chance = 7500 },
+	{ name = "spellbook of mind control", chance = 7500 },
+	{ name = "spellbook of dark mysteries", chance = 4375 },
+	{ name = "vile axe", chance = 4375 },
+	{ name = "runed sword", chance = 3750 },
 	{ id = 822, chance = 800 }, -- lightning legs
 	{ id = 8041, chance = 400 }, -- greenwood coat
 	{ id = 3029, chance = 10000, maxCount = 19 }, -- small sapphire

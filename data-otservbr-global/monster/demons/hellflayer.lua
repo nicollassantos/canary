@@ -85,6 +85,7 @@ monster.loot = {
 	{ id = 238, chance = 9600, maxCount = 5 }, -- great mana potion
 	{ id = 7642, chance = 2300, maxCount = 5 }, -- great spirit potion
 	{ id = 3033, chance = 2000, maxCount = 5 }, -- small amethyst
+	{ name = "violet gem", chance = 1001 },
 	{ id = 3028, chance = 900, maxCount = 5 }, -- small diamond
 	{ id = 3032, chance = 900, maxCount = 5 }, -- small emerald
 	{ id = 3030, chance = 2000, maxCount = 5 }, -- small ruby
@@ -96,6 +97,7 @@ monster.loot = {
 	{ id = 3038, chance = 800 }, -- green gem
 	{ id = 818, chance = 500 }, -- magma boots
 	{ id = 821, chance = 1200 }, -- magma legs
+	{ name = "rift shield", chance = 498 },
 	{ id = 3414, chance = 350 }, -- mastermind shield
 	{ id = 22729, chance = 800 }, -- pair of hellflayer horns
 	{ id = 3039, chance = 500 }, -- red gem
@@ -107,6 +109,7 @@ monster.loot = {
 	{ id = 3360, chance = 750 }, -- golden armor
 	{ id = 8074, chance = 900 }, -- spellbook of mind control
 	{ id = 3340, chance = 400 }, -- heavy mace
+	{ name = "magic plate armor", chance = 136 },
 }
 
 monster.attacks = {

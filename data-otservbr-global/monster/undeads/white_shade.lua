@@ -77,6 +77,7 @@ monster.voices = {
 }
 
 monster.loot = {
+	{ name = "stone skin amulet", chance = 4310 },
 	{ name = "white piece of cloth", chance = 3370 },
 }
 

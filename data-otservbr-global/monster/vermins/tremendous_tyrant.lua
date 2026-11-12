@@ -85,6 +85,7 @@ monster.loot = {
 	{ name = "tremendous tyrant shell", chance = 4550 },
 	{ name = "yellow gem", chance = 9090, maxCount = 1 },
 	{ name = "spellbook of warding", chance = 8180 },
+	{ name = "lightning legs", chance = 3758 },
 	{ name = "wand of starstorm", chance = 910 },
 	{ name = "ice rapier", chance = 1820 },
 	{ name = "hailstorm rod", chance = 2730 },

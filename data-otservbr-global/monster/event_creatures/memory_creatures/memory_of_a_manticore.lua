@@ -64,6 +64,7 @@ monster.loot = {
 	{ name = "flaming arrow", chance = 4090, maxCount = 8 },
 	{ name = "green crystal fragment", chance = 7000 },
 	{ name = "small emerald", chance = 6890, maxCount = 2 },
+	{ name = "rainbow quartz", chance = 3968, maxCount = 3 },
 	{ name = "prismatic quartz", chance = 719 },
 	{ name = "violet gem", chance = 1700 },
 }

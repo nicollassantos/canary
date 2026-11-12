@@ -81,6 +81,8 @@ monster.loot = {
 	{ name = "gold coin", chance = 32000, maxCount = 240 },
 	{ name = "gold coin", chance = 32000, maxCount = 100 },
 	{ name = "gold coin", chance = 32000, maxCount = 41 },
+	{ name = "small diamond", chance = 4864, maxCount = 2 },
+	{ name = "might ring", chance = 3316 },
 	{ name = "stone skin amulet", chance = 980 },
 	{ name = "protection amulet", chance = 1580 },
 	{ id = 3097, chance = 2790 }, -- dwarven ring

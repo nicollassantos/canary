@@ -71,6 +71,7 @@ monster.voices = {
 monster.loot = {
 	{ name = "platinum coin", chance = 100000, maxCount = 7 },
 	{ name = "gold coin", chance = 100000, maxCount = 99 },
+	{ name = "leather helmet", chance = 9965 },
 	{ name = "small enchanted sapphire", chance = 5000, maxCount = 6 },
 	{ name = "black pearl", chance = 5000, maxCount = 2 },
 	{ name = "ham", chance = 5000, maxCount = 3 },
@@ -86,6 +87,7 @@ monster.loot = {
 	{ name = "steel helmet", chance = 1500 },
 	{ name = "doublet", chance = 1500 },
 	{ name = "ivory carving", chance = 1500 },
+	{ name = "moonlight crystals", chance = 915 },
 	{ name = "magma legs", chance = 500 },
 	{ name = "crown helmet", chance = 500 },
 	{ name = "white silk flower", chance = 200 },

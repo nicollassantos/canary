@@ -87,6 +87,7 @@ monster.loot = {
 	{ name = "green bandage", chance = 1100 },
 	{ name = "scarab coin", chance = 8180, maxCount = 3 },
 	{ name = "poison dagger", chance = 1530 },
+	{ name = "stone skin amulet", chance = 75 },
 }
 
 monster.attacks = {

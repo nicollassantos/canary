@@ -82,8 +82,10 @@ monster.loot = {
 	{ name = "Dragon Tongue", chance = 8450 },
 	{ name = "Wardragon Tooth", chance = 6330 },
 	{ name = "Gold Ingot", chance = 6007 },
+	{ name = "ultimate health potion", chance = 4728 },
 	{ name = "Onyx Chip", chance = 4650, minCount = 1, maxCount = 2 },
 	{ name = "Black Pearl", chance = 4000 },
+	{ name = "ultimate mana potion", chance = 1749 },
 	{ name = "White Gem", chance = 1000 },
 	{ name = "Dragonbone Staff", chance = 740 },
 }

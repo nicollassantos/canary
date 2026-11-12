@@ -64,6 +64,7 @@ monster.voices = {
 }
 
 monster.loot = {
+	{ name = "bow", chance = 2240 },
 	{ id = 9689, chance = 920 }, -- bunch of troll hair
 	{ id = 3031, chance = 100000, maxCount = 8 }, -- gold coin
 	{ id = 3268, chance = 3590 }, -- hand axe

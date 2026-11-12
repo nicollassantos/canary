@@ -79,6 +79,7 @@ monster.loot = {
 	{ name = "blue gem", chance = 12909, maxCount = 1 },
 	{ name = "twiceslicer", chance = 11596, maxCount = 1 },
 	{ name = "white gem", chance = 13964, maxCount = 1 },
+	{ name = "crystalline armor", chance = 400 },
 }
 
 monster.attacks = {

@@ -87,6 +87,7 @@ monster.loot = {
 	{ name = "opal", chance = 3260 },
 	{ name = "rainbow quartz", chance = 3030, maxCount = 2 },
 	{ name = "violet crystal shard", chance = 2450 },
+	{ name = "might ring", chance = 2051 },
 	{ name = "wad of fairy floss", chance = 1690 },
 	{ name = "violet gem", chance = 1500 },
 	{ name = "milk chocolate coin", chance = 920, maxCount = 10 },

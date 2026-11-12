@@ -94,6 +94,7 @@ monster.loot = {
 	{ name = "mana potion", chance = 4050, maxCount = 2 },
 	{ name = "small enchanted emerald", chance = 4050, maxCount = 2 },
 	{ name = "emerald bangle", chance = 4050, maxCount = 2 },
+	{ name = "moonlight crystals", chance = 1089 },
 	{ name = "moonlight rod", chance = 500 },
 	{ name = "troll green", chance = 500, maxCount = 2 },
 	{ name = "assassin star", chance = 300, maxCount = 5 },

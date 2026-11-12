@@ -90,11 +90,14 @@ monster.loot = {
 	{ name = "brown piece of cloth", chance = 6000 },
 	{ name = "yellow piece of cloth", chance = 3500 },
 	{ name = "great mana potion", chance = 20000, maxCount = 3 },
+	{ name = "traditional sai", chance = 979 },
+	{ name = "red piece of cloth", chance = 761 },
 	{ name = "terra boots", chance = 720 },
 	{ name = "great spirit potion", chance = 20000, maxCount = 3 },
 	{ name = "ultimate health potion", chance = 19000, maxCount = 3 },
 	{ name = "spellbook of mind control", chance = 720 },
 	{ name = "underworld rod", chance = 720 },
+	{ name = "shadow sceptre", chance = 688 },
 	{ name = "springsprout rod", chance = 510 },
 	{ name = "green crystal shard", chance = 1540 },
 	{ name = "brown crystal splinter", chance = 52500, maxCount = 2 },
@@ -102,6 +105,7 @@ monster.loot = {
 	{ name = "cluster of solace", chance = 4620 },
 	{ name = "dead weight", chance = 14180 },
 	{ name = "hemp rope", chance = 14180 },
+	{ name = "terra mantle", chance = 396 },
 }
 
 monster.attacks = {

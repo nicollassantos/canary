@@ -79,6 +79,12 @@ monster.loot = {
 	{ id = 28570, chance = 10000, maxCount = 5 }, -- glowing rune
 	{ name = "small amethyst", chance = 10000, maxCount = 10 },
 	{ name = "flash arrow", chance = 10000, maxCount = 15 },
+	{ name = "lightning pendant", chance = 4405 },
+	{ name = "platinum amulet", chance = 2314 },
+	{ name = "might ring", chance = 2279 },
+	{ name = "wand of defiance", chance = 1285 },
+	{ name = "spellweaver's robe", chance = 958 },
+	{ name = "shockwave amulet", chance = 771 },
 	{ name = "lightning legs", chance = 250 },
 	{ name = "spellbook of warding", chance = 350 },
 	{ name = "ultimate health potion", chance = 10000, maxCount = 5 },

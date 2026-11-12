@@ -73,6 +73,7 @@ monster.voices = {
 }
 
 monster.loot = {
+	{ name = "meat", chance = 2994, maxCount = 5 },
 	{ id = 3116, chance = 500, maxCount = 2 }, -- big bone
 	{ name = "book page", chance = 500, maxCount = 6 },
 	{ name = "glowing rune", chance = 500, maxCount = 9 },

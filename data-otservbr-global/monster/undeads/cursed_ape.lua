@@ -75,11 +75,13 @@ monster.voices = {
 monster.loot = {
 	{ name = "gold coin", chance = 96120, maxCount = 100 },
 	{ name = "platinum coin", chance = 96120, maxCount = 2 },
+	{ name = "banana", chance = 40910, maxCount = 12 },
 	{ name = "kongra's shoulderpad", chance = 13890 },
 	{ name = "small amethyst", chance = 8140, maxCount = 1 },
 	{ name = "protection amulet", chance = 2750 },
 	{ name = "plate armor", chance = 1630 },
 	{ name = "ape fur", chance = 1250 },
+	{ name = "stone skin amulet", chance = 650 },
 	{ name = "health potion", chance = 500, maxCount = 1 },
 	{ id = 3050, chance = 380 }, -- power ring
 	{ id = 3093, chance = 250 }, -- club ring

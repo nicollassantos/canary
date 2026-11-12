@@ -74,6 +74,9 @@ monster.voices = {
 
 monster.loot = {
 	{ name = "platinum coin", chance = 11000, maxCount = 57 },
+	{ name = "crystal mace", chance = 5033 },
+	{ name = "diamond sceptre", chance = 4213 },
+	{ name = "sapphire hammer", chance = 932 },
 	{ name = "glowing rune", chance = 800, maxCount = 6 },
 	{ name = "small sapphire", chance = 900, maxCount = 4 },
 	{ name = "frosty heart", chance = 11000, maxCount = 4 },
@@ -81,10 +84,13 @@ monster.loot = {
 	{ id = 28568, chance = 20000 }, -- inkwell
 	{ name = "ultimate health potion", chance = 10003, maxCount = 4 },
 	{ name = "ultimate mana potion", chance = 10003, maxCount = 4 },
+	{ name = "glacial rod", chance = 751 },
+	{ name = "crystalline armor", chance = 665 },
 	{ name = "ice rapier", chance = 500 },
 	{ name = "glacier mask", chance = 400 },
 	{ name = "piece of dead brain", chance = 10001, maxCount = 4 },
 	{ name = "crystal sword", chance = 300 },
+	{ name = "leviathan's amulet", chance = 276 },
 	{ name = "glacier robe", chance = 150 },
 	{ name = "glacier kilt", chance = 150 },
 	{ name = "slime heart", chance = 10002, maxCount = 4 },

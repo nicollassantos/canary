@@ -102,6 +102,7 @@ monster.loot = {
 	{ id = 23533, chance = 560 }, -- ring of red plasma
 	{ id = 23529, chance = 560 }, -- ring of blue plasma
 	{ id = 23531, chance = 560 }, -- ring of green plasma
+	{ name = "spellweaver's robe", chance = 433 },
 }
 
 monster.attacks = {

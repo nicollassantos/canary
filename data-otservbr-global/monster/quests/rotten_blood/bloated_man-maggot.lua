@@ -83,6 +83,8 @@ monster.loot = {
 	{ name = "butcher's axe", chance = 7967, maxCount = 1 },
 	{ name = "blue gem", chance = 7808, maxCount = 1 },
 	{ name = "violet gem", chance = 7084, maxCount = 1 },
+	{ name = "devil helmet", chance = 6329 },
+	{ name = "small topaz", chance = 5787, maxCount = 3 },
 }
 
 monster.attacks = {

@@ -89,6 +89,7 @@ monster.loot = {
 	{ name = "springsprout rod", chance = 4640 },
 	{ name = "infernal heart", chance = 4440 },
 	{ name = "underworld rod", chance = 3830 },
+	{ name = "stone skin amulet", chance = 3665 },
 	{ name = "fire axe", chance = 3630 },
 	{ name = "wand of starstorm", chance = 3430 },
 	{ name = "glorious axe", chance = 3230 },

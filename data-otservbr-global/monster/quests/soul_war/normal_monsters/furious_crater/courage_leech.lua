@@ -95,6 +95,7 @@ monster.loot = {
 	{ name = "butcher's axe", chance = 910 },
 	{ name = "stone skin amulet", chance = 910 },
 	{ name = "nightmare blade", chance = 1190 },
+	{ name = "twiceslicer", chance = 617 },
 	{ name = "demonrage sword", chance = 600 },
 	{ name = "bag you desire", chance = 15 },
 }

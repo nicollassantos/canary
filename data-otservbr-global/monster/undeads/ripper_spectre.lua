@@ -91,6 +91,7 @@ monster.loot = {
 	{ name = "assassin dagger", chance = 970 },
 	{ name = "spike sword", chance = 530 },
 	{ name = "wyvern fang", chance = 120 },
+	{ name = "stone skin amulet", chance = 78 },
 }
 
 monster.attacks = {

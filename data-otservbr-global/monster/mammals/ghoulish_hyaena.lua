@@ -81,6 +81,7 @@ monster.loot = {
 	{ name = "meat", chance = 51060, maxCount = 3 },
 	{ name = "worm", chance = 65000, maxCount = 7 },
 	{ name = "health potion", chance = 19840 },
+	{ name = "stone skin amulet", chance = 1421 },
 }
 
 monster.attacks = {

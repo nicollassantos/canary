@@ -80,6 +80,7 @@ monster.loot = {
 	{ name = "gold coin", chance = 100000, maxCount = 50 },
 	{ id = 281, chance = 14830 }, -- giant shimmering pearl
 	{ name = "great health potion", chance = 14530 },
+	{ name = "yapunac dagger", chance = 13786 },
 	{ name = "tiger eye", chance = 4820 },
 	{ name = "green crystal splinter", chance = 4190 },
 	{ name = "brown crystal splinter", chance = 4160 },
@@ -89,6 +90,7 @@ monster.loot = {
 	{ name = "ritual tooth", chance = 2410 },
 	{ name = "spiked squelcher", chance = 1700 },
 	{ id = 11514, chance = 1500 }, -- colorful feather
+	{ name = "ancient iks ritual chalice", chance = 187 },
 }
 
 monster.attacks = {

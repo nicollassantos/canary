@@ -83,10 +83,13 @@ monster.loot = {
 	{ name = "platinum coin", chance = 100000, maxCount = 9 },
 	{ name = "fire sword", chance = 1240 },
 	{ name = "crown shield", chance = 1700 },
+	{ name = "onyx flail", chance = 576 },
 	{ name = "tower shield", chance = 550 },
 	{ name = "brown mushroom", chance = 14000, maxCount = 2 },
 	{ name = "beastslayer axe", chance = 4260 },
 	{ name = "mercenary sword", chance = 2500 },
+	{ name = "butcher's axe", chance = 490 },
+	{ name = "cluster of solace", chance = 429 },
 	{ name = "spiked squelcher", chance = 410 },
 	{ name = "great mana potion", chance = 12500 },
 	{ name = "great health potion", chance = 15000 },
@@ -95,6 +98,7 @@ monster.loot = {
 	{ id = 20029, chance = 3700 }, -- broken dream
 	{ name = "goosebump leather", chance = 16400 },
 	{ name = "pool of chitinous glue", chance = 14000 },
+	{ name = "steel boots", chance = 221 },
 }
 
 monster.attacks = {

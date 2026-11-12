@@ -96,6 +96,7 @@ monster.loot = {
 	{ name = "health potion", chance = 10000, maxCount = 2 },
 	{ name = "mana potion", chance = 5300 },
 	{ name = "demonic skeletal hand", chance = 12600 },
+	{ name = "stone skin amulet", chance = 61 },
 }
 
 monster.attacks = {

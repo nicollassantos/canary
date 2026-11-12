@@ -93,6 +93,7 @@ monster.loot = {
 	{ id = 21169, chance = 1490 }, -- metal spats
 	{ id = 21168, chance = 1490 }, -- alloy legs
 	{ id = 8896, chance = 2990 }, -- slightly rusted armor
+	{ name = "iron ore", chance = 403 },
 }
 
 monster.attacks = {

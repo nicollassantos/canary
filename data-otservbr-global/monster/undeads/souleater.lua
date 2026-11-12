@@ -87,6 +87,7 @@ monster.loot = {
 	{ id = 6299, chance = 300 }, -- death ring
 	{ name = "great mana potion", chance = 8000 },
 	{ name = "ultimate health potion", chance = 9400 },
+	{ name = "stone skin amulet", chance = 130 },
 	{ name = "souleater trophy", chance = 20 },
 	{ name = "lizard essence", chance = 15250 },
 	{ name = "ectoplasmic sushi", chance = 2000 },

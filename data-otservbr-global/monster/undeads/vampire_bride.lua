@@ -91,6 +91,8 @@ monster.loot = {
 	{ name = "strong mana potion", chance = 10210 },
 	{ id = 649, chance = 200 }, -- flower bouquet
 	{ name = "hibiscus dress", chance = 1030 },
+	{ name = "stone skin amulet", chance = 135 },
+	{ name = "mysterious voodoo skull", chance = 75 },
 	{ name = "blood goblet", chance = 60 },
 	{ id = 8895, chance = 1010 }, -- rusted armor
 	{ id = 8923, chance = 970 }, -- velvet tapestry

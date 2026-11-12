@@ -91,6 +91,8 @@ monster.loot = {
 	{ name = "mana potion", chance = 10000, maxCount = 10 },
 	{ name = "ultimate mana potion", chance = 10000, maxCount = 8 },
 	{ name = "ultimate health potion", chance = 10000, maxCount = 8 },
+	{ name = "silver amulet", chance = 4369 },
+	{ name = "obsidian lance", chance = 3398 },
 	{ name = "wand of cosmic energy", chance = 300 },
 }
 

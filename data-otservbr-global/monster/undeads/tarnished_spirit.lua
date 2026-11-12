@@ -75,6 +75,7 @@ monster.voices = {
 }
 
 monster.loot = {
+	{ name = "stone skin amulet", chance = 4303 },
 	{ id = 2828, chance = 1310 }, -- book
 	{ id = 3049, chance = 180 }, -- stealth ring
 	{ name = "morning star", chance = 10610 },

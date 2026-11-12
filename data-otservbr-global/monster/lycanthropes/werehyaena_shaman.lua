@@ -86,6 +86,7 @@ monster.loot = {
 	{ id = 3091, chance = 4490 }, -- sword ring
 	{ name = "wand of voodoo", chance = 3990 },
 	{ name = "protection amulet", chance = 2660 },
+	{ name = "black shield", chance = 2648 },
 	{ name = "werehyaena talisman", chance = 650 },
 	{ name = "moonlight crystals", chance = 610 },
 	{ name = "werehyaena trophy", chance = 140 },

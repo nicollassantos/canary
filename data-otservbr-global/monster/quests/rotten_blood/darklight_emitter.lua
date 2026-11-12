@@ -79,6 +79,7 @@ monster.loot = {
 	{ name = "small topaz", chance = 5784, maxCount = 3 },
 	{ name = "amber staff", chance = 6240, maxCount = 1 },
 	{ id = 3039, chance = 8459, maxCount = 1 }, -- red gem
+	{ name = "green gem", chance = 505 },
 }
 
 monster.attacks = {

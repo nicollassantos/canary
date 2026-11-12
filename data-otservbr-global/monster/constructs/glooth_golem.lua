@@ -79,6 +79,7 @@ monster.voices = {
 }
 
 monster.loot = {
+	{ name = "glooth spear", chance = 1491 },
 	{ id = 5880, chance = 530 }, -- iron ore
 	{ id = 21183, chance = 720 }, -- glooth amulet
 	{ id = 21170, chance = 1720 }, -- gearwheel chain
@@ -98,6 +99,7 @@ monster.loot = {
 	{ id = 3037, chance = 730 }, -- yellow gem
 	{ id = 9057, chance = 1560, maxCount = 4 }, -- small topaz
 	{ id = 3032, chance = 1590, maxCount = 4 }, -- small emerald
+	{ name = "green gem", chance = 71 },
 }
 
 monster.attacks = {

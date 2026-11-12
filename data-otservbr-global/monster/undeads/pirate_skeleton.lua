@@ -77,6 +77,7 @@ monster.loot = {
 	{ id = 3114, chance = 4460 }, -- skull
 	{ id = 3115, chance = 4250 }, -- bone
 	{ id = 3116, chance = 5140 }, -- big bone
+	{ name = "stone skin amulet", chance = 3054 },
 	{ id = 3264, chance = 550 }, -- sword
 	{ name = "short sword", chance = 1003 },
 	{ name = "bone club", chance = 960 },

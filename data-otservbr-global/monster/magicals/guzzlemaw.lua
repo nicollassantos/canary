@@ -83,6 +83,7 @@ monster.loot = {
 	{ name = "fishbone", chance = 9500 },
 	{ id = 3114, chance = 10400 }, -- skull
 	{ id = 3115, chance = 9200 }, -- bone
+	{ name = "remains of a fish", chance = 7452 },
 	{ id = 3116, chance = 4500 }, -- big bone
 	{ name = "two handed sword", chance = 2700 },
 	{ id = 3578, chance = 7000, maxCount = 3 }, -- fish

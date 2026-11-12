@@ -83,6 +83,7 @@ monster.loot = {
 	{ name = "small emerald", chance = 3760, maxCount = 2 },
 	{ name = "platinum coin", chance = 85000, maxCount = 8 },
 	{ id = 5902, chance = 3870 }, -- honeycomb
+	{ name = "might ring", chance = 2484 },
 	{ id = 48253, chance = 1180 }, -- beijinho
 	{ id = 818, chance = 1070 }, -- magma boots
 	{ id = 821, chance = 756 }, -- magma legs

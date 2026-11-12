@@ -90,6 +90,7 @@ monster.loot = {
 	{ id = 31436, chance = 6610 }, -- secret instruction
 	{ id = 31331, chance = 2540 }, -- empty honey glass
 	{ name = "sea horse figurine", chance = 910 },
+	{ name = "golden mask", chance = 716 },
 	{ id = 31369, chance = 530 }, -- gryphon mask
 	{ name = "wand of decay", chance = 1250 },
 	{ name = "wand of everblazing", chance = 1290 },

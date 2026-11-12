@@ -77,6 +77,7 @@ monster.loot = {
 	{ name = "belted cape", chance = 500 },
 	{ name = "ultimate health potion", chance = 500, maxCount = 2 },
 	{ name = "throwing star", chance = 500, maxCount = 18 },
+	{ name = "stone skin amulet", chance = 359 },
 	{ name = "knight axe", chance = 250 },
 	{ id = 3307, chance = 500 }, -- scimitar
 	{ name = "protection amulet", chance = 250 },

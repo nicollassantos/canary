@@ -80,6 +80,7 @@ monster.loot = {
 	{ name = "gold coin", chance = 50000, maxCount = 121 },
 	{ name = "gold coin", chance = 50000, maxCount = 30 },
 	{ name = "scarab coin", chance = 4166 },
+	{ name = "stone skin amulet", chance = 3659 },
 	{ name = "daramian waraxe", chance = 1170 },
 	{ name = "grave flower", chance = 70000 },
 	{ id = 6299, chance = 1754 }, -- death ring

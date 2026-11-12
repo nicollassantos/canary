@@ -54,6 +54,7 @@ monster.voices = {
 }
 
 monster.loot = {
+	{ name = "mana potion", chance = 20493 },
 	{ id = 3115, chance = 10760 }, -- bone
 	{ id = 3337, chance = 4890 }, -- bone club
 	{ id = 3267, chance = 18090 }, -- dagger
@@ -66,6 +67,7 @@ monster.loot = {
 	{ id = 3462, chance = 9540 }, -- small axe
 	{ id = 1781, chance = 11980, maxCount = 3 }, -- small stone
 	{ id = 3378, chance = 1710 }, -- studded armor
+	{ name = "brass legs", chance = 845 },
 }
 
 monster.attacks = {

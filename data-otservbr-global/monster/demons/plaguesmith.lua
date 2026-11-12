@@ -109,6 +109,7 @@ monster.loot = {
 	{ name = "onyx arrow", chance = 7692, maxCount = 4 },
 	{ name = "great health potion", chance = 10000 },
 	{ id = 8896, chance = 540 }, -- slightly rusted armor
+	{ name = "war horn", chance = 52 },
 }
 
 monster.attacks = {

@@ -64,6 +64,8 @@ monster.voices = {
 }
 
 monster.loot = {
+	{ name = "health potion", chance = 18575 },
+	{ name = "poison arrow", chance = 6280, maxCount = 4 },
 	{ id = 3115, chance = 1410 }, -- bone
 	{ id = 3337, chance = 9440 }, -- bone club
 	{ id = 3267, chance = 17040 }, -- dagger
@@ -76,6 +78,8 @@ monster.loot = {
 	{ id = 3294, chance = 9720 }, -- short sword
 	{ id = 3462, chance = 7750 }, -- small axe
 	{ id = 1781, chance = 15210 }, -- small stone
+	{ name = "brass legs", chance = 792 },
+	{ name = "ranger's cloak", chance = 528 },
 }
 
 monster.attacks = {

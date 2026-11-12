@@ -92,6 +92,7 @@ monster.loot = {
 	{ name = "glacier robe", chance = 1900 },
 	{ name = "fur armor", chance = 1420 },
 	{ name = "wood cape", chance = 950 },
+	{ name = "might ring", chance = 716 },
 	{ name = "crystalline armor", chance = 710 },
 	{ name = "rubber cap", chance = 710 },
 	{ name = "stone skin amulet", chance = 470 },

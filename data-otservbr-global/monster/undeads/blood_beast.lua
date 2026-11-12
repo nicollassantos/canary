@@ -78,6 +78,7 @@ monster.voices = {
 }
 
 monster.loot = {
+	{ name = "poisoned fang", chance = 15779 },
 	{ id = 21178, chance = 2010 }, -- glooth club
 	{ id = 9640, chance = 3080 }, -- poisonous slime
 	{ id = 21146, chance = 2720 }, -- glooth steak
@@ -90,6 +91,7 @@ monster.loot = {
 	{ id = 21178, chance = 210 }, -- glooth club
 	{ id = 21180, chance = 250 }, -- glooth axe
 	{ id = 21158, chance = 280 }, -- glooth spear
+	{ name = "stone skin amulet", chance = 98 },
 }
 
 monster.attacks = {

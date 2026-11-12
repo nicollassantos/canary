@@ -83,7 +83,10 @@ monster.loot = {
 	{ name = "spellbook of enlightenment", chance = 1920 },
 	{ name = "opal", chance = 1850 },
 	{ name = "gold-brocaded cloth", chance = 1780 },
+	{ name = "rotten feather", chance = 1284 },
+	{ name = "ritual tooth", chance = 1151 },
 	{ name = "gold ingot", chance = 960 },
+	{ name = "stone skin amulet", chance = 775 },
 	{ name = "broken iks headpiece", chance = 70 },
 }
 

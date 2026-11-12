@@ -77,10 +77,15 @@ monster.loot = {
 	{ id = 3115, chance = 50000 }, -- bone
 	{ name = "white mushroom", chance = 24000, maxCount = 3 },
 	{ name = "soul orb", chance = 43500, maxCount = 5 },
+	{ name = "mammoth whopper", chance = 5364 },
+	{ name = "bone toothpick", chance = 5204 },
 	{ name = "knight axe", chance = 3250 },
 	{ name = "pelvis bone", chance = 2630, maxCount = 10 },
 	{ name = "unholy bone", chance = 2630, maxCount = 5 },
+	{ name = "brown mushroom", chance = 2071 },
+	{ name = "mace", chance = 1753 },
 	{ name = "skull helmet", chance = 350 },
+	{ name = "stone skin amulet", chance = 319 },
 	{ name = "ruthless axe", chance = 150 },
 }
 

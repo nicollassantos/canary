@@ -94,6 +94,7 @@ monster.loot = {
 	{ name = "green crystal splinter", chance = 3600 },
 	{ name = "green crystal fragment", chance = 2070 },
 	{ name = "drill bolt", chance = 15260, maxCount = 5 },
+	{ name = "green piece of cloth", chance = 809 },
 }
 
 monster.attacks = {

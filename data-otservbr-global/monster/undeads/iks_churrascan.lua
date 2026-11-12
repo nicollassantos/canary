@@ -82,6 +82,7 @@ monster.loot = {
 	{ name = "onyx chip", chance = 3890 },
 	{ name = "small ruby", chance = 3540 },
 	{ name = "opal", chance = 3370 },
+	{ name = "stone skin amulet", chance = 2549 },
 }
 
 monster.attacks = {

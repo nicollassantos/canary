@@ -84,6 +84,8 @@ monster.loot = {
 	{ id = 8017, chance = 2000 }, -- beetroot
 	{ id = 3725, chance = 2000 }, -- brown mushroom
 	{ id = 268, chance = 2210 }, -- mana potion
+	{ name = "great mana potion", chance = 1891 },
+	{ name = "small enchanted amethyst", chance = 1404, maxCount = 2 },
 	{ id = 237, chance = 1200 }, -- strong mana potion
 	{ id = 3741, chance = 1900 }, -- troll green
 	{ id = 22051, chance = 950 }, -- werebadger claws

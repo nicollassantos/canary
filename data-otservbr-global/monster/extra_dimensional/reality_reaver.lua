@@ -93,8 +93,10 @@ monster.loot = {
 	{ id = 16120, chance = 4400 }, -- violet crystal shard
 	{ id = 16119, chance = 4000 }, -- blue crystal shard
 	{ id = 3039, chance = 2600 }, -- red gem
+	{ name = "wand of starstorm", chance = 888 },
 	{ id = 23543, chance = 630 }, -- collar of green plasma
 	{ id = 828, chance = 520 }, -- lightning headband
+	{ name = "focus cape", chance = 392 },
 	{ id = 3036, chance = 370 }, -- violet gem
 	{ id = 23529, chance = 370 }, -- ring of blue plasma
 	{ id = 23544, chance = 300 }, -- collar of red plasma

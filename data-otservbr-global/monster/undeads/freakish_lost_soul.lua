@@ -83,6 +83,7 @@ monster.loot = {
 	{ name = "silver hand mirror", chance = 1090 },
 	{ name = "ornate crossbow", chance = 1090 },
 	{ name = "crystal crossbow", chance = 270 },
+	{ name = "stone skin amulet", chance = 261 },
 }
 
 monster.attacks = {

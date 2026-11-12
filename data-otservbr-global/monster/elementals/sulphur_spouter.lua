@@ -79,6 +79,7 @@ monster.loot = {
 	{ name = "Ultimate Mana Potion", chance = 12890, minCount = 1, maxCount = 2 },
 	{ name = "Yellow Gem", chance = 2820 },
 	{ id = 282, chance = 2450 }, -- Giant Shimmering Pearl (Green)
+	{ name = "might ring", chance = 2437 },
 	{ name = "Slightly Rusted Legs", chance = 2420 },
 	{ name = "Knight Legs", chance = 2360 },
 	{ id = 3039, chance = 2190 }, -- Red Gem

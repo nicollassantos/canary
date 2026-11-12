@@ -84,6 +84,7 @@ monster.loot = {
 	{ id = 3307, chance = 1640 }, -- scimitar
 	{ name = "brown mushroom", chance = 6120, maxCount = 2 },
 	{ name = "pelvis bone", chance = 8700 },
+	{ name = "stone skin amulet", chance = 1384 },
 }
 
 monster.attacks = {

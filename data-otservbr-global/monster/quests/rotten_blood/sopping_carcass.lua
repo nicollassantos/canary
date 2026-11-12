@@ -70,7 +70,16 @@ monster.light = {
 	color = 0,
 }
 
-monster.loot = {}
+monster.loot = {
+	{ name = "soul orb", chance = 15976, maxCount = 3 },
+	{ name = "decayed finger bone", chance = 8580 },
+	{ name = "rotten roots", chance = 5325 },
+	{ name = "yellow gem", chance = 5325 },
+	{ name = "ultimate mana potion", chance = 4142, maxCount = 3 },
+	{ name = "underworld rod", chance = 2959 },
+	{ name = "skull helmet", chance = 2367 },
+	{ name = "ripper lance", chance = 2071 },
+}
 
 monster.attacks = {
 	{ name = "melee", interval = 2000, chance = 100, minDamage = 0, maxDamage = -1100 },

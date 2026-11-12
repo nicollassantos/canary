@@ -96,6 +96,8 @@ monster.loot = {
 	{ id = 23544, chance = 470 }, -- collar of red plasma
 	{ id = 23542, chance = 470 }, -- collar of blue plasma
 	{ name = "spark sphere", chance = 14870 },
+	{ name = "blue gem", chance = 315 },
+	{ name = "lightning legs", chance = 105 },
 }
 
 monster.attacks = {

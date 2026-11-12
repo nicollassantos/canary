@@ -84,6 +84,7 @@ monster.loot = {
 	{ name = "gold coin", chance = 83000, maxCount = 50 },
 	{ id = 3039, chance = 540 }, -- red gem
 	{ name = "ice rapier", chance = 810 },
+	{ name = "stone skin amulet", chance = 277 },
 	{ name = "vampire shield", chance = 200 },
 	{ name = "red piece of cloth", chance = 70 },
 	{ name = "strong health potion", chance = 7100 },

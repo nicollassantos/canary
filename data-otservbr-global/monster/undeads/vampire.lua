@@ -95,6 +95,7 @@ monster.loot = {
 	{ name = "strong health potion", chance = 1500 },
 	{ name = "vampire teeth", chance = 7600 },
 	{ name = "blood preservation", chance = 5100 },
+	{ name = "stone skin amulet", chance = 58 },
 }
 
 monster.attacks = {

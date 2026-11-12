@@ -94,6 +94,7 @@ monster.loot = {
 	{ id = 7441, chance = 100000 }, -- ice cube
 	{ name = "glacial rod", chance = 150 },
 	{ name = "crystalline armor", chance = 250 },
+	{ name = "leviathan's amulet", chance = 145 },
 }
 
 monster.attacks = {

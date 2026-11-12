@@ -85,6 +85,7 @@ monster.loot = {
 	{ name = "battle hammer", chance = 7000 },
 	{ name = "steel helmet", chance = 4600 },
 	{ name = "brass helmet", chance = 9400 },
+	{ name = "stone skin amulet", chance = 753 },
 	{ name = "simple dress", chance = 560 },
 	{ name = "mana potion", chance = 740 },
 	{ id = 8894, chance = 5680 }, -- heavily rusted armor

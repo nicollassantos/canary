@@ -91,6 +91,7 @@ monster.loot = {
 	{ name = "crystal mace", chance = 2360 },
 	{ name = "giant sword", chance = 1720 },
 	{ name = "stone skin amulet", chance = 1500 },
+	{ name = "jade hammer", chance = 820 },
 	{ name = "crown shield", chance = 640 },
 	{ name = "bag you desire", chance = 15 },
 }

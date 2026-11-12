@@ -78,6 +78,7 @@ monster.loot = {
 	{ name = "gold coin", chance = 50000, maxCount = 204 },
 	{ name = "gold coin", chance = 25000, maxCount = 100 },
 	{ name = "gold coin", chance = 25000, maxCount = 12 },
+	{ name = "might ring", chance = 3394 },
 	{ name = "wand of inferno", chance = 2240 },
 	{ name = "fire sword", chance = 530 },
 	{ name = "magma amulet", chance = 1300 },

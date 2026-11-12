@@ -67,10 +67,15 @@ monster.voices = {
 
 monster.loot = {
 	{ name = "gold coin", chance = 100000, maxCount = 284 },
+	{ name = "flask of demonic blood", chance = 37407, maxCount = 3 },
+	{ name = "great mana potion", chance = 19259, maxCount = 5 },
 	{ name = "platinum coin", chance = 9240, maxCount = 10 },
 	{ id = 3039, chance = 18200 }, -- red gem
 	{ name = "gold ingot", chance = 29700, maxCount = 5 },
 	{ name = "assassin star", chance = 29700, maxCount = 15 },
+	{ name = "underworld rod", chance = 5926 },
+	{ name = "violet gem", chance = 2963 },
+	{ name = "magma legs", chance = 2222 },
 	{ name = "demonic essence", chance = 330 },
 	{ name = "great spirit potion", chance = 330, maxCount = 5 },
 	{ name = "soul orb", chance = 19530 },

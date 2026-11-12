@@ -78,6 +78,8 @@ monster.voices = {
 }
 
 monster.loot = {
+	{ name = "slightly rusted legs", chance = 9981 },
+	{ name = "small amethyst", chance = 8007, maxCount = 3 },
 	{ id = 3007, chance = 410 }, -- crystal ring
 	{ name = "gold coin", chance = 30000, maxCount = 274 },
 	{ name = "gold coin", chance = 30000, maxCount = 100 },
@@ -89,6 +91,7 @@ monster.loot = {
 	{ name = "orichalcum pearl", chance = 1500, maxCount = 4 },
 	{ name = "red piece of cloth", chance = 4000 },
 	{ name = "soul orb", chance = 21500 },
+	{ name = "assassin star", chance = 104 },
 	{ name = "soul orb", chance = 50 },
 	{ id = 6300, chance = 60 }, -- death ring
 	{ name = "demonic essence", chance = 22500 },

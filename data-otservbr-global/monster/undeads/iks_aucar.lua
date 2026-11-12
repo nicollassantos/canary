@@ -92,6 +92,7 @@ monster.loot = {
 	{ name = "rotten feather", chance = 2170 },
 	{ name = "ritual tooth", chance = 1330 },
 	{ name = "gold-brocaded cloth", chance = 890 },
+	{ name = "stone skin amulet", chance = 427 },
 	{ name = "broken iks sandals", chance = 40 },
 }
 

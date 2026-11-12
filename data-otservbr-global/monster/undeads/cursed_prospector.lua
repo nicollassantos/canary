@@ -78,6 +78,7 @@ monster.loot = {
 	{ name = "great spirit potion", chance = 15190, maxCount = 2 },
 	{ name = "spectral silver nugget", chance = 11520 },
 	{ name = "spectral gold nugget", chance = 5680 },
+	{ name = "stone skin amulet", chance = 2813 },
 	{ name = "emerald bangle", chance = 1340 },
 	{ name = "lightning boots", chance = 1340 },
 	{ name = "diamond", chance = 1000 },
