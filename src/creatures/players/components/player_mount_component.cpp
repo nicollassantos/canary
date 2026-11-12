@@ -18,6 +18,7 @@
 #include "utils/const.hpp"
 #include "utils/tools.hpp"
 #include "config/config_port.hpp"
+#include "creatures/players/components/creature_feedback.hpp"
 
 uint8_t PlayerMountComponent::getLastMount() const {
 	const int32_t value = m_player.getStorageValue(PSTRG_MOUNTS_CURRENTMOUNT);
@@ -139,7 +140,7 @@ bool PlayerMountComponent::toggleMount(bool mount) {
 		m_player.kv()->set("last-mount", currentMount->id);
 
 		if (currentMount->speed != 0) {
-			g_game().changeSpeed(m_player.static_self_cast<Player>(), currentMount->speed);
+			g_creatureFeedback().changeSpeed(m_player.static_self_cast<Player>(), currentMount->speed);
 		}
 	} else {
 		if (!m_player.isMounted()) {
@@ -149,7 +150,7 @@ bool PlayerMountComponent::toggleMount(bool mount) {
 		dismount();
 	}
 
-	g_game().internalCreatureChangeOutfit(m_player.static_self_cast<Player>(), m_player.defaultOutfit);
+	g_creatureFeedback().internalCreatureChangeOutfit(m_player.static_self_cast<Player>(), m_player.defaultOutfit);
 	m_player.lastToggleMount = OTSYS_TIME();
 	return true;
 }
@@ -192,7 +193,7 @@ bool PlayerMountComponent::untameMount(uint8_t mountId) {
 	if (getCurrentMount() == mountId) {
 		if (m_player.isMounted()) {
 			dismount();
-			g_game().internalCreatureChangeOutfit(m_player.static_self_cast<Player>(), m_player.defaultOutfit);
+			g_creatureFeedback().internalCreatureChangeOutfit(m_player.static_self_cast<Player>(), m_player.defaultOutfit);
 		}
 
 		setCurrentMount(0);
@@ -223,7 +224,7 @@ bool PlayerMountComponent::hasMount(const std::shared_ptr<Mount> &mount) const {
 void PlayerMountComponent::dismount() {
 	const auto &mount = g_game().mounts->getMountByID(getCurrentMount());
 	if (mount && mount->speed > 0) {
-		g_game().changeSpeed(m_player.static_self_cast<Player>(), -mount->speed);
+		g_creatureFeedback().changeSpeed(m_player.static_self_cast<Player>(), -mount->speed);
 	}
 
 	m_player.defaultOutfit.lookMount = 0;

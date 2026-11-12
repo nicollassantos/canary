@@ -25,6 +25,7 @@
 #include "map/spectators.hpp"
 #include "utils/tools.hpp"
 #include "config/config_port.hpp"
+#include "creatures/players/components/creature_feedback.hpp"
 
 uint16_t PlayerExperienceComponent::getBaseSkill(uint8_t skill) const {
 	return m_player.skills[skill].level;
@@ -262,9 +263,9 @@ void PlayerExperienceComponent::addExperience(const std::shared_ptr<Creature> &t
 
 		m_player.updateBaseSpeed();
 		m_player.setBaseSpeed(m_player.getBaseSpeed());
-		g_game().changeSpeed(m_player.getPlayer(), 0);
-		g_game().addCreatureHealth(m_player.getPlayer());
-		g_game().addPlayerMana(m_player.getPlayer());
+		g_creatureFeedback().changeSpeed(m_player.getPlayer(), 0);
+		g_creatureFeedback().addCreatureHealth(m_player.getPlayer());
+		g_creatureFeedback().addPlayerMana(m_player.getPlayer());
 
 		if (m_player.m_party) {
 			m_player.m_party->updateSharedExperience();
@@ -349,9 +350,9 @@ void PlayerExperienceComponent::removeExperience(uint64_t exp, bool sendText /* 
 		m_player.updateBaseSpeed();
 		m_player.setBaseSpeed(m_player.getBaseSpeed());
 
-		g_game().changeSpeed(m_player.getPlayer(), 0);
-		g_game().addCreatureHealth(m_player.getPlayer());
-		g_game().addPlayerMana(m_player.getPlayer());
+		g_creatureFeedback().changeSpeed(m_player.getPlayer(), 0);
+		g_creatureFeedback().addCreatureHealth(m_player.getPlayer());
+		g_creatureFeedback().addPlayerMana(m_player.getPlayer());
 
 		if (m_player.m_party) {
 			m_player.m_party->updateSharedExperience();

@@ -52,6 +52,8 @@ target_sources(
             players/components/player_forge_component.cpp
             players/components/player_forge_history.cpp
             players/components/player_inventory_component.cpp
+            players/components/creature_feedback.cpp
+            players/components/world_registry.cpp
             players/components/player_mount_component.cpp
             players/components/player_prey_component.cpp
             players/components/player_stash_component.cpp

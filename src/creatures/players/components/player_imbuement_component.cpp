@@ -10,6 +10,8 @@
 #include "creatures/players/components/player_imbuement_component.hpp"
 
 #include "config/configmanager.hpp"
+#include "creatures/players/components/creature_feedback.hpp"
+#include "creatures/players/components/world_registry.hpp"
 #include "creatures/players/imbuements/imbuements.hpp"
 #include "creatures/players/player.hpp"
 #include "game/game.hpp"
@@ -340,7 +342,7 @@ void PlayerImbuementComponent::addItemImbuementStats(const Imbuement* imbuement)
 
 	// Add imbuement speed
 	if (imbuement->speed != 0) {
-		g_game().changeSpeed(m_player.getPlayer(), imbuement->speed);
+		g_creatureFeedback().changeSpeed(m_player.getPlayer(), imbuement->speed);
 	}
 
 	// Add imbuement capacity
@@ -379,7 +381,7 @@ void PlayerImbuementComponent::removeItemImbuementStats(const Imbuement* imbueme
 
 	// Remove imbuement speed
 	if (imbuement->speed != 0) {
-		g_game().changeSpeed(m_player.getPlayer(), -imbuement->speed);
+		g_creatureFeedback().changeSpeed(m_player.getPlayer(), -imbuement->speed);
 	}
 
 	// Remove imbuement capacity
@@ -413,7 +415,7 @@ void PlayerImbuementComponent::updateImbuementTrackerStats() const {
 			m_player.m_pendingImbuementTrackerEventId = g_dispatcher().scheduleEvent(
 				delay,
 				[playerId = m_player.getID()] {
-					const auto &player = g_game().getPlayerByID(playerId);
+					const auto &player = g_worldRegistry().getPlayerByID(playerId);
 					if (!player || player->isRemoved()) {
 						return;
 					}

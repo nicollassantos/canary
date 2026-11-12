@@ -22,6 +22,8 @@
 #include "server/network/protocol/protocolgame.hpp"
 #include "utils/tools.hpp"
 #include "config/config_port.hpp"
+#include "creatures/players/components/creature_feedback.hpp"
+#include "creatures/players/components/world_registry.hpp"
 
 std::pair<uint64_t, uint64_t> PlayerForgeComponent::getForgeSliversAndCores() const {
 	uint64_t sliverCount = 0;
@@ -106,7 +108,7 @@ void PlayerForgeComponent::triggerMomentum() {
 			++it;
 		}
 		if (triggered) {
-			g_game().addMagicEffect(m_player.getPosition(), CONST_ME_HOURGLASS);
+			g_creatureFeedback().addMagicEffect(m_player.getPosition(), CONST_ME_HOURGLASS);
 			m_player.sendTextMessage(MESSAGE_ATTENTION, "Momentum was triggered.");
 		}
 	}
@@ -142,7 +144,7 @@ void PlayerForgeComponent::triggerTranscendence() {
 		outfitCondition->setOutfit(outfit);
 		m_player.addCondition(outfitCondition);
 		m_player.wheel().setOnThinkTimer(WheelOnThink_t::AVATAR_FORGE, OTSYS_TIME() + duration);
-		g_game().addMagicEffect(m_player.getPosition(), CONST_ME_AVATAR_APPEAR);
+		g_creatureFeedback().addMagicEffect(m_player.getPosition(), CONST_ME_AVATAR_APPEAR);
 
 		m_player.sendSkills();
 		m_player.sendStats();
@@ -154,7 +156,7 @@ void PlayerForgeComponent::triggerTranscendence() {
 		const auto &task = m_player.createPlayerTask(
 			std::max<uint32_t>(SCHEDULER_MINTICKS, duration),
 			[playerId = m_player.getID()] {
-				const auto &player = g_game().getPlayerByID(playerId);
+				const auto &player = g_worldRegistry().getPlayerByID(playerId);
 				if (player) {
 					player->sendSkills();
 					player->sendStats();
@@ -175,7 +177,7 @@ void PlayerForgeComponent::triggerTranscendence() {
 		}
 
 		m_player.wheel().sendGiftOfLifeCooldown();
-		g_game().reloadCreature(m_player.getPlayer());
+		g_creatureFeedback().reloadCreature(m_player.getPlayer());
 	}
 }
 

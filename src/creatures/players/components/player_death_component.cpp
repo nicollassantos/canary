@@ -13,8 +13,10 @@
 #include "config/configmanager.hpp"
 #include "creatures/combat/condition.hpp"
 #include "creatures/monsters/monsters.hpp"
+#include "creatures/players/components/creature_feedback.hpp"
 #include "creatures/players/player.hpp"
 #include "creatures/players/components/pvp/expert_pvp.hpp"
+#include "creatures/players/components/world_registry.hpp"
 #include "creatures/players/grouping/party.hpp"
 #include "creatures/players/vocations/vocation.hpp"
 #include "game/game.hpp"
@@ -35,12 +37,12 @@ namespace {
 void PlayerDeathComponent::death(const std::shared_ptr<Creature> &lastHitCreature) {
 	if (!config().getBoolean(TOGGLE_MOUNT_IN_PZ) && m_player.isMounted()) {
 		m_player.dismount();
-		g_game().internalCreatureChangeOutfit(m_player.getPlayer(), m_player.defaultOutfit);
+		g_creatureFeedback().internalCreatureChangeOutfit(m_player.getPlayer(), m_player.defaultOutfit);
 	}
 
 	m_player.loginPosition = m_player.town->getTemplePosition();
 
-	g_game().sendSingleSoundEffect(m_player.getPlayer()->getPosition(), m_player.sex == PLAYERSEX_FEMALE ? SoundEffect_t::HUMAN_FEMALE_DEATH : SoundEffect_t::HUMAN_MALE_DEATH, m_player.getPlayer());
+	g_creatureFeedback().sendSingleSoundEffect(m_player.getPlayer()->getPosition(), m_player.sex == PLAYERSEX_FEMALE ? SoundEffect_t::HUMAN_FEMALE_DEATH : SoundEffect_t::HUMAN_MALE_DEATH, m_player.getPlayer());
 	if (m_player.skillLoss) {
 		int playerDmg = 0;
 		int othersDmg = 0;
@@ -49,7 +51,7 @@ void PlayerDeathComponent::death(const std::shared_ptr<Creature> &lastHitCreatur
 		for (const auto &[creatureId, damageInfo] : m_player.damageMap) {
 			const auto &[total, ticks] = damageInfo;
 			if ((OTSYS_TIME() - ticks) <= inFightTicks) {
-				const auto &damageDealer = g_game().getPlayerByID(creatureId);
+				const auto &damageDealer = g_worldRegistry().getPlayerByID(creatureId);
 				if (damageDealer) {
 					playerDmg += total;
 					sumLevels += damageDealer->getLevel();
@@ -270,8 +272,8 @@ void PlayerDeathComponent::death(const std::shared_ptr<Creature> &lastHitCreatur
 
 		m_player.health = m_player.healthMax;
 		g_game().internalTeleport(m_player.getPlayer(), m_player.getTemplePosition(), true);
-		g_game().addCreatureHealth(m_player.getPlayer());
-		g_game().addPlayerMana(m_player.getPlayer());
+		g_creatureFeedback().addCreatureHealth(m_player.getPlayer());
+		g_creatureFeedback().addPlayerMana(m_player.getPlayer());
 		m_player.onThink(EVENT_CREATURE_THINK_INTERVAL);
 		m_player.onIdleStatus();
 		m_player.sendStats();
@@ -322,10 +324,10 @@ void PlayerDeathComponent::despawn() {
 
 	m_player.getParent()->postRemoveNotification(m_player.getPlayer(), nullptr, 0);
 
-	g_game().removePlayer(m_player.getPlayer());
+	g_worldRegistry().removePlayer(m_player.getPlayer());
 
 	// show player as pending
-	for (const auto &[key, player] : g_game().getPlayers()) {
+	for (const auto &[key, player] : g_worldRegistry().getPlayers()) {
 		player->vip().notifyStatusChange(m_player.getPlayer(), VipStatus_t::Pending, false);
 	}
 
@@ -346,7 +348,7 @@ bool PlayerDeathComponent::dropCorpse(const std::shared_ptr<Creature> &lastHitCr
 }
 
 void PlayerDeathComponent::addUnjustifiedDead(const std::shared_ptr<Player> &attacked) {
-	if (m_player.hasFlag(PlayerFlags_t::NotGainInFight) || attacked == m_player.getPlayer() || g_game().getWorldType() == WORLD_TYPE_PVP_ENFORCED) {
+	if (m_player.hasFlag(PlayerFlags_t::NotGainInFight) || attacked == m_player.getPlayer() || g_worldRegistry().getWorldType() == WORLD_TYPE_PVP_ENFORCED) {
 		return;
 	}
 

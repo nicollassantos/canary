@@ -59,3 +59,34 @@ place where each function lives today.
   directory. On Linux, export `VCPKG_ROOT`; the preset depends on it.
 - When `vcpkg.json` moves the baseline, check out `VCPKG_ROOT` at that commit and re-run
   `bootstrap-vcpkg.sh`, matching `.github/scripts/bootstrap_vcpkg.py`.
+
+## Receiver substitutions in components
+
+Branch-owned player components call some `Game` methods through narrow ports instead of
+`g_game()`. The ports mirror `Game`'s signatures, so only the receiver token differs. When an
+upstream hunk touches one of these lines, keep the branch receiver and take upstream's
+arguments. When upstream adds a new call to one of these methods in a moved function, use the
+port receiver.
+
+| Upstream (`player.cpp`) | Branch (`components/player_*_component.cpp`) | Port |
+|---|---|---|
+| `g_game().changeSpeed(` | `g_creatureFeedback().changeSpeed(` | `CreatureFeedback` |
+| `g_game().changePlayerSpeed(` | `g_creatureFeedback().changePlayerSpeed(` | `CreatureFeedback` |
+| `g_game().addCreatureHealth(` | `g_creatureFeedback().addCreatureHealth(` | `CreatureFeedback` |
+| `g_game().addPlayerMana(` | `g_creatureFeedback().addPlayerMana(` | `CreatureFeedback` |
+| `g_game().internalCreatureChangeOutfit(` | `g_creatureFeedback().internalCreatureChangeOutfit(` | `CreatureFeedback` |
+| `g_game().reloadCreature(` | `g_creatureFeedback().reloadCreature(` | `CreatureFeedback` |
+| `g_game().addMagicEffect(pos, effect)` | `g_creatureFeedback().addMagicEffect(pos, effect)` | `CreatureFeedback` |
+| `g_game().sendSingleSoundEffect(` | `g_creatureFeedback().sendSingleSoundEffect(` | `CreatureFeedback` |
+| `g_game().getPlayerByID(` | `g_worldRegistry().getPlayerByID(` | `WorldRegistry` |
+| `g_game().getCreatureByID(` | `g_worldRegistry().getCreatureByID(` | `WorldRegistry` |
+| `g_game().getPlayers(` | `g_worldRegistry().getPlayers(` | `WorldRegistry` |
+| `g_game().addPlayer(` | `g_worldRegistry().addPlayer(` | `WorldRegistry` |
+| `g_game().removePlayer(` | `g_worldRegistry().removePlayer(` | `WorldRegistry` |
+| `g_game().removeCreature(` | `g_worldRegistry().removeCreature(` | `WorldRegistry` |
+| `g_game().checkPlayersRecord(` | `g_worldRegistry().checkPlayersRecord(` | `WorldRegistry` |
+| `g_game().getWorldType(` | `g_worldRegistry().getWorldType(` | `WorldRegistry` |
+
+`g_configManager()` in components became `IConfigManager::getInstance()` (Phase 19.2).
+Upstream-owned component files (`git ls-tree origin/main src/creatures/players/components`)
+keep `g_game()`.

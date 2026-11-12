@@ -17,6 +17,8 @@
 #include "core.hpp"
 #include "lua/creature/movement.hpp"
 #include "config/config_port.hpp"
+#include "creatures/players/components/creature_feedback.hpp"
+#include "creatures/players/components/world_registry.hpp"
 
 void PlayerCreatureEventComponent::onUpdateTileItem(const std::shared_ptr<Tile> &updateTile, const Position &pos, const std::shared_ptr<Item> &oldItem, const ItemType &oldType, const std::shared_ptr<Item> &newItem, const ItemType &newType) {
 	m_player.Creature::onUpdateTileItem(updateTile, pos, oldItem, oldType, newItem, newType);
@@ -127,7 +129,7 @@ void PlayerCreatureEventComponent::onCreatureAppear(const std::shared_ptr<Creatu
 			}
 		}
 
-		g_game().checkPlayersRecord();
+		g_worldRegistry().checkPlayersRecord();
 		if (m_player.getLevel() < IConfigManager::getInstance().getNumber(ADVENTURERSBLESSING_LEVEL) && m_player.getVocationId() > VOCATION_NONE) {
 			for (uint8_t i = 2; i <= 6; i++) {
 				if (!m_player.hasBlessing(i)) {
@@ -141,7 +143,7 @@ void PlayerCreatureEventComponent::onCreatureAppear(const std::shared_ptr<Creatu
 			m_player.toggleMount(true);
 		}
 
-		g_game().changePlayerSpeed(m_player.getPlayer(), 0);
+		g_creatureFeedback().changePlayerSpeed(m_player.getPlayer(), 0);
 	}
 }
 

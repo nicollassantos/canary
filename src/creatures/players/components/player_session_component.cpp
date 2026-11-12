@@ -8,6 +8,7 @@
 #include "game/scheduling/dispatcher.hpp"
 #include "lua/creature/creatureevent.hpp"
 #include "config/config_port.hpp"
+#include "creatures/players/components/world_registry.hpp"
 
 void PlayerSessionComponent::addInFightTicks(bool pzlock) {
 	m_player.wheel().checkAbilities();
@@ -30,19 +31,19 @@ void PlayerSessionComponent::addInFightTicks(bool pzlock) {
 }
 
 void PlayerSessionComponent::removeList() {
-	g_game().removePlayer(m_player.getPlayer());
+	g_worldRegistry().removePlayer(m_player.getPlayer());
 
-	for (const auto &[key, player] : g_game().getPlayers()) {
+	for (const auto &[key, player] : g_worldRegistry().getPlayers()) {
 		player->vip().notifyStatusChange(m_player.getPlayer(), VipStatus_t::Offline);
 	}
 }
 
 void PlayerSessionComponent::addList() {
-	for (const auto &[key, player] : g_game().getPlayers()) {
+	for (const auto &[key, player] : g_worldRegistry().getPlayers()) {
 		player->vip().notifyStatusChange(m_player.getPlayer(), m_player.vip().getStatus());
 	}
 
-	g_game().addPlayer(m_player.getPlayer());
+	g_worldRegistry().addPlayer(m_player.getPlayer());
 }
 
 void PlayerSessionComponent::removePlayer(bool displayEffect, bool forced) {
@@ -51,7 +52,7 @@ void PlayerSessionComponent::removePlayer(bool displayEffect, bool forced) {
 	if (m_player.client) {
 		m_player.client->logout(displayEffect, forced);
 	} else {
-		g_game().removeCreature(m_player.getPlayer());
+		g_worldRegistry().removeCreature(m_player.getPlayer());
 	}
 }
 
@@ -117,7 +118,7 @@ void PlayerSessionComponent::addPzLockTicks() {
 	const auto &task = m_player.createPlayerTask(
 		duration,
 		[playerId = m_player.getID()] {
-			const auto &player = g_game().getPlayerByID(playerId);
+			const auto &player = g_worldRegistry().getPlayerByID(playerId);
 			if (!player) {
 				return;
 			}

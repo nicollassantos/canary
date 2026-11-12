@@ -17,6 +17,7 @@
 #include "lua/creature/creatureevent.hpp"
 #include "server/network/protocol/protocolgame.hpp"
 #include "config/config_port.hpp"
+#include "creatures/players/components/world_registry.hpp"
 
 void PlayerCombatEventComponent::onBlockHit() {
 	if (m_player.shieldBlockCount > 0) {
@@ -240,7 +241,7 @@ std::shared_ptr<Item> PlayerCombatEventComponent::getCorpse(const std::shared_pt
 		for (const auto &[creatureId, damageInfo] : m_player.damageMap) {
 			const auto &[total, ticks] = damageInfo;
 			if ((OTSYS_TIME() - ticks) <= inFightTicks) {
-				const auto &attacker = g_game().getCreatureByID(creatureId);
+				const auto &attacker = g_worldRegistry().getCreatureByID(creatureId);
 				if (attacker && !attacker->getPlayer()) {
 					hasOthers = true;
 					break;
@@ -404,7 +405,7 @@ void PlayerCombatEventComponent::onCombatRemoveCondition(const std::shared_ptr<C
 	// m_player.Creature::onCombatRemoveCondition(condition);
 	if (condition->getId() > 0) {
 		// Means the condition is from an item, id == slot
-		if (g_game().getWorldType() == WORLD_TYPE_PVP_ENFORCED) {
+		if (g_worldRegistry().getWorldType() == WORLD_TYPE_PVP_ENFORCED) {
 			const auto &item = m_player.getInventoryItem(static_cast<Slots_t>(condition->getId()));
 			if (item) {
 				// 25% chance to destroy the item
@@ -449,7 +450,7 @@ void PlayerCombatEventComponent::onAttackedCreature(const std::shared_ptr<Creatu
 
 	const auto &targetPlayer = target->getPlayer();
 	if (targetPlayer && !ExpertPvp::isEnabled() && !m_player.isPartner(targetPlayer) && !m_player.isGuildMate(targetPlayer)) {
-		if (!m_player.pzLocked && g_game().getWorldType() == WORLD_TYPE_PVP_ENFORCED) {
+		if (!m_player.pzLocked && g_worldRegistry().getWorldType() == WORLD_TYPE_PVP_ENFORCED) {
 			m_player.pzLocked = true;
 			m_player.sendIcons();
 		}

@@ -509,6 +509,8 @@
     <ClCompile Include="..\src\game\scheduling\monster_post_think_queue.cpp" />
     <ClCompile Include="..\src\creatures\players\components\player_race_icon_overlays.cpp" />
     <ClCompile Include="..\src\game\world_type_config.cpp" />
+    <ClCompile Include="..\src\creatures\players\components\creature_feedback.cpp" />
+    <ClCompile Include="..\src\creatures\players\components\world_registry.cpp" />
     <ClCompile Include="..\src\creatures\players\components\pvp\expert_pvp_world.cpp" />
     <ClCompile Include="..\src\creatures\players\vip_repository_db.cpp" />
   </ItemGroup>
@@ -756,6 +758,8 @@
     <ClInclude Include="..\src\game\scheduling\monster_post_think_queue.hpp" />
     <ClInclude Include="..\src\creatures\players\components\player_race_icon_overlays.hpp" />
     <ClInclude Include="..\src\game\world_type_config.hpp" />
+    <ClInclude Include="..\src\creatures\players\components\creature_feedback.hpp" />
+    <ClInclude Include="..\src\creatures\players\components\world_registry.hpp" />
     <ClInclude Include="..\src\creatures\players\components\pvp\expert_pvp_world.hpp" />
     <ClInclude Include="..\src\creatures\players\vip_repository.hpp" />
     <ClInclude Include="..\src\creatures\players\vip_repository_db.hpp" />

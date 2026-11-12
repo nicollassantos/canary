@@ -40,7 +40,9 @@
 #include "lib/di/injector.hpp"
 #include "lib/logging/log_with_spd_log.hpp"
 #include "lib/thread/thread_pool.hpp"
+#include "creatures/players/components/creature_feedback.hpp"
 #include "creatures/players/components/pvp/expert_pvp_world.hpp"
+#include "creatures/players/components/world_registry.hpp"
 #include "kv/kv_sql.hpp"
 #include "security/rsa.hpp"
 #include "server/network/message/outputmessage.hpp"
@@ -57,7 +59,9 @@ private:
 		// ConfigManager would be a second, never-loaded copy.
 		di::bind<IConfigManager>().to(ConfigManager::getInstance()),
 		di::bind<IDatabase>().to<Database>().in(di::singleton),
+		di::bind<CreatureFeedback>().in(di::singleton),
 		di::bind<ExpertPvpWorld>().in(di::singleton),
+		di::bind<WorldRegistry>().in(di::singleton),
 		di::bind<IGuildRepository>().to<GuildRepositoryDB>().in(di::singleton),
 		di::bind<IMarketRepository>().to<MarketRepositoryDB>().in(di::singleton),
 		di::bind<IPlayerRepository>().to<PlayerRepositoryDB>().in(di::singleton),

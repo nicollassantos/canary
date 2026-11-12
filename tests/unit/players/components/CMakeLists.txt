@@ -22,6 +22,8 @@ target_sources(
             weapon_proficiency_test.cpp
             expert_pvp_test.cpp
             expert_pvp_world_test.cpp
+            creature_feedback_test.cpp
+            world_registry_test.cpp
 )
 
 add_subdirectory(wheel)
