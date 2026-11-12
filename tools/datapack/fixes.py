@@ -98,16 +98,16 @@ def load_stackable(path):
 def plan(report, by_name, stackable, kinds=("max_count", "add_loot", "chance", "stat", "element", "immunity"), bosses=frozenset(), element_types=None):
     """Fixes for the chosen kinds plus the findings left for manual review, with the reason.
 
-    Bosses (bosstiary, and every monster flagged rewardBoss) are always left for review: their loot
-    comes from the reward chest, so the wiki's amounts and rates do not describe one roll of the
-    loot table.
+    Reward-chest monsters (`bosses`, flagged rewardBoss) are always left for review: each
+    participant rolls the table with a contribution factor (2x for a solo kill), so the wiki's
+    per-player amounts and rates do not describe one roll of the datapack table.
     """
     fixes, review = [], []
     for monster in report["monsters"]:
         if monster["name"] in bosses:
             for finding in monster["findings"]:
                 if finding["kind"] in ("loot_count", "loot_missing", "loot_chance", "stat", "element", "immunity"):
-                    review.append({"monster": monster["name"], "item": finding["subject"], "reason": "boss: reward chest loot, review by hand"})
+                    review.append({"monster": monster["name"], "item": finding["subject"], "reason": "reward chest: chances are base values scaled per participant"})
             continue
         block = monster.get("loot_block") or {}
         source = {"version": block.get("version"), "kills": block.get("kills"), "loot_revid": monster.get("loot_revid")}

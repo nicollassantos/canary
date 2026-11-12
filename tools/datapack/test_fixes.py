@@ -124,7 +124,7 @@ class PlanTest(unittest.TestCase):
     def test_bosses_are_left_for_review(self):
         planned, review = fixes.plan(self.REPORT, self.BY_NAME, stackable={3031, 9001}, bosses={"Sample Beast"})
         self.assertEqual([], planned)
-        self.assertTrue(all("boss" in r["reason"] for r in review))
+        self.assertTrue(all("reward chest" in r["reason"] for r in review))
 
     def test_only_safe_fixes_are_planned(self):
         planned, review = fixes.plan(self.REPORT, self.BY_NAME, stackable={3031, 9001})

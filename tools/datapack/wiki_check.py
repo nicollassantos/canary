@@ -455,7 +455,11 @@ def command_plan(args):
         report = json.load(handle)
     by_name, _ = load_items(os.path.join(ROOT, args.items))
     stackable = fixes_module.load_stackable(os.path.join(ROOT, args.appearances))
-    bosses = {m["name"] for m in load_monsters(args.out) if m.get("bosstiary") or m.get("rewardBoss")}
+    # Reward-chest monsters roll their table once per participant with a contribution factor
+    # (data/scripts/systems/reward_chest.lua: 2x for a solo kill), so their datapack chances are
+    # base values the wiki's per-player rates cannot check. Bosses that leave loot in the corpse
+    # roll like any creature and follow the normal rules.
+    bosses = {m["name"] for m in load_monsters(args.out) if m.get("rewardBoss")}
     element_types = {key: combat for combat, key in ELEMENTS.items()}
     fixes, review = fixes_module.plan(report, by_name, stackable, kinds=tuple(args.kinds.split(",")), bosses=bosses, element_types=element_types)
     manifest_path = os.path.join(ROOT, args.manifest)
