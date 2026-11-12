@@ -2,6 +2,7 @@ target_sources(
     canary_it
     PRIVATE guild_repository_db_it.cpp
             highscore_repository_db_it.cpp
+            house_access_facts_it.cpp
             market_repository_db_it.cpp
             player_repository_db_it.cpp
             schema_hardening_it.cpp

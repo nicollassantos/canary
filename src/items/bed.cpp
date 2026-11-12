@@ -122,12 +122,14 @@ bool BedItem::canUse(const std::shared_ptr<Player> &player) {
 		return true;
 	}
 
-	const auto sleeper = std::make_shared<Player>(nullptr);
-	if (!g_playerRepository().loadPlayerById(sleeper, sleeperGUID)) {
+	// Only the sleeper's access level matters: read the few facts it needs instead of loading the
+	// whole offline player on the game thread for every use of the bed.
+	const auto sleeper = g_playerRepository().loadHouseAccessFacts(sleeperGUID);
+	if (!sleeper) {
 		return false;
 	}
 
-	if (house->getHouseAccessLevel(sleeper) > house->getHouseAccessLevel(player)) {
+	if (house->getHouseAccessLevel(*sleeper) > house->getHouseAccessLevel(player)) {
 		return false;
 	}
 	return true;

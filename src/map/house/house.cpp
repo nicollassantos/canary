@@ -211,6 +211,31 @@ AccessHouseLevel_t House::getHouseAccessLevel(const std::shared_ptr<Player> &pla
 	return HOUSE_NOT_INVITED;
 }
 
+AccessHouseLevel_t House::getHouseAccessLevel(const HouseAccessFacts &facts) const {
+	// Mirrors the Player overload above; keep both in step.
+	if (g_configManager().getBoolean(HOUSE_OWNED_BY_ACCOUNT) && ownerAccountId == facts.accountId) {
+		return HOUSE_OWNER;
+	}
+
+	if (facts.canEditHouses) {
+		return HOUSE_OWNER;
+	}
+
+	if (facts.guid == owner) {
+		return HOUSE_OWNER;
+	}
+
+	if (subOwnerList.isInList(facts.guid, facts.guildRankId)) {
+		return HOUSE_SUBOWNER;
+	}
+
+	if (guestList.isInList(facts.guid, facts.guildRankId)) {
+		return HOUSE_GUEST;
+	}
+
+	return HOUSE_NOT_INVITED;
+}
+
 bool House::kickPlayer(const std::shared_ptr<Player> &player, const std::shared_ptr<Player> &target) {
 	if (!target) {
 		return false;
@@ -783,6 +808,19 @@ bool AccessList::isInList(const std::shared_ptr<Player> &player) const {
 
 	const auto &rank = player->getGuildRank();
 	return rank && guildRankList.contains(rank->id);
+}
+
+bool AccessList::isInList(uint32_t guid, uint32_t guildRankId) const {
+	// Mirrors the Player overload above; keep both in step.
+	if (allowEveryone) {
+		return true;
+	}
+
+	if (playerList.contains(guid)) {
+		return true;
+	}
+
+	return guildRankId != 0 && guildRankList.contains(guildRankId);
 }
 
 void AccessList::getList(std::string &retList) const {

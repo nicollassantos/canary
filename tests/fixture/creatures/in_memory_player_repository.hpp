@@ -123,6 +123,16 @@ public:
 		return true;
 	}
 
+	std::optional<HouseAccessFacts> loadHouseAccessFacts(uint32_t guid) override {
+		const auto it = houseAccessFacts.find(guid);
+		if (it == houseAccessFacts.end()) {
+			return std::nullopt;
+		}
+		return it->second;
+	}
+
+	std::unordered_map<uint32_t, HouseAccessFacts> houseAccessFacts;
+
 	/// Last list written by updateOnlinePlayers, in the order the caller sent it.
 	std::vector<uint32_t> onlinePlayers;
 	uint32_t onlineUpdates = 0;

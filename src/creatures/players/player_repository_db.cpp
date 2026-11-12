@@ -143,3 +143,22 @@ bool PlayerRepositoryDB::updateOnlinePlayers(const std::vector<uint32_t> &online
 	return DBTransaction::executeWithinTransactionRollbackOnFailure(updateOperation);
 }
 
+std::optional<HouseAccessFacts> PlayerRepositoryDB::loadHouseAccessFacts(uint32_t guid) {
+	const auto result = db_.storeQuery(fmt::format(
+		"SELECT `p`.`account_id`, `p`.`group_id`, COALESCE(`gm`.`rank_id`, 0) AS `rank_id` FROM `players` `p` "
+		"LEFT JOIN `guild_membership` `gm` ON `gm`.`player_id` = `p`.`id` WHERE `p`.`id` = {}",
+		guid
+	));
+	if (!result) {
+		return std::nullopt;
+	}
+
+	HouseAccessFacts facts;
+	facts.guid = guid;
+	facts.accountId = result->getNumber<uint32_t>("account_id");
+	facts.guildRankId = result->getNumber<uint32_t>("rank_id");
+	if (const auto group = g_game().groups.getGroup(result->getNumber<uint16_t>("group_id"))) {
+		facts.canEditHouses = group->flags[Groups::getFlagNumber(PlayerFlags_t::CanEditHouses)];
+	}
+	return facts;
+}

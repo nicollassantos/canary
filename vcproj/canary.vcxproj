@@ -219,6 +219,7 @@
     <ClInclude Include="..\src\lua\scripts\scripts.hpp" />
     <ClInclude Include="..\src\lua\scripts\script_environment.hpp" />
     <ClInclude Include="..\src\map\house\house.hpp" />
+    <ClInclude Include="..\src\map\house\house_access_facts.hpp" />
     <ClInclude Include="..\src\map\house\housetile.hpp" />
     <ClInclude Include="..\src\map\map.hpp" />
     <ClInclude Include="..\src\map\map_download.hpp" />

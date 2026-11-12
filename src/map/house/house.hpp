@@ -9,6 +9,7 @@
 
 #pragma once
 
+#include "map/house/house_access_facts.hpp"
 #include "items/containers/container.hpp"
 #include "declarations.hpp"
 #include "map/house/housetile.hpp"
@@ -29,6 +30,8 @@ public:
 	void addGuildRank(const std::string &name, const std::string &rankName);
 
 	bool isInList(const std::shared_ptr<Player> &player) const;
+	/// Same rule for a player who may be offline (see HouseAccessFacts); guildRankId 0 = no guild.
+	bool isInList(uint32_t guid, uint32_t guildRankId) const;
 
 	void getList(std::string &list) const;
 
@@ -119,6 +122,8 @@ public:
 	}
 
 	AccessHouseLevel_t getHouseAccessLevel(const std::shared_ptr<Player> &player) const;
+	/// Same rule as the Player overload, from facts loaded without the whole player.
+	AccessHouseLevel_t getHouseAccessLevel(const HouseAccessFacts &facts) const;
 	bool kickPlayer(const std::shared_ptr<Player> &player, const std::shared_ptr<Player> &target);
 
 	void setEntryPos(Position pos) {

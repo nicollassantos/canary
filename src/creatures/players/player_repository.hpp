@@ -12,7 +12,10 @@
 #include <cstdint>
 #include <memory>
 #include <string>
+#include <optional>
 #include <vector>
+
+#include "map/house/house_access_facts.hpp"
 
 class Player;
 
@@ -41,6 +44,9 @@ public:
 	/// Makes `players_online` hold exactly `onlineGuids` (empty clears it), in one transaction.
 	/// Returns false when any statement fails; the table is then left as it was.
 	[[nodiscard]] virtual bool updateOnlinePlayers(const std::vector<uint32_t> &onlineGuids) = 0;
+	/// Account, group flag and guild rank of `guid` from one indexed query; std::nullopt when the
+	/// player does not exist. Used instead of a full load where only house access is needed.
+	[[nodiscard]] virtual std::optional<HouseAccessFacts> loadHouseAccessFacts(uint32_t guid) = 0;
 	/// Validates a game-world login and resolves the account id.
 	[[nodiscard]] virtual bool gameWorldAuthentication(const std::string &accountDescriptor, const std::string &sessionOrPassword, std::string &characterName, uint32_t &accountId, bool oldProtocol, uint32_t ip) = 0;
 };
