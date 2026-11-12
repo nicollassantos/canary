@@ -27,6 +27,9 @@ public:
 
 class PlayerVIP {
 public:
+	/// Matches account_viplist.description and account_vipgroups.name (varchar(128)).
+	static constexpr size_t MaxTextLength = 128;
+
 	explicit PlayerVIP(Player &player);
 
 	static const uint8_t firstID;
@@ -56,8 +59,8 @@ public:
 
 	void addGroupInternal(uint8_t groupId, const std::string &name, bool customizable);
 	void removeGroup(uint8_t groupId);
-	void addGroup(const std::string &name, bool customizable = true);
-	void editGroup(uint8_t groupId, const std::string &newName, bool customizable = true) const;
+	void addGroup(const std::string &rawName, bool customizable = true);
+	void editGroup(uint8_t groupId, const std::string &rawName, bool customizable = true) const;
 
 	void addGuidToGroupInternal(uint8_t groupId, uint32_t guid) const;
 

@@ -110,7 +110,8 @@ bool PlayerVIP::edit(uint32_t vipGuid, const std::string &description, uint32_t 
 	}
 
 	if (m_player.account) {
-		g_vipRepository().editVIPEntry(m_player.account->getID(), vipGuid, description, icon, notify);
+		// account_viplist.description is varchar(128); the text comes straight from the packet.
+		g_vipRepository().editVIPEntry(m_player.account->getID(), vipGuid, description.substr(0, MaxTextLength), icon, notify);
 		g_vipRepository().removeGuidVIPGroupEntry(m_player.account->getID(), vipGuid);
 	}
 
@@ -172,6 +173,12 @@ void PlayerVIP::removeGroup(uint8_t groupId) {
 		return;
 	}
 
+	// The default groups (Enemies, Friends, Trading Partner) cannot be removed; the client never
+	// offers it, but a crafted packet could.
+	if (!(*it)->customizable) {
+		return;
+	}
+
 	vipGroups.erase(it);
 
 	if (m_player.account) {
@@ -183,7 +190,16 @@ void PlayerVIP::removeGroup(uint8_t groupId) {
 	}
 }
 
-void PlayerVIP::addGroup(const std::string &name, bool customizable /*= true */) {
+void PlayerVIP::addGroup(const std::string &rawName, bool customizable /*= true */) {
+	// account_vipgroups.name is varchar(128); the name comes straight from the packet.
+	const std::string name = rawName.substr(0, MaxTextLength);
+
+	// The client shows getMaxGroupEntries() - groups as the free slots; enforce the same limit.
+	if (vipGroups.size() >= getMaxGroupEntries()) {
+		m_player.sendCancelMessage("You cannot create more groups.");
+		return;
+	}
+
 	if (getGroupByName(name) != nullptr) {
 		m_player.sendCancelMessage("A group with this name already exists. Please choose another name.");
 		return;
@@ -207,13 +223,18 @@ void PlayerVIP::addGroup(const std::string &name, bool customizable /*= true */)
 	}
 }
 
-void PlayerVIP::editGroup(uint8_t groupId, const std::string &newName, bool customizable /*= true*/) const {
+void PlayerVIP::editGroup(uint8_t groupId, const std::string &rawName, bool customizable /*= true*/) const {
+	const std::string newName = rawName.substr(0, MaxTextLength);
 	if (getGroupByName(newName) != nullptr) {
 		m_player.sendCancelMessage("A group with this name already exists. Please choose another name.");
 		return;
 	}
 
+	// groupId comes from the packet: an unknown id used to dereference null and crash the server.
 	const auto &vipGroup = getGroupByID(groupId);
+	if (!vipGroup || !vipGroup->customizable) {
+		return;
+	}
 	vipGroup->name = newName;
 	vipGroup->customizable = customizable;
 

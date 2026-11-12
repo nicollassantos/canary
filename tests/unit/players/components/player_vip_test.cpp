@@ -204,6 +204,8 @@ TEST_F(PlayerVIPPersistenceTest, RemoveDeletesPersistedEntry) {
 }
 
 TEST_F(PlayerVIPPersistenceTest, EditPersistsDescriptionAndGroups) {
+	// Creating groups needs free group slots, which only premium accounts have.
+	player->setFlag(PlayerFlags_t::IsAlwaysPremium);
 	player->vip().addGroup("Friends");
 	ASSERT_TRUE(player->vip().add(500, "Friend", VipStatus_t::Offline));
 	const auto group = player->vip().getGroupByName("Friends");
@@ -229,4 +231,49 @@ TEST(PlayerVIPNoAccountTest, EditWithoutAccountDoesNotDereferenceAccount) {
 	EXPECT_TRUE(player->vip().edit(500, "note", 0, false, {}));
 
 	DI::setTestContainer(previous);
+}
+
+// --- groups edited from crafted packets ---
+
+// Regression: an unknown group id from the packet dereferenced null and crashed the server.
+TEST_F(PlayerVIPTest, EditGroup_UnknownId_IsIgnored) {
+	auto p = makePlayer(true);
+
+	EXPECT_NO_FATAL_FAILURE(p->vip().editGroup(200, "Renamed"));
+	EXPECT_TRUE(p->vip().getGroups().empty());
+}
+
+TEST_F(PlayerVIPTest, EditGroup_DefaultGroupIsNotRenamed) {
+	auto p = makePlayer(true);
+	p->vip().addGroupInternal(1, "Enemies", false);
+
+	p->vip().editGroup(1, "Renamed");
+
+	EXPECT_EQ("Enemies", p->vip().getGroups().front()->name);
+}
+
+TEST_F(PlayerVIPTest, RemoveGroup_DefaultGroupIsKept) {
+	auto p = makePlayer(true);
+	p->vip().addGroupInternal(1, "Friends", false);
+
+	p->vip().removeGroup(1);
+
+	EXPECT_EQ(1U, p->vip().getGroups().size());
+}
+
+TEST_F(PlayerVIPTest, AddGroup_NonPremiumCannotCreateGroups) {
+	auto p = makePlayer(false);
+
+	p->vip().addGroup("Hunters");
+
+	EXPECT_TRUE(p->vip().getGroups().empty());
+}
+
+TEST_F(PlayerVIPTest, AddGroup_NameIsCappedToTheColumnSize) {
+	auto p = makePlayer(true);
+
+	p->vip().addGroup(std::string(PlayerVIP::MaxTextLength * 4, 'g'));
+
+	ASSERT_EQ(1U, p->vip().getGroups().size());
+	EXPECT_EQ(PlayerVIP::MaxTextLength, p->vip().getGroups().front()->name.size());
 }

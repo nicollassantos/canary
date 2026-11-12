@@ -145,7 +145,8 @@ void ChatService::playerOpenPrivateChannel(uint32_t playerId, std::string &recei
 		return;
 	}
 
-	if (!g_playerRepository().formatPlayerName(receiver)) {
+	// The name comes straight from the packet; no player name is longer, so skip the query.
+	if (receiver.size() > NETWORKMESSAGE_PLAYERNAME_MAXLENGTH || !g_playerRepository().formatPlayerName(receiver)) {
 		player->sendCancelMessage("A player with this name does not exist.");
 		return;
 	}
