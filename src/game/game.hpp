@@ -9,6 +9,7 @@
 
 #pragma once
 
+#include "io/market_repository.hpp"
 #include "creatures/combat/combat_service.hpp"
 #include "creatures/management/creature_management_service.hpp"
 #include "game/chat/chat_service.hpp"
@@ -563,6 +564,8 @@ public:
 	}
 
 	void loadItemsPrice();
+	/// Average price of accepted purchases per item/tier, raised to the best active buy offer.
+	void rebuildItemsPrice(const IMarketRepository::StatisticsMap &purchaseStatistics, const MarketOfferList &buyOffers);
 
 	void loadMotdNum();
 	void saveMotdNum() const;

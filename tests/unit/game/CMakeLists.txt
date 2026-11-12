@@ -29,6 +29,7 @@ target_sources(
             cyclopedia_players_online_test.cpp
             highscore_requests_test.cpp
             outfit_throttle_test.cpp
+            items_price_test.cpp
             movement_service_test.cpp
             trade_service_test.cpp
             highscore_service_test.cpp

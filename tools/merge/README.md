@@ -210,6 +210,7 @@ the half that owns it.
 |---|---|---|
 | `Game::updatePlayersOnline` (`game.cpp`) | `CyclopediaService::updatePlayersOnline` builds the online GUID list | `PlayerRepositoryDB::updateOnlinePlayers` (count/clear, insert, prune, one transaction) |
 | `Game::playerHighscores` (`game.cpp`) | `HighscoreService::playerHighscores` picks the request and keeps the async-task flag | `HighscoreRepositoryDB::loadEntries`/`loadOurRank` run the query |
+| `Game::loadItemsPrice` (`game.cpp`) | `Game::loadItemsPrice` chains two async loads; `Game::rebuildItemsPrice` holds the old averaging/max loops | `MarketRepositoryDB::loadStatistics` / `loadActiveOffers` (queries and parsing shared with `updateStatistics` / `getActiveOffers`) |
 | `Game::processHighscoreResults(const DBResult_ptr &, ...)` (`game.cpp`) | `HighscoreService::processHighscoreResults(Game &, std::optional<HighscorePage>, ...)` (static; result cache and sending) | `HighscoreRepositoryDB::readHighscorePage` (row parsing) |
 
 The highscore query helpers `generateHighscoreQuery`, `generateVocationConditionHighscore`,

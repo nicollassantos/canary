@@ -619,10 +619,18 @@ void Game::setGameState(GameState_t newState) {
 }
 
 void Game::loadItemsPrice() {
-	g_marketRepository().updateStatistics();
+	// Both queries run off the game thread (on a large market_history the statistics take tens to
+	// hundreds of ms); the prices are rebuilt when the rows arrive. Callbacks capture nothing.
+	g_marketRepository().loadStatistics([](IMarketRepository::StatisticsMap purchase, IMarketRepository::StatisticsMap sale) {
+		g_marketRepository().setStatistics(std::move(purchase), std::move(sale));
+		g_marketRepository().loadActiveOffers(MARKETACTION_BUY, [](MarketOfferList buyOffers) {
+			g_game().rebuildItemsPrice(g_marketRepository().getPurchaseStatistics(), buyOffers);
+		});
+	});
+}
 
+void Game::rebuildItemsPrice(const IMarketRepository::StatisticsMap &stats, const MarketOfferList &offers) {
 	// Update purchased offers (market_history)
-	const auto &stats = g_marketRepository().getPurchaseStatistics();
 	for (const auto &[itemId, itemStats] : stats) {
 		std::map<uint8_t, uint64_t> tierToPrice;
 		for (const auto &[tier, tierStats] : itemStats) {
@@ -633,7 +641,6 @@ void Game::loadItemsPrice() {
 	}
 
 	// Update active buy offers (market_offers)
-	auto offers = g_marketRepository().getActiveOffers(MARKETACTION_BUY);
 	for (const auto &offer : offers) {
 		itemsPriceMap[offer.itemId][offer.tier] = std::max(itemsPriceMap[offer.itemId][offer.tier], offer.price);
 	}

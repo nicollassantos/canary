@@ -211,6 +211,20 @@ public:
 		++statisticsUpdates;
 	}
 
+	void loadStatistics(std::function<void(StatisticsMap purchase, StatisticsMap sale)> onLoaded) override {
+		++statisticsUpdates;
+		onLoaded(purchaseStatistics, saleStatistics);
+	}
+
+	void setStatistics(StatisticsMap purchase, StatisticsMap sale) override {
+		purchaseStatistics = std::move(purchase);
+		saleStatistics = std::move(sale);
+	}
+
+	void loadActiveOffers(MarketAction_t action, std::function<void(MarketOfferList)> onLoaded) override {
+		onLoaded(getActiveOffers(action));
+	}
+
 	StatisticsMap getPurchaseStatistics() const override {
 		return purchaseStatistics;
 	}

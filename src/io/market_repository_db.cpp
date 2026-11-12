@@ -52,6 +52,68 @@ namespace {
 		return offers;
 	}
 
+	std::string activeOffersQuery(MarketAction_t action) {
+		return fmt::format(
+			"SELECT `id`, `itemtype`, `amount`, `price`, `tier`, `created`, `anonymous`, "
+			"(SELECT `name` FROM `players` WHERE `id` = `player_id`) AS `player_name` "
+			"FROM `market_offers` WHERE `sale` = {}",
+			action
+		);
+	}
+
+	MarketOfferList readActiveOffers(const DBResult_ptr &result, int32_t marketOfferDuration, int32_t maxTier) {
+		MarketOfferList offerList;
+		if (!result) {
+			return offerList;
+		}
+
+		do {
+			MarketOffer offer;
+			offer.itemId = result->getNumber<uint16_t>("itemtype");
+			offer.amount = result->getNumber<uint16_t>("amount");
+			offer.price = result->getNumber<uint64_t>("price");
+			offer.timestamp = result->getNumber<uint32_t>("created") + marketOfferDuration;
+			offer.counter = (result->getNumber<uint32_t>("id") ^ 0xABCDEF) & 0xFFFF;
+			if (result->getNumber<uint16_t>("anonymous") == 0) {
+				offer.playerName = result->getString("player_name");
+			} else {
+				offer.playerName = "Anonymous";
+			}
+			offer.tier = getTierFromDatabaseTable(result->getString("tier"), maxTier);
+			offerList.push_back(offer);
+		} while (result->next());
+		return offerList;
+	}
+
+	std::string statisticsQuery() {
+		return fmt::format(
+			"SELECT sale, itemtype, COUNT(price) AS num, MIN(price) AS min, MAX(price) AS max, SUM(price) AS sum, tier "
+			"FROM market_history "
+			"WHERE state = '{}' "
+			"GROUP BY itemtype, sale, tier",
+			OFFERSTATE_ACCEPTED
+		);
+	}
+
+	void readStatistics(const DBResult_ptr &result, int32_t maxTier, IMarketRepository::StatisticsMap &newPurchase, IMarketRepository::StatisticsMap &newSale) {
+		if (!result) {
+			return;
+		}
+
+		do {
+			const auto tier = getTierFromDatabaseTable(result->getString("tier"), maxTier);
+			const auto itemId = result->getNumber<uint16_t>("itemtype");
+			auto &statistics = (result->getNumber<uint16_t>("sale") == MARKETACTION_BUY)
+				? newPurchase[itemId][tier]
+				: newSale[itemId][tier];
+
+			statistics.numTransactions = result->getNumber<uint32_t>("num");
+			statistics.lowestPrice = result->getNumber<uint64_t>("min");
+			statistics.totalPrice = result->getNumber<uint64_t>("sum");
+			statistics.highestPrice = result->getNumber<uint64_t>("max");
+		} while (result->next());
+	}
+
 } // namespace
 
 IMarketRepository &IMarketRepository::getInstance() {
@@ -59,39 +121,16 @@ IMarketRepository &IMarketRepository::getInstance() {
 }
 
 MarketOfferList MarketRepositoryDB::getActiveOffers(MarketAction_t action) {
-	MarketOfferList offerList;
+	return readActiveOffers(db_.storeQuery(activeOffersQuery(action)), config_.getNumber(MARKET_OFFER_DURATION), config_.getNumber(FORGE_MAX_ITEM_TIER));
+}
 
-	std::string query = fmt::format(
-		"SELECT `id`, `itemtype`, `amount`, `price`, `tier`, `created`, `anonymous`, "
-		"(SELECT `name` FROM `players` WHERE `id` = `player_id`) AS `player_name` "
-		"FROM `market_offers` WHERE `sale` = {}",
-		action
-	);
-
-	DBResult_ptr result = db_.storeQuery(query);
-	if (!result) {
-		return offerList;
-	}
-
+void MarketRepositoryDB::loadActiveOffers(MarketAction_t action, std::function<void(MarketOfferList)> onLoaded) {
+	// The callback outlives this call; it captures values only.
 	const int32_t marketOfferDuration = config_.getNumber(MARKET_OFFER_DURATION);
 	const int32_t maxTier = config_.getNumber(FORGE_MAX_ITEM_TIER);
-
-	do {
-		MarketOffer offer;
-		offer.itemId = result->getNumber<uint16_t>("itemtype");
-		offer.amount = result->getNumber<uint16_t>("amount");
-		offer.price = result->getNumber<uint64_t>("price");
-		offer.timestamp = result->getNumber<uint32_t>("created") + marketOfferDuration;
-		offer.counter = (result->getNumber<uint32_t>("id") ^ 0xABCDEF) & 0xFFFF;
-		if (result->getNumber<uint16_t>("anonymous") == 0) {
-			offer.playerName = result->getString("player_name");
-		} else {
-			offer.playerName = "Anonymous";
-		}
-		offer.tier = getTierFromDatabaseTable(result->getString("tier"), maxTier);
-		offerList.push_back(offer);
-	} while (result->next());
-	return offerList;
+	g_databaseTasks().store(activeOffersQuery(action), [marketOfferDuration, maxTier, onLoaded = std::move(onLoaded)](const DBResult_ptr &result, bool) {
+		onLoaded(readActiveOffers(result, marketOfferDuration, maxTier));
+	});
 }
 
 MarketOfferList MarketRepositoryDB::getActiveOffers(MarketAction_t action, uint16_t itemId, uint8_t tier) {
@@ -295,41 +334,32 @@ bool MarketRepositoryDB::moveOfferToHistory(uint32_t offerId, MarketOfferState_t
 }
 
 void MarketRepositoryDB::updateStatistics() {
-	auto query = fmt::format(
-		"SELECT sale, itemtype, COUNT(price) AS num, MIN(price) AS min, MAX(price) AS max, SUM(price) AS sum, tier "
-		"FROM market_history "
-		"WHERE state = '{}' "
-		"GROUP BY itemtype, sale, tier",
-		OFFERSTATE_ACCEPTED
-	);
-
-	DBResult_ptr result = db_.storeQuery(query);
+	DBResult_ptr result = db_.storeQuery(statisticsQuery());
 	if (!result) {
 		return;
 	}
 
 	StatisticsMap newPurchase;
 	StatisticsMap newSale;
+	readStatistics(result, config_.getNumber(FORGE_MAX_ITEM_TIER), newPurchase, newSale);
+	setStatistics(std::move(newPurchase), std::move(newSale));
+}
+
+void MarketRepositoryDB::loadStatistics(std::function<void(StatisticsMap purchase, StatisticsMap sale)> onLoaded) {
+	// Off the game thread: on a large market_history this query takes tens to hundreds of ms.
 	const int32_t maxTier = config_.getNumber(FORGE_MAX_ITEM_TIER);
+	g_databaseTasks().store(statisticsQuery(), [maxTier, onLoaded = std::move(onLoaded)](const DBResult_ptr &result, bool) {
+		StatisticsMap newPurchase;
+		StatisticsMap newSale;
+		readStatistics(result, maxTier, newPurchase, newSale);
+		onLoaded(std::move(newPurchase), std::move(newSale));
+	});
+}
 
-	do {
-		const auto tier = getTierFromDatabaseTable(result->getString("tier"), maxTier);
-		const auto itemId = result->getNumber<uint16_t>("itemtype");
-		auto &statistics = (result->getNumber<uint16_t>("sale") == MARKETACTION_BUY)
-			? newPurchase[itemId][tier]
-			: newSale[itemId][tier];
-
-		statistics.numTransactions = result->getNumber<uint32_t>("num");
-		statistics.lowestPrice = result->getNumber<uint64_t>("min");
-		statistics.totalPrice = result->getNumber<uint64_t>("sum");
-		statistics.highestPrice = result->getNumber<uint64_t>("max");
-	} while (result->next());
-
-	{
-		std::scoped_lock lock(statisticsMutex);
-		purchaseStatistics.swap(newPurchase);
-		saleStatistics.swap(newSale);
-	}
+void MarketRepositoryDB::setStatistics(StatisticsMap purchase, StatisticsMap sale) {
+	std::scoped_lock lock(statisticsMutex);
+	purchaseStatistics.swap(purchase);
+	saleStatistics.swap(sale);
 }
 
 IMarketRepository::StatisticsMap MarketRepositoryDB::getPurchaseStatistics() const {
