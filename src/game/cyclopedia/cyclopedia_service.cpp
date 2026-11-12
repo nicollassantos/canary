@@ -9,10 +9,12 @@
 
 #include "game/cyclopedia/cyclopedia_service.hpp"
 
+#include "account/account.hpp"
 #include "config/configmanager.hpp"
 #include "creatures/players/player.hpp"
 #include "database/database.hpp"
 #include "database/databasetasks.hpp"
+#include "enums/account_errors.hpp"
 #include "enums/player_cyclopedia.hpp"
 #include "game/game.hpp"
 #include "game/game_definitions.hpp"
@@ -165,6 +167,18 @@ void CyclopediaService::playerCyclopediaHouseBid(uint32_t playerId, uint32_t hou
 		return;
 	}
 
+	if (bidValue == 0 || bidValue > MaxHouseBid) {
+		g_metrics().addCounter("house_auction_requests_rejected", 1, { { "reason", "bid_out_of_range" } });
+		player->sendHouseAuctionMessage(houseId, HouseAuctionType::Bid, enumToValue(BidErrorMessage::Internal));
+		return;
+	}
+
+	if (bidsOnAnotherHouse(player, house)) {
+		g_metrics().addCounter("house_auction_requests_rejected", 1, { { "reason", "only_one_bid" } });
+		player->sendHouseAuctionMessage(houseId, HouseAuctionType::Bid, enumToValue(BidErrorMessage::OnlyOneBid));
+		return;
+	}
+
 	auto ret = player->canBidHouse(houseId);
 	if (ret != BidErrorMessage::NoError) {
 		player->sendHouseAuctionMessage(houseId, HouseAuctionType::Bid, enumToValue(ret));
@@ -185,6 +199,13 @@ void CyclopediaService::playerCyclopediaHouseBid(uint32_t playerId, uint32_t hou
 		house->setBidder(player->getGUID());
 		house->calculateBidEndDate(config_.getNumber(DAYS_TO_CLOSE_BID));
 	} else if (house->getBidderName() == player->getName()) {
+		// The leader may only raise the limit. Lowering it below the competing bid sold the house
+		// under that offer (and charged a negative difference).
+		if (bidValue <= house->getInternalBid()) {
+			g_metrics().addCounter("house_auction_requests_rejected", 1, { { "reason", "bid_not_raised" } });
+			player->sendHouseAuctionMessage(houseId, HouseAuctionType::Bid, enumToValue(BidErrorMessage::Internal));
+			return;
+		}
 		if (!processBankAuction(player, house, bidValue, true)) {
 			player->sendHouseAuctionMessage(houseId, HouseAuctionType::Bid, enumToValue(ret));
 			return;
@@ -192,6 +213,13 @@ void CyclopediaService::playerCyclopediaHouseBid(uint32_t playerId, uint32_t hou
 		house->setInternalBid(bidValue);
 		house->setBidHolderLimit(bidValue);
 	} else if (bidValue <= house->getInternalBid()) {
+		// A losing bid only counts when it beats the current price. A lower one used to replace
+		// the price, so the leader's alt bidding 1 gold made the leader win for almost nothing.
+		if (bidValue <= house->getHighestBid()) {
+			g_metrics().addCounter("house_auction_requests_rejected", 1, { { "reason", "bid_below_price" } });
+			player->sendHouseAuctionMessage(houseId, HouseAuctionType::Bid, enumToValue(BidErrorMessage::Internal));
+			return;
+		}
 		house->setHighestBid(bidValue);
 		retSuccess = BidSuccessMessage::LowerBid;
 	} else {
@@ -316,13 +344,25 @@ void CyclopediaService::playerCyclopediaHouseTransfer(uint32_t playerId, uint32_
 		return;
 	}
 
+	if (bidValue > MaxHouseBid) {
+		g_metrics().addCounter("house_auction_requests_rejected", 1, { { "reason", "bid_out_of_range" } });
+		owner->sendHouseAuctionMessage(houseId, HouseAuctionType::Transfer, enumToValue(TransferErrorMessage::Internal));
+		return;
+	}
+
 	auto ret = owner->canTransferHouse(houseId, newOwner->getGUID());
 	if (ret != TransferErrorMessage::Success) {
 		owner->sendHouseAuctionMessage(houseId, HouseAuctionType::Transfer, enumToValue(ret));
 		return;
 	}
 
-	house->setBidderName(newOwnerName);
+	if (bidsOnAnotherHouse(newOwner, house)) {
+		owner->sendHouseAuctionMessage(houseId, HouseAuctionType::Transfer, enumToValue(TransferErrorMessage::OnlyOneBid));
+		return;
+	}
+
+	// The stored name must be the character's, not the packet's spelling.
+	house->setBidderName(newOwner->getName());
 	house->setBidder(newOwner->getGUID());
 	house->setInternalBid(bidValue);
 	house->setBidEndDate(timestamp);
@@ -399,6 +439,11 @@ void CyclopediaService::playerCyclopediaHouseAcceptTransfer(uint32_t playerId, u
 		return;
 	}
 
+	if (bidsOnAnotherHouse(player, house)) {
+		player->sendHouseAuctionMessage(houseId, HouseAuctionType::AcceptTransfer, enumToValue(AcceptTransferErrorMessage::AlreadyBid));
+		return;
+	}
+
 	if (!processBankAuction(player, house, house->getInternalBid())) {
 		player->sendHouseAuctionMessage(houseId, HouseAuctionType::AcceptTransfer, enumToValue(AcceptTransferErrorMessage::Frozen));
 		return;
@@ -447,6 +492,28 @@ void CyclopediaService::playerCyclopediaHouseRejectTransfer(uint32_t playerId, u
 
 	player->sendHouseAuctionMessage(houseId, HouseAuctionType::RejectTransfer, enumToValue(TransferErrorMessage::Success));
 	playerCyclopediaHousesByTown(playerId, "");
+}
+
+bool CyclopediaService::bidsOnAnotherHouse(const std::shared_ptr<Player> &player, const std::shared_ptr<House> &except) const {
+	std::vector<std::string> names { asLowerCaseString(player->getName()) };
+	if (const auto &account = player->getAccount()) {
+		const auto &[accountPlayers, error] = account->getAccountPlayers();
+		if (error == AccountErrors_t::Ok) {
+			for (const auto &[name, deletion] : accountPlayers) {
+				names.emplace_back(asLowerCaseString(name));
+			}
+		}
+	}
+
+	for (const auto &[id, other] : game_.map.houses.getHouses()) {
+		if (other == except || other->getState() != CyclopediaHouseState::Available || other->getBidder() == 0) {
+			continue;
+		}
+		if (std::ranges::find(names, asLowerCaseString(other->getBidderName())) != names.end()) {
+			return true;
+		}
+	}
+	return false;
 }
 
 bool CyclopediaService::processBankAuction(std::shared_ptr<Player> player, const std::shared_ptr<House> &house, uint64_t bid, bool replace) {

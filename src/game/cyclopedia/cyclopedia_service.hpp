@@ -14,6 +14,7 @@
 
 #include <cstdint>
 #include <functional>
+#include <limits>
 #include <memory>
 #include <string>
 
@@ -43,6 +44,14 @@ public:
 	/// A transfer request names its recipient, and an offline recipient is loaded whole from the
 	/// database on the dispatcher, so each player gets one request per interval.
 	static constexpr int64_t HouseTransferCooldownMs = 1000;
+
+	/// Bids and transfer prices are stored in `houses` int(11) columns (and read back as 32-bit),
+	/// so larger values would be cut on save and refunds would go wrong.
+	static constexpr uint64_t MaxHouseBid = std::numeric_limits<int32_t>::max();
+
+	/// Whether any character of this player's account is the bidder of another house on auction.
+	/// Derived from the houses in memory: `accounts.house_bid_id` is never written upstream.
+	[[nodiscard]] bool bidsOnAnotherHouse(const std::shared_ptr<Player> &player, const std::shared_ptr<House> &except) const;
 
 	[[nodiscard]] size_t throttledHouseTransfers() const {
 		return throttledHouseTransfers_;
