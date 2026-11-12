@@ -250,7 +250,19 @@
 
 - [x] **23.0** — Build `linux-release-metrics` ok (OpenTelemetry via vcpkg); smoke com exporter: `/metrics` com 7316 linhas
 - [x] **23.1** — `packet_watch::Scope` em `ProtocolGame::parsePacket`: latência por opcode (`method_latency{method="packet_0xNN"}`), `slow_packets_total{opcode}`, aviso `[PacketWatch]` (≥50ms, no máx. 1 a cada 5s, com contagem de suprimidos); 4 testes — 912/912 + 85/85; compila nos presets de testes e de métricas
-- [ ] **23.2** — Inventário de fora para dentro com dados semeados (queries por caminho, multiplicador do cliente, `EXPLAIN`)
+- [x] **23.2** — Inventário medido (2026-11-12). Cada caminho com gatilho → limitador atual → custo → multiplicador do cliente:
+  | Caminho | Gatilho | Limitador hoje | Custo medido/lido | Multiplicador | Prioridade |
+  |---|---|---|---|---|---|
+  | Fila de saída de leitor lento | qualquer saída | nenhum → **corrigido** (23.3a, `maxOutputQueueMessages`) | ~64 KB por mensagem, ~100/s | conexões | feito |
+  | `market_history` estatísticas | `Game::loadItemsPrice` a cada `marketRefreshPricesInterval` (30 min), **no dispatcher** | nenhum | 300k linhas: **207 ms** sem índice (ALL + temporária), **96 ms** com `(state, itemtype, sale, tier, price)` (ref, Using index) | cresce com o histórico | alta: índice + tirar do dispatcher |
+  | Cama ocupada (`BedItem::canUse`) | usar cama de casa com dorminhoco | `timeBetweenActions` (200 ms ≈ 5/s por player) | `loadPlayerById` completo (players, itens, depot, inbox, store, charms, conta…) | bots × players | alta: fazer menos trabalho |
+  | Usar item com destino longe | `0x83` | **nenhum antes do A*** (o `getPathTo` roda antes do `canDoAction`) | A* limitado por `maxSearchDist = 7` | pacotes/s (25 em média, rajadas ~75) | média |
+  | Outfit (`shine`/`ddos` do bot) | `0xD2` monta a janela inteira; `0xD3` sem intervalo, transmitido a todos os espectadores | só `maxPacketsPerSecond` | CPU + banda × espectadores | pacotes/s × espectadores | média: intervalo por player |
+  | Lista de acesso de casa | editar lista | até 100 linhas por edição | até ~100 `SELECT` síncronos + `std::regex_replace` em até ~64 KB | edições/s de quem tem casa | média |
+  | Navegação do mercado | abrir/navegar | `maxPacketsPerSecond` | consultas indexadas (`(sale,itemtype)`, `player_id`, `(player_id,sale)`) | pacotes/s | baixa, medir com tráfego |
+  | Conexões por IP | conectar | taxa: >5 em 5 s com intervalo ≤ 500 ms bloqueia 3 s; **sem teto de simultâneas** | socket + buffers por conexão | IPs | média: produto (perguntar) |
+  | Game migrations do upstream | primeiro boot de um banco | uma vez por banco | 5 migrations × todos os players (load + save) | — | nenhuma (custo único previsto) |
+  - Digests do smoke (`performance_schema`): fora do `market_history`, as consultas sem índice são de boot (`houses`, `tile_store`, `boosted_*`, `player_hirelings`, `account_bans` por `expires_at`).
 - [ ] **23.3** — Correções priorizadas pela medição (cama primeiro se confirmada)
   - [x] **23.3a-fix** — Use-after-free introduzido pelo `34c4e384a`: esvaziar a fila com uma escrita em andamento liberava o buffer que o asio ainda lia. Agora o handler do `async_write` segura a `OutputMessage` e o estouro mantém a mensagem da frente; teste `OverflowWithAWriteInFlightKeepsItsBufferAlive` — 916/916 + 85/85, preset de métricas ok
   - [x] **23.3a** — Teto da fila de saída por conexão (ataque de leitor lento do bot): `maxOutputQueueMessages` (padrão 2048 ≈ 128 MB / ~20 s de cliente parado, `0` desativa; valor escolhido pelo usuário); estouro → esvazia a fila, desconecta, aviso com IP, `connection_output_queue_overflow_total`; lido pela porta `IConfigManager`; 3 testes; `config.lua` local atualizado com a chave
