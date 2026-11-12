@@ -570,3 +570,16 @@ Casos já lidos no código:
 | 23.4 Pendências da 22 | S | auditoria de irmãos (outros leitores de `getAccountPlayers`; `[this` em callbacks do dispatcher/`g_databaseTasks()` em arquivos da branch); vazamento de vaga do highscore se um callback se perder (`DatabaseTasks::store` sempre chama de volta?); seção 6 do AGENTS como estado atual |
 
 Pendente com o usuário: testar highscores no cliente trocando filtros e páginas rápido (o intervalo responde "sem dados").
+
+## Phase 24 (proposta, depois do hardening): datapack atualizado a partir do TibiaWiki
+
+Pedido do usuário (2026-11-12): depois do hardening, vasculhar o TibiaWiki em busca de ajustes no datapack (loot, drops e o resto) e atualizar nossos arquivos.
+
+- **Fonte:** a API MediaWiki do TibiaWiki (`tibia.fandom.com/api.php`), com wikitext das infoboxes de criatura e das páginas de loot statistics. API em vez de raspar HTML; cache local; ~1 pedido/s; User-Agent genérico (sem dados do usuário).
+- **Licença:** o conteúdo do TibiaWiki é CC BY-SA. Usamos fatos (chances, quantidades, status) e não texto; atribuição nos commits.
+- **Processo:**
+  1. Script em `tools/datapack/` gera um relatório de divergências por monstro: loot (item, chance, quantidade), HP, experiência, elementos, imunidades.
+  2. Revisão humana do relatório.
+  3. Correções em lotes pequenos em `data-otservbr-global/monster/`.
+  4. Testes de carga do datapack e smoke boot a cada lote.
+- **Cuidado com o merge:** o upstream também edita `data-otservbr-global`. Cada lote fica pequeno e por arquivo de monstro, e conflitos seguem a regra do §5b.
