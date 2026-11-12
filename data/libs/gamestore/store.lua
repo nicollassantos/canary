@@ -296,6 +296,13 @@ local function canChangeToName(name)
 		return result
 	end
 
+	-- Letters and spaces only, like hireling names. The character list below let control bytes and
+	-- non-ASCII letters through, so a name could imitate staff with look-alike characters.
+	if name:match("[^a-zA-Z ]") then
+		result.reason = "Your new name can only contain letters and spaces."
+		return result
+	end
+
 	local match = name:gmatch("%s+")
 	local count = 0
 	for _ in match do

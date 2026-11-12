@@ -211,14 +211,15 @@ local function processNameChangePurchase(player, offer, productType, newName)
 			return string.upper(a) .. b
 		end)
 
-		local normalizedName = Game.getNormalizedPlayerName(newName, true)
-		if normalizedName then
-			return error({ code = 1, message = "This name is already used, please try again!" })
-		end
-
+		-- Validate the text before the existence check, which may load an offline character.
 		local result = GameStore.canChangeToName(newName)
 		if not result.ability then
 			return error({ code = 1, message = result.reason })
+		end
+
+		local normalizedName = Game.getNormalizedPlayerName(newName, true)
+		if normalizedName then
+			return error({ code = 1, message = "This name is already used, please try again!" })
 		end
 
 		local namelockReason = player:kv():get("namelock")
