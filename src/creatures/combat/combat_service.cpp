@@ -439,15 +439,15 @@ float CombatService::pvpLevelDifferenceDamageMultiplier(const std::shared_ptr<Pl
 	levelDifference = std::abs(levelDifference);
 	bool isLowerLevel = target->getLevel() < attacker->getLevel();
 
-	int32_t maxLevelDifference = g_configManager().getNumber(PVP_MAX_LEVEL_DIFFERENCE);
+	int32_t maxLevelDifference = config_.getNumber(PVP_MAX_LEVEL_DIFFERENCE);
 	levelDifference = std::min(levelDifference, maxLevelDifference);
 
 	float levelDiffRate = 1.0;
 	if (isLowerLevel) {
-		float rateDamageTakenByLevel = g_configManager().getFloat(PVP_RATE_DAMAGE_TAKEN_PER_LEVEL) / 100;
+		float rateDamageTakenByLevel = config_.getFloat(PVP_RATE_DAMAGE_TAKEN_PER_LEVEL) / 100;
 		levelDiffRate += levelDifference * rateDamageTakenByLevel;
 	} else {
-		float rateDamageReductionByLevel = g_configManager().getFloat(PVP_RATE_DAMAGE_REDUCTION_PER_LEVEL) / 100;
+		float rateDamageReductionByLevel = config_.getFloat(PVP_RATE_DAMAGE_REDUCTION_PER_LEVEL) / 100;
 		levelDiffRate -= levelDifference * rateDamageReductionByLevel;
 	}
 

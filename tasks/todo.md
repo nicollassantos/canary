@@ -213,7 +213,7 @@
 
 > Linha de base: `g_game()` 1148 / `g_configManager()` 526 chamadas em src/*.cpp
 
-- [ ] **19.1** — Services sem singletons: usar `game_`/`config_` injetados (forge 12, market 5, combat 3, interaction 2, creature_management 1 = 23 chamadas → 0)
+- [x] **19.1** — Services sem singletons: 23 → 0 (`config_`/`game_` em membros; helpers livres do market recebem `Game&`/`IConfigManager&`; `CreatureManagementService` recebe `IConfigManager&`); removidas cópias mortas de `playerCanUseItem*OnHouseTile` (interaction + game.cpp; upstream também não chama a variante `With`) — 858/858 + 51/51
 - [ ] **19.2** — Player components leem config pela porta `IConfigManager` (49 chamadas `g_configManager()` → 0) + fixtures de teste instalam `InMemoryConfigManager`
 - [ ] **19.3** — Call sites `IOLoginData::` (21) / `IOMarket::` (7) fora de `src/io/` → portas `IPlayerRepository` / `IMarketRepository`
 - [ ] **19.4** — `GuildRepositoryDB` com SQL próprio via `IDatabase` (deixa de delegar a `IOGuild`); testes com DB de integração

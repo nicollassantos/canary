@@ -303,7 +303,7 @@ namespace {
 		}
 	};
 
-	bool removeInventoryMoneyToBank(const std::shared_ptr<Player> &player, uint64_t money) {
+	bool removeInventoryMoneyToBank(Game &game, const std::shared_ptr<Player> &player, uint64_t money) {
 		if (!player) {
 			g_logger().error("[{}] player is nullptr", __FUNCTION__);
 			return false;
@@ -336,7 +336,7 @@ namespace {
 
 		for (const auto &[worth, item] : moneyMap) {
 			if (worth < money) {
-				g_game().internalRemoveItem(item);
+				game.internalRemoveItem(item);
 				money -= worth;
 				continue;
 			}
@@ -345,21 +345,21 @@ namespace {
 				const uint32_t singleWorth = worth / item->getItemCount();
 				const uint32_t removeCount = static_cast<uint32_t>(std::ceil(money / static_cast<double>(singleWorth)));
 				const uint64_t change = static_cast<uint64_t>(singleWorth) * removeCount - money;
-				g_game().internalRemoveItem(item, removeCount);
+				game.internalRemoveItem(item, removeCount);
 				if (change > 0) {
 					player->setBankBalance(player->getBankBalance() + change);
 				}
 				return true;
 			}
 
-			g_game().internalRemoveItem(item);
+			game.internalRemoveItem(item);
 			return true;
 		}
 
 		return true;
 	}
 
-	bool withdrawMarketFunds(const std::shared_ptr<Player> &player, uint64_t amount, WithdrawnFunds &withdrawnFunds) {
+	bool withdrawMarketFunds(Game &game, const std::shared_ptr<Player> &player, uint64_t amount, WithdrawnFunds &withdrawnFunds) {
 		withdrawnFunds = {};
 
 		if (!player) {
@@ -376,7 +376,7 @@ namespace {
 		}
 
 		withdrawnFunds.inventory = amount - withdrawnFunds.bank;
-		if (withdrawnFunds.inventory > 0 && !removeInventoryMoneyToBank(player, withdrawnFunds.inventory)) {
+		if (withdrawnFunds.inventory > 0 && !removeInventoryMoneyToBank(game, player, withdrawnFunds.inventory)) {
 			if (withdrawnFunds.bank > 0) {
 				player->setBankBalance(player->getBankBalance() + withdrawnFunds.bank);
 			}
@@ -397,7 +397,7 @@ namespace {
 
 } // namespace
 
-bool checkCanInitCreateMarketOffer(const std::shared_ptr<Player> &player, uint8_t type, const ItemType &it, uint16_t amount, uint64_t price, std::ostringstream &offerStatus) {
+bool checkCanInitCreateMarketOffer(const IConfigManager &config, const std::shared_ptr<Player> &player, uint8_t type, const ItemType &it, uint16_t amount, uint64_t price, std::ostringstream &offerStatus) {
 	if (!player) {
 		offerStatus << "Failed to load player";
 		return false;
@@ -445,12 +445,12 @@ bool checkCanInitCreateMarketOffer(const std::shared_ptr<Player> &player, uint8_
 
 	g_logger().debug("{} - Offer amount: {}", __FUNCTION__, amount);
 
-	if (g_configManager().getBoolean(MARKET_PREMIUM) && !player->isPremium()) {
+	if (config.getBoolean(MARKET_PREMIUM) && !player->isPremium()) {
 		player->sendTextMessage(MESSAGE_MARKET, "Only premium accounts may create offers for that object.");
 		return false;
 	}
 
-	const uint32_t maxOfferCount = g_configManager().getNumber(MAX_MARKET_OFFERS_AT_A_TIME_PER_PLAYER);
+	const uint32_t maxOfferCount = config.getNumber(MAX_MARKET_OFFERS_AT_A_TIME_PER_PLAYER);
 	if (maxOfferCount != 0 && g_marketRepository().getPlayerOfferCount(player->getGUID()) >= maxOfferCount) {
 		offerStatus << "Player " << player->getName() << "excedeed max offer count " << maxOfferCount;
 		return false;
@@ -467,7 +467,7 @@ void MarketService::playerCreateMarketOffer(uint32_t playerId, uint8_t type, uin
 	const ItemType &it = Item::items[itemId];
 
 	// Make sure everything is ok before the create market offer starts
-	if (!checkCanInitCreateMarketOffer(player, type, it, amount, price, offerStatus)) {
+	if (!checkCanInitCreateMarketOffer(config_, player, type, it, amount, price, offerStatus)) {
 		g_logger().error("{} - Player {} had an error on init offer on the market, error code: {}", __FUNCTION__, player->getName(), offerStatus.str());
 		return;
 	}
@@ -792,7 +792,7 @@ void MarketService::playerAcceptMarketOffer(uint32_t playerId, uint32_t timestam
 		}
 
 		WithdrawnFunds buyerWithdrawnFunds;
-		if (!withdrawMarketFunds(player, totalPrice, buyerWithdrawnFunds)) {
+		if (!withdrawMarketFunds(game_, player, totalPrice, buyerWithdrawnFunds)) {
 			player->sendTextMessage(MESSAGE_MARKET, "There was an error processing your offer, please contact the administrator.");
 			g_logger().error("{} - Failed to debit buyer funds for accepted market offer (player: {}, price: {})", __FUNCTION__, player->getName(), totalPrice);
 			return;

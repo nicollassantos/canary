@@ -35,13 +35,13 @@ void ForgeService::playerForgeFuseItems(uint32_t playerId, ForgeAction_t actionT
 	player->updateUIExhausted();
 
 	uint8_t coreCount = (usedCore ? 1 : 0) + (reduceTierLoss ? 1 : 0);
-	auto baseSuccess = static_cast<uint8_t>(g_configManager().getNumber(FORGE_BASE_SUCCESS_RATE));
+	auto baseSuccess = static_cast<uint8_t>(config_.getNumber(FORGE_BASE_SUCCESS_RATE));
 	if (const auto scopedForgeChance = g_kv().scoped("eventscheduler")->get("forge-chance")) {
 		auto forgeChance = static_cast<int>(scopedForgeChance->getNumber());
 		int adjustedSuccess = baseSuccess + forgeChance - 100;
 		baseSuccess = static_cast<uint8_t>(std::clamp(adjustedSuccess, 0, 100));
 	}
-	auto coreSuccess = usedCore ? g_configManager().getNumber(FORGE_BONUS_SUCCESS_RATE) : 0;
+	auto coreSuccess = usedCore ? config_.getNumber(FORGE_BONUS_SUCCESS_RATE) : 0;
 	auto finalRate = baseSuccess + coreSuccess;
 	auto roll = static_cast<uint8_t>(uniform_random(1, 100)) <= finalRate;
 
@@ -99,7 +99,7 @@ void ForgeService::playerBrowseForgeHistory(uint32_t playerId, uint8_t page) {
 }
 
 uint32_t ForgeService::makeInfluencedMonster() {
-	if (auto influencedLimit = g_configManager().getNumber(FORGE_INFLUENCED_CREATURES_LIMIT);
+	if (auto influencedLimit = config_.getNumber(FORGE_INFLUENCED_CREATURES_LIMIT);
 	    game_.forgeableMonsters.empty() || game_.influencedMonsters.size() >= influencedLimit) {
 		return 0;
 	}
@@ -162,7 +162,7 @@ uint32_t ForgeService::makeFiendishMonster(uint32_t forgeableMonsterId /* = 0*/,
 				continue;
 			}
 
-			if (auto fiendishLimit = g_configManager().getNumber(FORGE_FIENDISH_CREATURES_LIMIT);
+			if (auto fiendishLimit = config_.getNumber(FORGE_FIENDISH_CREATURES_LIMIT);
 			    game_.getFiendishMonsters().size() >= fiendishLimit) {
 				monster->clearFiendishStatus();
 				game_.removeFiendishMonster(monsterId);
@@ -171,7 +171,7 @@ uint32_t ForgeService::makeFiendishMonster(uint32_t forgeableMonsterId /* = 0*/,
 		}
 	}
 
-	if (auto fiendishLimit = g_configManager().getNumber(FORGE_FIENDISH_CREATURES_LIMIT);
+	if (auto fiendishLimit = config_.getNumber(FORGE_FIENDISH_CREATURES_LIMIT);
 	    game_.forgeableMonsters.empty() || game_.fiendishMonsters.size() >= fiendishLimit) {
 		return 0;
 	}
@@ -207,8 +207,8 @@ uint32_t ForgeService::makeFiendishMonster(uint32_t forgeableMonsterId /* = 0*/,
 		}
 	}
 
-	std::string saveIntervalType = g_configManager().getString(FORGE_FIENDISH_INTERVAL_TYPE);
-	auto saveIntervalConfigTime = std::atoi(g_configManager().getString(FORGE_FIENDISH_INTERVAL_TIME).c_str());
+	std::string saveIntervalType = config_.getString(FORGE_FIENDISH_INTERVAL_TYPE);
+	auto saveIntervalConfigTime = std::atoi(config_.getString(FORGE_FIENDISH_INTERVAL_TIME).c_str());
 	int intervalTime = 0;
 	time_t timeToChangeFiendish;
 	if (saveIntervalType == "second") {
@@ -298,19 +298,19 @@ void ForgeService::updateForgeableMonsters() {
 		}
 	}
 
-	uint32_t fiendishLimit = g_configManager().getNumber(FORGE_FIENDISH_CREATURES_LIMIT);
+	uint32_t fiendishLimit = config_.getNumber(FORGE_FIENDISH_CREATURES_LIMIT);
 	if (game_.fiendishMonsters.size() < fiendishLimit) {
 		createFiendishMonsters();
 	}
 
-	uint32_t influencedLimit = g_configManager().getNumber(FORGE_INFLUENCED_CREATURES_LIMIT);
+	uint32_t influencedLimit = config_.getNumber(FORGE_INFLUENCED_CREATURES_LIMIT);
 	if (game_.influencedMonsters.size() < influencedLimit) {
 		createInfluencedMonsters();
 	}
 }
 
 void ForgeService::createFiendishMonsters() {
-	uint32_t fiendishLimit = g_configManager().getNumber(FORGE_FIENDISH_CREATURES_LIMIT);
+	uint32_t fiendishLimit = config_.getNumber(FORGE_FIENDISH_CREATURES_LIMIT);
 	if (game_.fiendishMonsters.size() >= fiendishLimit) {
 		return;
 	}
@@ -341,7 +341,7 @@ void ForgeService::createFiendishMonsters() {
 }
 
 void ForgeService::createInfluencedMonsters() {
-	uint32_t influencedLimit = g_configManager().getNumber(FORGE_INFLUENCED_CREATURES_LIMIT);
+	uint32_t influencedLimit = config_.getNumber(FORGE_INFLUENCED_CREATURES_LIMIT);
 	if (game_.influencedMonsters.size() >= influencedLimit) {
 		return;
 	}
@@ -387,7 +387,7 @@ bool ForgeService::addInfluencedMonster(const std::shared_ptr<Monster> &monster,
 
 		const auto monsterId = monster->getID();
 		const bool alreadyInfluenced = game_.influencedMonsters.contains(monsterId);
-		if (auto maxInfluencedMonsters = static_cast<uint32_t>(g_configManager().getNumber(FORGE_INFLUENCED_CREATURES_LIMIT));
+		if (auto maxInfluencedMonsters = static_cast<uint32_t>(config_.getNumber(FORGE_INFLUENCED_CREATURES_LIMIT));
 		    !alreadyInfluenced && (game_.influencedMonsters.size() + 1) > maxInfluencedMonsters) {
 			return false;
 		}

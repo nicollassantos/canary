@@ -34,32 +34,6 @@
 using namespace GameHelpers;
 
 namespace {
-	bool playerCanUseItemWithOnHouseTile(const std::shared_ptr<Player> &player, const std::shared_ptr<Item> &item, const Position &toPos, int toStackPos, int toItemId) {
-		if (!player || !item) {
-			return false;
-		}
-
-		auto itemTile = item->getTile();
-		if (!itemTile) {
-			return false;
-		}
-
-		if (g_configManager().getBoolean(ONLY_INVITED_CAN_MOVE_HOUSE_ITEMS)) {
-			if (std::shared_ptr<HouseTile> houseTile = std::dynamic_pointer_cast<HouseTile>(itemTile)) {
-				const auto &house = houseTile->getHouse();
-				std::shared_ptr<Thing> targetThing = g_game().internalGetThing(player, toPos, toStackPos, toItemId, STACKPOS_FIND_THING);
-				auto targetItem = targetThing ? targetThing->getItem() : nullptr;
-				uint16_t targetId = targetItem ? targetItem->getID() : 0;
-				auto invitedCheckUseWith = house && item->getRealParent() && item->getRealParent() != player && (!house->isInvited(player) || house->getHouseAccessLevel(player) == HOUSE_GUEST);
-				if (targetId != 0 && targetItem && !targetItem->isDummy() && invitedCheckUseWith && !item->canBeUsedByGuests()) {
-					player->sendCancelMessage(RETURNVALUE_CANNOTUSETHISOBJECT);
-					return false;
-				}
-			}
-		}
-
-		return true;
-	}
 
 } // namespace
 

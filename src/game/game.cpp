@@ -93,76 +93,6 @@ namespace {
 }
 
 namespace InternalGame {
-	bool playerCanUseItemOnHouseTile(const std::shared_ptr<Player> &player, const std::shared_ptr<Item> &item) {
-		if (!player || !item) {
-			return false;
-		}
-
-		// Doors are checked separately (actions.cpp - Action::internalUseItem)
-		const auto &itemDoor = item->getDoor();
-		if (itemDoor) {
-			return true;
-		}
-
-		auto itemTile = item->getTile();
-		if (!itemTile) {
-			return false;
-		}
-
-		if (std::shared_ptr<HouseTile> houseTile = std::dynamic_pointer_cast<HouseTile>(itemTile)) {
-			const auto &house = houseTile->getHouse();
-			if (!house || !house->isInvited(player)) {
-				return false;
-			}
-
-			auto isGuest = house->getHouseAccessLevel(player) == HOUSE_GUEST;
-			auto isOwner = house->getHouseAccessLevel(player) == HOUSE_OWNER;
-			auto itemParentContainer = item->getParent() ? item->getParent()->getContainer() : nullptr;
-			auto isItemParentContainerBrowseField = itemParentContainer && itemParentContainer->getID() == ITEM_BROWSEFIELD;
-			if (isGuest && isItemParentContainerBrowseField) {
-				return false;
-			}
-
-			auto realItemParent = item->getRealParent();
-			auto isItemInGuestInventory = realItemParent && (realItemParent == player || realItemParent->getContainer());
-			if (isGuest && !isItemInGuestInventory && !item->isLadder() && !item->canBeUsedByGuests()) {
-				return false;
-			}
-
-			if (!isOwner && item->isDummy() && (isGuest || item->hasActor())) {
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	bool playerCanUseItemWithOnHouseTile(const std::shared_ptr<Player> &player, const std::shared_ptr<Item> &item, const Position &toPos, int toStackPos, int toItemId) {
-		if (!player || !item) {
-			return false;
-		}
-
-		auto itemTile = item->getTile();
-		if (!itemTile) {
-			return false;
-		}
-
-		if (g_configManager().getBoolean(ONLY_INVITED_CAN_MOVE_HOUSE_ITEMS)) {
-			if (std::shared_ptr<HouseTile> houseTile = std::dynamic_pointer_cast<HouseTile>(itemTile)) {
-				const auto &house = houseTile->getHouse();
-				std::shared_ptr<Thing> targetThing = g_game().internalGetThing(player, toPos, toStackPos, toItemId, STACKPOS_FIND_THING);
-				auto targetItem = targetThing ? targetThing->getItem() : nullptr;
-				uint16_t targetId = targetItem ? targetItem->getID() : 0;
-				auto invitedCheckUseWith = house && item->getRealParent() && item->getRealParent() != player && (!house->isInvited(player) || house->getHouseAccessLevel(player) == HOUSE_GUEST);
-				if (targetId != 0 && targetItem && !targetItem->isDummy() && invitedCheckUseWith && !item->canBeUsedByGuests()) {
-					player->sendCancelMessage(RETURNVALUE_CANNOTUSETHISOBJECT);
-					return false;
-				}
-			}
-		}
-
-		return true;
-	}
 
 	template <typename T>
 	T getCustomAttributeValue(const auto item, const std::string &attributeName) {
@@ -190,7 +120,7 @@ Game::Game() :
 	m_tradeService(std::make_unique<TradeService>(*this, g_configManager())),
 	m_marketService(std::make_unique<MarketService>(*this, g_configManager())),
 	m_highscoreService(std::make_unique<HighscoreService>(*this)),
-	m_creatureService(std::make_unique<CreatureManagementService>(*this)),
+	m_creatureService(std::make_unique<CreatureManagementService>(*this, g_configManager())),
 	m_lootService(std::make_unique<LootService>(*this, g_configManager())),
 	m_interactionService(std::make_unique<PlayerInteractionService>(*this, g_configManager())),
 	m_chatService(std::make_unique<ChatService>(*this, g_configManager())),

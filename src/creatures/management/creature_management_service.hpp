@@ -11,12 +11,13 @@ class Monster;
 class Npc;
 class Player;
 class Account;
+class IConfigManager;
 enum ReturnValue : uint16_t;
 
 class CreatureManagementService {
 public:
-	explicit CreatureManagementService(Game &game) :
-		game_(game) { }
+	CreatureManagementService(Game &game, IConfigManager &config) :
+		game_(game), config_(config) { }
 
 	std::shared_ptr<Creature> getCreatureByID(uint32_t id);
 	std::shared_ptr<Monster> getMonsterByID(uint32_t id);
@@ -36,4 +37,5 @@ public:
 
 private:
 	Game &game_;
+	IConfigManager &config_;
 };

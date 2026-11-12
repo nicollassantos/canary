@@ -1,4 +1,6 @@
 #include "creatures/management/creature_management_service.hpp"
+
+#include "config/config_port.hpp"
 #include "account/account.hpp"
 #include "creatures/monsters/monster.hpp"
 #include "creatures/npcs/npc.hpp"
@@ -255,7 +257,7 @@ bool CreatureManagementService::placeCreature(const std::shared_ptr<Creature> &c
 		spectator->onCreatureAppear(creature, true);
 	}
 
-	if (hasPlayerSpectators || (creature->getMonsterRaw() && g_configManager().getBoolean(MONSTER_PERF_TEST_FORCE_ACTIVE))) {
+	if (hasPlayerSpectators || (creature->getMonsterRaw() && config_.getBoolean(MONSTER_PERF_TEST_FORCE_ACTIVE))) {
 		game_.addCreatureCheck(creature);
 	}
 
