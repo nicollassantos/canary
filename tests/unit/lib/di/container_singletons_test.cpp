@@ -10,6 +10,7 @@
 #include <gtest/gtest.h>
 
 #include "io/guild_repository_db.hpp"
+#include "io/market_repository_db.hpp"
 #include "lib/di/container.hpp"
 #include "lib/metrics/metrics.hpp"
 #include "lua/modules/modules.hpp"
@@ -58,4 +59,12 @@ TEST(ContainerSingletonsTest, GuildRepositoryIsConstructedWithInjectedDatabase) 
 	auto &repository = IGuildRepository::getInstance();
 	EXPECT_NE(nullptr, dynamic_cast<GuildRepositoryDB*>(&repository));
 	EXPECT_EQ(&repository, &IGuildRepository::getInstance());
+}
+
+// Market statistics are cached inside the adapter, so every caller must share one instance.
+TEST(ContainerSingletonsTest, MarketRepositoryIsOneInjectedInstance) {
+	ProductionContainerScope scope;
+	auto &repository = IMarketRepository::getInstance();
+	EXPECT_NE(nullptr, dynamic_cast<MarketRepositoryDB*>(&repository));
+	EXPECT_EQ(&repository, &g_marketRepository());
 }

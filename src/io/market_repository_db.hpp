@@ -11,9 +11,20 @@
 
 #include "io/market_repository.hpp"
 
+#ifndef USE_PRECOMPILED_HEADERS
+	#include <mutex>
+#endif
+
+class IConfigManager;
+class IDatabase;
+
+/// IMarketRepository adapter that owns the market SQL and the cached statistics.
+/// Synchronous queries use the injected database; appendHistory and loadExpiredOffers
+/// go through the shared DatabaseTasks pool, which runs on the global Database.
 class MarketRepositoryDB final : public IMarketRepository {
 public:
-	MarketRepositoryDB() = default;
+	MarketRepositoryDB(IDatabase &db, IConfigManager &config) :
+		db_(db), config_(config) { }
 
 	[[nodiscard]] MarketOfferList getActiveOffers(MarketAction_t action) override;
 	[[nodiscard]] MarketOfferList getActiveOffers(MarketAction_t action, uint16_t itemId, uint8_t tier) override;
@@ -30,9 +41,18 @@ public:
 	void appendHistory(uint32_t playerId, MarketAction_t type, uint16_t itemId, uint16_t amount, uint64_t price, time_t timestamp, uint8_t tier, MarketOfferState_t state) override;
 	bool moveOfferToHistory(uint32_t offerId, MarketOfferState_t state) override;
 
-	void checkExpiredOffers() override;
+	void loadExpiredOffers(time_t lastExpireDate, std::function<void(std::vector<ExpiredMarketOffer>)> onLoaded) override;
 	void updateStatistics() override;
 	[[nodiscard]] StatisticsMap getPurchaseStatistics() const override;
 	[[nodiscard]] StatisticsMap getSaleStatistics() const override;
 	[[nodiscard]] StatisticsSnapshot getStatistics(uint16_t itemId, uint8_t tier) const override;
+
+private:
+	IDatabase &db_;
+	IConfigManager &config_;
+
+	// [uint16_t = item id, [uint8_t = item tier, MarketStatistics = structure of the statistics]]
+	StatisticsMap purchaseStatistics;
+	StatisticsMap saleStatistics;
+	mutable std::mutex statisticsMutex;
 };

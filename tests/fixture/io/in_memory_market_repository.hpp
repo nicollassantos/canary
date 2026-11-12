@@ -10,6 +10,7 @@
 
 #include <cstdint>
 #include <ctime>
+#include <functional>
 #include <list>
 #include <unordered_map>
 #include <vector>
@@ -183,8 +184,27 @@ public:
 		return true;
 	}
 
-	void checkExpiredOffers() override {
+	void loadExpiredOffers(time_t lastExpireDate, std::function<void(std::vector<ExpiredMarketOffer>)> onLoaded) override {
 		++expiredOfferChecks;
+		std::vector<ExpiredMarketOffer> expired;
+		for (const auto &[id, o] : offers) {
+			if (static_cast<time_t>(o.timestamp) <= lastExpireDate) {
+				expired.push_back({ o.id, o.playerId, o.action, o.itemId, o.amount, o.price, o.tier });
+			}
+		}
+		onLoaded(std::move(expired));
+	}
+
+	[[nodiscard]] bool hasOffer(uint32_t offerId) const {
+		return offers.contains(offerId);
+	}
+
+	[[nodiscard]] size_t historySize() const {
+		return history.size();
+	}
+
+	[[nodiscard]] MarketOfferState_t lastHistoryState() const {
+		return history.back().state;
 	}
 
 	void updateStatistics() override {

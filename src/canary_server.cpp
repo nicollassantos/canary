@@ -24,7 +24,7 @@
 #include "game/world_type_config.hpp"
 #include "game/zones/zone.hpp"
 #include "io/io_bosstiary.hpp"
-#include "io/iomarket.hpp"
+#include "game/market/market_expiry.hpp"
 #include "io/ioprey.hpp"
 #include "lib/thread/thread_pool.hpp"
 #include "lua/docgen/lua_api_doc_generator.hpp"
@@ -225,7 +225,7 @@ int CanaryServer::run() {
 				setupHousesRent();
 				g_game().transferHouseItemsToDepot();
 
-				g_marketRepository().checkExpiredOffers();
+				market_expiry::checkExpiredOffers();
 				g_marketRepository().updateStatistics();
 
 				logger.info("Loaded all modules, server starting up...");

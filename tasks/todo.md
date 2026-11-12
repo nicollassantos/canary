@@ -223,7 +223,7 @@
 
 > Linha de base: g_game 1143 / g_configManager 458; components 183 `g_game()` (93 em arquivos só do branch, 90 em arquivos upstream)
 
-- [ ] **20.1** — Market: `MarketRepositoryDB(IDatabase&, IConfigManager&)` dono do SQL + estatísticas; `IOMarket` removido; refund de expiradas → `game/market`; testes IT + unit
+- [x] **20.1** — Market: `MarketRepositoryDB(IDatabase&, IConfigManager&)` dono do SQL + estatísticas (mapas + mutex); `IOMarket` removido; porta `checkExpiredOffers` → `loadExpiredOffers(cutoff, callback)` (callback só captura valores); refund de expiradas → `game/market/market_expiry` (corpo movido sem reordenar mover-histórico→reembolso, diff conferido); 4 unit (refund) + 8 IT (MySQL) + 1 container — 874/874 + 64/64; totais g_game 1140 / g_configManager 452 (contagem por linha, `git grep`)
 - [ ] **20.2** — VIP: `VipRepositoryDB(IDatabase&)` dono do SQL; VIP sai de `IOLoginData`; testes IT
 - [ ] **20.3** — Components do branch sem `g_game()` (portas por papel, resolvidas na chamada)
 - [ ] **CHECKPOINT 20**

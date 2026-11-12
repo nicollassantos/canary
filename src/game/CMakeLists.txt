@@ -10,6 +10,7 @@ target_sources(
             highscore/highscore_service.cpp
             interaction/player_interaction_service.cpp
             loot/loot_service.cpp
+            market/market_expiry.cpp
             market/market_service.cpp
             sound/sound_service.cpp
             movement/movement_service.cpp

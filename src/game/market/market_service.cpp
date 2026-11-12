@@ -15,7 +15,6 @@
 #include "creatures/players/player.hpp"
 #include "game/game.hpp"
 #include "io/market_repository.hpp"
-#include "io/iomarket.hpp"
 #include "items/containers/depot/depotlocker.hpp"
 #include "items/containers/inbox/inbox.hpp"
 #include "items/item.hpp"

@@ -12,7 +12,6 @@ target_sources(
             functions/iologindata_save_player.cpp
             iomap.cpp
             iomapserialize.cpp
-            iomarket.cpp
             ioprey.cpp
             player_storage_repository_db.cpp
 )

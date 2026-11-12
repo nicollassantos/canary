@@ -25,6 +25,7 @@ target_sources(
             teleport_guard_test.cpp
             walk_start_policy_test.cpp
             world_type_config_test.cpp
+            market_expiry_test.cpp
             movement_service_test.cpp
             trade_service_test.cpp
             highscore_service_test.cpp

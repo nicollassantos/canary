@@ -16,9 +16,22 @@
 #include "io/io_definitions.hpp"
 
 #ifndef USE_PRECOMPILED_HEADERS
+	#include <functional>
 	#include <map>
 	#include <optional>
+	#include <vector>
 #endif
+
+/// Offer row read by the expiry sweep; the game layer moves it to history and refunds its owner.
+struct ExpiredMarketOffer {
+	uint32_t id = 0;
+	uint32_t playerId = 0;
+	MarketAction_t action = MARKETACTION_BUY;
+	uint16_t itemId = 0;
+	uint16_t amount = 0;
+	uint64_t price = 0;
+	uint8_t tier = 0;
+};
 
 class IMarketRepository {
 public:
@@ -52,8 +65,9 @@ public:
 		std::optional<MarketStatistics> sale;
 	};
 
-	/// Moves expired offers to history and refunds their owners.
-	virtual void checkExpiredOffers() = 0;
+	/// Loads offers created at or before lastExpireDate off the game thread.
+	/// onLoaded runs later on the dispatcher; it must not capture state that can die first.
+	virtual void loadExpiredOffers(time_t lastExpireDate, std::function<void(std::vector<ExpiredMarketOffer>)> onLoaded) = 0;
 	virtual void updateStatistics() = 0;
 	[[nodiscard]] virtual StatisticsMap getPurchaseStatistics() const = 0;
 	[[nodiscard]] virtual StatisticsMap getSaleStatistics() const = 0;

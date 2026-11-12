@@ -40,7 +40,6 @@
 #include "io/iobestiary.hpp"
 #include "creatures/players/player_repository.hpp"
 #include "io/iologindata.hpp"
-#include "io/iomarket.hpp"
 #include "io/guild_repository.hpp"
 #include "io/ioprey.hpp"
 #include "items/items_classification.hpp"

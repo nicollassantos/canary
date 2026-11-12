@@ -97,7 +97,6 @@
     <ClInclude Include="..\src\io\iologindata.hpp" />
     <ClInclude Include="..\src\io\iomap.hpp" />
     <ClInclude Include="..\src\io\iomapserialize.hpp" />
-    <ClInclude Include="..\src\io\iomarket.hpp" />
     <ClInclude Include="..\src\io\ioprey.hpp" />
     <ClInclude Include="..\src\io\io_bosstiary.hpp" />
     <ClInclude Include="..\src\io\io_definitions.hpp" />
@@ -333,7 +332,6 @@
     <ClCompile Include="..\src\io\iologindata.cpp" />
     <ClCompile Include="..\src\io\iomap.cpp" />
     <ClCompile Include="..\src\io\iomapserialize.cpp" />
-    <ClCompile Include="..\src\io\iomarket.cpp" />
     <ClCompile Include="..\src\io\ioprey.cpp" />
     <ClCompile Include="..\src\io\io_bosstiary.cpp" />
     <ClCompile Include="..\src\io\player_storage_repository_db.cpp" />
@@ -492,6 +490,7 @@
     <ClCompile Include="..\src\game\highscore\highscore_service.cpp" />
     <ClCompile Include="..\src\game\interaction\player_interaction_service.cpp" />
     <ClCompile Include="..\src\game\loot\loot_service.cpp" />
+    <ClCompile Include="..\src\game\market\market_expiry.cpp" />
     <ClCompile Include="..\src\game\market\market_service.cpp" />
     <ClCompile Include="..\src\game\movement\movement_service.cpp" />
     <ClCompile Include="..\src\game\movement\teleport_guard.cpp" />
@@ -738,6 +737,7 @@
     <ClInclude Include="..\src\game\highscore\highscore_service.hpp" />
     <ClInclude Include="..\src\game\interaction\player_interaction_service.hpp" />
     <ClInclude Include="..\src\game\loot\loot_service.hpp" />
+    <ClInclude Include="..\src\game\market\market_expiry.hpp" />
     <ClInclude Include="..\src\game\market\market_service.hpp" />
     <ClInclude Include="..\src\game\movement\movement_service.hpp" />
     <ClInclude Include="..\src\game\movement\teleport_guard.hpp" />
