@@ -88,7 +88,7 @@ monster.loot = {
 	{ name = "platinum coin", chance = 100000, maxCount = 8 },
 	{ id = 3049, chance = 1200 }, -- stealth ring
 	{ name = "boots of haste", chance = 360 },
-	{ name = "dark shield", chance = 2000 },
+	{ name = "dark shield", chance = 1489 },
 	{ name = "assassin star", chance = 7600, maxCount = 10 },
 	{ name = "diamond sceptre", chance = 960 },
 	{ name = "haunted blade", chance = 2000 },
@@ -96,10 +96,10 @@ monster.loot = {
 	{ name = "shadow sceptre", chance = 640 },
 	{ name = "glorious axe", chance = 2400 },
 	{ name = "terra legs", chance = 960 },
-	{ name = "terra boots", chance = 480 },
+	{ name = "terra boots", chance = 1012 },
 	{ name = "cluster of solace", chance = 4560 },
 	{ name = "silencer claws", chance = 17000 },
-	{ name = "silencer resonating chamber", chance = 8410 },
+	{ name = "silencer resonating chamber", chance = 9360 },
 }
 
 monster.attacks = {

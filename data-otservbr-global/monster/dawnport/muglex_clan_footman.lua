@@ -77,7 +77,7 @@ monster.loot = {
 	{ id = 3120, chance = 850 }, -- mouldy cheese
 	{ id = 3294, chance = 9720 }, -- short sword
 	{ id = 3462, chance = 7750 }, -- small axe
-	{ id = 1781, chance = 15210 }, -- small stone
+	{ id = 1781, chance = 5910 }, -- small stone
 	{ name = "brass legs", chance = 792 },
 	{ name = "ranger's cloak", chance = 528 },
 }

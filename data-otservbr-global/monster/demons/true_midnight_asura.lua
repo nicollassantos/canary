@@ -92,14 +92,14 @@ monster.loot = {
 	{ id = 3041, chance = 1020 }, -- blue gem
 	{ id = 3567, chance = 900 }, -- blue robe
 	{ id = 9058, chance = 900 }, -- gold ingot
-	{ id = 21974, chance = 12440 }, -- golden lotus brooch
+	{ id = 21974, chance = 19574 }, -- golden lotus brooch
 	{ id = 3069, chance = 3610 }, -- necrotic rod
 	{ id = 21981, chance = 1820 }, -- oriental shoes
-	{ id = 21975, chance = 12790 }, -- peacock feather fan
+	{ id = 21975, chance = 19007 }, -- peacock feather fan
 	{ id = 8061, chance = 930 }, -- skullcracker armor
 	{ id = 3017, chance = 10060 }, -- silver brooch
 	{ id = 3054, chance = 2020 }, -- silver amulet
-	{ id = 5944, chance = 10020 }, -- soul orb
+	{ id = 5944, chance = 18440 }, -- soul orb
 	{ id = 8074, chance = 900 }, -- spellbook of mind control
 	{ id = 3403, chance = 2290 }, -- tribal mask
 	{ id = 8082, chance = 990 }, -- underworld rod

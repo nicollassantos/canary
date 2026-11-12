@@ -83,19 +83,19 @@ monster.loot = {
 	{ name = "gold coin", chance = 87970, maxCount = 242 },
 	{ name = "ham", chance = 59510, maxCount = 3 },
 	{ name = "platinum coin", chance = 49910, maxCount = 3 },
-	{ name = "hydra head", chance = 10820 },
-	{ name = "cucumber", chance = 6900 },
-	{ name = "small sapphire", chance = 3920 },
-	{ name = "warrior helmet", chance = 1310 },
+	{ name = "hydra head", chance = 9441 },
+	{ name = "cucumber", chance = 5459 },
+	{ name = "small sapphire", chance = 5221 },
+	{ name = "warrior helmet", chance = 945 },
 	{ name = "knight armor", chance = 1120 },
-	{ name = "life crystal", chance = 930 },
-	{ id = 3098, chance = 840 }, -- ring of healing
+	{ name = "life crystal", chance = 651 },
+	{ id = 3098, chance = 1372 }, -- ring of healing
 	{ name = "hydra egg", chance = 840 },
-	{ name = "strong mana potion", chance = 840 },
-	{ name = "stone skin amulet", chance = 750 },
+	{ name = "strong mana potion", chance = 364 },
+	{ name = "stone skin amulet", chance = 294 },
 	{ name = "boots of haste", chance = 190 },
 	{ name = "medusa shield", chance = 190 },
-	{ name = "royal helmet", chance = 90 },
+	{ name = "royal helmet", chance = 245 },
 }
 
 monster.attacks = {

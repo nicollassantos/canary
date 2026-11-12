@@ -73,31 +73,31 @@ monster.voices = {
 }
 
 monster.loot = {
-	{ id = 28570, chance = 10000, maxCount = 3 }, -- glowing rune
-	{ name = "great spirit potion", chance = 10000, maxCount = 3 },
-	{ name = "fire mushroom", chance = 10000, maxCount = 6 },
+	{ id = 28570, chance = 18912, maxCount = 3 }, -- glowing rune
+	{ name = "great spirit potion", chance = 18671, maxCount = 3 },
+	{ name = "fire mushroom", chance = 15050, maxCount = 6 },
 	{ name = "small amethyst", chance = 90000, maxCount = 5 },
 	{ name = "slime heart", chance = 3000 },
-	{ name = "piece of dead brain", chance = 4900 },
+	{ name = "piece of dead brain", chance = 1098 },
 	{ name = "platinum coin", chance = 100000, maxCount = 29 },
-	{ name = "ultimate health potion", chance = 10000, maxCount = 5 },
+	{ name = "ultimate health potion", chance = 30261, maxCount = 5 },
 	{ name = "small topaz", chance = 90000, maxCount = 5 },
 	{ name = "small emerald", chance = 90000, maxCount = 5 },
-	{ id = 3039, chance = 9800, maxCount = 5 }, -- red gem
+	{ id = 3039, chance = 2214, maxCount = 5 }, -- red gem
 	{ name = "orb", chance = 66000, maxCount = 5 },
 	{ name = "purple tome", chance = 6333 },
-	{ name = "great mana potion", chance = 10000, maxCount = 3 },
-	{ name = "demonic essence", chance = 4300 },
+	{ name = "great mana potion", chance = 19277, maxCount = 3 },
+	{ name = "demonic essence", chance = 7342 },
 	{ id = 28568, chance = 10000 }, -- inkwell
 	{ name = "small ruby", chance = 90000, maxCount = 5 },
-	{ name = "talon", chance = 8990 },
-	{ name = "might ring", chance = 4990 },
+	{ name = "talon", chance = 2589 },
+	{ name = "might ring", chance = 1783 },
 	{ name = "devil helmet", chance = 6990 },
-	{ name = "demonrage sword", chance = 400 },
+	{ name = "demonrage sword", chance = 1456 },
 	{ id = 7393, chance = 390 }, -- demon trophy
 	{ name = "giant sword", chance = 250 },
 	{ name = "demon shield", chance = 250 },
-	{ name = "magic plate armor", chance = 150 },
+	{ name = "magic plate armor", chance = 272 },
 	{ name = "platinum amulet", chance = 350 },
 	{ name = "wand of everblazing", chance = 300 },
 	{ name = "fire axe", chance = 500 },

@@ -91,7 +91,7 @@ monster.loot = {
 	{ id = 953, chance = 5260, maxCount = 5 }, -- nail
 	{ id = 3265, chance = 5500 }, -- two handed sword
 	{ id = 3410, chance = 9000 }, -- plate shield
-	{ id = 3282, chance = 7000 }, -- morning star
+	{ id = 3282, chance = 8463 }, -- morning star
 	{ id = 3413, chance = 6500 }, -- battle shield
 	{ id = 7643, chance = 10080 }, -- ultimate health potion
 	{ id = 238, chance = 8860 }, -- great mana potion
@@ -106,7 +106,7 @@ monster.loot = {
 	{ id = 9065, chance = 1080 }, -- crystal pedestal
 	{ id = 820, chance = 90 }, -- lightning boots
 	{ id = 3554, chance = 620 }, -- steel boots
-	{ id = 7403, chance = 50 }, -- berserker
+	{ id = 7403, chance = 173 }, -- berserker
 	{ id = 7422, chance = 120 }, -- jade hammer
 	{ id = 7428, chance = 770 }, -- bonebreaker
 	{ id = 3061, chance = 1000 }, -- life crystal

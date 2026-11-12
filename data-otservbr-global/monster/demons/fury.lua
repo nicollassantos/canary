@@ -96,7 +96,7 @@ monster.loot = {
 	{ id = 6300, chance = 60 }, -- death ring
 	{ name = "demonic essence", chance = 22500 },
 	{ name = "flask of demonic blood", chance = 35000, maxCount = 3 },
-	{ name = "assassin dagger", chance = 660 },
+	{ name = "assassin dagger", chance = 899 },
 	{ name = "noble axe", chance = 2000 },
 	{ name = "great health potion", chance = 10500 },
 	{ name = "jalapeno pepper", chance = 29280, maxCount = 4 },

@@ -82,15 +82,15 @@ monster.voices = {
 
 monster.loot = {
 	{ name = "crystal coin", chance = 79040 },
-	{ name = "great mana potion", chance = 62450, maxCount = 3 },
+	{ name = "great mana potion", chance = 50607, maxCount = 3 },
 	-- {name = "giant shimmering pearl", chance = 10040}, -- unknown item: giant shimmering pearl
 	{ name = "blue gem", chance = 5240 },
-	{ id = 23533, chance = 4370 }, -- ring of red plasma
-	{ name = "wand of voodoo", chance = 4370 },
-	{ id = 23531, chance = 3490 }, -- ring of green plasma
+	{ id = 23533, chance = 2429 }, -- ring of red plasma
+	{ name = "wand of voodoo", chance = 2256 },
+	{ id = 23531, chance = 1677 }, -- ring of green plasma
 	{ id = 23529, chance = 3060 }, -- ring of blue plasma
 	{ name = "violet gem", chance = 2620 },
-	{ name = "glacier amulet", chance = 2620 },
+	{ name = "glacier amulet", chance = 1099 },
 	{ name = "wand of everblazing", chance = 2180 },
 	{ name = "wand of defiance", chance = 1750 },
 	{ name = "wand of starstorm", chance = 1310 },

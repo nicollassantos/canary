@@ -82,7 +82,7 @@ monster.loot = {
 	{ name = "great spirit potion", chance = 3840, maxCount = 4 },
 	{ name = "green crystal shard", chance = 3470, maxCount = 3 },
 	{ name = "blue crystal shard", chance = 2950, maxCount = 3 },
-	{ name = "small diamond", chance = 2950, maxCount = 6 },
+	{ name = "small diamond", chance = 3900, maxCount = 6 },
 	{ name = "violet gem", chance = 2730 },
 	{ name = "bashmu fang", chance = 2070 },
 	{ name = "rainbow quartz", chance = 1770 },
@@ -91,8 +91,8 @@ monster.loot = {
 	{ name = "glorious axe", chance = 810 },
 	{ id = 23544, chance = 660 }, -- collar of red plasma
 	{ name = "haunted blade", chance = 590 },
-	{ name = "magma amulet", chance = 520 },
-	{ id = 23542, chance = 440 }, -- collar of blue plasma
+	{ name = "magma amulet", chance = 908 },
+	{ id = 23542, chance = 837 }, -- collar of blue plasma
 }
 
 monster.attacks = {

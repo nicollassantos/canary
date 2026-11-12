@@ -78,7 +78,7 @@ monster.loot = {
 	{ name = "weretiger tooth", chance = 13400 },
 	{ name = "beastslayer axe", chance = 3970 },
 	{ name = "ham", chance = 5500, maxCount = 2 },
-	{ name = "moonlight crystals", chance = 7000 },
+	{ name = "moonlight crystals", chance = 13377 },
 	{ name = "white gem", chance = 1650 },
 	{ name = "silver moon coin", chance = 2000 },
 	{ name = "blue robe", chance = 1160 },

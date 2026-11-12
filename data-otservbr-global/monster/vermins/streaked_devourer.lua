@@ -80,17 +80,17 @@ monster.loot = {
 	{ name = "gold ingot", chance = 16920, maxCount = 3 },
 	{ name = "streaked devourer maw", chance = 13850, maxCount = 2 },
 	{ name = "streaked devourer eyes", chance = 9230, maxCount = 2 },
-	{ id = 3039, chance = 4620, maxCount = 1 }, -- red gem
-	{ name = "streaked devourer legs", chance = 1540 },
-	{ name = "yellow gem", chance = 1540 },
+	{ id = 3039, chance = 9312, maxCount = 1 }, -- red gem
+	{ name = "streaked devourer legs", chance = 5285 },
+	{ name = "yellow gem", chance = 3523 },
 	{ name = "crystal mace", chance = 1540 },
 	{ name = "mercenary sword", chance = 1540 },
 	{ name = "noble axe", chance = 1280 },
 	{ name = "ornate crossbow", chance = 1100 },
-	{ name = "relic sword", chance = 1010 },
+	{ name = "relic sword", chance = 2013 },
 	{ name = "guardian halberd", chance = 3080 },
 	{ name = "warrior's axe", chance = 1540 },
-	{ name = "giant sword", chance = 830 },
+	{ name = "giant sword", chance = 1930 },
 	{ name = "war axe", chance = 4620 },
 }
 

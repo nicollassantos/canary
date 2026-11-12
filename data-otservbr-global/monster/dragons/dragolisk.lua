@@ -81,7 +81,7 @@ monster.loot = {
 	{ name = "Nimmersatt's Seal", chance = 8320 },
 	{ id = 282, chance = 7580 },
 	{ name = "Dragolisk Eye", chance = 5510 },
-	{ name = "Green Gem", chance = 8260 },
+	{ name = "Green Gem", chance = 4376 },
 	{ name = "ultimate health potion", chance = 2057 },
 	{ name = "Dragon's Tail", chance = 1003 },
 	{ name = "ultimate mana potion", chance = 919 },

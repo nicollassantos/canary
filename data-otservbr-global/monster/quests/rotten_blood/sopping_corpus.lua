@@ -78,13 +78,13 @@ monster.voices = {
 
 monster.loot = {
 	{ name = "crystal coin", chance = 42860 },
-	{ name = "ultimate mana potion", chance = 42860, minCount = 2, maxCount = 4 },
+	{ name = "ultimate mana potion", chance = 25197, minCount = 2, maxCount = 4 },
 	{ id = 7385, chance = 14290 }, -- crimson sword
 	{ name = "ultimate health potion", chance = 14290, maxCount = 2 },
-	{ name = "organic acid", chance = 7678, maxCount = 1 },
-	{ name = "rotten roots", chance = 13133, maxCount = 1 },
+	{ name = "organic acid", chance = 18110, maxCount = 1 },
+	{ name = "rotten roots", chance = 4724, maxCount = 1 },
 	{ name = "emerald bangle", chance = 8558, maxCount = 1 },
-	{ name = "underworld rod", chance = 8380, maxCount = 1 },
+	{ name = "underworld rod", chance = 2625, maxCount = 1 },
 	{ name = "violet gem", chance = 5084, maxCount = 1 },
 	{ name = "blue gem", chance = 9808, maxCount = 1 },
 	{ name = "relic sword", chance = 6964, maxCount = 1 },

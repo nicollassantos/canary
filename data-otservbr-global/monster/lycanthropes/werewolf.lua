@@ -91,7 +91,7 @@ monster.loot = {
 	{ name = "epee", chance = 560 },
 	{ name = "plate shield", chance = 10340 },
 	{ name = "brown mushroom", chance = 6940 },
-	{ name = "troll green", chance = 1900 },
+	{ name = "troll green", chance = 5025 },
 	{ name = "wolf paw", chance = 5200 },
 	{ name = "relic sword", chance = 480 },
 	{ name = "dreaded cleaver", chance = 160 },

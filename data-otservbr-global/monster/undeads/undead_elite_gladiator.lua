@@ -89,7 +89,7 @@ monster.loot = {
 	{ name = "plate legs", chance = 250 },
 	{ name = "two handed sword", chance = 250 },
 	{ name = "great health potion", chance = 250, maxCount = 2 },
-	{ id = 3049, chance = 230 }, -- stealth ring
+	{ id = 3049, chance = 1026 }, -- stealth ring
 	{ name = "crusader helmet", chance = 150 },
 	{ name = "relic sword", chance = 150 },
 }

@@ -80,19 +80,19 @@ monster.voices = {
 
 monster.loot = {
 	{ id = 3031, chance = 100000, maxCount = 200 }, -- gold coin
-	{ id = 21755, chance = 1490 }, -- bronze gear wheel
-	{ id = 21193, chance = 17160 }, -- metal jaw
+	{ id = 21755, chance = 2340 }, -- bronze gear wheel
+	{ id = 21193, chance = 15926 }, -- metal jaw
 	{ id = 3035, chance = 43280, maxCount = 2 }, -- platinum coin
-	{ id = 236, chance = 9700, maxCount = 2 }, -- strong health potion
-	{ id = 237, chance = 9700, maxCount = 2 }, -- strong mana potion
-	{ id = 21171, chance = 1490 }, -- metal bat
-	{ id = 8082, chance = 1490 }, -- underworld rod
+	{ id = 236, chance = 7648, maxCount = 2 }, -- strong health potion
+	{ id = 237, chance = 7810, maxCount = 2 }, -- strong mana potion
+	{ id = 21171, chance = 839 }, -- metal bat
+	{ id = 8082, chance = 896 }, -- underworld rod
 	{ id = 3051, chance = 2240 }, -- energy ring
-	{ id = 3052, chance = 750 }, -- life ring
-	{ id = 10310, chance = 2240 }, -- shiny stone
-	{ id = 21169, chance = 1490 }, -- metal spats
-	{ id = 21168, chance = 1490 }, -- alloy legs
-	{ id = 8896, chance = 2990 }, -- slightly rusted armor
+	{ id = 3052, chance = 476 }, -- life ring
+	{ id = 10310, chance = 1299 }, -- shiny stone
+	{ id = 21169, chance = 2687 }, -- metal spats
+	{ id = 21168, chance = 904 }, -- alloy legs
+	{ id = 8896, chance = 2267 }, -- slightly rusted armor
 	{ name = "iron ore", chance = 403 },
 }
 

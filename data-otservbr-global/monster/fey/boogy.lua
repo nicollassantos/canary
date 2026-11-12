@@ -80,20 +80,20 @@ monster.loot = {
 	{ id = 24390, chance = 3000, maxCount = 3 }, -- ancient coin
 	{ id = 7439, chance = 1500 }, -- berserk potion
 	{ id = 9067, chance = 100 }, -- crystal of power
-	{ id = 25693, chance = 15000 }, -- shimmering beetles
+	{ id = 25693, chance = 18313 }, -- shimmering beetles
 	{ id = 3031, chance = 100000, maxCount = 200 }, -- gold coin
 	{ id = 3306, chance = 900 }, -- golden sickle
 	{ id = 5014, chance = 100 }, -- mandrake
-	{ id = 24962, chance = 2500, maxCount = 2 }, -- prismatic quartz
+	{ id = 24962, chance = 3143, maxCount = 2 }, -- prismatic quartz
 	{ id = 16126, chance = 3600, maxCount = 2 }, -- red crystal fragment
 	{ id = 3738, chance = 3200 }, -- sling herb
-	{ id = 677, chance = 3000, maxCount = 3 }, -- small enchanted emerald
+	{ id = 677, chance = 2069, maxCount = 3 }, -- small enchanted emerald
 	{ id = 236, chance = 15000 }, -- strong health potion
 	{ id = 814, chance = 3200 }, -- terra amulet
 	{ name = "fairy wings", chance = 15000 },
 	{ name = "wooden spellbook", chance = 3440 },
-	{ name = "leaf star", chance = 3440, maxCount = 7 },
-	{ id = 3727, chance = 4500 }, -- wood mushroom
+	{ name = "leaf star", chance = 7998, maxCount = 7 },
+	{ id = 3727, chance = 5384 }, -- wood mushroom
 }
 
 monster.attacks = {

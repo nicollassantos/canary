@@ -75,12 +75,12 @@ monster.voices = {
 
 monster.loot = {
 	{ name = "platinum coin", chance = 100000, maxCount = 20 },
-	{ name = "dagger", chance = 38810 },
+	{ name = "dagger", chance = 33955 },
 	{ name = "strong health potion", chance = 14930, maxCount = 2 },
 	{ name = "naga warrior scales", chance = 10600, maxCount = 4 },
 	{ name = "naga earring", chance = 6420, maxCount = 3 },
 	{ id = 3307, chance = 5520 }, -- scimitar
-	{ name = "naga armring", chance = 3730 },
+	{ name = "naga armring", chance = 2743 },
 	{ name = "plate armor", chance = 2990 },
 	{ name = "spiky club", chance = 2090 },
 	{ name = "serpent sword", chance = 1940 },
@@ -88,7 +88,7 @@ monster.loot = {
 	{ name = "katana", chance = 1490 },
 	{ name = "relic sword", chance = 600 },
 	{ name = "knight armor", chance = 1100 },
-	{ id = 7441, chance = 300 }, -- ice cube
+	{ id = 7441, chance = 735 }, -- ice cube
 }
 
 monster.attacks = {

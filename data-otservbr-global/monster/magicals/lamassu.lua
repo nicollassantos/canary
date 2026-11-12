@@ -82,12 +82,12 @@ monster.loot = {
 	{ name = "platinum coin", chance = 100000 },
 	{ name = "lamassu horn", chance = 13400, maxCount = 5 },
 	{ name = "red crystal fragment", chance = 10500 },
-	{ name = "terra amulet", chance = 10000 },
+	{ name = "terra amulet", chance = 7993 },
 	{ name = "lamassu hoof", chance = 7700 },
-	{ name = "violet crystal shard", chance = 6800, maxCount = 2 },
+	{ name = "violet crystal shard", chance = 10780, maxCount = 2 },
 	{ name = "opal", chance = 6771 },
-	{ name = "blue crystal shard", chance = 6500, maxCount = 2 },
-	{ id = 3039, chance = 6200 }, -- red gem
+	{ name = "blue crystal shard", chance = 10560, maxCount = 2 },
+	{ id = 3039, chance = 17282 }, -- red gem
 	{ name = "terra hood", chance = 5900 },
 	{ name = "small emerald", chance = 5353 },
 	{ name = "onyx chip", chance = 4131 },

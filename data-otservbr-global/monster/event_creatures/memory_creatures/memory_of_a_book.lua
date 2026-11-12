@@ -64,7 +64,7 @@ monster.loot = {
 	{ name = "fishbone", chance = 8901 },
 	{ id = 3130, chance = 8300 }, -- twigs
 	{ name = "green crystal fragment", chance = 7000 },
-	{ name = "great spirit potion", chance = 26400 },
+	{ name = "great spirit potion", chance = 13613 },
 	{ name = "ultimate health potion", chance = 15390 },
 	{ name = "bottle of champagne", chance = 8300 },
 	{ name = "green crystal shard", chance = 7200 },

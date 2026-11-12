@@ -85,10 +85,10 @@ monster.voices = {
 
 monster.loot = {
 	{ name = "crystal coin", chance = 77650 },
-	{ name = "great spirit potion", chance = 61410, maxCount = 5 },
-	{ name = "blue gem", chance = 9410 },
-	{ name = "gold ingot", chance = 9410 },
-	{ name = "capricious heart", chance = 7530 },
+	{ name = "great spirit potion", chance = 43169, maxCount = 5 },
+	{ name = "blue gem", chance = 6629 },
+	{ name = "gold ingot", chance = 5255 },
+	{ name = "capricious heart", chance = 3234 },
 	{ name = "violet gem", chance = 4710 },
 	{ name = "capricious robe", chance = 2350 },
 	{ id = 23529, chance = 1880 }, -- ring of blue plasma

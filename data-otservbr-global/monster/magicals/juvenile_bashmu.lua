@@ -82,7 +82,7 @@ monster.loot = {
 	{ name = "lightning legs", chance = 2230 },
 	{ name = "diamond sceptre", chance = 2180 },
 	{ name = "lightning pendant", chance = 2180 },
-	{ name = "bashmu fang", chance = 2120 },
+	{ name = "bashmu fang", chance = 1543 },
 	{ name = "yellow gem", chance = 2070 },
 	{ name = "war hammer", chance = 1540 },
 	{ name = "violet crystal shard", chance = 1490 },
@@ -94,7 +94,7 @@ monster.loot = {
 	{ name = "pair of iron fists", chance = 1010 },
 	{ name = "skull staff", chance = 960 },
 	{ name = "crystal mace", chance = 800 },
-	{ name = "chaos mace", chance = 530 },
+	{ name = "chaos mace", chance = 856 },
 }
 
 monster.attacks = {

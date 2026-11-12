@@ -87,7 +87,7 @@ monster.loot = {
 	{ name = "epee", chance = 6870 },
 	{ name = "green gem", chance = 4940 },
 	{ name = "violet gem", chance = 3860 },
-	{ name = "glacier amulet", chance = 3860 },
+	{ name = "glacier amulet", chance = 1834 },
 	{ name = "crystal mace", chance = 2360 },
 	{ name = "giant sword", chance = 1720 },
 	{ name = "stone skin amulet", chance = 1500 },

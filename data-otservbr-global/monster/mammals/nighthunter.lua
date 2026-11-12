@@ -77,7 +77,7 @@ monster.loot = {
 	{ name = "Crystal Coin", chance = 34190 },
 	{ name = "Nighthunter Wing", chance = 24370, minCount = 1, maxCount = 2 },
 	{ name = "Ultimate Health Potion", chance = 12640, minCount = 1, maxCount = 3 },
-	{ name = "Red Crystal Fragment", chance = 3980 },
+	{ name = "Red Crystal Fragment", chance = 5303 },
 	{ name = "Green Crystal Shard", chance = 3670 },
 	{ name = "Cyan Crystal Fragment", chance = 3080 },
 	{ name = "Yellow Gem", chance = 2940 },

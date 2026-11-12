@@ -82,7 +82,7 @@ monster.loot = {
 	{ name = "gold coin", chance = 100000, maxCount = 198 },
 	{ name = "platinum coin", chance = 100000, maxCount = 7 },
 	{ id = 3039, chance = 15000 }, -- red gem
-	{ name = "stone skin amulet", chance = 2780 },
+	{ name = "stone skin amulet", chance = 843 },
 	{ name = "blank rune", chance = 35250, maxCount = 3 },
 	{ name = "skull staff", chance = 850 },
 	{ name = "tower shield", chance = 740 },
@@ -95,7 +95,7 @@ monster.loot = {
 	{ name = "haunted blade", chance = 740 },
 	{ name = "titan axe", chance = 1000 },
 	{ name = "great mana potion", chance = 14200, maxCount = 2 },
-	{ name = "great health potion", chance = 8800, maxCount = 2 },
+	{ name = "great health potion", chance = 11571, maxCount = 2 },
 	{ id = 8896, chance = 3500 }, -- slightly rusted armor
 	{ name = "unholy bone", chance = 33010 },
 }

@@ -80,11 +80,11 @@ monster.loot = {
 	{ name = "carnisylvan finger", chance = 10090, maxCount = 2 },
 	{ name = "terra hood", chance = 7200 },
 	{ name = "terra boots", chance = 4900 },
-	{ name = "knight axe", chance = 3460 },
+	{ name = "knight axe", chance = 4635 },
 	{ name = "lightning headband", chance = 3460 },
 	{ name = "dragonbone staff", chance = 5190 },
 	{ name = "diamond sceptre", chance = 4320 },
-	{ name = "epee", chance = 2590 },
+	{ name = "epee", chance = 4088 },
 	{ name = "war hammer", chance = 3750 },
 	{ name = "human teeth", chance = 580 },
 }

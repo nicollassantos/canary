@@ -95,7 +95,7 @@ monster.loot = {
 	{ name = "ornate crossbow", chance = 850 },
 	{ name = "crystal crossbow", chance = 180 },
 	{ name = "composite hornbow", chance = 100 },
-	{ name = "elvish bow", chance = 80 },
+	{ name = "elvish bow", chance = 296 },
 }
 
 monster.attacks = {

@@ -74,12 +74,12 @@ monster.voices = {
 
 monster.loot = {
 	{ name = "platinum coin", chance = 100000, maxCount = 8 },
-	{ name = "book page", chance = 100000, maxCount = 3 },
-	{ name = "small diamond", chance = 100000, maxCount = 8 },
-	{ name = "small sapphire", chance = 100000, maxCount = 9 },
+	{ name = "book page", chance = 62271, maxCount = 3 },
+	{ name = "small diamond", chance = 45798, maxCount = 8 },
+	{ name = "small sapphire", chance = 27402, maxCount = 9 },
 	{ name = "quill", chance = 100000, maxCount = 8 },
 	{ name = "ultimate health potion", chance = 100000, maxCount = 8 },
-	{ name = "ultimate mana potion", chance = 100000, maxCount = 8 },
+	{ name = "ultimate mana potion", chance = 21154, maxCount = 8 },
 	{ name = "diamond sceptre", chance = 100000 },
 	{ name = "frosty heart", chance = 100000, maxCount = 8 },
 	{ name = "glacier mask", chance = 350 },
@@ -89,11 +89,11 @@ monster.loot = {
 	{ name = "glacier kilt", chance = 250 },
 	{ name = "glacier robe", chance = 250 },
 	{ name = "glacier shoes", chance = 350 },
-	{ name = "strange helmet", chance = 1000 },
+	{ name = "strange helmet", chance = 1669 },
 	{ name = "sapphire hammer", chance = 300 },
 	{ id = 7441, chance = 100000 }, -- ice cube
-	{ name = "glacial rod", chance = 150 },
-	{ name = "crystalline armor", chance = 250 },
+	{ name = "glacial rod", chance = 653 },
+	{ name = "crystalline armor", chance = 856 },
 	{ name = "leviathan's amulet", chance = 145 },
 }
 

@@ -77,12 +77,12 @@ monster.loot = {
 	{ name = "lost soul", chance = 45240 },
 	{ name = "death toll", chance = 6250 },
 	{ name = "emerald bangle", chance = 5980 },
-	{ name = "gemmed figurine", chance = 3800 },
-	{ name = "ensouled essence", chance = 2720 },
+	{ name = "gemmed figurine", chance = 6187 },
+	{ name = "ensouled essence", chance = 3922 },
 	{ id = 23529, chance = 1220 }, -- ring of blue plasma
 	{ name = "silver hand mirror", chance = 1090 },
 	{ name = "ornate crossbow", chance = 1090 },
-	{ name = "crystal crossbow", chance = 270 },
+	{ name = "crystal crossbow", chance = 915 },
 	{ name = "stone skin amulet", chance = 261 },
 }
 

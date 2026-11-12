@@ -58,7 +58,7 @@ monster.loot = {
 	{ id = 3115, chance = 10760 }, -- bone
 	{ id = 3337, chance = 4890 }, -- bone club
 	{ id = 3267, chance = 18090 }, -- dagger
-	{ id = 3578, chance = 11000, maxCount = 2 }, -- fish
+	{ id = 3578, chance = 13732, maxCount = 2 }, -- fish
 	{ id = 3031, chance = 100000, maxCount = 18 }, -- gold coin
 	{ id = 3361, chance = 6460 }, -- leather armor
 	{ id = 3355, chance = 8070 }, -- leather helmet

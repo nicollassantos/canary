@@ -94,7 +94,7 @@ monster.loot = {
 	{ id = 822, chance = 800 }, -- lightning legs
 	{ id = 8041, chance = 400 }, -- greenwood coat
 	{ id = 3029, chance = 10000, maxCount = 19 }, -- small sapphire
-	{ id = 7416, chance = 800 }, -- bloody edge
+	{ id = 7416, chance = 3750 }, -- bloody edge
 	{ id = 7427, chance = 800 }, -- chaos mace
 	{ id = 3360, chance = 800 }, -- golden armor
 	{ id = 8102, chance = 400 }, -- emerald sword
@@ -106,10 +106,10 @@ monster.loot = {
 	{ id = 8040, chance = 300 }, -- velvet mantle
 	{ id = 3010, chance = 1000 }, -- emerald bangle
 	{ id = 7423, chance = 300 }, -- skullcrusher
-	{ id = 3033, chance = 10000, maxCount = 19 }, -- small amethyst
+	{ id = 3033, chance = 28125, maxCount = 19 }, -- small amethyst
 	{ id = 22764, chance = 800 }, -- ferumbras' staff
 	{ id = 7422, chance = 800 }, -- jade hammer
-	{ id = 3026, chance = 10000, maxCount = 9 }, -- white pearl
+	{ id = 3026, chance = 23125, maxCount = 9 }, -- white pearl
 	{ id = 7418, chance = 600 }, -- nightmare blade
 	{ id = 3439, chance = 800 }, -- phoenix shield
 	{ id = 3420, chance = 800 }, -- demon shield
@@ -118,7 +118,7 @@ monster.loot = {
 	{ id = 823, chance = 800 }, -- glacier kilt
 	{ id = 3366, chance = 400 }, -- magic plate armor
 	{ id = 22758, chance = 100, unique = true }, -- death gaze
-	{ id = 7403, chance = 800 }, -- berserker
+	{ id = 7403, chance = 3125 }, -- berserker
 	{ id = 22866, chance = 500 }, -- rift bow
 	{ id = 8098, chance = 300 }, -- demonwing axe
 	{ id = 22731, chance = 3000 }, -- rift tapestry
@@ -126,18 +126,18 @@ monster.loot = {
 	{ id = 3041, chance = 800 }, -- blue gem
 	{ id = 3035, chance = 100000, maxCount = 35 }, -- platinum coin
 	{ id = 8100, chance = 400 }, -- obsidian truncheon
-	{ id = 7414, chance = 800 }, -- abyss hammer
+	{ id = 7414, chance = 3750 }, -- abyss hammer
 	{ id = 5903, chance = 100, unique = true }, -- ferumbras' hat
 	{ id = 22769, chance = 800 }, -- ferumbras' mana keg
 	{ id = 7382, chance = 800 }, -- demonrage sword
-	{ id = 3038, chance = 4000 }, -- green gem
+	{ id = 3038, chance = 19375 }, -- green gem
 	{ id = 3414, chance = 600 }, -- mastermind shield
 	{ id = 7435, chance = 800 }, -- impaler
 	{ id = 22516, chance = 1000000, maxCount = 5 }, -- silver token
-	{ id = 3027, chance = 10000, maxCount = 9 }, -- black pearl
-	{ id = 3028, chance = 10000, maxCount = 18 }, -- small diamond
+	{ id = 3027, chance = 25625, maxCount = 9 }, -- black pearl
+	{ id = 3028, chance = 22500, maxCount = 18 }, -- small diamond
 	{ id = 22771, chance = 800 }, -- scroll of ascension
-	{ id = 9057, chance = 10000, maxCount = 18 }, -- small topaz
+	{ id = 9057, chance = 20000, maxCount = 18 }, -- small topaz
 	{ id = 22767, chance = 800 }, -- ferumbras' amulet
 	{ id = 22867, chance = 500 }, -- rift crossbow
 	{ id = 8057, chance = 800 }, -- divine plate

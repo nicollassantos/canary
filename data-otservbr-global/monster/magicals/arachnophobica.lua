@@ -79,34 +79,34 @@ monster.voices = {
 
 monster.loot = {
 	{ name = "platinum coin", chance = 100000, maxCount = 14 },
-	{ name = "great spirit potion", chance = 100000, maxCount = 3 },
-	{ name = "essence of a bad dream", chance = 15000 },
-	{ id = 3051, chance = 12050 }, -- energy ring
-	{ name = "silver amulet", chance = 15000 },
-	{ id = 3091, chance = 11050 }, -- sword ring
-	{ name = "spider fangs", chance = 11800 },
-	{ name = "mind stone", chance = 17800 },
-	{ name = "wand of cosmic energy", chance = 17800 },
-	{ name = "magma amulet", chance = 8900 },
-	{ name = "elven amulet", chance = 8100, maxCount = 2 },
+	{ name = "great spirit potion", chance = 29310, maxCount = 3 },
+	{ name = "essence of a bad dream", chance = 7475 },
+	{ id = 3051, chance = 3936 }, -- energy ring
+	{ name = "silver amulet", chance = 6746 },
+	{ id = 3091, chance = 5260 }, -- sword ring
+	{ name = "spider fangs", chance = 9751 },
+	{ name = "mind stone", chance = 4398 },
+	{ name = "wand of cosmic energy", chance = 4300 },
+	{ name = "magma amulet", chance = 2049 },
+	{ name = "elven amulet", chance = 2778, maxCount = 2 },
 	{ id = 23544, chance = 10590 }, -- collar of red plasma
-	{ name = "sacred tree amulet", chance = 7500 },
+	{ name = "sacred tree amulet", chance = 1940 },
 	{ name = "spider silk", chance = 6500 },
-	{ id = 3052, chance = 5560 }, -- life ring
-	{ name = "orb", chance = 7800 },
-	{ name = "underworld rod", chance = 7120 },
-	{ id = 23529, chance = 1000 }, -- ring of blue plasma
+	{ id = 3052, chance = 2555 }, -- life ring
+	{ name = "orb", chance = 1980 },
+	{ name = "underworld rod", chance = 2523 },
+	{ id = 23529, chance = 1255 }, -- ring of blue plasma
 	{ id = 3098, chance = 9120 }, -- ring of healing
 	{ name = "strange talisman", chance = 8110 },
-	{ id = 3092, chance = 7220 }, -- axe ring
-	{ id = 3050, chance = 6080 }, -- power ring
-	{ id = 6299, chance = 7502 }, -- death ring
+	{ id = 3092, chance = 2547 }, -- axe ring
+	{ id = 3050, chance = 2409 }, -- power ring
+	{ id = 6299, chance = 1838 }, -- death ring
 	{ name = "garlic necklace", chance = 7550 },
 	{ name = "platinum amulet", chance = 7650 },
 	{ id = 23543, chance = 10590 }, -- collar of green plasma
-	{ name = "strange symbol", chance = 2640 },
+	{ name = "strange symbol", chance = 632 },
 	{ name = "stone skin amulet", chance = 2600 },
-	{ name = "necklace of the deep", chance = 1800 },
+	{ name = "necklace of the deep", chance = 988 },
 }
 
 monster.attacks = {

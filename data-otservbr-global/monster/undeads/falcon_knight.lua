@@ -74,18 +74,18 @@ monster.voices = {
 }
 
 monster.loot = {
-	{ id = 3582, chance = 70080, maxCount = 8 }, -- ham
-	{ name = "soul orb", chance = 35000 },
+	{ id = 3582, chance = 84530, maxCount = 8 }, -- ham
+	{ name = "soul orb", chance = 41250 },
 	{ name = "great mana potion", chance = 33000, maxCount = 3 },
 	{ name = "great health potion", chance = 33000, maxCount = 3 },
 	{ name = "flask of demonic blood", chance = 30000, maxCount = 4 },
-	{ name = "small amethyst", chance = 24950, maxCount = 3 },
-	{ name = "assassin star", chance = 24670, maxCount = 10 },
-	{ name = "small diamond", chance = 15700, maxCount = 3 },
-	{ name = "small ruby", chance = 15333, maxCount = 3 },
-	{ name = "small emerald", chance = 15110, maxCount = 3 },
-	{ name = "onyx arrow", chance = 14480, maxCount = 15 },
-	{ name = "small topaz", chance = 4580, maxCount = 3 },
+	{ name = "small amethyst", chance = 29939, maxCount = 3 },
+	{ name = "assassin star", chance = 29901, maxCount = 10 },
+	{ name = "small diamond", chance = 17588, maxCount = 3 },
+	{ name = "small ruby", chance = 18336, maxCount = 3 },
+	{ name = "small emerald", chance = 18209, maxCount = 3 },
+	{ name = "onyx arrow", chance = 17918, maxCount = 15 },
+	{ name = "small topaz", chance = 6011, maxCount = 3 },
 	{ name = "titan axe", chance = 3000 },
 	{ id = 282, chance = 3000 }, -- giant shimmering pearl (brown)
 	{ name = "spiked squelcher", chance = 2200 },
@@ -94,12 +94,12 @@ monster.loot = {
 	{ name = "war axe", chance = 1230 },
 	{ name = "violet gem", chance = 1060 },
 	{ name = "damaged armor plates", chance = 990 },
-	{ name = "green gem", chance = 880 },
+	{ name = "green gem", chance = 1243 },
 	{ name = "golden armor", chance = 840 },
 	{ name = "mastermind shield", chance = 620 },
 	{ name = "heavy mace", chance = 460 },
 	{ id = 3481, chance = 370 }, -- closed trap
-	{ id = 3019, chance = 100 }, -- demonbone amulet
+	{ id = 3019, chance = 266 }, -- demonbone amulet
 }
 
 monster.attacks = {

@@ -82,24 +82,24 @@ monster.voices = {
 
 monster.loot = {
 	{ name = "gold coin", chance = 93000, maxCount = 236 },
-	{ name = "morning star", chance = 10000 },
-	{ name = "warrior helmet", chance = 1886 },
-	{ name = "knight legs", chance = 3030 },
-	{ name = "red mushroom", chance = 7692, maxCount = 2 },
-	{ name = "demonic essence", chance = 9090 },
+	{ name = "morning star", chance = 7198 },
+	{ name = "warrior helmet", chance = 1398 },
+	{ name = "knight legs", chance = 2369 },
+	{ name = "red mushroom", chance = 5586, maxCount = 2 },
+	{ name = "demonic essence", chance = 7846 },
 	{ name = "battle shield", chance = 7500 },
-	{ name = "assassin star", chance = 9090, maxCount = 2 },
+	{ name = "assassin star", chance = 7619, maxCount = 2 },
 	{ name = "onyx flail", chance = 103 },
 	{ name = "berserk potion", chance = 934 },
-	{ name = "spiked squelcher", chance = 970 },
-	{ name = "great health potion", chance = 40333 },
-	{ name = "ultimate health potion", chance = 9090 },
-	{ id = 8895, chance = 3125 }, -- rusted armor
+	{ name = "spiked squelcher", chance = 615 },
+	{ name = "great health potion", chance = 29603 },
+	{ name = "ultimate health potion", chance = 7405 },
+	{ id = 8895, chance = 2214 }, -- rusted armor
 	{ id = 8896, chance = 3125 }, -- slightly rusted armor
 	{ id = 9034, chance = 140 }, -- dracoyle statue
 	{ id = 9056, chance = 151 }, -- black skull
-	{ name = "small topaz", chance = 5882, maxCount = 3 },
-	{ name = "hellspawn tail", chance = 20000 },
+	{ name = "small topaz", chance = 4557, maxCount = 3 },
+	{ name = "hellspawn tail", chance = 14772 },
 }
 
 monster.attacks = {

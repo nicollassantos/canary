@@ -81,20 +81,20 @@ monster.loot = {
 	{ name = "platinum coin", chance = 100000, maxCount = 5 },
 	{ name = "brown crystal splinter", chance = 900 },
 	{ name = "red crystal fragment", chance = 8500 },
-	{ name = "small enchanted ruby", chance = 7500 },
-	{ name = "small diamond", chance = 6000 },
-	{ name = "small sapphire", chance = 5000 },
-	{ id = 3039, chance = 4000 }, -- red gem
-	{ name = "yellow gem", chance = 3000 },
-	{ id = 29299, chance = 1100 }, -- golden idol of tukh
+	{ name = "small enchanted ruby", chance = 5275 },
+	{ name = "small diamond", chance = 12817 },
+	{ name = "small sapphire", chance = 10799 },
+	{ id = 3039, chance = 9397 }, -- red gem
+	{ name = "yellow gem", chance = 4151 },
+	{ id = 29299, chance = 4977 }, -- golden idol of tukh
 	{ name = "wand of draconia", chance = 3500 },
-	{ name = "wand of inferno", chance = 1100 },
-	{ id = 30084, chance = 700 }, -- red ectoplasm
-	{ name = "magma coat", chance = 900 },
+	{ name = "wand of inferno", chance = 2210 },
+	{ id = 30084, chance = 1835 }, -- red ectoplasm
+	{ name = "magma coat", chance = 1605 },
 	{ name = "prismatic quartz", chance = 1500 },
-	{ name = "small enchanted emerald", chance = 800, maxCount = 3 },
-	{ name = "onyx chip", chance = 770, maxCount = 2 },
-	{ name = "hexagonal ruby", chance = 500 },
+	{ name = "small enchanted emerald", chance = 1451, maxCount = 3 },
+	{ name = "onyx chip", chance = 1124, maxCount = 2 },
+	{ name = "hexagonal ruby", chance = 855 },
 }
 
 monster.attacks = {

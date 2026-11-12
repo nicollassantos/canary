@@ -80,14 +80,14 @@ monster.voices = {
 
 monster.loot = {
 	{ name = "platinum coin", chance = 5000, maxCount = 37 },
-	{ name = "wand of inferno", chance = 1500 },
-	{ name = "spellbook of mind control", chance = 300 },
-	{ name = "spellreaper staff totem", chance = 1500 },
-	{ name = "small ruby", chance = 1500, maxCount = 4 },
-	{ name = "prismatic quartz", chance = 1000 },
+	{ name = "wand of inferno", chance = 1878 },
+	{ name = "spellbook of mind control", chance = 699 },
+	{ name = "spellreaper staff totem", chance = 571 },
+	{ name = "small ruby", chance = 5738, maxCount = 4 },
+	{ name = "prismatic quartz", chance = 2907 },
 	{ name = "demonic matter", chance = 4761 },
-	{ name = "fire mushroom", chance = 2000 },
-	{ name = "black pearl", chance = 1000 },
+	{ name = "fire mushroom", chance = 6572 },
+	{ name = "black pearl", chance = 2839 },
 	{ name = "demonic core essence", chance = 100 },
 	{ name = "mummified demon finger", chance = 155 },
 }

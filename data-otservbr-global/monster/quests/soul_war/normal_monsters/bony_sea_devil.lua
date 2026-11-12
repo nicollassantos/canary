@@ -86,10 +86,10 @@ monster.loot = {
 	{ name = "ultimate health potion", chance = 19470, maxCount = 6 },
 	{ name = "gold ingot", chance = 15040 },
 	{ id = 282, chance = 9730 }, -- giant shimmering pearl
-	{ name = "hailstorm rod", chance = 7960 },
+	{ name = "hailstorm rod", chance = 3166 },
 	{ name = "onyx chip", chance = 6190 },
 	{ name = "green crystal fragment", chance = 5310 },
-	{ name = "wand of voodoo", chance = 4420 },
+	{ name = "wand of voodoo", chance = 1490 },
 	{ name = "violet gem", chance = 4420 },
 	{ name = "jaws", chance = 3540 },
 	{ name = "rainbow quartz", chance = 2650, maxCount = 3 },

@@ -88,7 +88,7 @@ monster.loot = {
 	{ name = "protection amulet", chance = 2660 },
 	{ name = "black shield", chance = 2648 },
 	{ name = "werehyaena talisman", chance = 650 },
-	{ name = "moonlight crystals", chance = 610 },
+	{ name = "moonlight crystals", chance = 1295 },
 	{ name = "werehyaena trophy", chance = 140 },
 }
 

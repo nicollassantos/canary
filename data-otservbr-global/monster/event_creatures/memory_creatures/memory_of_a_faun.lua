@@ -66,7 +66,7 @@ monster.loot = {
 	{ name = "gold coin", chance = 30000, maxCount = 148 },
 	{ name = "great health potion", chance = 11250, maxCount = 2 },
 	{ name = "prismatic quartz", chance = 719 },
-	{ name = "strong health potion", chance = 6800, maxCount = 2 },
+	{ name = "strong health potion", chance = 20000, maxCount = 2 },
 	{ name = "small stone", chance = 492, maxCount = 5 },
 	{ name = "dark mushroom", chance = 719, maxCount = 2 },
 	{ name = "small enchanted sapphire", chance = 492, maxCount = 2 },

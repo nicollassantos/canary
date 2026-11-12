@@ -89,7 +89,7 @@ monster.loot = {
 	{ name = "magma coat", chance = 2470 },
 	{ name = "serpent sword", chance = 2240 },
 	{ name = "machete", chance = 3760 },
-	{ name = "broadsword", chance = 1060 },
+	{ name = "broadsword", chance = 2043 },
 	{ name = "focus cape", chance = 2240 },
 	{ name = "ice rapier", chance = 2240 },
 	{ name = "titan axe", chance = 1880 },

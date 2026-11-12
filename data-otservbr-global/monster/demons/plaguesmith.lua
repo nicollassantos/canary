@@ -86,28 +86,28 @@ monster.loot = {
 	{ name = "gold coin", chance = 50000, maxCount = 266 },
 	{ name = "gold coin", chance = 40000, maxCount = 100 },
 	{ name = "gold coin", chance = 50000, maxCount = 65 },
-	{ name = "small amethyst", chance = 5000, maxCount = 3 },
+	{ name = "small amethyst", chance = 4263, maxCount = 3 },
 	{ name = "platinum coin", chance = 7142, maxCount = 2 },
 	{ id = 3092, chance = 4347 }, -- axe ring
-	{ id = 3093, chance = 4761 }, -- club ring
-	{ name = "piece of iron", chance = 20000 },
-	{ name = "mouldy cheese", chance = 50000 },
-	{ id = 3122, chance = 60000 }, -- dirty cape
-	{ name = "two handed sword", chance = 20000 },
+	{ id = 3093, chance = 3985 }, -- club ring
+	{ name = "piece of iron", chance = 16202 },
+	{ name = "mouldy cheese", chance = 40688 },
+	{ id = 3122, chance = 48337 }, -- dirty cape
+	{ name = "two handed sword", chance = 16193 },
 	{ name = "war hammer", chance = 2127 },
-	{ name = "morning star", chance = 29000 },
-	{ name = "battle hammer", chance = 20000 },
-	{ name = "hammer of wrath", chance = 952 },
+	{ name = "morning star", chance = 23470 },
+	{ name = "battle hammer", chance = 16263 },
+	{ name = "hammer of wrath", chance = 599 },
 	{ name = "knight legs", chance = 6250 },
-	{ name = "steel shield", chance = 20000 },
+	{ name = "steel shield", chance = 16237 },
 	{ name = "steel boots", chance = 1123 },
-	{ name = "piece of royal steel", chance = 1234 },
+	{ name = "piece of royal steel", chance = 860 },
 	{ name = "piece of hell steel", chance = 1010 },
 	{ name = "piece of draconian steel", chance = 1030 },
-	{ name = "soul orb", chance = 11111 },
-	{ name = "demonic essence", chance = 9033 },
-	{ name = "onyx arrow", chance = 7692, maxCount = 4 },
-	{ name = "great health potion", chance = 10000 },
+	{ name = "soul orb", chance = 9490 },
+	{ name = "demonic essence", chance = 7224 },
+	{ name = "onyx arrow", chance = 6243, maxCount = 4 },
+	{ name = "great health potion", chance = 7432 },
 	{ id = 8896, chance = 540 }, -- slightly rusted armor
 	{ name = "war horn", chance = 52 },
 }

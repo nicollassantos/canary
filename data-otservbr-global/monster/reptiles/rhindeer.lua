@@ -84,7 +84,7 @@ monster.loot = {
 	{ name = "titan axe", chance = 2470 },
 	{ name = "yellow gem", chance = 1880 },
 	{ name = "knight armor", chance = 1380 },
-	{ name = "violet gem", chance = 1200 },
+	{ name = "violet gem", chance = 4478 },
 	{ id = 23543, chance = 890 }, -- collar of green plasma
 	{ name = "heavy mace", chance = 300 },
 	{ name = "mastermind shield", chance = 400 },

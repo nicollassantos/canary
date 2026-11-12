@@ -76,9 +76,9 @@ monster.loot = {
 	{ name = "darklight obsidian axe", chance = 10433, maxCount = 1 },
 	{ name = "zaoan armor", chance = 8574, maxCount = 1 },
 	{ name = "basalt crumbs", chance = 5794, maxCount = 1 },
-	{ name = "small topaz", chance = 5784, maxCount = 3 },
-	{ name = "amber staff", chance = 6240, maxCount = 1 },
-	{ id = 3039, chance = 8459, maxCount = 1 }, -- red gem
+	{ name = "small topaz", chance = 13194, maxCount = 3 },
+	{ name = "amber staff", chance = 2083, maxCount = 1 },
+	{ id = 3039, chance = 4987, maxCount = 1 }, -- red gem
 	{ name = "green gem", chance = 505 },
 }
 

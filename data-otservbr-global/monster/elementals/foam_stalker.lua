@@ -76,7 +76,7 @@ monster.loot = {
 	{ name = "white pearl", chance = 6485 },
 	{ id = 3130, chance = 6355 }, -- twigs
 	{ id = 3289, chance = 6355 }, -- staff
-	{ name = "remains of a fish", chance = 5966 },
+	{ name = "remains of a fish", chance = 8926 },
 	{ name = "glacier shoes", chance = 5707 },
 	{ name = "coral branch", chance = 4929 },
 	{ name = "soul orb", chance = 4929 },
@@ -84,7 +84,7 @@ monster.loot = {
 	{ name = "small diamond", chance = 3891 },
 	{ name = "small emerald", chance = 3243, maxCount = 2 },
 	{ id = 281, chance = 2205 }, -- giant shimmering pearl (green)
-	{ name = "terra boots", chance = 5075 },
+	{ name = "terra boots", chance = 2413 },
 	{ name = "mercenary sword", chance = 4167 },
 	{ name = "knight legs", chance = 3649 },
 	{ name = "violet gem", chance = 3389 },

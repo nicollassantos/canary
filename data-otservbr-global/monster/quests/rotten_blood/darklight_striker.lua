@@ -76,7 +76,7 @@ monster.loot = {
 	{ name = "darklight core", chance = 9783, maxCount = 1 },
 	{ name = "small topaz", chance = 11140, maxCount = 3 },
 	{ name = "ice rapier", chance = 5104, maxCount = 1 },
-	{ name = "dark obsidian splinter", chance = 14185, maxCount = 1 },
+	{ name = "dark obsidian splinter", chance = 3690, maxCount = 1 },
 	{ name = "blue gem", chance = 7355, maxCount = 1 },
 	{ name = "crystal mace", chance = 8812, maxCount = 1 },
 	{ name = "zaoan helmet", chance = 5572, maxCount = 1 },

@@ -78,33 +78,33 @@ monster.voices = {
 monster.loot = {
 	{ name = "gold coin", chance = 100000, maxCount = 100 },
 	{ name = "platinum coin", chance = 100000, maxCount = 7 },
-	{ name = "banana skin", chance = 10700 },
-	{ name = "piece of iron", chance = 10500 },
-	{ name = "fishbone", chance = 9500 },
-	{ id = 3114, chance = 10400 }, -- skull
+	{ name = "banana skin", chance = 7004 },
+	{ name = "piece of iron", chance = 7218 },
+	{ name = "fishbone", chance = 7794 },
+	{ id = 3114, chance = 8776 }, -- skull
 	{ id = 3115, chance = 9200 }, -- bone
 	{ name = "remains of a fish", chance = 7452 },
 	{ id = 3116, chance = 4500 }, -- big bone
 	{ name = "two handed sword", chance = 2700 },
-	{ id = 3578, chance = 7000, maxCount = 3 }, -- fish
-	{ name = "ham", chance = 10000 },
-	{ name = "iron ore", chance = 3000 },
-	{ name = "fish fin", chance = 5000 },
-	{ name = "hardened bone", chance = 5700 },
-	{ id = 5951, chance = 9400 }, -- fish tail
+	{ id = 3578, chance = 4975, maxCount = 3 }, -- fish
+	{ name = "ham", chance = 7089 },
+	{ name = "iron ore", chance = 1986 },
+	{ name = "fish fin", chance = 3908 },
+	{ name = "hardened bone", chance = 3224 },
+	{ id = 5951, chance = 7324 }, -- fish tail
 	{ name = "assassin dagger", chance = 1000 },
 	{ name = "haunted blade", chance = 2000 },
 	{ name = "nightmare blade", chance = 380 },
-	{ name = "great mana potion", chance = 17000, maxCount = 3 },
-	{ name = "great health potion", chance = 18500, maxCount = 2 },
+	{ name = "great mana potion", chance = 14414, maxCount = 3 },
+	{ name = "great health potion", chance = 13367, maxCount = 2 },
 	{ name = "traditional sai", chance = 1200 },
 	{ name = "violet crystal shard", chance = 3000 },
-	{ name = "brown crystal splinter", chance = 12000, maxCount = 2 },
-	{ name = "red crystal fragment", chance = 7600 },
-	{ id = 16279, chance = 12000 }, -- crystal rubbish
+	{ name = "brown crystal splinter", chance = 8029, maxCount = 2 },
+	{ name = "red crystal fragment", chance = 5701 },
+	{ id = 16279, chance = 8072 }, -- crystal rubbish
 	{ name = "cluster of solace", chance = 8920 },
-	{ name = "frazzle tongue", chance = 15000 },
-	{ name = "frazzle skin", chance = 14000 },
+	{ name = "frazzle tongue", chance = 11382 },
+	{ name = "frazzle skin", chance = 9502 },
 }
 
 monster.attacks = {

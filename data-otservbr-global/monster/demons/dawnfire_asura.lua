@@ -101,7 +101,7 @@ monster.loot = {
 	{ id = 5911, chance = 2340 }, -- red piece of cloth
 	{ id = 3016, chance = 800 }, -- ruby necklace
 	{ id = 5944, chance = 14560 }, -- soul orb
-	{ id = 8074, chance = 80 }, -- spellbook of mind control
+	{ id = 8074, chance = 168 }, -- spellbook of mind control
 	{ id = 3071, chance = 910 }, -- wand of inferno
 }
 

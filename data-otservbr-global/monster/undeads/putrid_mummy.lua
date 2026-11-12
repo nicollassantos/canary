@@ -79,14 +79,14 @@ monster.voices = {
 
 monster.loot = {
 	{ name = "gold coin", chance = 60870, maxCount = 64 },
-	{ id = 12483, chance = 3840 }, -- pharaoh banner
+	{ id = 12483, chance = 2220 }, -- pharaoh banner
 	{ name = "black pearl", chance = 1280 },
 	{ name = "little bowl of myrrh", chance = 13550 },
 	{ name = "single human eye", chance = 8950 },
-	{ name = "green gem", chance = 3070 },
+	{ name = "green gem", chance = 2100 },
 	{ name = "green bandage", chance = 1100 },
 	{ name = "scarab coin", chance = 8180, maxCount = 3 },
-	{ name = "poison dagger", chance = 1530 },
+	{ name = "poison dagger", chance = 405 },
 	{ name = "stone skin amulet", chance = 75 },
 }
 

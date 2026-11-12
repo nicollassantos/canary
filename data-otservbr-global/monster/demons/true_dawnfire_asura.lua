@@ -89,16 +89,16 @@ monster.loot = {
 	{ id = 6299, chance = 1100 }, -- death ring
 	{ id = 6499, chance = 22110, maxCount = 2 }, -- demonic essence
 	{ id = 8043, chance = 2200 }, -- focus cape
-	{ id = 21974, chance = 11400 }, -- golden lotus brooch
+	{ id = 21974, chance = 19078 }, -- golden lotus brooch
 	{ id = 826, chance = 1980 }, -- magma coat
 	{ id = 3078, chance = 2820 }, -- mysterious fetish
 	{ id = 3574, chance = 3170 }, -- mystic turban
 	{ id = 21981, chance = 2110 }, -- oriental shoes
-	{ id = 21975, chance = 11460 }, -- peacock feather fan
+	{ id = 21975, chance = 20335 }, -- peacock feather fan
 	{ id = 5911, chance = 3070 }, -- red piece of cloth
 	{ id = 3016, chance = 2330 }, -- ruby necklace
 	{ id = 5944, chance = 20140 }, -- soul orb
-	{ id = 8074, chance = 620 }, -- spellbook of mind control
+	{ id = 8074, chance = 1677 }, -- spellbook of mind control
 	{ id = 3071, chance = 1440 }, -- wand of inferno
 }
 

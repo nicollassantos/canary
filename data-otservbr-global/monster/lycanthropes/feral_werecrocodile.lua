@@ -78,7 +78,7 @@ monster.loot = {
 	{ name = "werecrocodile tongue", chance = 10800 },
 	{ name = "war hammer", chance = 5000 },
 	{ name = "ham", chance = 5500, maxCount = 2 },
-	{ name = "moonlight crystals", chance = 3000 },
+	{ name = "moonlight crystals", chance = 4599 },
 	{ name = "violet gem", chance = 1370 },
 	{ name = "green crystal shard", chance = 2800 },
 	{ name = "ornate crossbow", chance = 680 },

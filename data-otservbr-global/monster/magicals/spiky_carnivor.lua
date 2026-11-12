@@ -93,7 +93,7 @@ monster.loot = {
 	{ name = "doublet", chance = 360 },
 	{ name = "terra mantle", chance = 330 },
 	{ name = "buckle", chance = 180 },
-	{ name = "shockwave amulet", chance = 150 },
+	{ name = "shockwave amulet", chance = 375 },
 }
 
 monster.attacks = {

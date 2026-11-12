@@ -89,7 +89,7 @@ monster.loot = {
 	{ name = "demonic essence", chance = 14500 },
 	{ name = "magma legs", chance = 682 },
 	{ name = "magma coat", chance = 380 },
-	{ name = "fiery heart", chance = 9570 },
+	{ name = "fiery heart", chance = 10381 },
 	{ name = "piece of hellfire armor", chance = 5060 },
 	{ id = 12600, chance = 670 }, -- coal
 	{ name = "eternal flames", chance = 380 },

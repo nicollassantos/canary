@@ -72,7 +72,7 @@ monster.loot = {
 	{ id = 3577, chance = 27980, maxCount = 2 }, -- meat
 	{ id = 3272, chance = 3470 }, -- rapier
 	{ id = 3003, chance = 7870 }, -- rope
-	{ id = 3277, chance = 6800 }, -- spear
+	{ id = 3277, chance = 2635 }, -- spear
 	{ id = 3336, chance = 3510 }, -- studded club
 }
 

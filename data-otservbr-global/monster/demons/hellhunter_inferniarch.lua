@@ -80,17 +80,17 @@ monster.voices = {
 
 monster.loot = {
 	{ name = "platinum coin", chance = 5000, maxCount = 38 },
-	{ name = "assassin star", chance = 3000, maxCount = 10 },
+	{ name = "assassin star", chance = 8323, maxCount = 10 },
 	{ name = "composite hornbow", chance = 109 },
 	{ name = "demonic core essence", chance = 100 },
-	{ name = "hellhunter eye", chance = 1500 },
-	{ name = "small amethyst", chance = 3000, maxCount = 4 },
-	{ name = "dark helmet", chance = 1500 },
-	{ name = "sniper arrow", chance = 1500, maxCount = 5 },
+	{ name = "hellhunter eye", chance = 472 },
+	{ name = "small amethyst", chance = 7051, maxCount = 4 },
+	{ name = "dark helmet", chance = 1908 },
+	{ name = "sniper arrow", chance = 3026, maxCount = 5 },
 	{ name = "demonic matter", chance = 4761 },
 	{ name = "onyx arrow", chance = 1000, maxCount = 5 },
-	{ id = 6299, chance = 900 }, -- death ring
-	{ name = "cyan crystal fragment", chance = 900 },
+	{ id = 6299, chance = 1218 }, -- death ring
+	{ name = "cyan crystal fragment", chance = 3843 },
 	{ name = "mummified demon finger", chance = 155 },
 }
 

@@ -75,17 +75,17 @@ monster.voices = {
 
 monster.loot = {
 	{ name = "platinum coin", chance = 90000, maxCount = 6 },
-	{ name = "small diamond", chance = 41000, maxCount = 2 },
-	{ name = "great spirit potion", chance = 41000, maxCount = 2 },
-	{ name = "small emerald", chance = 40000, maxCount = 2 },
-	{ name = "small amethyst", chance = 40000, maxCount = 3 },
-	{ name = "assassin star", chance = 25700, maxCount = 10 },
-	{ name = "small ruby", chance = 20700, maxCount = 2 },
-	{ name = "small topaz", chance = 20100, maxCount = 2 },
-	{ name = "onyx arrow", chance = 14000, maxCount = 15 },
+	{ name = "small diamond", chance = 47954, maxCount = 2 },
+	{ name = "great spirit potion", chance = 47466, maxCount = 2 },
+	{ name = "small emerald", chance = 49260, maxCount = 2 },
+	{ name = "small amethyst", chance = 48163, maxCount = 3 },
+	{ name = "assassin star", chance = 29427, maxCount = 10 },
+	{ name = "small ruby", chance = 24256, maxCount = 2 },
+	{ name = "small topaz", chance = 23106, maxCount = 2 },
+	{ name = "onyx arrow", chance = 17099, maxCount = 15 },
 	{ id = 3039, chance = 7500, maxCount = 3 }, -- red gem
-	{ name = "green gem", chance = 4880 },
-	{ name = "violet gem", chance = 4180 },
+	{ name = "green gem", chance = 6077 },
+	{ name = "violet gem", chance = 5885 },
 	{ id = 282, chance = 2260 }, -- giant shimmering pearl (brown)
 	{ name = "damaged armor plates", chance = 1120 },
 	{ name = "falcon crest", chance = 730 },

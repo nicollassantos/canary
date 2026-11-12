@@ -94,7 +94,7 @@ monster.loot = {
 	{ id = 7451, chance = 1000 }, -- shadow sceptre
 	{ id = 7454, chance = 1000 }, -- glorious axe
 	{ id = 812, chance = 960 }, -- terra legs
-	{ id = 813, chance = 480 }, -- terra boots
+	{ id = 813, chance = 929 }, -- terra boots
 	{ id = 20200, chance = 4000 }, -- silencer claws
 	{ name = "fairy wings", chance = 12000 },
 }

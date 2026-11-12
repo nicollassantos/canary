@@ -86,34 +86,34 @@ monster.voices = {
 monster.loot = {
 	{ name = "gold coin", chance = 100000, maxCount = 100 },
 	{ name = "platinum coin", chance = 100000, maxCount = 7 },
-	{ name = "banana skin", chance = 9500 },
-	{ name = "piece of iron", chance = 10400 },
-	{ name = "fishbone", chance = 10000 },
-	{ id = 3114, chance = 12680 }, -- skull
-	{ id = 3115, chance = 10000 }, -- bone
+	{ name = "banana skin", chance = 7923 },
+	{ name = "piece of iron", chance = 7975 },
+	{ name = "fishbone", chance = 8459 },
+	{ id = 3114, chance = 9400 }, -- skull
+	{ id = 3115, chance = 7975 }, -- bone
 	{ name = "remains of a fish", chance = 8113 },
-	{ id = 3116, chance = 5500 }, -- big bone
-	{ name = "two handed sword", chance = 3200 },
-	{ id = 3578, chance = 6750, maxCount = 3 }, -- fish
-	{ name = "ham", chance = 6000, maxCount = 2 },
+	{ id = 3116, chance = 3793 }, -- big bone
+	{ name = "two handed sword", chance = 2298 },
+	{ id = 3578, chance = 5219, maxCount = 3 }, -- fish
+	{ name = "ham", chance = 4622, maxCount = 2 },
 	{ name = "iron ore", chance = 3000 },
-	{ name = "fish fin", chance = 4700 },
-	{ name = "hardened bone", chance = 5000 },
-	{ id = 5951, chance = 10800 }, -- fish tail
-	{ name = "assassin dagger", chance = 1000 },
-	{ name = "haunted blade", chance = 2240 },
-	{ name = "nightmare blade", chance = 1100 },
-	{ name = "great mana potion", chance = 15000, maxCount = 3 },
-	{ name = "great health potion", chance = 15000, maxCount = 2 },
-	{ name = "gold ingot", chance = 2300 },
-	{ name = "traditional sai", chance = 1460 },
+	{ name = "fish fin", chance = 3983 },
+	{ name = "hardened bone", chance = 3992 },
+	{ id = 5951, chance = 8640 }, -- fish tail
+	{ name = "assassin dagger", chance = 605 },
+	{ name = "haunted blade", chance = 1538 },
+	{ name = "nightmare blade", chance = 631 },
+	{ name = "great mana potion", chance = 11578, maxCount = 3 },
+	{ name = "great health potion", chance = 11543, maxCount = 2 },
+	{ name = "gold ingot", chance = 1814 },
+	{ name = "traditional sai", chance = 674 },
 	{ name = "violet crystal shard", chance = 3000 },
-	{ name = "brown crystal splinter", chance = 16000 },
-	{ name = "red crystal fragment", chance = 7600 },
-	{ id = 16279, chance = 10000 }, -- crystal rubbish
+	{ name = "brown crystal splinter", chance = 11846 },
+	{ name = "red crystal fragment", chance = 4113 },
+	{ id = 16279, chance = 7906 }, -- crystal rubbish
 	{ name = "cluster of solace", chance = 4450 },
-	{ name = "frazzle tongue", chance = 18760 },
-	{ name = "frazzle skin", chance = 16000 },
+	{ name = "frazzle tongue", chance = 14498 },
+	{ name = "frazzle skin", chance = 12424 },
 }
 
 monster.attacks = {

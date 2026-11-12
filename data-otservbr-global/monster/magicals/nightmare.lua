@@ -99,7 +99,7 @@ monster.loot = {
 	{ name = "skeleton decoration", chance = 337 },
 	{ name = "flask of demonic blood", chance = 19666, maxCount = 2 },
 	{ name = "essence of a bad dream", chance = 15240 },
-	{ name = "scythe leg", chance = 9090 },
+	{ name = "scythe leg", chance = 10187 },
 }
 
 monster.attacks = {

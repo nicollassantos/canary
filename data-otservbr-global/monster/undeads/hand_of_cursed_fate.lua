@@ -87,7 +87,7 @@ monster.loot = {
 	{ name = "yellow gem", chance = 5940 },
 	{ id = 3051, chance = 3150 }, -- energy ring
 	{ name = "platinum amulet", chance = 1005 },
-	{ name = "mind stone", chance = 9090 },
+	{ name = "mind stone", chance = 15017 },
 	{ name = "wand of inferno", chance = 5590 },
 	{ name = "boots of haste", chance = 540 },
 	{ name = "protection amulet", chance = 8740 },
@@ -100,7 +100,7 @@ monster.loot = {
 	{ id = 6299, chance = 1750 }, -- death ring
 	{ name = "demonic essence", chance = 12000 },
 	{ name = "flask of demonic blood", chance = 30000, maxCount = 4 },
-	{ name = "assassin star", chance = 7692, maxCount = 5 },
+	{ name = "assassin star", chance = 13861, maxCount = 5 },
 	{ name = "abyss hammer", chance = 495 },
 	{ name = "great mana potion", chance = 19990, maxCount = 2 },
 	{ name = "ultimate health potion", chance = 18000 },

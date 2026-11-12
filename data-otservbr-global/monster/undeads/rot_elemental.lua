@@ -82,10 +82,10 @@ monster.loot = {
 	{ id = 3035, chance = 10390 }, -- platinum coin
 	{ id = 236, chance = 10310 }, -- strong health potion
 	{ id = 237, chance = 9990 }, -- strong mana potion
-	{ id = 21182, chance = 4320 }, -- glob of glooth
+	{ id = 21182, chance = 14188 }, -- glob of glooth
 	{ id = 3052, chance = 1630 }, -- life ring
-	{ id = 3029, chance = 1110 }, -- small sapphire
-	{ id = 9057, chance = 1140, maxCount = 2 }, -- small topaz
+	{ id = 3029, chance = 5295 }, -- small sapphire
+	{ id = 9057, chance = 5410, maxCount = 2 }, -- small topaz
 	{ id = 3032, chance = 940, maxCount = 2 }, -- small emerald
 	{ id = 3038, chance = 80 }, -- green gem
 	{ id = 21183, chance = 130 }, -- glooth amulet

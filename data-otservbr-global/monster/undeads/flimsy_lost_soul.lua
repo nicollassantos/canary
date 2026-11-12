@@ -75,15 +75,15 @@ monster.voices = {
 monster.loot = {
 	{ name = "platinum coin", chance = 100000, maxCount = 5 },
 	{ name = "lost soul", chance = 30300 },
-	{ name = "wand of cosmic energy", chance = 5220 },
-	{ name = "springsprout rod", chance = 3830 },
+	{ name = "wand of cosmic energy", chance = 7238 },
+	{ name = "springsprout rod", chance = 5136 },
 	{ name = "death toll", chance = 3540 },
 	{ name = "terra rod", chance = 3030 },
 	{ name = "hailstorm rod", chance = 2830 },
 	{ name = "ensouled essence", chance = 2260 },
 	{ name = "necklace of the deep", chance = 1760 },
 	{ name = "cursed bone", chance = 1570 },
-	{ name = "wand of starstorm", chance = 1520 },
+	{ name = "wand of starstorm", chance = 2084 },
 	{ name = "glacial rod", chance = 960 },
 	{ name = "wand of voodoo", chance = 330 },
 }

@@ -88,7 +88,7 @@ monster.loot = {
 	{ name = "fish fin", chance = 2384 },
 	{ name = "blue robe", chance = 1907 },
 	{ name = "cluster of solace", chance = 1073 },
-	{ name = "giant sword", chance = 560 },
+	{ name = "giant sword", chance = 1907 },
 	{ name = "warrior helmet", chance = 2820 },
 	{ name = "knight armor", chance = 4000 },
 	{ name = "white piece of cloth", chance = 4520 },
@@ -96,7 +96,7 @@ monster.loot = {
 	{ name = "great mana potion", chance = 36000, maxCount = 2 },
 	{ name = "ultimate health potion", chance = 26000 },
 	{ name = "small topaz", chance = 17000, maxCount = 3 },
-	{ name = "blue crystal shard", chance = 6000 },
+	{ name = "blue crystal shard", chance = 10131 },
 	{ name = "blue crystal splinter", chance = 13000 },
 	{ name = "cyan crystal fragment", chance = 17000 },
 	{ id = 20029, chance = 1130 }, -- broken dream

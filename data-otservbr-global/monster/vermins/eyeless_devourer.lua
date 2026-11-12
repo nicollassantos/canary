@@ -89,7 +89,7 @@ monster.loot = {
 	{ name = "warrior's axe", chance = 1440 },
 	{ name = "relic sword", chance = 880 },
 	{ name = "giant sword", chance = 880 },
-	{ name = "mercenary sword", chance = 640 },
+	{ name = "mercenary sword", chance = 1376 },
 	{ name = "war axe", chance = 1360, maxCount = 1 },
 	{ name = "execowtioner axe", chance = 640 },
 	{ name = "ornate crossbow", chance = 1040 },

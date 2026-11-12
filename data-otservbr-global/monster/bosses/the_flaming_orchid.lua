@@ -72,7 +72,7 @@ monster.loot = {
 	{ name = "platinum coin", chance = 9240, maxCount = 10 },
 	{ id = 3039, chance = 18200 }, -- red gem
 	{ name = "gold ingot", chance = 29700, maxCount = 5 },
-	{ name = "assassin star", chance = 29700, maxCount = 15 },
+	{ name = "assassin star", chance = 45926, maxCount = 15 },
 	{ name = "underworld rod", chance = 5926 },
 	{ name = "violet gem", chance = 2963 },
 	{ name = "magma legs", chance = 2222 },
@@ -83,7 +83,7 @@ monster.loot = {
 	{ name = "small amethyst", chance = 8310, maxCount = 2 },
 	{ name = "ultimate health potion", chance = 700, maxCount = 5 },
 	{ name = "golden lotus brooch", chance = 19740 },
-	{ name = "green gem", chance = 15780 },
+	{ name = "green gem", chance = 4444 },
 	{ name = "magma coat", chance = 1050 },
 	{ name = "moonlight rod", chance = 1050 },
 	{ name = "necrotic rod", chance = 1050 },

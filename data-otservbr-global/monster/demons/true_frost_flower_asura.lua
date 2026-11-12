@@ -84,7 +84,7 @@ monster.loot = {
 	{ id = 9057, chance = 8510, maxCount = 2 }, -- small topaz
 	{ id = 3041, chance = 1160 }, -- blue gem
 	{ id = 6499, chance = 15280, maxCount = 2 }, -- demonic essence
-	{ id = 21974, chance = 12080 }, -- golden lotus brooch
+	{ id = 21974, chance = 19926 }, -- golden lotus brooch
 	{ id = 21981, chance = 920 }, -- oriental shoes
 	{ id = 21975, chance = 10510 }, -- peacock feather fan
 	{ id = 3017, chance = 9640 }, -- silver brooch

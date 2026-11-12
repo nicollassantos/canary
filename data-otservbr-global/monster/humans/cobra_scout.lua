@@ -80,7 +80,7 @@ monster.loot = {
 	{ name = "earth arrow", chance = 19490, maxCount = 28 },
 	{ name = "stone skin amulet", chance = 6800 },
 	{ name = "gold ingot", chance = 5750, maxCount = 1 },
-	{ name = "cheesy figurine", chance = 13800 },
+	{ name = "cheesy figurine", chance = 11553 },
 	{ name = "opal", chance = 23800, maxCount = 5 },
 	{ name = "cobra crest", chance = 15450 },
 	{ name = "small emerald", chance = 3000, maxCount = 2 },

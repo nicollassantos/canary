@@ -83,12 +83,12 @@ monster.voices = {
 
 monster.loot = {
 	{ name = "crystal coin", chance = 80700 },
-	{ name = "terra rod", chance = 17540 },
-	{ name = "great mana potion", chance = 17110, maxCount = 3 },
-	{ name = "blue gem", chance = 12720 },
+	{ name = "terra rod", chance = 14163 },
+	{ name = "great mana potion", chance = 11914, maxCount = 3 },
+	{ name = "blue gem", chance = 7560 },
 	{ name = "green gem", chance = 6580 },
 	{ name = "stone skin amulet", chance = 4820 },
-	{ name = "glacier amulet", chance = 3510 },
+	{ name = "glacier amulet", chance = 1962 },
 	{ name = "sacred tree amulet", chance = 3070 },
 	{ name = "springsprout rod", chance = 2190 },
 	{ name = "underworld rod", chance = 2190 },

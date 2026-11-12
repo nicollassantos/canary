@@ -75,19 +75,19 @@ monster.voices = {
 monster.loot = {
 	{ id = 28569, chance = 10000, maxCount = 4 }, -- book page
 	{ name = "platinum coin", chance = 10000, maxCount = 15 },
-	{ id = 28566, chance = 10000, maxCount = 3 }, -- silken bookmark
-	{ name = "small diamond", chance = 10000, maxCount = 7 },
-	{ name = "small stone", chance = 10000, maxCount = 10 },
-	{ name = "small topaz", chance = 10000, maxCount = 7 },
+	{ id = 28566, chance = 37241, maxCount = 3 }, -- silken bookmark
+	{ name = "small diamond", chance = 49379, maxCount = 7 },
+	{ name = "small stone", chance = 19080, maxCount = 10 },
+	{ name = "small topaz", chance = 26805, maxCount = 7 },
 	{ name = "protection amulet", chance = 10000 },
 	{ name = "terra boots", chance = 350 },
 	{ name = "terra hood", chance = 600 },
 	{ name = "diamond sceptre", chance = 600 },
-	{ name = "terra mantle", chance = 250 },
-	{ name = "terra legs", chance = 250 },
+	{ name = "terra mantle", chance = 667 },
+	{ name = "terra legs", chance = 1011 },
 	{ name = "terra amulet", chance = 500 },
 	{ name = "stone skin amulet", chance = 350 },
-	{ name = "springsprout rod", chance = 350 },
+	{ name = "springsprout rod", chance = 736 },
 	{ name = "sacred tree amulet", chance = 350 },
 	{ name = "swamplair armor", chance = 250 },
 }
