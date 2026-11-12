@@ -67,6 +67,7 @@
     <ClInclude Include="..\src\creatures\players\wheel\wheel_definitions.hpp" />
     <ClInclude Include="..\src\database\database.hpp" />
     <ClInclude Include="..\src\database\databasemanager.hpp" />
+    <ClInclude Include="..\src\database\schema_hardening.hpp" />
     <ClInclude Include="..\src\database\databasetasks.hpp" />
     <ClInclude Include="..\src\database\database_definitions.hpp" />
     <ClInclude Include="..\src\declarations.hpp" />
@@ -311,6 +312,7 @@
     <ClCompile Include="..\src\creatures\players\components\weapon_proficiency.cpp" />
     <ClCompile Include="..\src\database\database.cpp" />
     <ClCompile Include="..\src\database\databasemanager.cpp" />
+    <ClCompile Include="..\src\database\schema_hardening.cpp" />
     <ClCompile Include="..\src\database\databasetasks.cpp" />
     <ClCompile Include="..\src\game\functions\game_reload.cpp" />
     <ClCompile Include="..\src\game\game.cpp" />

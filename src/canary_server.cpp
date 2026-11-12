@@ -24,6 +24,7 @@
 #include "game/world_type_config.hpp"
 #include "game/zones/zone.hpp"
 #include "io/io_bosstiary.hpp"
+#include "database/schema_hardening.hpp"
 #include "game/market/market_expiry.hpp"
 #include "io/ioprey.hpp"
 #include "lib/thread/thread_pool.hpp"
@@ -488,6 +489,8 @@ void CanaryServer::initializeDatabase() {
 	}
 
 	DatabaseManager::updateDatabase();
+	// Fork indexes, added after upstream's numbered migrations (idempotent, see schema_hardening.hpp).
+	schema_hardening::ensureIndexes(Database::getInstance(), g_configManager().getString(MYSQL_DB));
 
 	if (g_configManager().getBoolean(OPTIMIZE_DATABASE)
 	    && !DatabaseManager::optimizeTables()) {

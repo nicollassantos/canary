@@ -4,5 +4,6 @@ target_sources(
             highscore_repository_db_it.cpp
             market_repository_db_it.cpp
             player_repository_db_it.cpp
+            schema_hardening_it.cpp
             vip_repository_db_it.cpp
 )
