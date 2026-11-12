@@ -85,10 +85,10 @@ monster.loot = {
 	{ name = "rotten roots", chance = 4724, maxCount = 1 },
 	{ name = "emerald bangle", chance = 8558, maxCount = 1 },
 	{ name = "underworld rod", chance = 2625, maxCount = 1 },
-	{ name = "violet gem", chance = 5084, maxCount = 1 },
-	{ name = "blue gem", chance = 9808, maxCount = 1 },
+	{ name = "violet gem", chance = 525, maxCount = 1 },
+	{ name = "blue gem", chance = 1050, maxCount = 1 },
 	{ name = "relic sword", chance = 6964, maxCount = 1 },
-	{ name = "skullcracker armor", chance = 7270, maxCount = 1 },
+	{ name = "skullcracker armor", chance = 1050, maxCount = 1 },
 	{ id = 23531, chance = 3073, maxCount = 1 }, -- ring of green plasma
 }
 

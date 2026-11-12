@@ -1,0 +1,159 @@
+{
+ "note": "Case-by-case decisions on findings the automatic rules leave for review. `apply` lets plan create the fix (identity and certainty rules still apply); `keep` records a deliberate no.",
+ "decisions": [
+  {
+   "monster": "Enraged Crystal Golem",
+   "kind": "stat",
+   "item": "armor",
+   "decision": "apply",
+   "note": "datapack 15, wiki 38: the wiki value is the official bestiary armor; the datapack value looks like a placeholder"
+  },
+  {
+   "monster": "Lost Exile",
+   "kind": "stat",
+   "item": "armor",
+   "decision": "apply",
+   "note": "datapack 20, wiki 55: the wiki value is the official bestiary armor; the datapack value looks like a placeholder"
+  },
+  {
+   "monster": "Retching Horror",
+   "kind": "stat",
+   "item": "armor",
+   "decision": "apply",
+   "note": "datapack 30, wiki 74: the wiki value is the official bestiary armor; the datapack value looks like a placeholder"
+  },
+  {
+   "monster": "Shock Head",
+   "kind": "stat",
+   "item": "armor",
+   "decision": "apply",
+   "note": "datapack 30, wiki 78: the wiki value is the official bestiary armor; the datapack value looks like a placeholder"
+  },
+  {
+   "monster": "Wiggler",
+   "kind": "stat",
+   "item": "armor",
+   "decision": "apply",
+   "note": "datapack 15, wiki 52: the wiki value is the official bestiary armor; the datapack value looks like a placeholder"
+  },
+  {
+   "monster": "Wailing Widow",
+   "kind": "stat",
+   "item": "armor",
+   "decision": "apply",
+   "note": "datapack 0, wiki 31: the wiki value is the official bestiary armor; the datapack value looks like a placeholder"
+  },
+  {
+   "monster": "Mahrdis",
+   "kind": "stat",
+   "item": "armor",
+   "decision": "apply",
+   "note": "datapack 20, wiki 42: the wiki value is the official bestiary armor; the datapack value looks like a placeholder"
+  },
+  {
+   "monster": "Morguthis",
+   "kind": "stat",
+   "item": "armor",
+   "decision": "apply",
+   "note": "datapack 35, wiki 75: the wiki value is the official bestiary armor; the datapack value looks like a placeholder"
+  },
+  {
+   "monster": "Omruc",
+   "kind": "stat",
+   "item": "armor",
+   "decision": "apply",
+   "note": "datapack 20, wiki 60: the wiki value is the official bestiary armor; the datapack value looks like a placeholder"
+  },
+  {
+   "monster": "White Tiger",
+   "kind": "stat",
+   "item": "armor",
+   "decision": "apply",
+   "note": "datapack 5, wiki 12: the wiki value is the official bestiary armor; the datapack value looks like a placeholder"
+  },
+  {
+   "monster": "Dog",
+   "kind": "stat",
+   "item": "armor",
+   "decision": "apply",
+   "note": "datapack 5, wiki 1: the wiki value is the official bestiary armor; the datapack value looks like a placeholder"
+  },
+  {
+   "monster": "Fox",
+   "kind": "stat",
+   "item": "armor",
+   "decision": "apply",
+   "note": "datapack 20, wiki 2: the wiki value is the official bestiary armor; the datapack value looks like a placeholder"
+  },
+  {
+   "monster": "Wild Horse",
+   "kind": "stat",
+   "item": "armor",
+   "decision": "apply",
+   "note": "datapack 10, wiki 2: the wiki value is the official bestiary armor; the datapack value looks like a placeholder"
+  },
+  {
+   "monster": "Blue Butterfly",
+   "kind": "stat",
+   "item": "armor",
+   "decision": "apply",
+   "note": "datapack 10, wiki 0: the wiki value is the official bestiary armor; the datapack value looks like a placeholder"
+  },
+  {
+   "monster": "Purple Butterfly",
+   "kind": "stat",
+   "item": "armor",
+   "decision": "apply",
+   "note": "datapack 10, wiki 0: the wiki value is the official bestiary armor; the datapack value looks like a placeholder"
+  },
+  {
+   "monster": "Red Butterfly",
+   "kind": "stat",
+   "item": "armor",
+   "decision": "apply",
+   "note": "datapack 10, wiki 0: the wiki value is the official bestiary armor; the datapack value looks like a placeholder"
+  },
+  {
+   "monster": "Elf Overseer",
+   "kind": "stat",
+   "item": "maxHealth",
+   "decision": "apply",
+   "note": "datapack 220, wiki 500 (bestiary hit points)"
+  },
+  {
+   "monster": "The Shatterer",
+   "kind": "stat",
+   "item": "maxHealth",
+   "decision": "keep",
+   "note": "Ferumbras Ascension boss: 220000 -> 80000 HP and 0 experience on the wiki do not fit the quest; not trusted"
+  },
+  {
+   "monster": "The Shatterer",
+   "kind": "stat",
+   "item": "experience",
+   "decision": "keep",
+   "note": "see maxHealth"
+  },
+  {
+   "monster": "Biting Book",
+   "kind": "max_count",
+   "item": "platinum coin",
+   "decision": "keep",
+   "note": "money: decided with the currency group"
+  },
+  {
+   "monster": "Vile Grandmaster",
+   "kind": "max_count",
+   "item": "gold coin",
+   "decision": "keep",
+   "note": "money: decided with the currency group"
+  },
+  {
+   "monster": "Ink Blob",
+   "kind": "max_count",
+   "item": "platinum coin",
+   "decision": "keep",
+   "note": "money: decided with the currency group"
+  }
+ ]
+}

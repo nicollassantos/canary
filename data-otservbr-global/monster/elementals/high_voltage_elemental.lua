@@ -78,7 +78,7 @@ monster.voices = {
 
 monster.loot = {
 	{ id = 3031, chance = 100000, maxCount = 199 }, -- gold coin
-	{ id = 761, chance = 100000, maxCount = 20 }, -- flash arrow
+	{ id = 761, chance = 16788, maxCount = 20 }, -- flash arrow
 	{ id = 237, chance = 3594 }, -- strong mana potion
 	{ id = 3033, chance = 5187, maxCount = 3 }, -- small amethyst
 	{ id = 3007, chance = 3822 }, -- crystal ring

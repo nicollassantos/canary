@@ -77,8 +77,8 @@ monster.loot = {
 	{ name = "crystal mace", chance = 5033 },
 	{ name = "diamond sceptre", chance = 4213 },
 	{ name = "sapphire hammer", chance = 932 },
-	{ name = "glowing rune", chance = 800, maxCount = 6 },
-	{ name = "small sapphire", chance = 900, maxCount = 4 },
+	{ name = "glowing rune", chance = 36024, maxCount = 6 },
+	{ name = "small sapphire", chance = 67947, maxCount = 4 },
 	{ name = "frosty heart", chance = 22436, maxCount = 4 },
 	{ id = 7441, chance = 13795 }, -- ice cube
 	{ id = 28568, chance = 20000 }, -- inkwell
@@ -86,13 +86,13 @@ monster.loot = {
 	{ name = "ultimate mana potion", chance = 17567, maxCount = 4 },
 	{ name = "glacial rod", chance = 751 },
 	{ name = "crystalline armor", chance = 665 },
-	{ name = "ice rapier", chance = 500 },
-	{ name = "glacier mask", chance = 400 },
+	{ name = "ice rapier", chance = 5318 },
+	{ name = "glacier mask", chance = 8123 },
 	{ name = "piece of dead brain", chance = 4023, maxCount = 4 },
-	{ name = "crystal sword", chance = 300 },
+	{ name = "crystal sword", chance = 4584 },
 	{ name = "leviathan's amulet", chance = 276 },
-	{ name = "glacier robe", chance = 150 },
-	{ name = "glacier kilt", chance = 150 },
+	{ name = "glacier robe", chance = 2288 },
+	{ name = "glacier kilt", chance = 2711 },
 	{ name = "slime heart", chance = 4161, maxCount = 4 },
 }
 

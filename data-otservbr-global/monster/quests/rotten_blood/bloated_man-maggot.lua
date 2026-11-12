@@ -80,9 +80,9 @@ monster.loot = {
 	{ name = "rotten roots", chance = 3978, maxCount = 1 },
 	{ name = "bloated maggot", chance = 3797, maxCount = 1 },
 	{ name = "terra rod", chance = 8078, maxCount = 1 },
-	{ name = "butcher's axe", chance = 7967, maxCount = 1 },
-	{ name = "blue gem", chance = 7808, maxCount = 1 },
-	{ name = "violet gem", chance = 7084, maxCount = 1 },
+	{ name = "butcher's axe", chance = 1266, maxCount = 1 },
+	{ name = "blue gem", chance = 1085, maxCount = 1 },
+	{ name = "violet gem", chance = 542, maxCount = 1 },
 	{ name = "devil helmet", chance = 6329 },
 	{ name = "small topaz", chance = 5787, maxCount = 3 },
 }

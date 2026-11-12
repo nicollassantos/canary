@@ -91,7 +91,7 @@ monster.loot = {
 	{ id = 236, chance = 15000 }, -- strong health potion
 	{ id = 814, chance = 3200 }, -- terra amulet
 	{ name = "fairy wings", chance = 15000 },
-	{ name = "wooden spellbook", chance = 3440 },
+	{ name = "wooden spellbook", chance = 591 },
 	{ name = "leaf star", chance = 7998, maxCount = 7 },
 	{ id = 3727, chance = 5384 }, -- wood mushroom
 }

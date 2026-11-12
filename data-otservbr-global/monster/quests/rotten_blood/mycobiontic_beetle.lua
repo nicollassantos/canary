@@ -80,15 +80,15 @@ monster.loot = {
 	{ name = "ultimate health potion", chance = 26158, maxCount = 5 },
 	{ name = "serpent sword", chance = 7175 },
 	{ name = "glacier mask", chance = 6278 },
-	{ name = "small sapphire", chance = 34560, maxCount = 3 },
+	{ name = "small sapphire", chance = 5680, maxCount = 3 },
 	{ name = "organic acid", chance = 11678, maxCount = 1 },
-	{ name = "rotten roots", chance = 25920, maxCount = 1 },
-	{ name = "scarab coin", chance = 22920, maxCount = 3 },
-	{ name = "buckle", chance = 22920, maxCount = 1 },
-	{ name = "rotten vermin ichor", chance = 22920, maxCount = 1 },
-	{ name = "violet gem", chance = 18920 },
-	{ name = "blue gem", chance = 15920 },
-	{ name = "small ruby", chance = 24560, maxCount = 3 },
+	{ name = "rotten roots", chance = 4036, maxCount = 1 },
+	{ name = "scarab coin", chance = 2541, maxCount = 3 },
+	{ name = "buckle", chance = 1943, maxCount = 1 },
+	{ name = "rotten vermin ichor", chance = 1046, maxCount = 1 },
+	{ name = "violet gem", chance = 149 },
+	{ name = "blue gem", chance = 1196 },
+	{ name = "small ruby", chance = 448, maxCount = 3 },
 }
 
 monster.attacks = {

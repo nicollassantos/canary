@@ -87,18 +87,18 @@ monster.loot = {
 	{ id = 3031, chance = 100000, maxCount = 200 }, -- gold coin
 	{ id = 21755, chance = 3083 }, -- bronze gear wheel
 	{ id = 8775, chance = 1794 }, -- gear wheel
-	{ id = 21143, chance = 1970 }, -- glooth sandwich
+	{ id = 21143, chance = 10235 }, -- glooth sandwich
 	{ id = 3035, chance = 6010, maxCount = 4 }, -- platinum coin
-	{ id = 21103, chance = 2840 }, -- glooth injection tube
+	{ id = 21103, chance = 15088 }, -- glooth injection tube
 	{ id = 7643, chance = 4470 }, -- ultimate health potion
 	{ id = 238, chance = 12124 }, -- great mana potion
 	{ id = 21167, chance = 1360 }, -- heat core
 	{ id = 21179, chance = 1473 }, -- glooth blade
 	{ id = 21178, chance = 1051 }, -- glooth club
-	{ id = 21180, chance = 290 }, -- glooth axe
+	{ id = 21180, chance = 1527 }, -- glooth axe
 	{ id = 3037, chance = 730 }, -- yellow gem
-	{ id = 9057, chance = 1560, maxCount = 4 }, -- small topaz
-	{ id = 3032, chance = 1590, maxCount = 4 }, -- small emerald
+	{ id = 9057, chance = 7817, maxCount = 4 }, -- small topaz
+	{ id = 3032, chance = 8168, maxCount = 4 }, -- small emerald
 	{ name = "green gem", chance = 71 },
 }
 

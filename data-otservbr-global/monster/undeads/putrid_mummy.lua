@@ -84,7 +84,7 @@ monster.loot = {
 	{ name = "little bowl of myrrh", chance = 13550 },
 	{ name = "single human eye", chance = 8950 },
 	{ name = "green gem", chance = 2100 },
-	{ name = "green bandage", chance = 1100 },
+	{ name = "green bandage", chance = 9928 },
 	{ name = "scarab coin", chance = 8180, maxCount = 3 },
 	{ name = "poison dagger", chance = 405 },
 	{ name = "stone skin amulet", chance = 75 },

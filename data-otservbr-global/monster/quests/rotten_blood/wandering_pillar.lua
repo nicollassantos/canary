@@ -93,7 +93,7 @@ monster.loot = {
 	{ name = "magma clump", chance = 6260, maxCount = 1 },
 	{ id = 3039, chance = 4659, maxCount = 1 }, -- red gem
 	{ name = "green gem", chance = 2761, maxCount = 1 },
-	{ name = "basalt core", chance = 9037, maxCount = 1 },
+	{ name = "basalt core", chance = 690, maxCount = 1 },
 }
 
 monster.attacks = {

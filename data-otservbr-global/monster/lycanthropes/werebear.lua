@@ -85,21 +85,21 @@ monster.loot = {
 	{ id = 7643, chance = 2210 }, -- ultimate health potion
 	{ id = 238, chance = 1200 }, -- great mana potion
 	{ id = 5896, chance = 2825 }, -- bear paw
-	{ id = 3582, chance = 1900, maxCount = 3 }, -- ham
-	{ id = 5902, chance = 450 }, -- honeycomb
-	{ id = 22057, chance = 580 }, -- werebear fur
+	{ id = 3582, chance = 12119, maxCount = 3 }, -- ham
+	{ id = 5902, chance = 2456 }, -- honeycomb
+	{ id = 22057, chance = 15120 }, -- werebear fur
 	{ id = 7439, chance = 800 }, -- berserk potion
-	{ id = 22056, chance = 560 }, -- werebear skull
+	{ id = 22056, chance = 15425 }, -- werebear skull
 	{ id = 3081, chance = 915 }, -- stone skin amulet
 	{ id = 7419, chance = 120 }, -- dreaded cleaver
 	{ id = 22085, chance = 300 }, -- fur armor
 	{ id = 7432, chance = 867 }, -- furry club
-	{ id = 22060, chance = 100 }, -- werewolf amulet
+	{ id = 22060, chance = 1140 }, -- werewolf amulet
 	{ id = 7383, chance = 770 }, -- relic sword
 	{ id = 7452, chance = 594 }, -- spiked squelcher
 	{ id = 3053, chance = 867 }, -- time ring
 	{ id = 22103, chance = 200 }, -- werebear trophy
-	{ id = 22083, chance = 200 }, -- moonlight crystals
+	{ id = 22083, chance = 1252 }, -- moonlight crystals
 }
 
 monster.attacks = {

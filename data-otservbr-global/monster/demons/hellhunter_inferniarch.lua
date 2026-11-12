@@ -82,16 +82,16 @@ monster.loot = {
 	{ name = "platinum coin", chance = 5000, maxCount = 38 },
 	{ name = "assassin star", chance = 8323, maxCount = 10 },
 	{ name = "composite hornbow", chance = 109 },
-	{ name = "demonic core essence", chance = 100 },
+	{ name = "demonic core essence", chance = 3098 },
 	{ name = "hellhunter eye", chance = 472 },
 	{ name = "small amethyst", chance = 7051, maxCount = 4 },
 	{ name = "dark helmet", chance = 1908 },
 	{ name = "sniper arrow", chance = 3026, maxCount = 5 },
-	{ name = "demonic matter", chance = 4761 },
-	{ name = "onyx arrow", chance = 1000, maxCount = 5 },
+	{ name = "demonic matter", chance = 790 },
+	{ name = "onyx arrow", chance = 10204, maxCount = 5 },
 	{ id = 6299, chance = 1218 }, -- death ring
 	{ name = "cyan crystal fragment", chance = 3843 },
-	{ name = "mummified demon finger", chance = 155 },
+	{ name = "mummified demon finger", chance = 990 },
 }
 
 monster.attacks = {

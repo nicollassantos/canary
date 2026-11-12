@@ -75,31 +75,31 @@ monster.voices = {
 }
 
 monster.loot = {
-	{ name = "violet crystal shard", chance = 900, maxCount = 4 },
+	{ name = "violet crystal shard", chance = 33796, maxCount = 4 },
 	{ name = "platinum coin", chance = 100000, maxCount = 20 },
-	{ name = "glowing rune", chance = 900, maxCount = 4 },
-	{ name = "instable proto matter", chance = 1200, maxCount = 4 },
-	{ name = "energy ball", chance = 1200, maxCount = 4 },
-	{ name = "energy bar", chance = 1200, maxCount = 4 },
-	{ name = "energy drink", chance = 1200, maxCount = 4 },
-	{ name = "odd organ", chance = 1200, maxCount = 4 },
-	{ name = "frozen lightning", chance = 1200, maxCount = 4 },
+	{ name = "glowing rune", chance = 22951, maxCount = 4 },
+	{ name = "instable proto matter", chance = 18343, maxCount = 4 },
+	{ name = "energy ball", chance = 19603, maxCount = 4 },
+	{ name = "energy bar", chance = 14829, maxCount = 4 },
+	{ name = "energy drink", chance = 15109, maxCount = 4 },
+	{ name = "odd organ", chance = 7587, maxCount = 4 },
+	{ name = "frozen lightning", chance = 12054, maxCount = 4 },
 	{ id = 28568, chance = 1200, maxCount = 3 }, -- inkwell
 	{ name = "small ruby", chance = 5932, maxCount = 6 },
 	{ name = "violet gem", chance = 4761, maxCount = 4 },
-	{ name = "blue crystal splinter", chance = 1200, maxCount = 4 },
+	{ name = "blue crystal splinter", chance = 6988, maxCount = 4 },
 	{ name = "cyan crystal fragment", chance = 4073, maxCount = 4 },
-	{ name = "ultimate mana potion", chance = 1200, maxCount = 4 },
+	{ name = "ultimate mana potion", chance = 11991, maxCount = 4 },
 	{ name = "piece of dead brain", chance = 1200, maxCount = 4 },
 	{ name = "wand of defiance", chance = 800 },
-	{ name = "lightning headband", chance = 950 },
+	{ name = "lightning headband", chance = 5092 },
 	{ name = "lightning pendant", chance = 1757 },
 	{ name = "might ring", chance = 1973 },
 	{ name = "slime heart", chance = 1706, maxCount = 4 },
 	{ id = 23544, chance = 1706 }, -- collar of red plasma
 	{ id = 23542, chance = 1477 }, -- collar of blue plasma
 	{ id = 23543, chance = 560 }, -- collar of green plasma
-	{ id = 23533, chance = 560 }, -- ring of red plasma
+	{ id = 23533, chance = 3157 }, -- ring of red plasma
 	{ id = 23529, chance = 2113 }, -- ring of blue plasma
 	{ id = 23531, chance = 2317 }, -- ring of green plasma
 	{ name = "spellweaver's robe", chance = 433 },

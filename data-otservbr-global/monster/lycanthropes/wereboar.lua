@@ -83,9 +83,9 @@ monster.loot = {
 	{ id = 3725, chance = 7074, maxCount = 2 }, -- brown mushroom
 	{ id = 7643, chance = 2210 }, -- ultimate health potion
 	{ id = 236, chance = 4753 }, -- strong health potion
-	{ id = 22053, chance = 1900 }, -- wereboar hooves
+	{ id = 22053, chance = 14628 }, -- wereboar hooves
 	{ id = 22087, chance = 1602 }, -- wereboar loincloth
-	{ id = 22054, chance = 780 }, -- wereboar tusks
+	{ id = 22054, chance = 14999 }, -- wereboar tusks
 	{ id = 7439, chance = 700 }, -- berserk potion
 	{ id = 7432, chance = 621 }, -- furry club
 	{ id = 3081, chance = 430 }, -- stone skin amulet
@@ -93,7 +93,7 @@ monster.loot = {
 	{ id = 22085, chance = 371 }, -- fur armor
 	{ id = 22102, chance = 200 }, -- wereboar trophy
 	{ id = 22060, chance = 774 }, -- werewolf amulet
-	{ id = 22083, chance = 200 }, -- moonlight crystals
+	{ id = 22083, chance = 2398 }, -- moonlight crystals
 }
 
 monster.attacks = {

@@ -721,6 +721,66 @@
    "maxCount": 5
   },
   {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/constructs/biting_book.lua",
+   "monster": "Biting Book",
+   "item": "big bone",
+   "chance": 6587,
+   "from": 500,
+   "source": {
+    "version": "13.22.14282",
+    "kills": 167,
+    "loot_revid": 1210419,
+    "evidence": "confirmed by another version",
+    "times": 11
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/constructs/biting_book.lua",
+   "monster": "Biting Book",
+   "item": "book page",
+   "chance": 67066,
+   "from": 500,
+   "source": {
+    "version": "13.22.14282",
+    "kills": 167,
+    "loot_revid": 1210419,
+    "evidence": "confirmed by another version",
+    "times": 112
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/constructs/biting_book.lua",
+   "monster": "Biting Book",
+   "item": "glowing rune",
+   "chance": 39521,
+   "from": 500,
+   "source": {
+    "version": "13.22.14282",
+    "kills": 167,
+    "loot_revid": 1210419,
+    "evidence": "confirmed by another version",
+    "times": 66
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/constructs/biting_book.lua",
+   "monster": "Biting Book",
+   "item": "silken bookmark",
+   "chance": 23353,
+   "from": 500,
+   "source": {
+    "version": "13.22.14282",
+    "kills": 167,
+    "loot_revid": 1210419,
+    "evidence": "confirmed by another version",
+    "times": 39
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/constructs/biting_book.lua",
    "monster": "Biting Book",
@@ -795,6 +855,17 @@
     "loot_revid": 1105566
    },
    "from": 100
+  },
+  {
+   "kind": "stat",
+   "file": "data-otservbr-global/monster/constructs/enraged_crystal_golem.lua",
+   "monster": "Enraged Crystal Golem",
+   "item": "armor",
+   "value": 38,
+   "from": 15,
+   "source": {
+    "revid": 1191630
+   }
   },
   {
    "kind": "add_loot",
@@ -884,6 +955,21 @@
    "kind": "chance",
    "file": "data-otservbr-global/monster/constructs/glooth_golem.lua",
    "monster": "Glooth Golem",
+   "item": "glooth axe",
+   "chance": 1527,
+   "from": 290,
+   "source": {
+    "version": "12.31.9471",
+    "kills": 16835,
+    "loot_revid": 1213377,
+    "evidence": "confirmed by another version",
+    "times": 257
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/constructs/glooth_golem.lua",
+   "monster": "Glooth Golem",
    "item": "glooth blade",
    "chance": 1473,
    "source": {
@@ -907,6 +993,36 @@
     "times": 177
    },
    "from": 230
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/constructs/glooth_golem.lua",
+   "monster": "Glooth Golem",
+   "item": "glooth injection tube",
+   "chance": 15088,
+   "from": 2840,
+   "source": {
+    "version": "12.31.9471",
+    "kills": 16835,
+    "loot_revid": 1213377,
+    "evidence": "confirmed by another version",
+    "times": 2540
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/constructs/glooth_golem.lua",
+   "monster": "Glooth Golem",
+   "item": "glooth sandwich",
+   "chance": 10235,
+   "from": 1970,
+   "source": {
+    "version": "12.31.9471",
+    "kills": 16835,
+    "loot_revid": 1213377,
+    "evidence": "confirmed by another version",
+    "times": 1723
+   }
   },
   {
    "kind": "chance",
@@ -963,6 +1079,36 @@
     "times": 172
    },
    "from": 370
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/constructs/glooth_golem.lua",
+   "monster": "Glooth Golem",
+   "item": "small emerald",
+   "chance": 8168,
+   "from": 1590,
+   "source": {
+    "version": "12.31.9471",
+    "kills": 16835,
+    "loot_revid": 1213377,
+    "evidence": "confirmed by another version",
+    "times": 1375
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/constructs/glooth_golem.lua",
+   "monster": "Glooth Golem",
+   "item": "small topaz",
+   "chance": 7817,
+   "from": 1560,
+   "source": {
+    "version": "12.31.9471",
+    "kills": 16835,
+    "loot_revid": 1213377,
+    "evidence": "confirmed by another version",
+    "times": 1316
+   }
   },
   {
    "kind": "stat",
@@ -1206,6 +1352,21 @@
     "times": 290
    },
    "from": 1490
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/constructs/metal_gargoyle.lua",
+   "monster": "Metal Gargoyle",
+   "item": "energy ring",
+   "chance": 379,
+   "from": 2240,
+   "source": {
+    "version": "12.31",
+    "kills": 12395,
+    "loot_revid": 1213378,
+    "evidence": "confirmed by another version",
+    "times": 47
+   }
   },
   {
    "kind": "chance",
@@ -1549,6 +1710,21 @@
    "from": 7000
   },
   {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/constructs/war_golem.lua",
+   "monster": "War Golem",
+   "item": "rusted armor",
+   "chance": 3504,
+   "from": 260,
+   "source": {
+    "version": "12.31",
+    "kills": 4053,
+    "loot_revid": 1211906,
+    "evidence": "confirmed by another version",
+    "times": 142
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/constructs/war_golem.lua",
    "monster": "War Golem",
@@ -1669,6 +1845,81 @@
    "kind": "chance",
    "file": "data-otservbr-global/monster/demons/brinebrute_inferniarch.lua",
    "monster": "Brinebrute Inferniarch",
+   "item": "blue crystal shard",
+   "chance": 17707,
+   "from": 300,
+   "source": {
+    "version": "15.24.95dcf3",
+    "kills": 785,
+    "loot_revid": 1212913,
+    "evidence": "confirmed by another version",
+    "times": 139
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/demons/brinebrute_inferniarch.lua",
+   "monster": "Brinebrute Inferniarch",
+   "item": "blue crystal splinter",
+   "chance": 16433,
+   "from": 300,
+   "source": {
+    "version": "15.24.95dcf3",
+    "kills": 785,
+    "loot_revid": 1212913,
+    "evidence": "confirmed by another version",
+    "times": 129
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/demons/brinebrute_inferniarch.lua",
+   "monster": "Brinebrute Inferniarch",
+   "item": "brinebrute claw",
+   "chance": 77325,
+   "from": 2000,
+   "source": {
+    "version": "15.24.95dcf3",
+    "kills": 785,
+    "loot_revid": 1212913,
+    "evidence": "confirmed by another version",
+    "times": 607
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/demons/brinebrute_inferniarch.lua",
+   "monster": "Brinebrute Inferniarch",
+   "item": "brown crystal splinter",
+   "chance": 17070,
+   "from": 300,
+   "source": {
+    "version": "15.24.95dcf3",
+    "kills": 785,
+    "loot_revid": 1212913,
+    "evidence": "confirmed by another version",
+    "times": 134
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/demons/brinebrute_inferniarch.lua",
+   "monster": "Brinebrute Inferniarch",
+   "item": "demonic core essence",
+   "chance": 2803,
+   "from": 100,
+   "source": {
+    "version": "15.24.95dcf3",
+    "kills": 785,
+    "loot_revid": 1212913,
+    "evidence": "confirmed by another version",
+    "times": 22
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/demons/brinebrute_inferniarch.lua",
+   "monster": "Brinebrute Inferniarch",
    "item": "demonic matter",
    "chance": 1146,
    "source": {
@@ -1683,6 +1934,66 @@
    "kind": "chance",
    "file": "data-otservbr-global/monster/demons/brinebrute_inferniarch.lua",
    "monster": "Brinebrute Inferniarch",
+   "item": "giant sword",
+   "chance": 2038,
+   "from": 300,
+   "source": {
+    "version": "15.24.95dcf3",
+    "kills": 785,
+    "loot_revid": 1212913,
+    "evidence": "confirmed by another version",
+    "times": 16
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/demons/brinebrute_inferniarch.lua",
+   "monster": "Brinebrute Inferniarch",
+   "item": "great spirit potion",
+   "chance": 74777,
+   "from": 1500,
+   "source": {
+    "version": "15.24.95dcf3",
+    "kills": 785,
+    "loot_revid": 1212913,
+    "evidence": "confirmed by another version",
+    "times": 587
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/demons/brinebrute_inferniarch.lua",
+   "monster": "Brinebrute Inferniarch",
+   "item": "green crystal shard",
+   "chance": 13758,
+   "from": 900,
+   "source": {
+    "version": "15.24.95dcf3",
+    "kills": 785,
+    "loot_revid": 1212913,
+    "evidence": "confirmed by another version",
+    "times": 108
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/demons/brinebrute_inferniarch.lua",
+   "monster": "Brinebrute Inferniarch",
+   "item": "green crystal splinter",
+   "chance": 20127,
+   "from": 300,
+   "source": {
+    "version": "15.24.95dcf3",
+    "kills": 785,
+    "loot_revid": 1212913,
+    "evidence": "confirmed by another version",
+    "times": 158
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/demons/brinebrute_inferniarch.lua",
+   "monster": "Brinebrute Inferniarch",
    "item": "might ring",
    "chance": 2930,
    "source": {
@@ -1692,6 +2003,21 @@
     "times": 23
    },
    "from": 900
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/demons/brinebrute_inferniarch.lua",
+   "monster": "Brinebrute Inferniarch",
+   "item": "red gem",
+   "chance": 7516,
+   "from": 1500,
+   "source": {
+    "version": "15.24.95dcf3",
+    "kills": 785,
+    "loot_revid": 1212913,
+    "evidence": "confirmed by another version",
+    "times": 59
+   }
   },
   {
    "kind": "chance",
@@ -1736,6 +2062,21 @@
    "from": 1500
   },
   {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/demons/brinebrute_inferniarch.lua",
+   "monster": "Brinebrute Inferniarch",
+   "item": "violet crystal shard",
+   "chance": 14522,
+   "from": 1500,
+   "source": {
+    "version": "15.24.95dcf3",
+    "kills": 785,
+    "loot_revid": 1212913,
+    "evidence": "confirmed by another version",
+    "times": 114
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/demons/dark_torturer.lua",
    "monster": "Dark Torturer",
@@ -1747,6 +2088,21 @@
     "loot_revid": 1209893
    },
    "from": 100
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/demons/dawnfire_asura.lua",
+   "monster": "Dawnfire Asura",
+   "item": "golden lotus brooch",
+   "chance": 12310,
+   "from": 1230,
+   "source": {
+    "version": "12.31",
+    "kills": 14265,
+    "loot_revid": 1212375,
+    "evidence": "confirmed by another version",
+    "times": 1756
+   }
   },
   {
    "kind": "chance",
@@ -2624,6 +2980,51 @@
    "kind": "chance",
    "file": "data-otservbr-global/monster/demons/hellflayer.lua",
    "monster": "Hellflayer",
+   "item": "demonbone amulet",
+   "chance": 169,
+   "from": 1000,
+   "source": {
+    "version": "15.32.87b266",
+    "kills": 37374,
+    "loot_revid": 1213558,
+    "evidence": "confirmed by another version",
+    "times": 63
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/demons/hellflayer.lua",
+   "monster": "Hellflayer",
+   "item": "demonic essence",
+   "chance": 17461,
+   "from": 1600,
+   "source": {
+    "version": "15.32.87b266",
+    "kills": 37374,
+    "loot_revid": 1213558,
+    "evidence": "confirmed by another version",
+    "times": 6526
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/demons/hellflayer.lua",
+   "monster": "Hellflayer",
+   "item": "flask of demonic blood",
+   "chance": 21210,
+   "from": 4000,
+   "source": {
+    "version": "15.32.87b266",
+    "kills": 37374,
+    "loot_revid": 1213558,
+    "evidence": "confirmed by another version",
+    "times": 7927
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/demons/hellflayer.lua",
+   "monster": "Hellflayer",
    "item": "gold ingot",
    "chance": 5448,
    "source": {
@@ -2666,6 +3067,36 @@
    "kind": "chance",
    "file": "data-otservbr-global/monster/demons/hellflayer.lua",
    "monster": "Hellflayer",
+   "item": "great spirit potion",
+   "chance": 13986,
+   "from": 2300,
+   "source": {
+    "version": "15.32.87b266",
+    "kills": 37374,
+    "loot_revid": 1213558,
+    "evidence": "confirmed by another version",
+    "times": 5227
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/demons/hellflayer.lua",
+   "monster": "Hellflayer",
+   "item": "heavy mace",
+   "chance": 56,
+   "from": 400,
+   "source": {
+    "version": "15.32.87b266",
+    "kills": 37374,
+    "loot_revid": 1213558,
+    "evidence": "confirmed by another version",
+    "times": 21
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/demons/hellflayer.lua",
+   "monster": "Hellflayer",
    "item": "magma boots",
    "chance": 856,
    "source": {
@@ -2689,6 +3120,21 @@
     "times": 325
    },
    "from": 1200
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/demons/hellflayer.lua",
+   "monster": "Hellflayer",
+   "item": "pair of hellflayer horns",
+   "chance": 14026,
+   "from": 800,
+   "source": {
+    "version": "15.32.87b266",
+    "kills": 37374,
+    "loot_revid": 1213558,
+    "evidence": "confirmed by another version",
+    "times": 5242
+   }
   },
   {
    "kind": "chance",
@@ -2764,6 +3210,36 @@
    "kind": "chance",
    "file": "data-otservbr-global/monster/demons/hellflayer.lua",
    "monster": "Hellflayer",
+   "item": "small diamond",
+   "chance": 7016,
+   "from": 900,
+   "source": {
+    "version": "15.32.87b266",
+    "kills": 37374,
+    "loot_revid": 1213558,
+    "evidence": "confirmed by another version",
+    "times": 2622
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/demons/hellflayer.lua",
+   "monster": "Hellflayer",
+   "item": "small emerald",
+   "chance": 7176,
+   "from": 900,
+   "source": {
+    "version": "15.32.87b266",
+    "kills": 37374,
+    "loot_revid": 1213558,
+    "evidence": "confirmed by another version",
+    "times": 2682
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/demons/hellflayer.lua",
+   "monster": "Hellflayer",
    "item": "small ruby",
    "chance": 6997,
    "source": {
@@ -2773,6 +3249,36 @@
     "times": 2615
    },
    "from": 2000
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/demons/hellflayer.lua",
+   "monster": "Hellflayer",
+   "item": "small topaz",
+   "chance": 6903,
+   "from": 900,
+   "source": {
+    "version": "15.32.87b266",
+    "kills": 37374,
+    "loot_revid": 1213558,
+    "evidence": "confirmed by another version",
+    "times": 2580
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/demons/hellflayer.lua",
+   "monster": "Hellflayer",
+   "item": "spellbook of mind control",
+   "chance": 126,
+   "from": 900,
+   "source": {
+    "version": "15.32.87b266",
+    "kills": 37374,
+    "loot_revid": 1213558,
+    "evidence": "confirmed by another version",
+    "times": 47
+   }
   },
   {
    "kind": "chance",
@@ -3027,6 +3533,36 @@
    "kind": "chance",
    "file": "data-otservbr-global/monster/demons/hellhunter_inferniarch.lua",
    "monster": "Hellhunter Inferniarch",
+   "item": "demonic core essence",
+   "chance": 3098,
+   "from": 100,
+   "source": {
+    "version": "15.24.95dcf3",
+    "kills": 11006,
+    "loot_revid": 1211356,
+    "evidence": "confirmed by another version",
+    "times": 341
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/demons/hellhunter_inferniarch.lua",
+   "monster": "Hellhunter Inferniarch",
+   "item": "demonic matter",
+   "chance": 790,
+   "from": 4761,
+   "source": {
+    "version": "15.24.95dcf3",
+    "kills": 11006,
+    "loot_revid": 1211356,
+    "evidence": "confirmed by another version",
+    "times": 87
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/demons/hellhunter_inferniarch.lua",
+   "monster": "Hellhunter Inferniarch",
    "item": "hellhunter eye",
    "chance": 472,
    "source": {
@@ -3036,6 +3572,36 @@
     "times": 52
    },
    "from": 1500
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/demons/hellhunter_inferniarch.lua",
+   "monster": "Hellhunter Inferniarch",
+   "item": "mummified demon finger",
+   "chance": 990,
+   "from": 155,
+   "source": {
+    "version": "15.24.95dcf3",
+    "kills": 11006,
+    "loot_revid": 1211356,
+    "evidence": "confirmed by another version",
+    "times": 109
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/demons/hellhunter_inferniarch.lua",
+   "monster": "Hellhunter Inferniarch",
+   "item": "onyx arrow",
+   "chance": 10204,
+   "from": 1000,
+   "source": {
+    "version": "15.24.95dcf3",
+    "kills": 11006,
+    "loot_revid": 1211356,
+    "evidence": "confirmed by another version",
+    "times": 1123
+   }
   },
   {
    "kind": "chance",
@@ -3799,6 +4365,21 @@
    "kind": "chance",
    "file": "data-otservbr-global/monster/demons/plaguesmith.lua",
    "monster": "Plaguesmith",
+   "item": "slightly rusted armor",
+   "chance": 6321,
+   "from": 540,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 11517,
+    "loot_revid": 1210592,
+    "evidence": "confirmed by another version",
+    "times": 728
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/demons/plaguesmith.lua",
+   "monster": "Plaguesmith",
    "item": "small amethyst",
    "chance": 4263,
    "source": {
@@ -3954,6 +4535,36 @@
    "kind": "chance",
    "file": "data-otservbr-global/monster/demons/spellreaper_inferniarch.lua",
    "monster": "Spellreaper Inferniarch",
+   "item": "demonic core essence",
+   "chance": 3132,
+   "from": 100,
+   "source": {
+    "version": "15.24.95dcf3",
+    "kills": 13314,
+    "loot_revid": 1211397,
+    "evidence": "confirmed by another version",
+    "times": 417
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/demons/spellreaper_inferniarch.lua",
+   "monster": "Spellreaper Inferniarch",
+   "item": "demonic matter",
+   "chance": 653,
+   "from": 4761,
+   "source": {
+    "version": "15.24.95dcf3",
+    "kills": 13314,
+    "loot_revid": 1211397,
+    "evidence": "confirmed by another version",
+    "times": 87
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/demons/spellreaper_inferniarch.lua",
+   "monster": "Spellreaper Inferniarch",
    "item": "fire mushroom",
    "chance": 6572,
    "source": {
@@ -3963,6 +4574,21 @@
     "times": 875
    },
    "from": 2000
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/demons/spellreaper_inferniarch.lua",
+   "monster": "Spellreaper Inferniarch",
+   "item": "mummified demon finger",
+   "chance": 909,
+   "from": 155,
+   "source": {
+    "version": "15.24.95dcf3",
+    "kills": 13314,
+    "loot_revid": 1211397,
+    "evidence": "confirmed by another version",
+    "times": 121
+   }
   },
   {
    "kind": "chance",
@@ -4250,6 +4876,21 @@
    "kind": "chance",
    "file": "data-otservbr-global/monster/demons/true_midnight_asura.lua",
    "monster": "True Midnight Asura",
+   "item": "small enchanted amethyst",
+   "chance": 11915,
+   "from": 1441,
+   "source": {
+    "version": "15.33.c9e45e",
+    "kills": 705,
+    "loot_revid": 1213061,
+    "evidence": "confirmed by another version",
+    "times": 84
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/demons/true_midnight_asura.lua",
+   "monster": "True Midnight Asura",
    "item": "soul orb",
    "chance": 18440,
    "source": {
@@ -4369,6 +5010,21 @@
     "times": 563
    },
    "from": 1880
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/demons/vexclaw.lua",
+   "monster": "Vexclaw",
+   "item": "golden legs",
+   "chance": 267,
+   "from": 50,
+   "source": {
+    "version": "15.32.87b266",
+    "kills": 41224,
+    "loot_revid": 1213560,
+    "evidence": "confirmed by another version",
+    "times": 110
+   }
   },
   {
    "kind": "chance",
@@ -5570,6 +6226,21 @@
    "kind": "chance",
    "file": "data-otservbr-global/monster/elementals/foam_stalker.lua",
    "monster": "Foam Stalker",
+   "item": "mercenary sword",
+   "chance": 724,
+   "from": 4167,
+   "source": {
+    "version": "15.00.249ccc",
+    "kills": 829,
+    "loot_revid": 1201813,
+    "evidence": "confirmed by another version",
+    "times": 6
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/elementals/foam_stalker.lua",
+   "monster": "Foam Stalker",
    "item": "remains of a fish",
    "chance": 8926,
    "source": {
@@ -5593,6 +6264,21 @@
     "times": 20
    },
    "from": 5075
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/elementals/foam_stalker.lua",
+   "monster": "Foam Stalker",
+   "item": "violet gem",
+   "chance": 362,
+   "from": 3389,
+   "source": {
+    "version": "15.00.249ccc",
+    "kills": 829,
+    "loot_revid": 1201813,
+    "evidence": "confirmed by another version",
+    "times": 3
+   }
   },
   {
    "kind": "stat",
@@ -5702,6 +6388,21 @@
     "times": 188
    },
    "from": 4761
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/elementals/high_voltage_elemental.lua",
+   "monster": "High Voltage Elemental",
+   "item": "flash arrow",
+   "chance": 16788,
+   "from": 100000,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 2198,
+    "loot_revid": 1204460,
+    "evidence": "confirmed by another version",
+    "times": 369
+   }
   },
   {
    "kind": "chance",
@@ -5947,6 +6648,36 @@
    "from": 10000
   },
   {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/elementals/knowledge_elemental.lua",
+   "monster": "Knowledge Elemental",
+   "item": "small amethyst",
+   "chance": 71845,
+   "from": 10000,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 206,
+    "loot_revid": 1210529,
+    "evidence": "confirmed by another version",
+    "times": 148
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/elementals/knowledge_elemental.lua",
+   "monster": "Knowledge Elemental",
+   "item": "wand of cosmic energy",
+   "chance": 6796,
+   "from": 300,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 206,
+    "loot_revid": 1210529,
+    "evidence": "confirmed by another version",
+    "times": 14
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/elementals/knowledge_elemental.lua",
    "monster": "Knowledge Elemental",
@@ -6068,6 +6799,21 @@
    }
   },
   {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/elementals/massive_energy_elemental.lua",
+   "monster": "Massive Energy Elemental",
+   "item": "rusted armor",
+   "chance": 10189,
+   "from": 730,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 265,
+    "loot_revid": 1213002,
+    "evidence": "confirmed by another version",
+    "times": 27
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/elementals/massive_energy_elemental.lua",
    "monster": "Massive Energy Elemental",
@@ -6092,6 +6838,21 @@
     "kills": 1856,
     "loot_revid": 1210553,
     "times": 63
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/elementals/massive_fire_elemental.lua",
+   "monster": "Massive Fire Elemental",
+   "item": "rusted armor",
+   "chance": 8028,
+   "from": 1330,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 1856,
+    "loot_revid": 1210553,
+    "evidence": "confirmed by another version",
+    "times": 149
    }
   },
   {
@@ -6843,6 +7604,21 @@
    "from": 4500
   },
   {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/fey/boogy.lua",
+   "monster": "Boogy",
+   "item": "wooden spellbook",
+   "chance": 591,
+   "from": 3440,
+   "source": {
+    "version": "12.90.12182",
+    "kills": 6427,
+    "loot_revid": 1213365,
+    "evidence": "confirmed by another version",
+    "times": 38
+   }
+  },
+  {
    "kind": "add_loot",
    "file": "data-otservbr-global/monster/fey/dark_faun.lua",
    "monster": "Dark Faun",
@@ -6860,6 +7636,36 @@
    "kind": "chance",
    "file": "data-otservbr-global/monster/fey/dark_faun.lua",
    "monster": "Dark Faun",
+   "item": "cave turnip",
+   "chance": 6073,
+   "from": 55000,
+   "source": {
+    "version": "12.90.12182",
+    "kills": 7262,
+    "loot_revid": 1213366,
+    "evidence": "confirmed by another version",
+    "times": 441
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/fey/dark_faun.lua",
+   "monster": "Dark Faun",
+   "item": "dark mushroom",
+   "chance": 5178,
+   "from": 719,
+   "source": {
+    "version": "12.90.12182",
+    "kills": 7262,
+    "loot_revid": 1213366,
+    "evidence": "confirmed by another version",
+    "times": 376
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/fey/dark_faun.lua",
+   "monster": "Dark Faun",
    "item": "goat grass",
    "chance": 8620,
    "source": {
@@ -6869,6 +7675,21 @@
     "times": 626
    },
    "from": 5155
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/fey/dark_faun.lua",
+   "monster": "Dark Faun",
+   "item": "great health potion",
+   "chance": 3594,
+   "from": 591,
+   "source": {
+    "version": "12.90.12182",
+    "kills": 7262,
+    "loot_revid": 1213366,
+    "evidence": "confirmed by another version",
+    "times": 261
+   }
   },
   {
    "kind": "chance",
@@ -6902,6 +7723,36 @@
    "kind": "chance",
    "file": "data-otservbr-global/monster/fey/dark_faun.lua",
    "monster": "Dark Faun",
+   "item": "prismatic quartz",
+   "chance": 5591,
+   "from": 719,
+   "source": {
+    "version": "12.90.12182",
+    "kills": 7262,
+    "loot_revid": 1213366,
+    "evidence": "confirmed by another version",
+    "times": 406
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/fey/dark_faun.lua",
+   "monster": "Dark Faun",
+   "item": "shimmering beetles",
+   "chance": 10025,
+   "from": 492,
+   "source": {
+    "version": "12.90.12182",
+    "kills": 7262,
+    "loot_revid": 1213366,
+    "evidence": "confirmed by another version",
+    "times": 728
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/fey/dark_faun.lua",
+   "monster": "Dark Faun",
    "item": "small enchanted sapphire",
    "chance": 2341,
    "source": {
@@ -6911,6 +7762,21 @@
     "times": 170
    },
    "from": 492
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/fey/dark_faun.lua",
+   "monster": "Dark Faun",
+   "item": "small stone",
+   "chance": 4420,
+   "from": 492,
+   "source": {
+    "version": "12.90.12182",
+    "kills": 7262,
+    "loot_revid": 1213366,
+    "evidence": "confirmed by another version",
+    "times": 321
+   }
   },
   {
    "kind": "chance",
@@ -7265,6 +8131,21 @@
    "kind": "chance",
    "file": "data-otservbr-global/monster/fey/twisted_pooka.lua",
    "monster": "Twisted Pooka",
+   "item": "carrot on a stick",
+   "chance": 107,
+   "from": 20,
+   "source": {
+    "version": "12.90.12182",
+    "kills": 3751,
+    "loot_revid": 1213373,
+    "evidence": "confirmed by another version",
+    "times": 4
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/fey/twisted_pooka.lua",
+   "monster": "Twisted Pooka",
    "item": "fairy wings",
    "chance": 10344,
    "source": {
@@ -7274,6 +8155,51 @@
     "times": 388
    },
    "from": 30100
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/fey/twisted_pooka.lua",
+   "monster": "Twisted Pooka",
+   "item": "shimmering beetles",
+   "chance": 9571,
+   "from": 591,
+   "source": {
+    "version": "12.90.12182",
+    "kills": 3751,
+    "loot_revid": 1213373,
+    "evidence": "confirmed by another version",
+    "times": 359
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/fey/twisted_pooka.lua",
+   "monster": "Twisted Pooka",
+   "item": "small stone",
+   "chance": 4612,
+   "from": 200,
+   "source": {
+    "version": "12.90.12182",
+    "kills": 3751,
+    "loot_revid": 1213373,
+    "evidence": "confirmed by another version",
+    "times": 173
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/fey/twisted_pooka.lua",
+   "monster": "Twisted Pooka",
+   "item": "strong health potion",
+   "chance": 11997,
+   "from": 719,
+   "source": {
+    "version": "12.90.12182",
+    "kills": 3751,
+    "loot_revid": 1213373,
+    "evidence": "confirmed by another version",
+    "times": 450
+   }
   },
   {
    "kind": "max_count",
@@ -8119,6 +9045,17 @@
    "from": 200
   },
   {
+   "kind": "stat",
+   "file": "data-otservbr-global/monster/humanoids/elf_overseer.lua",
+   "monster": "Elf Overseer",
+   "item": "maxHealth",
+   "value": 500,
+   "from": 220,
+   "source": {
+    "revid": 1191892
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/humanoids/enslaved_dwarf.lua",
    "monster": "Enslaved Dwarf",
@@ -8365,6 +9302,17 @@
     "loot_revid": 1189206
    },
    "from": 2
+  },
+  {
+   "kind": "stat",
+   "file": "data-otservbr-global/monster/humanoids/lost_exile.lua",
+   "monster": "Lost Exile",
+   "item": "armor",
+   "value": 55,
+   "from": 20,
+   "source": {
+    "revid": 1191925
+   }
   },
   {
    "kind": "element",
@@ -8761,6 +9709,96 @@
     "revid": 1191912
    },
    "from": 25
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/humans/barbarian_skullhunter.lua",
+   "monster": "Barbarian Skullhunter",
+   "item": "brass helmet",
+   "chance": 20219,
+   "from": 2200,
+   "source": {
+    "version": "15.00.249ccc",
+    "kills": 4560,
+    "loot_revid": 1210289,
+    "evidence": "confirmed by another version",
+    "times": 922
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/humans/barbarian_skullhunter.lua",
+   "monster": "Barbarian Skullhunter",
+   "item": "health potion",
+   "chance": 789,
+   "from": 100,
+   "source": {
+    "version": "15.00.249ccc",
+    "kills": 4560,
+    "loot_revid": 1210289,
+    "evidence": "confirmed by another version",
+    "times": 36
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/humans/barbarian_skullhunter.lua",
+   "monster": "Barbarian Skullhunter",
+   "item": "knife",
+   "chance": 15044,
+   "from": 1067,
+   "source": {
+    "version": "15.00.249ccc",
+    "kills": 4560,
+    "loot_revid": 1210289,
+    "evidence": "confirmed by another version",
+    "times": 686
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/humans/barbarian_skullhunter.lua",
+   "monster": "Barbarian Skullhunter",
+   "item": "scale armor",
+   "chance": 4057,
+   "from": 440,
+   "source": {
+    "version": "15.00.249ccc",
+    "kills": 4560,
+    "loot_revid": 1210289,
+    "evidence": "confirmed by another version",
+    "times": 185
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/humans/barbarian_skullhunter.lua",
+   "monster": "Barbarian Skullhunter",
+   "item": "torch",
+   "chance": 60811,
+   "from": 6680,
+   "source": {
+    "version": "15.00.249ccc",
+    "kills": 4560,
+    "loot_revid": 1210289,
+    "evidence": "confirmed by another version",
+    "times": 2773
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/humans/barbarian_skullhunter.lua",
+   "monster": "Barbarian Skullhunter",
+   "item": "viking helmet",
+   "chance": 7982,
+   "from": 860,
+   "source": {
+    "version": "15.00.249ccc",
+    "kills": 4560,
+    "loot_revid": 1210289,
+    "evidence": "confirmed by another version",
+    "times": 364
+   }
   },
   {
    "kind": "chance",
@@ -9950,6 +10988,21 @@
    "kind": "chance",
    "file": "data-otservbr-global/monster/lycanthropes/werebadger.lua",
    "monster": "Werebadger",
+   "item": "beetroot",
+   "chance": 25727,
+   "from": 2000,
+   "source": {
+    "version": "12.90.12182",
+    "kills": 12959,
+    "loot_revid": 1212562,
+    "evidence": "confirmed by another version",
+    "times": 3334
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/lycanthropes/werebadger.lua",
+   "monster": "Werebadger",
    "item": "brown mushroom",
    "chance": 7300,
    "source": {
@@ -9973,6 +11026,21 @@
     "times": 674
    },
    "from": 2210
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/lycanthropes/werebadger.lua",
+   "monster": "Werebadger",
+   "item": "moonlight crystals",
+   "chance": 2215,
+   "from": 150,
+   "source": {
+    "version": "12.90.12182",
+    "kills": 12959,
+    "loot_revid": 1212562,
+    "evidence": "confirmed by another version",
+    "times": 287
+   }
   },
   {
    "kind": "chance",
@@ -10057,6 +11125,36 @@
     "times": 49
    },
    "from": 200
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/lycanthropes/werebadger.lua",
+   "monster": "Werebadger",
+   "item": "werebadger claws",
+   "chance": 15140,
+   "from": 950,
+   "source": {
+    "version": "12.90.12182",
+    "kills": 12959,
+    "loot_revid": 1212562,
+    "evidence": "confirmed by another version",
+    "times": 1962
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/lycanthropes/werebadger.lua",
+   "monster": "Werebadger",
+   "item": "werebadger skull",
+   "chance": 14785,
+   "from": 780,
+   "source": {
+    "version": "12.90.12182",
+    "kills": 12959,
+    "loot_revid": 1212562,
+    "evidence": "confirmed by another version",
+    "times": 1916
+   }
   },
   {
    "kind": "chance",
@@ -10147,6 +11245,51 @@
    "kind": "chance",
    "file": "data-otservbr-global/monster/lycanthropes/werebear.lua",
    "monster": "Werebear",
+   "item": "ham",
+   "chance": 12119,
+   "from": 1900,
+   "source": {
+    "version": "12.90.12182",
+    "kills": 6230,
+    "loot_revid": 1212563,
+    "evidence": "confirmed by another version",
+    "times": 755
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/lycanthropes/werebear.lua",
+   "monster": "Werebear",
+   "item": "honeycomb",
+   "chance": 2456,
+   "from": 450,
+   "source": {
+    "version": "12.90.12182",
+    "kills": 6230,
+    "loot_revid": 1212563,
+    "evidence": "confirmed by another version",
+    "times": 153
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/lycanthropes/werebear.lua",
+   "monster": "Werebear",
+   "item": "moonlight crystals",
+   "chance": 1252,
+   "from": 200,
+   "source": {
+    "version": "12.90.12182",
+    "kills": 6230,
+    "loot_revid": 1212563,
+    "evidence": "confirmed by another version",
+    "times": 78
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/lycanthropes/werebear.lua",
+   "monster": "Werebear",
    "item": "relic sword",
    "chance": 770,
    "source": {
@@ -10198,6 +11341,51 @@
     "times": 54
    },
    "from": 400
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/lycanthropes/werebear.lua",
+   "monster": "Werebear",
+   "item": "werebear fur",
+   "chance": 15120,
+   "from": 580,
+   "source": {
+    "version": "12.90.12182",
+    "kills": 6230,
+    "loot_revid": 1212563,
+    "evidence": "confirmed by another version",
+    "times": 942
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/lycanthropes/werebear.lua",
+   "monster": "Werebear",
+   "item": "werebear skull",
+   "chance": 15425,
+   "from": 560,
+   "source": {
+    "version": "12.90.12182",
+    "kills": 6230,
+    "loot_revid": 1212563,
+    "evidence": "confirmed by another version",
+    "times": 961
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/lycanthropes/werebear.lua",
+   "monster": "Werebear",
+   "item": "werewolf amulet",
+   "chance": 1140,
+   "from": 100,
+   "source": {
+    "version": "12.90.12182",
+    "kills": 6230,
+    "loot_revid": 1212563,
+    "evidence": "confirmed by another version",
+    "times": 71
+   }
   },
   {
    "kind": "max_count",
@@ -10272,6 +11460,21 @@
    "kind": "chance",
    "file": "data-otservbr-global/monster/lycanthropes/wereboar.lua",
    "monster": "Wereboar",
+   "item": "moonlight crystals",
+   "chance": 2398,
+   "from": 200,
+   "source": {
+    "version": "12.90.12182",
+    "kills": 9174,
+    "loot_revid": 1212564,
+    "evidence": "confirmed by another version",
+    "times": 220
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/lycanthropes/wereboar.lua",
+   "monster": "Wereboar",
    "item": "small enchanted ruby",
    "chance": 1515,
    "source": {
@@ -10300,6 +11503,21 @@
    "kind": "chance",
    "file": "data-otservbr-global/monster/lycanthropes/wereboar.lua",
    "monster": "Wereboar",
+   "item": "wereboar hooves",
+   "chance": 14628,
+   "from": 1900,
+   "source": {
+    "version": "12.90.12182",
+    "kills": 9174,
+    "loot_revid": 1212564,
+    "evidence": "confirmed by another version",
+    "times": 1342
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/lycanthropes/wereboar.lua",
+   "monster": "Wereboar",
    "item": "wereboar loincloth",
    "chance": 1602,
    "source": {
@@ -10309,6 +11527,21 @@
     "times": 147
    },
    "from": 950
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/lycanthropes/wereboar.lua",
+   "monster": "Wereboar",
+   "item": "wereboar tusks",
+   "chance": 14999,
+   "from": 780,
+   "source": {
+    "version": "12.90.12182",
+    "kills": 9174,
+    "loot_revid": 1212564,
+    "evidence": "confirmed by another version",
+    "times": 1376
+   }
   },
   {
    "kind": "chance",
@@ -10349,6 +11582,21 @@
     "kills": 11023,
     "loot_revid": 1212565,
     "times": 120
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/lycanthropes/werefox.lua",
+   "monster": "Werefox",
+   "item": "assassin star",
+   "chance": 3012,
+   "from": 300,
+   "source": {
+    "version": "12.90.12182",
+    "kills": 11023,
+    "loot_revid": 1212565,
+    "evidence": "confirmed by another version",
+    "times": 332
    }
   },
   {
@@ -10467,6 +11715,21 @@
    "kind": "chance",
    "file": "data-otservbr-global/monster/lycanthropes/werefox.lua",
    "monster": "Werefox",
+   "item": "troll green",
+   "chance": 4844,
+   "from": 500,
+   "source": {
+    "version": "12.90.12182",
+    "kills": 11023,
+    "loot_revid": 1212565,
+    "evidence": "confirmed by another version",
+    "times": 534
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/lycanthropes/werefox.lua",
+   "monster": "Werefox",
    "item": "werefox tail",
    "chance": 12819,
    "source": {
@@ -10476,6 +11739,36 @@
     "times": 1413
    },
    "from": 4050
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/lycanthropes/werefox.lua",
+   "monster": "Werefox",
+   "item": "werefox trophy",
+   "chance": 154,
+   "from": 30,
+   "source": {
+    "version": "12.90.12182",
+    "kills": 11023,
+    "loot_revid": 1212565,
+    "evidence": "confirmed by another version",
+    "times": 17
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/lycanthropes/werefox.lua",
+   "monster": "Werefox",
+   "item": "werewolf amulet",
+   "chance": 599,
+   "from": 50,
+   "source": {
+    "version": "12.90.12182",
+    "kills": 11023,
+    "loot_revid": 1212565,
+    "evidence": "confirmed by another version",
+    "times": 66
+   }
   },
   {
    "kind": "max_count",
@@ -10990,6 +12283,21 @@
    "kind": "chance",
    "file": "data-otservbr-global/monster/lycanthropes/werelioness.lua",
    "monster": "Werelioness",
+   "item": "ham",
+   "chance": 70786,
+   "from": 5000,
+   "source": {
+    "version": "13.22.14282",
+    "kills": 7647,
+    "loot_revid": 1213068,
+    "evidence": "confirmed by another version",
+    "times": 5413
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/lycanthropes/werelioness.lua",
+   "monster": "Werelioness",
    "item": "ivory carving",
    "chance": 2733,
    "source": {
@@ -11196,6 +12504,21 @@
    "kind": "chance",
    "file": "data-otservbr-global/monster/lycanthropes/werewolf.lua",
    "monster": "Werewolf",
+   "item": "rusted armor",
+   "chance": 8339,
+   "from": 210,
+   "source": {
+    "version": "12.90.12182",
+    "kills": 5612,
+    "loot_revid": 1212566,
+    "evidence": "confirmed by another version",
+    "times": 468
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/lycanthropes/werewolf.lua",
+   "monster": "Werewolf",
    "item": "troll green",
    "chance": 5025,
    "source": {
@@ -11348,6 +12671,51 @@
    "kind": "chance",
    "file": "data-otservbr-global/monster/magicals/animated_feather.lua",
    "monster": "Animated Feather",
+   "item": "glacier mask",
+   "chance": 7531,
+   "from": 250,
+   "source": {
+    "version": "12.31.9580",
+    "kills": 11711,
+    "loot_revid": 1206935,
+    "evidence": "single large sample",
+    "times": 882
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/animated_feather.lua",
+   "monster": "Animated Feather",
+   "item": "golden mug",
+   "chance": 2604,
+   "from": 500,
+   "source": {
+    "version": "12.31.9580",
+    "kills": 11711,
+    "loot_revid": 1206935,
+    "evidence": "single large sample",
+    "times": 305
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/animated_feather.lua",
+   "monster": "Animated Feather",
+   "item": "hailstorm rod",
+   "chance": 2528,
+   "from": 250,
+   "source": {
+    "version": "12.31.9580",
+    "kills": 11711,
+    "loot_revid": 1206935,
+    "evidence": "single large sample",
+    "times": 296
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/animated_feather.lua",
+   "monster": "Animated Feather",
    "item": "ice cube",
    "chance": 14217,
    "source": {
@@ -11371,6 +12739,36 @@
     "times": 427
    },
    "from": 8700
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/animated_feather.lua",
+   "monster": "Animated Feather",
+   "item": "quill",
+   "chance": 13492,
+   "from": 250,
+   "source": {
+    "version": "12.31.9580",
+    "kills": 11711,
+    "loot_revid": 1206935,
+    "evidence": "single large sample",
+    "times": 1580
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/animated_feather.lua",
+   "monster": "Animated Feather",
+   "item": "small diamond",
+   "chance": 4722,
+   "from": 500,
+   "source": {
+    "version": "12.31.9580",
+    "kills": 11711,
+    "loot_revid": 1206935,
+    "evidence": "single large sample",
+    "times": 553
+   }
   },
   {
    "kind": "chance",
@@ -11430,6 +12828,36 @@
    "kind": "chance",
    "file": "data-otservbr-global/monster/magicals/arachnophobica.lua",
    "monster": "Arachnophobica",
+   "item": "collar of green plasma",
+   "chance": 413,
+   "from": 10590,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 24695,
+    "loot_revid": 1211849,
+    "evidence": "confirmed by another version",
+    "times": 102
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/arachnophobica.lua",
+   "monster": "Arachnophobica",
+   "item": "collar of red plasma",
+   "chance": 1405,
+   "from": 10590,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 24695,
+    "loot_revid": 1211849,
+    "evidence": "confirmed by another version",
+    "times": 347
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/arachnophobica.lua",
+   "monster": "Arachnophobica",
    "item": "death ring",
    "chance": 1838,
    "source": {
@@ -11481,6 +12909,21 @@
     "times": 1846
    },
    "from": 15000
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/arachnophobica.lua",
+   "monster": "Arachnophobica",
+   "item": "garlic necklace",
+   "chance": 939,
+   "from": 7550,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 24695,
+    "loot_revid": 1211849,
+    "evidence": "confirmed by another version",
+    "times": 232
+   }
   },
   {
    "kind": "chance",
@@ -11570,6 +13013,21 @@
    "kind": "chance",
    "file": "data-otservbr-global/monster/magicals/arachnophobica.lua",
    "monster": "Arachnophobica",
+   "item": "platinum amulet",
+   "chance": 1486,
+   "from": 7650,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 24695,
+    "loot_revid": 1211849,
+    "evidence": "confirmed by another version",
+    "times": 367
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/arachnophobica.lua",
+   "monster": "Arachnophobica",
    "item": "power ring",
    "chance": 2409,
    "source": {
@@ -11593,6 +13051,21 @@
     "times": 310
    },
    "from": 1000
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/arachnophobica.lua",
+   "monster": "Arachnophobica",
+   "item": "ring of healing",
+   "chance": 1008,
+   "from": 9120,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 24695,
+    "loot_revid": 1211849,
+    "evidence": "confirmed by another version",
+    "times": 249
+   }
   },
   {
    "kind": "chance",
@@ -11640,6 +13113,21 @@
    "kind": "chance",
    "file": "data-otservbr-global/monster/magicals/arachnophobica.lua",
    "monster": "Arachnophobica",
+   "item": "spider silk",
+   "chance": 1251,
+   "from": 6500,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 24695,
+    "loot_revid": 1211849,
+    "evidence": "confirmed by another version",
+    "times": 309
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/arachnophobica.lua",
+   "monster": "Arachnophobica",
    "item": "strange symbol",
    "chance": 632,
    "source": {
@@ -11649,6 +13137,21 @@
     "times": 156
    },
    "from": 2640
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/arachnophobica.lua",
+   "monster": "Arachnophobica",
+   "item": "strange talisman",
+   "chance": 583,
+   "from": 8110,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 24695,
+    "loot_revid": 1211849,
+    "evidence": "confirmed by another version",
+    "times": 144
+   }
   },
   {
    "kind": "chance",
@@ -11791,6 +13294,21 @@
    "kind": "chance",
    "file": "data-otservbr-global/monster/magicals/brain_squid.lua",
    "monster": "Brain Squid",
+   "item": "blue crystal splinter",
+   "chance": 6988,
+   "from": 1200,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 7856,
+    "loot_revid": 1204337,
+    "evidence": "single large sample",
+    "times": 549
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/brain_squid.lua",
+   "monster": "Brain Squid",
    "item": "collar of blue plasma",
    "chance": 1477,
    "source": {
@@ -11833,6 +13351,111 @@
    "kind": "chance",
    "file": "data-otservbr-global/monster/magicals/brain_squid.lua",
    "monster": "Brain Squid",
+   "item": "energy ball",
+   "chance": 19603,
+   "from": 1200,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 7856,
+    "loot_revid": 1204337,
+    "evidence": "single large sample",
+    "times": 1540
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/brain_squid.lua",
+   "monster": "Brain Squid",
+   "item": "energy bar",
+   "chance": 14829,
+   "from": 1200,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 7856,
+    "loot_revid": 1204337,
+    "evidence": "single large sample",
+    "times": 1165
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/brain_squid.lua",
+   "monster": "Brain Squid",
+   "item": "energy drink",
+   "chance": 15109,
+   "from": 1200,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 7856,
+    "loot_revid": 1204337,
+    "evidence": "single large sample",
+    "times": 1187
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/brain_squid.lua",
+   "monster": "Brain Squid",
+   "item": "frozen lightning",
+   "chance": 12054,
+   "from": 1200,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 7856,
+    "loot_revid": 1204337,
+    "evidence": "single large sample",
+    "times": 947
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/brain_squid.lua",
+   "monster": "Brain Squid",
+   "item": "glowing rune",
+   "chance": 22951,
+   "from": 900,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 7856,
+    "loot_revid": 1204337,
+    "evidence": "single large sample",
+    "times": 1803
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/brain_squid.lua",
+   "monster": "Brain Squid",
+   "item": "instable proto matter",
+   "chance": 18343,
+   "from": 1200,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 7856,
+    "loot_revid": 1204337,
+    "evidence": "single large sample",
+    "times": 1441
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/brain_squid.lua",
+   "monster": "Brain Squid",
+   "item": "lightning headband",
+   "chance": 5092,
+   "from": 950,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 7856,
+    "loot_revid": 1204337,
+    "evidence": "single large sample",
+    "times": 400
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/brain_squid.lua",
+   "monster": "Brain Squid",
    "item": "lightning pendant",
    "chance": 1757,
    "source": {
@@ -11856,6 +13479,21 @@
     "times": 155
    },
    "from": 1300
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/brain_squid.lua",
+   "monster": "Brain Squid",
+   "item": "odd organ",
+   "chance": 7587,
+   "from": 1200,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 7856,
+    "loot_revid": 1204337,
+    "evidence": "single large sample",
+    "times": 596
+   }
   },
   {
    "kind": "chance",
@@ -11889,6 +13527,21 @@
    "kind": "chance",
    "file": "data-otservbr-global/monster/magicals/brain_squid.lua",
    "monster": "Brain Squid",
+   "item": "ring of red plasma",
+   "chance": 3157,
+   "from": 560,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 7856,
+    "loot_revid": 1204337,
+    "evidence": "single large sample",
+    "times": 248
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/brain_squid.lua",
+   "monster": "Brain Squid",
    "item": "slime heart",
    "chance": 1706,
    "source": {
@@ -11912,6 +13565,36 @@
     "times": 466
    },
    "from": 1200
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/brain_squid.lua",
+   "monster": "Brain Squid",
+   "item": "ultimate mana potion",
+   "chance": 11991,
+   "from": 1200,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 7856,
+    "loot_revid": 1204337,
+    "evidence": "single large sample",
+    "times": 942
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/brain_squid.lua",
+   "monster": "Brain Squid",
+   "item": "violet crystal shard",
+   "chance": 33796,
+   "from": 900,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 7856,
+    "loot_revid": 1204337,
+    "evidence": "single large sample",
+    "times": 2655
+   }
   },
   {
    "kind": "chance",
@@ -11984,6 +13667,21 @@
    "kind": "chance",
    "file": "data-otservbr-global/monster/magicals/burning_book.lua",
    "monster": "Burning Book",
+   "item": "book page",
+   "chance": 49001,
+   "from": 3000,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 41285,
+    "loot_revid": 1210426,
+    "evidence": "single large sample",
+    "times": 20230
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/burning_book.lua",
+   "monster": "Burning Book",
    "item": "death ring",
    "chance": 2308,
    "source": {
@@ -11993,6 +13691,66 @@
     "times": 953
    },
    "from": 1200
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/burning_book.lua",
+   "monster": "Burning Book",
+   "item": "demonic essence",
+   "chance": 18925,
+   "from": 3000,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 41285,
+    "loot_revid": 1210426,
+    "evidence": "single large sample",
+    "times": 7813
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/burning_book.lua",
+   "monster": "Burning Book",
+   "item": "flask of demonic blood",
+   "chance": 41817,
+   "from": 3000,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 41285,
+    "loot_revid": 1210426,
+    "evidence": "single large sample",
+    "times": 17264
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/burning_book.lua",
+   "monster": "Burning Book",
+   "item": "guardian shield",
+   "chance": 9357,
+   "from": 1500,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 41285,
+    "loot_revid": 1210426,
+    "evidence": "single large sample",
+    "times": 3863
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/burning_book.lua",
+   "monster": "Burning Book",
+   "item": "magma coat",
+   "chance": 11871,
+   "from": 2000,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 41285,
+    "loot_revid": 1210426,
+    "evidence": "single large sample",
+    "times": 4901
+   }
   },
   {
    "kind": "chance",
@@ -12021,6 +13779,36 @@
     "times": 1833
    },
    "from": 3000
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/burning_book.lua",
+   "monster": "Burning Book",
+   "item": "shadow sceptre",
+   "chance": 409,
+   "from": 8990,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 41285,
+    "loot_revid": 1210426,
+    "evidence": "single large sample",
+    "times": 169
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/burning_book.lua",
+   "monster": "Burning Book",
+   "item": "silken bookmark",
+   "chance": 19700,
+   "from": 2000,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 41285,
+    "loot_revid": 1210426,
+    "evidence": "single large sample",
+    "times": 8133
+   }
   },
   {
    "kind": "chance",
@@ -12213,6 +14001,21 @@
     "times": 396
    },
    "from": 6000
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/choking_fear.lua",
+   "monster": "Choking Fear",
+   "item": "cluster of solace",
+   "chance": 375,
+   "from": 4620,
+   "source": {
+    "version": "15.32.87b266",
+    "kills": 9598,
+    "loot_revid": 1213416,
+    "evidence": "confirmed by another version",
+    "times": 36
+   }
   },
   {
    "kind": "chance",
@@ -12441,6 +14244,51 @@
    "kind": "chance",
    "file": "data-otservbr-global/monster/magicals/cursed_book.lua",
    "monster": "Cursed Book",
+   "item": "book page",
+   "chance": 64483,
+   "from": 10000,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 4350,
+    "loot_revid": 1196775,
+    "evidence": "single large sample",
+    "times": 2805
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/cursed_book.lua",
+   "monster": "Cursed Book",
+   "item": "diamond sceptre",
+   "chance": 6391,
+   "from": 600,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 4350,
+    "loot_revid": 1196775,
+    "evidence": "single large sample",
+    "times": 278
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/cursed_book.lua",
+   "monster": "Cursed Book",
+   "item": "sacred tree amulet",
+   "chance": 1954,
+   "from": 350,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 4350,
+    "loot_revid": 1196775,
+    "evidence": "single large sample",
+    "times": 85
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/cursed_book.lua",
+   "monster": "Cursed Book",
    "item": "silken bookmark",
    "chance": 37241,
    "source": {
@@ -12506,6 +14354,66 @@
     "times": 32
    },
    "from": 350
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/cursed_book.lua",
+   "monster": "Cursed Book",
+   "item": "stone skin amulet",
+   "chance": 2138,
+   "from": 350,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 4350,
+    "loot_revid": 1196775,
+    "evidence": "single large sample",
+    "times": 93
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/cursed_book.lua",
+   "monster": "Cursed Book",
+   "item": "terra amulet",
+   "chance": 4046,
+   "from": 500,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 4350,
+    "loot_revid": 1196775,
+    "evidence": "single large sample",
+    "times": 176
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/cursed_book.lua",
+   "monster": "Cursed Book",
+   "item": "terra boots",
+   "chance": 5172,
+   "from": 350,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 4350,
+    "loot_revid": 1196775,
+    "evidence": "single large sample",
+    "times": 225
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/cursed_book.lua",
+   "monster": "Cursed Book",
+   "item": "terra hood",
+   "chance": 3931,
+   "from": 600,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 4350,
+    "loot_revid": 1196775,
+    "evidence": "single large sample",
+    "times": 171
+   }
   },
   {
    "kind": "chance",
@@ -12627,6 +14535,96 @@
    "from": 86
   },
   {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/energetic_book.lua",
+   "monster": "Energetic Book",
+   "item": "book page",
+   "chance": 49490,
+   "from": 900,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 196,
+    "loot_revid": 1210476,
+    "evidence": "confirmed by another version",
+    "times": 97
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/energetic_book.lua",
+   "monster": "Energetic Book",
+   "item": "energy ball",
+   "chance": 10714,
+   "from": 900,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 196,
+    "loot_revid": 1210476,
+    "evidence": "confirmed by another version",
+    "times": 21
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/energetic_book.lua",
+   "monster": "Energetic Book",
+   "item": "glowing rune",
+   "chance": 67347,
+   "from": 900,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 196,
+    "loot_revid": 1210476,
+    "evidence": "confirmed by another version",
+    "times": 132
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/energetic_book.lua",
+   "monster": "Energetic Book",
+   "item": "lightning pendant",
+   "chance": 3571,
+   "from": 500,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 196,
+    "loot_revid": 1210476,
+    "evidence": "confirmed by another version",
+    "times": 7
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/energetic_book.lua",
+   "monster": "Energetic Book",
+   "item": "silken bookmark",
+   "chance": 13776,
+   "from": 800,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 196,
+    "loot_revid": 1210476,
+    "evidence": "confirmed by another version",
+    "times": 27
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/energetic_book.lua",
+   "monster": "Energetic Book",
+   "item": "wand of defiance",
+   "chance": 2551,
+   "from": 350,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 196,
+    "loot_revid": 1210476,
+    "evidence": "confirmed by another version",
+    "times": 5
+   }
+  },
+  {
    "kind": "add_loot",
    "file": "data-otservbr-global/monster/magicals/energuardian_of_tales.lua",
    "monster": "Energuardian of Tales",
@@ -12714,6 +14712,21 @@
    "kind": "chance",
    "file": "data-otservbr-global/monster/magicals/energuardian_of_tales.lua",
    "monster": "Energuardian of Tales",
+   "item": "book page",
+   "chance": 58051,
+   "from": 10000,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 8558,
+    "loot_revid": 1204402,
+    "evidence": "single large sample",
+    "times": 4968
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/energuardian_of_tales.lua",
+   "monster": "Energuardian of Tales",
    "item": "flash arrow",
    "chance": 7525,
    "source": {
@@ -12742,6 +14755,51 @@
    "kind": "chance",
    "file": "data-otservbr-global/monster/magicals/energuardian_of_tales.lua",
    "monster": "Energuardian of Tales",
+   "item": "lightning legs",
+   "chance": 7642,
+   "from": 250,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 8558,
+    "loot_revid": 1204402,
+    "evidence": "single large sample",
+    "times": 654
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/energuardian_of_tales.lua",
+   "monster": "Energuardian of Tales",
+   "item": "small amethyst",
+   "chance": 55807,
+   "from": 10000,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 8558,
+    "loot_revid": 1204402,
+    "evidence": "single large sample",
+    "times": 4776
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/energuardian_of_tales.lua",
+   "monster": "Energuardian of Tales",
+   "item": "spellbook of warding",
+   "chance": 9231,
+   "from": 350,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 8558,
+    "loot_revid": 1204402,
+    "evidence": "single large sample",
+    "times": 790
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/energuardian_of_tales.lua",
+   "monster": "Energuardian of Tales",
    "item": "ultimate health potion",
    "chance": 13204,
    "source": {
@@ -12751,6 +14809,21 @@
     "times": 1130
    },
    "from": 10000
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/energuardian_of_tales.lua",
+   "monster": "Energuardian of Tales",
+   "item": "wand of starstorm",
+   "chance": 6988,
+   "from": 300,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 8558,
+    "loot_revid": 1204402,
+    "evidence": "single large sample",
+    "times": 598
+   }
   },
   {
    "kind": "max_count",
@@ -13064,6 +15137,21 @@
     "times": 1371
    },
    "from": 16000
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/frazzlemaw.lua",
+   "monster": "Frazzlemaw",
+   "item": "cluster of solace",
+   "chance": 372,
+   "from": 4450,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 11574,
+    "loot_revid": 1213417,
+    "evidence": "confirmed by another version",
+    "times": 43
+   }
   },
   {
    "kind": "chance",
@@ -13400,6 +15488,36 @@
    "kind": "chance",
    "file": "data-otservbr-global/monster/magicals/guardian_of_tales.lua",
    "monster": "Guardian of Tales",
+   "item": "fire axe",
+   "chance": 4047,
+   "from": 250,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 7833,
+    "loot_revid": 1207071,
+    "evidence": "single large sample",
+    "times": 317
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/guardian_of_tales.lua",
+   "monster": "Guardian of Tales",
+   "item": "fire sword",
+   "chance": 1353,
+   "from": 250,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 7833,
+    "loot_revid": 1207071,
+    "evidence": "single large sample",
+    "times": 106
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/guardian_of_tales.lua",
+   "monster": "Guardian of Tales",
    "item": "glowing rune",
    "chance": 38797,
    "source": {
@@ -13437,6 +15555,81 @@
     "times": 83
    },
    "from": 250
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/guardian_of_tales.lua",
+   "monster": "Guardian of Tales",
+   "item": "piece of hellfire armor",
+   "chance": 4570,
+   "from": 500,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 7833,
+    "loot_revid": 1207071,
+    "evidence": "single large sample",
+    "times": 358
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/guardian_of_tales.lua",
+   "monster": "Guardian of Tales",
+   "item": "small diamond",
+   "chance": 57347,
+   "from": 10000,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 7833,
+    "loot_revid": 1207071,
+    "evidence": "single large sample",
+    "times": 4492
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/guardian_of_tales.lua",
+   "monster": "Guardian of Tales",
+   "item": "soul orb",
+   "chance": 9243,
+   "from": 260,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 7833,
+    "loot_revid": 1207071,
+    "evidence": "single large sample",
+    "times": 724
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/guardian_of_tales.lua",
+   "monster": "Guardian of Tales",
+   "item": "spellbook of warding",
+   "chance": 5030,
+   "from": 250,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 7833,
+    "loot_revid": 1207071,
+    "evidence": "single large sample",
+    "times": 394
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/guardian_of_tales.lua",
+   "monster": "Guardian of Tales",
+   "item": "wand of inferno",
+   "chance": 8720,
+   "from": 250,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 7833,
+    "loot_revid": 1207071,
+    "evidence": "single large sample",
+    "times": 683
+   }
   },
   {
    "kind": "max_count",
@@ -13505,6 +15698,21 @@
     "times": 376
    },
    "from": 12000
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/guzzlemaw.lua",
+   "monster": "Guzzlemaw",
+   "item": "cluster of solace",
+   "chance": 854,
+   "from": 8920,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 4683,
+    "loot_revid": 1213418,
+    "evidence": "confirmed by another version",
+    "times": 40
+   }
   },
   {
    "kind": "chance",
@@ -13748,6 +15956,21 @@
    "kind": "chance",
    "file": "data-otservbr-global/monster/magicals/icecold_book.lua",
    "monster": "Icecold Book",
+   "item": "crystal mace",
+   "chance": 2678,
+   "from": 250,
+   "source": {
+    "version": "12.31.9580",
+    "kills": 13780,
+    "loot_revid": 1207086,
+    "evidence": "single large sample",
+    "times": 369
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/icecold_book.lua",
+   "monster": "Icecold Book",
    "item": "crystalline armor",
    "chance": 856,
    "source": {
@@ -13762,6 +15985,36 @@
    "kind": "chance",
    "file": "data-otservbr-global/monster/magicals/icecold_book.lua",
    "monster": "Icecold Book",
+   "item": "diamond sceptre",
+   "chance": 6437,
+   "from": 100000,
+   "source": {
+    "version": "12.31.9580",
+    "kills": 13780,
+    "loot_revid": 1207086,
+    "evidence": "single large sample",
+    "times": 887
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/icecold_book.lua",
+   "monster": "Icecold Book",
+   "item": "frosty heart",
+   "chance": 12685,
+   "from": 100000,
+   "source": {
+    "version": "12.31.9580",
+    "kills": 13780,
+    "loot_revid": 1207086,
+    "evidence": "single large sample",
+    "times": 1748
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/icecold_book.lua",
+   "monster": "Icecold Book",
    "item": "glacial rod",
    "chance": 653,
    "source": {
@@ -13771,6 +16024,141 @@
     "times": 90
    },
    "from": 150
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/icecold_book.lua",
+   "monster": "Icecold Book",
+   "item": "glacier kilt",
+   "chance": 4731,
+   "from": 250,
+   "source": {
+    "version": "12.31.9580",
+    "kills": 13780,
+    "loot_revid": 1207086,
+    "evidence": "single large sample",
+    "times": 652
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/icecold_book.lua",
+   "monster": "Icecold Book",
+   "item": "glacier mask",
+   "chance": 13708,
+   "from": 350,
+   "source": {
+    "version": "12.31.9580",
+    "kills": 13780,
+    "loot_revid": 1207086,
+    "evidence": "single large sample",
+    "times": 1889
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/icecold_book.lua",
+   "monster": "Icecold Book",
+   "item": "glacier robe",
+   "chance": 1756,
+   "from": 250,
+   "source": {
+    "version": "12.31.9580",
+    "kills": 13780,
+    "loot_revid": 1207086,
+    "evidence": "single large sample",
+    "times": 242
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/icecold_book.lua",
+   "monster": "Icecold Book",
+   "item": "glacier shoes",
+   "chance": 3447,
+   "from": 350,
+   "source": {
+    "version": "12.31.9580",
+    "kills": 13780,
+    "loot_revid": 1207086,
+    "evidence": "single large sample",
+    "times": 475
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/icecold_book.lua",
+   "monster": "Icecold Book",
+   "item": "ice cube",
+   "chance": 4724,
+   "from": 100000,
+   "source": {
+    "version": "12.31.9580",
+    "kills": 13780,
+    "loot_revid": 1207086,
+    "evidence": "single large sample",
+    "times": 651
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/icecold_book.lua",
+   "monster": "Icecold Book",
+   "item": "ice rapier",
+   "chance": 21205,
+   "from": 250,
+   "source": {
+    "version": "12.31.9580",
+    "kills": 13780,
+    "loot_revid": 1207086,
+    "evidence": "single large sample",
+    "times": 2922
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/icecold_book.lua",
+   "monster": "Icecold Book",
+   "item": "quill",
+   "chance": 18258,
+   "from": 100000,
+   "source": {
+    "version": "12.31.9580",
+    "kills": 13780,
+    "loot_revid": 1207086,
+    "evidence": "single large sample",
+    "times": 2516
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/icecold_book.lua",
+   "monster": "Icecold Book",
+   "item": "sapphire hammer",
+   "chance": 1742,
+   "from": 300,
+   "source": {
+    "version": "12.31.9580",
+    "kills": 13780,
+    "loot_revid": 1207086,
+    "evidence": "single large sample",
+    "times": 240
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/icecold_book.lua",
+   "monster": "Icecold Book",
+   "item": "silken bookmark",
+   "chance": 17250,
+   "from": 100000,
+   "source": {
+    "version": "12.31.9580",
+    "kills": 13780,
+    "loot_revid": 1207086,
+    "evidence": "single large sample",
+    "times": 2377
+   }
   },
   {
    "kind": "chance",
@@ -13813,6 +16201,21 @@
     "times": 230
    },
    "from": 1000
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/icecold_book.lua",
+   "monster": "Icecold Book",
+   "item": "ultimate health potion",
+   "chance": 18585,
+   "from": 100000,
+   "source": {
+    "version": "12.31.9580",
+    "kills": 13780,
+    "loot_revid": 1207086,
+    "evidence": "single large sample",
+    "times": 2561
+   }
   },
   {
    "kind": "chance",
@@ -13868,6 +16271,21 @@
     "times": 71
    },
    "from": 530
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/juvenile_bashmu.lua",
+   "monster": "Juvenile Bashmu",
+   "item": "ultimate health potion",
+   "chance": 10575,
+   "from": 1300,
+   "source": {
+    "version": "12.71.11017",
+    "kills": 8293,
+    "loot_revid": 1213551,
+    "evidence": "confirmed by another version",
+    "times": 877
+   }
   },
   {
    "kind": "add_loot",
@@ -14142,6 +16560,21 @@
    "from": 70
   },
   {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/menacing_carnivor.lua",
+   "monster": "Menacing Carnivor",
+   "item": "violet glass plate",
+   "chance": 6396,
+   "from": 691,
+   "source": {
+    "version": "12.31",
+    "kills": 4190,
+    "loot_revid": 1209982,
+    "evidence": "confirmed by another version",
+    "times": 268
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/magicals/midnight_panther.lua",
    "monster": "Midnight Panther",
@@ -14272,6 +16705,21 @@
    "kind": "chance",
    "file": "data-otservbr-global/monster/magicals/rage_squid.lua",
    "monster": "Rage Squid",
+   "item": "demon shield",
+   "chance": 2078,
+   "from": 250,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 42725,
+    "loot_revid": 1210600,
+    "evidence": "single large sample",
+    "times": 888
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/rage_squid.lua",
+   "monster": "Rage Squid",
    "item": "demonic essence",
    "chance": 7342,
    "source": {
@@ -14300,6 +16748,36 @@
    "kind": "chance",
    "file": "data-otservbr-global/monster/magicals/rage_squid.lua",
    "monster": "Rage Squid",
+   "item": "devil helmet",
+   "chance": 845,
+   "from": 6990,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 42725,
+    "loot_revid": 1210600,
+    "evidence": "single large sample",
+    "times": 361
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/rage_squid.lua",
+   "monster": "Rage Squid",
+   "item": "fire axe",
+   "chance": 6004,
+   "from": 500,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 42725,
+    "loot_revid": 1210600,
+    "evidence": "single large sample",
+    "times": 2565
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/rage_squid.lua",
+   "monster": "Rage Squid",
    "item": "fire mushroom",
    "chance": 15050,
    "source": {
@@ -14309,6 +16787,21 @@
     "times": 6430
    },
    "from": 10000
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/rage_squid.lua",
+   "monster": "Rage Squid",
+   "item": "giant sword",
+   "chance": 2205,
+   "from": 250,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 42725,
+    "loot_revid": 1210600,
+    "evidence": "single large sample",
+    "times": 942
+   }
   },
   {
    "kind": "chance",
@@ -14384,6 +16877,21 @@
    "kind": "chance",
    "file": "data-otservbr-global/monster/magicals/rage_squid.lua",
    "monster": "Rage Squid",
+   "item": "orb",
+   "chance": 2146,
+   "from": 66000,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 42725,
+    "loot_revid": 1210600,
+    "evidence": "single large sample",
+    "times": 917
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/rage_squid.lua",
+   "monster": "Rage Squid",
    "item": "piece of dead brain",
    "chance": 1098,
    "source": {
@@ -14398,6 +16906,36 @@
    "kind": "chance",
    "file": "data-otservbr-global/monster/magicals/rage_squid.lua",
    "monster": "Rage Squid",
+   "item": "platinum amulet",
+   "chance": 2036,
+   "from": 350,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 42725,
+    "loot_revid": 1210600,
+    "evidence": "single large sample",
+    "times": 870
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/rage_squid.lua",
+   "monster": "Rage Squid",
+   "item": "purple tome",
+   "chance": 1042,
+   "from": 6333,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 42725,
+    "loot_revid": 1210600,
+    "evidence": "single large sample",
+    "times": 445
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/rage_squid.lua",
+   "monster": "Rage Squid",
    "item": "red gem",
    "chance": 2214,
    "source": {
@@ -14407,6 +16945,66 @@
     "times": 946
    },
    "from": 9800
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/rage_squid.lua",
+   "monster": "Rage Squid",
+   "item": "small amethyst",
+   "chance": 7469,
+   "from": 90000,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 42725,
+    "loot_revid": 1210600,
+    "evidence": "single large sample",
+    "times": 3191
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/rage_squid.lua",
+   "monster": "Rage Squid",
+   "item": "small emerald",
+   "chance": 7693,
+   "from": 90000,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 42725,
+    "loot_revid": 1210600,
+    "evidence": "single large sample",
+    "times": 3287
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/rage_squid.lua",
+   "monster": "Rage Squid",
+   "item": "small ruby",
+   "chance": 7375,
+   "from": 90000,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 42725,
+    "loot_revid": 1210600,
+    "evidence": "single large sample",
+    "times": 3151
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/rage_squid.lua",
+   "monster": "Rage Squid",
+   "item": "small topaz",
+   "chance": 7707,
+   "from": 90000,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 42725,
+    "loot_revid": 1210600,
+    "evidence": "single large sample",
+    "times": 3293
+   }
   },
   {
    "kind": "chance",
@@ -14669,6 +17267,17 @@
    "from": 20
   },
   {
+   "kind": "stat",
+   "file": "data-otservbr-global/monster/magicals/retching_horror.lua",
+   "monster": "Retching Horror",
+   "item": "armor",
+   "value": 74,
+   "from": 30,
+   "source": {
+    "revid": 1204869
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/magicals/rorc.lua",
    "monster": "Rorc",
@@ -14691,6 +17300,17 @@
     "revid": 1192015
    },
    "from": 25
+  },
+  {
+   "kind": "stat",
+   "file": "data-otservbr-global/monster/magicals/shock_head.lua",
+   "monster": "Shock Head",
+   "item": "armor",
+   "value": 78,
+   "from": 30,
+   "source": {
+    "revid": 1192017
+   }
   },
   {
    "kind": "max_count",
@@ -14717,6 +17337,21 @@
     "loot_revid": 1213419
    },
    "from": 15
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/silencer.lua",
+   "monster": "Silencer",
+   "item": "cluster of solace",
+   "chance": 614,
+   "from": 4560,
+   "source": {
+    "version": "12.31.9471",
+    "kills": 13836,
+    "loot_revid": 1213420,
+    "evidence": "confirmed by another version",
+    "times": 85
+   }
   },
   {
    "kind": "chance",
@@ -15010,6 +17645,21 @@
    "kind": "chance",
    "file": "data-otservbr-global/monster/magicals/squid_warden.lua",
    "monster": "Squid Warden",
+   "item": "crystal sword",
+   "chance": 4584,
+   "from": 300,
+   "source": {
+    "version": "12.31.9580",
+    "kills": 11584,
+    "loot_revid": 1207234,
+    "evidence": "single large sample",
+    "times": 531
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/squid_warden.lua",
+   "monster": "Squid Warden",
    "item": "frosty heart",
    "chance": 22436,
    "source": {
@@ -15024,6 +17674,66 @@
    "kind": "chance",
    "file": "data-otservbr-global/monster/magicals/squid_warden.lua",
    "monster": "Squid Warden",
+   "item": "glacier kilt",
+   "chance": 2711,
+   "from": 150,
+   "source": {
+    "version": "12.31.9580",
+    "kills": 11584,
+    "loot_revid": 1207234,
+    "evidence": "single large sample",
+    "times": 314
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/squid_warden.lua",
+   "monster": "Squid Warden",
+   "item": "glacier mask",
+   "chance": 8123,
+   "from": 400,
+   "source": {
+    "version": "12.31.9580",
+    "kills": 11584,
+    "loot_revid": 1207234,
+    "evidence": "single large sample",
+    "times": 941
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/squid_warden.lua",
+   "monster": "Squid Warden",
+   "item": "glacier robe",
+   "chance": 2288,
+   "from": 150,
+   "source": {
+    "version": "12.31.9580",
+    "kills": 11584,
+    "loot_revid": 1207234,
+    "evidence": "single large sample",
+    "times": 265
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/squid_warden.lua",
+   "monster": "Squid Warden",
+   "item": "glowing rune",
+   "chance": 36024,
+   "from": 800,
+   "source": {
+    "version": "12.31.9580",
+    "kills": 11584,
+    "loot_revid": 1207234,
+    "evidence": "single large sample",
+    "times": 4173
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/squid_warden.lua",
+   "monster": "Squid Warden",
    "item": "ice cube",
    "chance": 13795,
    "source": {
@@ -15033,6 +17743,21 @@
     "times": 1598
    },
    "from": 20000
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/squid_warden.lua",
+   "monster": "Squid Warden",
+   "item": "ice rapier",
+   "chance": 5318,
+   "from": 500,
+   "source": {
+    "version": "12.31.9580",
+    "kills": 11584,
+    "loot_revid": 1207234,
+    "evidence": "single large sample",
+    "times": 616
+   }
   },
   {
    "kind": "chance",
@@ -15061,6 +17786,21 @@
     "times": 482
    },
    "from": 10002
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/squid_warden.lua",
+   "monster": "Squid Warden",
+   "item": "small sapphire",
+   "chance": 67947,
+   "from": 900,
+   "source": {
+    "version": "12.31.9580",
+    "kills": 11584,
+    "loot_revid": 1207234,
+    "evidence": "single large sample",
+    "times": 7871
+   }
   },
   {
    "kind": "chance",
@@ -15293,6 +18033,21 @@
    "kind": "chance",
    "file": "data-otservbr-global/monster/magicals/thanatursus.lua",
    "monster": "Thanatursus",
+   "item": "beastslayer axe",
+   "chance": 4102,
+   "from": 500,
+   "source": {
+    "version": "12.00",
+    "kills": 10165,
+    "loot_revid": 1211670,
+    "evidence": "single large sample",
+    "times": 417
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/thanatursus.lua",
+   "monster": "Thanatursus",
    "item": "bloody pincers",
    "chance": 1849,
    "source": {
@@ -15330,6 +18085,21 @@
     "times": 1289
    },
    "from": 17000
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/thanatursus.lua",
+   "monster": "Thanatursus",
+   "item": "great spirit potion",
+   "chance": 6355,
+   "from": 50000,
+   "source": {
+    "version": "12.00",
+    "kills": 10165,
+    "loot_revid": 1211670,
+    "evidence": "single large sample",
+    "times": 646
+   }
   },
   {
    "kind": "chance",
@@ -15433,6 +18203,36 @@
    "kind": "chance",
    "file": "data-otservbr-global/monster/magicals/thanatursus.lua",
    "monster": "Thanatursus",
+   "item": "ultimate health potion",
+   "chance": 8608,
+   "from": 50000,
+   "source": {
+    "version": "12.00",
+    "kills": 10165,
+    "loot_revid": 1211670,
+    "evidence": "single large sample",
+    "times": 875
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/thanatursus.lua",
+   "monster": "Thanatursus",
+   "item": "wand of cosmic energy",
+   "chance": 4191,
+   "from": 400,
+   "source": {
+    "version": "12.00",
+    "kills": 10165,
+    "loot_revid": 1211670,
+    "evidence": "single large sample",
+    "times": 426
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/thanatursus.lua",
+   "monster": "Thanatursus",
    "item": "wand of defiance",
    "chance": 1623,
    "source": {
@@ -15456,6 +18256,21 @@
     "times": 180
    },
    "from": 400
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/thanatursus.lua",
+   "monster": "Thanatursus",
+   "item": "warrior's shield",
+   "chance": 2981,
+   "from": 400,
+   "source": {
+    "version": "12.00",
+    "kills": 10165,
+    "loot_revid": 1211670,
+    "evidence": "single large sample",
+    "times": 303
+   }
   },
   {
    "kind": "max_count",
@@ -15485,6 +18300,21 @@
    }
   },
   {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/weakened_frazzlemaw.lua",
+   "monster": "Weakened Frazzlemaw",
+   "item": "cluster of solace",
+   "chance": 154,
+   "from": 1200,
+   "source": {
+    "version": "12.90.12182",
+    "kills": 26683,
+    "loot_revid": 1211909,
+    "evidence": "confirmed by another version",
+    "times": 41
+   }
+  },
+  {
    "kind": "immunity",
    "file": "data-otservbr-global/monster/mammals/crystal_wolf.lua",
    "monster": "Crystal Wolf",
@@ -15507,6 +18337,17 @@
     "loot_revid": 1130124
    },
    "from": 52
+  },
+  {
+   "kind": "stat",
+   "file": "data-otservbr-global/monster/mammals/dog.lua",
+   "monster": "Dog",
+   "item": "armor",
+   "value": 1,
+   "from": 5,
+   "source": {
+    "revid": 1192056
+   }
   },
   {
    "kind": "immunity",
@@ -15584,6 +18425,17 @@
     "revid": 1192101
    },
    "from": true
+  },
+  {
+   "kind": "stat",
+   "file": "data-otservbr-global/monster/mammals/fox.lua",
+   "monster": "Fox",
+   "item": "armor",
+   "value": 2,
+   "from": 20,
+   "source": {
+    "revid": 1192101
+   }
   },
   {
    "kind": "add_loot",
@@ -15909,6 +18761,28 @@
    "from": 1
   },
   {
+   "kind": "stat",
+   "file": "data-otservbr-global/monster/mammals/white_tiger.lua",
+   "monster": "White Tiger",
+   "item": "armor",
+   "value": 12,
+   "from": 5,
+   "source": {
+    "revid": 1192110
+   }
+  },
+  {
+   "kind": "stat",
+   "file": "data-otservbr-global/monster/mammals/wild_horse.lua",
+   "monster": "Wild Horse",
+   "item": "armor",
+   "value": 2,
+   "from": 10,
+   "source": {
+    "revid": 1192089
+   }
+  },
+  {
    "kind": "immunity",
    "file": "data-otservbr-global/monster/mammals/yeti.lua",
    "monster": "Yeti",
@@ -15965,6 +18839,36 @@
    "kind": "chance",
    "file": "data-otservbr-global/monster/plants/glooth_anemone.lua",
    "monster": "Glooth Anemone",
+   "item": "glooth blade",
+   "chance": 924,
+   "from": 120,
+   "source": {
+    "version": "12.31",
+    "kills": 27711,
+    "loot_revid": 1211874,
+    "evidence": "confirmed by another version",
+    "times": 256
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/plants/glooth_anemone.lua",
+   "monster": "Glooth Anemone",
+   "item": "glooth cape",
+   "chance": 769,
+   "from": 140,
+   "source": {
+    "version": "12.31",
+    "kills": 27711,
+    "loot_revid": 1211874,
+    "evidence": "confirmed by another version",
+    "times": 213
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/plants/glooth_anemone.lua",
+   "monster": "Glooth Anemone",
    "item": "glooth club",
    "chance": 1003,
    "source": {
@@ -15993,6 +18897,36 @@
    "kind": "chance",
    "file": "data-otservbr-global/monster/plants/glooth_anemone.lua",
    "monster": "Glooth Anemone",
+   "item": "glooth whip",
+   "chance": 4038,
+   "from": 700,
+   "source": {
+    "version": "12.31",
+    "kills": 27711,
+    "loot_revid": 1211874,
+    "evidence": "confirmed by another version",
+    "times": 1119
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/plants/glooth_anemone.lua",
+   "monster": "Glooth Anemone",
+   "item": "slimy leaf tentacle",
+   "chance": 18285,
+   "from": 2020,
+   "source": {
+    "version": "12.31",
+    "kills": 27711,
+    "loot_revid": 1211874,
+    "evidence": "confirmed by another version",
+    "times": 5067
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/plants/glooth_anemone.lua",
+   "monster": "Glooth Anemone",
    "item": "small emerald",
    "chance": 7932,
    "source": {
@@ -16002,6 +18936,36 @@
     "times": 2198
    },
    "from": 1600
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/plants/glooth_anemone.lua",
+   "monster": "Glooth Anemone",
+   "item": "small ruby",
+   "chance": 7809,
+   "from": 1150,
+   "source": {
+    "version": "12.31",
+    "kills": 27711,
+    "loot_revid": 1211874,
+    "evidence": "confirmed by another version",
+    "times": 2164
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/plants/glooth_anemone.lua",
+   "monster": "Glooth Anemone",
+   "item": "small topaz",
+   "chance": 8040,
+   "from": 1240,
+   "source": {
+    "version": "12.31",
+    "kills": 27711,
+    "loot_revid": 1211874,
+    "evidence": "confirmed by another version",
+    "times": 2228
+   }
   },
   {
    "kind": "chance",
@@ -16509,6 +19473,17 @@
    "from": 80
   },
   {
+   "kind": "stat",
+   "file": "data-otservbr-global/monster/quests/ancient_tombs/mahrdis.lua",
+   "monster": "Mahrdis",
+   "item": "armor",
+   "value": 42,
+   "from": 20,
+   "source": {
+    "revid": 1181288
+   }
+  },
+  {
    "kind": "element",
    "file": "data-otservbr-global/monster/quests/ancient_tombs/morguthis.lua",
    "monster": "Morguthis",
@@ -16564,6 +19539,17 @@
     "loot_revid": 1178906
    },
    "from": 80
+  },
+  {
+   "kind": "stat",
+   "file": "data-otservbr-global/monster/quests/ancient_tombs/morguthis.lua",
+   "monster": "Morguthis",
+   "item": "armor",
+   "value": 75,
+   "from": 35,
+   "source": {
+    "revid": 1181619
+   }
   },
   {
    "kind": "element",
@@ -16671,6 +19657,17 @@
     "loot_revid": 1201484
    },
    "from": 3
+  },
+  {
+   "kind": "stat",
+   "file": "data-otservbr-global/monster/quests/ancient_tombs/omruc.lua",
+   "monster": "Omruc",
+   "item": "armor",
+   "value": 60,
+   "from": 20,
+   "source": {
+    "revid": 1181609
+   }
   },
   {
    "kind": "element",
@@ -17542,6 +20539,36 @@
    "kind": "chance",
    "file": "data-otservbr-global/monster/quests/rotten_blood/bloated_man-maggot.lua",
    "monster": "Bloated Man-Maggot",
+   "item": "blue gem",
+   "chance": 1085,
+   "from": 7808,
+   "source": {
+    "version": "15.32.87b266",
+    "kills": 553,
+    "loot_revid": 1206607,
+    "evidence": "confirmed by another version",
+    "times": 6
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/quests/rotten_blood/bloated_man-maggot.lua",
+   "monster": "Bloated Man-Maggot",
+   "item": "butcher's axe",
+   "chance": 1266,
+   "from": 7967,
+   "source": {
+    "version": "15.32.87b266",
+    "kills": 553,
+    "loot_revid": 1206607,
+    "evidence": "confirmed by another version",
+    "times": 7
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/quests/rotten_blood/bloated_man-maggot.lua",
+   "monster": "Bloated Man-Maggot",
    "item": "organic acid",
    "chance": 25859,
    "source": {
@@ -17565,6 +20592,21 @@
     "times": 22
    },
    "from": 8637
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/quests/rotten_blood/bloated_man-maggot.lua",
+   "monster": "Bloated Man-Maggot",
+   "item": "violet gem",
+   "chance": 542,
+   "from": 7084,
+   "source": {
+    "version": "15.32.87b266",
+    "kills": 553,
+    "loot_revid": 1206607,
+    "evidence": "confirmed by another version",
+    "times": 3
+   }
   },
   {
    "kind": "immunity",
@@ -17858,6 +20900,36 @@
    "from": 1430
   },
   {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/quests/rotten_blood/darklight_matter.lua",
+   "monster": "Darklight Matter",
+   "item": "rubber cap",
+   "chance": 529,
+   "from": 7180,
+   "source": {
+    "version": "14.00.7103e2",
+    "kills": 7182,
+    "loot_revid": 1197278,
+    "evidence": "confirmed by another version",
+    "times": 38
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/quests/rotten_blood/darklight_matter.lua",
+   "monster": "Darklight Matter",
+   "item": "shadow sceptre",
+   "chance": 627,
+   "from": 3500,
+   "source": {
+    "version": "14.00.7103e2",
+    "kills": 7182,
+    "loot_revid": 1197278,
+    "evidence": "confirmed by another version",
+    "times": 45
+   }
+  },
+  {
    "kind": "element",
    "file": "data-otservbr-global/monster/quests/rotten_blood/darklight_matter.lua",
    "monster": "Darklight Matter",
@@ -17908,6 +20980,21 @@
    "kind": "chance",
    "file": "data-otservbr-global/monster/quests/rotten_blood/darklight_source.lua",
    "monster": "Darklight Source",
+   "item": "blue gem",
+   "chance": 845,
+   "from": 12909,
+   "source": {
+    "version": "14.00.7103e2",
+    "kills": 4495,
+    "loot_revid": 1197279,
+    "evidence": "confirmed by another version",
+    "times": 38
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/quests/rotten_blood/darklight_source.lua",
+   "monster": "Darklight Source",
    "item": "dark obsidian splinter",
    "chance": 8832,
    "source": {
@@ -17917,6 +21004,36 @@
     "times": 397
    },
    "from": 13215
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/quests/rotten_blood/darklight_source.lua",
+   "monster": "Darklight Source",
+   "item": "twiceslicer",
+   "chance": 445,
+   "from": 11596,
+   "source": {
+    "version": "14.00.7103e2",
+    "kills": 4495,
+    "loot_revid": 1197279,
+    "evidence": "confirmed by another version",
+    "times": 20
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/quests/rotten_blood/darklight_source.lua",
+   "monster": "Darklight Source",
+   "item": "white gem",
+   "chance": 423,
+   "from": 13964,
+   "source": {
+    "version": "14.00.7103e2",
+    "kills": 4495,
+    "loot_revid": 1197279,
+    "evidence": "confirmed by another version",
+    "times": 19
+   }
   },
   {
    "kind": "chance",
@@ -17972,6 +21089,36 @@
    "kind": "chance",
    "file": "data-otservbr-global/monster/quests/rotten_blood/darklight_striker.lua",
    "monster": "Darklight Striker",
+   "item": "blue gem",
+   "chance": 994,
+   "from": 7355,
+   "source": {
+    "version": "14.00.7103e2",
+    "kills": 8348,
+    "loot_revid": 1197280,
+    "evidence": "confirmed by another version",
+    "times": 83
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/quests/rotten_blood/darklight_striker.lua",
+   "monster": "Darklight Striker",
+   "item": "crystal mace",
+   "chance": 910,
+   "from": 8812,
+   "source": {
+    "version": "14.00.7103e2",
+    "kills": 8348,
+    "loot_revid": 1197280,
+    "evidence": "confirmed by another version",
+    "times": 76
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/quests/rotten_blood/darklight_striker.lua",
+   "monster": "Darklight Striker",
    "item": "dark obsidian splinter",
    "chance": 3690,
    "source": {
@@ -17981,6 +21128,21 @@
     "times": 308
    },
    "from": 14185
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/quests/rotten_blood/darklight_striker.lua",
+   "monster": "Darklight Striker",
+   "item": "zaoan helmet",
+   "chance": 96,
+   "from": 5572,
+   "source": {
+    "version": "14.00.7103e2",
+    "kills": 8348,
+    "loot_revid": 1197280,
+    "evidence": "confirmed by another version",
+    "times": 8
+   }
   },
   {
    "kind": "element",
@@ -18103,6 +21265,36 @@
    "kind": "chance",
    "file": "data-otservbr-global/monster/quests/rotten_blood/mycobiontic_beetle.lua",
    "monster": "Mycobiontic Beetle",
+   "item": "blue gem",
+   "chance": 1196,
+   "from": 15920,
+   "source": {
+    "version": "15.32.87b266",
+    "kills": 669,
+    "loot_revid": 1206608,
+    "evidence": "confirmed by another version",
+    "times": 8
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/quests/rotten_blood/mycobiontic_beetle.lua",
+   "monster": "Mycobiontic Beetle",
+   "item": "buckle",
+   "chance": 1943,
+   "from": 22920,
+   "source": {
+    "version": "15.32.87b266",
+    "kills": 669,
+    "loot_revid": 1206608,
+    "evidence": "confirmed by another version",
+    "times": 13
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/quests/rotten_blood/mycobiontic_beetle.lua",
+   "monster": "Mycobiontic Beetle",
    "item": "glacier mask",
    "chance": 6278,
    "source": {
@@ -18112,6 +21304,51 @@
     "times": 42
    },
    "from": 21920
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/quests/rotten_blood/mycobiontic_beetle.lua",
+   "monster": "Mycobiontic Beetle",
+   "item": "rotten roots",
+   "chance": 4036,
+   "from": 25920,
+   "source": {
+    "version": "15.32.87b266",
+    "kills": 669,
+    "loot_revid": 1206608,
+    "evidence": "confirmed by another version",
+    "times": 27
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/quests/rotten_blood/mycobiontic_beetle.lua",
+   "monster": "Mycobiontic Beetle",
+   "item": "rotten vermin ichor",
+   "chance": 1046,
+   "from": 22920,
+   "source": {
+    "version": "15.32.87b266",
+    "kills": 669,
+    "loot_revid": 1206608,
+    "evidence": "confirmed by another version",
+    "times": 7
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/quests/rotten_blood/mycobiontic_beetle.lua",
+   "monster": "Mycobiontic Beetle",
+   "item": "scarab coin",
+   "chance": 2541,
+   "from": 22920,
+   "source": {
+    "version": "15.32.87b266",
+    "kills": 669,
+    "loot_revid": 1206608,
+    "evidence": "confirmed by another version",
+    "times": 17
+   }
   },
   {
    "kind": "chance",
@@ -18131,6 +21368,36 @@
    "kind": "chance",
    "file": "data-otservbr-global/monster/quests/rotten_blood/mycobiontic_beetle.lua",
    "monster": "Mycobiontic Beetle",
+   "item": "small ruby",
+   "chance": 448,
+   "from": 24560,
+   "source": {
+    "version": "15.32.87b266",
+    "kills": 669,
+    "loot_revid": 1206608,
+    "evidence": "confirmed by another version",
+    "times": 3
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/quests/rotten_blood/mycobiontic_beetle.lua",
+   "monster": "Mycobiontic Beetle",
+   "item": "small sapphire",
+   "chance": 5680,
+   "from": 34560,
+   "source": {
+    "version": "15.32.87b266",
+    "kills": 669,
+    "loot_revid": 1206608,
+    "evidence": "confirmed by another version",
+    "times": 38
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/quests/rotten_blood/mycobiontic_beetle.lua",
+   "monster": "Mycobiontic Beetle",
    "item": "ultimate health potion",
    "chance": 26158,
    "source": {
@@ -18140,6 +21407,21 @@
     "times": 175
    },
    "from": 43253
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/quests/rotten_blood/mycobiontic_beetle.lua",
+   "monster": "Mycobiontic Beetle",
+   "item": "violet gem",
+   "chance": 149,
+   "from": 18920,
+   "source": {
+    "version": "15.32.87b266",
+    "kills": 669,
+    "loot_revid": 1206608,
+    "evidence": "confirmed by another version",
+    "times": 1
+   }
   },
   {
    "kind": "element",
@@ -18232,6 +21514,21 @@
     "times": 8
    },
    "from": 5084
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/quests/rotten_blood/oozing_carcass.lua",
+   "monster": "Oozing Carcass",
+   "item": "ultimate health potion",
+   "chance": 1812,
+   "from": 10285,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 607,
+    "loot_revid": 1195223,
+    "evidence": "confirmed by another version",
+    "times": 11
+   }
   },
   {
    "kind": "chance",
@@ -18343,6 +21640,36 @@
     "times": 53
    },
    "from": 12859
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/quests/rotten_blood/oozing_corpus.lua",
+   "monster": "Oozing Corpus",
+   "item": "terra boots",
+   "chance": 2010,
+   "from": 12369,
+   "source": {
+    "version": "15.32.87b266",
+    "kills": 796,
+    "loot_revid": 1206609,
+    "evidence": "confirmed by another version",
+    "times": 16
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/quests/rotten_blood/oozing_corpus.lua",
+   "monster": "Oozing Corpus",
+   "item": "violet gem",
+   "chance": 628,
+   "from": 5084,
+   "source": {
+    "version": "15.32.87b266",
+    "kills": 796,
+    "loot_revid": 1206609,
+    "evidence": "confirmed by another version",
+    "times": 5
+   }
   },
   {
    "kind": "chance",
@@ -18539,6 +21866,21 @@
    "kind": "chance",
    "file": "data-otservbr-global/monster/quests/rotten_blood/sopping_corpus.lua",
    "monster": "Sopping Corpus",
+   "item": "blue gem",
+   "chance": 1050,
+   "from": 9808,
+   "source": {
+    "version": "15.32.87b266",
+    "kills": 381,
+    "loot_revid": 1206611,
+    "evidence": "confirmed by another version",
+    "times": 4
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/quests/rotten_blood/sopping_corpus.lua",
+   "monster": "Sopping Corpus",
    "item": "organic acid",
    "chance": 18110,
    "source": {
@@ -18562,6 +21904,21 @@
     "times": 18
    },
    "from": 13133
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/quests/rotten_blood/sopping_corpus.lua",
+   "monster": "Sopping Corpus",
+   "item": "skullcracker armor",
+   "chance": 1050,
+   "from": 7270,
+   "source": {
+    "version": "15.32.87b266",
+    "kills": 381,
+    "loot_revid": 1206611,
+    "evidence": "confirmed by another version",
+    "times": 4
+   }
   },
   {
    "kind": "chance",
@@ -18592,6 +21949,21 @@
    "from": 8380
   },
   {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/quests/rotten_blood/sopping_corpus.lua",
+   "monster": "Sopping Corpus",
+   "item": "violet gem",
+   "chance": 525,
+   "from": 5084,
+   "source": {
+    "version": "15.32.87b266",
+    "kills": 381,
+    "loot_revid": 1206611,
+    "evidence": "confirmed by another version",
+    "times": 2
+   }
+  },
+  {
    "kind": "element",
    "file": "data-otservbr-global/monster/quests/rotten_blood/sopping_corpus.lua",
    "monster": "Sopping Corpus",
@@ -18614,6 +21986,21 @@
     "loot_revid": 1206611
    },
    "from": 3
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/quests/rotten_blood/walking_pillar.lua",
+   "monster": "Walking Pillar",
+   "item": "blue gem",
+   "chance": 827,
+   "from": 5868,
+   "source": {
+    "version": "14.00.7103e2",
+    "kills": 5561,
+    "loot_revid": 1196726,
+    "evidence": "confirmed by another version",
+    "times": 46
+   }
   },
   {
    "kind": "chance",
@@ -18661,6 +22048,21 @@
    "kind": "chance",
    "file": "data-otservbr-global/monster/quests/rotten_blood/walking_pillar.lua",
    "monster": "Walking Pillar",
+   "item": "magma legs",
+   "chance": 611,
+   "from": 14497,
+   "source": {
+    "version": "14.00.7103e2",
+    "kills": 5561,
+    "loot_revid": 1196726,
+    "evidence": "confirmed by another version",
+    "times": 34
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/quests/rotten_blood/walking_pillar.lua",
+   "monster": "Walking Pillar",
    "item": "onyx chip",
    "chance": 4693,
    "source": {
@@ -18703,6 +22105,21 @@
    "kind": "chance",
    "file": "data-otservbr-global/monster/quests/rotten_blood/walking_pillar.lua",
    "monster": "Walking Pillar",
+   "item": "white gem",
+   "chance": 324,
+   "from": 9936,
+   "source": {
+    "version": "14.00.7103e2",
+    "kills": 5561,
+    "loot_revid": 1196726,
+    "evidence": "confirmed by another version",
+    "times": 18
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/quests/rotten_blood/walking_pillar.lua",
+   "monster": "Walking Pillar",
    "item": "yellow darklight matter",
    "chance": 15950,
    "source": {
@@ -18712,6 +22129,21 @@
     "times": 887
    },
    "from": 5354
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/quests/rotten_blood/wandering_pillar.lua",
+   "monster": "Wandering Pillar",
+   "item": "basalt core",
+   "chance": 690,
+   "from": 9037,
+   "source": {
+    "version": "13.22.14242",
+    "kills": 1159,
+    "loot_revid": 1198897,
+    "evidence": "confirmed by another version",
+    "times": 8
+   }
   },
   {
    "kind": "chance",
@@ -20112,6 +23544,39 @@
    "from": 30,
    "source": {
     "revid": 988016
+   }
+  },
+  {
+   "kind": "stat",
+   "file": "data-otservbr-global/monster/quests/the_explorer_society/blue_butterfly.lua",
+   "monster": "Blue Butterfly",
+   "item": "armor",
+   "value": 0,
+   "from": 10,
+   "source": {
+    "revid": 1192357
+   }
+  },
+  {
+   "kind": "stat",
+   "file": "data-otservbr-global/monster/quests/the_explorer_society/purple_butterfly.lua",
+   "monster": "Purple Butterfly",
+   "item": "armor",
+   "value": 0,
+   "from": 10,
+   "source": {
+    "revid": 1192358
+   }
+  },
+  {
+   "kind": "stat",
+   "file": "data-otservbr-global/monster/quests/the_explorer_society/red_butterfly.lua",
+   "monster": "Red Butterfly",
+   "item": "armor",
+   "value": 0,
+   "from": 10,
+   "source": {
+    "revid": 1192359
    }
   },
   {
@@ -21676,6 +25141,81 @@
    "kind": "chance",
    "file": "data-otservbr-global/monster/slimes/devourer.lua",
    "monster": "Devourer",
+   "item": "glob of glooth",
+   "chance": 13817,
+   "from": 1670,
+   "source": {
+    "version": "12.31",
+    "kills": 20613,
+    "loot_revid": 1212871,
+    "evidence": "confirmed by another version",
+    "times": 2848
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/slimes/devourer.lua",
+   "monster": "Devourer",
+   "item": "glooth amulet",
+   "chance": 956,
+   "from": 130,
+   "source": {
+    "version": "12.31",
+    "kills": 20613,
+    "loot_revid": 1212871,
+    "evidence": "confirmed by another version",
+    "times": 197
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/slimes/devourer.lua",
+   "monster": "Devourer",
+   "item": "glooth axe",
+   "chance": 2726,
+   "from": 390,
+   "source": {
+    "version": "12.31",
+    "kills": 20613,
+    "loot_revid": 1212871,
+    "evidence": "confirmed by another version",
+    "times": 562
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/slimes/devourer.lua",
+   "monster": "Devourer",
+   "item": "glooth blade",
+   "chance": 2629,
+   "from": 350,
+   "source": {
+    "version": "12.31",
+    "kills": 20613,
+    "loot_revid": 1212871,
+    "evidence": "confirmed by another version",
+    "times": 542
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/slimes/devourer.lua",
+   "monster": "Devourer",
+   "item": "glooth club",
+   "chance": 2702,
+   "from": 510,
+   "source": {
+    "version": "12.31",
+    "kills": 20613,
+    "loot_revid": 1212871,
+    "evidence": "confirmed by another version",
+    "times": 557
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/slimes/devourer.lua",
+   "monster": "Devourer",
    "item": "glooth spear",
    "chance": 1620,
    "source": {
@@ -21685,6 +25225,36 @@
     "times": 334
    },
    "from": 370
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/slimes/devourer.lua",
+   "monster": "Devourer",
+   "item": "small amethyst",
+   "chance": 5511,
+   "from": 1030,
+   "source": {
+    "version": "12.31",
+    "kills": 20613,
+    "loot_revid": 1212871,
+    "evidence": "confirmed by another version",
+    "times": 1136
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/slimes/devourer.lua",
+   "monster": "Devourer",
+   "item": "small diamond",
+   "chance": 5424,
+   "from": 1050,
+   "source": {
+    "version": "12.31",
+    "kills": 20613,
+    "loot_revid": 1212871,
+    "evidence": "confirmed by another version",
+    "times": 1118
+   }
   },
   {
    "kind": "chance",
@@ -21727,6 +25297,21 @@
     "times": 1156
    },
    "from": 1170
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/slimes/devourer.lua",
+   "monster": "Devourer",
+   "item": "small topaz",
+   "chance": 5472,
+   "from": 1030,
+   "source": {
+    "version": "12.31",
+    "kills": 20613,
+    "loot_revid": 1212871,
+    "evidence": "confirmed by another version",
+    "times": 1128
+   }
   },
   {
    "kind": "chance",
@@ -21816,6 +25401,66 @@
    "kind": "chance",
    "file": "data-otservbr-global/monster/slimes/ink_blob.lua",
    "monster": "Ink Blob",
+   "item": "envenomed arrow",
+   "chance": 69453,
+   "from": 1200,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 3529,
+    "loot_revid": 1210523,
+    "evidence": "single large sample",
+    "times": 2451
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/slimes/ink_blob.lua",
+   "monster": "Ink Blob",
+   "item": "poisonous slime",
+   "chance": 35477,
+   "from": 1200,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 3529,
+    "loot_revid": 1210523,
+    "evidence": "single large sample",
+    "times": 1252
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/slimes/ink_blob.lua",
+   "monster": "Ink Blob",
+   "item": "small diamond",
+   "chance": 66818,
+   "from": 1200,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 3529,
+    "loot_revid": 1210523,
+    "evidence": "single large sample",
+    "times": 2358
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/slimes/ink_blob.lua",
+   "monster": "Ink Blob",
+   "item": "small topaz",
+   "chance": 49731,
+   "from": 1200,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 3529,
+    "loot_revid": 1210523,
+    "evidence": "single large sample",
+    "times": 1755
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/slimes/ink_blob.lua",
+   "monster": "Ink Blob",
    "item": "terra amulet",
    "chance": 397,
    "source": {
@@ -21825,6 +25470,36 @@
     "times": 14
    },
    "from": 1200
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/slimes/ink_blob.lua",
+   "monster": "Ink Blob",
+   "item": "terra boots",
+   "chance": 5242,
+   "from": 850,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 3529,
+    "loot_revid": 1210523,
+    "evidence": "single large sample",
+    "times": 185
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/slimes/ink_blob.lua",
+   "monster": "Ink Blob",
+   "item": "terra hood",
+   "chance": 5667,
+   "from": 980,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 3529,
+    "loot_revid": 1210523,
+    "evidence": "single large sample",
+    "times": 200
+   }
   },
   {
    "kind": "chance",
@@ -22192,6 +25867,36 @@
    "from": 3080
   },
   {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/undeads/blood_beast.lua",
+   "monster": "Blood Beast",
+   "item": "slime heart",
+   "chance": 20146,
+   "from": 1040,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 9183,
+    "loot_revid": 1212870,
+    "evidence": "confirmed by another version",
+    "times": 1850
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/undeads/blood_beast.lua",
+   "monster": "Blood Beast",
+   "item": "viper star",
+   "chance": 7873,
+   "from": 1290,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 9183,
+    "loot_revid": 1212870,
+    "evidence": "confirmed by another version",
+    "times": 723
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/undeads/blood_beast.lua",
    "monster": "Blood Beast",
@@ -22222,6 +25927,36 @@
    "kind": "chance",
    "file": "data-otservbr-global/monster/undeads/burster_spectre.lua",
    "monster": "Burster Spectre",
+   "item": "blue ectoplasm",
+   "chance": 2062,
+   "from": 15600,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 26963,
+    "loot_revid": 1206475,
+    "evidence": "confirmed by another version",
+    "times": 556
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/undeads/burster_spectre.lua",
+   "monster": "Burster Spectre",
+   "item": "dragon necklace",
+   "chance": 1947,
+   "from": 16600,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 26963,
+    "loot_revid": 1206475,
+    "evidence": "confirmed by another version",
+    "times": 525
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/undeads/burster_spectre.lua",
+   "monster": "Burster Spectre",
    "item": "elven amulet",
    "chance": 471,
    "source": {
@@ -22236,6 +25971,36 @@
    "kind": "chance",
    "file": "data-otservbr-global/monster/undeads/burster_spectre.lua",
    "monster": "Burster Spectre",
+   "item": "garlic necklace",
+   "chance": 460,
+   "from": 2640,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 26963,
+    "loot_revid": 1206475,
+    "evidence": "confirmed by another version",
+    "times": 124
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/undeads/burster_spectre.lua",
+   "monster": "Burster Spectre",
+   "item": "glacier amulet",
+   "chance": 2018,
+   "from": 16890,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 26963,
+    "loot_revid": 1206475,
+    "evidence": "confirmed by another version",
+    "times": 544
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/undeads/burster_spectre.lua",
+   "monster": "Burster Spectre",
    "item": "great spirit potion",
    "chance": 23098,
    "source": {
@@ -22245,6 +26010,21 @@
     "times": 6228
    },
    "from": 100000
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/undeads/burster_spectre.lua",
+   "monster": "Burster Spectre",
+   "item": "hailstorm rod",
+   "chance": 890,
+   "from": 17550,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 26963,
+    "loot_revid": 1206475,
+    "evidence": "confirmed by another version",
+    "times": 240
+   }
   },
   {
    "kind": "chance",
@@ -22273,6 +26053,36 @@
     "times": 1995
    },
    "from": 12050
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/undeads/burster_spectre.lua",
+   "monster": "Burster Spectre",
+   "item": "mind stone",
+   "chance": 167,
+   "from": 1800,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 26963,
+    "loot_revid": 1206475,
+    "evidence": "confirmed by another version",
+    "times": 45
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/undeads/burster_spectre.lua",
+   "monster": "Burster Spectre",
+   "item": "orb",
+   "chance": 1294,
+   "from": 18980,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 26963,
+    "loot_revid": 1206475,
+    "evidence": "confirmed by another version",
+    "times": 349
+   }
   },
   {
    "kind": "chance",
@@ -23038,6 +26848,21 @@
    "kind": "chance",
    "file": "data-otservbr-global/monster/undeads/gazer_spectre.lua",
    "monster": "Gazer Spectre",
+   "item": "brown crystal splinter",
+   "chance": 10281,
+   "from": 900,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 10408,
+    "loot_revid": 1208303,
+    "evidence": "confirmed by another version",
+    "times": 1070
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/undeads/gazer_spectre.lua",
+   "monster": "Gazer Spectre",
    "item": "golden idol of tukh",
    "chance": 4977,
    "source": {
@@ -23793,6 +27618,21 @@
    "kind": "chance",
    "file": "data-otservbr-global/monster/undeads/lost_soul.lua",
    "monster": "Lost Soul",
+   "item": "red gem",
+   "chance": 1686,
+   "from": 15000,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 1305,
+    "loot_revid": 1209719,
+    "evidence": "confirmed by another version",
+    "times": 22
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/undeads/lost_soul.lua",
+   "monster": "Lost Soul",
    "item": "stone skin amulet",
    "chance": 843,
    "source": {
@@ -23938,6 +27778,21 @@
     "kills": 6668,
     "loot_revid": 1212857,
     "times": 5
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/undeads/putrid_mummy.lua",
+   "monster": "Putrid Mummy",
+   "item": "green bandage",
+   "chance": 9928,
+   "from": 1100,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 6668,
+    "loot_revid": 1212857,
+    "evidence": "confirmed by another version",
+    "times": 662
    }
   },
   {
@@ -24153,6 +28008,36 @@
    "kind": "chance",
    "file": "data-otservbr-global/monster/undeads/rot_elemental.lua",
    "monster": "Rot Elemental",
+   "item": "glooth spear",
+   "chance": 4682,
+   "from": 460,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 7006,
+    "loot_revid": 1212874,
+    "evidence": "confirmed by another version",
+    "times": 328
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/undeads/rot_elemental.lua",
+   "monster": "Rot Elemental",
+   "item": "small emerald",
+   "chance": 5024,
+   "from": 940,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 7006,
+    "loot_revid": 1212874,
+    "evidence": "confirmed by another version",
+    "times": 352
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/undeads/rot_elemental.lua",
+   "monster": "Rot Elemental",
    "item": "small sapphire",
    "chance": 5295,
    "source": {
@@ -24288,6 +28173,36 @@
     "times": 104
    },
    "from": 3250
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/undeads/skeleton_elite_warrior.lua",
+   "monster": "Skeleton Elite Warrior",
+   "item": "pelvis bone",
+   "chance": 16304,
+   "from": 2630,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 1883,
+    "loot_revid": 1212611,
+    "evidence": "confirmed by another version",
+    "times": 307
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/undeads/skeleton_elite_warrior.lua",
+   "monster": "Skeleton Elite Warrior",
+   "item": "skull helmet",
+   "chance": 3399,
+   "from": 350,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 1883,
+    "loot_revid": 1212611,
+    "evidence": "confirmed by another version",
+    "times": 64
+   }
   },
   {
    "kind": "chance",
@@ -24710,6 +28625,171 @@
    "kind": "chance",
    "file": "data-otservbr-global/monster/undeads/undead_elite_gladiator.lua",
    "monster": "Undead Elite Gladiator",
+   "item": "belted cape",
+   "chance": 26769,
+   "from": 500,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 1950,
+    "loot_revid": 1212612,
+    "evidence": "confirmed by another version",
+    "times": 522
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/undeads/undead_elite_gladiator.lua",
+   "monster": "Undead Elite Gladiator",
+   "item": "broken gladiator shield",
+   "chance": 4872,
+   "from": 250,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 1950,
+    "loot_revid": 1212612,
+    "evidence": "confirmed by another version",
+    "times": 95
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/undeads/undead_elite_gladiator.lua",
+   "monster": "Undead Elite Gladiator",
+   "item": "dark helmet",
+   "chance": 1641,
+   "from": 250,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 1950,
+    "loot_revid": 1212612,
+    "evidence": "confirmed by another version",
+    "times": 32
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/undeads/undead_elite_gladiator.lua",
+   "monster": "Undead Elite Gladiator",
+   "item": "flask of warrior's sweat",
+   "chance": 5538,
+   "from": 250,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 1950,
+    "loot_revid": 1212612,
+    "evidence": "confirmed by another version",
+    "times": 108
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/undeads/undead_elite_gladiator.lua",
+   "monster": "Undead Elite Gladiator",
+   "item": "great health potion",
+   "chance": 5231,
+   "from": 250,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 1950,
+    "loot_revid": 1212612,
+    "evidence": "confirmed by another version",
+    "times": 102
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/undeads/undead_elite_gladiator.lua",
+   "monster": "Undead Elite Gladiator",
+   "item": "hunting spear",
+   "chance": 4872,
+   "from": 250,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 1950,
+    "loot_revid": 1212612,
+    "evidence": "confirmed by another version",
+    "times": 95
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/undeads/undead_elite_gladiator.lua",
+   "monster": "Undead Elite Gladiator",
+   "item": "knight axe",
+   "chance": 7487,
+   "from": 250,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 1950,
+    "loot_revid": 1212612,
+    "evidence": "confirmed by another version",
+    "times": 146
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/undeads/undead_elite_gladiator.lua",
+   "monster": "Undead Elite Gladiator",
+   "item": "plate armor",
+   "chance": 1692,
+   "from": 250,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 1950,
+    "loot_revid": 1212612,
+    "evidence": "confirmed by another version",
+    "times": 33
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/undeads/undead_elite_gladiator.lua",
+   "monster": "Undead Elite Gladiator",
+   "item": "plate legs",
+   "chance": 4872,
+   "from": 250,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 1950,
+    "loot_revid": 1212612,
+    "evidence": "confirmed by another version",
+    "times": 95
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/undeads/undead_elite_gladiator.lua",
+   "monster": "Undead Elite Gladiator",
+   "item": "protection amulet",
+   "chance": 1538,
+   "from": 250,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 1950,
+    "loot_revid": 1212612,
+    "evidence": "confirmed by another version",
+    "times": 30
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/undeads/undead_elite_gladiator.lua",
+   "monster": "Undead Elite Gladiator",
+   "item": "scimitar",
+   "chance": 10410,
+   "from": 500,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 1950,
+    "loot_revid": 1212612,
+    "evidence": "confirmed by another version",
+    "times": 203
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/undeads/undead_elite_gladiator.lua",
+   "monster": "Undead Elite Gladiator",
    "item": "stealth ring",
    "chance": 1026,
    "source": {
@@ -24719,6 +28799,51 @@
     "times": 20
    },
    "from": 230
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/undeads/undead_elite_gladiator.lua",
+   "monster": "Undead Elite Gladiator",
+   "item": "throwing star",
+   "chance": 14821,
+   "from": 500,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 1950,
+    "loot_revid": 1212612,
+    "evidence": "confirmed by another version",
+    "times": 289
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/undeads/undead_elite_gladiator.lua",
+   "monster": "Undead Elite Gladiator",
+   "item": "two handed sword",
+   "chance": 2000,
+   "from": 250,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 1950,
+    "loot_revid": 1212612,
+    "evidence": "confirmed by another version",
+    "times": 39
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/undeads/undead_elite_gladiator.lua",
+   "monster": "Undead Elite Gladiator",
+   "item": "ultimate health potion",
+   "chance": 8667,
+   "from": 500,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 1950,
+    "loot_revid": 1212612,
+    "evidence": "confirmed by another version",
+    "times": 169
+   }
   },
   {
    "kind": "stat",
@@ -25583,6 +29708,21 @@
    "kind": "chance",
    "file": "data-otservbr-global/monster/vermins/streaked_devourer.lua",
    "monster": "Streaked Devourer",
+   "item": "war axe",
+   "chance": 755,
+   "from": 4620,
+   "source": {
+    "version": "13.22.14282",
+    "kills": 1192,
+    "loot_revid": 1210636,
+    "evidence": "confirmed by another version",
+    "times": 9
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/vermins/streaked_devourer.lua",
+   "monster": "Streaked Devourer",
    "item": "yellow gem",
    "chance": 3523,
    "source": {
@@ -26067,6 +30207,17 @@
    "from": 100
   },
   {
+   "kind": "stat",
+   "file": "data-otservbr-global/monster/vermins/wailing_widow.lua",
+   "monster": "Wailing Widow",
+   "item": "armor",
+   "value": 31,
+   "from": 0,
+   "source": {
+    "revid": 1192284
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/vermins/waspoid.lua",
    "monster": "Waspoid",
@@ -26105,6 +30256,17 @@
     "loot_revid": 1209807
    },
    "from": 1
+  },
+  {
+   "kind": "stat",
+   "file": "data-otservbr-global/monster/vermins/wiggler.lua",
+   "monster": "Wiggler",
+   "item": "armor",
+   "value": 52,
+   "from": 15,
+   "source": {
+    "revid": 1192328
+   }
   }
  ]
 }

@@ -87,9 +87,9 @@ monster.loot = {
 	{ name = "strange helmet", chance = 3183, maxCount = 1 },
 	{ name = "fire sword", chance = 3578, maxCount = 1 },
 	{ name = "ultimate mana potion", chance = 4154, maxCount = 3 },
-	{ name = "blue gem", chance = 5868, maxCount = 1 },
-	{ name = "magma legs", chance = 14497, maxCount = 1 },
-	{ name = "white gem", chance = 9936, maxCount = 1 },
+	{ name = "blue gem", chance = 827, maxCount = 1 },
+	{ name = "magma legs", chance = 611, maxCount = 1 },
+	{ name = "white gem", chance = 324, maxCount = 1 },
 }
 
 monster.attacks = {

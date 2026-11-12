@@ -74,15 +74,15 @@ monster.voices = {
 
 monster.loot = {
 	{ name = "platinum coin", chance = 120000, maxCount = 4 },
-	{ name = "envenomed arrow", chance = 1200, maxCount = 50 },
+	{ name = "envenomed arrow", chance = 69453, maxCount = 50 },
 	{ id = 28568, chance = 1200, maxCount = 4 }, -- inkwell
-	{ name = "poisonous slime", chance = 1200, maxCount = 4 },
-	{ name = "small diamond", chance = 1200, maxCount = 7 },
-	{ name = "small topaz", chance = 1200, maxCount = 4 },
+	{ name = "poisonous slime", chance = 35477, maxCount = 4 },
+	{ name = "small diamond", chance = 66818, maxCount = 7 },
+	{ name = "small topaz", chance = 49731, maxCount = 4 },
 	{ id = 282, chance = 900, maxCount = 4 }, -- giant shimmering pearl (brown)
 	{ name = "blue gem", chance = 4704, maxCount = 4 },
-	{ name = "terra boots", chance = 850, maxCount = 4 },
-	{ name = "terra hood", chance = 980, maxCount = 4 },
+	{ name = "terra boots", chance = 5242, maxCount = 4 },
+	{ name = "terra hood", chance = 5667, maxCount = 4 },
 	{ name = "protection amulet", chance = 1200, maxCount = 4 },
 	{ name = "sacred tree amulet", chance = 1200, maxCount = 4 },
 	{ name = "springsprout rod", chance = 790, maxCount = 4 },

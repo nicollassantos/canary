@@ -105,7 +105,7 @@ monster.loot = {
 	{ id = 8082, chance = 990 }, -- underworld rod
 	{ id = 3037, chance = 900 }, -- yellow gem
 	{ id = 3007, chance = 930 }, -- crystal ring
-	{ name = "small enchanted amethyst", chance = 1441, maxCount = 3 },
+	{ name = "small enchanted amethyst", chance = 11915, maxCount = 3 },
 }
 
 monster.attacks = {

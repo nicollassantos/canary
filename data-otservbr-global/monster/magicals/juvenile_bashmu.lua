@@ -71,7 +71,7 @@ monster.voices = {
 monster.loot = {
 	{ name = "platinum coin", chance = 70000, maxCount = 19 },
 	{ name = "great spirit potion", chance = 14700, maxCount = 4 },
-	{ name = "ultimate health potion", chance = 1300, maxCount = 4 },
+	{ name = "ultimate health potion", chance = 10575, maxCount = 4 },
 	{ name = "blue crystal shard", chance = 6160, maxCount = 3 },
 	{ name = "bashmu tongue", chance = 5840, maxCount = 3 },
 	{ name = "bashmu feather", chance = 4620, maxCount = 2 },

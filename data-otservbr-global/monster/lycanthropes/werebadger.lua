@@ -81,21 +81,21 @@ monster.voices = {
 monster.loot = {
 	{ id = 3031, chance = 97000, maxCount = 242 }, -- gold coin
 	{ id = 3035, chance = 18200, maxCount = 5 }, -- platinum coin
-	{ id = 8017, chance = 2000 }, -- beetroot
+	{ id = 8017, chance = 25727 }, -- beetroot
 	{ id = 3725, chance = 7300 }, -- brown mushroom
 	{ id = 268, chance = 5201 }, -- mana potion
 	{ name = "great mana potion", chance = 1891 },
 	{ name = "small enchanted amethyst", chance = 1404, maxCount = 2 },
 	{ id = 237, chance = 3966 }, -- strong mana potion
 	{ id = 3741, chance = 5047 }, -- troll green
-	{ id = 22051, chance = 950 }, -- werebadger claws
-	{ id = 22055, chance = 780 }, -- werebadger skull
+	{ id = 22051, chance = 15140 }, -- werebadger claws
+	{ id = 22055, chance = 14785 }, -- werebadger skull
 	{ id = 22086, chance = 841 }, -- badger boots
 	{ id = 3055, chance = 594 }, -- platinum amulet
 	{ id = 3098, chance = 833 }, -- ring of healing
 	{ id = 8082, chance = 409 }, -- underworld rod
 	{ id = 8094, chance = 378 }, -- wand of voodoo
-	{ id = 22083, chance = 150 }, -- moonlight crystals
+	{ id = 22083, chance = 2215 }, -- moonlight crystals
 	{ id = 22060, chance = 633 }, -- werewolf amulet
 	{ id = 22101, chance = 247 }, -- werebadger trophy
 }

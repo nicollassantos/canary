@@ -85,11 +85,11 @@ monster.loot = {
 	{ name = "spellreaper staff totem", chance = 571 },
 	{ name = "small ruby", chance = 5738, maxCount = 4 },
 	{ name = "prismatic quartz", chance = 2907 },
-	{ name = "demonic matter", chance = 4761 },
+	{ name = "demonic matter", chance = 653 },
 	{ name = "fire mushroom", chance = 6572 },
 	{ name = "black pearl", chance = 2839 },
-	{ name = "demonic core essence", chance = 100 },
-	{ name = "mummified demon finger", chance = 155 },
+	{ name = "demonic core essence", chance = 3132 },
+	{ name = "mummified demon finger", chance = 909 },
 }
 
 monster.attacks = {

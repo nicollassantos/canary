@@ -85,9 +85,9 @@ monster.loot = {
 	{ name = "small emerald", chance = 3243, maxCount = 2 },
 	{ id = 281, chance = 2205 }, -- giant shimmering pearl (green)
 	{ name = "terra boots", chance = 2413 },
-	{ name = "mercenary sword", chance = 4167 },
+	{ name = "mercenary sword", chance = 724 },
 	{ name = "knight legs", chance = 3649 },
-	{ name = "violet gem", chance = 3389 },
+	{ name = "violet gem", chance = 362 },
 }
 
 monster.attacks = {

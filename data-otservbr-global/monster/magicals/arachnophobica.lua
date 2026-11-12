@@ -89,21 +89,21 @@ monster.loot = {
 	{ name = "wand of cosmic energy", chance = 4300 },
 	{ name = "magma amulet", chance = 2049 },
 	{ name = "elven amulet", chance = 2778, maxCount = 2 },
-	{ id = 23544, chance = 10590 }, -- collar of red plasma
+	{ id = 23544, chance = 1405 }, -- collar of red plasma
 	{ name = "sacred tree amulet", chance = 1940 },
-	{ name = "spider silk", chance = 6500 },
+	{ name = "spider silk", chance = 1251 },
 	{ id = 3052, chance = 2555 }, -- life ring
 	{ name = "orb", chance = 1980 },
 	{ name = "underworld rod", chance = 2523 },
 	{ id = 23529, chance = 1255 }, -- ring of blue plasma
-	{ id = 3098, chance = 9120 }, -- ring of healing
-	{ name = "strange talisman", chance = 8110 },
+	{ id = 3098, chance = 1008 }, -- ring of healing
+	{ name = "strange talisman", chance = 583 },
 	{ id = 3092, chance = 2547 }, -- axe ring
 	{ id = 3050, chance = 2409 }, -- power ring
 	{ id = 6299, chance = 1838 }, -- death ring
-	{ name = "garlic necklace", chance = 7550 },
-	{ name = "platinum amulet", chance = 7650 },
-	{ id = 23543, chance = 10590 }, -- collar of green plasma
+	{ name = "garlic necklace", chance = 939 },
+	{ name = "platinum amulet", chance = 1486 },
+	{ id = 23543, chance = 413 }, -- collar of green plasma
 	{ name = "strange symbol", chance = 632 },
 	{ name = "stone skin amulet", chance = 2600 },
 	{ name = "necklace of the deep", chance = 988 },

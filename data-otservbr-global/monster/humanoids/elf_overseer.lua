@@ -26,8 +26,8 @@ monster.Bestiary = {
 	Locations = "Shadowthorn",
 }
 
-monster.health = 220
-monster.maxHealth = 220
+monster.health = 500
+monster.maxHealth = 500
 monster.race = "blood"
 monster.corpse = 6011
 monster.speed = 110

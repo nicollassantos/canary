@@ -108,7 +108,7 @@ monster.loot = {
 	{ name = "demonic essence", chance = 7224 },
 	{ name = "onyx arrow", chance = 6243, maxCount = 4 },
 	{ name = "great health potion", chance = 7432 },
-	{ id = 8896, chance = 540 }, -- slightly rusted armor
+	{ id = 8896, chance = 6321 }, -- slightly rusted armor
 	{ name = "war horn", chance = 52 },
 }
 

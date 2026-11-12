@@ -73,13 +73,13 @@ monster.light = {
 monster.loot = {
 	{ name = "crystal coin", chance = 9000, maxCount = 1 },
 	{ name = "organic acid", chance = 13819, maxCount = 1 },
-	{ name = "terra boots", chance = 12369, maxCount = 1 },
+	{ name = "terra boots", chance = 2010, maxCount = 1 },
 	{ name = "small amethyst", chance = 6658, maxCount = 3 },
 	{ name = "rotten roots", chance = 5905, maxCount = 1 },
 	{ name = "blue gem", chance = 3141, maxCount = 1 },
 	{ name = "dragonbone staff", chance = 3518, maxCount = 1 },
 	{ name = "worm sponge", chance = 1759, maxCount = 1 },
-	{ name = "violet gem", chance = 5084, maxCount = 1 },
+	{ name = "violet gem", chance = 628, maxCount = 1 },
 	{ name = "jade hammer", chance = 3073, maxCount = 1 },
 	{ name = "stone skin amulet", chance = 628 },
 }

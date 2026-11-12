@@ -99,7 +99,7 @@ monster.loot = {
 	{ id = 5880, chance = 1920 }, -- iron ore
 	{ id = 7439, chance = 900 }, -- berserk potion
 	{ id = 3326, chance = 6400 }, -- epee
-	{ id = 8895, chance = 260 }, -- rusted armor
+	{ id = 8895, chance = 3504 }, -- rusted armor
 	{ id = 3093, chance = 810 }, -- club ring
 	{ id = 3097, chance = 1210 }, -- dwarven ring
 	{ id = 9067, chance = 130 }, -- crystal of power

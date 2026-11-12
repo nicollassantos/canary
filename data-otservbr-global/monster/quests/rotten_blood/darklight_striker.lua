@@ -77,9 +77,9 @@ monster.loot = {
 	{ name = "small topaz", chance = 11140, maxCount = 3 },
 	{ name = "ice rapier", chance = 5104, maxCount = 1 },
 	{ name = "dark obsidian splinter", chance = 3690, maxCount = 1 },
-	{ name = "blue gem", chance = 7355, maxCount = 1 },
-	{ name = "crystal mace", chance = 8812, maxCount = 1 },
-	{ name = "zaoan helmet", chance = 5572, maxCount = 1 },
+	{ name = "blue gem", chance = 994, maxCount = 1 },
+	{ name = "crystal mace", chance = 910, maxCount = 1 },
+	{ name = "zaoan helmet", chance = 96, maxCount = 1 },
 	{ name = "white gem", chance = 443 },
 }
 

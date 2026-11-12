@@ -74,11 +74,11 @@ monster.voices = {
 
 monster.loot = {
 	{ name = "meat", chance = 2994, maxCount = 5 },
-	{ id = 3116, chance = 500, maxCount = 2 }, -- big bone
-	{ name = "book page", chance = 500, maxCount = 6 },
-	{ name = "glowing rune", chance = 500, maxCount = 9 },
+	{ id = 3116, chance = 6587, maxCount = 2 }, -- big bone
+	{ name = "book page", chance = 67066, maxCount = 6 },
+	{ name = "glowing rune", chance = 39521, maxCount = 9 },
 	{ name = "platinum coin", chance = 10000, maxCount = 5 },
-	{ name = "silken bookmark", chance = 500, maxCount = 3 },
+	{ name = "silken bookmark", chance = 23353, maxCount = 3 },
 }
 
 monster.attacks = {

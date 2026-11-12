@@ -77,15 +77,15 @@ monster.loot = {
 	{ name = "book page", chance = 44593, maxCount = 5 },
 	{ name = "burnt scroll", chance = 37163, maxCount = 5 },
 	{ name = "glowing rune", chance = 38797, maxCount = 8 },
-	{ name = "small diamond", chance = 10000, maxCount = 5 },
-	{ name = "fire axe", chance = 250 },
-	{ name = "soul orb", chance = 260, maxCount = 5 },
-	{ name = "spellbook of warding", chance = 250 },
-	{ name = "wand of inferno", chance = 250 },
-	{ name = "fire sword", chance = 250 },
+	{ name = "small diamond", chance = 57347, maxCount = 5 },
+	{ name = "fire axe", chance = 4047 },
+	{ name = "soul orb", chance = 9243, maxCount = 5 },
+	{ name = "spellbook of warding", chance = 5030 },
+	{ name = "wand of inferno", chance = 8720 },
+	{ name = "fire sword", chance = 1353 },
 	{ name = "magma coat", chance = 983 },
 	{ name = "magma legs", chance = 1060 },
-	{ name = "piece of hellfire armor", chance = 500, maxCount = 5 },
+	{ name = "piece of hellfire armor", chance = 4570, maxCount = 5 },
 	{ id = 12600, chance = 10000, maxCount = 5 }, -- coal
 }
 

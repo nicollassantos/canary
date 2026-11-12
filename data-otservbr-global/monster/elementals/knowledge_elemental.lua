@@ -79,7 +79,7 @@ monster.voices = {
 monster.loot = {
 	{ name = "platinum coin", chance = 100000, maxCount = 9 },
 	{ name = "book page", chance = 38835, maxCount = 6 },
-	{ name = "small amethyst", chance = 10000, maxCount = 8 },
+	{ name = "small amethyst", chance = 71845, maxCount = 8 },
 	{ name = "glowing rune", chance = 35437, maxCount = 10 },
 	{ name = "quill", chance = 22816, maxCount = 3 },
 	{ name = "silken bookmark", chance = 26699, maxCount = 3 },
@@ -93,7 +93,7 @@ monster.loot = {
 	{ name = "ultimate health potion", chance = 10000, maxCount = 8 },
 	{ name = "silver amulet", chance = 4369 },
 	{ name = "obsidian lance", chance = 3398 },
-	{ name = "wand of cosmic energy", chance = 300 },
+	{ name = "wand of cosmic energy", chance = 6796 },
 }
 
 monster.attacks = {

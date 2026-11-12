@@ -76,18 +76,18 @@ monster.voices = {
 
 monster.loot = {
 	{ name = "platinum coin", chance = 100000, maxCount = 28 },
-	{ id = 28569, chance = 900, maxCount = 8 }, -- book page
-	{ id = 28570, chance = 900, maxCount = 7 }, -- glowing rune
+	{ id = 28569, chance = 49490, maxCount = 8 }, -- book page
+	{ id = 28570, chance = 67347, maxCount = 7 }, -- glowing rune
 	{ name = "ultimate health potion", chance = 10000, maxCount = 7 },
 	{ name = "ultimate mana potion", chance = 10000, maxCount = 7 },
-	{ name = "energy ball", chance = 900, maxCount = 7 },
-	{ id = 28566, chance = 800, maxCount = 7 }, -- silken bookmark
-	{ name = "lightning pendant", chance = 500 },
+	{ name = "energy ball", chance = 10714, maxCount = 7 },
+	{ id = 28566, chance = 13776, maxCount = 7 }, -- silken bookmark
+	{ name = "lightning pendant", chance = 3571 },
 	{ name = "lightning boots", chance = 500 },
 	{ name = "lightning headband", chance = 500 },
 	{ name = "might ring", chance = 500 },
 	{ name = "spellweaver's robe", chance = 350 },
-	{ name = "wand of defiance", chance = 350 },
+	{ name = "wand of defiance", chance = 2551 },
 	{ name = "haunted blade", chance = 550 },
 	{ name = "lightning legs", chance = 350 },
 }

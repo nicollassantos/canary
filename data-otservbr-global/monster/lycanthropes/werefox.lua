@@ -96,12 +96,12 @@ monster.loot = {
 	{ name = "emerald bangle", chance = 3084, maxCount = 2 },
 	{ name = "moonlight crystals", chance = 1089 },
 	{ name = "moonlight rod", chance = 1987 },
-	{ name = "troll green", chance = 500, maxCount = 2 },
-	{ name = "assassin star", chance = 300, maxCount = 5 },
+	{ name = "troll green", chance = 4844, maxCount = 2 },
+	{ name = "assassin star", chance = 3012, maxCount = 5 },
 	{ name = "platinum amulet", chance = 599 },
 	{ id = 3098, chance = 953 }, -- ring of healing
-	{ name = "werewolf amulet", chance = 50 },
-	{ id = 27706, chance = 30 }, -- werefox trophy
+	{ name = "werewolf amulet", chance = 599 },
+	{ id = 27706, chance = 154 }, -- werefox trophy
 }
 
 monster.attacks = {

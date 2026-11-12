@@ -76,31 +76,31 @@ monster.loot = {
 	{ id = 28570, chance = 18912, maxCount = 3 }, -- glowing rune
 	{ name = "great spirit potion", chance = 18671, maxCount = 3 },
 	{ name = "fire mushroom", chance = 15050, maxCount = 6 },
-	{ name = "small amethyst", chance = 90000, maxCount = 5 },
+	{ name = "small amethyst", chance = 7469, maxCount = 5 },
 	{ name = "slime heart", chance = 3000 },
 	{ name = "piece of dead brain", chance = 1098 },
 	{ name = "platinum coin", chance = 100000, maxCount = 29 },
 	{ name = "ultimate health potion", chance = 30261, maxCount = 5 },
-	{ name = "small topaz", chance = 90000, maxCount = 5 },
-	{ name = "small emerald", chance = 90000, maxCount = 5 },
+	{ name = "small topaz", chance = 7707, maxCount = 5 },
+	{ name = "small emerald", chance = 7693, maxCount = 5 },
 	{ id = 3039, chance = 2214, maxCount = 5 }, -- red gem
-	{ name = "orb", chance = 66000, maxCount = 5 },
-	{ name = "purple tome", chance = 6333 },
+	{ name = "orb", chance = 2146, maxCount = 5 },
+	{ name = "purple tome", chance = 1042 },
 	{ name = "great mana potion", chance = 19277, maxCount = 3 },
 	{ name = "demonic essence", chance = 7342 },
 	{ id = 28568, chance = 10000 }, -- inkwell
-	{ name = "small ruby", chance = 90000, maxCount = 5 },
+	{ name = "small ruby", chance = 7375, maxCount = 5 },
 	{ name = "talon", chance = 2589 },
 	{ name = "might ring", chance = 1783 },
-	{ name = "devil helmet", chance = 6990 },
+	{ name = "devil helmet", chance = 845 },
 	{ name = "demonrage sword", chance = 1456 },
 	{ id = 7393, chance = 390 }, -- demon trophy
-	{ name = "giant sword", chance = 250 },
-	{ name = "demon shield", chance = 250 },
+	{ name = "giant sword", chance = 2205 },
+	{ name = "demon shield", chance = 2078 },
 	{ name = "magic plate armor", chance = 272 },
-	{ name = "platinum amulet", chance = 350 },
+	{ name = "platinum amulet", chance = 2036 },
 	{ name = "wand of everblazing", chance = 300 },
-	{ name = "fire axe", chance = 500 },
+	{ name = "fire axe", chance = 6004 },
 }
 
 monster.attacks = {

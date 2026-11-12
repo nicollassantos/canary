@@ -76,9 +76,9 @@ monster.loot = {
 	{ name = "dark obsidian splinter", chance = 8832, maxCount = 1 },
 	{ name = "darklight core", chance = 7570, maxCount = 1 },
 	{ name = "small sapphire", chance = 5644, maxCount = 2 },
-	{ name = "blue gem", chance = 12909, maxCount = 1 },
-	{ name = "twiceslicer", chance = 11596, maxCount = 1 },
-	{ name = "white gem", chance = 13964, maxCount = 1 },
+	{ name = "blue gem", chance = 845, maxCount = 1 },
+	{ name = "twiceslicer", chance = 445, maxCount = 1 },
+	{ name = "white gem", chance = 423, maxCount = 1 },
 	{ name = "crystalline armor", chance = 400 },
 }
 

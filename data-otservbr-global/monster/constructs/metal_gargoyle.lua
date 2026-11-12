@@ -87,7 +87,7 @@ monster.loot = {
 	{ id = 237, chance = 7810, maxCount = 2 }, -- strong mana potion
 	{ id = 21171, chance = 839 }, -- metal bat
 	{ id = 8082, chance = 896 }, -- underworld rod
-	{ id = 3051, chance = 2240 }, -- energy ring
+	{ id = 3051, chance = 379 }, -- energy ring
 	{ id = 3052, chance = 476 }, -- life ring
 	{ id = 10310, chance = 1299 }, -- shiny stone
 	{ id = 21169, chance = 2687 }, -- metal spats

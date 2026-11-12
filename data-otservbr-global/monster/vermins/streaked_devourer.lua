@@ -91,7 +91,7 @@ monster.loot = {
 	{ name = "guardian halberd", chance = 3080 },
 	{ name = "warrior's axe", chance = 1540 },
 	{ name = "giant sword", chance = 1930 },
-	{ name = "war axe", chance = 4620 },
+	{ name = "war axe", chance = 755 },
 }
 
 monster.attacks = {
