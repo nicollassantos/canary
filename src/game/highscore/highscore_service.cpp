@@ -9,7 +9,26 @@
 #include "server/server_definitions.hpp"
 #include "utils/tools.hpp"
 
+std::string HighscoreService::cacheKey(uint8_t category, uint32_t vocationId, uint8_t entriesPerPage, uint32_t page) {
+	std::ostringstream cacheKeyStream;
+	cacheKeyStream << "Highscore_" << static_cast<int>(category) << "_" << static_cast<int>(vocationId) << "_" << static_cast<int>(entriesPerPage) << "_" << page;
+	return cacheKeyStream.str();
+}
+
+void HighscoreService::sendCached(const std::shared_ptr<Player> &player, const HighscoreCacheEntry &cacheEntry, uint8_t category, uint32_t vocationCID) {
+	auto cachedTime = cacheEntry.timestamp;
+	auto durationSinceEpoch = cachedTime.time_since_epoch();
+	auto secondsSinceEpoch = std::chrono::duration_cast<std::chrono::seconds>(durationSinceEpoch).count();
+	auto updateTimer = static_cast<uint32_t>(secondsSinceEpoch);
+	player->sendHighscores(cacheEntry.characters, category, vocationCID, cacheEntry.page, static_cast<uint16_t>(cacheEntry.entriesPerPage), updateTimer);
+}
+
 void HighscoreService::processHighscoreResults(Game &game, std::optional<HighscorePage> result, uint32_t playerID, uint8_t category, uint32_t vocationCID, uint8_t entriesPerPage) {
+	// Release the slot first: the player may have logged out while the query ran.
+	if (inFlight > 0) {
+		--inFlight;
+	}
+
 	const auto &player = game.getPlayerByID(playerID);
 	if (!player) {
 		return;
@@ -26,19 +45,12 @@ void HighscoreService::processHighscoreResults(Game &game, std::optional<Highsco
 	auto pages = calculateHighscorePages(result->total, entriesPerPage);
 
 	uint32_t vocationId = getVocationIdFromClientId(vocationCID);
-	std::ostringstream cacheKeyStream;
-	cacheKeyStream << "Highscore_" << static_cast<int>(category) << "_" << static_cast<int>(vocationId) << "_" << static_cast<int>(entriesPerPage) << "_" << page;
-	std::string cacheKey = cacheKeyStream.str();
+	std::string cacheKey = HighscoreService::cacheKey(category, vocationId, entriesPerPage, page);
 
 	auto it = game.highscoreCache.find(cacheKey);
 	auto now = std::chrono::system_clock::now();
 	if (it != game.highscoreCache.end() && (now - it->second.timestamp < HIGHSCORE_CACHE_EXPIRATION_TIME)) {
-		auto &cacheEntry = it->second;
-		auto cachedTime = it->second.timestamp;
-		auto durationSinceEpoch = cachedTime.time_since_epoch();
-		auto secondsSinceEpoch = std::chrono::duration_cast<std::chrono::seconds>(durationSinceEpoch).count();
-		auto updateTimer = static_cast<uint32_t>(secondsSinceEpoch);
-		player->sendHighscores(cacheEntry.characters, category, vocationCID, cacheEntry.page, static_cast<uint16_t>(cacheEntry.entriesPerPage), updateTimer);
+		sendCached(player, it->second, category, vocationCID);
 	} else {
 		player->sendHighscores(result->characters, category, vocationCID, page, static_cast<uint16_t>(pages), getTimeNow());
 		if (const auto dropped = highscore_cache::prune(game.highscoreCache, now, HIGHSCORE_CACHE_EXPIRATION_TIME)) {
@@ -56,10 +68,34 @@ void HighscoreService::processHighscoreResults(Game &game, std::optional<Highsco
 	return static_cast<uint16_t>((totalEntries + entriesPerPage - 1) / entriesPerPage);
 }
 
+bool HighscoreService::takeRequestSlot(uint32_t playerGuid, int64_t nowMs) {
+	// One entry per player who asked recently; drop the stale ones before the map gets large.
+	if (lastRequestAt.size() >= highscore_cache::MaxEntries) {
+		for (auto it = lastRequestAt.begin(); it != lastRequestAt.end();) {
+			if (nowMs - it->second >= RequestCooldownMs) {
+				it = lastRequestAt.erase(it);
+			} else {
+				++it;
+			}
+		}
+	}
+
+	const auto [it, inserted] = lastRequestAt.try_emplace(playerGuid, nowMs);
+	if (!inserted) {
+		if (nowMs - it->second < RequestCooldownMs) {
+			return false;
+		}
+		it->second = nowMs;
+	}
+	return true;
+}
+
 void HighscoreService::playerHighscores(const std::shared_ptr<Player> &player, HighscoreType_t type, uint8_t category, uint32_t vocation, const std::string &, uint16_t page, uint8_t entriesPerPage) {
 	if (player->hasAsyncOngoingTask(PlayerAsyncTask_Highscore)) {
 		return;
 	}
+	g_metrics().addCounter("highscore_requests_total", 1, { { "type", type == HIGHSCORE_OURRANK ? "our_rank" : "entries" } });
+
 	// Page 0 only comes from a crafted packet: (page - 1) would wrap and still run the full ranking.
 	if (entriesPerPage == 0 || (type == HIGHSCORE_GETENTRIES && page == 0)) {
 		g_metrics().addCounter("highscore_requests_rejected", 1, { { "reason", entriesPerPage == 0 ? "zero_entries" : "page_zero" } });
@@ -70,6 +106,28 @@ void HighscoreService::playerHighscores(const std::shared_ptr<Player> &player, H
 	std::string categoryName = getSkillNameById(category);
 
 	uint32_t vocationId = getVocationIdFromClientId(vocation);
+
+	// A fresh cached page costs no query, so it is served even inside the cooldown.
+	if (type == HIGHSCORE_GETENTRIES) {
+		const auto cached = game_.highscoreCache.find(cacheKey(category, vocationId, entriesPerPage, page));
+		if (cached != game_.highscoreCache.end() && std::chrono::system_clock::now() - cached->second.timestamp < HIGHSCORE_CACHE_EXPIRATION_TIME) {
+			g_metrics().addCounter("highscore_served_from_cache", 1);
+			sendCached(player, cached->second, category, vocation);
+			return;
+		}
+	}
+
+	if (!takeRequestSlot(player->getGUID(), now())) {
+		g_metrics().addCounter("highscore_requests_rejected", 1, { { "reason", "cooldown" } });
+		player->sendHighscoresNoData();
+		return;
+	}
+	if (inFlight >= MaxQueriesInFlight) {
+		g_metrics().addCounter("highscore_requests_rejected", 1, { { "reason", "server_busy" } });
+		player->sendHighscoresNoData();
+		return;
+	}
+
 	uint32_t playerID = player->getID();
 	// The rows arrive later on the dispatcher: capture values only and resolve the game then.
 	auto onLoaded = [playerID, category, vocation, entriesPerPage](std::optional<HighscorePage> result) {
@@ -87,6 +145,7 @@ void HighscoreService::playerHighscores(const std::shared_ptr<Player> &player, H
 		return;
 	}
 
+	++inFlight;
 	player->addAsyncOngoingTask(PlayerAsyncTask_Highscore);
 }
 

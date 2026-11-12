@@ -42,11 +42,18 @@ namespace {
 		void SetUp() override {
 			repository = &FakeHighscoreRepository::installed();
 			repository->reset();
-			player = std::make_shared<Player>(nullptr);
-			player->setGroup(std::make_shared<Group>());
-			player->setGUID(77);
-			player->setName("Highscore Player");
-			player->setID();
+			HighscoreService::resetQueriesInFlight();
+			service.now = [this] { return clockMs; };
+			player = makePlayer(77);
+		}
+
+		static std::shared_ptr<Player> makePlayer(uint32_t guid) {
+			auto created = std::make_shared<Player>(nullptr);
+			created->setGroup(std::make_shared<Group>());
+			created->setGUID(guid);
+			created->setName("Highscore Player " + std::to_string(guid));
+			created->setID();
+			return created;
 		}
 
 		void TearDown() override {
@@ -69,7 +76,9 @@ namespace {
 			return page;
 		}
 
-		HighscoreService service;
+		Game game;
+		HighscoreService service { game };
+		int64_t clockMs = 1'000'000;
 		FakeHighscoreRepository* repository = nullptr;
 		std::shared_ptr<Player> player;
 		bool registered = false;
@@ -129,7 +138,7 @@ TEST_F(HighscoreRequestsTest, UnbuildableQueryLeavesNoPendingTask) {
 	service.playerHighscores(player, HIGHSCORE_GETENTRIES, 0, AllVocations, "", 1, 20);
 
 	EXPECT_FALSE(player->hasAsyncOngoingTask(PlayerAsyncTask_Highscore));
-	EXPECT_EQ(nullptr, repository->pending);
+	EXPECT_TRUE(repository->pending.empty());
 }
 
 TEST_F(HighscoreRequestsTest, PlayerWithRequestInFlightIsIgnored) {
@@ -167,3 +176,53 @@ TEST_F(HighscoreRequestsTest, RowsForAPlayerWhoLoggedOutAreDropped) {
 	EXPECT_NO_THROW(repository->deliver(pageWithOneRow()));
 	EXPECT_TRUE(player->hasAsyncOngoingTask(PlayerAsyncTask_Highscore));
 }
+
+TEST_F(HighscoreRequestsTest, FreshCachedEntriesPageIsServedWithoutAQuery) {
+	game.addPlayer(player);
+	const auto experience = static_cast<uint8_t>(HighscoreCategories_t::EXPERIENCE);
+	HighscoreService::processHighscoreResults(game, pageWithOneRow(), player->getID(), experience, AllVocations, 20);
+
+	service.playerHighscores(player, HIGHSCORE_GETENTRIES, experience, AllVocations, "", 1, 20);
+
+	EXPECT_FALSE(repository->lastRequest.has_value());
+	EXPECT_FALSE(player->hasAsyncOngoingTask(PlayerAsyncTask_Highscore));
+}
+
+TEST_F(HighscoreRequestsTest, RequestsInsideTheCooldownAreRefused) {
+	registerInGlobalGame();
+	service.playerHighscores(player, HIGHSCORE_GETENTRIES, 0, AllVocations, "", 1, 20);
+	repository->deliver(std::nullopt);
+	repository->reset();
+
+	clockMs += HighscoreService::RequestCooldownMs / 2;
+	service.playerHighscores(player, HIGHSCORE_GETENTRIES, 0, AllVocations, "", 2, 20);
+	EXPECT_FALSE(repository->lastRequest.has_value());
+
+	clockMs += HighscoreService::RequestCooldownMs;
+	service.playerHighscores(player, HIGHSCORE_GETENTRIES, 0, AllVocations, "", 3, 20);
+	EXPECT_TRUE(repository->lastRequest.has_value());
+}
+
+TEST_F(HighscoreRequestsTest, ServerWideCapRefusesExtraQueriesUntilOneFinishes) {
+	std::vector<std::shared_ptr<Player>> players;
+	for (uint32_t i = 0; i < HighscoreService::MaxQueriesInFlight; ++i) {
+		players.push_back(makePlayer(1000 + i));
+		service.playerHighscores(players.back(), HIGHSCORE_GETENTRIES, 0, AllVocations, "", 1, 20);
+	}
+	ASSERT_EQ(HighscoreService::MaxQueriesInFlight, repository->pending.size());
+
+	const auto extra = makePlayer(2000);
+	repository->lastRequest.reset();
+	service.playerHighscores(extra, HIGHSCORE_GETENTRIES, 0, AllVocations, "", 1, 20);
+	EXPECT_FALSE(repository->lastRequest.has_value());
+	EXPECT_FALSE(extra->hasAsyncOngoingTask(PlayerAsyncTask_Highscore));
+
+	// None of these players is in the global game, as after a logout: the slot is freed anyway.
+	repository->deliver(std::nullopt);
+	EXPECT_EQ(HighscoreService::MaxQueriesInFlight - 1, HighscoreService::queriesInFlight());
+
+	clockMs += HighscoreService::RequestCooldownMs;
+	service.playerHighscores(extra, HIGHSCORE_GETENTRIES, 0, AllVocations, "", 1, 20);
+	EXPECT_TRUE(repository->lastRequest.has_value());
+}
+

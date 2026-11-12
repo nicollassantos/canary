@@ -12,6 +12,7 @@
 #include "io/highscore_repository.hpp"
 #include "lib/di/container.hpp"
 
+#include <deque>
 #include <optional>
 #include <string>
 
@@ -47,21 +48,21 @@ public:
 		return accept(std::move(onLoaded));
 	}
 
-	/// Runs the stored callback, as the dispatcher would once the query finished.
+	/// Runs the oldest stored callback, as the dispatcher would once that query finished.
 	void deliver(std::optional<HighscorePage> page) {
-		auto callback = std::move(pending);
-		pending = nullptr;
+		auto callback = std::move(pending.front());
+		pending.pop_front();
 		callback(std::move(page));
 	}
 
 	void reset() {
 		lastRequest.reset();
-		pending = nullptr;
+		pending.clear();
 		buildsQuery = true;
 	}
 
 	std::optional<Request> lastRequest;
-	OnLoaded pending;
+	std::deque<OnLoaded> pending;
 	/// false simulates a request no query can be built for.
 	bool buildsQuery = true;
 
@@ -70,7 +71,7 @@ private:
 		if (!buildsQuery) {
 			return false;
 		}
-		pending = std::move(onLoaded);
+		pending.push_back(std::move(onLoaded));
 		return true;
 	}
 };

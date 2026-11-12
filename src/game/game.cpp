@@ -118,7 +118,7 @@ Game::Game() :
 	m_itemService(std::make_unique<ItemService>(*this, g_configManager())),
 	m_tradeService(std::make_unique<TradeService>(*this, g_configManager())),
 	m_marketService(std::make_unique<MarketService>(*this, g_configManager())),
-	m_highscoreService(std::make_unique<HighscoreService>()),
+	m_highscoreService(std::make_unique<HighscoreService>(*this)),
 	m_creatureService(std::make_unique<CreatureManagementService>(*this, g_configManager())),
 	m_lootService(std::make_unique<LootService>(*this, g_configManager())),
 	m_interactionService(std::make_unique<PlayerInteractionService>(*this, g_configManager())),

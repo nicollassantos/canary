@@ -244,7 +244,7 @@ desfazer; se o upstream mexer nessas linhas, reaplique):
 | `src/creatures/players/components/pvp/expert_pvp.cpp` | `g_game()`/config → `world()` | porta `ExpertPvpWorld` (18.4) |
 | `src/server/network/connection/connection.cpp` | preâmbulo "world name" que não bate com `serverName` vira aviso + fechamento | diagnóstico de login (`b6fe41f24`) |
 | `game.cpp` `cacheQueryHighscore` (hoje em `highscore_repository_db.cpp`) e `processHighscoreResults` (hoje em `highscore_service.cpp`) | `highscore_cache::prune` antes de inserir (expiradas saem; no teto, o cache é limpo) + métrica `highscore_cache_evictions` | as chaves vêm do cliente; no upstream os caches crescem sem fim |
-| `game.cpp` `playerHighscores` (hoje em `highscore_service.cpp`) | página 0 em `HIGHSCORE_GETENTRIES` é recusada antes da query + métrica `highscore_requests_rejected` | `(page - 1)` dava underflow e rodava o ranking inteiro no MySQL |
+| `game.cpp` `playerHighscores` (hoje em `highscore_service.cpp`) | página 0 em `HIGHSCORE_GETENTRIES` é recusada antes da query; página fresca no cache de resultado sai sem query; intervalo de 1s por player; teto de 8 queries em andamento no servidor (contador liberado no topo de `processHighscoreResults`, mesmo se o player saiu); métricas `highscore_requests_total{type}`, `highscore_served_from_cache`, `highscore_requests_rejected{reason}` | `(page - 1)` dava underflow e rodava o ranking inteiro; toda query de highscore ocupa a única conexão do `Database` (com mutex) e atrasa saves, e bots com vários personagens podiam saturá-la |
 
 Chamadas: o upstream chama `IOLoginData::`/`IOMarket::`/`IOGuild::` fora de `src/io`. Na
 branch, toda chamada passa por `g_playerRepository()`/`g_vipRepository()`/
