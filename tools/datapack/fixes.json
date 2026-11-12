@@ -636,306 +636,6 @@
    }
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/bosses/izcandar_champion_of_summer.lua",
-   "monster": "Izcandar Champion of Summer",
-   "item": "berserk potion",
-   "maxCount": 19,
-   "source": {
-    "version": "12.86.11580",
-    "kills": 41,
-    "loot_revid": 1208025
-   }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/bosses/izcandar_champion_of_summer.lua",
-   "monster": "Izcandar Champion of Summer",
-   "item": "blue gem",
-   "maxCount": 2,
-   "source": {
-    "version": "12.86.11580",
-    "kills": 41,
-    "loot_revid": 1208025
-   }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/bosses/izcandar_champion_of_summer.lua",
-   "monster": "Izcandar Champion of Summer",
-   "item": "bullseye potion",
-   "maxCount": 15,
-   "source": {
-    "version": "12.86.11580",
-    "kills": 41,
-    "loot_revid": 1208025
-   }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/bosses/izcandar_champion_of_summer.lua",
-   "monster": "Izcandar Champion of Summer",
-   "item": "gold token",
-   "maxCount": 3,
-   "source": {
-    "version": "12.86.11580",
-    "kills": 41,
-    "loot_revid": 1208025
-   }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/bosses/izcandar_champion_of_summer.lua",
-   "monster": "Izcandar Champion of Summer",
-   "item": "mastermind potion",
-   "maxCount": 16,
-   "source": {
-    "version": "12.86.11580",
-    "kills": 41,
-    "loot_revid": 1208025
-   }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/bosses/izcandar_champion_of_summer.lua",
-   "monster": "Izcandar Champion of Summer",
-   "item": "platinum coin",
-   "maxCount": 9,
-   "source": {
-    "version": "12.86.11580",
-    "kills": 41,
-    "loot_revid": 1208025
-   }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/bosses/izcandar_champion_of_summer.lua",
-   "monster": "Izcandar Champion of Summer",
-   "item": "royal star",
-   "maxCount": 194,
-   "source": {
-    "version": "12.86.11580",
-    "kills": 41,
-    "loot_revid": 1208025
-   }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/bosses/izcandar_champion_of_summer.lua",
-   "monster": "Izcandar Champion of Summer",
-   "item": "silver token",
-   "maxCount": 4,
-   "source": {
-    "version": "12.86.11580",
-    "kills": 41,
-    "loot_revid": 1208025
-   }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/bosses/izcandar_champion_of_summer.lua",
-   "monster": "Izcandar Champion of Summer",
-   "item": "supreme health potion",
-   "maxCount": 22,
-   "source": {
-    "version": "12.86.11580",
-    "kills": 41,
-    "loot_revid": 1208025
-   }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/bosses/izcandar_champion_of_summer.lua",
-   "monster": "Izcandar Champion of Summer",
-   "item": "ultimate mana potion",
-   "maxCount": 29,
-   "source": {
-    "version": "12.86.11580",
-    "kills": 41,
-    "loot_revid": 1208025
-   }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/bosses/izcandar_champion_of_summer.lua",
-   "monster": "Izcandar Champion of Summer",
-   "item": "ultimate spirit potion",
-   "maxCount": 35,
-   "source": {
-    "version": "12.86.11580",
-    "kills": 41,
-    "loot_revid": 1208025
-   }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/bosses/izcandar_champion_of_winter.lua",
-   "monster": "Izcandar Champion of Winter",
-   "item": "berserk potion",
-   "maxCount": 17,
-   "source": {
-    "version": "12.86.11580",
-    "kills": 23,
-    "loot_revid": 1208387
-   }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/bosses/izcandar_champion_of_winter.lua",
-   "monster": "Izcandar Champion of Winter",
-   "item": "blue gem",
-   "maxCount": 2,
-   "source": {
-    "version": "12.86.11580",
-    "kills": 23,
-    "loot_revid": 1208387
-   }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/bosses/izcandar_champion_of_winter.lua",
-   "monster": "Izcandar Champion of Winter",
-   "item": "bullseye potion",
-   "maxCount": 17,
-   "source": {
-    "version": "12.86.11580",
-    "kills": 23,
-    "loot_revid": 1208387
-   }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/bosses/izcandar_champion_of_winter.lua",
-   "monster": "Izcandar Champion of Winter",
-   "item": "crystal coin",
-   "maxCount": 3,
-   "source": {
-    "version": "12.86.11580",
-    "kills": 23,
-    "loot_revid": 1208387
-   }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/bosses/izcandar_champion_of_winter.lua",
-   "monster": "Izcandar Champion of Winter",
-   "item": "gold token",
-   "maxCount": 3,
-   "source": {
-    "version": "12.86.11580",
-    "kills": 23,
-    "loot_revid": 1208387
-   }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/bosses/izcandar_champion_of_winter.lua",
-   "monster": "Izcandar Champion of Winter",
-   "item": "mastermind potion",
-   "maxCount": 18,
-   "source": {
-    "version": "12.86.11580",
-    "kills": 23,
-    "loot_revid": 1208387
-   }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/bosses/izcandar_champion_of_winter.lua",
-   "monster": "Izcandar Champion of Winter",
-   "item": "platinum coin",
-   "maxCount": 8,
-   "source": {
-    "version": "12.86.11580",
-    "kills": 23,
-    "loot_revid": 1208387
-   }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/bosses/izcandar_champion_of_winter.lua",
-   "monster": "Izcandar Champion of Winter",
-   "item": "royal star",
-   "maxCount": 190,
-   "source": {
-    "version": "12.86.11580",
-    "kills": 23,
-    "loot_revid": 1208387
-   }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/bosses/izcandar_champion_of_winter.lua",
-   "monster": "Izcandar Champion of Winter",
-   "item": "silver token",
-   "maxCount": 4,
-   "source": {
-    "version": "12.86.11580",
-    "kills": 23,
-    "loot_revid": 1208387
-   }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/bosses/izcandar_champion_of_winter.lua",
-   "monster": "Izcandar Champion of Winter",
-   "item": "supreme health potion",
-   "maxCount": 27,
-   "source": {
-    "version": "12.86.11580",
-    "kills": 23,
-    "loot_revid": 1208387
-   }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/bosses/izcandar_champion_of_winter.lua",
-   "monster": "Izcandar Champion of Winter",
-   "item": "ultimate mana potion",
-   "maxCount": 26,
-   "source": {
-    "version": "12.86.11580",
-    "kills": 23,
-    "loot_revid": 1208387
-   }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/bosses/izcandar_champion_of_winter.lua",
-   "monster": "Izcandar Champion of Winter",
-   "item": "ultimate spirit potion",
-   "maxCount": 26,
-   "source": {
-    "version": "12.86.11580",
-    "kills": 23,
-    "loot_revid": 1208387
-   }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/bosses/munster.lua",
-   "monster": "Munster",
-   "item": "cookie",
-   "maxCount": 3,
-   "source": {
-    "version": "8.6",
-    "kills": 289,
-    "loot_revid": 1213078
-   }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/bosses/munster.lua",
-   "monster": "Munster",
-   "item": "gold coin",
-   "maxCount": 24,
-   "source": {
-    "version": "8.6",
-    "kills": 289,
-    "loot_revid": 1213078
-   }
-  },
-  {
    "kind": "add_loot",
    "file": "data-otservbr-global/monster/bosses/the_flaming_orchid.lua",
    "monster": "The Flaming Orchid",
@@ -1091,66 +791,6 @@
     "version": "13.30.14423",
     "kills": 270,
     "loot_revid": 1212399
-   }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/bosses/weakened_shlorg.lua",
-   "monster": "Weakened Shlorg",
-   "item": "great mana potion",
-   "maxCount": 5,
-   "source": {
-    "version": "12.86.11580",
-    "kills": 25,
-    "loot_revid": 1206836
-   }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/bosses/weakened_shlorg.lua",
-   "monster": "Weakened Shlorg",
-   "item": "great spirit potion",
-   "maxCount": 5,
-   "source": {
-    "version": "12.86.11580",
-    "kills": 25,
-    "loot_revid": 1206836
-   }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/bosses/weakened_shlorg.lua",
-   "monster": "Weakened Shlorg",
-   "item": "small emerald",
-   "maxCount": 9,
-   "source": {
-    "version": "12.86.11580",
-    "kills": 25,
-    "loot_revid": 1206836
-   }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/bosses/weakened_shlorg.lua",
-   "monster": "Weakened Shlorg",
-   "item": "ultimate health potion",
-   "maxCount": 5,
-   "source": {
-    "version": "12.86.11580",
-    "kills": 25,
-    "loot_revid": 1206836
-   }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/bosses/zavarash.lua",
-   "monster": "Zavarash",
-   "item": "great spirit potion",
-   "maxCount": 10,
-   "source": {
-    "version": "10.5",
-    "kills": 585,
-    "loot_revid": 1198363
    }
   },
   {
@@ -14582,18 +14222,6 @@
   },
   {
    "kind": "max_count",
-   "file": "data-otservbr-global/monster/magicals/merikh_the_slaughterer.lua",
-   "monster": "Merikh the Slaughterer",
-   "item": "gold coin",
-   "maxCount": 121,
-   "source": {
-    "version": "8.6",
-    "kills": 36,
-    "loot_revid": 786948
-   }
-  },
-  {
-   "kind": "max_count",
    "file": "data-otservbr-global/monster/magicals/midnight_panther.lua",
    "monster": "Midnight Panther",
    "item": "gold coin",
@@ -16948,711 +16576,6 @@
    }
   },
   {
-   "kind": "add_loot",
-   "file": "data-otservbr-global/monster/quests/ferumbras_ascension/bosses/ferumbras_mortal_shell.lua",
-   "monster": "Ferumbras Mortal Shell",
-   "item": "golden legs",
-   "id": 3364,
-   "chance": 12500,
-   "source": {
-    "version": "12.86.11580",
-    "kills": 160,
-    "loot_revid": 1212781,
-    "times": 20
-   }
-  },
-  {
-   "kind": "add_loot",
-   "file": "data-otservbr-global/monster/quests/ferumbras_ascension/bosses/ferumbras_mortal_shell.lua",
-   "monster": "Ferumbras Mortal Shell",
-   "item": "haunted blade",
-   "id": 7407,
-   "chance": 11875,
-   "source": {
-    "version": "12.86.11580",
-    "kills": 160,
-    "loot_revid": 1212781,
-    "times": 19
-   }
-  },
-  {
-   "kind": "add_loot",
-   "file": "data-otservbr-global/monster/quests/ferumbras_ascension/bosses/ferumbras_mortal_shell.lua",
-   "monster": "Ferumbras Mortal Shell",
-   "item": "rift lance",
-   "id": 22727,
-   "chance": 25000,
-   "source": {
-    "version": "12.86.11580",
-    "kills": 160,
-    "loot_revid": 1212781,
-    "times": 40
-   }
-  },
-  {
-   "kind": "add_loot",
-   "file": "data-otservbr-global/monster/quests/ferumbras_ascension/bosses/ferumbras_mortal_shell.lua",
-   "monster": "Ferumbras Mortal Shell",
-   "item": "rift shield",
-   "id": 22726,
-   "chance": 25000,
-   "source": {
-    "version": "12.86.11580",
-    "kills": 160,
-    "loot_revid": 1212781,
-    "times": 40
-   }
-  },
-  {
-   "kind": "add_loot",
-   "file": "data-otservbr-global/monster/quests/ferumbras_ascension/bosses/ferumbras_mortal_shell.lua",
-   "monster": "Ferumbras Mortal Shell",
-   "item": "runed sword",
-   "id": 7417,
-   "chance": 3750,
-   "source": {
-    "version": "12.86.11580",
-    "kills": 160,
-    "loot_revid": 1212781,
-    "times": 6
-   }
-  },
-  {
-   "kind": "add_loot",
-   "file": "data-otservbr-global/monster/quests/ferumbras_ascension/bosses/ferumbras_mortal_shell.lua",
-   "monster": "Ferumbras Mortal Shell",
-   "item": "shadow sceptre",
-   "id": 7451,
-   "chance": 8125,
-   "source": {
-    "version": "12.86.11580",
-    "kills": 160,
-    "loot_revid": 1212781,
-    "times": 13
-   }
-  },
-  {
-   "kind": "add_loot",
-   "file": "data-otservbr-global/monster/quests/ferumbras_ascension/bosses/ferumbras_mortal_shell.lua",
-   "monster": "Ferumbras Mortal Shell",
-   "item": "soul orb",
-   "id": 5944,
-   "chance": 38750,
-   "source": {
-    "version": "12.86.11580",
-    "kills": 160,
-    "loot_revid": 1212781,
-    "times": 62
-   }
-  },
-  {
-   "kind": "add_loot",
-   "file": "data-otservbr-global/monster/quests/ferumbras_ascension/bosses/ferumbras_mortal_shell.lua",
-   "monster": "Ferumbras Mortal Shell",
-   "item": "spellbook of dark mysteries",
-   "id": 8090,
-   "chance": 4375,
-   "source": {
-    "version": "12.86.11580",
-    "kills": 160,
-    "loot_revid": 1212781,
-    "times": 7
-   }
-  },
-  {
-   "kind": "add_loot",
-   "file": "data-otservbr-global/monster/quests/ferumbras_ascension/bosses/ferumbras_mortal_shell.lua",
-   "monster": "Ferumbras Mortal Shell",
-   "item": "spellbook of lost souls",
-   "id": 8075,
-   "chance": 7500,
-   "source": {
-    "version": "12.86.11580",
-    "kills": 160,
-    "loot_revid": 1212781,
-    "times": 12
-   }
-  },
-  {
-   "kind": "add_loot",
-   "file": "data-otservbr-global/monster/quests/ferumbras_ascension/bosses/ferumbras_mortal_shell.lua",
-   "monster": "Ferumbras Mortal Shell",
-   "item": "spellbook of mind control",
-   "id": 8074,
-   "chance": 7500,
-   "source": {
-    "version": "12.86.11580",
-    "kills": 160,
-    "loot_revid": 1212781,
-    "times": 12
-   }
-  },
-  {
-   "kind": "add_loot",
-   "file": "data-otservbr-global/monster/quests/ferumbras_ascension/bosses/ferumbras_mortal_shell.lua",
-   "monster": "Ferumbras Mortal Shell",
-   "item": "terra legs",
-   "id": 812,
-   "chance": 16250,
-   "source": {
-    "version": "12.86.11580",
-    "kills": 160,
-    "loot_revid": 1212781,
-    "times": 26
-   }
-  },
-  {
-   "kind": "add_loot",
-   "file": "data-otservbr-global/monster/quests/ferumbras_ascension/bosses/ferumbras_mortal_shell.lua",
-   "monster": "Ferumbras Mortal Shell",
-   "item": "vile axe",
-   "id": 7388,
-   "chance": 4375,
-   "source": {
-    "version": "12.86.11580",
-    "kills": 160,
-    "loot_revid": 1212781,
-    "times": 7
-   }
-  },
-  {
-   "kind": "chance",
-   "file": "data-otservbr-global/monster/quests/ferumbras_ascension/bosses/ferumbras_mortal_shell.lua",
-   "monster": "Ferumbras Mortal Shell",
-   "item": "abyss hammer",
-   "chance": 3750,
-   "source": {
-    "version": "12.86.11580",
-    "kills": 160,
-    "loot_revid": 1212781,
-    "times": 6
-   }
-  },
-  {
-   "kind": "chance",
-   "file": "data-otservbr-global/monster/quests/ferumbras_ascension/bosses/ferumbras_mortal_shell.lua",
-   "monster": "Ferumbras Mortal Shell",
-   "item": "berserker",
-   "chance": 3125,
-   "source": {
-    "version": "12.86.11580",
-    "kills": 160,
-    "loot_revid": 1212781,
-    "times": 5
-   }
-  },
-  {
-   "kind": "chance",
-   "file": "data-otservbr-global/monster/quests/ferumbras_ascension/bosses/ferumbras_mortal_shell.lua",
-   "monster": "Ferumbras Mortal Shell",
-   "item": "black pearl",
-   "chance": 25625,
-   "source": {
-    "version": "12.86.11580",
-    "kills": 160,
-    "loot_revid": 1212781,
-    "times": 41
-   }
-  },
-  {
-   "kind": "chance",
-   "file": "data-otservbr-global/monster/quests/ferumbras_ascension/bosses/ferumbras_mortal_shell.lua",
-   "monster": "Ferumbras Mortal Shell",
-   "item": "bloody edge",
-   "chance": 3750,
-   "source": {
-    "version": "12.86.11580",
-    "kills": 160,
-    "loot_revid": 1212781,
-    "times": 6
-   }
-  },
-  {
-   "kind": "chance",
-   "file": "data-otservbr-global/monster/quests/ferumbras_ascension/bosses/ferumbras_mortal_shell.lua",
-   "monster": "Ferumbras Mortal Shell",
-   "item": "green gem",
-   "chance": 19375,
-   "source": {
-    "version": "12.86.11580",
-    "kills": 160,
-    "loot_revid": 1212781,
-    "times": 31
-   }
-  },
-  {
-   "kind": "chance",
-   "file": "data-otservbr-global/monster/quests/ferumbras_ascension/bosses/ferumbras_mortal_shell.lua",
-   "monster": "Ferumbras Mortal Shell",
-   "item": "small amethyst",
-   "chance": 28125,
-   "source": {
-    "version": "12.86.11580",
-    "kills": 160,
-    "loot_revid": 1212781,
-    "times": 45
-   }
-  },
-  {
-   "kind": "chance",
-   "file": "data-otservbr-global/monster/quests/ferumbras_ascension/bosses/ferumbras_mortal_shell.lua",
-   "monster": "Ferumbras Mortal Shell",
-   "item": "small diamond",
-   "chance": 22500,
-   "source": {
-    "version": "12.86.11580",
-    "kills": 160,
-    "loot_revid": 1212781,
-    "times": 36
-   }
-  },
-  {
-   "kind": "chance",
-   "file": "data-otservbr-global/monster/quests/ferumbras_ascension/bosses/ferumbras_mortal_shell.lua",
-   "monster": "Ferumbras Mortal Shell",
-   "item": "small topaz",
-   "chance": 20000,
-   "source": {
-    "version": "12.86.11580",
-    "kills": 160,
-    "loot_revid": 1212781,
-    "times": 32
-   }
-  },
-  {
-   "kind": "chance",
-   "file": "data-otservbr-global/monster/quests/ferumbras_ascension/bosses/ferumbras_mortal_shell.lua",
-   "monster": "Ferumbras Mortal Shell",
-   "item": "white pearl",
-   "chance": 23125,
-   "source": {
-    "version": "12.86.11580",
-    "kills": 160,
-    "loot_revid": 1212781,
-    "times": 37
-   }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/ferumbras_ascension/bosses/ferumbras_mortal_shell.lua",
-   "monster": "Ferumbras Mortal Shell",
-   "item": "black pearl",
-   "maxCount": 9,
-   "source": {
-    "version": "12.86.11580",
-    "kills": 160,
-    "loot_revid": 1212781
-   }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/ferumbras_ascension/bosses/ferumbras_mortal_shell.lua",
-   "monster": "Ferumbras Mortal Shell",
-   "item": "gold coin",
-   "maxCount": 375,
-   "source": {
-    "version": "12.86.11580",
-    "kills": 160,
-    "loot_revid": 1212781
-   }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/ferumbras_ascension/bosses/ferumbras_mortal_shell.lua",
-   "monster": "Ferumbras Mortal Shell",
-   "item": "platinum coin",
-   "maxCount": 35,
-   "source": {
-    "version": "12.86.11580",
-    "kills": 160,
-    "loot_revid": 1212781
-   }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/ferumbras_ascension/bosses/ferumbras_mortal_shell.lua",
-   "monster": "Ferumbras Mortal Shell",
-   "item": "silver token",
-   "maxCount": 5,
-   "source": {
-    "version": "12.86.11580",
-    "kills": 160,
-    "loot_revid": 1212781
-   }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/ferumbras_ascension/bosses/ferumbras_mortal_shell.lua",
-   "monster": "Ferumbras Mortal Shell",
-   "item": "small amethyst",
-   "maxCount": 19,
-   "source": {
-    "version": "12.86.11580",
-    "kills": 160,
-    "loot_revid": 1212781
-   }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/ferumbras_ascension/bosses/ferumbras_mortal_shell.lua",
-   "monster": "Ferumbras Mortal Shell",
-   "item": "small diamond",
-   "maxCount": 18,
-   "source": {
-    "version": "12.86.11580",
-    "kills": 160,
-    "loot_revid": 1212781
-   }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/ferumbras_ascension/bosses/ferumbras_mortal_shell.lua",
-   "monster": "Ferumbras Mortal Shell",
-   "item": "small emerald",
-   "maxCount": 15,
-   "source": {
-    "version": "12.86.11580",
-    "kills": 160,
-    "loot_revid": 1212781
-   }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/ferumbras_ascension/bosses/ferumbras_mortal_shell.lua",
-   "monster": "Ferumbras Mortal Shell",
-   "item": "small sapphire",
-   "maxCount": 19,
-   "source": {
-    "version": "12.86.11580",
-    "kills": 160,
-    "loot_revid": 1212781
-   }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/ferumbras_ascension/bosses/ferumbras_mortal_shell.lua",
-   "monster": "Ferumbras Mortal Shell",
-   "item": "small topaz",
-   "maxCount": 18,
-   "source": {
-    "version": "12.86.11580",
-    "kills": 160,
-    "loot_revid": 1212781
-   }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/ferumbras_ascension/bosses/ferumbras_mortal_shell.lua",
-   "monster": "Ferumbras Mortal Shell",
-   "item": "white pearl",
-   "maxCount": 9,
-   "source": {
-    "version": "12.86.11580",
-    "kills": 160,
-    "loot_revid": 1212781
-   }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/forgotten_knowledge/bosses/the_blazing_time_guardian.lua",
-   "monster": "The Blazing Time Guardian",
-   "item": "gold coin",
-   "maxCount": 329,
-   "source": {
-    "version": "12.86.11580",
-    "kills": 44,
-    "loot_revid": 1211944
-   }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/forgotten_knowledge/bosses/the_blazing_time_guardian.lua",
-   "monster": "The Blazing Time Guardian",
-   "item": "great mana potion",
-   "maxCount": 16,
-   "source": {
-    "version": "12.86.11580",
-    "kills": 44,
-    "loot_revid": 1211944
-   }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/forgotten_knowledge/bosses/the_blazing_time_guardian.lua",
-   "monster": "The Blazing Time Guardian",
-   "item": "great spirit potion",
-   "maxCount": 13,
-   "source": {
-    "version": "12.86.11580",
-    "kills": 44,
-    "loot_revid": 1211944
-   }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/forgotten_knowledge/bosses/the_blazing_time_guardian.lua",
-   "monster": "The Blazing Time Guardian",
-   "item": "green crystal shard",
-   "maxCount": 5,
-   "source": {
-    "version": "12.86.11580",
-    "kills": 44,
-    "loot_revid": 1211944
-   }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/forgotten_knowledge/bosses/the_blazing_time_guardian.lua",
-   "monster": "The Blazing Time Guardian",
-   "item": "platinum coin",
-   "maxCount": 37,
-   "source": {
-    "version": "12.86.11580",
-    "kills": 44,
-    "loot_revid": 1211944
-   }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/forgotten_knowledge/bosses/the_blazing_time_guardian.lua",
-   "monster": "The Blazing Time Guardian",
-   "item": "small topaz",
-   "maxCount": 17,
-   "source": {
-    "version": "12.86.11580",
-    "kills": 44,
-    "loot_revid": 1211944
-   }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/forgotten_knowledge/bosses/the_blazing_time_guardian.lua",
-   "monster": "The Blazing Time Guardian",
-   "item": "violet crystal shard",
-   "maxCount": 5,
-   "source": {
-    "version": "12.86.11580",
-    "kills": 44,
-    "loot_revid": 1211944
-   }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/forgotten_knowledge/bosses/the_freezing_time_guardian.lua",
-   "monster": "The Freezing Time Guardian",
-   "item": "blue crystal shard",
-   "maxCount": 5,
-   "source": {
-    "version": "12.86.11580",
-    "kills": 31,
-    "loot_revid": 1211714
-   }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/forgotten_knowledge/bosses/the_freezing_time_guardian.lua",
-   "monster": "The Freezing Time Guardian",
-   "item": "gold coin",
-   "maxCount": 377,
-   "source": {
-    "version": "12.86.11580",
-    "kills": 31,
-    "loot_revid": 1211714
-   }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/forgotten_knowledge/bosses/the_freezing_time_guardian.lua",
-   "monster": "The Freezing Time Guardian",
-   "item": "great mana potion",
-   "maxCount": 13,
-   "source": {
-    "version": "12.86.11580",
-    "kills": 31,
-    "loot_revid": 1211714
-   }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/forgotten_knowledge/bosses/the_freezing_time_guardian.lua",
-   "monster": "The Freezing Time Guardian",
-   "item": "green crystal shard",
-   "maxCount": 5,
-   "source": {
-    "version": "12.86.11580",
-    "kills": 31,
-    "loot_revid": 1211714
-   }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/forgotten_knowledge/bosses/the_freezing_time_guardian.lua",
-   "monster": "The Freezing Time Guardian",
-   "item": "platinum coin",
-   "maxCount": 41,
-   "source": {
-    "version": "12.86.11580",
-    "kills": 31,
-    "loot_revid": 1211714
-   }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/forgotten_knowledge/bosses/the_freezing_time_guardian.lua",
-   "monster": "The Freezing Time Guardian",
-   "item": "small amethyst",
-   "maxCount": 17,
-   "source": {
-    "version": "12.86.11580",
-    "kills": 31,
-    "loot_revid": 1211714
-   }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/forgotten_knowledge/bosses/the_freezing_time_guardian.lua",
-   "monster": "The Freezing Time Guardian",
-   "item": "small diamond",
-   "maxCount": 19,
-   "source": {
-    "version": "12.86.11580",
-    "kills": 31,
-    "loot_revid": 1211714
-   }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/forgotten_knowledge/bosses/the_freezing_time_guardian.lua",
-   "monster": "The Freezing Time Guardian",
-   "item": "ultimate health potion",
-   "maxCount": 12,
-   "source": {
-    "version": "12.86.11580",
-    "kills": 31,
-    "loot_revid": 1211714
-   }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/forgotten_knowledge/bosses/the_freezing_time_guardian.lua",
-   "monster": "The Freezing Time Guardian",
-   "item": "violet crystal shard",
-   "maxCount": 5,
-   "source": {
-    "version": "12.86.11580",
-    "kills": 31,
-    "loot_revid": 1211714
-   }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/hidden_threats/cave_spider.lua",
-   "monster": "Cave Spider",
-   "item": "gold coin",
-   "maxCount": 82,
-   "source": {
-    "version": "8.6",
-    "kills": 14,
-    "loot_revid": 1190458
-   }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/killing_in_the_name_of/bretzecutioner.lua",
-   "monster": "Bretzecutioner",
-   "item": "gold coin",
-   "maxCount": 99,
-   "source": {
-    "version": "9.5",
-    "kills": 39,
-    "loot_revid": 1170364
-   }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/killing_in_the_name_of/flameborn.lua",
-   "monster": "Flameborn",
-   "item": "platinum coin",
-   "maxCount": 14,
-   "source": {
-    "version": "9.2",
-    "kills": 81,
-    "loot_revid": 1184782
-   }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/killing_in_the_name_of/hide.lua",
-   "monster": "Hide",
-   "item": "platinum coin",
-   "maxCount": 8,
-   "source": {
-    "version": "9.86",
-    "kills": 108,
-    "loot_revid": 1186829
-   }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/killing_in_the_name_of/hide.lua",
-   "monster": "Hide",
-   "item": "spider silk",
-   "maxCount": 2,
-   "source": {
-    "version": "9.86",
-    "kills": 108,
-    "loot_revid": 1186829
-   }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/killing_in_the_name_of/paiz_the_pauperizer.lua",
-   "monster": "Paiz the Pauperizer",
-   "item": "small emerald",
-   "maxCount": 10,
-   "source": {
-    "version": "9.5",
-    "kills": 88,
-    "loot_revid": 1106782
-   }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/killing_in_the_name_of/shardhead.lua",
-   "monster": "Shardhead",
-   "item": "gold coin",
-   "maxCount": 198,
-   "source": {
-    "version": "9.2",
-    "kills": 110,
-    "loot_revid": 1184890
-   }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/killing_in_the_name_of/stonecracker.lua",
-   "monster": "Stonecracker",
-   "item": "gold coin",
-   "maxCount": 162,
-   "source": {
-    "version": "9.5",
-    "kills": 45,
-    "loot_revid": 1167274
-   }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/killing_in_the_name_of/stonecracker.lua",
-   "monster": "Stonecracker",
-   "item": "small amethyst",
-   "maxCount": 5,
-   "source": {
-    "version": "9.5",
-    "kills": 45,
-    "loot_revid": 1167274
-   }
-  },
-  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/quests/killing_in_the_name_of/the_bloodtusk.lua",
    "monster": "The Bloodtusk",
@@ -17674,42 +16597,6 @@
     "version": "9.2",
     "kills": 78,
     "loot_revid": 1097062
-   }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/killing_in_the_name_of/the_old_widow.lua",
-   "monster": "The Old Widow",
-   "item": "gold coin",
-   "maxCount": 100,
-   "source": {
-    "version": "9.2",
-    "kills": 211,
-    "loot_revid": 1188778
-   }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/killing_in_the_name_of/the_snapper.lua",
-   "monster": "The Snapper",
-   "item": "gold coin",
-   "maxCount": 179,
-   "source": {
-    "version": "9.2",
-    "kills": 163,
-    "loot_revid": 1184927
-   }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/killing_in_the_name_of/tiquandas_revenge.lua",
-   "monster": "Tiquandas Revenge",
-   "item": "gold coin",
-   "maxCount": 118,
-   "source": {
-    "version": "8.6",
-    "kills": 51,
-    "loot_revid": 1183596
    }
   },
   {
@@ -17762,42 +16649,6 @@
     "kills": 1047,
     "loot_revid": 1169848,
     "times": 39
-   }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/primal_ordeal_quest/plunder_patriarch.lua",
-   "monster": "Plunder Patriarch",
-   "item": "raw watermelon tourmaline",
-   "maxCount": 2,
-   "source": {
-    "version": "8.6",
-    "kills": 10,
-    "loot_revid": 1194539
-   }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/roshamuul/terofar.lua",
-   "monster": "Terofar",
-   "item": "great spirit potion",
-   "maxCount": 10,
-   "source": {
-    "version": "10.5",
-    "kills": 531,
-    "loot_revid": 1198365
-   }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/roshamuul/terofar.lua",
-   "monster": "Terofar",
-   "item": "platinum coin",
-   "maxCount": 60,
-   "source": {
-    "version": "10.5",
-    "kills": 531,
-    "loot_revid": 1198365
    }
   },
   {
@@ -20258,30 +19109,6 @@
   },
   {
    "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/the_elemental_spheres/energy_overlord.lua",
-   "monster": "Energy Overlord",
-   "item": "gold coin",
-   "maxCount": 75,
-   "source": {
-    "version": "8.6",
-    "kills": 412,
-    "loot_revid": 1177991
-   }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/the_elemental_spheres/energy_overlord.lua",
-   "monster": "Energy Overlord",
-   "item": "platinum coin",
-   "maxCount": 3,
-   "source": {
-    "version": "8.6",
-    "kills": 412,
-    "loot_revid": 1177991
-   }
-  },
-  {
-   "kind": "max_count",
    "file": "data-otservbr-global/monster/quests/the_elemental_spheres/flickering_spirit_elemental.lua",
    "monster": "Flickering Spirit Elemental",
    "item": "gold coin",
@@ -20290,18 +19117,6 @@
     "version": "8.6",
     "kills": 3638,
     "loot_revid": 1189375
-   }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/the_elemental_spheres/ice_overlord.lua",
-   "monster": "Ice Overlord",
-   "item": "gold coin",
-   "maxCount": 75,
-   "source": {
-    "version": "8.6",
-    "kills": 735,
-    "loot_revid": 1177992
    }
   },
   {
@@ -20481,58 +19296,6 @@
    }
   },
   {
-   "kind": "chance",
-   "file": "data-otservbr-global/monster/quests/the_order_of_lion/bosses/ancient_lion_knight.lua",
-   "monster": "Ancient Lion Knight",
-   "item": "bug meat",
-   "chance": 19405,
-   "source": {
-    "version": "12.86.11580",
-    "kills": 706,
-    "loot_revid": 1211318,
-    "times": 137
-   }
-  },
-  {
-   "kind": "chance",
-   "file": "data-otservbr-global/monster/quests/the_order_of_lion/bosses/ancient_lion_knight.lua",
-   "monster": "Ancient Lion Knight",
-   "item": "dark shield",
-   "chance": 4391,
-   "source": {
-    "version": "12.86.11580",
-    "kills": 706,
-    "loot_revid": 1211318,
-    "times": 31
-   }
-  },
-  {
-   "kind": "chance",
-   "file": "data-otservbr-global/monster/quests/the_order_of_lion/bosses/ancient_lion_knight.lua",
-   "monster": "Ancient Lion Knight",
-   "item": "dirty cape",
-   "chance": 30170,
-   "source": {
-    "version": "12.86.11580",
-    "kills": 706,
-    "loot_revid": 1211318,
-    "times": 213
-   }
-  },
-  {
-   "kind": "chance",
-   "file": "data-otservbr-global/monster/quests/the_order_of_lion/bosses/ancient_lion_knight.lua",
-   "monster": "Ancient Lion Knight",
-   "item": "dwarven shield",
-   "chance": 3258,
-   "source": {
-    "version": "12.86.11580",
-    "kills": 706,
-    "loot_revid": 1211318,
-    "times": 23
-   }
-  },
-  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/quests/the_secret_library/furious_scorpion.lua",
    "monster": "Furious Scorpion",
@@ -20554,54 +19317,6 @@
     "version": "8.6",
     "kills": 280,
     "loot_revid": 1100125
-   }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/raids/fernfang.lua",
-   "monster": "Fernfang",
-   "item": "gold coin",
-   "maxCount": 100,
-   "source": {
-    "version": "8.6",
-    "kills": 53,
-    "loot_revid": 1170381
-   }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/raids/glooth_bomb.lua",
-   "monster": "Glooth Bomb",
-   "item": "gold coin",
-   "maxCount": 86,
-   "source": {
-    "version": "10.7",
-    "kills": 16,
-    "loot_revid": 1206839
-   }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/raids/lethal_lissy.lua",
-   "monster": "Lethal Lissy",
-   "item": "gold coin",
-   "maxCount": 139,
-   "source": {
-    "version": "8.6",
-    "kills": 22,
-    "loot_revid": 1125541
-   }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/raids/necropharus.lua",
-   "monster": "Necropharus",
-   "item": "gold coin",
-   "maxCount": 100,
-   "source": {
-    "version": "8.6",
-    "kills": 39,
-    "loot_revid": 1056880
    }
   },
   {
@@ -26213,13 +24928,12 @@
   {
    "monster": "Apprentice Sheng",
    "item": "carrot",
-   "reason": "not stackable; maxCount has no effect",
-   "wiki": 7
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Armenius (Creature)",
    "item": "holyDmgMod",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Bakragore",
@@ -26799,7 +25513,7 @@
   {
    "monster": "Energized Raging Mage",
    "item": "deathDmgMod",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Gaffir",
@@ -26979,78 +25693,192 @@
   {
    "monster": "Izcandar Champion of Summer",
    "item": "fireDmgMod",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Izcandar Champion of Summer",
    "item": "iceDmgMod",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Izcandar Champion of Summer",
+   "item": "platinum coin",
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Izcandar Champion of Summer",
+   "item": "silver token",
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Izcandar Champion of Summer",
+   "item": "gold token",
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Izcandar Champion of Summer",
+   "item": "ultimate spirit potion",
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Izcandar Champion of Summer",
+   "item": "ultimate mana potion",
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Izcandar Champion of Summer",
+   "item": "royal star",
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Izcandar Champion of Summer",
+   "item": "supreme health potion",
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Izcandar Champion of Summer",
+   "item": "blue gem",
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Izcandar Champion of Summer",
+   "item": "bullseye potion",
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Izcandar Champion of Summer",
+   "item": "mastermind potion",
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Izcandar Champion of Summer",
+   "item": "berserk potion",
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Izcandar Champion of Winter",
    "item": "experience",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Izcandar Champion of Winter",
    "item": "fireDmgMod",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Izcandar Champion of Winter",
    "item": "iceDmgMod",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Izcandar Champion of Winter",
+   "item": "platinum coin",
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Izcandar Champion of Winter",
+   "item": "silver token",
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Izcandar Champion of Winter",
+   "item": "gold token",
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Izcandar Champion of Winter",
+   "item": "ultimate mana potion",
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Izcandar Champion of Winter",
+   "item": "supreme health potion",
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Izcandar Champion of Winter",
    "item": "red gem",
-   "reason": "not stackable; maxCount has no effect",
-   "wiki": 2
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Izcandar Champion of Winter",
+   "item": "ultimate spirit potion",
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Izcandar Champion of Winter",
+   "item": "royal star",
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Izcandar Champion of Winter",
+   "item": "crystal coin",
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Izcandar Champion of Winter",
+   "item": "mastermind potion",
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Izcandar Champion of Winter",
+   "item": "berserk potion",
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Izcandar Champion of Winter",
+   "item": "bullseye potion",
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Izcandar Champion of Winter",
+   "item": "blue gem",
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Kraknaknork's Demon",
    "item": "physicalDmgMod",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Kraknaknork's Demon",
    "item": "energyDmgMod",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Kraknaknork's Demon",
    "item": "earthDmgMod",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Kraknaknork's Demon",
    "item": "fireDmgMod",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Kraknaknork's Demon",
    "item": "hpDrainDmgMod",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Kraknaknork's Demon",
    "item": "drownDmgMod",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Kraknaknork's Demon",
    "item": "iceDmgMod",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Kraknaknork's Demon",
    "item": "holyDmgMod",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Kraknaknork's Demon",
    "item": "deathDmgMod",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Kroazur",
@@ -27375,12 +26203,22 @@
   {
    "monster": "Munster",
    "item": "gold coin",
-   "reason": "old statistics (version 8.6)"
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Munster",
+   "item": "gold coin",
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Munster",
    "item": "cheese",
-   "reason": "old statistics (version 8.6)"
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Munster",
+   "item": "cookie",
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Murcion",
@@ -27520,22 +26358,22 @@
   {
    "monster": "Renegade Orc",
    "item": "energyDmgMod",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Renegade Orc",
    "item": "earthDmgMod",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Renegade Orc",
    "item": "holyDmgMod",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Renegade Orc",
    "item": "deathDmgMod",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Robby the Reckless",
@@ -27685,7 +26523,7 @@
   {
    "monster": "Teleskor",
    "item": "holyDmgMod",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "The Blightfather",
@@ -27735,7 +26573,7 @@
   {
    "monster": "The Collector",
    "item": "paralyze",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "The Evil Eye",
@@ -27984,27 +26822,27 @@
   {
    "monster": "Verminor",
    "item": "maxHealth",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Verminor",
    "item": "experience",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Verminor",
    "item": "energyDmgMod",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Verminor",
    "item": "fireDmgMod",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Verminor",
    "item": "hpDrainDmgMod",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Warlord Ruzad",
@@ -28014,27 +26852,47 @@
   {
    "monster": "Weakened Shlorg",
    "item": "physicalDmgMod",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Weakened Shlorg",
    "item": "earthDmgMod",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Weakened Shlorg",
    "item": "fireDmgMod",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Weakened Shlorg",
    "item": "iceDmgMod",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Weakened Shlorg",
    "item": "holyDmgMod",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Weakened Shlorg",
+   "item": "great spirit potion",
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Weakened Shlorg",
+   "item": "great mana potion",
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Weakened Shlorg",
+   "item": "ultimate health potion",
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Weakened Shlorg",
+   "item": "small emerald",
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Willi Wasp",
@@ -28069,27 +26927,32 @@
   {
    "monster": "Zavarash",
    "item": "cluster of solace",
-   "reason": "old statistics (version 10.5)"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Zavarash",
    "item": "demon horn",
-   "reason": "old statistics (version 10.5)"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Zavarash",
    "item": "gold coin",
-   "reason": "old statistics (version 10.5)"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Zavarash",
    "item": "platinum coin",
-   "reason": "old statistics (version 10.5)"
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Zavarash",
+   "item": "great spirit potion",
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Zavarash",
    "item": "onyx flail",
-   "reason": "old statistics (version 10.5)"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Zevelon Duskbringer",
@@ -36172,6 +35035,11 @@
    "reason": "gap from 691 to 6396 is too large to trust"
   },
   {
+   "monster": "Merikh the Slaughterer",
+   "item": "gold coin",
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
    "monster": "Nibblemaw",
    "item": "strong health potion",
    "reason": "old statistics (version 8.6)"
@@ -37837,37 +36705,37 @@
   {
    "monster": "Versperoth",
    "item": "physicalDmgMod",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Versperoth",
    "item": "energyDmgMod",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Versperoth",
    "item": "fireDmgMod",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Versperoth",
    "item": "iceDmgMod",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Versperoth",
    "item": "holyDmgMod",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Versperoth",
    "item": "deathDmgMod",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Versperoth",
    "item": "invisible",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Animated Cyclops",
@@ -39705,52 +38573,52 @@
   {
    "monster": "Brother Worm",
    "item": "maxHealth",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Brother Worm",
    "item": "physicalDmgMod",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Brother Worm",
    "item": "energyDmgMod",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Brother Worm",
    "item": "earthDmgMod",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Brother Worm",
    "item": "fireDmgMod",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Brother Worm",
    "item": "hpDrainDmgMod",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Brother Worm",
    "item": "drownDmgMod",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Brother Worm",
    "item": "iceDmgMod",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Brother Worm",
    "item": "holyDmgMod",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Brother Worm",
    "item": "deathDmgMod",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Irgix The Flimsy",
@@ -40190,162 +39058,312 @@
   {
    "monster": "Ferumbras Mortal Shell",
    "item": "hpDrainDmgMod",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Ferumbras Mortal Shell",
+   "item": "silver token",
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Ferumbras Mortal Shell",
    "item": "gold coin",
-   "reason": "currency: compare with the existing coin entries"
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Ferumbras Mortal Shell",
+   "item": "gold coin",
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Ferumbras Mortal Shell",
    "item": "giant shimmering pearl",
-   "reason": "gap from 1000 to 53750 is too large to trust"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Ferumbras Mortal Shell",
    "item": "platinum coin",
-   "reason": "currency: compare with the existing coin entries"
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Ferumbras Mortal Shell",
+   "item": "platinum coin",
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Ferumbras Mortal Shell",
    "item": "emerald bangle",
-   "reason": "gap from 1000 to 38750 is too large to trust"
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Ferumbras Mortal Shell",
+   "item": "soul orb",
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Ferumbras Mortal Shell",
+   "item": "small amethyst",
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Ferumbras Mortal Shell",
+   "item": "small amethyst",
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Ferumbras Mortal Shell",
+   "item": "black pearl",
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Ferumbras Mortal Shell",
+   "item": "black pearl",
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Ferumbras Mortal Shell",
    "item": "rift bow",
-   "reason": "gap from 500 to 25625 is too large to trust"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Ferumbras Mortal Shell",
    "item": "rift crossbow",
-   "reason": "gap from 500 to 25000 is too large to trust"
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Ferumbras Mortal Shell",
+   "item": "rift lance",
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Ferumbras Mortal Shell",
+   "item": "rift shield",
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Ferumbras Mortal Shell",
    "item": "gold ingot",
-   "reason": "gap from 800 to 23125 is too large to trust"
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Ferumbras Mortal Shell",
+   "item": "white pearl",
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Ferumbras Mortal Shell",
+   "item": "white pearl",
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Ferumbras Mortal Shell",
    "item": "red gem",
-   "reason": "gap from 1000 to 22500 is too large to trust"
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Ferumbras Mortal Shell",
+   "item": "small diamond",
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Ferumbras Mortal Shell",
+   "item": "small diamond",
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Ferumbras Mortal Shell",
    "item": "blue gem",
-   "reason": "gap from 800 to 20625 is too large to trust"
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Ferumbras Mortal Shell",
+   "item": "small topaz",
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Ferumbras Mortal Shell",
+   "item": "small topaz",
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Ferumbras Mortal Shell",
+   "item": "green gem",
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Ferumbras Mortal Shell",
    "item": "golden armor",
-   "reason": "gap from 800 to 17500 is too large to trust"
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Ferumbras Mortal Shell",
+   "item": "terra legs",
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Ferumbras Mortal Shell",
    "item": "glacier kilt",
-   "reason": "gap from 800 to 15625 is too large to trust"
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Ferumbras Mortal Shell",
+   "item": "small sapphire",
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Ferumbras Mortal Shell",
+   "item": "small emerald",
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Ferumbras Mortal Shell",
    "item": "magma legs",
-   "reason": "gap from 800 to 13750 is too large to trust"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Ferumbras Mortal Shell",
    "item": "demonrage sword",
-   "reason": "gap from 800 to 12500 is too large to trust"
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Ferumbras Mortal Shell",
+   "item": "golden legs",
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Ferumbras Mortal Shell",
    "item": "chaos mace",
-   "reason": "gap from 800 to 11875 is too large to trust"
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Ferumbras Mortal Shell",
+   "item": "haunted blade",
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Ferumbras Mortal Shell",
    "item": "boots of homecoming",
-   "reason": "gap from 800 to 10625 is too large to trust"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Ferumbras Mortal Shell",
    "item": "ferumbras' amulet",
-   "reason": "gap from 800 to 10000 is too large to trust"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Ferumbras Mortal Shell",
    "item": "ferumbras' staff (blunt)",
-   "reason": "name resolves to 0 items",
-   "ids": []
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Ferumbras Mortal Shell",
    "item": "lightning legs",
-   "reason": "gap from 800 to 9375 is too large to trust"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Ferumbras Mortal Shell",
    "item": "demon shield",
-   "reason": "gap from 800 to 8750 is too large to trust"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Ferumbras Mortal Shell",
    "item": "ferumbras' mana keg",
-   "reason": "gap from 800 to 8750 is too large to trust"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Ferumbras Mortal Shell",
    "item": "mastermind shield",
-   "reason": "gap from 600 to 8125 is too large to trust"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Ferumbras Mortal Shell",
    "item": "scroll of ascension",
-   "reason": "gap from 800 to 8125 is too large to trust"
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Ferumbras Mortal Shell",
+   "item": "shadow sceptre",
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Ferumbras Mortal Shell",
+   "item": "spellbook of lost souls",
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Ferumbras Mortal Shell",
+   "item": "spellbook of mind control",
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Ferumbras Mortal Shell",
    "item": "greenwood coat",
-   "reason": "gap from 400 to 6875 is too large to trust"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Ferumbras Mortal Shell",
    "item": "jade hammer",
-   "reason": "gap from 800 to 6250 is too large to trust"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Ferumbras Mortal Shell",
    "item": "rift lamp",
-   "reason": "name resolves to 2 items",
-   "ids": [
-    22725,
-    22734
-   ]
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Ferumbras Mortal Shell",
    "item": "divine plate",
-   "reason": "gap from 800 to 5000 is too large to trust"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Ferumbras Mortal Shell",
    "item": "nightmare blade",
-   "reason": "gap from 600 to 5000 is too large to trust"
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Ferumbras Mortal Shell",
+   "item": "spellbook of dark mysteries",
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Ferumbras Mortal Shell",
+   "item": "vile axe",
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Ferumbras Mortal Shell",
+   "item": "abyss hammer",
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Ferumbras Mortal Shell",
+   "item": "bloody edge",
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Ferumbras Mortal Shell",
+   "item": "runed sword",
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Ferumbras Mortal Shell",
+   "item": "berserker",
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Ferumbras Mortal Shell",
    "item": "demonwing axe",
-   "reason": "gap from 300 to 2500 is too large to trust"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Ferumbras Mortal Shell",
    "item": "magic plate armor",
-   "reason": "gap from 400 to 2500 is too large to trust"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Ferumbras Mortal Shell",
    "item": "velvet mantle",
-   "reason": "gap from 300 to 1875 is too large to trust"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Mazoran",
@@ -41085,12 +40103,47 @@
   {
    "monster": "The Blazing Time Guardian",
    "item": "maxHealth",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "The Blazing Time Guardian",
    "item": "fireDmgMod",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "The Blazing Time Guardian",
+   "item": "gold coin",
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "The Blazing Time Guardian",
+   "item": "platinum coin",
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "The Blazing Time Guardian",
+   "item": "violet crystal shard",
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "The Blazing Time Guardian",
+   "item": "great mana potion",
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "The Blazing Time Guardian",
+   "item": "green crystal shard",
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "The Blazing Time Guardian",
+   "item": "great spirit potion",
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "The Blazing Time Guardian",
+   "item": "small topaz",
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "The Enraged Thorn Knight",
@@ -41140,12 +40193,57 @@
   {
    "monster": "The Freezing Time Guardian",
    "item": "maxHealth",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "The Freezing Time Guardian",
    "item": "iceDmgMod",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "The Freezing Time Guardian",
+   "item": "gold coin",
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "The Freezing Time Guardian",
+   "item": "platinum coin",
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "The Freezing Time Guardian",
+   "item": "great mana potion",
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "The Freezing Time Guardian",
+   "item": "blue crystal shard",
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "The Freezing Time Guardian",
+   "item": "green crystal shard",
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "The Freezing Time Guardian",
+   "item": "violet crystal shard",
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "The Freezing Time Guardian",
+   "item": "ultimate health potion",
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "The Freezing Time Guardian",
+   "item": "small amethyst",
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "The Freezing Time Guardian",
+   "item": "small diamond",
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "The Last Lore Keeper",
@@ -41410,7 +40508,7 @@
   {
    "monster": "Thorn Steed",
    "item": "deathDmgMod",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Cosmic Energy Prism A",
@@ -42955,7 +42053,7 @@
   {
    "monster": "Aftershock",
    "item": "fireDmgMod",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Anomaly",
@@ -43245,7 +42343,7 @@
   {
    "monster": "Charged Anomaly",
    "item": "drownDmgMod",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Charger",
@@ -44133,6 +43231,11 @@
    "reason": "currency: compare with the existing coin entries"
   },
   {
+   "monster": "Cave Spider",
+   "item": "gold coin",
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
    "monster": "Rift Worm",
    "item": "armor",
    "reason": "race id missing or different from the wiki"
@@ -44150,147 +43253,172 @@
   {
    "monster": "Bretzecutioner",
    "item": "energyDmgMod",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Bretzecutioner",
    "item": "earthDmgMod",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Bretzecutioner",
    "item": "fireDmgMod",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Bretzecutioner",
    "item": "iceDmgMod",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Bretzecutioner",
    "item": "deathDmgMod",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Bretzecutioner",
+   "item": "gold coin",
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Deathbine",
    "item": "carniphila seeds",
-   "reason": "old statistics (version 9.86)"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Deathbine",
    "item": "dark mushroom",
-   "reason": "old statistics (version 9.86)"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Deathbine",
    "item": "seeds",
-   "reason": "old statistics (version 9.86)"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Demodras",
    "item": "book (gemmed)",
-   "reason": "old statistics (version 8.6)"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Ethershreck",
    "item": "giant shimmering pearl",
-   "reason": "old statistics (version 9.5)"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Ethershreck",
    "item": "jade hat",
-   "reason": "old statistics (version 9.5)"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Ethershreck",
    "item": "sai",
-   "reason": "old statistics (version 9.5)"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Ethershreck",
    "item": "guardian boots",
-   "reason": "old statistics (version 9.5)"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Ethershreck",
    "item": "zaoan sword",
-   "reason": "old statistics (version 9.5)"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Ethershreck",
    "item": "traditional sai",
-   "reason": "old statistics (version 9.5)"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Fazzrah",
    "item": "physicalDmgMod",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Fazzrah",
    "item": "energyDmgMod",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Fazzrah",
    "item": "fireDmgMod",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Fazzrah",
    "item": "iceDmgMod",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Fazzrah",
    "item": "deathDmgMod",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Flameborn",
+   "item": "platinum coin",
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Fleshcrawler",
    "item": "knight armor",
-   "reason": "old statistics (version 9.2)"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Hide",
    "item": "paralyze",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Hide",
    "item": "time ring",
-   "reason": "old statistics (version 9.86)"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Hide",
    "item": "platinum coin",
-   "reason": "old statistics (version 9.86)"
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Hide",
+   "item": "platinum coin",
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Hide",
    "item": "steel helmet",
-   "reason": "old statistics (version 9.86)"
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Hide",
+   "item": "spider silk",
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Hide",
    "item": "terra hood",
-   "reason": "old statistics (version 9.86)"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Leviathan",
    "item": "leviathan's amulet",
-   "reason": "old statistics (version 9.2)"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Leviathan",
    "item": "sea serpent trophy",
-   "reason": "old statistics (version 9.2)"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Paiz the Pauperizer",
    "item": "paralyze",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Paiz the Pauperizer",
+   "item": "small emerald",
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Ribstride",
@@ -44300,79 +43428,92 @@
   {
    "monster": "Shardhead",
    "item": "paralyze",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Shardhead",
    "item": "gold coin",
-   "reason": "old statistics (version 9.2)"
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Shardhead",
+   "item": "gold coin",
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Shardhead",
    "item": "platinum coin",
-   "reason": "currency: compare with the existing coin entries"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Shardhead",
    "item": "strong health potion",
-   "reason": "old statistics (version 9.2)"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Shardhead",
    "item": "small sapphire",
-   "reason": "old statistics (version 9.2)"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Shardhead",
    "item": "small diamond",
-   "reason": "old statistics (version 9.2)"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Shardhead",
    "item": "frosty heart",
-   "reason": "old statistics (version 9.2)"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Shardhead",
    "item": "ice cube",
-   "reason": "old statistics (version 9.2)"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Shardhead",
    "item": "ice cube",
-   "reason": "not stackable; maxCount has no effect",
-   "wiki": 2
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Stonecracker",
+   "item": "gold coin",
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Stonecracker",
+   "item": "small amethyst",
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Stonecracker",
    "item": "assassin star",
-   "reason": "jump from 2 to 95 is too large to trust",
-   "wiki": 95
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "The Bloodweb",
    "item": "platinum coin",
-   "reason": "currency: compare with the existing coin entries"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "The Bloodweb",
    "item": "ice cube",
-   "reason": "old statistics (version 9.2)"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "The Bloodweb",
    "item": "strong mana potion",
-   "reason": "old statistics (version 9.2)"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "The Bloodweb",
    "item": "spider silk",
-   "reason": "old statistics (version 9.2)"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "The Bloodweb",
    "item": "sai",
-   "reason": "old statistics (version 9.2)"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "The Noxious Spawn",
@@ -44387,102 +43528,117 @@
   {
    "monster": "The Old Widow",
    "item": "gold coin",
-   "reason": "old statistics (version 9.2)"
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "The Old Widow",
+   "item": "gold coin",
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "The Old Widow",
    "item": "platinum coin",
-   "reason": "old statistics (version 9.2)"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "The Old Widow",
    "item": "spider silk",
-   "reason": "old statistics (version 9.2)"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "The Old Widow",
    "item": "steel helmet",
-   "reason": "old statistics (version 9.2)"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "The Old Widow",
    "item": "great health potion",
-   "reason": "old statistics (version 9.2)"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "The Old Widow",
    "item": "sweet smelling bait",
-   "reason": "old statistics (version 9.2)"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "The Old Widow",
    "item": "spool of yarn",
-   "reason": "old statistics (version 9.2)"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "The Snapper",
    "item": "paralyze",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "The Snapper",
    "item": "gold coin",
-   "reason": "old statistics (version 9.2)"
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "The Snapper",
+   "item": "gold coin",
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "The Snapper",
    "item": "life ring",
-   "reason": "old statistics (version 9.2)"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "The Snapper",
    "item": "knight armor",
-   "reason": "old statistics (version 9.2)"
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Tiquandas Revenge",
+   "item": "gold coin",
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "A Shielded Astral Glyph",
    "item": "physicalDmgMod",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "A Shielded Astral Glyph",
    "item": "energyDmgMod",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "A Shielded Astral Glyph",
    "item": "earthDmgMod",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "A Shielded Astral Glyph",
    "item": "fireDmgMod",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "A Shielded Astral Glyph",
    "item": "hpDrainDmgMod",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "A Shielded Astral Glyph",
    "item": "drownDmgMod",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "A Shielded Astral Glyph",
    "item": "iceDmgMod",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "A Shielded Astral Glyph",
    "item": "holyDmgMod",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "A Shielded Astral Glyph",
    "item": "deathDmgMod",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Amenef the Burning",
@@ -45336,6 +44492,11 @@
    "reason": "race id missing or different from the wiki"
   },
   {
+   "monster": "Plunder Patriarch",
+   "item": "raw watermelon tourmaline",
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
    "monster": "The End of Days",
    "item": "energyDmgMod",
    "reason": "race id missing or different from the wiki"
@@ -45348,72 +44509,72 @@
   {
    "monster": "Horadron",
    "item": "dream matter",
-   "reason": "old statistics (version 10.3)"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Horadron",
    "item": "small sapphire",
-   "reason": "old statistics (version 10.3)"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Horadron",
    "item": "blue robe",
-   "reason": "old statistics (version 10.3)"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Horadron",
    "item": "small amethyst",
-   "reason": "old statistics (version 10.3)"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Horadron",
    "item": "knight legs",
-   "reason": "old statistics (version 10.3)"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Horadron",
    "item": "small emerald",
-   "reason": "old statistics (version 10.3)"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Horadron",
    "item": "lightning legs",
-   "reason": "old statistics (version 10.3)"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Horadron",
    "item": "crown legs",
-   "reason": "old statistics (version 10.3)"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Horadron",
    "item": "dream warden mask",
-   "reason": "old statistics (version 10.3)"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Horadron",
    "item": "spellbook of lost souls",
-   "reason": "old statistics (version 10.3)"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Horadron",
    "item": "golden armor",
-   "reason": "old statistics (version 10.3)"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Horadron",
    "item": "butcher's axe",
-   "reason": "old statistics (version 10.3)"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Horadron",
    "item": "golden legs",
-   "reason": "old statistics (version 10.3)"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Horadron",
    "item": "spellscroll of prophecies",
-   "reason": "old statistics (version 10.3)"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Minion of Gaz'haragoth",
@@ -45517,123 +44678,133 @@
   },
   {
    "monster": "Terofar",
+   "item": "platinum coin",
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Terofar",
    "item": "giant shimmering pearl",
-   "reason": "old statistics (version 10.5)"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Terofar",
    "item": "great spirit potion",
-   "reason": "old statistics (version 10.5)"
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Terofar",
+   "item": "great spirit potion",
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Terofar",
    "item": "ultimate health potion",
-   "reason": "old statistics (version 10.5)"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Terofar",
    "item": "blue crystal shard",
-   "reason": "old statistics (version 10.5)"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Terofar",
    "item": "green crystal shard",
-   "reason": "old statistics (version 10.5)"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Terofar",
    "item": "green gem",
-   "reason": "old statistics (version 10.5)"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Terofar",
    "item": "small diamond",
-   "reason": "old statistics (version 10.5)"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Terofar",
    "item": "small ruby",
-   "reason": "old statistics (version 10.5)"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Terofar",
    "item": "small topaz",
-   "reason": "old statistics (version 10.5)"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Terofar",
    "item": "terra boots",
-   "reason": "old statistics (version 10.5)"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Terofar",
    "item": "small sapphire",
-   "reason": "old statistics (version 10.5)"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Terofar",
    "item": "gold coin",
-   "reason": "old statistics (version 10.5)"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Terofar",
    "item": "small amethyst",
-   "reason": "old statistics (version 10.5)"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Terofar",
    "item": "paladin armor",
-   "reason": "old statistics (version 10.5)"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Terofar",
    "item": "small emerald",
-   "reason": "old statistics (version 10.5)"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Terofar",
    "item": "dream warden mask",
-   "reason": "old statistics (version 10.5)"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Terofar",
    "item": "demon shield",
-   "reason": "old statistics (version 10.5)"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Terofar",
    "item": "boots of haste",
-   "reason": "old statistics (version 10.5)"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Terofar",
    "item": "steel boots",
-   "reason": "old statistics (version 10.5)"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Terofar",
    "item": "skull helmet",
-   "reason": "old statistics (version 10.5)"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Terofar",
    "item": "royal helmet",
-   "reason": "old statistics (version 10.5)"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Terofar",
    "item": "guardian shield",
-   "reason": "old statistics (version 10.5)"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Terofar",
    "item": "voltage armor",
-   "reason": "old statistics (version 10.5)"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Terofar",
    "item": "lavos armor",
-   "reason": "old statistics (version 10.5)"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Bloated Man-Maggot",
@@ -47873,32 +47044,42 @@
   {
    "monster": "Earth Overlord",
    "item": "lump of earth",
-   "reason": "old statistics (version 8.6)"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Earth Overlord",
    "item": "platinum coin",
-   "reason": "old statistics (version 8.6)"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Energy Overlord",
    "item": "pure energy",
-   "reason": "old statistics (version 8.6)"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Energy Overlord",
    "item": "gold coin",
-   "reason": "old statistics (version 8.6)"
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Energy Overlord",
+   "item": "gold coin",
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Energy Overlord",
    "item": "platinum coin",
-   "reason": "old statistics (version 8.6)"
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Energy Overlord",
+   "item": "platinum coin",
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Fire Overlord",
    "item": "gold coin",
-   "reason": "old statistics (version 9.1)"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Flickering Spirit Elemental",
@@ -47928,7 +47109,12 @@
   {
    "monster": "Ice Overlord",
    "item": "gold coin",
-   "reason": "old statistics (version 8.6)"
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Ice Overlord",
+   "item": "gold coin",
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Jagged Earth Elemental",
@@ -49073,12 +48259,32 @@
   {
    "monster": "Ancient Lion Knight",
    "item": "physicalDmgMod",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Ancient Lion Knight",
+   "item": "dirty cape",
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Ancient Lion Knight",
+   "item": "bug meat",
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Ancient Lion Knight",
+   "item": "dark shield",
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Ancient Lion Knight",
+   "item": "dwarven shield",
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Ancient Lion Knight",
    "item": "fishbone",
-   "reason": "gap from 9500 to 1700 is too large to trust"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Drume",
@@ -50783,7 +49989,7 @@
   {
    "monster": "The Spellstealer",
    "item": "deathDmgMod",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Wild Knowledge",
@@ -50943,17 +50149,17 @@
   {
    "monster": "Deadeye Devious",
    "item": "energyDmgMod",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Deadeye Devious",
    "item": "earthDmgMod",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Deadeye Devious",
    "item": "fireDmgMod",
-   "reason": "race id missing or different from the wiki"
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Draptor",
@@ -50969,6 +50175,11 @@
    "monster": "Draptor",
    "item": "strong mana potion",
    "reason": "old statistics (version 8.6)"
+  },
+  {
+   "monster": "Fernfang",
+   "item": "gold coin",
+   "reason": "boss: reward chest loot, review by hand"
   },
   {
    "monster": "Ferumbras",
@@ -51206,6 +50417,11 @@
    "reason": "old statistics (version 10.7)"
   },
   {
+   "monster": "Glooth Bomb",
+   "item": "gold coin",
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
    "monster": "Glooth Fairy",
    "item": "glooth injection tube",
    "reason": "boss: reward chest loot, review by hand"
@@ -51386,6 +50602,11 @@
    "reason": "boss: reward chest loot, review by hand"
   },
   {
+   "monster": "Lethal Lissy",
+   "item": "gold coin",
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
    "monster": "Man in the Cave",
    "item": "gold coin",
    "reason": "boss: reward chest loot, review by hand"
@@ -51478,6 +50699,11 @@
   {
    "monster": "Morgaroth",
    "item": "small diamond",
+   "reason": "boss: reward chest loot, review by hand"
+  },
+  {
+   "monster": "Necropharus",
+   "item": "gold coin",
    "reason": "boss: reward chest loot, review by hand"
   },
   {

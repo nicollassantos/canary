@@ -70,30 +70,30 @@ monster.voices = {
 
 monster.loot = {
 	{ name = "Energy Bar", chance = 100000 },
-	{ name = "Gold Token", chance = 100000, maxCount = 3 },
+	{ name = "Gold Token", chance = 100000, maxCount = 2 },
 	{ name = "Piggy Bank", chance = 100000 },
-	{ name = "Platinum Coin", chance = 100000, maxCount = 8 },
-	{ name = "Silver Token", chance = 100000, maxCount = 4 },
+	{ name = "Platinum Coin", chance = 100000, maxCount = 5 },
+	{ name = "Silver Token", chance = 100000, maxCount = 2 },
 	{ name = "Mysterious Remains", chance = 100000 },
 	{ name = "Yellow Gem", chance = 69230, maxCount = 2 },
-	{ name = "Ultimate Spirit Potion", chance = 61540, maxCount = 26 },
-	{ name = "Supreme Health Potion", chance = 53850, maxCount = 27 },
-	{ name = "Ultimate Mana Potion", chance = 53850, maxCount = 26 },
+	{ name = "Ultimate Spirit Potion", chance = 61540, maxCount = 20 },
+	{ name = "Supreme Health Potion", chance = 53850, maxCount = 20 },
+	{ name = "Ultimate Mana Potion", chance = 53850, maxCount = 14 },
 	{ id = 3039, chance = 46150 }, -- red gem
 	{ id = 23529, chance = 38460 }, -- Ring of Blue Plasma
 	{ name = "Chaos Mace", chance = 23080 },
 	{ name = "Huge Chunk of Crude Iron", chance = 30777 },
-	{ name = "Bullseye Potion", chance = 23080, maxCount = 17 },
+	{ name = "Bullseye Potion", chance = 23080, maxCount = 10 },
 	{ name = "Winterblade", chance = 100, unique = true },
 	{ id = 281, chance = 23080 }, -- giant shimmering pearl
-	{ name = "Royal Star", chance = 23080, maxCount = 190 },
-	{ name = "Blue Gem", chance = 15380, maxCount = 2 },
-	{ name = "Mastermind Potion", chance = 15380, maxCount = 18 },
+	{ name = "Royal Star", chance = 23080, maxCount = 100 },
+	{ name = "Blue Gem", chance = 15380 },
+	{ name = "Mastermind Potion", chance = 15380, maxCount = 10 },
 	{ name = "Skull Staff", chance = 15380 },
-	{ name = "Berserk Potion", chance = 7690, maxCount = 17 },
+	{ name = "Berserk Potion", chance = 7690, maxCount = 10 },
 	{ id = 23543, chance = 7690 }, -- Collar of Green Plasma
 	{ id = 23544, chance = 7690 }, -- Collar of Red Plasma
-	{ name = "Crystal Coin", chance = 7690, maxCount = 3 },
+	{ name = "Crystal Coin", chance = 7690, maxCount = 2 },
 	{ name = "Ornate Locket", chance = 7690 },
 	{ name = "Pomegranate", chance = 7690 },
 	{ id = 23533, chance = 7690 }, -- Ring of Red Plasma

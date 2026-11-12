@@ -65,7 +65,7 @@ monster.voices = {
 monster.loot = {
 	{ id = 21170, chance = 5000 }, -- gearwheel chain
 	{ id = 21906, chance = 10000 }, -- glooth glider gear wheel
-	{ id = 3031, chance = 100000, maxCount = 86 }, -- gold coin
+	{ id = 3031, chance = 100000, maxCount = 50 }, -- gold coin
 	{ id = 239, chance = 100000, maxCount = 13 }, -- great health potion
 	{ id = 238, chance = 100000, maxCount = 13 }, -- great mana potion
 	{ id = 7642, chance = 100000, maxCount = 13 }, -- great spirit potion

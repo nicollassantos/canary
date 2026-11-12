@@ -72,10 +72,10 @@ monster.loot = {
 	{ id = 19372, chance = 3000 }, -- goo shell
 	{ id = 3037, chance = 10000 }, -- yellow gem
 	{ id = 3038, chance = 10000 }, -- green gem
-	{ id = 7643, chance = 10000, maxCount = 5 }, -- ultimate health potion
-	{ id = 7642, chance = 10000, maxCount = 5 }, -- great spirit potion
-	{ id = 238, chance = 10000, maxCount = 5 }, -- great mana potion
-	{ id = 3032, chance = 10000, maxCount = 9 }, -- small emerald
+	{ id = 7643, chance = 10000, maxCount = 3 }, -- ultimate health potion
+	{ id = 7642, chance = 10000, maxCount = 3 }, -- great spirit potion
+	{ id = 238, chance = 10000, maxCount = 3 }, -- great mana potion
+	{ id = 3032, chance = 10000, maxCount = 5 }, -- small emerald
 	{ id = 9057, chance = 10000, maxCount = 5 }, -- small topaz
 	{ id = 8044, chance = 20000 }, -- belted cape
 	{ id = 5910, chance = 10000 }, -- green piece of cloth

@@ -69,7 +69,7 @@ monster.voices = {
 }
 
 monster.loot = {
-	{ id = 3031, chance = 100000, maxCount = 100 }, -- gold coin
+	{ id = 3031, chance = 100000, maxCount = 99 }, -- gold coin
 	{ id = 3035, chance = 100000, maxCount = 10 }, -- platinum coin
 	{ id = 5879, chance = 100000 }, -- spider silk
 	{ id = 3351, chance = 100000 }, -- steel helmet

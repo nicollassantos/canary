@@ -71,7 +71,7 @@ monster.loot = {
 	{ name = "berserk potion", chance = 22449, maxCount = 5 },
 	{ name = "mastermind potion", chance = 18367, maxCount = 5 },
 	{ name = "royal almandine", chance = 8322 },
-	{ name = "raw watermelon tourmaline", chance = 7322, maxCount = 2 },
+	{ name = "raw watermelon tourmaline", chance = 7322 },
 	{ name = "giant amethyst", chance = 6122 },
 	{ name = "giant ruby", chance = 4082 },
 	{ name = "giant emerald", chance = 4082 },

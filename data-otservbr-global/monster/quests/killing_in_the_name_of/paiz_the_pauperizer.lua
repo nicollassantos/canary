@@ -88,7 +88,7 @@ monster.loot = {
 	{ id = 11657, chance = 10870 }, -- twiceslicer
 	{ id = 3041, chance = 8700 }, -- blue gem
 	{ id = 11651, chance = 8700 }, -- elite draken mail
-	{ id = 3032, chance = 8700, maxCount = 10 }, -- small emerald
+	{ id = 3032, chance = 8700, maxCount = 8 }, -- small emerald
 	{ id = 12307, chance = 4350 }, -- harness
 }
 
