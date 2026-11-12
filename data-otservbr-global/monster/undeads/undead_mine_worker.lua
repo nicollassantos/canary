@@ -111,9 +111,9 @@ monster.elements = {
 }
 
 monster.immunities = {
-	{ type = "paralyze", condition = true },
+	{ type = "paralyze", condition = false },
 	{ type = "outfit", condition = false },
-	{ type = "invisible", condition = true },
+	{ type = "invisible", condition = false },
 	{ type = "bleed", condition = false },
 }
 

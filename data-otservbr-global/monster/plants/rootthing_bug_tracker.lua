@@ -2,7 +2,7 @@ local mType = Game.createMonsterType("Rootthing Bug Tracker")
 local monster = {}
 
 monster.description = "a rootthing bug tracker"
-monster.experience = 9650
+monster.experience = 10420
 monster.outfit = {
 	lookType = 1763,
 	lookHead = 0,

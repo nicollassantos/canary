@@ -2,7 +2,7 @@ local mType = Game.createMonsterType("Lost Husher")
 local monster = {}
 
 monster.description = "a lost husher"
-monster.experience = 1100
+monster.experience = 1800
 monster.outfit = {
 	lookType = 537,
 	lookHead = 0,
@@ -124,7 +124,7 @@ monster.elements = {
 	{ type = COMBAT_LIFEDRAIN, percent = 0 },
 	{ type = COMBAT_MANADRAIN, percent = 0 },
 	{ type = COMBAT_DROWNDAMAGE, percent = 0 },
-	{ type = COMBAT_ICEDAMAGE, percent = 0 },
+	{ type = COMBAT_ICEDAMAGE, percent = -5 },
 	{ type = COMBAT_HOLYDAMAGE, percent = -10 },
 	{ type = COMBAT_DEATHDAMAGE, percent = 20 },
 }
@@ -132,7 +132,7 @@ monster.elements = {
 monster.immunities = {
 	{ type = "paralyze", condition = true },
 	{ type = "outfit", condition = false },
-	{ type = "invisible", condition = false },
+	{ type = "invisible", condition = true },
 	{ type = "bleed", condition = false },
 }
 

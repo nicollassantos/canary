@@ -108,7 +108,7 @@ monster.elements = {
 	{ type = COMBAT_PHYSICALDAMAGE, percent = -10 },
 	{ type = COMBAT_ENERGYDAMAGE, percent = 40 },
 	{ type = COMBAT_EARTHDAMAGE, percent = -10 },
-	{ type = COMBAT_FIREDAMAGE, percent = -25 },
+	{ type = COMBAT_FIREDAMAGE, percent = -20 },
 	{ type = COMBAT_LIFEDRAIN, percent = 0 },
 	{ type = COMBAT_MANADRAIN, percent = 0 },
 	{ type = COMBAT_DROWNDAMAGE, percent = 0 },
@@ -118,9 +118,9 @@ monster.elements = {
 }
 
 monster.immunities = {
-	{ type = "paralyze", condition = false },
+	{ type = "paralyze", condition = true },
 	{ type = "outfit", condition = false },
-	{ type = "invisible", condition = false },
+	{ type = "invisible", condition = true },
 	{ type = "bleed", condition = false },
 }
 

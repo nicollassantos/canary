@@ -2,7 +2,7 @@ local mType = Game.createMonsterType("Boar Man")
 local monster = {}
 
 monster.description = "a boar man"
-monster.experience = 7720
+monster.experience = 7100
 monster.outfit = {
 	lookType = 1603,
 	lookHead = 0,
@@ -102,7 +102,7 @@ monster.defenses = {
 }
 
 monster.elements = {
-	{ type = COMBAT_PHYSICALDAMAGE, percent = 15 },
+	{ type = COMBAT_PHYSICALDAMAGE, percent = 10 },
 	{ type = COMBAT_ENERGYDAMAGE, percent = 15 },
 	{ type = COMBAT_EARTHDAMAGE, percent = 5 },
 	{ type = COMBAT_FIREDAMAGE, percent = 15 },

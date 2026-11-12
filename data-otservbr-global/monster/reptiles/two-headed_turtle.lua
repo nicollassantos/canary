@@ -2,7 +2,7 @@ local mType = Game.createMonsterType("Two-Headed Turtle")
 local monster = {}
 
 monster.description = "a two-headed turtle"
-monster.experience = 2930
+monster.experience = 3310
 monster.outfit = {
 	lookType = 1535,
 }

@@ -2,7 +2,7 @@ local mType = Game.createMonsterType("Terrorsleep")
 local monster = {}
 
 monster.description = "a terrorsleep"
-monster.experience = 6900
+monster.experience = 7240
 monster.outfit = {
 	lookType = 587,
 	lookHead = 0,
@@ -116,7 +116,7 @@ monster.attacks = {
 
 monster.defenses = {
 	defense = 50,
-	armor = 50,
+	armor = 80,
 	{ name = "combat", interval = 2000, chance = 15, type = COMBAT_HEALING, minDamage = 300, maxDamage = 500, effect = CONST_ME_MAGIC_BLUE, target = false },
 	-- { name = "invisible", interval = 2000, chance = 15, effect = CONST_ME_HITAREA },
 	{ name = "speed", interval = 2000, chance = 15, speedChange = 300, effect = CONST_ME_MAGIC_RED, target = false, duration = 5000 },
