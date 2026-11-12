@@ -23,6 +23,15 @@ Leia este arquivo inteiro antes de mexer na branch. Depois, para o detalhe de ca
   endurecido ganha contador ou latência (`g_metrics().addCounter`, `metrics::method_latency`).
   O preset de testes compila os stubs no-op, então valide também com um preset `-metrics`
   quando mexer em métricas.
+  **O Prometheus só recebe dados com duas chaves ligadas:**
+  1. Build com preset `*-release-metrics` (`FEATURE_METRICS=ON`). Nos outros, inclusive
+     `linux-release` e o de testes, as métricas são funções vazias.
+  2. `metricsEnablePrometheus = true` no `config.lua`. No `config.lua.dist` vem `false`, e o
+     `config.lua` local também estava `false` em 2026-11-12.
+
+  O `metrics/prometheus/prometheus.yml` lê `host.docker.internal:9464`, isto é, o servidor
+  rodando no host, fora do docker. Confira as duas chaves no servidor de produção; sem elas,
+  nenhuma métrica nova chega ao Prometheus.
 - **Objetivo do fork: ser uma versão do Canary extremamente sólida, altamente testável, fácil
   de depurar, de manter à mão e de monitorar.** Use isso para priorizar:
   - portas e fakes onde permitem testar comportamento que hoje não tem teste;

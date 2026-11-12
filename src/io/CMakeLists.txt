@@ -6,6 +6,7 @@ target_sources(
             iobestiary.cpp
             io_bosstiary.cpp
             guild_repository_db.cpp
+            highscore_repository_db.cpp
             market_repository_db.cpp
             iologindata.cpp
             functions/iologindata_load_player.cpp

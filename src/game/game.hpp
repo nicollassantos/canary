@@ -88,13 +88,6 @@ static constexpr std::chrono::minutes CACHE_EXPIRATION_TIME { 10 }; // 10min
 static constexpr std::chrono::minutes HIGHSCORE_CACHE_EXPIRATION_TIME { 10 }; // 10min
 static constexpr int32_t UPDATE_PLAYERS_ONLINE_DB = 60000 * 10; // 10min
 
-struct QueryHighscoreCacheEntry {
-	std::string query;
-	uint32_t page;
-	uint8_t entriesPerPage;
-	std::chrono::time_point<std::chrono::steady_clock> timestamp;
-};
-
 struct HighscoreCacheEntry {
 	std::vector<HighscoreCharacter> characters;
 	uint32_t page;
@@ -847,7 +840,6 @@ private:
 	 */
 	ReturnValue collectRewardChestItems(const std::shared_ptr<Player> &player, uint32_t maxMoveItems = 0);
 
-	phmap::flat_hash_map<std::string, QueryHighscoreCacheEntry> queryCache;
 	phmap::flat_hash_map<std::string, HighscoreCacheEntry> highscoreCache;
 
 	std::unordered_map<std::string, std::weak_ptr<Player>> m_deadPlayers;
@@ -944,20 +936,6 @@ private:
 	std::unique_ptr<IOWheel> m_IOWheel;
 
 	std::unique_ptr<AttachedEffects> m_attachedEffects;
-
-	void cacheQueryHighscore(const std::string &key, const std::string &query, uint32_t page, uint8_t entriesPerPage);
-	void processHighscoreResults(const DBResult_ptr &result, uint32_t playerID, uint8_t category, uint32_t vocation, uint8_t entriesPerPage);
-
-	std::string generateVocationConditionHighscore(uint32_t vocation, const std::string &conditionPrefix = " WHERE ");
-	std::string generateHighscoreQuery(
-		const std::string &categoryName,
-		uint32_t page,
-		uint8_t entriesPerPage,
-		uint32_t vocation,
-		uint32_t playerGUID = 0
-	);
-	std::string generateHighscoreOrGetCachedQueryForEntries(const std::string &categoryName, uint32_t page, uint8_t entriesPerPage, uint32_t vocation);
-	std::string generateHighscoreOrGetCachedQueryForOurRank(const std::string &categoryName, uint8_t entriesPerPage, uint32_t playerGUID, uint32_t vocation);
 
 	void updatePlayersOnline() const;
 	[[nodiscard]] std::map<uint32_t, std::vector<std::shared_ptr<Player>>> groupPlayersByIP() const;

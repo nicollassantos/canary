@@ -118,7 +118,7 @@ Game::Game() :
 	m_itemService(std::make_unique<ItemService>(*this, g_configManager())),
 	m_tradeService(std::make_unique<TradeService>(*this, g_configManager())),
 	m_marketService(std::make_unique<MarketService>(*this, g_configManager())),
-	m_highscoreService(std::make_unique<HighscoreService>(*this)),
+	m_highscoreService(std::make_unique<HighscoreService>()),
 	m_creatureService(std::make_unique<CreatureManagementService>(*this, g_configManager())),
 	m_lootService(std::make_unique<LootService>(*this, g_configManager())),
 	m_interactionService(std::make_unique<PlayerInteractionService>(*this, g_configManager())),
@@ -2635,24 +2635,6 @@ void Game::playerFriendSystemAction(const std::shared_ptr<Player> &player, uint8
 void Game::playerCyclopediaCharacterInfo(const std::shared_ptr<Player> &player, uint32_t characterID, CyclopediaCharacterInfoType_t characterInfoType, uint16_t entriesPerPage, uint16_t page) {
 	m_cyclopediaService->playerCyclopediaCharacterInfo(player, characterID, characterInfoType, entriesPerPage, page);
 }
-std::string Game::generateHighscoreQuery(
-	const std::string &categoryName,
-	uint32_t page,
-	uint8_t entriesPerPage,
-	uint32_t vocation,
-	uint32_t playerGUID /*= 0*/
-) {
-	return m_highscoreService->generateHighscoreQuery(categoryName, page, entriesPerPage, vocation, playerGUID);
-}
-
-std::string Game::generateVocationConditionHighscore(uint32_t vocation, const std::string &conditionPrefix) {
-	return m_highscoreService->generateVocationConditionHighscore(vocation, conditionPrefix);
-}
-
-void Game::processHighscoreResults(const DBResult_ptr &result, uint32_t playerID, uint8_t category, uint32_t vocationCID, uint8_t entriesPerPage) {
-	m_highscoreService->processHighscoreResults(result, playerID, category, vocationCID, entriesPerPage);
-}
-
 [[nodiscard]] uint16_t Game::calculateHighscorePages(uint32_t totalEntries, uint8_t entriesPerPage) {
 	return HighscoreService::calculateHighscorePages(totalEntries, entriesPerPage);
 }
@@ -2693,18 +2675,6 @@ bool Game::outfitSupportsMount(uint16_t lookType) const {
 	}
 
 	return outfitMountSupportedLookTypes.contains(lookType);
-}
-
-void Game::cacheQueryHighscore(const std::string &key, const std::string &query, uint32_t page, uint8_t entriesPerPage) {
-	m_highscoreService->cacheQueryHighscore(key, query, page, entriesPerPage);
-}
-
-std::string Game::generateHighscoreOrGetCachedQueryForEntries(const std::string &categoryName, uint32_t page, uint8_t entriesPerPage, uint32_t vocation) {
-	return m_highscoreService->generateHighscoreOrGetCachedQueryForEntries(categoryName, page, entriesPerPage, vocation);
-}
-
-std::string Game::generateHighscoreOrGetCachedQueryForOurRank(const std::string &categoryName, uint8_t entriesPerPage, uint32_t playerGUID, uint32_t vocation) {
-	return m_highscoreService->generateHighscoreOrGetCachedQueryForOurRank(categoryName, entriesPerPage, playerGUID, vocation);
 }
 
 void Game::playerHighscores(const std::shared_ptr<Player> &player, HighscoreType_t type, uint8_t category, uint32_t vocation, const std::string &worldName, uint16_t page, uint8_t entriesPerPage) {

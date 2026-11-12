@@ -20,6 +20,7 @@
 #include "creatures/players/player_repository_db.hpp"
 #include "creatures/players/vip_repository_db.hpp"
 #include "io/guild_repository_db.hpp"
+#include "io/highscore_repository_db.hpp"
 #include "io/market_repository_db.hpp"
 #include "creatures/players/vocations/vocation.hpp"
 #include "database/database.hpp"
@@ -63,6 +64,7 @@ private:
 		di::bind<ExpertPvpWorld>().in(di::singleton),
 		di::bind<WorldRegistry>().in(di::singleton),
 		di::bind<IGuildRepository>().to<GuildRepositoryDB>().in(di::singleton),
+		di::bind<IHighscoreRepository>().to<HighscoreRepositoryDB>().in(di::singleton),
 		di::bind<IMarketRepository>().to<MarketRepositoryDB>().in(di::singleton),
 		di::bind<IPlayerRepository>().to<PlayerRepositoryDB>().in(di::singleton),
 		di::bind<IVipRepository>().to<VipRepositoryDB>().in(di::singleton),

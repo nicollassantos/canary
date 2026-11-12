@@ -27,6 +27,7 @@ target_sources(
             world_type_config_test.cpp
             market_expiry_test.cpp
             cyclopedia_players_online_test.cpp
+            highscore_requests_test.cpp
             movement_service_test.cpp
             trade_service_test.cpp
             highscore_service_test.cpp

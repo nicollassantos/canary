@@ -498,6 +498,7 @@
     <ClCompile Include="..\src\game\sound\sound_service.cpp" />
     <ClCompile Include="..\src\game\trade\trade_service.cpp" />
     <ClCompile Include="..\src\io\guild_repository_db.cpp" />
+    <ClCompile Include="..\src\io\highscore_repository_db.cpp" />
     <ClCompile Include="..\src\io\market_repository_db.cpp" />
     <ClCompile Include="..\src\items\item_service.cpp" />
     <ClCompile Include="..\src\lua\callbacks\event_callback_manager.cpp" />
@@ -749,6 +750,8 @@
     <ClInclude Include="..\src\io\guild_repository.hpp" />
     <ClInclude Include="..\src\io\guild_repository_db.hpp" />
     <ClInclude Include="..\src\io\market_repository.hpp" />
+    <ClInclude Include="..\src\io\highscore_repository.hpp" />
+    <ClInclude Include="..\src\io\highscore_repository_db.hpp" />
     <ClInclude Include="..\src\io\market_repository_db.hpp" />
     <ClInclude Include="..\src\items\item_service.hpp" />
     <ClInclude Include="..\src\server\network\commands\game_command_dispatcher.hpp" />

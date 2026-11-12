@@ -33,12 +33,34 @@ place where each function lives today.
 
    python3 tools/merge/moved_merge.py --src src/game/game.cpp \
        src/game/game.cpp src/game/*/*_service.cpp src/creatures/*/*_service.cpp src/items/item_service.cpp \
-       src/game/scheduling/monster_post_think_queue.cpp
+       src/game/scheduling/monster_post_think_queue.cpp src/io/highscore_repository_db.cpp
 
    python3 tools/merge/moved_merge.py --src src/creatures/players/player.cpp \
        src/creatures/players/player.cpp src/creatures/players/components/player_*_component.cpp \
        src/creatures/players/components/player_race_icon_overlays.cpp
    ```
+
+   Coverage commands (run after moving code and after the merge; each must report 0 missing):
+
+   ```sh
+   python3 tools/merge/coverage_check.py --src src/game/game.cpp \
+       --allow-unmatched teleportStack tryInsertTeleportStack eraseTeleportStack pointerTeleportKey \
+         teleportGuardKey pruneTeleportGuardStates shouldBlockTeleportRate recordTeleportGuardBlock \
+         teleportGuardReasonName logTeleportGuardBlock playerCanUseItem removeItemFromOwner deliverChange \
+         processMoneyEntry addItemToCylinder addCoinStack addCoins removeInventoryMoneyToBank \
+         withdrawMarketFunds checkCanInitCreateMarketOffer processHighscoreResults -- \
+       src/game/game.cpp 'src/game/*/*_service.cpp' 'src/creatures/*/*_service.cpp' src/items/item_service.cpp \
+       src/game/scheduling/monster_post_think_queue.cpp src/io/highscore_repository_db.cpp
+   python3 tools/merge/coverage_check.py --src src/creatures/players/player.cpp \
+       src/creatures/players/player.cpp 'src/creatures/players/components/player_*_component.cpp' \
+       src/creatures/players/components/player_race_icon_overlays.cpp
+   python3 tools/merge/coverage_check.py --src $P/protocolgame.cpp $P/protocolgame.cpp $P/protocolgame_send.cpp \
+       $P/protocolgame_send_cyclopedia.cpp $P/protocolgame_send_economy.cpp $P/protocolgame_send_social.cpp \
+       $P/protocolgame_helpers.hpp
+   ```
+
+   The allowed names are the namespace helpers and the split functions listed below; when
+   upstream changes one of them, port it by hand.
 
    Since Phase 18.5 `protocolgame_send.cpp` is itself split into four files; without the three
    `_send_*` files, 88 upstream functions would find no local copy. Coverage was checked in
@@ -187,4 +209,13 @@ the half that owns it.
 | Upstream function | Service half (game logic) | Adapter half (SQL) |
 |---|---|---|
 | `Game::updatePlayersOnline` (`game.cpp`) | `CyclopediaService::updatePlayersOnline` builds the online GUID list | `PlayerRepositoryDB::updateOnlinePlayers` (count/clear, insert, prune, one transaction) |
+| `Game::playerHighscores` (`game.cpp`) | `HighscoreService::playerHighscores` picks the request and keeps the async-task flag | `HighscoreRepositoryDB::loadEntries`/`loadOurRank` run the query |
+| `Game::processHighscoreResults(const DBResult_ptr &, ...)` (`game.cpp`) | `HighscoreService::processHighscoreResults(Game &, std::optional<HighscorePage>, ...)` (static; result cache and sending) | `HighscoreRepositoryDB::readHighscorePage` (row parsing) |
+
+The highscore query helpers `generateHighscoreQuery`, `generateVocationConditionHighscore`,
+`cacheQueryHighscore` and `generateHighscoreOrGetCachedQueryFor{Entries,OurRank}` moved whole to
+`src/io/highscore_repository_db.cpp` with the upstream names and signatures, and `moved_merge.py`
+matches them there. The query cache moved too: `QueryHighscoreCacheEntry` and `queryCache` left
+`game.hpp`, and the private `Game` delegates were dropped. When upstream edits those lines in
+`game.hpp`, drop them again.
 
