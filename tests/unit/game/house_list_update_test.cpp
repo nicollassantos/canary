@@ -95,3 +95,15 @@ TEST_F(HouseListUpdateTest, RejectedEditStillClosesTheEditWindow) {
 	uint32_t listId = 0;
 	EXPECT_EQ(nullptr, player->getEditHouse(windowTextId, listId));
 }
+
+// Bug reports are appended to a file per player by the datapack: one report per minute per player.
+TEST_F(HouseListUpdateTest, BugReportsOncePerMinute) {
+	const Position nowhere;
+	service->playerReportBug(player->getID(), "first", nowhere, 0);
+	service->playerReportBug(player->getID(), "spam", nowhere, 0);
+	EXPECT_EQ(1U, service->rejectedBugReports());
+
+	clockMs += PlayerInteractionService::BugReportCooldownMs;
+	service->playerReportBug(player->getID(), std::string(PlayerInteractionService::MaxBugReportLength * 4, 'x'), nowhere, 0);
+	EXPECT_EQ(1U, service->rejectedBugReports());
+}

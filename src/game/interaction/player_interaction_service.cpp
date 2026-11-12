@@ -1634,3 +1634,25 @@ void PlayerInteractionService::playerCheckActivity(const std::string &playerName
 	);
 }
 
+void PlayerInteractionService::playerReportBug(uint32_t playerId, const std::string &message, const Position &position, uint8_t category) {
+	const auto &player = game_.getPlayerByID(playerId);
+	if (!player) {
+		return;
+	}
+
+	if (!bugReportCooldown.tryTake(playerId, now())) {
+		++rejectedBugReportCount;
+		g_metrics().addCounter("bug_reports_rejected", 1, { { "reason", "cooldown" } });
+		return;
+	}
+
+	// The datapack appends the report to a file; a client could otherwise send ~64 KB per packet.
+	const std::string report = message.size() > MaxBugReportLength ? message.substr(0, MaxBugReportLength) : message;
+	if (report.size() < message.size()) {
+		g_metrics().addCounter("bug_reports_truncated", 1);
+	}
+
+	g_events().eventPlayerOnReportBug(player, report, position, category);
+	g_callbacks().executeCallback(EventCallback_t::playerOnReportBug, player, report, position, category);
+}
+

@@ -33,6 +33,10 @@ public:
 	/// database; legitimate lists are at most 100 short lines.
 	static constexpr size_t MaxHouseListLength = 8192;
 	static constexpr int64_t HouseListCooldownMs = 1000;
+	/// Bug reports are appended to a file per player by the datapack (Player:onReportBug), so their
+	/// size and rate are bounded to keep a client from filling the disk.
+	static constexpr size_t MaxBugReportLength = 2048;
+	static constexpr int64_t BugReportCooldownMs = 60000;
 
 	PlayerInteractionService(Game &game, IConfigManager &config) :
 		game_(game), config_(config) { }
@@ -72,6 +76,12 @@ public:
 
 	void playerCheckActivity(const std::string &playerName, int interval);
 
+	void playerReportBug(uint32_t playerId, const std::string &message, const Position &position, uint8_t category);
+
+	[[nodiscard]] uint64_t rejectedBugReports() const {
+		return rejectedBugReportCount;
+	}
+
 	[[nodiscard]] uint64_t rejectedHouseListUpdates() const {
 		return rejectedHouseLists;
 	}
@@ -84,4 +94,6 @@ private:
 	IConfigManager &config_;
 	RequestCooldown houseListCooldown { HouseListCooldownMs };
 	uint64_t rejectedHouseLists = 0;
+	RequestCooldown bugReportCooldown { BugReportCooldownMs };
+	uint64_t rejectedBugReportCount = 0;
 };

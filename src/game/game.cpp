@@ -2697,13 +2697,7 @@ void Game::playerReportRuleViolationReport(uint32_t playerId, const std::string 
 }
 
 void Game::playerReportBug(uint32_t playerId, const std::string &message, const Position &position, uint8_t category) {
-	const auto &player = getPlayerByID(playerId);
-	if (!player) {
-		return;
-	}
-
-	g_events().eventPlayerOnReportBug(player, message, position, category);
-	g_callbacks().executeCallback(EventCallback_t::playerOnReportBug, player, message, position, category);
+	m_interactionService->playerReportBug(playerId, message, position, category);
 }
 
 void Game::playerDebugAssert(uint32_t playerId, const std::string &assertLine, const std::string &date, const std::string &description, const std::string &comment) {
