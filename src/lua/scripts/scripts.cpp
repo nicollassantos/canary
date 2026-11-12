@@ -43,8 +43,7 @@ Scripts::Scripts() :
 }
 
 Scripts &Scripts::getInstance() {
-	static Scripts instance;
-	return instance;
+	return inject<Scripts>();
 }
 
 void Scripts::clearAllScripts() const {

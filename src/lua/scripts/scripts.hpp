@@ -13,6 +13,9 @@
 
 class Scripts {
 public:
+	// Public so the DI container can construct the singleton; use g_scripts().
+	Scripts();
+
 	// non-copyable
 	Scripts(const Scripts &) = delete;
 	Scripts &operator=(const Scripts &) = delete;
@@ -29,7 +32,6 @@ public:
 
 private:
 	LuaScriptInterface scriptInterface;
-	Scripts();
 };
 
 constexpr auto g_scripts = Scripts::getInstance;

@@ -91,8 +91,8 @@ private:
 		di::bind<CreatureEvents>().in(di::singleton),
 		di::bind<Events>().in(di::singleton),
 		di::bind<MoveEvents>().in(di::singleton),
-		di::bind<TalkActions>().in(di::singleton)
-		// Scripts excluded: holds LuaScriptInterface by value, exceeds boost::di 10-param limit
+		di::bind<TalkActions>().in(di::singleton),
+		di::bind<Scripts>().in(di::singleton)
 	);
 
 public:
