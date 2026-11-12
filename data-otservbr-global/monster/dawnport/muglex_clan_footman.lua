@@ -64,22 +64,18 @@ monster.voices = {
 }
 
 monster.loot = {
-	{ name = "health potion", chance = 18575 },
-	{ name = "poison arrow", chance = 6280, maxCount = 4 },
 	{ id = 3115, chance = 1410 }, -- bone
 	{ id = 3337, chance = 9440 }, -- bone club
 	{ id = 3267, chance = 17040 }, -- dagger
 	{ id = 3578, chance = 159200, maxCount = 2 }, -- fish
 	{ id = 11539, chance = 1130 }, -- goblin ear
-	{ id = 3031, chance = 100000, maxCount = 14 }, -- gold coin
+	{ id = 3031, chance = 100000, maxCount = 6 }, -- gold coin
 	{ id = 3361, chance = 6060 }, -- leather armor
 	{ id = 3355, chance = 2680 }, -- leather helmet
 	{ id = 3120, chance = 850 }, -- mouldy cheese
 	{ id = 3294, chance = 9720 }, -- short sword
 	{ id = 3462, chance = 7750 }, -- small axe
-	{ id = 1781, chance = 5910 }, -- small stone
-	{ name = "brass legs", chance = 792 },
-	{ name = "ranger's cloak", chance = 528 },
+	{ id = 1781, chance = 15210 }, -- small stone
 }
 
 monster.attacks = {

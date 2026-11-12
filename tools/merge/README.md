@@ -93,6 +93,9 @@ git checkout --theirs -- data-otservbr-global/monster/<path>.lua
 python3 -I tools/datapack/wiki_check.py apply   # idempotent; never lowers a maxCount
 ```
 
+Each fix records the value it replaces (`from`). `apply` changes a value only while the file
+still holds that `from`; when upstream changed it to something else it prints
+`changed upstream (...)`, exits 1 and leaves the file alone, so the conflict is decided by hand.
 Then run the smoke boot (no loot warnings, no Lua errors).
 
 ## Gotchas from Phase 17

@@ -64,7 +64,7 @@ monster.voices = {
 }
 
 monster.loot = {
-	{ name = "gold coin", chance = 74230, maxCount = 87 },
+	{ name = "gold coin", chance = 74230, maxCount = 70 },
 	{ name = "poison arrow", chance = 74230, maxCount = 5 },
 	{ name = "book of necromantic rituals", chance = 74230 },
 	{ name = "incantation fragment", chance = 100000 },

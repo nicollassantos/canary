@@ -64,7 +64,7 @@ monster.voices = {
 }
 
 monster.loot = {
-	{ name = "rogue naga scales", chance = 15450, maxCount = 5 },
+	{ name = "rogue naga scales", chance = 15450 },
 }
 
 monster.attacks = {

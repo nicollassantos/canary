@@ -106,16 +106,16 @@ monster.attacks = {
 
 monster.defenses = {
 	defense = 35,
-	armor = 30,
+	armor = 40,
 	{ name = "combat", interval = 1000, chance = 20, type = COMBAT_HEALING, minDamage = 200, maxDamage = 500, effect = CONST_ME_MAGIC_BLUE, target = false },
 	{ name = "outfit", interval = 1000, chance = 5, effect = CONST_ME_MAGIC_BLUE, target = false, duration = 4000, outfitMonster = "demon" },
 }
 
 monster.elements = {
-	{ type = COMBAT_PHYSICALDAMAGE, percent = 0 },
-	{ type = COMBAT_ENERGYDAMAGE, percent = 92 },
+	{ type = COMBAT_PHYSICALDAMAGE, percent = -40 },
+	{ type = COMBAT_ENERGYDAMAGE, percent = 95 },
 	{ type = COMBAT_EARTHDAMAGE, percent = 100 },
-	{ type = COMBAT_FIREDAMAGE, percent = 94 },
+	{ type = COMBAT_FIREDAMAGE, percent = 95 },
 	{ type = COMBAT_LIFEDRAIN, percent = 0 },
 	{ type = COMBAT_MANADRAIN, percent = 0 },
 	{ type = COMBAT_DROWNDAMAGE, percent = 0 },

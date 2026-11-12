@@ -60,11 +60,10 @@ monster.voices = {
 }
 
 monster.loot = {
-	{ name = "gold coin", chance = 100000, maxCount = 68 },
-	{ name = "flaming arrow", chance = 4090, maxCount = 8 },
+	{ name = "gold coin", chance = 100000, maxCount = 63 },
+	{ name = "flaming arrow", chance = 4090, maxCount = 3 },
 	{ name = "green crystal fragment", chance = 7000 },
 	{ name = "small emerald", chance = 6890, maxCount = 2 },
-	{ name = "rainbow quartz", chance = 3968, maxCount = 3 },
 	{ name = "prismatic quartz", chance = 719 },
 	{ name = "violet gem", chance = 1700 },
 }

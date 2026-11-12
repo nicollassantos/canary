@@ -63,11 +63,11 @@ monster.voices = {
 }
 
 monster.loot = {
-	{ name = "gold coin", chance = 100000, maxCount = 196 },
-	{ name = "small topaz", chance = 7000, maxCount = 4 },
+	{ name = "gold coin", chance = 100000, maxCount = 160 },
+	{ name = "small topaz", chance = 7000, maxCount = 2 },
 	{ name = "great mana potion", chance = 18830, maxCount = 2 },
 	{ name = "bronze gear wheel", chance = 3000 },
-	{ name = "small emerald", chance = 7430, maxCount = 4 },
+	{ name = "small emerald", chance = 7430, maxCount = 2 },
 	{ id = 37531, chance = 5155 }, -- candy floss
 	{ name = "special fx box", chance = 1500 },
 	{ name = "heat core", chance = 5155 },

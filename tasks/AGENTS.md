@@ -283,9 +283,11 @@ código vive na branch. **Ao mover código em qualquer fase, acrescente a linha 
 **Datapack de monstros (`data-otservbr-global/monster/`, Phase 24):** as correções do fork vivem
 no manifesto `tools/datapack/fixes.json`, não à mão nos arquivos. Em conflito num arquivo de
 monstro: pegue a versão do upstream (`git checkout --theirs -- <arquivo>`) e rode
-`python3 -I tools/datapack/wiki_check.py apply`, que reaplica só o que ainda falta (nunca baixa um
-`maxCount`; item que o upstream já adicionou fica como está; rodar duas vezes não muda nada). Depois,
-smoke boot.
+`python3 -I tools/datapack/wiki_check.py apply`, que reaplica só o que ainda falta. Cada fix guarda o
+valor que substitui (`from`): o `apply` só troca um valor enquanto o arquivo ainda tem esse `from`;
+se o upstream mudou o valor para outra coisa, ele **reporta** `changed upstream (...)`, sai com código
+1 e não sobrescreve (decida à mão e ajuste o manifesto). Nunca baixa um `maxCount`; item que o
+upstream já adicionou fica como está; rodar duas vezes não muda nada. Depois, smoke boot.
 
 | Upstream (como vem no `main`) | Onde está na branch | O que fazer no merge |
 |---|---|---|
@@ -554,8 +556,17 @@ Resultado atual: ver a última linha de validação no `todo.md` (CHECKPOINT 23)
   então a chance do datapack é base e não se compara ao wiki. A primeira versão da regra olhava o
   bosstiary e aplicou 104 fixes neles; foram revertidos (`40ed1a2cd`). Bosses de corpo seguem as
   regras normais.
-- **Pendente (24.6):** a lista `review` do manifesto (5449) com os motivos: estatística antiga,
-  baú de recompensa, race id ausente/diferente, saltos grandes, moeda, nomes ambíguos.
+- **Revalidação (24.6):** o `plan` revalida todo o manifesto a cada execução; o que deixa de valer
+  sai do manifesto e o arquivo é restaurado ao estado de `997af9180` antes de reaplicar. Regras
+  acrescentadas: loot exige race id no datapack (`raceId` ou `bossRaceId`) e, se o wiki tiver, igual
+  (variantes de quest e evento costumam reusar o nome sem race id); atributos ignoram valores que o
+  wiki marca como incertos (`100%?`, `~500`). Saíram 122 fixes (110 de loot sem identidade, 12
+  elementos incertos); entraram 42 atributos de bosses de corpo (identidade pelo `bossRaceId`).
+  Total: 1963. A lista de revisão (com o motivo de cada item) fica em `build/datapack-wiki/review.json`,
+  fora do repositório.
+- **Controle negativo do smoke:** um item de loot inexistente injetado no Dragon gera
+  `[LootFunctions::luaLootSetIdFromName] - Unknown loot item` e `could not be loaded`; o grep do
+  smoke pega os dois.
 
 ## 7. Smoke test do servidor (banco descartável)
 

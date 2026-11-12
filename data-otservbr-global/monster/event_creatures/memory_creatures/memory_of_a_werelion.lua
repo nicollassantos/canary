@@ -56,16 +56,13 @@ monster.voices = {
 }
 
 monster.loot = {
-	{ name = "gold coin", chance = 100000, maxCount = 100 },
+	{ name = "gold coin", chance = 100000, maxCount = 99 },
 	{ name = "meat", chance = 5000, maxCount = 2 },
-	{ name = "great spirit potion", chance = 39062, maxCount = 2 },
-	{ name = "silver brooch", chance = 4688 },
-	{ name = "rainbow quartz", chance = 4297, maxCount = 3 },
-	{ name = "coral brooch", chance = 2344 },
+	{ name = "great spirit potion", chance = 100000, maxCount = 2 },
 	{ name = "onyx chip", chance = 1500 },
 	{ name = "small diamond", chance = 1500, maxCount = 2 },
 	{ name = "special fx box", chance = 1500 },
-	{ name = "small enchanted ruby", chance = 5000, maxCount = 5 },
+	{ name = "small enchanted ruby", chance = 5000, maxCount = 2 },
 }
 
 monster.attacks = {

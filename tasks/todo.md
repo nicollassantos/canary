@@ -311,7 +311,8 @@
 - [x] **24.5b** — Atributos: 77 XP, 22 armor, 1 HP, 117 elementos, 60 imunidades em 175 arquivos, só com raceId igual ao do wiki e até 2× (`13f72af07`)
 - [x] **24.5c** — **Erro corrigido:** a regra de boss só olhava o bosstiary; 136 monstros `rewardBoss` fora dele levaram 104 fixes de loot em 28 arquivos. Ferramenta passa a usar `rewardBoss` (`f4d88150d`); arquivos restaurados ao estado de `997af9180` e manifesto reaplicado (`40ed1a2cd`)
 - [x] **24.5d** — Bosses de corpo (bosstiary sem `rewardBoss`) entram nas regras normais: 58 fixes em 20 arquivos (`e8d7ae27b`, `1be498cc3`). Bosses de baú ficam fora: cada participante rola a tabela com fator de contribuição (2× solo), então a chance do datapack é base, não comparável ao wiki
-- [ ] **24.6** — Lista de revisão (5449): estatística antiga, baú de recompensa, race id diferente, saltos grandes, moeda, nomes ambíguos — decidir com o usuário
+- [x] **24.6** — Revalidação do manifesto inteiro a cada `plan`: identidade obrigatória para loot (race id no datapack), valores incertos do wiki ignorados, `from` em cada fix (o `apply` reporta conflito em vez de sobrescrever o upstream), revisão movida para `build/`. Saíram 122 fixes (60 arquivos restaurados), entraram 42 atributos de bosses de corpo; total 1963. Smoke com controle negativo; 986/986 + 90/90
+- [ ] **24.7** — Lista de revisão (`build/datapack-wiki/review.json`, ~5100): estatística antiga, baú de recompensa, identidade não confirmada, saltos grandes, moeda, nomes ambíguos — decidir com o usuário
 
 ### Achados do bot de ataque (`/home/nicollas/teste/proxy-bot`, lido sem executar) — próximas tasks da 23
 - **Stresser**: 1024 goroutines numa conexão; modos `pathfinder` (usar item com moeda → posição distante fixa, força pathfinding), `outfit` (`0xD2` + `0xD3` em laço; resposta grande para pedido pequeno), `walk`/`leftright`, `follow` (seguir/cancelar alternado).
