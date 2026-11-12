@@ -302,7 +302,7 @@
 
 ## Phase 24 — datapack a partir do TibiaWiki (aberta em 2026-11-12; plano em `tasks/plan.md`)
 
-- [ ] **24.1** — Ferramenta de relatório (`tools/datapack/`): extrator luajit, coletor da API com cache, parser `Loot2`, comparador com intervalo binomial, testes Python
+- [x] **24.1** — Ferramenta de relatório (`tools/datapack/`, `f79d68e8b`): extrator luajit (1655 monstros, igual ao servidor), coletor da API com cache em `build/datapack-wiki`, parser `Loot2`, comparador com intervalo binomial, 15 testes Python. Primeira rodada: 1571 de 1655 comparados, 1087 com diferenças (chance 3712, quantidade 1366, faltando 1197, só no datapack 386, atributos/elementos ~1100); mitigation separada como questão sistemática (689 de 690, datapack ≈ 0,63 × wiki). Página de revisão publicada para o usuário
 - [ ] **24.2** — Revisão do relatório pelo usuário
 - [ ] **24.3** — Estratégia de merge decidida com o usuário (`--apply` idempotente?) e registrada no §5b
 - [ ] **24.4** — Lotes de correção com carga do datapack e smoke

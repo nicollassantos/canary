@@ -511,6 +511,26 @@ Pendente (ordem sugerida):
 
 Resultado atual: ver a última linha de validação no `todo.md` (CHECKPOINT 23).
 
+## 6e. Phase 24 (em andamento): datapack conferido com o TibiaWiki
+
+- **Ferramenta** (`tools/datapack/`, só relatório, não edita o datapack):
+  `python3 -I tools/datapack/wiki_check.py extract|fetch|report` → `build/datapack-wiki/`
+  (`monsters.jsonl`, `cache/`, `report.json`, `report.md`). Testes:
+  `python3 -I tools/datapack/test_wiki_check.py`. O `fetch` só baixa o que não está em cache
+  (apague `build/datapack-wiki/cache` para atualizar); ~1 pedido/s, User-Agent genérico.
+- **Regras do comparador** (detalhes no docstring e no `plan.md`): o servidor rola cada entrada de
+  loot independente em 1/100000 e soma entradas repetidas; o bloco `Loot2` usado é o mais novo com
+  ≥ 100 kills; chance só é sinalizada fora de um intervalo de Wilson (z = 3,29); `maxCount` só quando
+  fica abaixo do observado; "só no datapack" só quando a ausência é significativa (≥ 7 quedas
+  esperadas) e **nunca** é removido sozinho; elemento: `percent` = 100 − `DmgMod` do wiki (conferido
+  nos 9 elementos do Dragon); campo que diverge em mais da metade vira questão sistemática.
+- **Achados da primeira rodada:** mitigation diverge em 689 de 690 com razão ≈ 0,63 (fórmula ou
+  unidade; investigar antes de mexer); muitos chances do datapack batem com estatísticas antigas
+  (8.6) e não com as atuais; nomes ambíguos no `items.xml` (ex.: dragon trophy → 2681/2682)
+  precisam de escolha manual.
+- **Pendente:** 24.2 revisão do usuário (página de revisão publicada), 24.3 estratégia de merge
+  (proposta: `--apply` idempotente que reaplica as correções sobre a versão do upstream), 24.4 lotes.
+
 ## 7. Smoke test do servidor (banco descartável)
 
 1. Copiar `config.lua` para o scratchpad trocando `mysqlDatabase` para `"canary_smoke_<fase>"` e
