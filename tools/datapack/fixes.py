@@ -77,10 +77,19 @@ def load_stackable(path):
 
 # --- plan: report -> manifest ----------------------------------------------------------------
 
-def plan(report, by_name, stackable, kinds=("max_count", "add_loot")):
-    """Fixes for the chosen kinds plus the findings left for manual review, with the reason."""
+def plan(report, by_name, stackable, kinds=("max_count", "add_loot"), bosses=frozenset()):
+    """Fixes for the chosen kinds plus the findings left for manual review, with the reason.
+
+    Bosses (bosstiary) are always left for review: their loot comes from the reward chest, so the
+    wiki's amounts and rates do not describe one roll of the loot table.
+    """
     fixes, review = [], []
     for monster in report["monsters"]:
+        if monster["name"] in bosses:
+            for finding in monster["findings"]:
+                if finding["kind"] in ("loot_count", "loot_missing"):
+                    review.append({"monster": monster["name"], "item": finding["subject"], "reason": "boss: reward chest loot, review by hand"})
+            continue
         block = monster.get("loot_block") or {}
         source = {"version": block.get("version"), "kills": block.get("kills"), "loot_revid": monster.get("loot_revid")}
         for finding in monster["findings"]:

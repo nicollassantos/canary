@@ -454,7 +454,8 @@ def command_plan(args):
         report = json.load(handle)
     by_name, _ = load_items(os.path.join(ROOT, args.items))
     stackable = fixes_module.load_stackable(os.path.join(ROOT, args.appearances))
-    fixes, review = fixes_module.plan(report, by_name, stackable, kinds=tuple(args.kinds.split(",")))
+    bosses = {m["name"] for m in load_monsters(args.out) if m.get("bosstiary")}
+    fixes, review = fixes_module.plan(report, by_name, stackable, kinds=tuple(args.kinds.split(",")), bosses=bosses)
     note = ("Datapack corrections from TibiaWiki loot statistics (CC BY-SA facts: chances, amounts). "
             "Regenerate with `wiki_check.py plan`, apply with `wiki_check.py apply`; applying twice changes nothing.")
     fixes_module.write_manifest(os.path.join(ROOT, args.manifest), fixes, review, note)

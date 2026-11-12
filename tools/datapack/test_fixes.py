@@ -108,6 +108,11 @@ class PlanTest(unittest.TestCase):
                             ]}]}
     BY_NAME = {"gold coin": {3031}, "beast hide": {9002}, "beast fang": {9001}, "rare gem": {9003}, "dragon trophy": {2681, 2682}}
 
+    def test_bosses_are_left_for_review(self):
+        planned, review = fixes.plan(self.REPORT, self.BY_NAME, stackable={3031, 9001}, bosses={"Sample Beast"})
+        self.assertEqual([], planned)
+        self.assertTrue(all("boss" in r["reason"] for r in review))
+
     def test_only_safe_fixes_are_planned(self):
         planned, review = fixes.plan(self.REPORT, self.BY_NAME, stackable={3031, 9001})
         self.assertEqual([("add_loot", "rare gem"), ("max_count", "gold coin")], [(f["kind"], f["item"]) for f in planned])
