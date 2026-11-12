@@ -29,6 +29,21 @@ Leia este arquivo inteiro antes de mexer na branch. Depois, para o detalhe de ca
   2. `metricsEnablePrometheus = true` no `config.lua`. No `config.lua.dist` vem `false`, e o
      `config.lua` local também estava `false` em 2026-11-12.
 
+  Consultas úteis:
+  - latência por pacote: `method_latency_microseconds_bucket{method=~"packet_.*"}` (o `_count` é o
+    número de pacotes por opcode);
+  - pacotes que travaram o dispatcher por 50 ms ou mais: `slow_packets_total{opcode}`;
+  - highscores: `highscore_requests_total`, `highscore_requests_rejected{reason}`,
+    `highscore_served_from_cache`, `highscore_cache_evictions{cache}`.
+
+  No log, `[PacketWatch]` traz opcode, player, IP e duração (no máximo um aviso a cada 5s, com
+  a contagem dos suprimidos).
+  Teste de ponta a ponta (Phase 23.0): build `linux-release-metrics`, smoke com
+  `metricsEnablePrometheus = true` e `curl :9464/metrics`. Resultado: 7316 linhas, com os
+  histogramas `method/lock/lua/query/task_latency`.
+  **Segurança:** o padrão `metricsPrometheusAddress = "0.0.0.0:9464"` expõe `/metrics` a
+  qualquer endereço (latência por pacote, começo do SQL). Um concorrente veria ao vivo o efeito
+  de um ataque. Em produção use `127.0.0.1:9464` ou firewall liberando só o Prometheus.
   O `metrics/prometheus/prometheus.yml` lê `host.docker.internal:9464`, isto é, o servidor
   rodando no host, fora do docker. Confira as duas chaves no servidor de produção; sem elas,
   nenhuma métrica nova chega ao Prometheus.
@@ -243,6 +258,7 @@ desfazer; se o upstream mexer nessas linhas, reaplique):
 | `src/creatures/players/components/player_vip.cpp` | `IOLoginData::*VIP*` → `g_vipRepository()`; guarda de `account` nulo em `edit` | porta VIP (19.3); null-deref |
 | `src/creatures/players/components/pvp/expert_pvp.cpp` | `g_game()`/config → `world()` | porta `ExpertPvpWorld` (18.4) |
 | `src/server/network/connection/connection.cpp` | preâmbulo "world name" que não bate com `serverName` vira aviso + fechamento | diagnóstico de login (`b6fe41f24`) |
+| `src/server/network/protocol/protocolgame.cpp` `ProtocolGame::parsePacket` | `const packet_watch::Scope packetWatch(recvbyte, player, getIP());` logo após ler o opcode (+ include) | latência por opcode e aviso de pacote lento com player/IP (`src/server/network/protocol/packet_watch.cpp`) |
 | `game.cpp` `cacheQueryHighscore` (hoje em `highscore_repository_db.cpp`) e `processHighscoreResults` (hoje em `highscore_service.cpp`) | `highscore_cache::prune` antes de inserir (expiradas saem; no teto, o cache é limpo) + métrica `highscore_cache_evictions` | as chaves vêm do cliente; no upstream os caches crescem sem fim |
 | `game.cpp` `playerHighscores` (hoje em `highscore_service.cpp`) | página 0 em `HIGHSCORE_GETENTRIES` é recusada antes da query; página fresca no cache de resultado sai sem query; intervalo de 1s por player; teto de 8 queries em andamento no servidor (contador liberado no topo de `processHighscoreResults`, mesmo se o player saiu); métricas `highscore_requests_total{type}`, `highscore_served_from_cache`, `highscore_requests_rejected{reason}` | `(page - 1)` dava underflow e rodava o ranking inteiro; toda query de highscore ocupa a única conexão do `Database` (com mutex) e atrasa saves, e bots com vários personagens podiam saturá-la |
 

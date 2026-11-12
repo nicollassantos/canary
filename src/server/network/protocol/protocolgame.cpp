@@ -8,6 +8,8 @@
  */
 
 #include "server/network/protocol/protocolgame.hpp"
+
+#include "server/network/protocol/packet_watch.hpp"
 #include "server/network/commands/game_command_dispatcher.hpp"
 
 #include "account/account.hpp"
@@ -710,6 +712,8 @@ void ProtocolGame::parsePacket(NetworkMessage &msg) {
 	}
 
 	uint8_t recvbyte = msg.getByte();
+	// Latency per opcode and a rate-limited warning when one packet blocks the dispatcher.
+	const packet_watch::Scope packetWatch(recvbyte, player, getIP());
 
 	// Silence ping/pong: 0x1D = pingBack, 0x1E = ping [TRACKS CLIENT BYTES]
 	if (recvbyte != 0x1D && recvbyte != 0x1E) {

@@ -248,8 +248,8 @@
 
 ## Phase 23: medir e conter caminhos cliente → banco síncrono
 
-- [ ] **23.0** — Build `linux-release-metrics`; contadores da 22.4/22.5 compilam com `FEATURE_METRICS=ON`
-- [ ] **23.1** — Instrumento de dispatch: contador + latência por opcode; aviso de dispatch lento limitado por taxa (opcode, player, IP, ms)
+- [x] **23.0** — Build `linux-release-metrics` ok (OpenTelemetry via vcpkg); smoke com exporter: `/metrics` com 7316 linhas
+- [x] **23.1** — `packet_watch::Scope` em `ProtocolGame::parsePacket`: latência por opcode (`method_latency{method="packet_0xNN"}`), `slow_packets_total{opcode}`, aviso `[PacketWatch]` (≥50ms, no máx. 1 a cada 5s, com contagem de suprimidos); 4 testes — 912/912 + 85/85; compila nos presets de testes e de métricas
 - [ ] **23.2** — Inventário de fora para dentro com dados semeados (queries por caminho, multiplicador do cliente, `EXPLAIN`)
 - [ ] **23.3** — Correções priorizadas pela medição (cama primeiro se confirmada)
 - [ ] **23.4** — Pendências da 22 (irmãos, vaga do highscore, handoff)
@@ -260,4 +260,11 @@
   - Observação para a 23.2: em erro recuperável de conexão, `Database::storeQuery`/`executeQuery` repetem para sempre (`goto retry` + sleep de 1s) **segurando o mutex**; MySQL fora do ar trava toda query síncrona do loop principal.
   - Inventário: `getPlayersByAccount(acc, allowOffline = true)` carrega cada personagem da conta do banco (multiplicador).
 - [ ] **CHECKPOINT 23**
+
+### Achados do bot de ataque (`/home/nicollas/teste/proxy-bot`, lido sem executar) — próximas tasks da 23
+- **Stresser**: 1024 goroutines numa conexão; modos `pathfinder` (usar item com moeda → posição distante fixa, força pathfinding), `outfit` (`0xD2` + `0xD3` em laço; resposta grande para pedido pequeno), `walk`/`leftright`, `follow` (seguir/cancelar alternado).
+- **Leitor lento** ("server throttling" do bot): lê a saída do servidor devagar. `Connection::messageQueue` **não tem teto** e o timeout de escrita (30s) vale por escrita, então um gotejamento nunca estoura → fila e memória crescem. Corrigir: teto por conexão (bytes/mensagens) + desconexão + métrica.
+- Limite atual `maxPacketsPerSecond` = 25 por média em janela de ~3s (permite rajadas de ~75); medir com o `packet_watch` antes de mudar.
+- **Attacker** = automação de "moves" com cooldown (não é DoS).
+- **Segurança**: `metricsPrometheusAddress` padrão `0.0.0.0:9464` expõe métricas (latências, começo do SQL) a qualquer um; em produção usar `127.0.0.1:9464` ou firewall liberando só o Prometheus.
 
