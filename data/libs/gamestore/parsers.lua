@@ -21,12 +21,23 @@ local function isItsPacket(byte)
 	return false
 end
 
+-- Longer than any offer name; longer searches cannot match and are not scanned.
+local maxSearchLength = 64
+
 local function fuzzySearchOffer(searchString)
 	local results = {}
+	-- The text comes from the client: search it literally. As a Lua pattern, a short crafted
+	-- string (e.g. ".-" repeated, then a character no name has) backtracks for seconds per offer
+	-- and froze the server, and a malformed one raised a script error.
+	local needle = searchString:lower()
+	if needle == "" or needle:len() > maxSearchLength then
+		return results
+	end
+
 	for i, category in ipairs(GameStore.Categories) do
 		if category.offers then
 			for j, offer in ipairs(category.offers) do
-				if string.match(offer.name:lower(), searchString:lower()) then
+				if offer.name:lower():find(needle, 1, true) then
 					table.insert(results, offer)
 				end
 			end
@@ -106,6 +117,16 @@ local function parseTransferableCoins(playerId, msg)
 
 	local reciver = msg:getString()
 	local amount = msg:getU32()
+
+	-- A zero transfer cost nothing and still ran four queries and reopened the store.
+	if amount < 1 then
+		return addPlayerEvent(sendStoreError, 350, playerId, GameStore.StoreErrors.STORE_ERROR_TRANSFER, "Choose how many coins to transfer.")
+	end
+
+	-- Player names are at most 30 characters; anything longer cannot match and only inflates the query.
+	if reciver:len() == 0 or reciver:len() > 30 then
+		return addPlayerEvent(sendStoreError, 350, playerId, GameStore.StoreErrors.STORE_ERROR_TRANSFER, "We couldn't find that player.")
+	end
 
 	if player:getTransferableCoins() < amount then
 		return addPlayerEvent(sendStoreError, 350, playerId, GameStore.StoreErrors.STORE_ERROR_TRANSFER, "You don't have this amount of coins.")
