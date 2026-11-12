@@ -253,5 +253,11 @@
 - [ ] **23.2** — Inventário de fora para dentro com dados semeados (queries por caminho, multiplicador do cliente, `EXPLAIN`)
 - [ ] **23.3** — Correções priorizadas pela medição (cama primeiro se confirmada)
 - [ ] **23.4** — Pendências da 22 (irmãos, vaga do highscore, handoff)
+  - Auditoria feita (só leitura):
+    - outros leitores de `getAccountPlayers` (`protocollogin`, `CreatureManagementService::getPlayersByAccount`, `PlayerBadge::getPlayersInfoByAccount`) percorrem a lista e não repetem o bug do login;
+    - `[this]` em tasks de player nos services: vem do upstream (era `[this]` do `Game`), e os services são do `Game` e vivem o processo todo, então não foi alterado (custo de merge alto, risco baixo);
+    - `DatabaseTasks::store` sempre despacha o callback e `storeQuery` não lança, logo a vaga do highscore só vaza no shutdown.
+  - Observação para a 23.2: em erro recuperável de conexão, `Database::storeQuery`/`executeQuery` repetem para sempre (`goto retry` + sleep de 1s) **segurando o mutex**; MySQL fora do ar trava toda query síncrona do loop principal.
+  - Inventário: `getPlayersByAccount(acc, allowOffline = true)` carrega cada personagem da conta do banco (multiplicador).
 - [ ] **CHECKPOINT 23**
 
