@@ -278,6 +278,15 @@
   - [x] **23.3i** — Lista de acesso de casa: texto acima de 8 KB recusado antes do parse; 1 edição/s por player; janela consumida na recusa; métrica `house_list_updates_rejected{reason}`; 4 testes
   - [x] **23.3j** — **Enchimento de disco por relatório de bug** (`0xE6`): o `Player:onReportBug` do datapack grava a mensagem do cliente (até ~64 KB) em `data/reports/bugs/<nome>/report.txt` a cada pacote. Agora: 1 relatório/min por player, mensagem truncada em 2048; `playerReportBug` movido para o `PlayerInteractionService`. (`playerDebugAssert`, que também escreve em arquivo, não está ligado a nenhum pacote.) Auditoria dos 35 `msg.getString()` sem teto: pendente para os demais handlers
   - [x] **23.3k** — **Crash remoto em `PlayerVIP::editGroup`**: id de grupo do pacote sem checagem → null deref derrubava o servidor. Corrigido junto com os irmãos: grupos padrão não podem ser renomeados/apagados por pacote forjado; `addGroup` respeita o limite de grupos; nome/descrição de VIP truncados em 128; destinatário de canal privado > 30 recusado antes do SQL. 5 testes de regressão. Auditoria dos 35 `msg.getString()`: VIP, canal privado e relatório de bug corrigidos; `AddVip` (≤ 25), livros (`maxTextLength`), convites de canal e bestiary já seguros; mensagem de guild e nome de hireling são descartados; opcode estendido só compara o texto
+  - [x] **23.3l** — Auditoria de valores do pacote usados como índice/id/nome/caminho (`priorize os bugs e segurança`). Corrigidos, cada um com teste de regressão e linha na tabela do §5b:
+    - wheel: posição da grade de gema (byte 0–255) indexava `m_basicGrades[49]`/`m_supremeGrades[95]` → **leitura/escrita fora da tabela** (`c9c301f5e`);
+    - charm: atribuir criatura com charm não comprado (Gut pagava de graça) e com raça fora do bestiário (boss) (`2daa45771` + correção desta revisão);
+    - prey "lista completa": raça fora do bestiário aceita → **prey em boss** (`71e12c268`);
+    - leilão: recusa do `canBidHouse` não retornava; lance em casa com dono **sequestrava transferência pendente** (`029f8dfc6`);
+    - transferência de casa: load completo de personagem offline por pacote antes de checar dono (`3713d6544`);
+    - report de violação: alvo do pacote no caminho do arquivo (**append em arquivo arbitrário** com `..`) e sem limite de taxa (`aca095141`);
+    - store (Lua): busca usada como padrão Lua → **um pacote congela o servidor**; transferência de 0 coins com 4 queries (`89799b1b2`).
+    Regras destiladas no §2b do `tasks/AGENTS.md`; harness `tools/lua/store_parsers_check.lua`. Pendentes no §6d (mailbox, regras do leilão, troca de nome no store)
   - Proposta (próxima fase): **segunda conexão MySQL só para `DatabaseTasks`**. Com uma conexão única, uma consulta de fundo (~100 ms com 300k linhas) ainda faz o loop esperar se ele precisar do banco no mesmo instante
   - Pendente: orçamento global da fila de saída (somando as conexões), a medir
   - [x] **23.3a-fix** — Use-after-free introduzido pelo `34c4e384a`: esvaziar a fila com uma escrita em andamento liberava o buffer que o asio ainda lia. Agora o handler do `async_write` segura a `OutputMessage` e o estouro mantém a mensagem da frente; teste `OverflowWithAWriteInFlightKeepsItsBufferAlive` — 916/916 + 85/85, preset de métricas ok
@@ -289,7 +298,7 @@
     - `DatabaseTasks::store` sempre despacha o callback e `storeQuery` não lança, logo a vaga do highscore só vaza no shutdown.
   - Observação para a 23.2: em erro recuperável de conexão, `Database::storeQuery`/`executeQuery` repetem para sempre (`goto retry` + sleep de 1s) **segurando o mutex**; MySQL fora do ar trava toda query síncrona do loop principal.
   - Inventário: `getPlayersByAccount(acc, allowOffline = true)` carrega cada personagem da conta do banco (multiplicador).
-- [ ] **CHECKPOINT 23** — parada em ponto estável em 2026-11-12 (pendências em `tasks/AGENTS.md` §6d); 933/933 + 90/90
+- [ ] **CHECKPOINT 23** — parada em ponto estável em 2026-11-12 (pendências em `tasks/AGENTS.md` §6d); 976/976 + 90/90, preset de métricas ok
 
 ### Achados do bot de ataque (`/home/nicollas/teste/proxy-bot`, lido sem executar) — próximas tasks da 23
 - **Stresser**: 1024 goroutines numa conexão; modos `pathfinder` (usar item com moeda → posição distante fixa, força pathfinding), `outfit` (`0xD2` + `0xD3` em laço; resposta grande para pedido pequeno), `walk`/`leftright`, `follow` (seguir/cancelar alternado).

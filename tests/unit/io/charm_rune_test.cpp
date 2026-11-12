@@ -9,6 +9,7 @@
 
 #include <gtest/gtest.h>
 
+#include "creatures/monsters/monsters.hpp"
 #include "creatures/players/grouping/groups.hpp"
 #include "creatures/players/player.hpp"
 #include "game/game.hpp"
@@ -20,7 +21,20 @@ namespace {
 	// sendBuyCharmRune actions, as the client sends them.
 	constexpr uint8_t UnlockCharm = 0;
 	constexpr uint8_t AssignCreature = 1;
-	constexpr uint16_t RaceId = 25;
+	// Registered once for the whole binary; the bestiary and monster registries have no removal.
+	constexpr uint16_t RaceId = 64003;
+	constexpr auto BestiaryCreature = "solid charm test creature";
+	// Not in the bestiary: the race id a boss gets from bossRaceId.
+	constexpr uint16_t BossRaceId = 64004;
+
+	void registerBestiaryCreature() {
+		if (!g_monsters().getMonsterType(BestiaryCreature, true)) {
+			auto mType = std::make_shared<MonsterType>(BestiaryCreature);
+			mType->info.raceid = RaceId;
+			g_monsters().tryAddMonsterType(BestiaryCreature, mType);
+			g_game().addBestiaryList(RaceId, BestiaryCreature);
+		}
+	}
 
 	class CharmRuneTest : public ::testing::Test {
 	protected:
@@ -40,6 +54,7 @@ namespace {
 
 			player = std::make_shared<Player>();
 			player->setGroup(std::make_shared<Group>());
+			registerBestiaryCreature();
 		}
 
 		void TearDown() override {
@@ -72,6 +87,17 @@ TEST_F(CharmRuneTest, UnlockedCharmIsAssignedToTheCreature) {
 
 	EXPECT_EQ(RaceId, player->parseRacebyCharm(CHARM_GUT));
 	EXPECT_TRUE(g_iobestiary().hasCharmUnlockedRuneBit(charm, player->getUsedRunesBit()));
+}
+
+// Regression: a race outside the bestiary was accepted. Bosses get raceid = bossRaceId, so a
+// crafted packet put a charm on a boss and combat applied it.
+TEST_F(CharmRuneTest, RaceOutsideTheBestiaryIsRefused) {
+	player->setUnlockedRunesBit(charm->binary);
+
+	g_iobestiary().sendBuyCharmRune(player, AssignCreature, CHARM_GUT, BossRaceId);
+
+	EXPECT_EQ(0, player->parseRacebyCharm(CHARM_GUT));
+	EXPECT_EQ(0, player->getUsedRunesBit());
 }
 
 TEST_F(CharmRuneTest, UnknownCharmIdFromThePacketIsIgnored) {

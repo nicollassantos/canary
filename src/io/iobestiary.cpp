@@ -517,8 +517,16 @@ void IOBestiary::sendBuyCharmRune(const std::shared_ptr<Player> &player, uint8_t
 			return;
 		}
 
+		// The window lists bestiary creatures; any other race id (a boss's, for one) is a crafted packet,
+		// and combat would match it against monsters whose raceid is that id.
 		const auto &mType = g_monsters().getMonsterTypeByRaceId(raceId);
-		if (mType && charm->category == CHARM_MAJOR) {
+		if (!mType) {
+			g_logger().warn("[{}] Player {} tried to assign charm {} to race {} outside the bestiary", __FUNCTION__, player->getName(), fmt::underlying(charm->id), raceId);
+			g_metrics().addCounter("charm_requests_rejected", 1, { { "reason", "unknown_race" } });
+			return;
+		}
+
+		if (charm->category == CHARM_MAJOR) {
 			const uint32_t killedAmount = player->getBestiaryKillCount(raceId);
 			if (killedAmount < mType->info.bestiaryToUnlock) {
 				return;
