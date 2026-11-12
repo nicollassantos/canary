@@ -88,7 +88,7 @@ monster.loot = {
 	{ name = "fire axe", chance = 3590 },
 	{ name = "magma coat", chance = 3340 },
 	{ name = "wand of dragonbreath", chance = 2650 },
-	{ name = "sun fruit", chance = 2570 },
+	{ name = "sun fruit", chance = 2570, maxCount = 2 },
 	{ name = "magma legs", chance = 1200 },
 	{ name = "magma monocle", chance = 260 },
 }

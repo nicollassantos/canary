@@ -76,7 +76,7 @@ monster.voices = {
 }
 
 monster.loot = {
-	{ id = 3031, chance = 59640, maxCount = 160 }, -- gold coin
+	{ id = 3031, chance = 59640, maxCount = 200 }, -- gold coin
 	{ id = 11472, chance = 8330, maxCount = 2 }, -- minotaur horn
 	{ id = 11482, chance = 5040 }, -- piece of warrior armor
 	{ id = 5878, chance = 1000 }, -- minotaur leather

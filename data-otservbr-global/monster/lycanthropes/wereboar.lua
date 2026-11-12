@@ -80,7 +80,7 @@ monster.loot = {
 	{ id = 3031, chance = 97000, maxCount = 242 }, -- gold coin
 	{ id = 3035, chance = 18200, maxCount = 5 }, -- platinum coin
 	{ id = 676, chance = 5000, maxCount = 2 }, -- small enchanted ruby
-	{ id = 3725, chance = 2000 }, -- brown mushroom
+	{ id = 3725, chance = 2000, maxCount = 2 }, -- brown mushroom
 	{ id = 7643, chance = 2210 }, -- ultimate health potion
 	{ id = 236, chance = 1200 }, -- strong health potion
 	{ id = 22053, chance = 1900 }, -- wereboar hooves

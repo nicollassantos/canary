@@ -82,14 +82,14 @@ monster.loot = {
 	{ id = 3035, chance = 20000, maxCount = 9 }, -- platinum coin
 	{ id = 6558, chance = 4000, maxCount = 3 }, -- flask of demonic blood
 	{ id = 9058, chance = 1300, maxCount = 2 }, -- gold ingot
-	{ id = 238, chance = 9600, maxCount = 2 }, -- great mana potion
-	{ id = 7642, chance = 2300, maxCount = 2 }, -- great spirit potion
+	{ id = 238, chance = 9600, maxCount = 5 }, -- great mana potion
+	{ id = 7642, chance = 2300, maxCount = 5 }, -- great spirit potion
 	{ id = 3033, chance = 2000, maxCount = 5 }, -- small amethyst
 	{ id = 3028, chance = 900, maxCount = 5 }, -- small diamond
 	{ id = 3032, chance = 900, maxCount = 5 }, -- small emerald
 	{ id = 3030, chance = 2000, maxCount = 5 }, -- small ruby
 	{ id = 9057, chance = 900, maxCount = 5 }, -- small topaz
-	{ id = 7643, chance = 5300, maxCount = 2 }, -- ultimate health potion
+	{ id = 7643, chance = 5300, maxCount = 5 }, -- ultimate health potion
 	{ id = 3019, chance = 1000 }, -- demonbone amulet
 	{ id = 6499, chance = 1600 }, -- demonic essence
 	{ id = 281, chance = 800 }, -- giant shimmering pearl (green)

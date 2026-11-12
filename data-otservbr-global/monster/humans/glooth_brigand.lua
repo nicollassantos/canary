@@ -78,7 +78,7 @@ monster.voices = {
 monster.loot = {
 	{ id = 3031, chance = 100000, maxCount = 100 }, -- gold coin
 	{ id = 3035, chance = 100000, maxCount = 3 }, -- platinum coin
-	{ id = 21203, chance = 9090 }, -- glooth bag
+	{ id = 21203, chance = 9090, maxCount = 2 }, -- glooth bag
 	{ id = 21816, chance = 7692 }, -- tainted glooth capsule
 	{ id = 238, chance = 5882 }, -- great mana potion
 	{ id = 21143, chance = 4000 }, -- glooth sandwich

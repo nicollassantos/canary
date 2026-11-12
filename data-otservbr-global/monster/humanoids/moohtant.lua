@@ -74,7 +74,7 @@ monster.voices = {
 }
 
 monster.loot = {
-	{ id = 3031, chance = 100000, maxCount = 195 }, -- gold coin
+	{ id = 3031, chance = 100000, maxCount = 200 }, -- gold coin
 	{ id = 3035, chance = 58160, maxCount = 2 }, -- platinum coin
 	{ id = 21200, chance = 2740, maxCount = 2 }, -- moohtant horn
 	{ id = 21199, chance = 1770 }, -- giant pacifier

@@ -81,7 +81,7 @@ monster.voices = {
 monster.loot = {
 	{ id = 3031, chance = 92000, maxCount = 130 }, -- gold coin
 	{ id = 3577, chance = 6200 }, -- meat
-	{ id = 3030, chance = 4200 }, -- small ruby
+	{ id = 3030, chance = 4200, maxCount = 2 }, -- small ruby
 	{ id = 3026, chance = 6200, maxCount = 3 }, -- white pearl
 	{ id = 11447, chance = 6200 }, -- battle stone
 	{ id = 3598, chance = 6200, maxCount = 7 }, -- cookie

@@ -82,8 +82,8 @@ monster.voices = {
 }
 
 monster.loot = {
-	{ name = "small enchanted ruby", chance = 10000, maxCount = 5 },
-	{ name = "red crystal fragment", chance = 10000, maxCount = 2 },
+	{ name = "small enchanted ruby", chance = 10000, maxCount = 14 },
+	{ name = "red crystal fragment", chance = 10000, maxCount = 8 },
 	{ id = 3039, chance = 10000, maxCount = 3 }, -- red gem
 	{ name = "red piece of cloth", chance = 10000, maxCount = 3 },
 	{ name = "flask of demonic blood", chance = 12000, maxCount = 5 },

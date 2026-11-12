@@ -81,7 +81,7 @@ monster.loot = {
 	{ id = 21178, chance = 2010 }, -- glooth club
 	{ id = 9640, chance = 3080 }, -- poisonous slime
 	{ id = 21146, chance = 2720 }, -- glooth steak
-	{ id = 3031, chance = 100000, maxCount = 139 }, -- gold coin
+	{ id = 3031, chance = 100000, maxCount = 150 }, -- gold coin
 	{ id = 21194, chance = 1040 }, -- slime heart
 	{ id = 236, chance = 7710 }, -- strong health potion
 	{ id = 7366, chance = 1290, maxCount = 5 }, -- viper star

@@ -92,8 +92,8 @@ monster.loot = {
 	{ id = 30084, chance = 700 }, -- red ectoplasm
 	{ name = "magma coat", chance = 900 },
 	{ name = "prismatic quartz", chance = 1500 },
-	{ name = "small enchanted emerald", chance = 800 },
-	{ name = "onyx chip", chance = 770 },
+	{ name = "small enchanted emerald", chance = 800, maxCount = 3 },
+	{ name = "onyx chip", chance = 770, maxCount = 2 },
 	{ name = "hexagonal ruby", chance = 500 },
 }
 

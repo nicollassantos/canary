@@ -73,11 +73,11 @@ monster.voices = {
 }
 
 monster.loot = {
-	{ name = "platinum coin", chance = 89960, maxCount = 28 },
+	{ name = "platinum coin", chance = 89960, maxCount = 35 },
 	{ name = "book page", chance = 3000, maxCount = 7 },
 	{ name = "demonic essence", chance = 3000, maxCount = 5 },
 	{ name = "flask of demonic blood", chance = 3000, maxCount = 3 },
-	{ name = "small amethyst", chance = 2000, maxCount = 4 },
+	{ name = "small amethyst", chance = 2000, maxCount = 7 },
 	{ id = 3307, chance = 3000 }, -- scimitar
 	{ name = "silken bookmark", chance = 2000, maxCount = 2 },
 	{ name = "magma coat", chance = 2000 },

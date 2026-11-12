@@ -75,19 +75,19 @@ monster.voices = {
 monster.loot = {
 	{ id = 3035, chance = 100000, maxCount = 8 }, -- platinum coin
 	{ name = "crystal coin", chance = 4670, maxCount = 1 },
-	{ id = 6558, chance = 30110 }, -- flask of demonic blood
+	{ id = 6558, chance = 30110, maxCount = 2 }, -- flask of demonic blood
 	{ id = 238, chance = 16560, maxCount = 2 }, -- great mana potion
 	{ id = 3033, chance = 6810, maxCount = 2 }, -- small amethyst
 	{ id = 3028, chance = 7500, maxCount = 2 }, -- small diamond
-	{ id = 3032, chance = 18010, maxCount = 2 }, -- small emerald
+	{ id = 3032, chance = 18010, maxCount = 5 }, -- small emerald
 	{ name = "small enchanted ruby", chance = 9440, maxCount = 3 },
-	{ id = 3030, chance = 11890, maxCount = 2 }, -- small ruby
+	{ id = 3030, chance = 11890, maxCount = 3 }, -- small ruby
 	{ id = 9057, chance = 8560, maxCount = 2 }, -- small topaz
 	{ name = "royal star", chance = 4050, maxCount = 3 },
 	{ id = 3041, chance = 1300 }, -- blue gem
 	{ id = 3039, chance = 3800 }, -- red gem
 	{ id = 6299, chance = 1100 }, -- death ring
-	{ id = 6499, chance = 22110 }, -- demonic essence
+	{ id = 6499, chance = 22110, maxCount = 2 }, -- demonic essence
 	{ id = 8043, chance = 2200 }, -- focus cape
 	{ id = 21974, chance = 11400 }, -- golden lotus brooch
 	{ id = 826, chance = 1980 }, -- magma coat

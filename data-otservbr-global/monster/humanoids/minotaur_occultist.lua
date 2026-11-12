@@ -60,7 +60,7 @@ monster.voices = {
 }
 
 monster.loot = {
-	{ id = 3031, chance = 100000, maxCount = 21 }, -- gold coin
+	{ id = 3031, chance = 100000, maxCount = 22 }, -- gold coin
 	{ id = 3595, chance = 35000, maxCount = 4 }, -- carrot
 	{ id = 17824, chance = 12000 }, -- swampling club
 	{ id = 11472, chance = 10000 }, -- minotaur horn

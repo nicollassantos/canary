@@ -83,6 +83,18 @@ place where each function lives today.
 6. Build, then run `syntax_check.sh` on the touched `.cpp` files and the unit/integration suites.
 7. Update `vcproj/canary.vcxproj` for any added or removed source/header (see `AGENTS.md`).
 
+## Monster datapack (Phase 24)
+
+The fork's monster corrections live in `tools/datapack/fixes.json`. On a conflict in
+`data-otservbr-global/monster/**`, take upstream's file and re-apply the manifest:
+
+```sh
+git checkout --theirs -- data-otservbr-global/monster/<path>.lua
+python3 -I tools/datapack/wiki_check.py apply   # idempotent; never lowers a maxCount
+```
+
+Then run the smoke boot (no loot warnings, no Lua errors).
+
 ## Gotchas from Phase 17
 
 - After a merge, check the `CMakeCache.txt` of `build/<preset>` for `find_*` results that point

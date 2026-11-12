@@ -73,11 +73,11 @@ monster.voices = {
 }
 
 monster.loot = {
-	{ id = 28569, chance = 10000, maxCount = 3 }, -- book page
-	{ name = "platinum coin", chance = 10000, maxCount = 10 },
+	{ id = 28569, chance = 10000, maxCount = 4 }, -- book page
+	{ name = "platinum coin", chance = 10000, maxCount = 15 },
 	{ id = 28566, chance = 10000, maxCount = 3 }, -- silken bookmark
 	{ name = "small diamond", chance = 10000, maxCount = 7 },
-	{ name = "small stone", chance = 10000, maxCount = 7 },
+	{ name = "small stone", chance = 10000, maxCount = 10 },
 	{ name = "small topaz", chance = 10000, maxCount = 7 },
 	{ name = "protection amulet", chance = 10000 },
 	{ name = "terra boots", chance = 350 },

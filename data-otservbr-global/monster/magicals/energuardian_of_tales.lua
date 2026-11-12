@@ -75,10 +75,10 @@ monster.voices = {
 }
 
 monster.loot = {
-	{ id = 28569, chance = 10000, maxCount = 5 }, -- book page
+	{ id = 28569, chance = 10000, maxCount = 6 }, -- book page
 	{ id = 28570, chance = 10000, maxCount = 5 }, -- glowing rune
-	{ name = "small amethyst", chance = 10000, maxCount = 5 },
-	{ name = "flash arrow", chance = 10000, maxCount = 5 },
+	{ name = "small amethyst", chance = 10000, maxCount = 10 },
+	{ name = "flash arrow", chance = 10000, maxCount = 15 },
 	{ name = "lightning legs", chance = 250 },
 	{ name = "spellbook of warding", chance = 350 },
 	{ name = "ultimate health potion", chance = 10000, maxCount = 5 },

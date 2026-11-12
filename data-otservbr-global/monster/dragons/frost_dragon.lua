@@ -81,8 +81,8 @@ monster.voices = {
 }
 
 monster.loot = {
-	{ name = "gold coin", chance = 99110, maxCount = 207 },
-	{ name = "dragon ham", chance = 83040, maxCount = 2 },
+	{ name = "gold coin", chance = 99110, maxCount = 243 },
+	{ name = "dragon ham", chance = 83040, maxCount = 3 },
 	{ name = "green mushroom", chance = 10710 },
 	{ id = 7441, chance = 6250 }, -- ice cube
 	{ id = 2842, chance = 8500 }, -- book

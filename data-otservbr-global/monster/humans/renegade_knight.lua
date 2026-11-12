@@ -82,7 +82,7 @@ monster.voices = {
 
 monster.loot = {
 	{ id = 3447, chance = 90450, maxCount = 10 }, -- arrow
-	{ id = 3031, chance = 75410, maxCount = 30 }, -- gold coin
+	{ id = 3031, chance = 75410, maxCount = 100 }, -- gold coin
 	{ id = 3592, chance = 1210 }, -- grapes
 	{ id = 239, chance = 1210 }, -- great health potion
 	{ id = 3577, chance = 1210, maxCount = 2 }, -- meat

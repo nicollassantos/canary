@@ -74,7 +74,7 @@ monster.loot = {
 	{ id = 7456, chance = 39000 }, -- noble axe
 	{ id = 2903, chance = 35000 }, -- golden mug
 	{ id = 3381, chance = 29000 }, -- crown armor
-	{ id = 7368, chance = 27000, maxCount = 78 }, -- assassin star
+	{ id = 7368, chance = 27000, maxCount = 98 }, -- assassin star
 	{ id = 3732, chance = 19000 }, -- green mushroom
 	{ id = 3052, chance = 13000 }, -- life ring
 	{ id = 8074, chance = 13000 }, -- spellbook of mind control

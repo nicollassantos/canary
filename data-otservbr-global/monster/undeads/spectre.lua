@@ -82,7 +82,7 @@ monster.loot = {
 	{ name = "silver brooch", chance = 850 },
 	{ name = "silver brooch", chance = 110 },
 	{ id = 3019, chance = 110 }, -- demonbone amulet
-	{ name = "gold coin", chance = 33000, maxCount = 100 },
+	{ name = "gold coin", chance = 33000, maxCount = 288 },
 	{ name = "gold coin", chance = 33000, maxCount = 100 },
 	{ name = "gold coin", chance = 33000, maxCount = 97 },
 	{ name = "platinum coin", chance = 3850, maxCount = 7 },

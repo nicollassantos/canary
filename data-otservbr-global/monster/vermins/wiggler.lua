@@ -81,7 +81,7 @@ monster.voices = {
 
 monster.loot = {
 	{ name = "gold coin", chance = 100000, maxCount = 100 },
-	{ name = "platinum coin", chance = 14790 },
+	{ name = "platinum coin", chance = 14790, maxCount = 12 },
 	{ name = "terra rod", chance = 850 },
 	{ name = "serpent sword", chance = 1360 },
 	{ name = "black shield", chance = 1320 },

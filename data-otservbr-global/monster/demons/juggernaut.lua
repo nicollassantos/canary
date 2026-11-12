@@ -82,8 +82,8 @@ monster.voices = {
 
 monster.loot = {
 	{ id = 3019, chance = 550 }, -- demonbone amulet
-	{ name = "small ruby", chance = 20000, maxCount = 4 },
-	{ name = "gold coin", chance = 100000, maxCount = 100 },
+	{ name = "small ruby", chance = 20000, maxCount = 5 },
+	{ name = "gold coin", chance = 100000, maxCount = 198 },
 	{ name = "gold coin", chance = 100000, maxCount = 100 },
 	{ name = "gold coin", chance = 100000, maxCount = 100 },
 	{ name = "gold coin", chance = 100000, maxCount = 100 },
@@ -108,8 +108,8 @@ monster.loot = {
 	{ name = "assassin star", chance = 25000, maxCount = 10 },
 	{ name = "titan axe", chance = 4430 },
 	{ name = "spiked squelcher", chance = 7761 },
-	{ name = "great mana potion", chance = 35000 },
-	{ name = "great health potion", chance = 32000 },
+	{ name = "great mana potion", chance = 35000, maxCount = 3 },
+	{ name = "great health potion", chance = 32000, maxCount = 3 },
 	{ name = "skullcracker armor", chance = 400 },
 	{ name = "gold ingot", chance = 7692, maxCount = 2 },
 }

@@ -91,7 +91,7 @@ monster.loot = {
 	{ name = "terra rod", chance = 7330 },
 	{ name = "underworld rod", chance = 6280 },
 	{ name = "diamond sceptre", chance = 4710 },
-	{ name = "fire mushroom", chance = 3140 },
+	{ name = "fire mushroom", chance = 3140, maxCount = 3 },
 	{ name = "knight axe", chance = 5760 },
 	{ name = "wand of starstorm", chance = 4710 },
 	{ name = "sacred tree amulet", chance = 2880 },

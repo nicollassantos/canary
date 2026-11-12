@@ -75,7 +75,7 @@ monster.voices = {
 monster.loot = {
 	{ name = "gold coin", chance = 100000, maxCount = 50 },
 	{ name = "twig arms", chance = 91770 },
-	{ name = "shiver arrow", chance = 7310 },
+	{ name = "shiver arrow", chance = 7310, maxCount = 5 },
 	{ name = "ice rapier", chance = 4750 },
 	{ name = "glacier mask", chance = 4570 },
 	{ id = 2992, chance = 4000, maxCount = 5 }, -- snowball

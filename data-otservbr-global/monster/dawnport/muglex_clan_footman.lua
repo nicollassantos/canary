@@ -69,7 +69,7 @@ monster.loot = {
 	{ id = 3267, chance = 17040 }, -- dagger
 	{ id = 3578, chance = 159200, maxCount = 2 }, -- fish
 	{ id = 11539, chance = 1130 }, -- goblin ear
-	{ id = 3031, chance = 100000, maxCount = 6 }, -- gold coin
+	{ id = 3031, chance = 100000, maxCount = 14 }, -- gold coin
 	{ id = 3361, chance = 6060 }, -- leather armor
 	{ id = 3355, chance = 2680 }, -- leather helmet
 	{ id = 3120, chance = 850 }, -- mouldy cheese

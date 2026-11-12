@@ -89,10 +89,10 @@ monster.loot = {
 	{ id = 24381, chance = 1800 }, -- beetle carapace
 	{ id = 24382, chance = 12750 }, -- bug meat
 	{ id = 3027, chance = 2510, maxCount = 2 }, -- black pearl
-	{ id = 3030, chance = 1940, maxCount = 2 }, -- small ruby
+	{ id = 3030, chance = 1940, maxCount = 3 }, -- small ruby
 	{ id = 7452, chance = 1000 }, -- spiked squelcher
-	{ id = 8015, chance = 8870 }, -- onion
-	{ id = 9057, chance = 9700 }, -- small topaz
+	{ id = 8015, chance = 8870, maxCount = 2 }, -- onion
+	{ id = 9057, chance = 9700, maxCount = 2 }, -- small topaz
 	{ id = 16123, chance = 15290, maxCount = 3 }, -- brown crystal splinter
 	{ id = 17828, chance = 910 }, -- pair of iron fists
 	{ id = 2966, chance = 910 }, -- war drum

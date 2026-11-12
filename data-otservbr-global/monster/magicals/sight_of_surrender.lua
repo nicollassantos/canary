@@ -82,7 +82,7 @@ monster.voices = {
 }
 
 monster.loot = {
-	{ name = "platinum coin", chance = 100000, maxCount = 15 },
+	{ name = "platinum coin", chance = 100000, maxCount = 20 },
 	{ name = "might ring", chance = 8000 },
 	{ name = "stone skin amulet", chance = 18000 },
 	{ name = "hammer of wrath", chance = 1380 },
@@ -103,7 +103,7 @@ monster.loot = {
 	{ name = "green crystal splinter", chance = 30000, maxCount = 5 },
 	{ name = "brown crystal splinter", chance = 30410, maxCount = 5 },
 	{ name = "blue crystal splinter", chance = 40000, maxCount = 5 },
-	{ name = "cluster of solace", chance = 11800 },
+	{ name = "cluster of solace", chance = 11800, maxCount = 2 },
 	{ name = "sight of surrender's eye", chance = 100000 },
 	{ name = "broken visor", chance = 100000 },
 	{ id = 20208, chance = 460 }, -- string of mending

@@ -64,7 +64,7 @@ monster.voices = {
 
 monster.loot = {
 	{ id = 3031, chance = 100000 }, -- gold coin
-	{ id = 3031, chance = 100000, maxCount = 98 }, -- gold coin
+	{ id = 3031, chance = 100000, maxCount = 99 }, -- gold coin
 	{ id = 3577, chance = 100000 }, -- meat
 	{ id = 6499, chance = 64000 }, -- demonic essence
 	{ id = 7368, chance = 100000, maxCount = 10 }, -- assassin star

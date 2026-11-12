@@ -84,7 +84,7 @@ monster.loot = {
 	{ name = "small enchanted emerald", chance = 11040, maxCount = 3 },
 	{ name = "small enchanted amethyst", chance = 8170, maxCount = 3 },
 	{ name = "brown mushroom", chance = 19680, maxCount = 5 },
-	{ name = "orange mushroom", chance = 15140 },
+	{ name = "orange mushroom", chance = 15140, maxCount = 3 },
 	{ name = "blue crystal shard", chance = 7850 },
 	{ name = "green crystal shard", chance = 7850 },
 	{ name = "violet crystal shard", chance = 4690 },

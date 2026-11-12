@@ -81,7 +81,7 @@ monster.voices = {
 monster.loot = {
 	{ id = 2815, chance = 31000 }, -- scroll
 	{ name = "candlestick", chance = 2100 },
-	{ name = "gold coin", chance = 37000, maxCount = 47 },
+	{ name = "gold coin", chance = 37000, maxCount = 49 },
 	{ name = "yellow gem", chance = 50 },
 	{ name = "life crystal", chance = 970 },
 	{ name = "wand of cosmic energy", chance = 1160 },

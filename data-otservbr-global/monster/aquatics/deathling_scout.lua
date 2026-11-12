@@ -81,7 +81,7 @@ monster.loot = {
 	{ name = "crystalline arrow", chance = 25260, maxCount = 25 },
 	{ name = "vortex bolt", chance = 21340, maxCount = 25 },
 	{ name = "small emerald", chance = 20910, maxCount = 12 },
-	{ name = "deepling warts", chance = 20280 },
+	{ name = "deepling warts", chance = 20280, maxCount = 4 },
 	{ name = "deeptags", chance = 15100 },
 	{ name = "deepling filet", chance = 14630 },
 	{ name = "small enchanted sapphire", chance = 13000, maxCount = 8 },

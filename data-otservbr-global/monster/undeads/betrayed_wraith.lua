@@ -79,7 +79,7 @@ monster.loot = {
 	{ name = "small diamond", chance = 11800, maxCount = 4 },
 	{ name = "gold coin", chance = 100000, maxCount = 200 },
 	{ name = "platinum coin", chance = 100000, maxCount = 8 },
-	{ name = "power bolt", chance = 50000, maxCount = 5 },
+	{ name = "power bolt", chance = 50000, maxCount = 15 },
 	{ name = "orichalcum pearl", chance = 8000, maxCount = 2 },
 	{ name = "skull helmet", chance = 390 },
 	{ name = "golden figurine", chance = 160 },

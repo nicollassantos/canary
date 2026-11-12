@@ -79,10 +79,10 @@ monster.voices = {
 monster.loot = {
 	{ id = 3031, chance = 80320, maxCount = 222 }, -- gold coin
 	{ id = 3035, chance = 50320, maxCount = 4 }, -- platinum coin
-	{ id = 3725, chance = 5000, maxCount = 2 }, -- brown mushroom
+	{ id = 3725, chance = 5000, maxCount = 3 }, -- brown mushroom
 	{ id = 3577, chance = 10000, maxCount = 2 }, -- meat
 	{ id = 24383, chance = 20000, maxCount = 2 }, -- cave turnip
-	{ id = 5021, chance = 5000, maxCount = 2 }, -- orichalcum pearl
+	{ id = 5021, chance = 5000, maxCount = 5 }, -- orichalcum pearl
 	{ id = 3030, chance = 5600, maxCount = 5 }, -- small ruby
 	{ id = 22193, chance = 4900 }, -- onyx chip
 	{ id = 24387, chance = 14580 }, -- tarnished rhino figurine

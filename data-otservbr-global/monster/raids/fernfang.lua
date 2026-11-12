@@ -74,7 +74,7 @@ monster.voices = {
 
 monster.loot = {
 	{ id = 9646, chance = 100000 }, -- book of prayers
-	{ id = 3031, chance = 100000, maxCount = 95 }, -- gold coin
+	{ id = 3031, chance = 100000, maxCount = 100 }, -- gold coin
 	{ id = 3035, chance = 93000, maxCount = 3 }, -- platinum coin
 	{ id = 3736, chance = 86000 }, -- star herb
 	{ id = 11492, chance = 53000 }, -- rope belt

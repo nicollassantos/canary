@@ -63,7 +63,7 @@ monster.voices = {
 }
 
 monster.loot = {
-	{ id = 3031, chance = 99700, maxCount = 87 }, -- gold coin
+	{ id = 3031, chance = 99700, maxCount = 198 }, -- gold coin
 	{ id = 7290, chance = 40000 }, -- shard
 	{ id = 236, chance = 100000 }, -- strong health potion
 	{ id = 9661, chance = 40000 }, -- frosty heart

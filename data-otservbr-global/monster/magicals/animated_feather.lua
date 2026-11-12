@@ -73,7 +73,7 @@ monster.voices = {
 }
 
 monster.loot = {
-	{ name = "small sapphire", chance = 8700, maxCount = 5 },
+	{ name = "small sapphire", chance = 8700, maxCount = 12 },
 	{ name = "platinum coin", chance = 87000, maxCount = 50 },
 	{ id = 28570, chance = 500, maxCount = 10 }, -- glowing rune
 	{ id = 3051, chance = 8700 }, -- energy ring
@@ -87,7 +87,7 @@ monster.loot = {
 	{ name = "glowing rune", chance = 500, maxCount = 10 },
 	{ id = 3051, chance = 8700 }, -- energy ring
 	{ name = "quill", chance = 250 },
-	{ name = "small diamond", chance = 500, maxCount = 5 },
+	{ name = "small diamond", chance = 500, maxCount = 12 },
 }
 
 monster.attacks = {

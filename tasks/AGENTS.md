@@ -280,6 +280,13 @@ em toda parte. Toda mudança upstream num desses lugares precisa chegar ao camin
 código vive na branch. **Ao mover código em qualquer fase, acrescente a linha aqui e em
 `tools/merge/README.md` no mesmo commit.**
 
+**Datapack de monstros (`data-otservbr-global/monster/`, Phase 24):** as correções do fork vivem
+no manifesto `tools/datapack/fixes.json`, não à mão nos arquivos. Em conflito num arquivo de
+monstro: pegue a versão do upstream (`git checkout --theirs -- <arquivo>`) e rode
+`python3 -I tools/datapack/wiki_check.py apply`, que reaplica só o que ainda falta (nunca baixa um
+`maxCount`; item que o upstream já adicionou fica como está; rodar duas vezes não muda nada). Depois,
+smoke boot.
+
 | Upstream (como vem no `main`) | Onde está na branch | O que fazer no merge |
 |---|---|---|
 | `src/game/game.cpp` | `game.cpp` (delegates e o que sobrou) e os services: `src/game/{chat,cyclopedia,forge,highscore,interaction,loot,market,movement,outfit,sound,trade}/*_service.cpp`, `src/items/item_service.cpp`, `src/creatures/combat/combat_service.cpp`, `src/creatures/management/creature_management_service.cpp`, `src/game/scheduling/monster_post_think_queue.cpp` | `moved_merge.py` (comando no README). Nas linhas tocadas: `g_game().` → `game_.`, `g_configManager()` → `config_` |

@@ -64,7 +64,7 @@ monster.voices = {
 
 monster.loot = {
 	{ id = 3035, chance = 100000 }, -- platinum coin
-	{ id = 3035, chance = 100000, maxCount = 13 }, -- platinum coin
+	{ id = 3035, chance = 100000, maxCount = 14 }, -- platinum coin
 	{ id = 239, chance = 75810 }, -- great health potion
 	{ id = 10304, chance = 100000 }, -- hellspawn tail
 	{ id = 7368, chance = 19350, maxCount = 5 }, -- assassin star

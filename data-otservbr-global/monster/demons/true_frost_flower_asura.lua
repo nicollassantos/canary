@@ -77,13 +77,13 @@ monster.loot = {
 	{ id = 3035, chance = 100000, maxCount = 8 }, -- platinum coin
 	{ id = 6558, chance = 19790 }, -- flask of demonic blood
 	{ id = 239, chance = 21030, maxCount = 2 }, -- great health potion
-	{ id = 3028, chance = 11900, maxCount = 2 }, -- small diamond
-	{ id = 3032, chance = 16000, maxCount = 2 }, -- small emerald
-	{ id = 3029, chance = 10970, maxCount = 2 }, -- small sapphire
+	{ id = 3028, chance = 11900, maxCount = 3 }, -- small diamond
+	{ id = 3032, chance = 16000, maxCount = 5 }, -- small emerald
+	{ id = 3029, chance = 10970, maxCount = 3 }, -- small sapphire
 	{ id = 3030, chance = 8000, maxCount = 2 }, -- small ruby
 	{ id = 9057, chance = 8510, maxCount = 2 }, -- small topaz
 	{ id = 3041, chance = 1160 }, -- blue gem
-	{ id = 6499, chance = 15280 }, -- demonic essence
+	{ id = 6499, chance = 15280, maxCount = 2 }, -- demonic essence
 	{ id = 21974, chance = 12080 }, -- golden lotus brooch
 	{ id = 21981, chance = 920 }, -- oriental shoes
 	{ id = 21975, chance = 10510 }, -- peacock feather fan

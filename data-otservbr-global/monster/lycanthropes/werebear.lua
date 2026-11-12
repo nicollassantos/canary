@@ -84,7 +84,7 @@ monster.loot = {
 	{ id = 7643, chance = 2210 }, -- ultimate health potion
 	{ id = 238, chance = 1200 }, -- great mana potion
 	{ id = 5896, chance = 800 }, -- bear paw
-	{ id = 3582, chance = 1900, maxCount = 2 }, -- ham
+	{ id = 3582, chance = 1900, maxCount = 3 }, -- ham
 	{ id = 5902, chance = 450 }, -- honeycomb
 	{ id = 22057, chance = 580 }, -- werebear fur
 	{ id = 7439, chance = 800 }, -- berserk potion

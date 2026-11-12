@@ -74,7 +74,7 @@ monster.voices = {
 }
 
 monster.loot = {
-	{ name = "Gold Coin", chance = 100000, minCount = 1, maxCount = 227 },
+	{ name = "Gold Coin", chance = 100000, minCount = 1, maxCount = 248 },
 	{ name = "Jungle Moa Claw", chance = 21100 },
 	{ name = "Meat", chance = 20140 },
 	{ name = "Cyan Crystal Fragment", chance = 11410 },

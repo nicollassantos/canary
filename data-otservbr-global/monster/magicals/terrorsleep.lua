@@ -80,10 +80,10 @@ monster.voices = {
 
 monster.loot = {
 	{ name = "small ruby", chance = 9600, maxCount = 3 },
-	{ name = "gold coin", chance = 100000, maxCount = 100 },
-	{ name = "small emerald", chance = 14000 },
+	{ name = "gold coin", chance = 100000, maxCount = 194 },
+	{ name = "small emerald", chance = 14000, maxCount = 3 },
 	{ name = "small amethyst", chance = 17000, maxCount = 3 },
-	{ name = "platinum coin", chance = 100000, maxCount = 8 },
+	{ name = "platinum coin", chance = 100000, maxCount = 9 },
 	{ name = "giant sword", chance = 560 },
 	{ name = "warrior helmet", chance = 2820 },
 	{ name = "knight armor", chance = 4000 },
@@ -91,7 +91,7 @@ monster.loot = {
 	{ name = "red piece of cloth", chance = 1130 },
 	{ name = "great mana potion", chance = 36000, maxCount = 2 },
 	{ name = "ultimate health potion", chance = 26000 },
-	{ name = "small topaz", chance = 17000, maxCount = 2 },
+	{ name = "small topaz", chance = 17000, maxCount = 3 },
 	{ name = "blue crystal shard", chance = 6000 },
 	{ name = "blue crystal splinter", chance = 13000 },
 	{ name = "cyan crystal fragment", chance = 17000 },

@@ -80,7 +80,7 @@ monster.voices = {
 monster.loot = {
 	{ id = 3583, chance = 13040 }, -- dragon ham
 	{ id = 21801, chance = 12040 }, -- seacrest hair
-	{ id = 762, chance = 7020, maxCount = 17 }, -- shiver arrow
+	{ id = 762, chance = 7020, maxCount = 19 }, -- shiver arrow
 	{ id = 829, chance = 2680 }, -- glacier mask
 	{ id = 21892, chance = 400 }, -- crest of the deep seas
 	{ id = 3035, chance = 100000, maxCount = 5 }, -- platinum coin

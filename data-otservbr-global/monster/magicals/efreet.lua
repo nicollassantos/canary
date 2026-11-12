@@ -90,9 +90,9 @@ monster.voices = {
 monster.loot = {
 	{ id = 2647, chance = 2200 }, -- green tapestry
 	{ name = "small oil lamp", chance = 160 },
-	{ name = "gold coin", chance = 50000, maxCount = 75 },
+	{ name = "gold coin", chance = 50000, maxCount = 120 },
 	{ name = "gold coin", chance = 60000, maxCount = 50 },
-	{ name = "small emerald", chance = 7000 },
+	{ name = "small emerald", chance = 7000, maxCount = 2 },
 	{ name = "green gem", chance = 200 },
 	{ name = "wand of inferno", chance = 390 },
 	{ name = "heavy machete", chance = 5000 },

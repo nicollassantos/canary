@@ -74,7 +74,7 @@ monster.loot = {
 	{ name = "crystal coin", chance = 9000, maxCount = 1 },
 	{ name = "organic acid", chance = 7678, maxCount = 1 },
 	{ name = "terra boots", chance = 12369, maxCount = 1 },
-	{ name = "small amethyst", chance = 12859, maxCount = 1 },
+	{ name = "small amethyst", chance = 12859, maxCount = 3 },
 	{ name = "rotten roots", chance = 13133, maxCount = 1 },
 	{ name = "blue gem", chance = 9808, maxCount = 1 },
 	{ name = "dragonbone staff", chance = 6964, maxCount = 1 },

@@ -87,12 +87,12 @@ monster.loot = {
 	{ id = 6558, chance = 14110 }, -- flask of demonic blood
 	{ id = 6499, chance = 9950 }, -- demonic essence
 	{ id = 3028, chance = 5680, maxCount = 3 }, -- small diamond
-	{ id = 3032, chance = 3240, maxCount = 1 }, -- small emerald
-	{ id = 3030, chance = 3090, maxCount = 1 }, -- small ruby
+	{ id = 3032, chance = 3240, maxCount = 2 }, -- small emerald
+	{ id = 3030, chance = 3090, maxCount = 2 }, -- small ruby
 	{ id = 3029, chance = 5550, maxCount = 3 }, -- small sapphire
-	{ id = 9057, chance = 2910, maxCount = 1 }, -- small topaz
+	{ id = 9057, chance = 2910, maxCount = 2 }, -- small topaz
 	{ id = 239, chance = 8450, maxCount = 2 }, -- great health potion
-	{ id = 3026, chance = 5660 }, -- white pearl
+	{ id = 3026, chance = 5660, maxCount = 2 }, -- white pearl
 	{ id = 7404, chance = 350 }, -- assassin dagger
 	{ id = 3041, chance = 290 }, -- blue gem
 	{ id = 3567, chance = 530 }, -- blue robe

@@ -77,7 +77,7 @@ monster.voices = {
 
 monster.loot = {
 	{ name = "platinum coin", chance = 72260, maxCount = 30 },
-	{ name = "brown crystal splinter", chance = 11550, maxCount = 4 },
+	{ name = "brown crystal splinter", chance = 11550, maxCount = 6 },
 	{ name = "rhindeer antlers", chance = 6020 },
 	{ name = "rainbow quartz", chance = 4940, maxCount = 2 },
 	{ name = "great mana potion", chance = 2670, maxCount = 4 },

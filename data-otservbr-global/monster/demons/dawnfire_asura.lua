@@ -83,11 +83,11 @@ monster.loot = {
 	{ id = 3035, chance = 84140, maxCount = 9 }, -- platinum coin
 	{ id = 6558, chance = 20910, maxCount = 2 }, -- flask of demonic blood
 	{ id = 238, chance = 8590, maxCount = 2 }, -- great mana potion
-	{ id = 3033, chance = 3140, maxCount = 1 }, -- small amethyst
-	{ id = 3028, chance = 2930, maxCount = 1 }, -- small diamond
-	{ id = 3032, chance = 3530, maxCount = 1 }, -- small emerald
-	{ id = 3030, chance = 5760, maxCount = 1 }, -- small ruby
-	{ id = 9057, chance = 2840, maxCount = 1 }, -- small topaz
+	{ id = 3033, chance = 3140, maxCount = 2 }, -- small amethyst
+	{ id = 3028, chance = 2930, maxCount = 2 }, -- small diamond
+	{ id = 3032, chance = 3530, maxCount = 2 }, -- small emerald
+	{ id = 3030, chance = 5760, maxCount = 3 }, -- small ruby
+	{ id = 9057, chance = 2840, maxCount = 2 }, -- small topaz
 	{ id = 3041, chance = 220 }, -- blue gem
 	{ id = 6299, chance = 340 }, -- death ring
 	{ id = 6499, chance = 10660 }, -- demonic essence

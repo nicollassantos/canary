@@ -79,7 +79,7 @@ monster.loot = {
 	{ id = 3031, chance = 100000, maxCount = 100 }, -- gold coin
 	{ id = 3035, chance = 100000, maxCount = 3 }, -- platinum coin
 	{ id = 21816, chance = 9090 }, -- tainted glooth capsule
-	{ id = 238, chance = 7142 }, -- great mana potion
+	{ id = 238, chance = 7142, maxCount = 2 }, -- great mana potion
 	{ id = 21203, chance = 5555 }, -- glooth bag
 	{ id = 9057, chance = 5555, maxCount = 2 }, -- small topaz
 	{ id = 7642, chance = 5000 }, -- great spirit potion

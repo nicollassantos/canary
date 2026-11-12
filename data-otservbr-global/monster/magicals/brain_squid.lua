@@ -76,7 +76,7 @@ monster.voices = {
 
 monster.loot = {
 	{ name = "violet crystal shard", chance = 900, maxCount = 4 },
-	{ name = "platinum coin", chance = 100000, maxCount = 12 },
+	{ name = "platinum coin", chance = 100000, maxCount = 20 },
 	{ name = "glowing rune", chance = 900, maxCount = 4 },
 	{ name = "instable proto matter", chance = 1200, maxCount = 4 },
 	{ name = "energy ball", chance = 1200, maxCount = 4 },
@@ -85,7 +85,7 @@ monster.loot = {
 	{ name = "odd organ", chance = 1200, maxCount = 4 },
 	{ name = "frozen lightning", chance = 1200, maxCount = 4 },
 	{ id = 28568, chance = 1200, maxCount = 3 }, -- inkwell
-	{ name = "small ruby", chance = 1200, maxCount = 4 },
+	{ name = "small ruby", chance = 1200, maxCount = 6 },
 	{ name = "violet gem", chance = 1200, maxCount = 4 },
 	{ name = "blue crystal splinter", chance = 1200, maxCount = 4 },
 	{ name = "cyan crystal fragment", chance = 1200, maxCount = 4 },

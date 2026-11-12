@@ -74,7 +74,7 @@ monster.voices = {
 }
 
 monster.loot = {
-	{ name = "Stalking Seeds", chance = 21520 },
+	{ name = "Stalking Seeds", chance = 21520, maxCount = 3 },
 	{ name = "Crystal Coin", chance = 16570, minCount = 1, maxCount = 3 },
 	{ name = "Small Diamond", chance = 7140, minCount = 1, maxCount = 3 },
 	{ name = "Green Crystal Fragment", chance = 5030 },

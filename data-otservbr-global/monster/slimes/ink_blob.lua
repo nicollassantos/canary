@@ -74,10 +74,10 @@ monster.voices = {
 
 monster.loot = {
 	{ name = "platinum coin", chance = 120000, maxCount = 4 },
-	{ name = "envenomed arrow", chance = 1200, maxCount = 14 },
+	{ name = "envenomed arrow", chance = 1200, maxCount = 50 },
 	{ id = 28568, chance = 1200, maxCount = 4 }, -- inkwell
 	{ name = "poisonous slime", chance = 1200, maxCount = 4 },
-	{ name = "small diamond", chance = 1200, maxCount = 4 },
+	{ name = "small diamond", chance = 1200, maxCount = 7 },
 	{ name = "small topaz", chance = 1200, maxCount = 4 },
 	{ id = 282, chance = 900, maxCount = 4 }, -- giant shimmering pearl (brown)
 	{ name = "blue gem", chance = 950, maxCount = 4 },
