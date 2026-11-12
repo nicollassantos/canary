@@ -24,6 +24,7 @@ namespace it_player_repo_db {
 	struct StoredPlayer {
 		uint32_t guid;
 		std::string name;
+		uint32_t accountId;
 	};
 
 	StoredPlayer createPlayer(Database &db, const std::string &namePrefix) {
@@ -31,7 +32,7 @@ namespace it_player_repo_db {
 		EXPECT_TRUE(db.executeQuery(fmt::format("INSERT INTO `accounts` (`id`, `name`, `email`, `password`, `type`, `premdays`, `lastday`, `creation`) VALUES ({}, 'player_acc_{}', 'player_{}@test.com', '', 1, 0, 0, 0)", seed, seed, seed)));
 		const auto name = fmt::format("{} {}", namePrefix, seed);
 		EXPECT_TRUE(db.executeQuery(fmt::format("INSERT INTO `players` (`name`, `account_id`, `conditions`) VALUES ({}, {}, '')", db.escapeString(name), seed)));
-		return { static_cast<uint32_t>(db.getLastInsertId()), name };
+		return { static_cast<uint32_t>(db.getLastInsertId()), name, seed };
 	}
 
 	uint64_t storedBalance(Database &db, uint32_t guid) {
@@ -99,6 +100,47 @@ namespace it_player_repo_db {
 			bool specialVip = false;
 			EXPECT_FALSE(repository.getGuidByNameEx(guid, specialVip, name));
 		})();
+	}
+
+	std::vector<uint32_t> onlineGuids(Database &db) {
+		std::vector<uint32_t> guids;
+		if (const auto result = db.storeQuery("SELECT `player_id` FROM `players_online` ORDER BY `player_id`")) {
+			do {
+				guids.push_back(result->getNumber<uint32_t>("player_id"));
+			} while (result->next());
+		}
+		return guids;
+	}
+
+	void removePlayers(Database &db, const std::vector<StoredPlayer> &players) {
+		for (const auto &player : players) {
+			EXPECT_TRUE(db.executeQuery(fmt::format("DELETE FROM `players` WHERE `id` = {}", player.guid)));
+			EXPECT_TRUE(db.executeQuery(fmt::format("DELETE FROM `accounts` WHERE `id` = {}", player.accountId)));
+		}
+	}
+
+	// updateOnlinePlayers opens its own transaction, and MySQL's BEGIN would commit the
+	// databaseTest harness transaction. So this test runs outside it and removes its own rows.
+	TEST(PlayerRepositoryDBTest, UpdateOnlinePlayersKeepsExactlyTheGivenPlayers) {
+		TestDatabase::init();
+		auto &db = g_database();
+		const auto first = createPlayer(db, "Online A");
+		const auto second = createPlayer(db, "Online B");
+		PlayerRepositoryDB repository(db);
+
+		ASSERT_TRUE(repository.updateOnlinePlayers({ second.guid, first.guid }));
+		EXPECT_EQ((std::vector<uint32_t> { first.guid, second.guid }), onlineGuids(db));
+
+		ASSERT_TRUE(repository.updateOnlinePlayers({ first.guid }));
+		EXPECT_EQ((std::vector<uint32_t> { first.guid }), onlineGuids(db));
+
+		ASSERT_TRUE(repository.updateOnlinePlayers({}));
+		EXPECT_TRUE(onlineGuids(db).empty());
+
+		// An empty table takes the count-only path.
+		EXPECT_TRUE(repository.updateOnlinePlayers({}));
+
+		removePlayers(db, { first, second });
 	}
 
 } // namespace it_player_repo_db

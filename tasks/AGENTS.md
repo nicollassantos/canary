@@ -202,6 +202,7 @@ código vive na branch. **Ao mover código em qualquer fase, acrescente a linha 
 | `src/io/iomarket.{cpp,hpp}` | `src/io/market_repository_db.cpp`; expiração/reembolso em `src/game/market/market_expiry.cpp` | apagado na branch: `moved_merge.py` + port manual de `processExpiredOffers`/`getTierFromDatabaseTable`; `git rm` de novo |
 | `src/io/ioguild.{cpp,hpp}` | `src/io/guild_repository_db.cpp` | apagado: `moved_merge.py`; `git rm` de novo |
 | `src/io/iologindata.cpp`: VIP; `getNameByGuid`/`getGuidByName`/`getGuidByNameEx`/`formatPlayerName`/`increaseBankBalance` | `src/creatures/players/vip_repository_db.cpp`, `src/creatures/players/player_repository_db.cpp` | `moved_merge.py` com os 3 arquivos; load/save continuam em `iologindata.cpp` |
+| `game.cpp` `Game::updatePlayersOnline` | `CyclopediaService::updatePlayersOnline` (monta a lista de GUIDs) e `PlayerRepositoryDB::updateOnlinePlayers` (SQL) | manual: corpo dividido (README, "split between a service and an adapter") |
 | `src/canary_server.cpp`: parsing de `worldType` | `src/game/world_type_config.cpp` (`world_type_config::parse`) | se o upstream mudar nomes de world type, atualizar o parse e `world_type_config_test.cpp`; manter `"open-pvp"` |
 | `src/creatures/players/components/pvp/expert_pvp.cpp` | mesmo arquivo, com `g_game()`/config → `world()` (`ExpertPvpWorld`) | merge normal; manter `world().` nas linhas tocadas |
 

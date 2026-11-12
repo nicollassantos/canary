@@ -239,7 +239,7 @@
 ## Phase 22: SQL restante dos services em adapters + estabilidade de highscores + testes de login
 
 - [x] **22.0** — Mapa upstream → branch (§5b), tabela de chamadas IO → portas, `tools/merge/coverage_check.py` (achou 88 funções do protocolgame fora do comando de merge; corrigido); cobertura 416/416 game.cpp, 830/830 player.cpp, 398/398 protocolgame.cpp
-- [ ] **22.1** — `players_online` via `IPlayerRepository::updateOnlinePlayers`
+- [x] **22.1** — `players_online`: `IPlayerRepository::updateOnlinePlayers(guids)`; SQL + transação movidos do `CyclopediaService` para o `PlayerRepositoryDB` (mesma lógica, mesmas mensagens de log); service só monta a lista de GUIDs; 3 unit tests (lista vazia, GUIDs, falha logada) + 1 IT fora do `databaseTest` limpando as próprias linhas (rodado 2× sem resíduo); mapa §5b + README ("split between a service and an adapter") — 891/891 + 73/73
 - [ ] **22.2** — Highscores: `IHighscoreRepository` + `HighscoreRepositoryDB`; callback sem `[this]`
 - [ ] **22.3** — Testes de integração de `gameWorldAuthentication`
 - [ ] **22.4** — Caches de highscore com limite (hoje crescem sem fim, upstream também)

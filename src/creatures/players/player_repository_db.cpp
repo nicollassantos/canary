@@ -92,3 +92,54 @@ void PlayerRepositoryDB::increaseBankBalance(uint32_t guid, uint64_t bankBalance
 	query << "UPDATE `players` SET `balance` = `balance` + " << bankBalance << " WHERE `id` = " << guid;
 	std::ignore = db_.executeQuery(query.str());
 }
+
+bool PlayerRepositoryDB::updateOnlinePlayers(const std::vector<uint32_t> &onlineGuids) {
+	auto updateOperation = [this, &onlineGuids]() {
+		if (onlineGuids.empty()) {
+			auto result = db_.storeQuery("SELECT COUNT(*) AS count FROM players_online;");
+			if (!result) {
+				g_logger().error("[Game::updatePlayersOnline] Failed to count players_online records.");
+				return false;
+			}
+
+			if (result->getNumber<int>("count") == 0) {
+				return true;
+			}
+
+			if (!db_.executeQuery("DELETE FROM `players_online`;")) {
+				g_logger().error("[Game::updatePlayersOnline] Failed to clear players_online records.");
+				return false;
+			}
+
+			return true;
+		}
+
+		DBInsert stmt("INSERT IGNORE INTO `players_online` (`player_id`) VALUES ");
+		for (const auto playerGuid : onlineGuids) {
+			if (!stmt.addRow(fmt::format("{}", playerGuid))) {
+				g_logger().error("[Game::updatePlayersOnline] Failed to add players_online insert row.");
+				return false;
+			}
+		}
+
+		if (!stmt.execute()) {
+			g_logger().error("[Game::updatePlayersOnline] Failed to insert players_online records.");
+			return false;
+		}
+
+		const auto cleanupQuery = fmt::format(
+			"DELETE FROM `players_online` WHERE `player_id` NOT IN ({});",
+			fmt::join(onlineGuids, ",")
+		);
+		if (!db_.executeQuery(cleanupQuery)) {
+			g_logger().error("[Game::updatePlayersOnline] Failed to prune offline players_online records.");
+			return false;
+		}
+
+		return true;
+	};
+
+	// DBTransaction and DBInsert run on the global Database, the same instance injected as db_.
+	return DBTransaction::executeWithinTransactionRollbackOnFailure(updateOperation);
+}
+

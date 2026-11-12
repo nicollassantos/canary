@@ -89,61 +89,13 @@ void CyclopediaService::playerCyclopediaCharacterInfo(const std::shared_ptr<Play
 }
 
 void CyclopediaService::updatePlayersOnline() const {
-	auto updateOperation = [this]() {
-		const auto &m_players = game_.getPlayers();
+	std::vector<uint32_t> onlineGuids;
+	onlineGuids.reserve(game_.getPlayers().size());
+	for (const auto &player : game_.getPlayers() | std::views::values) {
+		onlineGuids.emplace_back(player->getGUID());
+	}
 
-		if (m_players.empty()) {
-			auto result = g_database().storeQuery("SELECT COUNT(*) AS count FROM players_online;");
-			if (!result) {
-				g_logger().error("[Game::updatePlayersOnline] Failed to count players_online records.");
-				return false;
-			}
-
-			if (result->getNumber<int>("count") == 0) {
-				return true;
-			}
-
-			if (!g_database().executeQuery("DELETE FROM `players_online`;")) {
-				g_logger().error("[Game::updatePlayersOnline] Failed to clear players_online records.");
-				return false;
-			}
-
-			return true;
-		}
-
-		DBInsert stmt("INSERT IGNORE INTO `players_online` (`player_id`) VALUES ");
-		std::vector<uint32_t> onlinePlayerIds;
-		onlinePlayerIds.reserve(m_players.size());
-
-		for (const auto &player : m_players | std::views::values) {
-			const auto playerGuid = player->getGUID();
-			if (!stmt.addRow(fmt::format("{}", playerGuid))) {
-				g_logger().error("[Game::updatePlayersOnline] Failed to add players_online insert row.");
-				return false;
-			}
-
-			onlinePlayerIds.emplace_back(playerGuid);
-		}
-
-		if (!stmt.execute()) {
-			g_logger().error("[Game::updatePlayersOnline] Failed to insert players_online records.");
-			return false;
-		}
-
-		const auto cleanupQuery = fmt::format(
-			"DELETE FROM `players_online` WHERE `player_id` NOT IN ({});",
-			fmt::join(onlinePlayerIds, ",")
-		);
-		if (!g_database().executeQuery(cleanupQuery)) {
-			g_logger().error("[Game::updatePlayersOnline] Failed to prune offline players_online records.");
-			return false;
-		}
-
-		return true;
-	};
-
-	const bool success = DBTransaction::executeWithinTransactionRollbackOnFailure(updateOperation);
-	if (!success) {
+	if (!g_playerRepository().updateOnlinePlayers(onlineGuids)) {
 		g_logger().error("[Game::updatePlayersOnline] Failed to update players online.");
 	}
 }

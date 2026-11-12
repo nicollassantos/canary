@@ -11,6 +11,7 @@
 #include <memory>
 #include <string>
 #include <unordered_map>
+#include <vector>
 
 #include "creatures/players/player_repository.hpp"
 #include "creatures/players/player.hpp"
@@ -39,6 +40,9 @@ public:
 		byName.clear();
 		byId.clear();
 		bankBalances.clear();
+		onlinePlayers.clear();
+		onlineUpdates = 0;
+		failOnlineUpdate = false;
 		return *this;
 	}
 
@@ -109,6 +113,20 @@ public:
 	bool gameWorldAuthentication(const std::string &, const std::string &, std::string &, uint32_t &, bool, uint32_t) override {
 		return false;
 	}
+
+	bool updateOnlinePlayers(const std::vector<uint32_t> &onlineGuids) override {
+		++onlineUpdates;
+		if (failOnlineUpdate) {
+			return false;
+		}
+		onlinePlayers = onlineGuids;
+		return true;
+	}
+
+	/// Last list written by updateOnlinePlayers, in the order the caller sent it.
+	std::vector<uint32_t> onlinePlayers;
+	uint32_t onlineUpdates = 0;
+	bool failOnlineUpdate = false;
 
 	uint64_t getBankBalance(uint32_t guid) const {
 		auto it = bankBalances.find(guid);

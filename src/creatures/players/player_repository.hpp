@@ -12,6 +12,7 @@
 #include <cstdint>
 #include <memory>
 #include <string>
+#include <vector>
 
 class Player;
 
@@ -37,6 +38,9 @@ public:
 	[[nodiscard]] virtual bool formatPlayerName(std::string &name) = 0;
 	/// Resolves guid and special-VIP flag by name, normalising `name`; false when not found.
 	[[nodiscard]] virtual bool getGuidByNameEx(uint32_t &guid, bool &specialVip, std::string &name) = 0;
+	/// Makes `players_online` hold exactly `onlineGuids` (empty clears it), in one transaction.
+	/// Returns false when any statement fails; the table is then left as it was.
+	[[nodiscard]] virtual bool updateOnlinePlayers(const std::vector<uint32_t> &onlineGuids) = 0;
 	/// Validates a game-world login and resolves the account id.
 	[[nodiscard]] virtual bool gameWorldAuthentication(const std::string &accountDescriptor, const std::string &sessionOrPassword, std::string &characterName, uint32_t &accountId, bool oldProtocol, uint32_t ip) = 0;
 };

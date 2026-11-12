@@ -178,3 +178,13 @@ bypasses the port. After every merge this must print nothing:
 git grep -nE 'IOLoginData::|IOMarket::|IOGuild::' -- src ':!src/io/iologindata*' ':!src/io/functions/*' ':!*_repository_db.cpp'
 ```
 
+## Upstream functions split between a service and an adapter
+
+`coverage_check.py` still finds these by name (the service keeps it), but part of the body now
+lives in an adapter. When upstream changes one of them, diff it by hand and send each line to
+the half that owns it.
+
+| Upstream function | Service half (game logic) | Adapter half (SQL) |
+|---|---|---|
+| `Game::updatePlayersOnline` (`game.cpp`) | `CyclopediaService::updatePlayersOnline` builds the online GUID list | `PlayerRepositoryDB::updateOnlinePlayers` (count/clear, insert, prune, one transaction) |
+

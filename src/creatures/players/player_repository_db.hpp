@@ -30,6 +30,7 @@ public:
 
 	[[nodiscard]] bool formatPlayerName(std::string &name) override;
 	[[nodiscard]] bool getGuidByNameEx(uint32_t &guid, bool &specialVip, std::string &name) override;
+	[[nodiscard]] bool updateOnlinePlayers(const std::vector<uint32_t> &onlineGuids) override;
 	[[nodiscard]] bool gameWorldAuthentication(const std::string &accountDescriptor, const std::string &sessionOrPassword, std::string &characterName, uint32_t &accountId, bool oldProtocol, uint32_t ip) override;
 
 private:
