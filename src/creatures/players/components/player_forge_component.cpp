@@ -21,6 +21,7 @@
 #include "lib/metrics/metrics.hpp"
 #include "server/network/protocol/protocolgame.hpp"
 #include "utils/tools.hpp"
+#include "config/config_port.hpp"
 
 std::pair<uint64_t, uint64_t> PlayerForgeComponent::getForgeSliversAndCores() const {
 	uint64_t sliverCount = 0;
@@ -134,7 +135,7 @@ void PlayerForgeComponent::triggerTranscendence() {
 
 	const double_t randomChance = uniform_random(0, 10000) / 100.;
 	if (m_player.getZoneType() != ZONE_PROTECTION && m_player.checkLastAggressiveActionWithin(2000) && ((OTSYS_TIME() / 1000) % 2) == 0 && chance > 0 && randomChance < chance) {
-		int64_t duration = g_configManager().getNumber(TRANSCENDENCE_AVATAR_DURATION);
+		int64_t duration = IConfigManager::getInstance().getNumber(TRANSCENDENCE_AVATAR_DURATION);
 		const auto &outfitCondition = Condition::createCondition(CONDITIONID_COMBAT, CONDITION_OUTFIT, duration, 0)->static_self_cast<ConditionOutfit>();
 		Outfit_t outfit;
 		outfit.lookType = m_player.getVocation()->getAvatarLookType();
@@ -208,7 +209,7 @@ void PlayerForgeComponent::forgeFuseItems(ForgeAction_t actionType, uint16_t fir
 	// known, so we can compute expected costs and abort before removing anything.
 	{
 		const auto configKey = convergence ? FORGE_CONVERGENCE_FUSION_DUST_COST : FORGE_FUSION_DUST_COST;
-		const auto dustCost = static_cast<uint64_t>(g_configManager().getNumber(configKey));
+		const auto dustCost = static_cast<uint64_t>(IConfigManager::getInstance().getNumber(configKey));
 
 		// Dust check: convergence always spends dust; success skips only on bonus 1.
 		if ((convergence || !success || bonus != 1) && getForgeDusts() < dustCost) {
@@ -306,7 +307,7 @@ void PlayerForgeComponent::forgeFuseItems(ForgeAction_t actionType, uint16_t fir
 	}
 
 	auto configKey = convergence ? FORGE_CONVERGENCE_FUSION_DUST_COST : FORGE_FUSION_DUST_COST;
-	auto dustCost = static_cast<uint64_t>(g_configManager().getNumber(configKey));
+	auto dustCost = static_cast<uint64_t>(IConfigManager::getInstance().getNumber(configKey));
 	if (convergence) {
 		firstForgedItem->setTier(tier + 1);
 		history.dustCost = dustCost;
@@ -409,7 +410,7 @@ void PlayerForgeComponent::forgeFuseItems(ForgeAction_t actionType, uint16_t fir
 				}
 			}
 		} else {
-			auto isTierLost = uniform_random(1, 100) <= (reduceTierLoss ? g_configManager().getNumber(FORGE_TIER_LOSS_REDUCTION) : 100);
+			auto isTierLost = uniform_random(1, 100) <= (reduceTierLoss ? IConfigManager::getInstance().getNumber(FORGE_TIER_LOSS_REDUCTION) : 100);
 			if (isTierLost) {
 				if (secondForgedItem->getTier() >= 1) {
 					secondForgedItem->setTier(tier - 1);
@@ -511,7 +512,7 @@ void PlayerForgeComponent::forgeTransferItemTier(ForgeAction_t actionType, uint1
 
 	// Pre-validate all resources before mutating player inventory.
 	auto configKey = convergence ? FORGE_CONVERGENCE_TRANSFER_DUST_COST : FORGE_TRANSFER_DUST_COST;
-	auto dustCost = static_cast<uint64_t>(g_configManager().getNumber(configKey));
+	auto dustCost = static_cast<uint64_t>(IConfigManager::getInstance().getNumber(configKey));
 	if (getForgeDusts() < dustCost) {
 		g_logger().error("[{}] Insufficient transfer dust for player with name {}", __FUNCTION__, m_player.getName());
 		m_player.sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
@@ -649,14 +650,14 @@ void PlayerForgeComponent::forgeResourceConversion(ForgeAction_t actionType) {
 	ReturnValue returnValue = RETURNVALUE_NOERROR;
 	if (actionType == ForgeAction_t::DUSTTOSLIVERS) {
 		auto dusts = getForgeDusts();
-		auto cost = static_cast<uint16_t>(g_configManager().getNumber(FORGE_COST_ONE_SLIVER) * g_configManager().getNumber(FORGE_SLIVER_AMOUNT));
+		auto cost = static_cast<uint16_t>(IConfigManager::getInstance().getNumber(FORGE_COST_ONE_SLIVER) * IConfigManager::getInstance().getNumber(FORGE_SLIVER_AMOUNT));
 		if (cost > dusts) {
 			g_logger().error("[{}] Not enough dust", __FUNCTION__);
 			m_player.sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
 			return;
 		}
 
-		auto itemCount = static_cast<uint16_t>(g_configManager().getNumber(FORGE_SLIVER_AMOUNT));
+		auto itemCount = static_cast<uint16_t>(IConfigManager::getInstance().getNumber(FORGE_SLIVER_AMOUNT));
 		const auto &item = Item::CreateItem(ITEM_FORGE_SLIVER, itemCount);
 		returnValue = g_game().internalPlayerAddItem(m_player.getPlayer(), item);
 		if (returnValue != RETURNVALUE_NOERROR) {
@@ -670,7 +671,7 @@ void PlayerForgeComponent::forgeResourceConversion(ForgeAction_t actionType) {
 		setForgeDusts(dusts - cost);
 	} else if (actionType == ForgeAction_t::SLIVERSTOCORES) {
 		const auto &[sliverCount, coreCount] = getForgeSliversAndCores();
-		auto cost = static_cast<uint16_t>(g_configManager().getNumber(FORGE_CORE_COST));
+		auto cost = static_cast<uint16_t>(IConfigManager::getInstance().getNumber(FORGE_CORE_COST));
 		if (cost > sliverCount) {
 			g_logger().error("[{}] Not enough sliver", __FUNCTION__);
 			m_player.sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
@@ -698,7 +699,7 @@ void PlayerForgeComponent::forgeResourceConversion(ForgeAction_t actionType) {
 		history.gained = 1;
 	} else {
 		auto dustLevel = getForgeDustLevel();
-		if (dustLevel >= g_configManager().getNumber(FORGE_MAX_DUST)) {
+		if (dustLevel >= IConfigManager::getInstance().getNumber(FORGE_MAX_DUST)) {
 			g_logger().error("[{}] Maximum level reached", __FUNCTION__);
 			m_player.sendForgeError(RETURNVALUE_CONTACTADMINISTRATOR);
 			return;

@@ -16,6 +16,7 @@
 #include "items/weapons/weapons.hpp"
 #include "lua/creature/creatureevent.hpp"
 #include "server/network/protocol/protocolgame.hpp"
+#include "config/config_port.hpp"
 
 void PlayerCombatEventComponent::onBlockHit() {
 	if (m_player.shieldBlockCount > 0) {
@@ -165,7 +166,7 @@ void PlayerCombatEventComponent::doAttacking(uint32_t interval) {
 		const auto &tool = m_player.getWeapon();
 		const auto &weapon = g_weapons().getWeapon(tool);
 		uint32_t delay = m_player.getAttackSpeed();
-		bool classicSpeed = g_configManager().getBoolean(CLASSIC_ATTACK_SPEED);
+		bool classicSpeed = IConfigManager::getInstance().getBoolean(CLASSIC_ATTACK_SPEED);
 
 		if (weapon) {
 			if (!weapon->interruptSwing()) {
@@ -569,7 +570,7 @@ bool PlayerCombatEventComponent::onKilledPlayer(const std::shared_ptr<Player> &t
 
 			if (lastHit && m_player.hasCondition(CONDITION_INFIGHT)) {
 				m_player.pzLocked = true;
-				const auto &condition = Condition::createCondition(CONDITIONID_DEFAULT, CONDITION_INFIGHT, g_configManager().getNumber(WHITE_SKULL_TIME), 0);
+				const auto &condition = Condition::createCondition(CONDITIONID_DEFAULT, CONDITION_INFIGHT, IConfigManager::getInstance().getNumber(WHITE_SKULL_TIME), 0);
 				m_player.addCondition(condition);
 			}
 		}
@@ -630,7 +631,7 @@ void PlayerCombatEventComponent::parseAttackRecvHazardSystem(CombatDamage &damag
 		return;
 	}
 
-	if (!g_configManager().getBoolean(TOGGLE_HAZARDSYSTEM)) {
+	if (!IConfigManager::getInstance().getBoolean(TOGGLE_HAZARDSYSTEM)) {
 		return;
 	}
 
@@ -657,14 +658,14 @@ void PlayerCombatEventComponent::parseAttackRecvHazardSystem(CombatDamage &damag
 
 	uint16_t stage = 0;
 	auto chance = static_cast<uint16_t>(normal_random(1, 10000));
-	auto critChance = g_configManager().getNumber(HAZARD_CRITICAL_CHANCE);
+	auto critChance = IConfigManager::getInstance().getNumber(HAZARD_CRITICAL_CHANCE);
 	// Critical chance
-	if (monster->getHazardSystemCrit() && (m_player.lastHazardSystemCriticalHit + g_configManager().getNumber(HAZARD_CRITICAL_INTERVAL)) <= OTSYS_TIME() && chance <= critChance && !damage.critical) {
+	if (monster->getHazardSystemCrit() && (m_player.lastHazardSystemCriticalHit + IConfigManager::getInstance().getNumber(HAZARD_CRITICAL_INTERVAL)) <= OTSYS_TIME() && chance <= critChance && !damage.critical) {
 		damage.critical = true;
 		damage.extension = true;
 		damage.exString = "(Hazard)";
 
-		stage = (points - 1) * static_cast<uint16_t>(g_configManager().getNumber(HAZARD_CRITICAL_MULTIPLIER));
+		stage = (points - 1) * static_cast<uint16_t>(IConfigManager::getInstance().getNumber(HAZARD_CRITICAL_MULTIPLIER));
 		damage.primary.value += static_cast<int32_t>(std::ceil((static_cast<double>(damage.primary.value) * (5000 + stage)) / 10000));
 		damage.secondary.value += static_cast<int32_t>(std::ceil((static_cast<double>(damage.secondary.value) * (5000 + stage)) / 10000));
 		m_player.lastHazardSystemCriticalHit = OTSYS_TIME();
@@ -672,7 +673,7 @@ void PlayerCombatEventComponent::parseAttackRecvHazardSystem(CombatDamage &damag
 
 	// To prevent from punish the player twice with critical + damage boost, just uncomment code from the if
 	if (monster->getHazardSystemDamageBoost() /* && !damage.critical*/) {
-		stage = points * static_cast<uint16_t>(g_configManager().getNumber(HAZARD_DAMAGE_MULTIPLIER));
+		stage = points * static_cast<uint16_t>(IConfigManager::getInstance().getNumber(HAZARD_DAMAGE_MULTIPLIER));
 		if (stage != 0) {
 			damage.extension = true;
 			damage.exString = "(Hazard)";
@@ -685,7 +686,7 @@ void PlayerCombatEventComponent::parseAttackRecvHazardSystem(CombatDamage &damag
 }
 
 void PlayerCombatEventComponent::parseAttackDealtHazardSystem(CombatDamage &damage, const std::shared_ptr<Monster> &monster) const {
-	if (!g_configManager().getBoolean(TOGGLE_HAZARDSYSTEM)) {
+	if (!IConfigManager::getInstance().getBoolean(TOGGLE_HAZARDSYSTEM)) {
 		return;
 	}
 
@@ -717,7 +718,7 @@ void PlayerCombatEventComponent::parseAttackDealtHazardSystem(CombatDamage &dama
 	// Dodge chance
 	uint16_t stage;
 	if (monster->getHazardSystemDodge()) {
-		stage = points * g_configManager().getNumber(HAZARD_DODGE_MULTIPLIER);
+		stage = points * IConfigManager::getInstance().getNumber(HAZARD_DODGE_MULTIPLIER);
 		auto chance = static_cast<uint16_t>(normal_random(1, 10000));
 		if (chance <= stage) {
 			damage.primary.value = 0;
@@ -727,7 +728,7 @@ void PlayerCombatEventComponent::parseAttackDealtHazardSystem(CombatDamage &dama
 		}
 	}
 	if (monster->getHazardSystemDefenseBoost()) {
-		stage = points * static_cast<uint16_t>(g_configManager().getNumber(HAZARD_DEFENSE_MULTIPLIER));
+		stage = points * static_cast<uint16_t>(IConfigManager::getInstance().getNumber(HAZARD_DEFENSE_MULTIPLIER));
 		if (stage != 0) {
 			damage.exString = fmt::format("(hazard -{}%)", stage / 100.);
 			damage.primary.value -= static_cast<int32_t>(std::ceil((static_cast<double>(damage.primary.value) * stage) / 10000));
@@ -739,7 +740,7 @@ void PlayerCombatEventComponent::parseAttackDealtHazardSystem(CombatDamage &dama
 }
 
 void PlayerCombatEventComponent::setHazardSystemPoints(int32_t count) {
-	if (!g_configManager().getBoolean(TOGGLE_HAZARDSYSTEM)) {
+	if (!IConfigManager::getInstance().getBoolean(TOGGLE_HAZARDSYSTEM)) {
 		return;
 	}
 	m_player.addStorageValue(STORAGEVALUE_HAZARDCOUNT, std::max<int32_t>(0, std::min<int32_t>(0xFFFF, count)), true);

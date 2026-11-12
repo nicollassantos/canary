@@ -11,6 +11,8 @@
 
 #include "creatures/players/player.hpp"
 #include "creatures/players/components/player_stash_component.hpp"
+#include "config/in_memory_config_manager.hpp"
+#include "creatures/players/grouping/groups.hpp"
 #include "lib/logging/in_memory_logger.hpp"
 
 class PlayerStashComponentTest : public ::testing::Test {
@@ -96,4 +98,43 @@ TEST_F(PlayerStashComponentTest, IsNearDepotBox_CallableOnConstPlayer) {
 TEST_F(PlayerStashComponentTest, SendBatchUpdateContainer_NoOp_WhenContainerNull) {
 	// Null container must not crash (early-return guard)
 	EXPECT_NO_THROW(player->stashComponent().sendBatchUpdateContainer(nullptr, false));
+}
+
+// --- getMaxDepotItems reads limits through the IConfigManager port ---
+
+class PlayerStashDepotLimitTest : public ::testing::Test {
+protected:
+	void SetUp() override {
+		previousContainer = DI::getTestContainer();
+		InMemoryLogger::install(injector);
+		InMemoryConfigManager::install(injector);
+		DI::setTestContainer(&injector);
+		config = &dynamic_cast<InMemoryConfigManager &>(IConfigManager::getInstance());
+
+		player = std::make_shared<Player>();
+		player->setGroup(std::make_shared<Group>());
+	}
+
+	void TearDown() override {
+		DI::setTestContainer(previousContainer);
+	}
+
+	di::extension::injector<> injector {};
+	di::extension::injector<>* previousContainer = nullptr;
+	InMemoryConfigManager* config = nullptr;
+	std::shared_ptr<Player> player;
+};
+
+TEST_F(PlayerStashDepotLimitTest, FreePlayerUsesFreeDepotLimit) {
+	config->setNumber(FREE_DEPOT_LIMIT, 1234);
+	config->setNumber(PREMIUM_DEPOT_LIMIT, 9999);
+	EXPECT_EQ(1234u, player->stashComponent().getMaxDepotItems());
+}
+
+TEST_F(PlayerStashDepotLimitTest, GroupLimitOverridesConfig) {
+	config->setNumber(FREE_DEPOT_LIMIT, 1234);
+	auto group = std::make_shared<Group>();
+	group->maxDepotItems = 77;
+	player->setGroup(group);
+	EXPECT_EQ(77u, player->stashComponent().getMaxDepotItems());
 }

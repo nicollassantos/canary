@@ -24,6 +24,7 @@
 #include "lua/creature/creatureevent.hpp"
 #include "map/spectators.hpp"
 #include "utils/tools.hpp"
+#include "config/config_port.hpp"
 
 uint16_t PlayerExperienceComponent::getBaseSkill(uint8_t skill) const {
 	return m_player.skills[skill].level;
@@ -185,7 +186,7 @@ void PlayerExperienceComponent::addExperience(const std::shared_ptr<Creature> &t
 	const auto &monster = target && target->getMonster() ? target->getMonster() : nullptr;
 	const bool handleHazardExperience = monster && monster->getHazard() && m_player.getHazardSystemPoints() > 0;
 	if (handleHazardExperience) {
-		exp += (exp * (1.75 * m_player.getHazardSystemPoints() * g_configManager().getFloat(HAZARD_EXP_BONUS_MULTIPLIER))) / 100.;
+		exp += (exp * (1.75 * m_player.getHazardSystemPoints() * IConfigManager::getInstance().getFloat(HAZARD_EXP_BONUS_MULTIPLIER))) / 100.;
 	}
 
 	const bool handleAnimusMastery = monster && m_player.animusMastery().has(monster->getMonsterType()->name);
@@ -201,7 +202,7 @@ void PlayerExperienceComponent::addExperience(const std::shared_ptr<Creature> &t
 	if (sendText) {
 		std::string expString = fmt::format("{} experience point{}.", exp, (exp != 1 ? "s" : ""));
 		if (m_player.isVip()) {
-			uint8_t expPercent = g_configManager().getNumber(VIP_BONUS_EXP);
+			uint8_t expPercent = IConfigManager::getInstance().getNumber(VIP_BONUS_EXP);
 			if (expPercent > 0) {
 				expString = expString + fmt::format(" (VIP bonus {}%)", expPercent > 100 ? 100 : expPercent);
 			}

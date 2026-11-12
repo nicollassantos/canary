@@ -104,6 +104,16 @@ public:
 	}
 
 	/**
+	 * True when a test container is active and binds T explicitly. Ports with no
+	 * concrete default use it to keep the global instance when a test does not
+	 * install a fake.
+	 */
+	template <class T>
+	inline static bool isBoundInTestContainer() {
+		return testContainer && testContainer->isBound<T>();
+	}
+
+	/**
 	 * Create will always return a new instance, it's used for unique instances or non-shared
 	 * states. This can only be used by classes that allow being copied, cloned and moved.
 	 * Instances acquired with create need to be managed by the caller using smart pointers.

@@ -214,6 +214,6 @@
 > Linha de base: `g_game()` 1148 / `g_configManager()` 526 chamadas em src/*.cpp
 
 - [x] **19.1** — Services sem singletons: 23 → 0 (`config_`/`game_` em membros; helpers livres do market recebem `Game&`/`IConfigManager&`; `CreatureManagementService` recebe `IConfigManager&`); removidas cópias mortas de `playerCanUseItem*OnHouseTile` (interaction + game.cpp; upstream também não chama a variante `With`) — 858/858 + 51/51
-- [ ] **19.2** — Player components leem config pela porta `IConfigManager` (49 chamadas `g_configManager()` → 0) + fixtures de teste instalam `InMemoryConfigManager`
+- [x] **19.2** — Player components leem config por `IConfigManager::getInstance()` (50 → 0); porta segura em testes: container de teste sem binding cai no `ConfigManager` global (`DI::isBoundInTestContainer<T>()`); 4 testes (fallback, in-memory, depot limit free/grupo) — 862/862 + 51/51; totais agora g_game 1143 / g_configManager 459
 - [ ] **19.3** — Call sites `IOLoginData::` (21) / `IOMarket::` (7) fora de `src/io/` → portas `IPlayerRepository` / `IMarketRepository`
 - [ ] **19.4** — `GuildRepositoryDB` com SQL próprio via `IDatabase` (deixa de delegar a `IOGuild`); testes com DB de integração

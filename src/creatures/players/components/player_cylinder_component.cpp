@@ -15,6 +15,7 @@
 #include "lua/creature/movement.hpp"
 #include "items/item.hpp"
 #include "items/containers/container.hpp"
+#include "config/config_port.hpp"
 
 ReturnValue PlayerCylinderComponent::queryAdd(int32_t index, const std::shared_ptr<Thing> &thing, uint32_t count, uint32_t flags, const std::shared_ptr<Creature> &) const {
 	const auto &item = thing->getItem();
@@ -44,7 +45,7 @@ ReturnValue PlayerCylinderComponent::queryAdd(int32_t index, const std::shared_p
 
 	const int32_t &slotPosition = item->getSlotPosition();
 
-	bool allowPutItemsOnAmmoSlot = g_configManager().getBoolean(ENABLE_PLAYER_PUT_ITEM_IN_AMMO_SLOT);
+	bool allowPutItemsOnAmmoSlot = IConfigManager::getInstance().getBoolean(ENABLE_PLAYER_PUT_ITEM_IN_AMMO_SLOT);
 	if (allowPutItemsOnAmmoSlot && index == CONST_SLOT_AMMO) {
 		ret = RETURNVALUE_NOERROR;
 	} else {

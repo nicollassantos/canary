@@ -21,6 +21,7 @@
 #include "lua/creature/movement.hpp"
 #include "server/network/protocol/protocolgame.hpp"
 #include "utils/batch_update.hpp"
+#include "config/config_port.hpp"
 
 namespace {
 	uint32_t sendStowItems(const std::shared_ptr<Item> &item, const std::shared_ptr<Item> &stowItem, StashContainerList &itemDict, uint32_t totalItemsToStow, uint32_t maxItemsToStow) {
@@ -98,7 +99,7 @@ std::shared_ptr<DepotLocker> PlayerStashComponent::getDepotLocker(uint32_t depot
 	const auto it = m_player.depotLockerMap.find(depotId);
 	if (it != m_player.depotLockerMap.end()) {
 		m_player.inbox->setParent(it->second);
-		for (uint32_t i = g_configManager().getNumber(DEPOT_BOXES); i > 0; i--) {
+		for (uint32_t i = IConfigManager::getInstance().getNumber(DEPOT_BOXES); i > 0; i--) {
 			if (const auto &depotBox = getDepotChest(i, false)) {
 				depotBox->setParent(it->second->getItemByIndex(0)->getContainer());
 			}
@@ -117,8 +118,8 @@ std::shared_ptr<DepotLocker> PlayerStashComponent::getDepotLocker(uint32_t depot
 		const auto &stashPtr = Item::CreateItem(ITEM_STASH);
 		depotLocker->internalAddThing(stashPtr);
 	}
-	const auto &depotChest = Item::CreateItemAsContainer(ITEM_DEPOT, static_cast<uint16_t>(g_configManager().getNumber(DEPOT_BOXES)));
-	for (uint32_t i = g_configManager().getNumber(DEPOT_BOXES); i > 0; i--) {
+	const auto &depotChest = Item::CreateItemAsContainer(ITEM_DEPOT, static_cast<uint16_t>(IConfigManager::getInstance().getNumber(DEPOT_BOXES)));
+	for (uint32_t i = IConfigManager::getInstance().getNumber(DEPOT_BOXES); i > 0; i--) {
 		const auto &depotBox = getDepotChest(i, true);
 		depotChest->internalAddThing(depotBox);
 		depotBox->setParent(depotChest);
@@ -215,9 +216,9 @@ size_t PlayerStashComponent::getMaxDepotItems() const {
 		return m_player.group->maxDepotItems;
 	}
 	if (m_player.isPremium()) {
-		return g_configManager().getNumber(PREMIUM_DEPOT_LIMIT);
+		return IConfigManager::getInstance().getNumber(PREMIUM_DEPOT_LIMIT);
 	}
-	return g_configManager().getNumber(FREE_DEPOT_LIMIT);
+	return IConfigManager::getInstance().getNumber(FREE_DEPOT_LIMIT);
 }
 
 void PlayerStashComponent::sendOpenStash(bool isNpc) const {
@@ -1245,7 +1246,7 @@ void PlayerStashComponent::stowItem(const std::shared_ptr<Item> &item, uint32_t 
 
 	StashContainerList itemDict;
 	uint32_t totalItemsToStow = 0;
-	uint32_t maxItemsToStow = g_configManager().getNumber(STASH_MANAGE_AMOUNT);
+	uint32_t maxItemsToStow = IConfigManager::getInstance().getNumber(STASH_MANAGE_AMOUNT);
 
 	if (allItems) {
 		if (item->getContainer()) {

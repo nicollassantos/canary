@@ -18,6 +18,7 @@
 #include "kv/kv.hpp"
 #include "lib/logging/logger.hpp"
 #include "server/network/protocol/protocolgame.hpp"
+#include "config/config_port.hpp"
 
 // Cyclopedia / tracker
 
@@ -99,13 +100,13 @@ void PlayerPreyComponent::sendPreyData() const {
 }
 
 void PlayerPreyComponent::sendPreyTimeLeft(const std::unique_ptr<PreySlot> &slot) const {
-	if (g_configManager().getBoolean(PREY_ENABLED) && m_player.client) {
+	if (IConfigManager::getInstance().getBoolean(PREY_ENABLED) && m_player.client) {
 		m_player.client->sendPreyTimeLeft(slot);
 	}
 }
 
 void PlayerPreyComponent::reloadPreySlot(PreySlot_t slotid) {
-	if (g_configManager().getBoolean(PREY_ENABLED) && m_player.client) {
+	if (IConfigManager::getInstance().getBoolean(PREY_ENABLED) && m_player.client) {
 		m_player.client->sendPreyData(getPreySlotById(slotid));
 		m_player.client->sendResourcesBalance(m_player.getMoney(), m_player.getBankBalance(), m_player.preyCards, m_player.taskHuntingPoints);
 	}
@@ -155,7 +156,7 @@ uint64_t PlayerPreyComponent::getPreyCards() const {
 }
 
 uint32_t PlayerPreyComponent::getPreyRerollPrice() const {
-	return m_player.getLevel() * g_configManager().getNumber(PREY_REROLL_PRICE_LEVEL);
+	return m_player.getLevel() * IConfigManager::getInstance().getNumber(PREY_REROLL_PRICE_LEVEL);
 }
 
 std::vector<uint16_t> PlayerPreyComponent::getPreyBlackList() const {
@@ -174,7 +175,7 @@ std::vector<uint16_t> PlayerPreyComponent::getPreyBlackList() const {
 }
 
 const std::unique_ptr<PreySlot> &PlayerPreyComponent::getPreyWithMonster(uint16_t raceId) const {
-	if (!g_configManager().getBoolean(PREY_ENABLED)) {
+	if (!IConfigManager::getInstance().getBoolean(PREY_ENABLED)) {
 		return PreySlotNull;
 	}
 
@@ -192,9 +193,9 @@ void PlayerPreyComponent::initializePrey() {
 	if (m_player.preys.empty()) {
 		for (uint8_t slotId = PreySlot_First; slotId <= PreySlot_Last; slotId++) {
 			auto slot = std::make_unique<PreySlot>(static_cast<PreySlot_t>(slotId));
-			if (!g_configManager().getBoolean(PREY_ENABLED)) {
+			if (!IConfigManager::getInstance().getBoolean(PREY_ENABLED)) {
 				slot->state = PreyDataState_Inactive;
-			} else if (slot->id == PreySlot_Three && !g_configManager().getBoolean(PREY_FREE_THIRD_SLOT)) {
+			} else if (slot->id == PreySlot_Three && !IConfigManager::getInstance().getBoolean(PREY_FREE_THIRD_SLOT)) {
 				slot->state = PreyDataState_Locked;
 			} else if (slot->id == PreySlot_Two && !m_player.isPremium()) {
 				slot->state = PreyDataState_Locked;
@@ -222,9 +223,9 @@ void PlayerPreyComponent::initializeTaskHunting() {
 	if (m_player.taskHunting.empty()) {
 		for (uint8_t slotId = PreySlot_First; slotId <= PreySlot_Last; slotId++) {
 			auto slot = std::make_unique<TaskHuntingSlot>(static_cast<PreySlot_t>(slotId));
-			if (!g_configManager().getBoolean(TASK_HUNTING_ENABLED)) {
+			if (!IConfigManager::getInstance().getBoolean(TASK_HUNTING_ENABLED)) {
 				slot->state = PreyTaskDataState_Inactive;
-			} else if (slot->id == PreySlot_Three && !g_configManager().getBoolean(TASK_HUNTING_FREE_THIRD_SLOT)) {
+			} else if (slot->id == PreySlot_Three && !IConfigManager::getInstance().getBoolean(TASK_HUNTING_FREE_THIRD_SLOT)) {
 				slot->state = PreyTaskDataState_Locked;
 			} else if (slot->id == PreySlot_Two && !m_player.isPremium()) {
 				slot->state = PreyTaskDataState_Locked;
@@ -241,7 +242,7 @@ void PlayerPreyComponent::initializeTaskHunting() {
 	const bool usesOfficialTaskboardPackets = protocolProfile
 		&& protocolProfile->hasFeature(ProtocolFeature::OfficialTaskboardPackets);
 	const bool canSendLegacyTaskHuntingBaseData = m_player.client
-		&& g_configManager().getBoolean(TASK_HUNTING_ENABLED)
+		&& IConfigManager::getInstance().getBoolean(TASK_HUNTING_ENABLED)
 		&& !m_player.client->oldProtocol
 		&& !usesOfficialTaskboardPackets;
 	if (canSendLegacyTaskHuntingBaseData) {
@@ -268,7 +269,7 @@ bool PlayerPreyComponent::setTaskHuntingSlotClass(std::unique_ptr<TaskHuntingSlo
 }
 
 void PlayerPreyComponent::reloadTaskSlot(PreySlot_t slotid) {
-	if (g_configManager().getBoolean(TASK_HUNTING_ENABLED) && m_player.client) {
+	if (IConfigManager::getInstance().getBoolean(TASK_HUNTING_ENABLED) && m_player.client) {
 		m_player.client->sendTaskHuntingData(getTaskHuntingSlotById(slotid));
 		m_player.client->sendResourcesBalance(m_player.getMoney(), m_player.getBankBalance(), m_player.preyCards, m_player.taskHuntingPoints);
 	}
@@ -336,11 +337,11 @@ uint64_t PlayerPreyComponent::getTaskHuntingPoints() const {
 }
 
 uint32_t PlayerPreyComponent::getTaskHuntingRerollPrice() const {
-	return m_player.getLevel() * g_configManager().getNumber(TASK_HUNTING_REROLL_PRICE_LEVEL);
+	return m_player.getLevel() * IConfigManager::getInstance().getNumber(TASK_HUNTING_REROLL_PRICE_LEVEL);
 }
 
 const std::unique_ptr<TaskHuntingSlot> &PlayerPreyComponent::getTaskHuntingWithCreature(uint16_t raceId) const {
-	if (!g_configManager().getBoolean(TASK_HUNTING_ENABLED)) {
+	if (!IConfigManager::getInstance().getBoolean(TASK_HUNTING_ENABLED)) {
 		return TaskHuntingSlotNull;
 	}
 
@@ -401,7 +402,7 @@ void PlayerPreyComponent::addBestiaryKill(const std::shared_ptr<MonsterType> &mT
 	if (mType->isBoss()) {
 		return;
 	}
-	uint32_t kills = g_configManager().getNumber(BESTIARY_KILL_MULTIPLIER);
+	uint32_t kills = IConfigManager::getInstance().getNumber(BESTIARY_KILL_MULTIPLIER);
 
 	auto scopedDoubleBestiary = g_kv().scoped("eventscheduler")->get("double-bestiary");
 	bool doubleBestiaryEnabled = scopedDoubleBestiary && scopedDoubleBestiary->get<bool>();
@@ -420,7 +421,7 @@ void PlayerPreyComponent::addBosstiaryKill(const std::shared_ptr<MonsterType> &m
 	if (!mType->isBoss()) {
 		return;
 	}
-	uint32_t kills = g_configManager().getNumber(BOSSTIARY_KILL_MULTIPLIER);
+	uint32_t kills = IConfigManager::getInstance().getNumber(BOSSTIARY_KILL_MULTIPLIER);
 
 	auto scopedDoubleBosstiary = g_kv().scoped("eventscheduler")->get("double-bosstiary");
 	bool doubleBosstiaryEnabled = scopedDoubleBosstiary && scopedDoubleBosstiary->get<bool>();
@@ -430,7 +431,7 @@ void PlayerPreyComponent::addBosstiaryKill(const std::shared_ptr<MonsterType> &m
 	}
 
 	if (g_ioBosstiary().getBoostedBossId() == mType->info.raceid) {
-		kills *= g_configManager().getNumber(BOOSTED_BOSS_KILL_BONUS);
+		kills *= IConfigManager::getInstance().getNumber(BOOSTED_BOSS_KILL_BONUS);
 	}
 	g_ioBosstiary().addBosstiaryKill(m_player.getPlayer(), mType, kills);
 }

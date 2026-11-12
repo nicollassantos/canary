@@ -24,6 +24,12 @@ namespace extension {
 	class injector<> : public runtime_injector {
 	public:
 		using runtime_injector::injector;
+
+		// True when T was installed explicitly (unbound abstract types assert on create).
+		template <class T>
+		[[nodiscard]] bool isBound() const {
+			return this->cfg().bindings().contains(std::type_index(typeid(T)));
+		}
 	};
 
 } // namespace extension

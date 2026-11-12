@@ -7,6 +7,7 @@
 #include "game/game.hpp"
 #include "game/scheduling/dispatcher.hpp"
 #include "lua/creature/creatureevent.hpp"
+#include "config/config_port.hpp"
 
 void PlayerSessionComponent::addInFightTicks(bool pzlock) {
 	m_player.wheel().checkAbilities();
@@ -24,7 +25,7 @@ void PlayerSessionComponent::addInFightTicks(bool pzlock) {
 	m_player.updateImbuementTrackerStats();
 
 	m_player.safeCall([&player = m_player] {
-		player.addCondition(Condition::createCondition(CONDITIONID_DEFAULT, CONDITION_INFIGHT, g_configManager().getNumber(PZ_LOCKED)));
+		player.addCondition(Condition::createCondition(CONDITIONID_DEFAULT, CONDITION_INFIGHT, IConfigManager::getInstance().getNumber(PZ_LOCKED)));
 	});
 }
 
@@ -100,7 +101,7 @@ void PlayerSessionComponent::addPzLockTicks() {
 		return;
 	}
 
-	const auto duration = static_cast<uint32_t>(g_configManager().getNumber(PZ_LOCKED));
+	const auto duration = static_cast<uint32_t>(IConfigManager::getInstance().getNumber(PZ_LOCKED));
 	const auto expiresAt = OTSYS_TIME() + duration;
 	if (m_player.pzLockOnlyUntil >= expiresAt) {
 		return;

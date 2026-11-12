@@ -71,3 +71,28 @@ TEST(ConfigManagerContainerTest, PortResolvesToLoadedSingleton) {
 	EXPECT_EQ(static_cast<IConfigManager*>(&g_configManager()), &viaPort);
 	EXPECT_EQ(&viaPort, &viaContainer);
 }
+
+// Test containers that do not bind the port keep the pre-port behaviour:
+// fall back to the global ConfigManager instead of asserting on an unbound abstract type.
+TEST(ConfigManagerContainerTest, UnboundTestContainerFallsBackToGlobalConfig) {
+	auto* previous = DI::getTestContainer();
+	di::extension::injector<> injector {};
+	DI::setTestContainer(&injector);
+
+	auto &viaPort = IConfigManager::getInstance();
+
+	DI::setTestContainer(previous);
+	EXPECT_EQ(static_cast<IConfigManager*>(&g_configManager()), &viaPort);
+}
+
+TEST(ConfigManagerContainerTest, BoundTestContainerUsesInMemoryConfig) {
+	auto* previous = DI::getTestContainer();
+	di::extension::injector<> injector {};
+	InMemoryConfigManager::install(injector);
+	DI::setTestContainer(&injector);
+
+	auto* viaPort = dynamic_cast<InMemoryConfigManager*>(&IConfigManager::getInstance());
+
+	DI::setTestContainer(previous);
+	EXPECT_NE(nullptr, viaPort);
+}

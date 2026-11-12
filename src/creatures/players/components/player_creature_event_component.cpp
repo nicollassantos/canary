@@ -16,6 +16,7 @@
 #include "config/configmanager.hpp"
 #include "core.hpp"
 #include "lua/creature/movement.hpp"
+#include "config/config_port.hpp"
 
 void PlayerCreatureEventComponent::onUpdateTileItem(const std::shared_ptr<Tile> &updateTile, const Position &pos, const std::shared_ptr<Item> &oldItem, const ItemType &oldType, const std::shared_ptr<Item> &newItem, const ItemType &newType) {
 	m_player.Creature::onUpdateTileItem(updateTile, pos, oldItem, oldType, newItem, newType);
@@ -127,7 +128,7 @@ void PlayerCreatureEventComponent::onCreatureAppear(const std::shared_ptr<Creatu
 		}
 
 		g_game().checkPlayersRecord();
-		if (m_player.getLevel() < g_configManager().getNumber(ADVENTURERSBLESSING_LEVEL) && m_player.getVocationId() > VOCATION_NONE) {
+		if (m_player.getLevel() < IConfigManager::getInstance().getNumber(ADVENTURERSBLESSING_LEVEL) && m_player.getVocationId() > VOCATION_NONE) {
 			for (uint8_t i = 2; i <= 6; i++) {
 				if (!m_player.hasBlessing(i)) {
 					m_player.addBlessing(i, 1);
@@ -245,7 +246,7 @@ void PlayerCreatureEventComponent::onCreatureMove(const std::shared_ptr<Creature
 	}
 
 	if (teleport || oldPos.z != newPos.z) {
-		int32_t ticks = g_configManager().getNumber(STAIRHOP_DELAY);
+		int32_t ticks = IConfigManager::getInstance().getNumber(STAIRHOP_DELAY);
 		if (ticks > 0) {
 			if (const auto &condition = Condition::createCondition(CONDITIONID_DEFAULT, CONDITION_PACIFIED, ticks, 0)) {
 				m_player.addCondition(condition);

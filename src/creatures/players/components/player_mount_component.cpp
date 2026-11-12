@@ -17,6 +17,7 @@
 #include "kv/kv.hpp"
 #include "utils/const.hpp"
 #include "utils/tools.hpp"
+#include "config/config_port.hpp"
 
 uint8_t PlayerMountComponent::getLastMount() const {
 	const int32_t value = m_player.getStorageValue(PSTRG_MOUNTS_CURRENTMOUNT);
@@ -91,7 +92,7 @@ bool PlayerMountComponent::toggleMount(bool mount) {
 		}
 
 		const auto &tile = m_player.getTile();
-		if (!g_configManager().getBoolean(TOGGLE_MOUNT_IN_PZ) && !m_player.group->access && tile && tile->hasFlag(TILESTATE_PROTECTIONZONE)) {
+		if (!IConfigManager::getInstance().getBoolean(TOGGLE_MOUNT_IN_PZ) && !m_player.group->access && tile && tile->hasFlag(TILESTATE_PROTECTIONZONE)) {
 			m_player.sendCancelMessage(RETURNVALUE_ACTIONNOTPERMITTEDINPROTECTIONZONE);
 			return false;
 		}
