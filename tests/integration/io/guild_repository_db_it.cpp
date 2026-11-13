@@ -12,6 +12,7 @@
 #include "creatures/players/grouping/guild.hpp"
 #include "io/guild_repository_db.hpp"
 #include "test_env.hpp"
+#include "utils/tools.hpp"
 
 namespace it_guild_repo_db {
 
@@ -78,6 +79,23 @@ namespace it_guild_repo_db {
 			GuildRepositoryDB repository(db);
 			EXPECT_EQ(guildId, repository.getGuildIdByName(name));
 			EXPECT_EQ(0U, repository.getGuildIdByName("no such guild"));
+		})();
+	}
+
+	TEST(GuildRepositoryDBTest, FormatGuildNameReturnsTheStoredSpelling) {
+		auto &db = g_database();
+		databaseTest(db, [&db] {
+			const auto name = fmt::format("O'Guild Format {}", uniqueSeed());
+			(void)createGuild(db, name, 0);
+			GuildRepositoryDB repository(db);
+
+			auto typed = asLowerCaseString(name);
+			EXPECT_TRUE(repository.formatGuildName(typed));
+			EXPECT_EQ(name, typed);
+
+			std::string unknown = "no such guild";
+			EXPECT_FALSE(repository.formatGuildName(unknown));
+			EXPECT_EQ("no such guild", unknown);
 		})();
 	}
 

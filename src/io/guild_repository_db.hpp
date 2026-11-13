@@ -22,6 +22,7 @@ public:
 	[[nodiscard]] std::shared_ptr<Guild> loadGuild(uint32_t guildId) override;
 	void saveGuild(const std::shared_ptr<Guild> &guild) override;
 	[[nodiscard]] uint32_t getGuildIdByName(const std::string &name) override;
+	[[nodiscard]] bool formatGuildName(std::string &name) override;
 	void getWarList(uint32_t guildId, GuildWarVector &guildWarVector) override;
 
 private:

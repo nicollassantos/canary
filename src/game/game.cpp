@@ -2694,6 +2694,14 @@ void Game::playerReportBug(uint32_t playerId, const std::string &message, const 
 	m_interactionService->playerReportBug(playerId, message, position, category);
 }
 
+bool Game::admitExivaRestrictionsEdit(const std::shared_ptr<Player> &player) {
+	return m_interactionService->admitExivaRestrictionsEdit(player);
+}
+
+bool Game::admitProficiencyListing(const std::shared_ptr<Player> &player) {
+	return m_interactionService->admitProficiencyListing(player);
+}
+
 void Game::playerDebugAssert(uint32_t playerId, const std::string &assertLine, const std::string &date, const std::string &description, const std::string &comment) {
 	const auto &player = getPlayerByID(playerId);
 	if (!player) {

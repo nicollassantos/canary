@@ -16,6 +16,7 @@
 #include "creatures/players/grouping/guild.hpp"
 #include "test_injection.hpp"
 #include "lib/di/container.hpp"
+#include "utils/tools.hpp"
 
 namespace di = boost::di;
 
@@ -34,6 +35,7 @@ public:
 		guildsById.clear();
 		guildsByName.clear();
 		warLists.clear();
+		guildLoads = 0;
 		return *this;
 	}
 
@@ -43,6 +45,7 @@ public:
 	}
 
 	std::shared_ptr<Guild> loadGuild(uint32_t guildId) override {
+		++guildLoads;
 		auto it = guildsById.find(guildId);
 		return it != guildsById.end() ? it->second : nullptr;
 	}
@@ -60,6 +63,16 @@ public:
 		return it != guildsByName.end() ? it->second->getId() : 0;
 	}
 
+	bool formatGuildName(std::string &name) override {
+		for (const auto &[storedName, guild] : guildsByName) {
+			if (asLowerCaseString(storedName) == asLowerCaseString(name)) {
+				name = storedName;
+				return true;
+			}
+		}
+		return false;
+	}
+
 	void getWarList(uint32_t guildId, GuildWarVector &guildWarVector) override {
 		auto it = warLists.find(guildId);
 		if (it != warLists.end()) {
@@ -70,6 +83,8 @@ public:
 	void setWarList(uint32_t guildId, GuildWarVector wars) {
 		warLists[guildId] = std::move(wars);
 	}
+
+	size_t guildLoads = 0;
 
 private:
 	std::unordered_map<uint32_t, std::shared_ptr<Guild>> guildsById;
