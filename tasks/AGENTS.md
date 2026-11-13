@@ -287,7 +287,9 @@ monstro: pegue a versão do upstream (`git checkout --theirs -- <arquivo>`) e ro
 valor que substitui (`from`): o `apply` só troca um valor enquanto o arquivo ainda tem esse `from`;
 se o upstream mudou o valor para outra coisa, ele **reporta** `changed upstream (...)`, sai com código
 1 e não sobrescreve (decida à mão e ajuste o manifesto). Nunca baixa um `maxCount`; item que o
-upstream já adicionou fica como está; rodar duas vezes não muda nada. Depois, smoke boot. Para provar
+upstream já adicionou fica como está (também com outra grafia ou outro id: o `apply` reporta
+`listed as another entry`); `remove_loot` só apaga as entradas de uma linha iguais ao `from` (sumida
+= `already`; entrada em várias linhas = conflito); rodar duas vezes não muda nada. Depois, smoke boot. Para provar
 o lado do upstream: `git archive <base> data-otservbr-global/monster` numa pasta temporária,
 `wiki_check.py apply --root <pasta>` e `diff -rq` contra a branch (em 2026-11-13, com base
 `997af9180`: 0 conflitos; 2 arquivos só com linhas de loot em outra ordem).
@@ -534,7 +536,7 @@ Resultado atual: ver a última linha de validação no `todo.md` (CHECKPOINT 23)
   loot independente em 1/100000 e soma entradas repetidas; o bloco `Loot2` usado é o mais novo com
   ≥ 100 kills; chance só é sinalizada fora de um intervalo de Wilson (z = 3,29); `maxCount` só quando
   fica abaixo do observado; "só no datapack" só quando a ausência é significativa (≥ 7 quedas
-  esperadas) e **nunca** é removido sozinho; elemento: `percent` = 100 − `DmgMod` do wiki (conferido
+  esperadas; remoção no item "Loot só no datapack" abaixo); elemento: `percent` = 100 − `DmgMod` do wiki (conferido
   nos 9 elementos do Dragon); campo que diverge em mais da metade vira questão sistemática.
 - **Achados da primeira rodada:** mitigation diverge em 689 de 690 com razão ≈ 0,63 (fórmula ou
   unidade; investigar antes de mexer); muitos chances do datapack batem com estatísticas antigas
@@ -590,6 +592,30 @@ Resultado atual: ver a última linha de validação no `todo.md` (CHECKPOINT 23)
 - **`from` = valor do upstream:** um fix planejado de novo depois do `apply` lê o nosso próprio
   valor; o merge mantém o `from` da primeira vez, e o `coins` novo recupera o valor do upstream
   quando substitui um aumento de `maxCount` já aplicado.
+- **Bosses com mudança extrema confirmados (usuário, 2026-11-13: "siga a wiki"):** The Monster,
+  Mitmah Vanguard, Shulgrax, Duke Krule, Count Vlarkorth, Chikhaton (HP), The Shatterer (HP e XP 0)
+  e Deathstrike (XP) ficam com os valores do wiki; nenhum `keep` no `reviewed.json`.
+- **Erro corrigido: item adicionado em dobro (24.7j).** O comparador casava nomes do wiki e do
+  datapack só pelo texto: "gore horn (item)", "book (orange)", "darklight core (object)" não
+  encontravam a entrada `gore horn`/`id = 2828 -- book` que o upstream já tinha, e o `add_loot`
+  acrescentava outra. 34 adições: 14 ficaram com o mesmo id duas vezes (Gore Horn, lost souls,
+  darklight do Rotten Blood: a chance somava), 16 acrescentaram um livro/mapa de outro id ao lado do
+  certo (401 ao lado do 2828 laranja), 4 não chegaram a aplicar. Agora: `loot_aliases` pareia linha
+  do wiki e entrada do datapack quando os ids se cruzam (um para um; dois para um vai para revisão),
+  o `plan` não adiciona item que o datapack já tem com outro nome, o `validate` derruba os antigos
+  (`listed_elsewhere`) e o `apply` recusa a adição (`listed as another entry`). Os 32 arquivos
+  voltaram ao estado de `997af9180` e o manifesto foi reaplicado; invariante conferida em todos os
+  arquivos: nenhuma entrada nova com id repetido em relação à base.
+- **Loot só no datapack (`remove_loot`, decisão do usuário, 2026-11-13: "siga a wiki"):** removido
+  quando a chance do datapack daria ≥ 7 quedas na amostra e o wiki não registrou nenhuma. Portões
+  (`fixes.removal_problem`): identidade e baú como o resto do loot; moeda fica com o `coins`; id sem
+  nome no `items.xml` fica; item que a tabela atual da página lista fica; linha do wiki que não
+  resolve para item bloqueia o monstro (pode ser o mesmo drop com outro nome); estatística antiga
+  só se a tabela atual existe e não tem o item. 78 remoções (55 com estatística antiga confirmada pela
+  tabela atual, 23 recentes; nenhuma sem tabela atual). Conferência: a página do Rotworm diz que o
+  Legion Helmet saiu do loot no Christmas Update 2009, e o datapack ainda tinha 1,89%. Ficaram fora
+  207: baú 141, sem race id 36, listado na tabela atual 9, id sem nome 9, antiga sem tabela 8, moeda
+  3, nome do wiki sem resolução 1. Manifesto: 3745.
 - **Controle negativo do smoke:** um item de loot inexistente injetado no Dragon gera
   `[LootFunctions::luaLootSetIdFromName] - Unknown loot item` e `could not be loaded`; o grep do
   smoke pega os dois.
