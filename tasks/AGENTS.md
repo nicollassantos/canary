@@ -572,9 +572,15 @@ Resultado atual: ver a última linha de validação no `todo.md` (CHECKPOINT 23)
   `market` do `appearances.dat` e gravados por id; estatística antiga só quando cabe na raridade
   atual da infobox (faixas do `Template:Loot Item`, tolerância de 25%) e o datapack não cabe.
   Manifesto: 2823 fixes.
-- **Moeda (pendente com o usuário):** dinheiro por kill do datapack (chance × média de
-  `[1, maxCount]` × valor) contra o `total` das Loot Statistics ÷ kills, mediana 1,07; os
-  desvios fortes estão em criaturas das versões 14–15.
+- **Wiki = fonte da verdade (decisão do usuário, 2026-11-13):** o jogo original teve muitos
+  rebalanceamentos, então atributos (HP, XP, armor, mitigation), elementos, imunidades e chances
+  seguem o wiki sem limite de proporção, bosses inclusos. Os únicos portões: identidade (race id do
+  datapack igual ao do wiki; loot exige race id no datapack), valores certos (sem `?`/`~`), loot de
+  baú fora (chance base por participante) e estatística da versão 12+ (ou antiga confirmada pela
+  raridade atual). Mitigation do datapack estava em ~0,63× o bestiário em quase todos.
+- **Dinheiro (`coins`):** dinheiro por kill = chance × média da faixa × valor da moeda; quando os
+  itens de moeda diferem ou o dinheiro difere > 10%, todas as entradas de moeda são trocadas pelas do
+  wiki (com `minCount` quando a faixa não começa em 1). 149 monstros. Manifesto: 3747 fixes.
 - **Controle negativo do smoke:** um item de loot inexistente injetado no Dragon gera
   `[LootFunctions::luaLootSetIdFromName] - Unknown loot item` e `could not be loaded`; o grep do
   smoke pega os dois.
