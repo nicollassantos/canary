@@ -60,6 +60,8 @@ namespace log_budget {
 		/// the previous report.
 		std::optional<SuppressedReport> suppressed(uint32_t playerId, uint8_t opcode, uint32_t count, Clock::time_point now);
 
+		[[nodiscard]] size_t size();
+
 		static Budget &global();
 
 	private:
@@ -75,6 +77,7 @@ namespace log_budget {
 
 		std::mutex mutex;
 		phmap::flat_hash_map<uint32_t, PlayerState> players;
+		size_t pruneAt = PruneThreshold;
 	};
 
 	/// Marks the current thread as handling a player's packet until close() or destruction. An

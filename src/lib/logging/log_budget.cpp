@@ -13,6 +13,10 @@
 #include "lib/metrics/metrics.hpp"
 #include "utils/tools.hpp"
 
+#ifndef USE_PRECOMPILED_HEADERS
+	#include <algorithm>
+#endif
+
 namespace log_budget {
 
 	namespace {
@@ -20,15 +24,21 @@ namespace log_budget {
 	} // namespace
 
 	void Budget::prune(Clock::time_point now) {
+		// A player gone quiet for a whole window is dropped even with lines still waiting for a
+		// report (the counter already has them): keeping those entries let the map grow for good,
+		// and a full map was scanned again on every line.
 		for (auto it = players.begin(); it != players.end();) {
 			const auto &state = it->second;
 			const bool windowOver = now - state.windowStart >= PlayerWindow;
-			if (windowOver && state.pendingLines == 0) {
+			const bool reportOver = !state.lastReportAt || now - *state.lastReportAt >= PlayerWindow;
+			if (windowOver && reportOver) {
 				it = players.erase(it);
 			} else {
 				++it;
 			}
 		}
+		// Scan again only after the map doubles, so a map of active players is not rescanned per line.
+		pruneAt = std::max(PruneThreshold, players.size() * 2);
 	}
 
 	bool Budget::admit(uint32_t playerId, uint32_t linesInPacket, Clock::time_point now) {
@@ -37,7 +47,7 @@ namespace log_budget {
 		}
 
 		std::scoped_lock lock(mutex);
-		if (players.size() >= PruneThreshold) {
+		if (players.size() >= pruneAt) {
 			prune(now);
 		}
 
@@ -59,6 +69,9 @@ namespace log_budget {
 		}
 
 		std::scoped_lock lock(mutex);
+		if (players.size() >= pruneAt) {
+			prune(now);
+		}
 		auto &state = players[playerId];
 		state.pendingLines += count;
 		state.pendingOpcodes.set(opcode);
@@ -75,6 +88,11 @@ namespace log_budget {
 		}
 		state.pendingOpcodes.reset();
 		return report;
+	}
+
+	size_t Budget::size() {
+		std::scoped_lock lock(mutex);
+		return players.size();
 	}
 
 	Budget &Budget::global() {

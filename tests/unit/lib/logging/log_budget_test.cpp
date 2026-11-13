@@ -109,6 +109,31 @@ TEST(LogBudgetTest, EveryPlayerWithCutLinesIsReportedOncePerWindow) {
 	EXPECT_EQ((std::vector<uint8_t> { 0x96, 0xB3 }), later->opcodes);
 }
 
+// Regression (security review): entries with lines still waiting for a report were never pruned,
+// so players who left kept them for good and a full map was rescanned on every line.
+TEST(LogBudgetTest, QuietPlayersArePrunedEvenWithPendingLines) {
+	Budget budget;
+	for (uint32_t id = 0; id + 1 < Budget::PruneThreshold; ++id) {
+		ASSERT_TRUE(budget.suppressed(id, 0xB3, 1, T0).has_value());
+		ASSERT_FALSE(budget.suppressed(id, 0xB3, 1, T0).has_value()); // pending until the next report
+	}
+	EXPECT_TRUE(budget.admit(999'998, 0, T0 + PlayerWindow));
+	EXPECT_EQ(Budget::PruneThreshold, budget.size());
+
+	// The map is full: the next line prunes every player quiet for a window, pending or not.
+	EXPECT_TRUE(budget.admit(999'999, 0, T0 + PlayerWindow));
+	EXPECT_EQ(2U, budget.size());
+}
+
+TEST(LogBudgetTest, ActivePlayersAreKeptByThePrune) {
+	Budget budget;
+	for (uint32_t id = 0; id < Budget::PruneThreshold; ++id) {
+		ASSERT_TRUE(budget.admit(id, 0, T0));
+	}
+	EXPECT_TRUE(budget.admit(999'999, 0, T0 + std::chrono::seconds(1)));
+	EXPECT_EQ(Budget::PruneThreshold + 1, budget.size());
+}
+
 // The production logger applies the budget (InMemoryLogger, used by other tests, does not).
 TEST(LogBudgetTest, TheSpdLogLoggerWritesOnlyTheBudgetedLines) {
 	std::ostringstream out;
