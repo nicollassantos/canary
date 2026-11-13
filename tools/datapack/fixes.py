@@ -159,7 +159,7 @@ def resolve_item(name, by_name, flags):
 
 # --- plan: report -> manifest ----------------------------------------------------------------
 
-LOOT_KINDS = ("max_count", "add_loot", "chance")
+LOOT_KINDS = ("max_count", "add_loot", "chance", "coins")
 STAT_KEYS = {"experience": "exp", "maxHealth": "hp", "armor": "armor", "mitigation": "mitigation"}
 IMMUNITY_KEYS = {"paralyze": "paraimmune", "invisible": "senseinvis"}
 
@@ -219,7 +219,7 @@ def plan(report, by_name, stackable, kinds=("max_count", "add_loot", "chance", "
     certainty still apply (validate)."""
     approved = {(d["monster"], d["kind"], d["item"]) for d in reviewed if d.get("decision") == "apply"}
     kept = {(d["monster"], d["kind"], d["item"]): d.get("note", "") for d in reviewed if d.get("decision") == "keep"}
-    finding_kind = {"loot_count": "max_count", "loot_missing": "add_loot", "loot_chance": "chance"}
+    finding_kind = {"loot_count": "max_count", "loot_missing": "add_loot", "loot_chance": "chance", "coins": "coins"}
     """Fixes for the chosen kinds plus the findings left for manual review, with the reason.
 
     Loot of reward-chest monsters (`bosses`, flagged rewardBoss) is always left for review: each
@@ -241,12 +241,21 @@ def plan(report, by_name, stackable, kinds=("max_count", "add_loot", "chance", "
                 review.append({"monster": monster["name"], "item": item, "reason": f"kept by review: {kept[decision_key]}"})
                 continue
             ids = sorted(by_name.get(item, set()))
-            if finding["kind"] in ("loot_count", "loot_chance", "loot_missing") and reward_chest:
+            if finding["kind"] in ("loot_count", "loot_chance", "loot_missing", "coins") and reward_chest:
                 # Only the loot depends on the reward chest; stats, elements and immunities do not.
                 review.append({"monster": monster["name"], "item": item, "reason": "reward chest: chances are base values scaled per participant"})
                 continue
-            if finding["kind"] in ("loot_count", "loot_chance", "loot_missing") and loot_identity:
+            if finding["kind"] in ("loot_count", "loot_chance", "loot_missing", "coins") and loot_identity:
                 review.append({"monster": monster["name"], "item": item, "reason": loot_identity})
+                continue
+            if finding["kind"] == "coins" and "coins" in kinds:
+                major = int((re.findall(r"\d+", str(source.get("version") or "")) or [0])[0])
+                if major < MIN_ADD_VERSION:
+                    review.append({"monster": monster["name"], "item": item, "reason": f"money from old statistics (version {source.get('version')})"})
+                    continue
+                fixes.append({"kind": "coins", "file": monster["file"], "monster": monster["name"], "item": "money",
+                              "entries": [list(c) for c in finding["wiki"]], "from": [list(c) for c in finding["datapack"]],
+                              "source": {**source, "kills": finding["kills"], "datapack_money": finding["datapack_money"], "wiki_money": finding["wiki_money"]}})
                 continue
             if finding["kind"] == "loot_count" and "max_count" in kinds:
                 old, new = finding["datapack_max"], finding["wiki_observed_max"]
@@ -435,6 +444,44 @@ def apply_attribute(text, fix):
     return text[:start] + body + text[end:], "applied"
 
 
+COIN_NAMES = ("gold coin", "platinum coin", "crystal coin")
+
+
+def coin_line(indent, name, chance, low, high):
+    counts = (f", minCount = {low}" if low > 1 else "") + (f", maxCount = {high}" if high > 1 else "")
+    return f'{indent}{{ name = "{name}", chance = {chance}{counts} }},'
+
+
+def apply_coins(text, fix, by_id):
+    """Replace every coin entry of the loot block with the fix's entries; returns (text, outcome)."""
+    span = loot_span(text)
+    if span is None:
+        return text, "no monster.loot block"
+    start, end = span
+    lines = text[start:end].split("\n")
+    coins = []
+    for index, line in enumerate(lines):
+        match = ENTRY.match(line)
+        if match and entry_item(match.group("body"), by_id) in COIN_NAMES:
+            body = match.group("body")
+            coins.append((index, match, [entry_item(body, by_id), entry_number(body, "chance") or 0,
+                                         entry_number(body, "minCount") or 1, entry_number(body, "maxCount") or 1]))
+    current = [c[2] for c in coins]
+    target = [list(e) for e in fix["entries"]]
+    if current == target:
+        return text, "already"
+    if "from" in fix and current != [list(e) for e in fix["from"]]:
+        return text, "changed upstream (coin entries differ)"
+    entries = [m for m in (ENTRY.match(l) for l in lines) if m]
+    indent = entries[0].group("indent") if entries else "\t"
+    new_lines = [coin_line(indent, *entry) for entry in target]
+    position = coins[0][0] if coins else (next((i for i, l in enumerate(lines) if ENTRY.match(l)), len(lines) - 1))
+    kept = [line for index, line in enumerate(lines) if index not in {c[0] for c in coins}]
+    position -= sum(1 for c in coins if c[0] < position)
+    lines = kept[:position] + new_lines + kept[position:]
+    return text[:start] + "\n".join(lines) + text[end:], "applied"
+
+
 def apply_to_text(text, fixes, by_id):
     """Apply one file's fixes; returns (new text, outcomes) with outcome per fix:
     'applied', 'already' or a failure reason."""
@@ -442,6 +489,10 @@ def apply_to_text(text, fixes, by_id):
     for fix in fixes:
         if fix["kind"] in ("stat", "element", "immunity"):
             text, outcome = apply_attribute(text, fix)
+            outcomes.append(outcome)
+            continue
+        if fix["kind"] == "coins":
+            text, outcome = apply_coins(text, fix, by_id)
             outcomes.append(outcome)
             continue
         span = loot_span(text)

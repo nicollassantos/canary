@@ -343,6 +343,37 @@ class ResolveTest(unittest.TestCase):
         self.assertEqual((text, ["already"]), (again, outcomes))
 
 
+COIN_MONSTER = """monster.loot = {
+	{ name = "gold coin", chance = 50000, maxCount = 205 },
+	{ name = "gold coin", chance = 50000, maxCount = 100 },
+	{ id = 9001, chance = 20000 }, -- beast fang
+	{ name = "gold coin", chance = 40000, maxCount = 35 },
+}
+"""
+
+
+class CoinsTest(unittest.TestCase):
+    FIX = {"kind": "coins", "file": "beast.lua", "item": "money",
+           "entries": [["gold coin", 99000, 1, 120], ["platinum coin", 76667, 1, 3]],
+           "from": [["gold coin", 50000, 1, 205], ["gold coin", 50000, 1, 100], ["gold coin", 40000, 1, 35]]}
+
+    def test_coin_entries_are_replaced_in_place_and_idempotent(self):
+        text, outcomes = fixes.apply_to_text(COIN_MONSTER, [self.FIX], {**BY_ID, 3031: "gold coin"})
+        self.assertEqual(["applied"], outcomes)
+        lines = [l.strip() for l in text.splitlines()]
+        self.assertEqual(['{ name = "gold coin", chance = 99000, maxCount = 120 },', '{ name = "platinum coin", chance = 76667, maxCount = 3 },',
+                          "{ id = 9001, chance = 20000 }, -- beast fang"], lines[1:4])
+        self.assertEqual(1, text.count("gold coin"))
+        again, outcomes = fixes.apply_to_text(text, [self.FIX], BY_ID)
+        self.assertEqual((text, ["already"]), (again, outcomes))
+
+    def test_coins_changed_upstream_are_reported(self):
+        upstream = COIN_MONSTER.replace("maxCount = 205", "maxCount = 250")
+        text, outcomes = fixes.apply_to_text(upstream, [self.FIX], BY_ID)
+        self.assertEqual(upstream, text)
+        self.assertTrue(outcomes[0].startswith("changed upstream"))
+
+
 class MergeTest(unittest.TestCase):
     def test_earlier_fixes_are_kept_and_same_key_is_replaced(self):
         earlier = [max_count("gold coin", 60), add("rare gem", 1200)]

@@ -124,6 +124,19 @@ class CurrentLootTest(unittest.TestCase):
                          wiki_check.parse_current_loot(text))
 
 
+class MoneyTest(unittest.TestCase):
+    def test_money_per_kill_uses_value_chance_and_mean_amount(self):
+        self.assertAlmostEqual(0.5 * 50.5 + 0.1 * 2 * 100, wiki_check.money_per_kill([("gold coin", 50000, 1, 100), ("platinum coin", 10000, 1, 3)]))
+
+    def test_different_money_is_reported_as_a_coins_finding(self):
+        blocks = [{"version": "14.0", "kills": 10000, "items": {"gold coin": (9900, 1, 120), "platinum coin": (7667, 1, 3)}}]
+        rich = monster(loot=[{"name": "gold coin", "chance": 50000, "maxCount": 205}])
+        findings, _ = wiki_check.compare(rich, {}, blocks, BY_NAME, BY_ID)
+        coins = [f for f in findings if f["kind"] == "coins"]
+        self.assertEqual(1, len(coins))
+        self.assertEqual([["gold coin", 99000, 1, 120], ["platinum coin", 76670, 1, 3]], coins[0]["wiki"])
+
+
 class DatapackLootTest(unittest.TestCase):
     def test_duplicate_entries_combine_like_the_server_rolls(self):
         loot = wiki_check.datapack_loot([{"name": "gold coin", "chance": 50000, "maxCount": 50}, {"id": 3031, "chance": 50000, "maxCount": 30}], BY_ID)

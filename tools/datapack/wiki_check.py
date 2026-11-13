@@ -213,6 +213,30 @@ def wilson(times, kills, z=Z):
     return max(0.0, centre - margin), min(1.0, centre + margin)
 
 
+# --- money -----------------------------------------------------------------------------------
+
+COINS = {"gold coin": 1, "platinum coin": 100, "crystal coin": 10000}
+# Money per kill within this share of the wiki's counts as the same.
+MONEY_TOLERANCE = 0.10
+
+
+def datapack_coins(loot, by_id):
+    """The datapack's coin entries as (name, chance, minCount, maxCount), in file order."""
+    coins = []
+    for entry in loot or []:
+        if not isinstance(entry, dict):
+            continue
+        name = by_id.get(int(entry["id"])) if entry.get("id") is not None else str(entry.get("name", "")).strip().lower()
+        if name in COINS:
+            coins.append((name, int(entry.get("chance") or 0), int(entry.get("minCount") or 1), int(entry.get("maxCount") or 1)))
+    return coins
+
+
+def money_per_kill(coins):
+    """Expected money per kill of (name, chance in 1/100000, low, high) entries, counts uniform in [low, high]."""
+    return sum(min(chance, MAX_CHANCE) / MAX_CHANCE * (low + high) / 2 * COINS[name] for name, chance, low, high in coins)
+
+
 # --- datapack side -------------------------------------------------------------------------
 
 def datapack_loot(loot, by_id):
@@ -310,6 +334,14 @@ def compare(monster, infobox, blocks, by_name, by_id, checked=None):
                 other_versions=others, current_rarity=current.get(name))
         if high > max_count:
             add("loot_count", name, datapack_max=max_count, wiki_observed_max=high)
+    wiki_coins = [(name, round(times / kills * MAX_CHANCE), low, high) for name, (times, low, high) in block["items"].items()
+                  if name in COINS and kills]
+    if strong and wiki_coins:
+        mine = datapack_coins(monster.get("loot"), by_id)
+        ours_money, wiki_money = money_per_kill(mine), money_per_kill(wiki_coins)
+        if {c[0] for c in mine} != {c[0] for c in wiki_coins} or abs(ours_money - wiki_money) > MONEY_TOLERANCE * wiki_money:
+            add("coins", "money", datapack_money=round(ours_money), wiki_money=round(wiki_money), datapack=[list(c) for c in mine],
+                wiki=[list(c) for c in sorted(wiki_coins, key=lambda c: -c[1])], kills=kills)
     if strong:
         for name, (probability, _, _) in ours.items():
             if name not in block["items"] and probability * kills >= MIN_EXPECTED_DROPS:
@@ -559,7 +591,7 @@ def main(argv=None):
     parser.add_argument("--items", default="data/items/items.xml")
     parser.add_argument("--appearances", default="data/items/appearances.dat")
     parser.add_argument("--manifest", default="tools/datapack/fixes.json")
-    parser.add_argument("--kinds", default="max_count,add_loot,chance,stat,element,immunity", help="plan: comma-separated kinds")
+    parser.add_argument("--kinds", default="max_count,add_loot,chance,stat,element,immunity,coins", help="plan: comma-separated kinds")
     parser.add_argument("--dry-run", action="store_true", help="apply: report what would change")
     args = parser.parse_args(argv)
     commands = {"extract": command_extract, "fetch": command_fetch, "report": command_report, "plan": command_plan, "apply": command_apply}
