@@ -98,7 +98,7 @@ monster.loot = {
 	{ name = "knight armor", chance = 4990 },
 	{ name = "mastermind shield", chance = 331 },
 	{ id = 3481, chance = 280 }, -- closed trap
-	{ name = "ham", chance = 44563, maxCount = 8 },
+	{ name = "ham", chance = 44563, maxCount = 1 },
 	{ name = "soul orb", chance = 23073 },
 	{ name = "demonic essence", chance = 30355 },
 	{ name = "flask of demonic blood", chance = 19953, maxCount = 4 },

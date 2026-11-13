@@ -80,14 +80,14 @@ monster.voices = {
 }
 
 monster.loot = {
-	{ name = "ham", chance = 40080, maxCount = 4 },
+	{ name = "ham", chance = 40080, maxCount = 1 },
 	{ name = "diremaw brainpan", chance = 24120 },
 	{ name = "poisonous slime", chance = 11930, maxCount = 5 },
 	{ name = "blue crystal shard", chance = 9660 },
 	{ name = "violet crystal shard", chance = 8180 },
 	{ name = "green crystal shard", chance = 8030 },
-	{ name = "onyx chip", chance = 8560, maxCount = 4 },
-	{ name = "diremaw legs", chance = 9650, maxCount = 2 },
+	{ name = "onyx chip", chance = 8560, maxCount = 3 },
+	{ name = "diremaw legs", chance = 9650, maxCount = 1 },
 	{ name = "small enchanted emerald", chance = 2940, maxCount = 2 },
 	{ name = "small emerald", chance = 5080, maxCount = 2 },
 	{ name = "gold ingot", chance = 2970 },

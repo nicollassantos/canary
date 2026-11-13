@@ -78,7 +78,7 @@ monster.loot = {
 	{ name = "book page", chance = 67066, maxCount = 6 },
 	{ name = "glowing rune", chance = 39521, maxCount = 9 },
 	{ name = "platinum coin", chance = 10000, maxCount = 5 },
-	{ name = "silken bookmark", chance = 23353, maxCount = 3 },
+	{ name = "silken bookmark", chance = 23353, maxCount = 1 },
 }
 
 monster.attacks = {

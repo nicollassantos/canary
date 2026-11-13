@@ -188,6 +188,21 @@
    }
   },
   {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/amphibics/makara.lua",
+   "monster": "Makara",
+   "item": "makara fin",
+   "maxCount": 1,
+   "from": 2,
+   "source": {
+    "version": "13.22.14242",
+    "kills": 4490,
+    "loot_revid": 1210349,
+    "times": 451,
+    "evidence": "no drop above 1 in 451 drops"
+   }
+  },
+  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/amphibics/makara.lua",
    "monster": "Makara",
@@ -2090,6 +2105,21 @@
    "from": 2
   },
   {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/constructs/biting_book.lua",
+   "monster": "Biting Book",
+   "item": "silken bookmark",
+   "maxCount": 1,
+   "from": 3,
+   "source": {
+    "version": "13.22.14282",
+    "kills": 167,
+    "loot_revid": 1210419,
+    "times": 39,
+    "evidence": "no drop above 1 in 39 drops"
+   }
+  },
+  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/constructs/biting_book.lua",
    "monster": "Biting Book",
@@ -3673,6 +3703,21 @@
    "from": 1.32,
    "source": {
     "revid": 1191620
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/demons/askarak_demon.lua",
+   "monster": "Askarak Demon",
+   "item": "brown mushroom",
+   "maxCount": 1,
+   "from": 5,
+   "source": {
+    "version": "14.11.0fbf6c",
+    "kills": 210,
+    "loot_revid": 1201655,
+    "times": 10,
+    "evidence": "no drop above 1 in 10 drops"
    }
   },
   {
@@ -5440,6 +5485,96 @@
    }
   },
   {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/demons/grimeleech.lua",
+   "monster": "Grimeleech",
+   "item": "fire mushroom",
+   "maxCount": 2,
+   "from": 5,
+   "source": {
+    "version": "15.32.87b266",
+    "kills": 13050,
+    "loot_revid": 1213549,
+    "times": 666,
+    "evidence": "no drop above 2 in 666 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/demons/grimeleech.lua",
+   "monster": "Grimeleech",
+   "item": "green mushroom",
+   "maxCount": 2,
+   "from": 5,
+   "source": {
+    "version": "15.32.87b266",
+    "kills": 13050,
+    "loot_revid": 1213549,
+    "times": 662,
+    "evidence": "no drop above 2 in 662 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/demons/grimeleech.lua",
+   "monster": "Grimeleech",
+   "item": "small amethyst",
+   "maxCount": 2,
+   "from": 5,
+   "source": {
+    "version": "15.32.87b266",
+    "kills": 13050,
+    "loot_revid": 1213549,
+    "times": 393,
+    "evidence": "no drop above 2 in 393 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/demons/grimeleech.lua",
+   "monster": "Grimeleech",
+   "item": "small diamond",
+   "maxCount": 2,
+   "from": 5,
+   "source": {
+    "version": "15.32.87b266",
+    "kills": 13050,
+    "loot_revid": 1213549,
+    "times": 382,
+    "evidence": "no drop above 2 in 382 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/demons/grimeleech.lua",
+   "monster": "Grimeleech",
+   "item": "small ruby",
+   "maxCount": 2,
+   "from": 5,
+   "source": {
+    "version": "15.32.87b266",
+    "kills": 13050,
+    "loot_revid": 1213549,
+    "times": 367,
+    "evidence": "no drop above 2 in 367 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/demons/grimeleech.lua",
+   "monster": "Grimeleech",
+   "item": "small topaz",
+   "maxCount": 2,
+   "from": 5,
+   "source": {
+    "version": "15.32.87b266",
+    "kills": 13050,
+    "loot_revid": 1213549,
+    "times": 358,
+    "evidence": "no drop above 2 in 358 drops"
+   }
+  },
+  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/demons/grimeleech.lua",
    "monster": "Grimeleech",
@@ -5975,6 +6110,21 @@
    "kind": "max_count",
    "file": "data-otservbr-global/monster/demons/hellflayer.lua",
    "monster": "Hellflayer",
+   "item": "gold ingot",
+   "maxCount": 1,
+   "from": 2,
+   "source": {
+    "version": "15.32.87b266",
+    "kills": 37374,
+    "loot_revid": 1213558,
+    "times": 2036,
+    "evidence": "no drop above 1 in 2036 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/demons/hellflayer.lua",
+   "monster": "Hellflayer",
    "item": "great mana potion",
    "maxCount": 5,
    "source": {
@@ -6160,6 +6310,66 @@
     "loot_revid": 1213559,
     "datapack_money": 400,
     "wiki_money": 120
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/demons/hellhound.lua",
+   "monster": "Hellhound",
+   "item": "ham",
+   "maxCount": 2,
+   "from": 14,
+   "source": {
+    "version": "15.32.87b266",
+    "kills": 7695,
+    "loot_revid": 1213559,
+    "times": 2335,
+    "evidence": "no drop above 2 in 2335 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/demons/hellhound.lua",
+   "monster": "Hellhound",
+   "item": "small emerald",
+   "maxCount": 2,
+   "from": 3,
+   "source": {
+    "version": "15.32.87b266",
+    "kills": 7695,
+    "loot_revid": 1213559,
+    "times": 266,
+    "evidence": "no drop above 2 in 266 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/demons/hellhound.lua",
+   "monster": "Hellhound",
+   "item": "small ruby",
+   "maxCount": 2,
+   "from": 3,
+   "source": {
+    "version": "15.32.87b266",
+    "kills": 7695,
+    "loot_revid": 1213559,
+    "times": 226,
+    "evidence": "no drop above 2 in 226 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/demons/hellhound.lua",
+   "monster": "Hellhound",
+   "item": "small topaz",
+   "maxCount": 2,
+   "from": 3,
+   "source": {
+    "version": "15.32.87b266",
+    "kills": 7695,
+    "loot_revid": 1213559,
+    "times": 224,
+    "evidence": "no drop above 2 in 224 drops"
    }
   },
   {
@@ -6969,6 +7179,21 @@
     "loot_revid": 1212889
    },
    "from": 1
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/demons/juggernaut.lua",
+   "monster": "Juggernaut",
+   "item": "ham",
+   "maxCount": 1,
+   "from": 8,
+   "source": {
+    "version": "12.31.9580",
+    "kills": 4230,
+    "loot_revid": 1212889,
+    "times": 1885,
+    "evidence": "no drop above 1 in 1885 drops"
+   }
   },
   {
    "kind": "max_count",
@@ -8571,6 +8796,81 @@
     "loot_revid": 1213560,
     "datapack_money": 450,
     "wiki_money": 53
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/demons/vexclaw.lua",
+   "monster": "Vexclaw",
+   "item": "fire mushroom",
+   "maxCount": 3,
+   "from": 6,
+   "source": {
+    "version": "15.32.87b266",
+    "kills": 41224,
+    "loot_revid": 1213560,
+    "times": 5348,
+    "evidence": "no drop above 3 in 5348 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/demons/vexclaw.lua",
+   "monster": "Vexclaw",
+   "item": "small amethyst",
+   "maxCount": 2,
+   "from": 5,
+   "source": {
+    "version": "15.32.87b266",
+    "kills": 41224,
+    "loot_revid": 1213560,
+    "times": 1207,
+    "evidence": "no drop above 2 in 1207 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/demons/vexclaw.lua",
+   "monster": "Vexclaw",
+   "item": "small emerald",
+   "maxCount": 2,
+   "from": 5,
+   "source": {
+    "version": "15.32.87b266",
+    "kills": 41224,
+    "loot_revid": 1213560,
+    "times": 1250,
+    "evidence": "no drop above 2 in 1250 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/demons/vexclaw.lua",
+   "monster": "Vexclaw",
+   "item": "small ruby",
+   "maxCount": 2,
+   "from": 5,
+   "source": {
+    "version": "15.32.87b266",
+    "kills": 41224,
+    "loot_revid": 1213560,
+    "times": 1243,
+    "evidence": "no drop above 2 in 1243 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/demons/vexclaw.lua",
+   "monster": "Vexclaw",
+   "item": "small topaz",
+   "maxCount": 2,
+   "from": 5,
+   "source": {
+    "version": "15.32.87b266",
+    "kills": 41224,
+    "loot_revid": 1213560,
+    "times": 1288,
+    "evidence": "no drop above 2 in 1288 drops"
    }
   },
   {
@@ -10820,6 +11120,21 @@
    "kind": "max_count",
    "file": "data-otservbr-global/monster/elementals/knowledge_elemental.lua",
    "monster": "Knowledge Elemental",
+   "item": "book page",
+   "maxCount": 5,
+   "from": 6,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 206,
+    "loot_revid": 1210529,
+    "times": 80,
+    "evidence": "no drop above 5 in 80 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/elementals/knowledge_elemental.lua",
+   "monster": "Knowledge Elemental",
    "item": "flash arrow",
    "maxCount": 15,
    "source": {
@@ -10846,6 +11161,66 @@
    "kind": "max_count",
    "file": "data-otservbr-global/monster/elementals/knowledge_elemental.lua",
    "monster": "Knowledge Elemental",
+   "item": "mana potion",
+   "maxCount": 1,
+   "from": 10,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 206,
+    "loot_revid": 1210529,
+    "times": 24,
+    "evidence": "no drop above 1 in 24 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/elementals/knowledge_elemental.lua",
+   "monster": "Knowledge Elemental",
+   "item": "quill",
+   "maxCount": 1,
+   "from": 3,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 206,
+    "loot_revid": 1210529,
+    "times": 47,
+    "evidence": "no drop above 1 in 47 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/elementals/knowledge_elemental.lua",
+   "monster": "Knowledge Elemental",
+   "item": "silken bookmark",
+   "maxCount": 1,
+   "from": 3,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 206,
+    "loot_revid": 1210529,
+    "times": 55,
+    "evidence": "no drop above 1 in 55 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/elementals/knowledge_elemental.lua",
+   "monster": "Knowledge Elemental",
+   "item": "small amethyst",
+   "maxCount": 6,
+   "from": 8,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 206,
+    "loot_revid": 1210529,
+    "times": 148,
+    "evidence": "no drop above 6 in 148 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/elementals/knowledge_elemental.lua",
+   "monster": "Knowledge Elemental",
    "item": "throwing star",
    "maxCount": 14,
    "source": {
@@ -10854,6 +11229,36 @@
     "loot_revid": 1210529
    },
    "from": 10
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/elementals/knowledge_elemental.lua",
+   "monster": "Knowledge Elemental",
+   "item": "ultimate health potion",
+   "maxCount": 2,
+   "from": 8,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 206,
+    "loot_revid": 1210529,
+    "times": 22,
+    "evidence": "no drop above 2 in 22 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/elementals/knowledge_elemental.lua",
+   "monster": "Knowledge Elemental",
+   "item": "ultimate mana potion",
+   "maxCount": 1,
+   "from": 8,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 206,
+    "loot_revid": 1210529,
+    "times": 26,
+    "evidence": "no drop above 1 in 26 drops"
+   }
   },
   {
    "kind": "stat",
@@ -13316,6 +13721,21 @@
    "kind": "max_count",
    "file": "data-otservbr-global/monster/fey/dark_faun.lua",
    "monster": "Dark Faun",
+   "item": "cave turnip",
+   "maxCount": 2,
+   "from": 4,
+   "source": {
+    "version": "12.90.12182",
+    "kills": 7262,
+    "loot_revid": 1213366,
+    "times": 441,
+    "evidence": "no drop above 2 in 441 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/fey/dark_faun.lua",
+   "monster": "Dark Faun",
    "item": "dark mushroom",
    "maxCount": 2,
    "source": {
@@ -15048,6 +15468,36 @@
    }
   },
   {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/giants/ogre_rowdy.lua",
+   "monster": "Ogre Rowdy",
+   "item": "flaming arrow",
+   "maxCount": 9,
+   "from": 19,
+   "source": {
+    "version": "12.20",
+    "kills": 2685,
+    "loot_revid": 1210571,
+    "times": 647,
+    "evidence": "no drop above 9 in 647 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/giants/ogre_rowdy.lua",
+   "monster": "Ogre Rowdy",
+   "item": "jalapeno pepper",
+   "maxCount": 2,
+   "from": 3,
+   "source": {
+    "version": "12.20",
+    "kills": 2685,
+    "loot_revid": 1210571,
+    "times": 84,
+    "evidence": "no drop above 2 in 84 drops"
+   }
+  },
+  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/giants/ogre_rowdy.lua",
    "monster": "Ogre Rowdy",
@@ -15254,6 +15704,21 @@
     "revid": 1191775
    },
    "from": false
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/giants/ogre_ruffian.lua",
+   "monster": "Ogre Ruffian",
+   "item": "meat",
+   "maxCount": 2,
+   "from": 5,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 929,
+    "loot_revid": 1210572,
+    "times": 140,
+    "evidence": "no drop above 2 in 140 drops"
+   }
   },
   {
    "kind": "stat",
@@ -16412,6 +16877,21 @@
    "from": 2.11,
    "source": {
     "revid": 1191929
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/humanoids/crazed_summer_vanguard.lua",
+   "monster": "Crazed Summer Vanguard",
+   "item": "elven astral observer",
+   "maxCount": 1,
+   "from": 2,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 14918,
+    "loot_revid": 1211666,
+    "times": 4446,
+    "evidence": "no drop above 1 in 4446 drops"
    }
   },
   {
@@ -20229,6 +20709,21 @@
    }
   },
   {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/humans/dark_carnisylvan.lua",
+   "monster": "Dark Carnisylvan",
+   "item": "great mana potion",
+   "maxCount": 1,
+   "from": 4,
+   "source": {
+    "version": "12.85.11525",
+    "kills": 2603,
+    "loot_revid": 1209889,
+    "times": 222,
+    "evidence": "no drop above 1 in 222 drops"
+   }
+  },
+  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/humans/dark_carnisylvan.lua",
    "monster": "Dark Carnisylvan",
@@ -20490,6 +20985,21 @@
     "times": 127
    },
    "from": 3460
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/humans/hulking_carnisylvan.lua",
+   "monster": "Hulking Carnisylvan",
+   "item": "great health potion",
+   "maxCount": 2,
+   "from": 4,
+   "source": {
+    "version": "12.85.11525",
+    "kills": 2740,
+    "loot_revid": 1209692,
+    "times": 397,
+    "evidence": "no drop above 2 in 397 drops"
+   }
   },
   {
    "kind": "stat",
@@ -20856,6 +21366,21 @@
     "loot_revid": 1210015
    },
    "from": 1
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/humans/poisonous_carnisylvan.lua",
+   "monster": "Poisonous Carnisylvan",
+   "item": "great spirit potion",
+   "maxCount": 1,
+   "from": 5,
+   "source": {
+    "version": "12.85.11525",
+    "kills": 2660,
+    "loot_revid": 1210015,
+    "times": 202,
+    "evidence": "no drop above 1 in 202 drops"
+   }
   },
   {
    "kind": "stat",
@@ -22720,6 +23245,21 @@
    "kind": "max_count",
    "file": "data-otservbr-global/monster/lycanthropes/werebear.lua",
    "monster": "Werebear",
+   "item": "great health potion",
+   "maxCount": 1,
+   "from": 2,
+   "source": {
+    "version": "12.90.12182",
+    "kills": 6230,
+    "loot_revid": 1212563,
+    "times": 317,
+    "evidence": "no drop above 1 in 317 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/lycanthropes/werebear.lua",
+   "monster": "Werebear",
    "item": "ham",
    "maxCount": 3,
    "source": {
@@ -23285,6 +23825,111 @@
    }
   },
   {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/lycanthropes/werefox.lua",
+   "monster": "Werefox",
+   "item": "emerald bangle",
+   "maxCount": 1,
+   "from": 2,
+   "source": {
+    "version": "12.90.12182",
+    "kills": 11023,
+    "loot_revid": 1212565,
+    "times": 340,
+    "evidence": "no drop above 1 in 340 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/lycanthropes/werefox.lua",
+   "monster": "Werefox",
+   "item": "fox paw",
+   "maxCount": 1,
+   "from": 2,
+   "source": {
+    "version": "12.90.12182",
+    "kills": 11023,
+    "loot_revid": 1212565,
+    "times": 1671,
+    "evidence": "no drop above 1 in 1671 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/lycanthropes/werefox.lua",
+   "monster": "Werefox",
+   "item": "great mana potion",
+   "maxCount": 1,
+   "from": 2,
+   "source": {
+    "version": "12.90.12182",
+    "kills": 11023,
+    "loot_revid": 1212565,
+    "times": 225,
+    "evidence": "no drop above 1 in 225 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/lycanthropes/werefox.lua",
+   "monster": "Werefox",
+   "item": "mana potion",
+   "maxCount": 1,
+   "from": 2,
+   "source": {
+    "version": "12.90.12182",
+    "kills": 11023,
+    "loot_revid": 1212565,
+    "times": 572,
+    "evidence": "no drop above 1 in 572 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/lycanthropes/werefox.lua",
+   "monster": "Werefox",
+   "item": "strong mana potion",
+   "maxCount": 1,
+   "from": 2,
+   "source": {
+    "version": "12.90.12182",
+    "kills": 11023,
+    "loot_revid": 1212565,
+    "times": 409,
+    "evidence": "no drop above 1 in 409 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/lycanthropes/werefox.lua",
+   "monster": "Werefox",
+   "item": "troll green",
+   "maxCount": 1,
+   "from": 2,
+   "source": {
+    "version": "12.90.12182",
+    "kills": 11023,
+    "loot_revid": 1212565,
+    "times": 534,
+    "evidence": "no drop above 1 in 534 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/lycanthropes/werefox.lua",
+   "monster": "Werefox",
+   "item": "werefox tail",
+   "maxCount": 1,
+   "from": 2,
+   "source": {
+    "version": "12.90.12182",
+    "kills": 11023,
+    "loot_revid": 1212565,
+    "times": 1413,
+    "evidence": "no drop above 1 in 1413 drops"
+   }
+  },
+  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/lycanthropes/werefox.lua",
    "monster": "Werefox",
@@ -23714,6 +24359,21 @@
    "kind": "max_count",
    "file": "data-otservbr-global/monster/lycanthropes/werelion.lua",
    "monster": "Werelion",
+   "item": "meat",
+   "maxCount": 1,
+   "from": 2,
+   "source": {
+    "version": "13.22.14282",
+    "kills": 7692,
+    "loot_revid": 1213067,
+    "times": 783,
+    "evidence": "no drop above 1 in 783 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/lycanthropes/werelion.lua",
+   "monster": "Werelion",
    "item": "rainbow quartz",
    "maxCount": 3,
    "source": {
@@ -23722,6 +24382,21 @@
     "loot_revid": 1213067
    },
    "from": 1
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/lycanthropes/werelion.lua",
+   "monster": "Werelion",
+   "item": "small diamond",
+   "maxCount": 1,
+   "from": 2,
+   "source": {
+    "version": "13.22.14282",
+    "kills": 7692,
+    "loot_revid": 1213067,
+    "times": 308,
+    "evidence": "no drop above 1 in 308 drops"
+   }
   },
   {
    "kind": "max_count",
@@ -24031,6 +24706,21 @@
    "kind": "max_count",
    "file": "data-otservbr-global/monster/lycanthropes/werelioness.lua",
    "monster": "Werelioness",
+   "item": "black pearl",
+   "maxCount": 1,
+   "from": 2,
+   "source": {
+    "version": "13.22.14282",
+    "kills": 7647,
+    "loot_revid": 1213068,
+    "times": 507,
+    "evidence": "no drop above 1 in 507 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/lycanthropes/werelioness.lua",
+   "monster": "Werelioness",
    "item": "ham",
    "maxCount": 3,
    "source": {
@@ -24044,6 +24734,21 @@
    "kind": "max_count",
    "file": "data-otservbr-global/monster/lycanthropes/werelioness.lua",
    "monster": "Werelioness",
+   "item": "meat",
+   "maxCount": 1,
+   "from": 2,
+   "source": {
+    "version": "13.22.14282",
+    "kills": 7647,
+    "loot_revid": 1213068,
+    "times": 1246,
+    "evidence": "no drop above 1 in 1246 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/lycanthropes/werelioness.lua",
+   "monster": "Werelioness",
    "item": "small enchanted sapphire",
    "maxCount": 6,
    "source": {
@@ -24052,6 +24757,36 @@
     "loot_revid": 1213068
    },
    "from": 2
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/lycanthropes/werelioness.lua",
+   "monster": "Werelioness",
+   "item": "soul orb",
+   "maxCount": 1,
+   "from": 2,
+   "source": {
+    "version": "13.22.14282",
+    "kills": 7647,
+    "loot_revid": 1213068,
+    "times": 1350,
+    "evidence": "no drop above 1 in 1350 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/lycanthropes/werelioness.lua",
+   "monster": "Werelioness",
+   "item": "white pearl",
+   "maxCount": 1,
+   "from": 2,
+   "source": {
+    "version": "13.22.14282",
+    "kills": 7647,
+    "loot_revid": 1213068,
+    "times": 216,
+    "evidence": "no drop above 1 in 216 drops"
+   }
   },
   {
    "kind": "remove_loot",
@@ -25301,6 +26036,66 @@
    }
   },
   {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/magicals/bashmu.lua",
+   "monster": "Bashmu",
+   "item": "blue crystal shard",
+   "maxCount": 1,
+   "from": 3,
+   "source": {
+    "version": "12.71.11017",
+    "kills": 5616,
+    "loot_revid": 1213547,
+    "times": 179,
+    "evidence": "no drop above 1 in 179 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/magicals/bashmu.lua",
+   "monster": "Bashmu",
+   "item": "great spirit potion",
+   "maxCount": 1,
+   "from": 4,
+   "source": {
+    "version": "12.71.11017",
+    "kills": 5616,
+    "loot_revid": 1213547,
+    "times": 243,
+    "evidence": "no drop above 1 in 243 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/magicals/bashmu.lua",
+   "monster": "Bashmu",
+   "item": "green crystal shard",
+   "maxCount": 1,
+   "from": 3,
+   "source": {
+    "version": "12.71.11017",
+    "kills": 5616,
+    "loot_revid": 1213547,
+    "times": 172,
+    "evidence": "no drop above 1 in 172 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/magicals/bashmu.lua",
+   "monster": "Bashmu",
+   "item": "small diamond",
+   "maxCount": 1,
+   "from": 6,
+   "source": {
+    "version": "12.71.11017",
+    "kills": 5616,
+    "loot_revid": 1213547,
+    "times": 219,
+    "evidence": "no drop above 1 in 219 drops"
+   }
+  },
+  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/magicals/bashmu.lua",
    "monster": "Bashmu",
@@ -25754,6 +26549,156 @@
    "kind": "max_count",
    "file": "data-otservbr-global/monster/magicals/brain_squid.lua",
    "monster": "Brain Squid",
+   "item": "blue crystal splinter",
+   "maxCount": 1,
+   "from": 4,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 7856,
+    "loot_revid": 1204337,
+    "times": 549,
+    "evidence": "no drop above 1 in 549 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/magicals/brain_squid.lua",
+   "monster": "Brain Squid",
+   "item": "cyan crystal fragment",
+   "maxCount": 1,
+   "from": 4,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 7856,
+    "loot_revid": 1204337,
+    "times": 320,
+    "evidence": "no drop above 1 in 320 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/magicals/brain_squid.lua",
+   "monster": "Brain Squid",
+   "item": "energy ball",
+   "maxCount": 1,
+   "from": 4,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 7856,
+    "loot_revid": 1204337,
+    "times": 1540,
+    "evidence": "no drop above 1 in 1540 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/magicals/brain_squid.lua",
+   "monster": "Brain Squid",
+   "item": "energy bar",
+   "maxCount": 1,
+   "from": 4,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 7856,
+    "loot_revid": 1204337,
+    "times": 1165,
+    "evidence": "no drop above 1 in 1165 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/magicals/brain_squid.lua",
+   "monster": "Brain Squid",
+   "item": "energy drink",
+   "maxCount": 1,
+   "from": 4,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 7856,
+    "loot_revid": 1204337,
+    "times": 1187,
+    "evidence": "no drop above 1 in 1187 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/magicals/brain_squid.lua",
+   "monster": "Brain Squid",
+   "item": "frozen lightning",
+   "maxCount": 1,
+   "from": 4,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 7856,
+    "loot_revid": 1204337,
+    "times": 947,
+    "evidence": "no drop above 1 in 947 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/magicals/brain_squid.lua",
+   "monster": "Brain Squid",
+   "item": "instable proto matter",
+   "maxCount": 1,
+   "from": 4,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 7856,
+    "loot_revid": 1204337,
+    "times": 1441,
+    "evidence": "no drop above 1 in 1441 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/magicals/brain_squid.lua",
+   "monster": "Brain Squid",
+   "item": "odd organ",
+   "maxCount": 1,
+   "from": 4,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 7856,
+    "loot_revid": 1204337,
+    "times": 596,
+    "evidence": "no drop above 1 in 596 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/magicals/brain_squid.lua",
+   "monster": "Brain Squid",
+   "item": "piece of dead brain",
+   "maxCount": 1,
+   "from": 4,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 7856,
+    "loot_revid": 1204337,
+    "times": 91,
+    "evidence": "no drop above 1 in 91 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/magicals/brain_squid.lua",
+   "monster": "Brain Squid",
+   "item": "slime heart",
+   "maxCount": 1,
+   "from": 4,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 7856,
+    "loot_revid": 1204337,
+    "times": 134,
+    "evidence": "no drop above 1 in 134 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/magicals/brain_squid.lua",
+   "monster": "Brain Squid",
    "item": "small ruby",
    "maxCount": 6,
    "source": {
@@ -25762,6 +26707,36 @@
     "loot_revid": 1204337
    },
    "from": 4
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/magicals/brain_squid.lua",
+   "monster": "Brain Squid",
+   "item": "ultimate mana potion",
+   "maxCount": 1,
+   "from": 4,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 7856,
+    "loot_revid": 1204337,
+    "times": 942,
+    "evidence": "no drop above 1 in 942 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/magicals/brain_squid.lua",
+   "monster": "Brain Squid",
+   "item": "violet gem",
+   "maxCount": 1,
+   "from": 4,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 7856,
+    "loot_revid": 1204337,
+    "times": 374,
+    "evidence": "no drop above 1 in 374 drops"
+   }
   },
   {
    "kind": "stat",
@@ -26050,6 +27025,36 @@
    "kind": "max_count",
    "file": "data-otservbr-global/monster/magicals/burning_book.lua",
    "monster": "Burning Book",
+   "item": "book page",
+   "maxCount": 4,
+   "from": 7,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 41285,
+    "loot_revid": 1210426,
+    "times": 20230,
+    "evidence": "no drop above 4 in 20230 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/magicals/burning_book.lua",
+   "monster": "Burning Book",
+   "item": "silken bookmark",
+   "maxCount": 1,
+   "from": 2,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 41285,
+    "loot_revid": 1210426,
+    "times": 8133,
+    "evidence": "no drop above 1 in 8133 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/magicals/burning_book.lua",
+   "monster": "Burning Book",
    "item": "small amethyst",
    "maxCount": 7,
    "source": {
@@ -26058,6 +27063,21 @@
     "loot_revid": 1210426
    },
    "from": 4
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/magicals/burning_book.lua",
+   "monster": "Burning Book",
+   "item": "soul orb",
+   "maxCount": 1,
+   "from": 4,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 41285,
+    "loot_revid": 1210426,
+    "times": 2122,
+    "evidence": "no drop above 1 in 2122 drops"
+   }
   },
   {
    "kind": "stat",
@@ -26812,6 +27832,36 @@
    "kind": "max_count",
    "file": "data-otservbr-global/monster/magicals/cursed_book.lua",
    "monster": "Cursed Book",
+   "item": "silken bookmark",
+   "maxCount": 1,
+   "from": 3,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 4350,
+    "loot_revid": 1196775,
+    "times": 1620,
+    "evidence": "no drop above 1 in 1620 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/magicals/cursed_book.lua",
+   "monster": "Cursed Book",
+   "item": "small diamond",
+   "maxCount": 6,
+   "from": 7,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 4350,
+    "loot_revid": 1196775,
+    "times": 2148,
+    "evidence": "no drop above 6 in 2148 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/magicals/cursed_book.lua",
+   "monster": "Cursed Book",
    "item": "small stone",
    "maxCount": 10,
    "source": {
@@ -26820,6 +27870,21 @@
     "loot_revid": 1196775
    },
    "from": 7
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/magicals/cursed_book.lua",
+   "monster": "Cursed Book",
+   "item": "small topaz",
+   "maxCount": 5,
+   "from": 7,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 4350,
+    "loot_revid": 1196775,
+    "times": 1166,
+    "evidence": "no drop above 5 in 1166 drops"
+   }
   },
   {
    "kind": "stat",
@@ -27020,6 +28085,81 @@
     "loot_revid": 1210476,
     "evidence": "confirmed by another version",
     "times": 5
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/magicals/energetic_book.lua",
+   "monster": "Energetic Book",
+   "item": "energy ball",
+   "maxCount": 1,
+   "from": 7,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 196,
+    "loot_revid": 1210476,
+    "times": 21,
+    "evidence": "no drop above 1 in 21 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/magicals/energetic_book.lua",
+   "monster": "Energetic Book",
+   "item": "glowing rune",
+   "maxCount": 6,
+   "from": 7,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 196,
+    "loot_revid": 1210476,
+    "times": 132,
+    "evidence": "no drop above 6 in 132 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/magicals/energetic_book.lua",
+   "monster": "Energetic Book",
+   "item": "silken bookmark",
+   "maxCount": 1,
+   "from": 7,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 196,
+    "loot_revid": 1210476,
+    "times": 27,
+    "evidence": "no drop above 1 in 27 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/magicals/energetic_book.lua",
+   "monster": "Energetic Book",
+   "item": "ultimate health potion",
+   "maxCount": 1,
+   "from": 7,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 196,
+    "loot_revid": 1210476,
+    "times": 23,
+    "evidence": "no drop above 1 in 23 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/magicals/energetic_book.lua",
+   "monster": "Energetic Book",
+   "item": "ultimate mana potion",
+   "maxCount": 1,
+   "from": 7,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 196,
+    "loot_revid": 1210476,
+    "times": 31,
+    "evidence": "no drop above 1 in 31 drops"
    }
   },
   {
@@ -27264,6 +28404,21 @@
    "kind": "max_count",
    "file": "data-otservbr-global/monster/magicals/energuardian_of_tales.lua",
    "monster": "Energuardian of Tales",
+   "item": "glowing rune",
+   "maxCount": 4,
+   "from": 5,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 8558,
+    "loot_revid": 1204402,
+    "times": 1736,
+    "evidence": "no drop above 4 in 1736 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/magicals/energuardian_of_tales.lua",
+   "monster": "Energuardian of Tales",
    "item": "small amethyst",
    "maxCount": 10,
    "source": {
@@ -27272,6 +28427,36 @@
     "loot_revid": 1204402
    },
    "from": 5
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/magicals/energuardian_of_tales.lua",
+   "monster": "Energuardian of Tales",
+   "item": "ultimate health potion",
+   "maxCount": 1,
+   "from": 5,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 8558,
+    "loot_revid": 1204402,
+    "times": 1130,
+    "evidence": "no drop above 1 in 1130 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/magicals/energuardian_of_tales.lua",
+   "monster": "Energuardian of Tales",
+   "item": "ultimate mana potion",
+   "maxCount": 1,
+   "from": 5,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 8558,
+    "loot_revid": 1204402,
+    "times": 769,
+    "evidence": "no drop above 1 in 769 drops"
+   }
   },
   {
    "kind": "stat",
@@ -28044,6 +29229,81 @@
    }
   },
   {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/magicals/girtablilu_warrior.lua",
+   "monster": "Girtablilu Warrior",
+   "item": "blue crystal shard",
+   "maxCount": 1,
+   "from": 3,
+   "source": {
+    "version": "13.14.13163",
+    "kills": 997,
+    "loot_revid": 1206752,
+    "times": 24,
+    "evidence": "no drop above 1 in 24 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/magicals/girtablilu_warrior.lua",
+   "monster": "Girtablilu Warrior",
+   "item": "cyan crystal fragment",
+   "maxCount": 1,
+   "from": 3,
+   "source": {
+    "version": "13.14.13163",
+    "kills": 997,
+    "loot_revid": 1206752,
+    "times": 42,
+    "evidence": "no drop above 1 in 42 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/magicals/girtablilu_warrior.lua",
+   "monster": "Girtablilu Warrior",
+   "item": "gold ingot",
+   "maxCount": 1,
+   "from": 2,
+   "source": {
+    "version": "13.14.13163",
+    "kills": 997,
+    "loot_revid": 1206752,
+    "times": 143,
+    "evidence": "no drop above 1 in 143 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/magicals/girtablilu_warrior.lua",
+   "monster": "Girtablilu Warrior",
+   "item": "green crystal shard",
+   "maxCount": 1,
+   "from": 3,
+   "source": {
+    "version": "13.14.13163",
+    "kills": 997,
+    "loot_revid": 1206752,
+    "times": 62,
+    "evidence": "no drop above 1 in 62 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/magicals/girtablilu_warrior.lua",
+   "monster": "Girtablilu Warrior",
+   "item": "red crystal fragment",
+   "maxCount": 1,
+   "from": 3,
+   "source": {
+    "version": "13.14.13163",
+    "kills": 997,
+    "loot_revid": 1206752,
+    "times": 48,
+    "evidence": "no drop above 1 in 48 drops"
+   }
+  },
+  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/magicals/girtablilu_warrior.lua",
    "monster": "Girtablilu Warrior",
@@ -28312,6 +29572,36 @@
    "kind": "max_count",
    "file": "data-otservbr-global/monster/magicals/guardian_of_tales.lua",
    "monster": "Guardian of Tales",
+   "item": "book page",
+   "maxCount": 4,
+   "from": 5,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 7833,
+    "loot_revid": 1207071,
+    "times": 3493,
+    "evidence": "no drop above 4 in 3493 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/magicals/guardian_of_tales.lua",
+   "monster": "Guardian of Tales",
+   "item": "burnt scroll",
+   "maxCount": 1,
+   "from": 5,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 7833,
+    "loot_revid": 1207071,
+    "times": 2911,
+    "evidence": "no drop above 1 in 2911 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/magicals/guardian_of_tales.lua",
+   "monster": "Guardian of Tales",
    "item": "glowing rune",
    "maxCount": 8,
    "source": {
@@ -28320,6 +29610,36 @@
     "loot_revid": 1207071
    },
    "from": 5
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/magicals/guardian_of_tales.lua",
+   "monster": "Guardian of Tales",
+   "item": "piece of hellfire armor",
+   "maxCount": 1,
+   "from": 5,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 7833,
+    "loot_revid": 1207071,
+    "times": 358,
+    "evidence": "no drop above 1 in 358 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/magicals/guardian_of_tales.lua",
+   "monster": "Guardian of Tales",
+   "item": "soul orb",
+   "maxCount": 1,
+   "from": 5,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 7833,
+    "loot_revid": 1207071,
+    "times": 724,
+    "evidence": "no drop above 1 in 724 drops"
+   }
   },
   {
    "kind": "stat",
@@ -28991,6 +30311,81 @@
    "kind": "max_count",
    "file": "data-otservbr-global/monster/magicals/icecold_book.lua",
    "monster": "Icecold Book",
+   "item": "book page",
+   "maxCount": 1,
+   "from": 3,
+   "source": {
+    "version": "12.31.9580",
+    "kills": 13780,
+    "loot_revid": 1207086,
+    "times": 8581,
+    "evidence": "no drop above 1 in 8581 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/magicals/icecold_book.lua",
+   "monster": "Icecold Book",
+   "item": "frosty heart",
+   "maxCount": 1,
+   "from": 8,
+   "source": {
+    "version": "12.31.9580",
+    "kills": 13780,
+    "loot_revid": 1207086,
+    "times": 1748,
+    "evidence": "no drop above 1 in 1748 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/magicals/icecold_book.lua",
+   "monster": "Icecold Book",
+   "item": "quill",
+   "maxCount": 1,
+   "from": 8,
+   "source": {
+    "version": "12.31.9580",
+    "kills": 13780,
+    "loot_revid": 1207086,
+    "times": 2516,
+    "evidence": "no drop above 1 in 2516 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/magicals/icecold_book.lua",
+   "monster": "Icecold Book",
+   "item": "silken bookmark",
+   "maxCount": 1,
+   "from": 8,
+   "source": {
+    "version": "12.31.9580",
+    "kills": 13780,
+    "loot_revid": 1207086,
+    "times": 2377,
+    "evidence": "no drop above 1 in 2377 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/magicals/icecold_book.lua",
+   "monster": "Icecold Book",
+   "item": "small diamond",
+   "maxCount": 1,
+   "from": 8,
+   "source": {
+    "version": "12.31.9580",
+    "kills": 13780,
+    "loot_revid": 1207086,
+    "times": 6311,
+    "evidence": "no drop above 1 in 6311 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/magicals/icecold_book.lua",
+   "monster": "Icecold Book",
    "item": "small sapphire",
    "maxCount": 9,
    "source": {
@@ -28999,6 +30394,36 @@
     "loot_revid": 1207086
    },
    "from": 8
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/magicals/icecold_book.lua",
+   "monster": "Icecold Book",
+   "item": "ultimate health potion",
+   "maxCount": 1,
+   "from": 8,
+   "source": {
+    "version": "12.31.9580",
+    "kills": 13780,
+    "loot_revid": 1207086,
+    "times": 2561,
+    "evidence": "no drop above 1 in 2561 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/magicals/icecold_book.lua",
+   "monster": "Icecold Book",
+   "item": "ultimate mana potion",
+   "maxCount": 1,
+   "from": 8,
+   "source": {
+    "version": "12.31.9580",
+    "kills": 13780,
+    "loot_revid": 1207086,
+    "times": 2915,
+    "evidence": "no drop above 1 in 2915 drops"
+   }
   },
   {
    "kind": "stat",
@@ -29052,6 +30477,66 @@
     "loot_revid": 1213551,
     "evidence": "confirmed by another version",
     "times": 877
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/magicals/juvenile_bashmu.lua",
+   "monster": "Juvenile Bashmu",
+   "item": "bashmu feather",
+   "maxCount": 1,
+   "from": 2,
+   "source": {
+    "version": "12.71.11017",
+    "kills": 8293,
+    "loot_revid": 1213551,
+    "times": 330,
+    "evidence": "no drop above 1 in 330 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/magicals/juvenile_bashmu.lua",
+   "monster": "Juvenile Bashmu",
+   "item": "bashmu tongue",
+   "maxCount": 1,
+   "from": 3,
+   "source": {
+    "version": "12.71.11017",
+    "kills": 8293,
+    "loot_revid": 1213551,
+    "times": 496,
+    "evidence": "no drop above 1 in 496 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/magicals/juvenile_bashmu.lua",
+   "monster": "Juvenile Bashmu",
+   "item": "blue crystal shard",
+   "maxCount": 1,
+   "from": 3,
+   "source": {
+    "version": "12.71.11017",
+    "kills": 8293,
+    "loot_revid": 1213551,
+    "times": 498,
+    "evidence": "no drop above 1 in 498 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/magicals/juvenile_bashmu.lua",
+   "monster": "Juvenile Bashmu",
+   "item": "great spirit potion",
+   "maxCount": 2,
+   "from": 4,
+   "source": {
+    "version": "12.71.11017",
+    "kills": 8293,
+    "loot_revid": 1213551,
+    "times": 1120,
+    "evidence": "no drop above 2 in 1120 drops"
    }
   },
   {
@@ -29246,6 +30731,21 @@
     "loot_revid": 1212994
    },
    "from": 1
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/magicals/lamassu.lua",
+   "monster": "Lamassu",
+   "item": "lamassu horn",
+   "maxCount": 1,
+   "from": 5,
+   "source": {
+    "version": "12.20",
+    "kills": 4091,
+    "loot_revid": 1212994,
+    "times": 557,
+    "evidence": "no drop above 1 in 557 drops"
+   }
   },
   {
    "kind": "max_count",
@@ -29611,6 +31111,21 @@
     "loot_revid": 1211884,
     "datapack_money": 58,
     "wiki_money": 69
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/magicals/nightmare.lua",
+   "monster": "Nightmare",
+   "item": "ham",
+   "maxCount": 1,
+   "from": 2,
+   "source": {
+    "version": "12.31",
+    "kills": 9571,
+    "loot_revid": 1211884,
+    "times": 2812,
+    "evidence": "no drop above 1 in 2812 drops"
    }
   },
   {
@@ -30099,6 +31614,21 @@
     "loot_revid": 1210600
    },
    "from": 1
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/magicals/rage_squid.lua",
+   "monster": "Rage Squid",
+   "item": "orb",
+   "maxCount": 1,
+   "from": 5,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 42725,
+    "loot_revid": 1210600,
+    "times": 917,
+    "evidence": "no drop above 1 in 917 drops"
+   }
   },
   {
    "kind": "max_count",
@@ -31026,6 +32556,21 @@
    "kind": "max_count",
    "file": "data-otservbr-global/monster/magicals/squid_warden.lua",
    "monster": "Squid Warden",
+   "item": "frosty heart",
+   "maxCount": 1,
+   "from": 4,
+   "source": {
+    "version": "12.31.9580",
+    "kills": 11584,
+    "loot_revid": 1207234,
+    "times": 2599,
+    "evidence": "no drop above 1 in 2599 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/magicals/squid_warden.lua",
+   "monster": "Squid Warden",
    "item": "glowing rune",
    "maxCount": 6,
    "source": {
@@ -31034,6 +32579,81 @@
     "loot_revid": 1207234
    },
    "from": 4
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/magicals/squid_warden.lua",
+   "monster": "Squid Warden",
+   "item": "piece of dead brain",
+   "maxCount": 1,
+   "from": 4,
+   "source": {
+    "version": "12.31.9580",
+    "kills": 11584,
+    "loot_revid": 1207234,
+    "times": 466,
+    "evidence": "no drop above 1 in 466 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/magicals/squid_warden.lua",
+   "monster": "Squid Warden",
+   "item": "slime heart",
+   "maxCount": 1,
+   "from": 4,
+   "source": {
+    "version": "12.31.9580",
+    "kills": 11584,
+    "loot_revid": 1207234,
+    "times": 482,
+    "evidence": "no drop above 1 in 482 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/magicals/squid_warden.lua",
+   "monster": "Squid Warden",
+   "item": "small sapphire",
+   "maxCount": 3,
+   "from": 4,
+   "source": {
+    "version": "12.31.9580",
+    "kills": 11584,
+    "loot_revid": 1207234,
+    "times": 7871,
+    "evidence": "no drop above 3 in 7871 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/magicals/squid_warden.lua",
+   "monster": "Squid Warden",
+   "item": "ultimate health potion",
+   "maxCount": 1,
+   "from": 4,
+   "source": {
+    "version": "12.31.9580",
+    "kills": 11584,
+    "loot_revid": 1207234,
+    "times": 1824,
+    "evidence": "no drop above 1 in 1824 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/magicals/squid_warden.lua",
+   "monster": "Squid Warden",
+   "item": "ultimate mana potion",
+   "maxCount": 1,
+   "from": 4,
+   "source": {
+    "version": "12.31.9580",
+    "kills": 11584,
+    "loot_revid": 1207234,
+    "times": 2035,
+    "evidence": "no drop above 1 in 2035 drops"
+   }
   },
   {
    "kind": "stat",
@@ -31531,6 +33151,66 @@
     "loot_revid": 1211670
    },
    "from": 1
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/magicals/thanatursus.lua",
+   "monster": "Thanatursus",
+   "item": "meat",
+   "maxCount": 1,
+   "from": 3,
+   "source": {
+    "version": "12.00",
+    "kills": 10165,
+    "loot_revid": 1211670,
+    "times": 5095,
+    "evidence": "no drop above 1 in 5095 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/magicals/venerable_girtablilu.lua",
+   "monster": "Venerable Girtablilu",
+   "item": "cyan crystal fragment",
+   "maxCount": 1,
+   "from": 3,
+   "source": {
+    "version": "13.14.13163",
+    "kills": 490,
+    "loot_revid": 1206753,
+    "times": 19,
+    "evidence": "no drop above 1 in 19 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/magicals/venerable_girtablilu.lua",
+   "monster": "Venerable Girtablilu",
+   "item": "gold ingot",
+   "maxCount": 1,
+   "from": 2,
+   "source": {
+    "version": "13.14.13163",
+    "kills": 490,
+    "loot_revid": 1206753,
+    "times": 74,
+    "evidence": "no drop above 1 in 74 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/magicals/venerable_girtablilu.lua",
+   "monster": "Venerable Girtablilu",
+   "item": "small diamond",
+   "maxCount": 1,
+   "from": 6,
+   "source": {
+    "version": "13.14.13163",
+    "kills": 490,
+    "loot_revid": 1206753,
+    "times": 25,
+    "evidence": "no drop above 1 in 25 drops"
+   }
   },
   {
    "kind": "stat",
@@ -38215,6 +39895,36 @@
    "from": false
   },
   {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/quests/rotten_blood/mycobiontic_beetle.lua",
+   "monster": "Mycobiontic Beetle",
+   "item": "scarab coin",
+   "maxCount": 1,
+   "from": 3,
+   "source": {
+    "version": "15.32.87b266",
+    "kills": 669,
+    "loot_revid": 1206608,
+    "times": 17,
+    "evidence": "no drop above 1 in 17 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/quests/rotten_blood/mycobiontic_beetle.lua",
+   "monster": "Mycobiontic Beetle",
+   "item": "small sapphire",
+   "maxCount": 1,
+   "from": 3,
+   "source": {
+    "version": "15.32.87b266",
+    "kills": 669,
+    "loot_revid": 1206608,
+    "times": 38,
+    "evidence": "no drop above 1 in 38 drops"
+   }
+  },
+  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/quests/rotten_blood/mycobiontic_beetle.lua",
    "monster": "Mycobiontic Beetle",
@@ -43244,6 +44954,21 @@
    }
   },
   {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/reptiles/lizard_chosen.lua",
+   "monster": "Lizard Chosen",
+   "item": "lizard scale",
+   "maxCount": 1,
+   "from": 3,
+   "source": {
+    "version": "15.00.249ccc",
+    "kills": 5608,
+    "loot_revid": 1212689,
+    "times": 52,
+    "evidence": "no drop above 1 in 52 drops"
+   }
+  },
+  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/reptiles/lizard_chosen.lua",
    "monster": "Lizard Chosen",
@@ -43641,6 +45366,36 @@
    }
   },
   {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/reptiles/naga_archer.lua",
+   "monster": "Naga Archer",
+   "item": "naga armring",
+   "maxCount": 1,
+   "from": 3,
+   "source": {
+    "version": "13.22.14242",
+    "kills": 3102,
+    "loot_revid": 1210351,
+    "times": 213,
+    "evidence": "no drop above 1 in 213 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/reptiles/naga_archer.lua",
+   "monster": "Naga Archer",
+   "item": "naga earring",
+   "maxCount": 1,
+   "from": 3,
+   "source": {
+    "version": "13.22.14242",
+    "kills": 3102,
+    "loot_revid": 1210351,
+    "times": 440,
+    "evidence": "no drop above 1 in 440 drops"
+   }
+  },
+  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/reptiles/naga_archer.lua",
    "monster": "Naga Archer",
@@ -43731,6 +45486,21 @@
     "loot_revid": 1210352,
     "datapack_money": 1050,
     "wiki_money": 604
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/reptiles/naga_warrior.lua",
+   "monster": "Naga Warrior",
+   "item": "naga earring",
+   "maxCount": 2,
+   "from": 3,
+   "source": {
+    "version": "13.22.14242",
+    "kills": 5578,
+    "loot_revid": 1210352,
+    "times": 387,
+    "evidence": "no drop above 2 in 387 drops"
    }
   },
   {
@@ -45048,6 +46818,21 @@
    "kind": "max_count",
    "file": "data-otservbr-global/monster/slimes/ink_blob.lua",
    "monster": "Ink Blob",
+   "item": "blue gem",
+   "maxCount": 1,
+   "from": 4,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 3529,
+    "loot_revid": 1210523,
+    "times": 166,
+    "evidence": "no drop above 1 in 166 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/slimes/ink_blob.lua",
+   "monster": "Ink Blob",
    "item": "envenomed arrow",
    "maxCount": 50,
    "source": {
@@ -45061,6 +46846,21 @@
    "kind": "max_count",
    "file": "data-otservbr-global/monster/slimes/ink_blob.lua",
    "monster": "Ink Blob",
+   "item": "giant shimmering pearl",
+   "maxCount": 1,
+   "from": 4,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 3529,
+    "loot_revid": 1210523,
+    "times": 547,
+    "evidence": "no drop above 1 in 547 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/slimes/ink_blob.lua",
+   "monster": "Ink Blob",
    "item": "small diamond",
    "maxCount": 7,
    "source": {
@@ -45069,6 +46869,21 @@
     "loot_revid": 1210523
    },
    "from": 4
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/slimes/ink_blob.lua",
+   "monster": "Ink Blob",
+   "item": "small topaz",
+   "maxCount": 3,
+   "from": 4,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 3529,
+    "loot_revid": 1210523,
+    "times": 1755,
+    "evidence": "no drop above 3 in 1755 drops"
+   }
   },
   {
    "kind": "stat",
@@ -46368,6 +48183,21 @@
    "from": 5
   },
   {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/undeads/evil_prospector.lua",
+   "monster": "Evil Prospector",
+   "item": "spectral silver nugget",
+   "maxCount": 1,
+   "from": 2,
+   "source": {
+    "version": "15.03.afe753",
+    "kills": 745,
+    "loot_revid": 1209920,
+    "times": 83,
+    "evidence": "no drop above 1 in 83 drops"
+   }
+  },
+  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/undeads/evil_prospector.lua",
    "monster": "Evil Prospector",
@@ -46558,6 +48388,21 @@
    "from": 35000
   },
   {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/undeads/falcon_knight.lua",
+   "monster": "Falcon Knight",
+   "item": "ham",
+   "maxCount": 3,
+   "from": 8,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 7886,
+    "loot_revid": 1210214,
+    "times": 6666,
+    "evidence": "no drop above 3 in 6666 drops"
+   }
+  },
+  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/undeads/falcon_knight.lua",
    "monster": "Falcon Knight",
@@ -46720,6 +48565,21 @@
     "loot_revid": 1210215
    },
    "from": 5
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/undeads/falcon_paladin.lua",
+   "monster": "Falcon Paladin",
+   "item": "small amethyst",
+   "maxCount": 2,
+   "from": 3,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 5743,
+    "loot_revid": 1210215,
+    "times": 2766,
+    "evidence": "no drop above 2 in 2766 drops"
+   }
   },
   {
    "kind": "stat",
@@ -47423,6 +49283,21 @@
    "kind": "max_count",
    "file": "data-otservbr-global/monster/undeads/hand_of_cursed_fate.lua",
    "monster": "Hand of Cursed Fate",
+   "item": "flask of demonic blood",
+   "maxCount": 3,
+   "from": 4,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 606,
+    "loot_revid": 1212347,
+    "times": 179,
+    "evidence": "no drop above 3 in 179 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/undeads/hand_of_cursed_fate.lua",
+   "monster": "Hand of Cursed Fate",
    "item": "gold coin",
    "maxCount": 195,
    "source": {
@@ -47960,6 +49835,21 @@
    }
   },
   {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/undeads/iks_yapunac.lua",
+   "monster": "Iks Yapunac",
+   "item": "opal",
+   "maxCount": 1,
+   "from": 2,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 4802,
+    "loot_revid": 1210218,
+    "times": 167,
+    "evidence": "no drop above 1 in 167 drops"
+   }
+  },
+  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/undeads/iks_yapunac.lua",
    "monster": "Iks Yapunac",
@@ -47994,6 +49884,21 @@
     "times": 15
    },
    "from": 350
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/undeads/lich.lua",
+   "monster": "Lich",
+   "item": "black pearl",
+   "maxCount": 1,
+   "from": 3,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 1808,
+    "loot_revid": 1212996,
+    "times": 106,
+    "evidence": "no drop above 1 in 106 drops"
+   }
   },
   {
    "kind": "max_count",
@@ -48883,6 +50788,51 @@
    }
   },
   {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/undeads/skeleton_elite_warrior.lua",
+   "monster": "Skeleton Elite Warrior",
+   "item": "pelvis bone",
+   "maxCount": 3,
+   "from": 10,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 1883,
+    "loot_revid": 1212611,
+    "times": 307,
+    "evidence": "no drop above 3 in 307 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/undeads/skeleton_elite_warrior.lua",
+   "monster": "Skeleton Elite Warrior",
+   "item": "unholy bone",
+   "maxCount": 1,
+   "from": 5,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 1883,
+    "loot_revid": 1212611,
+    "times": 172,
+    "evidence": "no drop above 1 in 172 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/undeads/skeleton_elite_warrior.lua",
+   "monster": "Skeleton Elite Warrior",
+   "item": "white mushroom",
+   "maxCount": 1,
+   "from": 3,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 1883,
+    "loot_revid": 1212611,
+    "times": 457,
+    "evidence": "no drop above 1 in 457 drops"
+   }
+  },
+  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/undeads/skeleton_elite_warrior.lua",
    "monster": "Skeleton Elite Warrior",
@@ -48902,6 +50852,21 @@
    "from": 2.16,
    "source": {
     "revid": 1192226
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/undeads/skeleton_warrior.lua",
+   "monster": "Skeleton Warrior",
+   "item": "white mushroom",
+   "maxCount": 1,
+   "from": 3,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 910,
+    "loot_revid": 1210626,
+    "times": 250,
+    "evidence": "no drop above 1 in 250 drops"
    }
   },
   {
@@ -49388,6 +51353,21 @@
    "kind": "max_count",
    "file": "data-otservbr-global/monster/undeads/undead_dragon.lua",
    "monster": "Undead Dragon",
+   "item": "black pearl",
+   "maxCount": 1,
+   "from": 2,
+   "source": {
+    "version": "15.32.87b266",
+    "kills": 37807,
+    "loot_revid": 1212890,
+    "times": 3696,
+    "evidence": "no drop above 1 in 3696 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/undeads/undead_dragon.lua",
+   "monster": "Undead Dragon",
    "item": "great health potion",
    "maxCount": 3,
    "source": {
@@ -49409,6 +51389,21 @@
     "loot_revid": 1212890
    },
    "from": 1
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/undeads/undead_dragon.lua",
+   "monster": "Undead Dragon",
+   "item": "small sapphire",
+   "maxCount": 1,
+   "from": 2,
+   "source": {
+    "version": "15.32.87b266",
+    "kills": 37807,
+    "loot_revid": 1212890,
+    "times": 3083,
+    "evidence": "no drop above 1 in 3083 drops"
+   }
   },
   {
    "kind": "stat",
@@ -49686,6 +51681,36 @@
     "loot_revid": 1212612,
     "datapack_money": 902,
     "wiki_money": 1761
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/undeads/undead_elite_gladiator.lua",
+   "monster": "Undead Elite Gladiator",
+   "item": "great health potion",
+   "maxCount": 1,
+   "from": 2,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 1950,
+    "loot_revid": 1212612,
+    "times": 102,
+    "evidence": "no drop above 1 in 102 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/undeads/undead_elite_gladiator.lua",
+   "monster": "Undead Elite Gladiator",
+   "item": "ultimate health potion",
+   "maxCount": 1,
+   "from": 2,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 1950,
+    "loot_revid": 1212612,
+    "times": 169,
+    "evidence": "no drop above 1 in 169 drops"
    }
   },
   {
@@ -50240,6 +52265,21 @@
    }
   },
   {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/vermins/afflicted_strider.lua",
+   "monster": "Afflicted Strider",
+   "item": "afflicted strider worms",
+   "maxCount": 1,
+   "from": 3,
+   "source": {
+    "version": "12.85.11525",
+    "kills": 2252,
+    "loot_revid": 1209066,
+    "times": 227,
+    "evidence": "no drop above 1 in 227 drops"
+   }
+  },
+  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/vermins/afflicted_strider.lua",
    "monster": "Afflicted Strider",
@@ -50270,6 +52310,51 @@
    "from": 0.86,
    "source": {
     "revid": 1192276
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/vermins/blemished_spawn.lua",
+   "monster": "Blemished Spawn",
+   "item": "blue crystal shard",
+   "maxCount": 1,
+   "from": 3,
+   "source": {
+    "version": "13.22.14282",
+    "kills": 815,
+    "loot_revid": 1209068,
+    "times": 38,
+    "evidence": "no drop above 1 in 38 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/vermins/blemished_spawn.lua",
+   "monster": "Blemished Spawn",
+   "item": "cyan crystal fragment",
+   "maxCount": 1,
+   "from": 3,
+   "source": {
+    "version": "13.22.14282",
+    "kills": 815,
+    "loot_revid": 1209068,
+    "times": 71,
+    "evidence": "no drop above 1 in 71 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/vermins/blemished_spawn.lua",
+   "monster": "Blemished Spawn",
+   "item": "violet crystal shard",
+   "maxCount": 1,
+   "from": 3,
+   "source": {
+    "version": "13.22.14282",
+    "kills": 815,
+    "loot_revid": 1209068,
+    "times": 62,
+    "evidence": "no drop above 1 in 62 drops"
    }
   },
   {
@@ -50371,6 +52456,51 @@
     "loot_revid": 1207420,
     "datapack_money": 1050,
     "wiki_money": 1540
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/vermins/cave_chimera.lua",
+   "monster": "Cave Chimera",
+   "item": "gold ingot",
+   "maxCount": 1,
+   "from": 2,
+   "source": {
+    "version": "12.85.11525",
+    "kills": 2026,
+    "loot_revid": 1207420,
+    "times": 411,
+    "evidence": "no drop above 1 in 411 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/vermins/cave_chimera.lua",
+   "monster": "Cave Chimera",
+   "item": "ultimate health potion",
+   "maxCount": 1,
+   "from": 4,
+   "source": {
+    "version": "12.85.11525",
+    "kills": 2026,
+    "loot_revid": 1207420,
+    "times": 438,
+    "evidence": "no drop above 1 in 438 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/vermins/cave_chimera.lua",
+   "monster": "Cave Chimera",
+   "item": "violet crystal shard",
+   "maxCount": 1,
+   "from": 3,
+   "source": {
+    "version": "12.85.11525",
+    "kills": 2026,
+    "loot_revid": 1207420,
+    "times": 125,
+    "evidence": "no drop above 1 in 125 drops"
    }
   },
   {
@@ -50532,6 +52662,36 @@
    "from": 1
   },
   {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/vermins/chasm_spawn.lua",
+   "monster": "Chasm Spawn",
+   "item": "small enchanted emerald",
+   "maxCount": 1,
+   "from": 3,
+   "source": {
+    "version": "13.36.d8d851",
+    "kills": 2768,
+    "loot_revid": 1212924,
+    "times": 281,
+    "evidence": "no drop above 1 in 281 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/vermins/chasm_spawn.lua",
+   "monster": "Chasm Spawn",
+   "item": "wood mushroom",
+   "maxCount": 4,
+   "from": 5,
+   "source": {
+    "version": "13.36.d8d851",
+    "kills": 2768,
+    "loot_revid": 1212924,
+    "times": 790,
+    "evidence": "no drop above 4 in 790 drops"
+   }
+  },
+  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/vermins/chasm_spawn.lua",
    "monster": "Chasm Spawn",
@@ -50603,6 +52763,51 @@
    "from": false
   },
   {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/vermins/deepworm.lua",
+   "monster": "Deepworm",
+   "item": "deepworm spike roots",
+   "maxCount": 1,
+   "from": 2,
+   "source": {
+    "version": "12.00",
+    "kills": 7402,
+    "loot_revid": 1198947,
+    "times": 977,
+    "evidence": "no drop above 1 in 977 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/vermins/deepworm.lua",
+   "monster": "Deepworm",
+   "item": "ham",
+   "maxCount": 1,
+   "from": 4,
+   "source": {
+    "version": "12.00",
+    "kills": 7402,
+    "loot_revid": 1198947,
+    "times": 1451,
+    "evidence": "no drop above 1 in 1451 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/vermins/deepworm.lua",
+   "monster": "Deepworm",
+   "item": "meat",
+   "maxCount": 1,
+   "from": 4,
+   "source": {
+    "version": "12.00",
+    "kills": 7402,
+    "loot_revid": 1198947,
+    "times": 1424,
+    "evidence": "no drop above 1 in 1424 drops"
+   }
+  },
+  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/vermins/deepworm.lua",
    "monster": "Deepworm",
@@ -50652,6 +52857,51 @@
     "revid": 1192331
    },
    "from": false
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/vermins/diremaw.lua",
+   "monster": "Diremaw",
+   "item": "diremaw legs",
+   "maxCount": 1,
+   "from": 2,
+   "source": {
+    "version": "12.00",
+    "kills": 12215,
+    "loot_revid": 1198948,
+    "times": 1195,
+    "evidence": "no drop above 1 in 1195 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/vermins/diremaw.lua",
+   "monster": "Diremaw",
+   "item": "ham",
+   "maxCount": 1,
+   "from": 4,
+   "source": {
+    "version": "12.00",
+    "kills": 12215,
+    "loot_revid": 1198948,
+    "times": 4984,
+    "evidence": "no drop above 1 in 4984 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/vermins/diremaw.lua",
+   "monster": "Diremaw",
+   "item": "onyx chip",
+   "maxCount": 3,
+   "from": 4,
+   "source": {
+    "version": "12.00",
+    "kills": 12215,
+    "loot_revid": 1198948,
+    "times": 1014,
+    "evidence": "no drop above 3 in 1014 drops"
+   }
   },
   {
    "kind": "stat",
@@ -50769,6 +53019,81 @@
     "loot_revid": 1207431,
     "datapack_money": 805,
     "wiki_money": 1145
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/vermins/eyeless_devourer.lua",
+   "monster": "Eyeless Devourer",
+   "item": "blue crystal shard",
+   "maxCount": 1,
+   "from": 3,
+   "source": {
+    "version": "12.85.11525",
+    "kills": 3343,
+    "loot_revid": 1207431,
+    "times": 258,
+    "evidence": "no drop above 1 in 258 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/vermins/eyeless_devourer.lua",
+   "monster": "Eyeless Devourer",
+   "item": "eyeless devourer legs",
+   "maxCount": 1,
+   "from": 2,
+   "source": {
+    "version": "12.85.11525",
+    "kills": 3343,
+    "loot_revid": 1207431,
+    "times": 283,
+    "evidence": "no drop above 1 in 283 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/vermins/eyeless_devourer.lua",
+   "monster": "Eyeless Devourer",
+   "item": "green crystal shard",
+   "maxCount": 1,
+   "from": 3,
+   "source": {
+    "version": "12.85.11525",
+    "kills": 3343,
+    "loot_revid": 1207431,
+    "times": 227,
+    "evidence": "no drop above 1 in 227 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/vermins/eyeless_devourer.lua",
+   "monster": "Eyeless Devourer",
+   "item": "ultimate health potion",
+   "maxCount": 1,
+   "from": 3,
+   "source": {
+    "version": "12.85.11525",
+    "kills": 3343,
+    "loot_revid": 1207431,
+    "times": 993,
+    "evidence": "no drop above 1 in 993 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/vermins/eyeless_devourer.lua",
+   "monster": "Eyeless Devourer",
+   "item": "violet crystal shard",
+   "maxCount": 1,
+   "from": 3,
+   "source": {
+    "version": "12.85.11525",
+    "kills": 3343,
+    "loot_revid": 1207431,
+    "times": 208,
+    "evidence": "no drop above 1 in 208 drops"
    }
   },
   {
@@ -51141,6 +53466,21 @@
    }
   },
   {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/vermins/lavafungus.lua",
+   "monster": "Lavafungus",
+   "item": "lavafungus ring",
+   "maxCount": 1,
+   "from": 4,
+   "source": {
+    "version": "13.22.14282",
+    "kills": 1012,
+    "loot_revid": 1210532,
+    "times": 160,
+    "evidence": "no drop above 1 in 160 drops"
+   }
+  },
+  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/vermins/lavafungus.lua",
    "monster": "Lavafungus",
@@ -51234,6 +53574,51 @@
     "loot_revid": 1210533,
     "datapack_money": 875,
     "wiki_money": 698
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/vermins/lavaworm.lua",
+   "monster": "Lavaworm",
+   "item": "gold ingot",
+   "maxCount": 1,
+   "from": 2,
+   "source": {
+    "version": "13.22.14282",
+    "kills": 1164,
+    "loot_revid": 1210533,
+    "times": 242,
+    "evidence": "no drop above 1 in 242 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/vermins/lavaworm.lua",
+   "monster": "Lavaworm",
+   "item": "lavaworm spike roots",
+   "maxCount": 1,
+   "from": 3,
+   "source": {
+    "version": "13.22.14282",
+    "kills": 1164,
+    "loot_revid": 1210533,
+    "times": 91,
+    "evidence": "no drop above 1 in 91 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/vermins/lavaworm.lua",
+   "monster": "Lavaworm",
+   "item": "violet crystal shard",
+   "maxCount": 1,
+   "from": 3,
+   "source": {
+    "version": "13.22.14282",
+    "kills": 1164,
+    "loot_revid": 1210533,
+    "times": 151,
+    "evidence": "no drop above 1 in 151 drops"
    }
   },
   {
@@ -51537,6 +53922,51 @@
    "from": 1540
   },
   {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/vermins/streaked_devourer.lua",
+   "monster": "Streaked Devourer",
+   "item": "gold ingot",
+   "maxCount": 1,
+   "from": 3,
+   "source": {
+    "version": "13.22.14282",
+    "kills": 1192,
+    "loot_revid": 1210636,
+    "times": 163,
+    "evidence": "no drop above 1 in 163 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/vermins/streaked_devourer.lua",
+   "monster": "Streaked Devourer",
+   "item": "streaked devourer eyes",
+   "maxCount": 1,
+   "from": 2,
+   "source": {
+    "version": "13.22.14282",
+    "kills": 1192,
+    "loot_revid": 1210636,
+    "times": 116,
+    "evidence": "no drop above 1 in 116 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/vermins/streaked_devourer.lua",
+   "monster": "Streaked Devourer",
+   "item": "streaked devourer maw",
+   "maxCount": 1,
+   "from": 2,
+   "source": {
+    "version": "13.22.14282",
+    "kills": 1192,
+    "loot_revid": 1210636,
+    "times": 150,
+    "evidence": "no drop above 1 in 150 drops"
+   }
+  },
+  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/vermins/streaked_devourer.lua",
    "monster": "Streaked Devourer",
@@ -51813,6 +54243,36 @@
     "loot_revid": 1207445,
     "datapack_money": 1015,
     "wiki_money": 1497
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/vermins/tremendous_tyrant.lua",
+   "monster": "Tremendous Tyrant",
+   "item": "gold ingot",
+   "maxCount": 1,
+   "from": 2,
+   "source": {
+    "version": "12.85.11525",
+    "kills": 1783,
+    "loot_revid": 1207445,
+    "times": 231,
+    "evidence": "no drop above 1 in 231 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/vermins/tremendous_tyrant.lua",
+   "monster": "Tremendous Tyrant",
+   "item": "violet crystal shard",
+   "maxCount": 1,
+   "from": 3,
+   "source": {
+    "version": "12.85.11525",
+    "kills": 1783,
+    "loot_revid": 1207445,
+    "times": 144,
+    "evidence": "no drop above 1 in 144 drops"
    }
   },
   {
@@ -52164,6 +54624,111 @@
     "times": 78
    },
    "from": 2650
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/vermins/varnished_diremaw.lua",
+   "monster": "Varnished Diremaw",
+   "item": "brown crystal splinter",
+   "maxCount": 1,
+   "from": 3,
+   "source": {
+    "version": "12.85.11525",
+    "kills": 1913,
+    "loot_revid": 1207449,
+    "times": 223,
+    "evidence": "no drop above 1 in 223 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/vermins/varnished_diremaw.lua",
+   "monster": "Varnished Diremaw",
+   "item": "green crystal shard",
+   "maxCount": 1,
+   "from": 3,
+   "source": {
+    "version": "12.85.11525",
+    "kills": 1913,
+    "loot_revid": 1207449,
+    "times": 120,
+    "evidence": "no drop above 1 in 120 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/vermins/varnished_diremaw.lua",
+   "monster": "Varnished Diremaw",
+   "item": "green crystal splinter",
+   "maxCount": 1,
+   "from": 3,
+   "source": {
+    "version": "12.85.11525",
+    "kills": 1913,
+    "loot_revid": 1207449,
+    "times": 166,
+    "evidence": "no drop above 1 in 166 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/vermins/varnished_diremaw.lua",
+   "monster": "Varnished Diremaw",
+   "item": "small diamond",
+   "maxCount": 1,
+   "from": 6,
+   "source": {
+    "version": "12.85.11525",
+    "kills": 1913,
+    "loot_revid": 1207449,
+    "times": 150,
+    "evidence": "no drop above 1 in 150 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/vermins/varnished_diremaw.lua",
+   "monster": "Varnished Diremaw",
+   "item": "small emerald",
+   "maxCount": 1,
+   "from": 5,
+   "source": {
+    "version": "12.85.11525",
+    "kills": 1913,
+    "loot_revid": 1207449,
+    "times": 156,
+    "evidence": "no drop above 1 in 156 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/vermins/varnished_diremaw.lua",
+   "monster": "Varnished Diremaw",
+   "item": "varnished diremaw legs",
+   "maxCount": 1,
+   "from": 4,
+   "source": {
+    "version": "12.85.11525",
+    "kills": 1913,
+    "loot_revid": 1207449,
+    "times": 147,
+    "evidence": "no drop above 1 in 147 drops"
+   }
+  },
+  {
+   "kind": "max_count",
+   "file": "data-otservbr-global/monster/vermins/varnished_diremaw.lua",
+   "monster": "Varnished Diremaw",
+   "item": "violet crystal shard",
+   "maxCount": 1,
+   "from": 3,
+   "source": {
+    "version": "12.85.11525",
+    "kills": 1913,
+    "loot_revid": 1207449,
+    "times": 154,
+    "evidence": "no drop above 1 in 154 drops"
+   }
   },
   {
    "kind": "stat",

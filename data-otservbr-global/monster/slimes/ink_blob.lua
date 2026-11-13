@@ -78,9 +78,9 @@ monster.loot = {
 	{ id = 28568, chance = 43922, maxCount = 4 }, -- inkwell
 	{ name = "poisonous slime", chance = 35477, maxCount = 4 },
 	{ name = "small diamond", chance = 66818, maxCount = 7 },
-	{ name = "small topaz", chance = 49731, maxCount = 4 },
-	{ id = 282, chance = 15500, maxCount = 4 }, -- giant shimmering pearl (brown)
-	{ name = "blue gem", chance = 4704, maxCount = 4 },
+	{ name = "small topaz", chance = 49731, maxCount = 3 },
+	{ id = 282, chance = 15500, maxCount = 1 }, -- giant shimmering pearl (brown)
+	{ name = "blue gem", chance = 4704, maxCount = 1 },
 	{ name = "terra boots", chance = 5242, maxCount = 4 },
 	{ name = "terra hood", chance = 5667, maxCount = 4 },
 	{ name = "protection amulet", chance = 1200, maxCount = 4 },

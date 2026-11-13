@@ -77,9 +77,9 @@ monster.voices = {
 
 monster.loot = {
 	{ name = "platinum coin", chance = 100000, minCount = 2, maxCount = 12 },
-	{ name = "gold ingot", chance = 18430, maxCount = 2 },
-	{ name = "violet crystal shard", chance = 15630, maxCount = 3 },
-	{ name = "lavaworm spike roots", chance = 7818, maxCount = 3 },
+	{ name = "gold ingot", chance = 18430, maxCount = 1 },
+	{ name = "violet crystal shard", chance = 15630, maxCount = 1 },
+	{ name = "lavaworm spike roots", chance = 7818, maxCount = 1 },
 	{ name = "violet gem", chance = 6750 },
 	{ name = "lavaworm spikes", chance = 4230 },
 	{ name = "green gem", chance = 4130 },

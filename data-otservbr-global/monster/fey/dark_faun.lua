@@ -89,7 +89,7 @@ monster.loot = {
 	{ name = "small stone", chance = 4420, maxCount = 5 },
 	{ name = "small enchanted sapphire", chance = 2341, maxCount = 2 },
 	{ name = "shimmering beetles", chance = 10025 },
-	{ name = "cave turnip", chance = 6073, maxCount = 4 },
+	{ name = "cave turnip", chance = 6073, maxCount = 2 },
 	{ name = "leaf legs", chance = 719 },
 	{ name = "dark mushroom", chance = 5178, maxCount = 2 },
 	{ name = "panpipes", chance = 2713 },

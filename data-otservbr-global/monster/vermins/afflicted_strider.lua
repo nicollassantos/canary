@@ -75,7 +75,7 @@ monster.voices = {
 
 monster.loot = {
 	{ name = "platinum coin", chance = 100000, minCount = 2, maxCount = 15 },
-	{ name = "afflicted strider worms", chance = 10940, maxCount = 3 },
+	{ name = "afflicted strider worms", chance = 10940, maxCount = 1 },
 	{ name = "guardian halberd", chance = 9410 },
 	{ name = "crystal sword", chance = 8940 },
 	{ name = "violet gem", chance = 6940, maxCount = 1 },

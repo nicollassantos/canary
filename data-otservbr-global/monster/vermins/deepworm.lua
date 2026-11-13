@@ -82,13 +82,13 @@ monster.voices = {
 monster.loot = {
 	{ name = "deepworm jaws", chance = 24010 },
 	{ id = 3052, chance = 7320 }, -- life ring
-	{ name = "meat", chance = 19660, maxCount = 4 },
-	{ name = "ham", chance = 19660, maxCount = 4 },
+	{ name = "meat", chance = 19660, maxCount = 1 },
+	{ name = "ham", chance = 19660, maxCount = 1 },
 	{ name = "wood mushroom", chance = 22280 },
 	{ name = "dark mushroom", chance = 14960 },
 	{ name = "green mushroom", chance = 18520 },
 	{ name = "green crystal shard", chance = 5360 },
-	{ id = 27593, chance = 13210, maxCount = 2 }, -- deepworm spike roots
+	{ id = 27593, chance = 13210, maxCount = 1 }, -- deepworm spike roots
 	{ name = "deepworm spikes", chance = 9880 },
 	{ name = "small enchanted amethyst", chance = 3430, maxCount = 2 },
 	{ name = "terra amulet", chance = 5060 },

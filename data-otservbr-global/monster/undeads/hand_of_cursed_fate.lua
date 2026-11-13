@@ -100,7 +100,7 @@ monster.loot = {
 	{ name = "soul orb", chance = 31111 },
 	{ id = 6299, chance = 1750 }, -- death ring
 	{ name = "demonic essence", chance = 12000 },
-	{ name = "flask of demonic blood", chance = 30000, maxCount = 4 },
+	{ name = "flask of demonic blood", chance = 30000, maxCount = 3 },
 	{ name = "assassin star", chance = 13861, maxCount = 5 },
 	{ name = "abyss hammer", chance = 495 },
 	{ name = "great mana potion", chance = 19990, maxCount = 2 },

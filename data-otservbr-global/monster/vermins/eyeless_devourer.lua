@@ -74,12 +74,12 @@ monster.voices = {
 
 monster.loot = {
 	{ name = "platinum coin", chance = 100000, minCount = 2, maxCount = 21 },
-	{ name = "ultimate health potion", chance = 29210, maxCount = 3 },
+	{ name = "ultimate health potion", chance = 29210, maxCount = 1 },
 	{ name = "eyeless devourer maw", chance = 14680, maxCount = 1 },
-	{ name = "blue crystal shard", chance = 6700, maxCount = 3 },
-	{ name = "green crystal shard", chance = 6380, maxCount = 3 },
-	{ name = "violet crystal shard", chance = 6230, maxCount = 3 },
-	{ name = "eyeless devourer legs", chance = 7500, maxCount = 2 },
+	{ name = "blue crystal shard", chance = 6700, maxCount = 1 },
+	{ name = "green crystal shard", chance = 6380, maxCount = 1 },
+	{ name = "violet crystal shard", chance = 6230, maxCount = 1 },
+	{ name = "eyeless devourer legs", chance = 7500, maxCount = 1 },
 	{ name = "green gem", chance = 6300 },
 	{ name = "eyeless devourer tongue", chance = 3590 },
 	{ name = "sacred tree amulet", chance = 3190 },

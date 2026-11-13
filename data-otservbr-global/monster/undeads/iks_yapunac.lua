@@ -84,7 +84,7 @@ monster.loot = {
 	{ name = "tiger eye", chance = 4820 },
 	{ name = "green crystal splinter", chance = 4190 },
 	{ name = "brown crystal splinter", chance = 4160 },
-	{ name = "opal", chance = 3450, maxCount = 2 },
+	{ name = "opal", chance = 3450, maxCount = 1 },
 	{ name = "gearwheel chain", chance = 3150 },
 	{ name = "onyx chip", chance = 2490 },
 	{ name = "ritual tooth", chance = 2410 },

@@ -93,7 +93,7 @@ monster.loot = {
 	{ id = 238, chance = 30000, maxCount = 3 }, -- great mana potion
 	{ id = 7642, chance = 20000 }, -- great spirit potion
 	{ id = 3038, chance = 1000 }, -- green gem
-	{ id = 3582, chance = 30000, maxCount = 14 }, -- ham
+	{ id = 3582, chance = 30000, maxCount = 2 }, -- ham
 	{ id = 5925, chance = 10000 }, -- hardened bone
 	{ id = 9637, chance = 20000 }, -- hellhound slobber
 	{ id = 3318, chance = 7500 }, -- knight axe
@@ -106,9 +106,9 @@ monster.loot = {
 	{ name = "platinum coin", chance = 79597, maxCount = 2 },
 	{ id = 3039, chance = 4500 }, -- red gem
 	{ id = 6553, chance = 1000 }, -- ruthless axe
-	{ id = 3032, chance = 3457, maxCount = 3 }, -- small emerald
-	{ id = 3030, chance = 2937, maxCount = 3 }, -- small ruby
-	{ id = 9057, chance = 2911, maxCount = 3 }, -- small topaz
+	{ id = 3032, chance = 3457, maxCount = 2 }, -- small emerald
+	{ id = 3030, chance = 2937, maxCount = 2 }, -- small ruby
+	{ id = 9057, chance = 2911, maxCount = 2 }, -- small topaz
 	{ id = 5944, chance = 20000 }, -- soul orb
 	{ id = 7643, chance = 14412 }, -- ultimate health potion
 	{ id = 3071, chance = 8135 }, -- wand of inferno

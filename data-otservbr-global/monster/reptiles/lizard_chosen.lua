@@ -81,7 +81,7 @@ monster.loot = {
 	{ name = "platinum coin", chance = 2996, maxCount = 4 },
 	{ name = "tower shield", chance = 1100 },
 	{ name = "lizard leather", chance = 2000 },
-	{ name = "lizard scale", chance = 980, maxCount = 3 },
+	{ name = "lizard scale", chance = 980, maxCount = 1 },
 	{ name = "great health potion", chance = 6723, maxCount = 3 },
 	{ name = "zaoan armor", chance = 980 },
 	{ id = 50152, chance = 553 }, -- collar of orange plasma

@@ -78,9 +78,9 @@ monster.voices = {
 monster.loot = {
 	{ name = "platinum coin", chance = 100000, minCount = 2, maxCount = 29 },
 	{ name = "great spirit potion", chance = 25220, maxCount = 2 },
-	{ name = "ultimate health potion", chance = 20000, maxCount = 4 },
-	{ name = "gold ingot", chance = 19130, maxCount = 2 },
-	{ name = "violet crystal shard", chance = 6090, maxCount = 3 },
+	{ name = "ultimate health potion", chance = 20000, maxCount = 1 },
+	{ name = "gold ingot", chance = 19130, maxCount = 1 },
+	{ name = "violet crystal shard", chance = 6090, maxCount = 1 },
 	{ name = "violet gem", chance = 6960, maxCount = 1 },
 	{ name = "cave chimera leg", chance = 4350 },
 	{ name = "cave chimera head", chance = 3480 },

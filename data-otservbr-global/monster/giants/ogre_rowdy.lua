@@ -78,7 +78,7 @@ monster.voices = {
 
 monster.loot = {
 	{ name = "platinum coin", chance = 77877, maxCount = 3 },
-	{ name = "flaming arrow", chance = 22040, maxCount = 19 },
+	{ name = "flaming arrow", chance = 22040, maxCount = 9 },
 	{ name = "ogre ear stud", chance = 21453 },
 	{ name = "ogre nose ring", chance = 17132 },
 	{ name = "skull fetish", chance = 10056 },
@@ -86,7 +86,7 @@ monster.loot = {
 	{ name = "small emerald", chance = 5698 },
 	{ name = "violet crystal shard", chance = 4283 },
 	{ name = "prismatic quartz", chance = 3985 },
-	{ name = "jalapeno pepper", chance = 3760, maxCount = 3 },
+	{ name = "jalapeno pepper", chance = 3760, maxCount = 2 },
 	{ name = "blue crystal shard", chance = 3426 },
 	{ name = "onyx chip", chance = 2272 },
 	{ name = "wand of draconia", chance = 5102 },

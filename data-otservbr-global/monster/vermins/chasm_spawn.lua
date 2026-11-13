@@ -77,11 +77,11 @@ monster.voices = {
 
 monster.loot = {
 	{ name = "gold coin", chance = 10000, maxCount = 78 },
-	{ name = "wood mushroom", chance = 27200, maxCount = 5 },
+	{ name = "wood mushroom", chance = 27200, maxCount = 4 },
 	{ name = "chasm spawn head", chance = 33390 },
 	{ name = "chasm spawn abdomen", chance = 24710 },
 	{ name = "chasm spawn tail", chance = 64890 },
-	{ name = "small enchanted emerald", chance = 11040, maxCount = 3 },
+	{ name = "small enchanted emerald", chance = 11040, maxCount = 1 },
 	{ name = "small enchanted amethyst", chance = 8170, maxCount = 3 },
 	{ name = "brown mushroom", chance = 19680, maxCount = 5 },
 	{ name = "orange mushroom", chance = 15140, maxCount = 3 },

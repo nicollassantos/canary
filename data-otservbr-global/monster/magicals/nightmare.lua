@@ -90,7 +90,7 @@ monster.loot = {
 	{ name = "knight legs", chance = 961 },
 	{ name = "ancient shield", chance = 990 },
 	{ name = "power bolt", chance = 1170, maxCount = 4 },
-	{ name = "ham", chance = 29000, maxCount = 2 },
+	{ name = "ham", chance = 29000, maxCount = 1 },
 	{ name = "mysterious voodoo skull", chance = 123 },
 	{ name = "soul orb", chance = 20000 },
 	{ id = 6299, chance = 1298 }, -- death ring

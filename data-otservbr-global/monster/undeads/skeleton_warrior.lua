@@ -77,7 +77,7 @@ monster.loot = {
 	{ id = 3115, chance = 50000 }, -- bone
 	{ id = 3264, chance = 1500 }, -- sword
 	{ name = "mace", chance = 2000 },
-	{ name = "white mushroom", chance = 24000, maxCount = 3 },
+	{ name = "white mushroom", chance = 24000, maxCount = 1 },
 	{ name = "brown mushroom", chance = 1700 },
 	{ name = "pelvis bone", chance = 10630 },
 }

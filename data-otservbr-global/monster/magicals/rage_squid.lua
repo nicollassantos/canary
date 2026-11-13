@@ -84,7 +84,7 @@ monster.loot = {
 	{ name = "small topaz", chance = 7707, maxCount = 5 },
 	{ name = "small emerald", chance = 7693, maxCount = 5 },
 	{ id = 3039, chance = 2214, maxCount = 5 }, -- red gem
-	{ name = "orb", chance = 2146, maxCount = 5 },
+	{ name = "orb", chance = 2146, maxCount = 1 },
 	{ name = "purple tome", chance = 1042 },
 	{ name = "great mana potion", chance = 19277, maxCount = 3 },
 	{ name = "demonic essence", chance = 7342 },

@@ -74,7 +74,7 @@ monster.voices = {
 }
 
 monster.loot = {
-	{ id = 3582, chance = 84530, maxCount = 8 }, -- ham
+	{ id = 3582, chance = 84530, maxCount = 3 }, -- ham
 	{ name = "soul orb", chance = 41250 },
 	{ name = "great mana potion", chance = 33000, maxCount = 3 },
 	{ name = "great health potion", chance = 33000, maxCount = 3 },

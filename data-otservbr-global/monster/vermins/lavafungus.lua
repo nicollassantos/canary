@@ -75,7 +75,7 @@ monster.voices = {
 monster.loot = {
 	{ name = "platinum coin", chance = 100000, minCount = 2, maxCount = 16 },
 	{ name = "terra rod", chance = 28557, maxCount = 1 },
-	{ name = "lavafungus ring", chance = 15810, maxCount = 4 },
+	{ name = "lavafungus ring", chance = 15810, maxCount = 1 },
 	{ id = 3039, chance = 9300, maxCount = 1 }, -- red gem
 	{ name = "hailstorm rod", chance = 4650 },
 	{ name = "blue crystal shard", chance = 7806 },

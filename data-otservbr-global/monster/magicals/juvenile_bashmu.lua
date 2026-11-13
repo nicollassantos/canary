@@ -70,11 +70,11 @@ monster.voices = {
 
 monster.loot = {
 	{ name = "platinum coin", chance = 70000, maxCount = 19 },
-	{ name = "great spirit potion", chance = 14700, maxCount = 4 },
+	{ name = "great spirit potion", chance = 14700, maxCount = 2 },
 	{ name = "ultimate health potion", chance = 10575, maxCount = 4 },
-	{ name = "blue crystal shard", chance = 6160, maxCount = 3 },
-	{ name = "bashmu tongue", chance = 5840, maxCount = 3 },
-	{ name = "bashmu feather", chance = 4620, maxCount = 2 },
+	{ name = "blue crystal shard", chance = 6160, maxCount = 1 },
+	{ name = "bashmu tongue", chance = 5840, maxCount = 1 },
+	{ name = "bashmu feather", chance = 4620, maxCount = 1 },
 	{ name = "green crystal shard", chance = 3666 },
 	{ name = "cyan crystal fragment", chance = 3340 },
 	{ id = 3039, chance = 2390, maxCount = 1 }, -- red gem

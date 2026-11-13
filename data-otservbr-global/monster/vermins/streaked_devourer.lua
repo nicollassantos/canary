@@ -77,9 +77,9 @@ monster.voices = {
 
 monster.loot = {
 	{ name = "platinum coin", chance = 70000, maxCount = 28 },
-	{ name = "gold ingot", chance = 16920, maxCount = 3 },
-	{ name = "streaked devourer maw", chance = 13850, maxCount = 2 },
-	{ name = "streaked devourer eyes", chance = 9230, maxCount = 2 },
+	{ name = "gold ingot", chance = 16920, maxCount = 1 },
+	{ name = "streaked devourer maw", chance = 13850, maxCount = 1 },
+	{ name = "streaked devourer eyes", chance = 9230, maxCount = 1 },
 	{ id = 3039, chance = 9312, maxCount = 1 }, -- red gem
 	{ name = "streaked devourer legs", chance = 5285 },
 	{ name = "yellow gem", chance = 3523 },

@@ -74,18 +74,18 @@ monster.voices = {
 
 monster.loot = {
 	{ name = "platinum coin", chance = 85676, maxCount = 20 },
-	{ name = "book page", chance = 44593, maxCount = 5 },
-	{ name = "burnt scroll", chance = 37163, maxCount = 5 },
+	{ name = "book page", chance = 44593, maxCount = 4 },
+	{ name = "burnt scroll", chance = 37163, maxCount = 1 },
 	{ name = "glowing rune", chance = 38797, maxCount = 8 },
 	{ name = "small diamond", chance = 57347, maxCount = 5 },
 	{ name = "fire axe", chance = 4047 },
-	{ name = "soul orb", chance = 9243, maxCount = 5 },
+	{ name = "soul orb", chance = 9243, maxCount = 1 },
 	{ name = "spellbook of warding", chance = 5030 },
 	{ name = "wand of inferno", chance = 8720 },
 	{ name = "fire sword", chance = 1353 },
 	{ name = "magma coat", chance = 983 },
 	{ name = "magma legs", chance = 1060 },
-	{ name = "piece of hellfire armor", chance = 4570, maxCount = 5 },
+	{ name = "piece of hellfire armor", chance = 4570, maxCount = 1 },
 	{ id = 12600, chance = 281, maxCount = 5 }, -- coal
 }
 

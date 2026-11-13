@@ -76,7 +76,7 @@ monster.voices = {
 
 monster.loot = {
 	{ id = 28569, chance = 58051, maxCount = 6 }, -- book page
-	{ id = 28570, chance = 20285, maxCount = 5 }, -- glowing rune
+	{ id = 28570, chance = 20285, maxCount = 4 }, -- glowing rune
 	{ name = "small amethyst", chance = 55807, maxCount = 10 },
 	{ name = "flash arrow", chance = 7525, maxCount = 15 },
 	{ name = "lightning pendant", chance = 4405 },
@@ -87,8 +87,8 @@ monster.loot = {
 	{ name = "shockwave amulet", chance = 771 },
 	{ name = "lightning legs", chance = 7642 },
 	{ name = "spellbook of warding", chance = 9231 },
-	{ name = "ultimate health potion", chance = 13204, maxCount = 5 },
-	{ name = "ultimate mana potion", chance = 10000, maxCount = 5 },
+	{ name = "ultimate health potion", chance = 13204, maxCount = 1 },
+	{ name = "ultimate mana potion", chance = 10000, maxCount = 1 },
 	{ name = "wand of starstorm", chance = 6988 },
 }
 

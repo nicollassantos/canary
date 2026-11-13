@@ -76,8 +76,8 @@ monster.voices = {
 monster.loot = {
 	{ name = "platinum coin", chance = 100000, maxCount = 12 },
 	{ name = "naga archer scales", chance = 15050, maxCount = 3 },
-	{ name = "naga earring", chance = 12850, maxCount = 3 },
-	{ name = "naga armring", chance = 5960, maxCount = 3 },
+	{ name = "naga earring", chance = 12850, maxCount = 1 },
+	{ name = "naga armring", chance = 5960, maxCount = 1 },
 	{ id = 3007, chance = 5330 }, -- crystal ring
 	{ name = "hunting spear", chance = 3760 },
 	{ name = "crossbow", chance = 3130 },

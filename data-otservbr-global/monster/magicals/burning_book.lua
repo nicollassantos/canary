@@ -74,15 +74,15 @@ monster.voices = {
 
 monster.loot = {
 	{ name = "platinum coin", chance = 61536, maxCount = 35 },
-	{ name = "book page", chance = 49001, maxCount = 7 },
+	{ name = "book page", chance = 49001, maxCount = 4 },
 	{ name = "demonic essence", chance = 18925, maxCount = 5 },
 	{ name = "flask of demonic blood", chance = 41817, maxCount = 3 },
 	{ name = "small amethyst", chance = 5445, maxCount = 7 },
 	{ id = 3307, chance = 4440 }, -- scimitar
-	{ name = "silken bookmark", chance = 19700, maxCount = 2 },
+	{ name = "silken bookmark", chance = 19700, maxCount = 1 },
 	{ name = "magma coat", chance = 11871 },
 	{ name = "guardian shield", chance = 9357 },
-	{ name = "soul orb", chance = 5140, maxCount = 4 },
+	{ name = "soul orb", chance = 5140, maxCount = 1 },
 	{ name = "necrotic rod", chance = 3628 },
 	{ name = "magma monocle", chance = 1500 },
 	{ id = 6299, chance = 2308 }, -- death ring

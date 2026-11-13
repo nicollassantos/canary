@@ -78,7 +78,7 @@ monster.loot = {
 	{ name = "small diamond", chance = 47954, maxCount = 2 },
 	{ name = "great spirit potion", chance = 47466, maxCount = 2 },
 	{ name = "small emerald", chance = 49260, maxCount = 2 },
-	{ name = "small amethyst", chance = 48163, maxCount = 3 },
+	{ name = "small amethyst", chance = 48163, maxCount = 2 },
 	{ name = "assassin star", chance = 29427, maxCount = 10 },
 	{ name = "small ruby", chance = 24256, maxCount = 2 },
 	{ name = "small topaz", chance = 23106, maxCount = 2 },
