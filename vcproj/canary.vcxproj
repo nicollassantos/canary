@@ -134,6 +134,7 @@
     <ClInclude Include="..\src\lib\di\shared.hpp" />
     <ClInclude Include="..\src\lib\di\soft_singleton.hpp" />
     <ClInclude Include="..\src\lib\logging\logger.hpp" />
+    <ClInclude Include="..\src\lib\logging\log_budget.hpp" />
     <ClInclude Include="..\src\lib\logging\log_with_spd_log.hpp" />
     <ClInclude Include="..\src\lib\metrics\metrics.hpp" />
     <ClInclude Include="..\src\lib\thread\thread_pool.hpp" />
@@ -366,6 +367,7 @@
     <ClCompile Include="..\src\kv\kv.cpp" />
     <ClCompile Include="..\src\lib\di\soft_singleton.cpp" />
     <ClCompile Include="..\src\lib\logging\logger.cpp" />
+    <ClCompile Include="..\src\lib\logging\log_budget.cpp" />
     <ClCompile Include="..\src\lib\logging\log_with_spd_log.cpp" />
     <ClCompile Include="..\src\lib\metrics\metrics.cpp" />
     <ClCompile Include="..\src\lib\thread\thread_pool.cpp" />

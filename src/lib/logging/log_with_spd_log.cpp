@@ -9,6 +9,7 @@
 
 #include <spdlog/spdlog.h>
 #include "lib/di/container.hpp"
+#include "lib/logging/log_budget.hpp"
 
 LogWithSpdLog::LogWithSpdLog() {
 	setLevel("info");
@@ -35,18 +36,30 @@ std::string LogWithSpdLog::getLevel() const {
 }
 
 void LogWithSpdLog::info(const std::string &msg) const {
+	if (!log_budget::admit()) {
+		return;
+	}
 	SPDLOG_INFO("{}", msg);
 }
 
 void LogWithSpdLog::warn(const std::string &msg) const {
+	if (!log_budget::admit()) {
+		return;
+	}
 	SPDLOG_WARN("{}", msg);
 }
 
 void LogWithSpdLog::error(const std::string &msg) const {
+	if (!log_budget::admit()) {
+		return;
+	}
 	SPDLOG_ERROR("{}", msg);
 }
 
 void LogWithSpdLog::critical(const std::string &msg) const {
+	if (!log_budget::admit()) {
+		return;
+	}
 	SPDLOG_CRITICAL("{}", msg);
 }
 

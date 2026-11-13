@@ -9,6 +9,7 @@
 
 #pragma once
 
+#include "lib/logging/log_budget.hpp"
 #include "lib/metrics/metrics.hpp"
 
 #ifndef USE_PRECOMPILED_HEADERS
@@ -28,7 +29,8 @@ class Player;
 /// packet count) and `slow_packets_total{opcode}`. Logs: a packet that blocks the dispatcher for
 /// SlowThreshold or more is logged with opcode, player, IP and duration, at most once per
 /// WarningInterval (later ones are counted and reported with the next warning), so a flood
-/// cannot flood the log too.
+/// cannot flood the log too. While the packet is handled, its log lines are limited by
+/// log_budget (a few per packet and per player).
 namespace packet_watch {
 
 	inline constexpr std::chrono::milliseconds SlowThreshold { 50 };
@@ -62,6 +64,7 @@ namespace packet_watch {
 		uint32_t ip;
 		std::chrono::steady_clock::time_point start;
 		metrics::method_latency latency;
+		log_budget::PacketScope logBudget;
 	};
 
 } // namespace packet_watch

@@ -128,6 +128,9 @@ base. Cada regra vem de um defeito explorável por pacote forjado (tabela de cor
   derrubar sessão, revelar versão de client, carregar personagem. Tudo que depende do personagem
   pedido vem depois do `gameWorldAuthentication`. Prova com sockets reais:
   `tools/smoke/login_takeover_check.py`.
+- Log de recusa: uma linha por pacote, nunca uma por elemento de uma lista do pacote (some a
+  contagem e logue uma vez). O `log_budget` corta o excesso dentro de um pacote, mas o que é
+  cortado some do log.
 
 **Lua (datapack):**
 - Texto do cliente nunca é padrão Lua (segundo argumento de `string.match`/`find`/`gmatch`/`gsub`):
@@ -357,6 +360,7 @@ desfazer; se o upstream mexer nessas linhas, reaplique):
 | `src/lua/functions/core/game/game_functions.cpp` `luaGameGetNormalizedPlayerName` | nome vazio ou acima de 30 → `nil`; online pelo mapa de nomes; offline por `g_playerRepository().formatPlayerName` (um `SELECT name`); `isNewName` ignorado (só silenciava o log) | usava `getPlayerByName(nome, true)`: personagem offline carregado inteiro a cada `!transfer`/NPC do banco, e nome inexistente logava `error` com o texto digitado (teste `PlayerNameLookupFunctionsTest`) |
 | `src/lua/functions/core/game/bank_functions.cpp` `luaBankTransfer`, `luaBankTransferToGuild` | `amount == 0` ou saldo insuficiente da origem → `false` **antes** de resolver o destino | o destino por nome passa por `Lua::getPlayer(L, arg, true)`/`getGuild(..., true)` e carregava o personagem offline mesmo quando a transferência não podia acontecer (`!transfer Nome,1` sem dinheiro = 2 loads por mensagem) |
 | `src/lua/creature/talkaction.cpp` `TalkActions::checkWord` | antes do `executeSay`: `TalkActionCooldown::global().admit(*player, OTSYS_TIME())` (`src/lua/creature/talkaction_cooldown.cpp`): 1 talkaction por segundo por player, staff (`isAccessPlayer`) sem limite; recusa consome a palavra, manda "exhausted" e conta `talkaction_requests_throttled` (valor escolhido pelo usuário) | talkactions rodam antes do mute e não tinham intervalo: um client rodava uma por pacote (`!transfer`, `!livestream` grava no banco, `!online` percorre todos) |
+| `src/lib/logging/log_with_spd_log.cpp` `info`/`warn`/`error`/`critical` | `if (!log_budget::admit()) return;` (+ include); orçamento em `src/lib/logging/log_budget.cpp`, aberto pelo `packet_watch::Scope` (membro `logBudget`, fechado antes do aviso de pacote lento): 3 linhas por pacote e 20 por player por minuto; excedente em `packet_log_lines_suppressed{opcode}` e num aviso-resumo a cada 5 s (valores escolhidos pelo usuário) | o log é síncrono no dispatcher; `0x03` da proficiência gerava até 255 `error` por pacote, e nome inexistente em várias rotas gerava `error` com texto do atacante: disco cheio e loop do jogo lento. Linhas fora de um pacote (tarefas agendadas, boot) não são limitadas |
 
 **Banco de dados:** índice novo **nunca** vai em migration numerada (`data-*/migrations/N.lua`) nem
 no `schema.sql`. O upstream numera as migrations, então um número nosso colidiria com o próximo

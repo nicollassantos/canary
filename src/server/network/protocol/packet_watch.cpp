@@ -67,9 +67,12 @@ namespace packet_watch {
 		playerName(player ? player->getName() : "<none>"),
 		ip(ip),
 		start(std::chrono::steady_clock::now()),
-		latency(opcodeLabels()[opcode]) { }
+		latency(opcodeLabels()[opcode]),
+		logBudget(player ? player->getID() : 0, opcode, this->playerName) { }
 
 	Scope::~Scope() {
+		// The slow-packet warning is already rate limited; write it outside the packet's log budget.
+		logBudget.close();
 		const auto now = std::chrono::steady_clock::now();
 		SlowPacketReporter::global().report(opcode, playerName, ip, now - start, now);
 	}
