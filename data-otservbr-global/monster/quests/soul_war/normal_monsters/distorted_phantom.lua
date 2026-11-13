@@ -83,7 +83,7 @@ monster.voices = {
 }
 
 monster.loot = {
-	{ name = "crystal coin", chance = 74920 },
+	{ name = "crystal coin", chance = 57481 },
 	{ name = "great spirit potion", chance = 18830, maxCount = 5 },
 	{ name = "distorted heart", chance = 3357 },
 	{ id = 50150, chance = 1503 }, -- ring of orange plasma

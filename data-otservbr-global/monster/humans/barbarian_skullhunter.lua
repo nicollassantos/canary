@@ -80,7 +80,7 @@ monster.voices = {
 
 monster.loot = {
 	{ id = 2920, chance = 60811 }, -- torch
-	{ name = "gold coin", chance = 8240, maxCount = 30 },
+	{ name = "gold coin", chance = 74934, maxCount = 30 },
 	{ id = 50150, chance = 1360 }, -- ring of orange plasma
 	{ id = 3052, chance = 300 }, -- life ring
 	{ id = 3114, chance = 3000 }, -- skull

@@ -78,8 +78,8 @@ monster.voices = {
 }
 
 monster.loot = {
-	{ id = 3031, chance = 90000, maxCount = 130 }, -- gold coin
-	{ id = 3035, chance = 20000, maxCount = 9 }, -- platinum coin
+	{ name = "gold coin", chance = 70030, maxCount = 100 },
+	{ name = "platinum coin", chance = 53390, maxCount = 6 },
 	{ id = 6558, chance = 21210, maxCount = 3 }, -- flask of demonic blood
 	{ id = 9058, chance = 5448, maxCount = 2 }, -- gold ingot
 	{ id = 238, chance = 14087, maxCount = 5 }, -- great mana potion

@@ -103,7 +103,7 @@ monster.loot = {
 	{ id = 821, chance = 1000 }, -- magma legs
 	{ id = 827, chance = 900 }, -- magma monocle
 	{ id = 7421, chance = 1000 }, -- onyx flail
-	{ id = 3035, chance = 100000, maxCount = 7 }, -- platinum coin
+	{ name = "platinum coin", chance = 79597, maxCount = 2 },
 	{ id = 3039, chance = 4500 }, -- red gem
 	{ id = 6553, chance = 1000 }, -- ruthless axe
 	{ id = 3032, chance = 3457, maxCount = 3 }, -- small emerald

@@ -75,7 +75,7 @@ monster.voices = {
 
 monster.loot = {
 	{ name = "Emerald Tortoise Shell", chance = 28590 },
-	{ name = "Crystal Coin", chance = 15520, minCount = 1, maxCount = 3 },
+	{ name = "crystal coin", chance = 12585, maxCount = 3 },
 	{ name = "Great Spirit Potion", chance = 13360, minCount = 1, maxCount = 2 },
 	{ name = "Blue Crystal Shard", chance = 4030 },
 	{ name = "Green Crystal Fragment", chance = 3950 },

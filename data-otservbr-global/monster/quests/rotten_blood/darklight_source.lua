@@ -72,7 +72,7 @@ monster.light = {
 
 monster.loot = {
 	{ id = 43853, chance = 7230 }, -- darklight core
-	{ name = "crystal coin", chance = 5214, maxCount = 1 },
+	{ name = "crystal coin", chance = 49744 },
 	{ name = "yellow darklight matter", chance = 14638, maxCount = 1 },
 	{ name = "dark obsidian splinter", chance = 8832, maxCount = 1 },
 	{ name = "darklight core", chance = 7570, maxCount = 1 },

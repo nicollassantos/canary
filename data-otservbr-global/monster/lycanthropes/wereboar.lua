@@ -77,8 +77,8 @@ monster.voices = {
 }
 
 monster.loot = {
-	{ id = 3031, chance = 97000, maxCount = 242 }, -- gold coin
-	{ id = 3035, chance = 18200, maxCount = 5 }, -- platinum coin
+	{ name = "platinum coin", chance = 100000, maxCount = 3 },
+	{ name = "gold coin", chance = 79649, maxCount = 75 },
 	{ id = 676, chance = 1515, maxCount = 2 }, -- small enchanted ruby
 	{ id = 3725, chance = 7074, maxCount = 2 }, -- brown mushroom
 	{ id = 7643, chance = 2210 }, -- ultimate health potion

@@ -79,7 +79,7 @@ monster.loot = {
 	{ name = "small amethyst", chance = 7469, maxCount = 5 },
 	{ name = "slime heart", chance = 3000 },
 	{ name = "piece of dead brain", chance = 1098 },
-	{ name = "platinum coin", chance = 100000, maxCount = 29 },
+	{ name = "platinum coin", chance = 75075, maxCount = 29 },
 	{ name = "ultimate health potion", chance = 30261, maxCount = 5 },
 	{ name = "small topaz", chance = 7707, maxCount = 5 },
 	{ name = "small emerald", chance = 7693, maxCount = 5 },

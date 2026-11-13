@@ -159,6 +159,35 @@
    "from": 4100
   },
   {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/amphibics/makara.lua",
+   "monster": "Makara",
+   "item": "money",
+   "entries": [
+    [
+     "platinum coin",
+     100000,
+     1,
+     12
+    ]
+   ],
+   "from": [
+    [
+     "platinum coin",
+     100000,
+     1,
+     18
+    ]
+   ],
+   "source": {
+    "version": "13.22.14242",
+    "kills": 4490,
+    "loot_revid": 1210349,
+    "datapack_money": 950,
+    "wiki_money": 650
+   }
+  },
+  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/amphibics/makara.lua",
    "monster": "Makara",
@@ -1263,6 +1292,35 @@
    }
   },
   {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/birds/headpecker.lua",
+   "monster": "Headpecker",
+   "item": "money",
+   "entries": [
+    [
+     "crystal coin",
+     31541,
+     1,
+     1
+    ]
+   ],
+   "from": [
+    [
+     "crystal coin",
+     35160,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "14.00.7103e2",
+    "kills": 1934,
+    "loot_revid": 1206649,
+    "datapack_money": 3516,
+    "wiki_money": 3154
+   }
+  },
+  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/birds/headpecker.lua",
    "monster": "Headpecker",
@@ -2006,6 +2064,35 @@
    }
   },
   {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/constructs/biting_book.lua",
+   "monster": "Biting Book",
+   "item": "money",
+   "entries": [
+    [
+     "platinum coin",
+     74850,
+     1,
+     46
+    ]
+   ],
+   "from": [
+    [
+     "platinum coin",
+     10000,
+     1,
+     5
+    ]
+   ],
+   "source": {
+    "version": "13.22.14282",
+    "kills": 167,
+    "loot_revid": 1210419,
+    "datapack_money": 30,
+    "wiki_money": 1759
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/constructs/biting_book.lua",
    "monster": "Biting Book",
@@ -2437,6 +2524,47 @@
     "loot_revid": 1213377,
     "evidence": "confirmed by another version",
     "times": 1316
+   }
+  },
+  {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/constructs/glooth_golem.lua",
+   "monster": "Glooth Golem",
+   "item": "money",
+   "entries": [
+    [
+     "gold coin",
+     100000,
+     3,
+     200
+    ],
+    [
+     "platinum coin",
+     59364,
+     1,
+     4
+    ]
+   ],
+   "from": [
+    [
+     "gold coin",
+     100000,
+     1,
+     200
+    ],
+    [
+     "platinum coin",
+     6010,
+     1,
+     4
+    ]
+   ],
+   "source": {
+    "version": "12.31.9471",
+    "kills": 16835,
+    "loot_revid": 1213377,
+    "datapack_money": 116,
+    "wiki_money": 250
    }
   },
   {
@@ -3407,6 +3535,41 @@
    }
   },
   {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/constructs/war_golem.lua",
+   "monster": "War Golem",
+   "item": "money",
+   "entries": [
+    [
+     "gold coin",
+     99556,
+     1,
+     254
+    ]
+   ],
+   "from": [
+    [
+     "gold coin",
+     37500,
+     1,
+     254
+    ],
+    [
+     "gold coin",
+     37500,
+     1,
+     80
+    ]
+   ],
+   "source": {
+    "version": "12.31",
+    "kills": 4053,
+    "loot_revid": 1211906,
+    "datapack_money": 63,
+    "wiki_money": 127
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/constructs/war_golem.lua",
    "monster": "War Golem",
@@ -3517,6 +3680,53 @@
    "from": 1.32,
    "source": {
     "revid": 1191620
+   }
+  },
+  {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/demons/askarak_demon.lua",
+   "monster": "Askarak Demon",
+   "item": "money",
+   "entries": [
+    [
+     "gold coin",
+     95714,
+     2,
+     205
+    ],
+    [
+     "platinum coin",
+     76667,
+     1,
+     3
+    ]
+   ],
+   "from": [
+    [
+     "gold coin",
+     50000,
+     1,
+     205
+    ],
+    [
+     "gold coin",
+     50000,
+     1,
+     100
+    ],
+    [
+     "gold coin",
+     40000,
+     1,
+     35
+    ]
+   ],
+   "source": {
+    "version": "14.11.0fbf6c",
+    "kills": 210,
+    "loot_revid": 1201655,
+    "datapack_money": 84,
+    "wiki_money": 252
    }
   },
   {
@@ -3855,6 +4065,41 @@
    }
   },
   {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/demons/brinebrute_inferniarch.lua",
+   "monster": "Brinebrute Inferniarch",
+   "item": "money",
+   "entries": [
+    [
+     "platinum coin",
+     100000,
+     8,
+     10
+    ],
+    [
+     "crystal coin",
+     17962,
+     1,
+     1
+    ]
+   ],
+   "from": [
+    [
+     "platinum coin",
+     5000,
+     1,
+     40
+    ]
+   ],
+   "source": {
+    "version": "15.24.95dcf3",
+    "kills": 785,
+    "loot_revid": 1212913,
+    "datapack_money": 103,
+    "wiki_money": 2696
+   }
+  },
+  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/demons/brinebrute_inferniarch.lua",
    "monster": "Brinebrute Inferniarch",
@@ -3934,6 +4179,53 @@
    "from": 2.05,
    "source": {
     "revid": 1191687
+   }
+  },
+  {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/demons/dark_torturer.lua",
+   "monster": "Dark Torturer",
+   "item": "money",
+   "entries": [
+    [
+     "gold coin",
+     100000,
+     1,
+     128
+    ],
+    [
+     "platinum coin",
+     15232,
+     1,
+     5
+    ]
+   ],
+   "from": [
+    [
+     "gold coin",
+     50000,
+     1,
+     128
+    ],
+    [
+     "gold coin",
+     40000,
+     1,
+     99
+    ],
+    [
+     "platinum coin",
+     55000,
+     1,
+     8
+    ]
+   ],
+   "source": {
+    "version": "15.32.87b266",
+    "kills": 151,
+    "loot_revid": 1209893,
+    "datapack_money": 300,
+    "wiki_money": 110
    }
   },
   {
@@ -4685,6 +4977,59 @@
    "from": 660
   },
   {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/demons/fury.lua",
+   "monster": "Fury",
+   "item": "money",
+   "entries": [
+    [
+     "gold coin",
+     98826,
+     1,
+     274
+    ],
+    [
+     "platinum coin",
+     2475,
+     1,
+     4
+    ]
+   ],
+   "from": [
+    [
+     "gold coin",
+     30000,
+     1,
+     274
+    ],
+    [
+     "gold coin",
+     30000,
+     1,
+     100
+    ],
+    [
+     "gold coin",
+     38000,
+     1,
+     69
+    ],
+    [
+     "platinum coin",
+     2800,
+     1,
+     4
+    ]
+   ],
+   "source": {
+    "version": "12.31",
+    "kills": 21131,
+    "loot_revid": 1213556,
+    "datapack_money": 77,
+    "wiki_money": 142
+   }
+  },
+  {
    "kind": "element",
    "file": "data-otservbr-global/monster/demons/fury.lua",
    "monster": "Fury",
@@ -5121,6 +5466,47 @@
    "from": 2900
   },
   {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/demons/grimeleech.lua",
+   "monster": "Grimeleech",
+   "item": "money",
+   "entries": [
+    [
+     "platinum coin",
+     45234,
+     1,
+     2
+    ],
+    [
+     "gold coin",
+     44759,
+     1,
+     50
+    ]
+   ],
+   "from": [
+    [
+     "gold coin",
+     100000,
+     1,
+     197
+    ],
+    [
+     "platinum coin",
+     100000,
+     1,
+     8
+    ]
+   ],
+   "source": {
+    "version": "15.32.87b266",
+    "kills": 13050,
+    "loot_revid": 1213549,
+    "datapack_money": 549,
+    "wiki_money": 79
+   }
+  },
+  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/demons/grimeleech.lua",
    "monster": "Grimeleech",
@@ -5144,6 +5530,53 @@
     "times": 2540
    },
    "from": 9570
+  },
+  {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/demons/hellfire_fighter.lua",
+   "monster": "Hellfire Fighter",
+   "item": "money",
+   "entries": [
+    [
+     "gold coin",
+     100000,
+     1,
+     243
+    ],
+    [
+     "platinum coin",
+     1018,
+     1,
+     1
+    ]
+   ],
+   "from": [
+    [
+     "gold coin",
+     50000,
+     1,
+     243
+    ],
+    [
+     "gold coin",
+     40000,
+     1,
+     100
+    ],
+    [
+     "gold coin",
+     10000,
+     1,
+     46
+    ]
+   ],
+   "source": {
+    "version": "12.31",
+    "kills": 24468,
+    "loot_revid": 1213557,
+    "datapack_money": 84,
+    "wiki_money": 123
+   }
   },
   {
    "kind": "max_count",
@@ -5544,6 +5977,47 @@
    "from": 5300
   },
   {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/demons/hellflayer.lua",
+   "monster": "Hellflayer",
+   "item": "money",
+   "entries": [
+    [
+     "gold coin",
+     70030,
+     1,
+     100
+    ],
+    [
+     "platinum coin",
+     53390,
+     1,
+     6
+    ]
+   ],
+   "from": [
+    [
+     "gold coin",
+     90000,
+     1,
+     130
+    ],
+    [
+     "platinum coin",
+     20000,
+     1,
+     9
+    ]
+   ],
+   "source": {
+    "version": "15.32.87b266",
+    "kills": 37374,
+    "loot_revid": 1213558,
+    "datapack_money": 159,
+    "wiki_money": 222
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/demons/hellflayer.lua",
    "monster": "Hellflayer",
@@ -5704,6 +6178,35 @@
     "times": 78
    },
    "from": 4500
+  },
+  {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/demons/hellhound.lua",
+   "monster": "Hellhound",
+   "item": "money",
+   "entries": [
+    [
+     "platinum coin",
+     79597,
+     1,
+     2
+    ]
+   ],
+   "from": [
+    [
+     "platinum coin",
+     100000,
+     1,
+     7
+    ]
+   ],
+   "source": {
+    "version": "15.32.87b266",
+    "kills": 7695,
+    "loot_revid": 1213559,
+    "datapack_money": 400,
+    "wiki_money": 119
+   }
   },
   {
    "kind": "stat",
@@ -5887,6 +6390,35 @@
     "times": 333
    },
    "from": 1500
+  },
+  {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/demons/hellhunter_inferniarch.lua",
+   "monster": "Hellhunter Inferniarch",
+   "item": "money",
+   "entries": [
+    [
+     "platinum coin",
+     100000,
+     1,
+     38
+    ]
+   ],
+   "from": [
+    [
+     "platinum coin",
+     5000,
+     1,
+     38
+    ]
+   ],
+   "source": {
+    "version": "15.24.95dcf3",
+    "kills": 11006,
+    "loot_revid": 1211356,
+    "datapack_money": 98,
+    "wiki_money": 1950
+   }
   },
   {
    "kind": "element",
@@ -6384,6 +6916,65 @@
    "from": 400
   },
   {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/demons/juggernaut.lua",
+   "monster": "Juggernaut",
+   "item": "money",
+   "entries": [
+    [
+     "gold coin",
+     87896,
+     1,
+     198
+    ],
+    [
+     "platinum coin",
+     85816,
+     1,
+     15
+    ]
+   ],
+   "from": [
+    [
+     "gold coin",
+     100000,
+     1,
+     198
+    ],
+    [
+     "gold coin",
+     100000,
+     1,
+     100
+    ],
+    [
+     "gold coin",
+     100000,
+     1,
+     100
+    ],
+    [
+     "gold coin",
+     100000,
+     1,
+     100
+    ],
+    [
+     "platinum coin",
+     100000,
+     1,
+     15
+    ]
+   ],
+   "source": {
+    "version": "12.31.9580",
+    "kills": 4230,
+    "loot_revid": 1212889,
+    "datapack_money": 1051,
+    "wiki_money": 774
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/demons/juggernaut.lua",
    "monster": "Juggernaut",
@@ -6831,6 +7422,59 @@
    "from": 20000
   },
   {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/demons/plaguesmith.lua",
+   "monster": "Plaguesmith",
+   "item": "money",
+   "entries": [
+    [
+     "gold coin",
+     96284,
+     1,
+     266
+    ],
+    [
+     "platinum coin",
+     6026,
+     1,
+     2
+    ]
+   ],
+   "from": [
+    [
+     "gold coin",
+     50000,
+     1,
+     266
+    ],
+    [
+     "gold coin",
+     40000,
+     1,
+     100
+    ],
+    [
+     "gold coin",
+     50000,
+     1,
+     65
+    ],
+    [
+     "platinum coin",
+     7142,
+     1,
+     2
+    ]
+   ],
+   "source": {
+    "version": "12.31.9530",
+    "kills": 11517,
+    "loot_revid": 1210592,
+    "datapack_money": 114,
+    "wiki_money": 138
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/demons/plaguesmith.lua",
    "monster": "Plaguesmith",
@@ -7185,6 +7829,35 @@
    "from": 1500
   },
   {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/demons/spellreaper_inferniarch.lua",
+   "monster": "Spellreaper Inferniarch",
+   "item": "money",
+   "entries": [
+    [
+     "platinum coin",
+     100000,
+     1,
+     37
+    ]
+   ],
+   "from": [
+    [
+     "platinum coin",
+     5000,
+     1,
+     37
+    ]
+   ],
+   "source": {
+    "version": "15.24.95dcf3",
+    "kills": 13314,
+    "loot_revid": 1211397,
+    "datapack_money": 95,
+    "wiki_money": 1900
+   }
+  },
+  {
    "kind": "element",
    "file": "data-otservbr-global/monster/demons/spellreaper_inferniarch.lua",
    "monster": "Spellreaper Inferniarch",
@@ -7262,6 +7935,47 @@
    "from": 620
   },
   {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/demons/true_dawnfire_asura.lua",
+   "monster": "True Dawnfire Asura",
+   "item": "money",
+   "entries": [
+    [
+     "platinum coin",
+     94444,
+     1,
+     3
+    ],
+    [
+     "crystal coin",
+     2516,
+     1,
+     1
+    ]
+   ],
+   "from": [
+    [
+     "platinum coin",
+     100000,
+     1,
+     8
+    ],
+    [
+     "crystal coin",
+     4670,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "15.33.c9e45e",
+    "kills": 954,
+    "loot_revid": 1213057,
+    "datapack_money": 917,
+    "wiki_money": 440
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/demons/true_dawnfire_asura.lua",
    "monster": "True Dawnfire Asura",
@@ -7337,6 +8051,47 @@
     "times": 54
    },
    "from": 12080
+  },
+  {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/demons/true_frost_flower_asura.lua",
+   "monster": "True Frost Flower Asura",
+   "item": "money",
+   "entries": [
+    [
+     "platinum coin",
+     91144,
+     1,
+     3
+    ],
+    [
+     "crystal coin",
+     3321,
+     1,
+     1
+    ]
+   ],
+   "from": [
+    [
+     "crystal coin",
+     7380,
+     1,
+     1
+    ],
+    [
+     "platinum coin",
+     100000,
+     1,
+     8
+    ]
+   ],
+   "source": {
+    "version": "15.33.c9e45e",
+    "kills": 271,
+    "loot_revid": 1213059,
+    "datapack_money": 1188,
+    "wiki_money": 514
+   }
   },
   {
    "kind": "max_count",
@@ -7457,6 +8212,47 @@
     "times": 130
    },
    "from": 10020
+  },
+  {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/demons/true_midnight_asura.lua",
+   "monster": "True Midnight Asura",
+   "item": "money",
+   "entries": [
+    [
+     "platinum coin",
+     81418,
+     1,
+     3
+    ],
+    [
+     "crystal coin",
+     2979,
+     1,
+     1
+    ]
+   ],
+   "from": [
+    [
+     "crystal coin",
+     5760,
+     1,
+     1
+    ],
+    [
+     "platinum coin",
+     100000,
+     1,
+     8
+    ]
+   ],
+   "source": {
+    "version": "15.33.c9e45e",
+    "kills": 705,
+    "loot_revid": 1213061,
+    "datapack_money": 1026,
+    "wiki_money": 461
+   }
   },
   {
    "kind": "max_count",
@@ -7834,6 +8630,41 @@
    }
   },
   {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/demons/vexclaw.lua",
+   "monster": "Vexclaw",
+   "item": "money",
+   "entries": [
+    [
+     "platinum coin",
+     34994,
+     1,
+     2
+    ]
+   ],
+   "from": [
+    [
+     "gold coin",
+     100000,
+     1,
+     200
+    ],
+    [
+     "platinum coin",
+     100000,
+     1,
+     6
+    ]
+   ],
+   "source": {
+    "version": "15.32.87b266",
+    "kills": 41224,
+    "loot_revid": 1213560,
+    "datapack_money": 450,
+    "wiki_money": 52
+   }
+  },
+  {
    "kind": "add_loot",
    "file": "data-otservbr-global/monster/dragons/dragolisk.lua",
    "monster": "Dragolisk",
@@ -7889,6 +8720,35 @@
     "times": 100
    },
    "from": 8260
+  },
+  {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/dragons/dragolisk.lua",
+   "monster": "Dragolisk",
+   "item": "money",
+   "entries": [
+    [
+     "platinum coin",
+     53742,
+     1,
+     29
+    ]
+   ],
+   "from": [
+    [
+     "platinum coin",
+     52610,
+     1,
+     46
+    ]
+   ],
+   "source": {
+    "version": "14.11.0fbf6c",
+    "kills": 2285,
+    "loot_revid": 1204384,
+    "datapack_money": 1236,
+    "wiki_money": 806
+   }
   },
   {
    "kind": "element",
@@ -8389,6 +9249,47 @@
     "times": 1155
    },
    "from": 33330
+  },
+  {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/dragons/elder_wyrm.lua",
+   "monster": "Elder Wyrm",
+   "item": "money",
+   "entries": [
+    [
+     "gold coin",
+     100000,
+     1,
+     178
+    ],
+    [
+     "platinum coin",
+     25450,
+     1,
+     3
+    ]
+   ],
+   "from": [
+    [
+     "gold coin",
+     100000,
+     1,
+     178
+    ],
+    [
+     "platinum coin",
+     52380,
+     1,
+     3
+    ]
+   ],
+   "source": {
+    "version": "15.00.249ccc",
+    "kills": 6550,
+    "loot_revid": 1213439,
+    "datapack_money": 194,
+    "wiki_money": 140
+   }
   },
   {
    "kind": "max_count",
@@ -8980,6 +9881,35 @@
    }
   },
   {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/dragons/war_dragon.lua",
+   "monster": "Wardragon",
+   "item": "money",
+   "entries": [
+    [
+     "platinum coin",
+     53333,
+     1,
+     26
+    ]
+   ],
+   "from": [
+    [
+     "platinum coin",
+     52560,
+     1,
+     45
+    ]
+   ],
+   "source": {
+    "version": "14.11.0fbf6c",
+    "kills": 2115,
+    "loot_revid": 1204645,
+    "datapack_money": 1209,
+    "wiki_money": 720
+   }
+  },
+  {
    "kind": "element",
    "file": "data-otservbr-global/monster/dragons/war_dragon.lua",
    "monster": "Wardragon",
@@ -9293,6 +10223,41 @@
    }
   },
   {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/elementals/energy_elemental.lua",
+   "monster": "Energy Elemental",
+   "item": "money",
+   "entries": [
+    [
+     "gold coin",
+     97678,
+     1,
+     169
+    ]
+   ],
+   "from": [
+    [
+     "gold coin",
+     50000,
+     1,
+     169
+    ],
+    [
+     "gold coin",
+     50000,
+     1,
+     70
+    ]
+   ],
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 1723,
+    "loot_revid": 1212957,
+    "datapack_money": 60,
+    "wiki_money": 83
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/elementals/energy_elemental.lua",
    "monster": "Energy Elemental",
@@ -9398,6 +10363,35 @@
     "loot_revid": 1201813,
     "evidence": "confirmed by another version",
     "times": 3
+   }
+  },
+  {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/elementals/foam_stalker.lua",
+   "monster": "Foam Stalker",
+   "item": "money",
+   "entries": [
+    [
+     "platinum coin",
+     100000,
+     1,
+     16
+    ]
+   ],
+   "from": [
+    [
+     "platinum coin",
+     100000,
+     1,
+     50
+    ]
+   ],
+   "source": {
+    "version": "15.00.249ccc",
+    "kills": 829,
+    "loot_revid": 1201813,
+    "datapack_money": 2550,
+    "wiki_money": 850
    }
   },
   {
@@ -9857,6 +10851,35 @@
    }
   },
   {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/elementals/knowledge_elemental.lua",
+   "monster": "Knowledge Elemental",
+   "item": "money",
+   "entries": [
+    [
+     "platinum coin",
+     70388,
+     1,
+     3
+    ]
+   ],
+   "from": [
+    [
+     "platinum coin",
+     100000,
+     1,
+     9
+    ]
+   ],
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 206,
+    "loot_revid": 1210529,
+    "datapack_money": 500,
+    "wiki_money": 141
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/elementals/knowledge_elemental.lua",
    "monster": "Knowledge Elemental",
@@ -9958,6 +10981,47 @@
    "maxCount": 2
   },
   {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/elementals/massive_earth_elemental.lua",
+   "monster": "Massive Earth Elemental",
+   "item": "money",
+   "entries": [
+    [
+     "gold coin",
+     93515,
+     1,
+     240
+    ]
+   ],
+   "from": [
+    [
+     "gold coin",
+     32000,
+     1,
+     240
+    ],
+    [
+     "gold coin",
+     32000,
+     1,
+     100
+    ],
+    [
+     "gold coin",
+     32000,
+     1,
+     41
+    ]
+   ],
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 1357,
+    "loot_revid": 1209979,
+    "datapack_money": 61,
+    "wiki_money": 113
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/elementals/massive_earth_elemental.lua",
    "monster": "Massive Earth Elemental",
@@ -10023,6 +11087,41 @@
     "loot_revid": 1213002,
     "evidence": "confirmed by another version",
     "times": 27
+   }
+  },
+  {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/elementals/massive_energy_elemental.lua",
+   "monster": "Massive Energy Elemental",
+   "item": "money",
+   "entries": [
+    [
+     "gold coin",
+     99245,
+     6,
+     181
+    ]
+   ],
+   "from": [
+    [
+     "gold coin",
+     50000,
+     1,
+     181
+    ],
+    [
+     "gold coin",
+     50000,
+     1,
+     91
+    ]
+   ],
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 265,
+    "loot_revid": 1213002,
+    "datapack_money": 68,
+    "wiki_money": 93
    }
   },
   {
@@ -10093,6 +11192,53 @@
    "from": 6100
   },
   {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/elementals/massive_fire_elemental.lua",
+   "monster": "Massive Fire Elemental",
+   "item": "money",
+   "entries": [
+    [
+     "gold coin",
+     100000,
+     1,
+     204
+    ],
+    [
+     "platinum coin",
+     14817,
+     1,
+     1
+    ]
+   ],
+   "from": [
+    [
+     "gold coin",
+     50000,
+     1,
+     204
+    ],
+    [
+     "gold coin",
+     25000,
+     1,
+     100
+    ],
+    [
+     "gold coin",
+     25000,
+     1,
+     12
+    ]
+   ],
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 1856,
+    "loot_revid": 1210553,
+    "datapack_money": 66,
+    "wiki_money": 117
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/elementals/massive_fire_elemental.lua",
    "monster": "Massive Fire Elemental",
@@ -10160,6 +11306,47 @@
    }
   },
   {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/elementals/massive_water_elemental.lua",
+   "monster": "Massive Water Elemental",
+   "item": "money",
+   "entries": [
+    [
+     "gold coin",
+     100000,
+     1,
+     100
+    ],
+    [
+     "platinum coin",
+     27538,
+     1,
+     2
+    ]
+   ],
+   "from": [
+    [
+     "gold coin",
+     50000,
+     1,
+     100
+    ],
+    [
+     "platinum coin",
+     20000,
+     1,
+     2
+    ]
+   ],
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 650,
+    "loot_revid": 1209981,
+    "datapack_money": 55,
+    "wiki_money": 92
+   }
+  },
+  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/elementals/massive_water_elemental.lua",
    "monster": "Massive Water Elemental",
@@ -10215,6 +11402,35 @@
     "kills": 1313,
     "loot_revid": 1196183,
     "times": 32
+   }
+  },
+  {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/elementals/sulphur_spouter.lua",
+   "monster": "Sulphur Spouter",
+   "item": "money",
+   "entries": [
+    [
+     "crystal coin",
+     19193,
+     1,
+     2
+    ]
+   ],
+   "from": [
+    [
+     "crystal coin",
+     22310,
+     1,
+     2
+    ]
+   ],
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 1313,
+    "loot_revid": 1196183,
+    "datapack_money": 3346,
+    "wiki_money": 2879
    }
   },
   {
@@ -11615,6 +12831,47 @@
    "from": 9100
   },
   {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/extra_dimensional/sparkion.lua",
+   "monster": "Sparkion",
+   "item": "money",
+   "entries": [
+    [
+     "gold coin",
+     100000,
+     1,
+     100
+    ],
+    [
+     "platinum coin",
+     89887,
+     1,
+     3
+    ]
+   ],
+   "from": [
+    [
+     "gold coin",
+     100000,
+     1,
+     100
+    ],
+    [
+     "platinum coin",
+     20000,
+     1,
+     3
+    ]
+   ],
+   "source": {
+    "version": "15.00.249ccc",
+    "kills": 28152,
+    "loot_revid": 1212229,
+    "datapack_money": 90,
+    "wiki_money": 230
+   }
+  },
+  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/extra_dimensional/sparkion.lua",
    "monster": "Sparkion",
@@ -11734,6 +12991,47 @@
     "times": 13
    },
    "from": 571
+  },
+  {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/extra_dimensional/yielothax.lua",
+   "monster": "Yielothax",
+   "item": "money",
+   "entries": [
+    [
+     "gold coin",
+     99819,
+     1,
+     226
+    ]
+   ],
+   "from": [
+    [
+     "gold coin",
+     50000,
+     1,
+     226
+    ],
+    [
+     "gold coin",
+     50000,
+     1,
+     100
+    ],
+    [
+     "gold coin",
+     50000,
+     1,
+     27
+    ]
+   ],
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 5519,
+    "loot_revid": 1202513,
+    "datapack_money": 89,
+    "wiki_money": 113
+   }
   },
   {
    "kind": "immunity",
@@ -12100,6 +13398,35 @@
     "times": 26
    },
    "from": 92
+  },
+  {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/fey/dark_faun.lua",
+   "monster": "Dark Faun",
+   "item": "money",
+   "entries": [
+    [
+     "gold coin",
+     100000,
+     1,
+     160
+    ]
+   ],
+   "from": [
+    [
+     "gold coin",
+     30000,
+     1,
+     160
+    ]
+   ],
+   "source": {
+    "version": "12.90.12182",
+    "kills": 7262,
+    "loot_revid": 1213366,
+    "datapack_money": 24,
+    "wiki_money": 80
+   }
   },
   {
    "kind": "max_count",
@@ -13369,6 +14696,35 @@
    }
   },
   {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/fey/twisted_pooka.lua",
+   "monster": "Twisted Pooka",
+   "item": "money",
+   "entries": [
+    [
+     "gold coin",
+     100000,
+     1,
+     124
+    ]
+   ],
+   "from": [
+    [
+     "gold coin",
+     30000,
+     1,
+     124
+    ]
+   ],
+   "source": {
+    "version": "12.90.12182",
+    "kills": 3751,
+    "loot_revid": 1213373,
+    "datapack_money": 19,
+    "wiki_money": 62
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/fey/twisted_pooka.lua",
    "monster": "Twisted Pooka",
@@ -13805,6 +15161,35 @@
    "from": 10000
   },
   {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/giants/ogre_rowdy.lua",
+   "monster": "Ogre Rowdy",
+   "item": "money",
+   "entries": [
+    [
+     "platinum coin",
+     77877,
+     1,
+     7
+    ]
+   ],
+   "from": [
+    [
+     "platinum coin",
+     100000,
+     1,
+     7
+    ]
+   ],
+   "source": {
+    "version": "12.20",
+    "kills": 2685,
+    "loot_revid": 1210571,
+    "datapack_money": 400,
+    "wiki_money": 312
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/giants/ogre_rowdy.lua",
    "monster": "Ogre Rowdy",
@@ -14015,6 +15400,35 @@
    }
   },
   {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/giants/ogre_ruffian.lua",
+   "monster": "Ogre Ruffian",
+   "item": "money",
+   "entries": [
+    [
+     "platinum coin",
+     74273,
+     1,
+     4
+    ]
+   ],
+   "from": [
+    [
+     "platinum coin",
+     100000,
+     1,
+     5
+    ]
+   ],
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 929,
+    "loot_revid": 1210572,
+    "datapack_money": 300,
+    "wiki_money": 186
+   }
+  },
+  {
    "kind": "immunity",
    "file": "data-otservbr-global/monster/giants/ogre_ruffian.lua",
    "monster": "Ogre Ruffian",
@@ -14203,6 +15617,35 @@
     "times": 123
    },
    "from": 4550
+  },
+  {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/giants/ogre_sage.lua",
+   "monster": "Ogre Sage",
+   "item": "money",
+   "entries": [
+    [
+     "platinum coin",
+     100000,
+     1,
+     1
+    ]
+   ],
+   "from": [
+    [
+     "platinum coin",
+     100000,
+     1,
+     3
+    ]
+   ],
+   "source": {
+    "version": "12.20",
+    "kills": 1487,
+    "loot_revid": 1207158,
+    "datapack_money": 200,
+    "wiki_money": 100
+   }
   },
   {
    "kind": "stat",
@@ -15802,6 +17245,35 @@
     "times": 90
    },
    "from": 4360
+  },
+  {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/humanoids/insane_siren.lua",
+   "monster": "Insane Siren",
+   "item": "money",
+   "entries": [
+    [
+     "platinum coin",
+     72709,
+     1,
+     12
+    ]
+   ],
+   "from": [
+    [
+     "platinum coin",
+     100000,
+     1,
+     12
+    ]
+   ],
+   "source": {
+    "version": "12.31.9530",
+    "kills": 3393,
+    "loot_revid": 1211668,
+    "datapack_money": 650,
+    "wiki_money": 473
+   }
   },
   {
    "kind": "max_count",
@@ -17891,6 +19363,35 @@
    }
   },
   {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/humans/barbarian_skullhunter.lua",
+   "monster": "Barbarian Skullhunter",
+   "item": "money",
+   "entries": [
+    [
+     "gold coin",
+     74934,
+     1,
+     30
+    ]
+   ],
+   "from": [
+    [
+     "gold coin",
+     8240,
+     1,
+     30
+    ]
+   ],
+   "source": {
+    "version": "15.00.249ccc",
+    "kills": 4560,
+    "loot_revid": 1210289,
+    "datapack_money": 1,
+    "wiki_money": 12
+   }
+  },
+  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/humans/barbarian_skullhunter.lua",
    "monster": "Barbarian Skullhunter",
@@ -18485,6 +19986,35 @@
    "from": 7750
   },
   {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/humans/cobra_assassin.lua",
+   "monster": "Cobra Assassin",
+   "item": "money",
+   "entries": [
+    [
+     "platinum coin",
+     71908,
+     1,
+     9
+    ]
+   ],
+   "from": [
+    [
+     "platinum coin",
+     100000,
+     1,
+     9
+    ]
+   ],
+   "source": {
+    "version": "12.65.10733",
+    "kills": 43916,
+    "loot_revid": 1209633,
+    "datapack_money": 500,
+    "wiki_money": 360
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/humans/cobra_assassin.lua",
    "monster": "Cobra Assassin",
@@ -18703,6 +20233,35 @@
    "from": 2420
   },
   {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/humans/cobra_vizier.lua",
+   "monster": "Cobra Vizier",
+   "item": "money",
+   "entries": [
+    [
+     "platinum coin",
+     71434,
+     1,
+     4
+    ]
+   ],
+   "from": [
+    [
+     "platinum coin",
+     85480,
+     1,
+     4
+    ]
+   ],
+   "source": {
+    "version": "12.65.10733",
+    "kills": 17738,
+    "loot_revid": 1204362,
+    "datapack_money": 214,
+    "wiki_money": 179
+   }
+  },
+  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/humans/cobra_vizier.lua",
    "monster": "Cobra Vizier",
@@ -18773,6 +20332,35 @@
     "times": 382
    },
    "from": 17490
+  },
+  {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/humans/dark_carnisylvan.lua",
+   "monster": "Dark Carnisylvan",
+   "item": "money",
+   "entries": [
+    [
+     "platinum coin",
+     100000,
+     1,
+     23
+    ]
+   ],
+   "from": [
+    [
+     "platinum coin",
+     70000,
+     1,
+     23
+    ]
+   ],
+   "source": {
+    "version": "12.85.11525",
+    "kills": 2603,
+    "loot_revid": 1209889,
+    "datapack_money": 840,
+    "wiki_money": 1200
+   }
   },
   {
    "kind": "max_count",
@@ -19453,6 +21041,35 @@
     "times": 93
    },
    "from": 6280
+  },
+  {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/humans/poisonous_carnisylvan.lua",
+   "monster": "Poisonous Carnisylvan",
+   "item": "money",
+   "entries": [
+    [
+     "platinum coin",
+     95188,
+     1,
+     17
+    ]
+   ],
+   "from": [
+    [
+     "platinum coin",
+     70000,
+     1,
+     17
+    ]
+   ],
+   "source": {
+    "version": "12.85.11525",
+    "kills": 2660,
+    "loot_revid": 1210015,
+    "datapack_money": 630,
+    "wiki_money": 857
+   }
   },
   {
    "kind": "max_count",
@@ -20667,6 +22284,47 @@
    "from": 200
   },
   {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/lycanthropes/werebadger.lua",
+   "monster": "Werebadger",
+   "item": "money",
+   "entries": [
+    [
+     "platinum coin",
+     100000,
+     1,
+     3
+    ],
+    [
+     "gold coin",
+     79960,
+     1,
+     75
+    ]
+   ],
+   "from": [
+    [
+     "gold coin",
+     97000,
+     1,
+     242
+    ],
+    [
+     "platinum coin",
+     18200,
+     1,
+     5
+    ]
+   ],
+   "source": {
+    "version": "12.90.12182",
+    "kills": 12959,
+    "loot_revid": 1212562,
+    "datapack_money": 172,
+    "wiki_money": 230
+   }
+  },
+  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/lycanthropes/werebadger.lua",
    "monster": "Werebadger",
@@ -20881,6 +22539,47 @@
    }
   },
   {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/lycanthropes/werebear.lua",
+   "monster": "Werebear",
+   "item": "money",
+   "entries": [
+    [
+     "platinum coin",
+     100000,
+     1,
+     3
+    ],
+    [
+     "gold coin",
+     79647,
+     1,
+     100
+    ]
+   ],
+   "from": [
+    [
+     "gold coin",
+     97000,
+     1,
+     242
+    ],
+    [
+     "platinum coin",
+     18200,
+     1,
+     5
+    ]
+   ],
+   "source": {
+    "version": "12.90.12182",
+    "kills": 6230,
+    "loot_revid": 1212563,
+    "datapack_money": 172,
+    "wiki_money": 240
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/lycanthropes/werebear.lua",
    "monster": "Werebear",
@@ -21060,6 +22759,47 @@
     "times": 71
    },
    "from": 200
+  },
+  {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/lycanthropes/wereboar.lua",
+   "monster": "Wereboar",
+   "item": "money",
+   "entries": [
+    [
+     "platinum coin",
+     100000,
+     1,
+     3
+    ],
+    [
+     "gold coin",
+     79649,
+     1,
+     75
+    ]
+   ],
+   "from": [
+    [
+     "gold coin",
+     97000,
+     1,
+     242
+    ],
+    [
+     "platinum coin",
+     18200,
+     1,
+     5
+    ]
+   ],
+   "source": {
+    "version": "12.90.12182",
+    "kills": 9174,
+    "loot_revid": 1212564,
+    "datapack_money": 172,
+    "wiki_money": 230
+   }
   },
   {
    "kind": "max_count",
@@ -21324,6 +23064,47 @@
     "loot_revid": 1212565,
     "evidence": "confirmed by another version",
     "times": 66
+   }
+  },
+  {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/lycanthropes/werefox.lua",
+   "monster": "Werefox",
+   "item": "money",
+   "entries": [
+    [
+     "platinum coin",
+     90003,
+     1,
+     4
+    ],
+    [
+     "gold coin",
+     85322,
+     1,
+     85
+    ]
+   ],
+   "from": [
+    [
+     "gold coin",
+     405000,
+     1,
+     200
+    ],
+    [
+     "platinum coin",
+     4050,
+     1,
+     4
+    ]
+   ],
+   "source": {
+    "version": "12.90.12182",
+    "kills": 11023,
+    "loot_revid": 1212565,
+    "datapack_money": 111,
+    "wiki_money": 262
    }
   },
   {
@@ -21737,6 +23518,35 @@
    "from": 1500
   },
   {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/lycanthropes/werelion.lua",
+   "monster": "Werelion",
+   "item": "money",
+   "entries": [
+    [
+     "platinum coin",
+     84061,
+     1,
+     4
+    ]
+   ],
+   "from": [
+    [
+     "platinum coin",
+     100000,
+     1,
+     5
+    ]
+   ],
+   "source": {
+    "version": "13.22.14282",
+    "kills": 7692,
+    "loot_revid": 1213067,
+    "datapack_money": 300,
+    "wiki_money": 210
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/lycanthropes/werelion.lua",
    "monster": "Werelion",
@@ -22011,6 +23821,47 @@
     "times": 216
    },
    "from": 1500
+  },
+  {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/lycanthropes/werelioness.lua",
+   "monster": "Werelioness",
+   "item": "money",
+   "entries": [
+    [
+     "gold coin",
+     87851,
+     1,
+     99
+    ],
+    [
+     "platinum coin",
+     79979,
+     1,
+     7
+    ]
+   ],
+   "from": [
+    [
+     "platinum coin",
+     100000,
+     1,
+     7
+    ],
+    [
+     "gold coin",
+     100000,
+     1,
+     99
+    ]
+   ],
+   "source": {
+    "version": "13.22.14282",
+    "kills": 7647,
+    "loot_revid": 1213068,
+    "datapack_money": 450,
+    "wiki_money": 364
+   }
   },
   {
    "kind": "max_count",
@@ -22508,6 +24359,35 @@
    "from": 8700
   },
   {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/magicals/animated_feather.lua",
+   "monster": "Animated Feather",
+   "item": "money",
+   "entries": [
+    [
+     "platinum coin",
+     77431,
+     1,
+     21
+    ]
+   ],
+   "from": [
+    [
+     "platinum coin",
+     87000,
+     1,
+     50
+    ]
+   ],
+   "source": {
+    "version": "12.31.9580",
+    "kills": 11711,
+    "loot_revid": 1206935,
+    "datapack_money": 2218,
+    "wiki_money": 852
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/magicals/animated_feather.lua",
    "monster": "Animated Feather",
@@ -22945,6 +24825,35 @@
    "from": 17800
   },
   {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/magicals/arachnophobica.lua",
+   "monster": "Arachnophobica",
+   "item": "money",
+   "entries": [
+    [
+     "platinum coin",
+     81353,
+     1,
+     13
+    ]
+   ],
+   "from": [
+    [
+     "platinum coin",
+     100000,
+     1,
+     14
+    ]
+   ],
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 24695,
+    "loot_revid": 1211849,
+    "datapack_money": 750,
+    "wiki_money": 569
+   }
+  },
+  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/magicals/arachnophobica.lua",
    "monster": "Arachnophobica",
@@ -23033,6 +24942,35 @@
     "times": 219
    },
    "from": 2950
+  },
+  {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/magicals/bashmu.lua",
+   "monster": "Bashmu",
+   "item": "money",
+   "entries": [
+    [
+     "platinum coin",
+     70477,
+     1,
+     19
+    ]
+   ],
+   "from": [
+    [
+     "platinum coin",
+     69350,
+     1,
+     24
+    ]
+   ],
+   "source": {
+    "version": "12.71.11017",
+    "kills": 5616,
+    "loot_revid": 1213547,
+    "datapack_money": 867,
+    "wiki_money": 705
+   }
   },
   {
    "kind": "stat",
@@ -23457,6 +25395,35 @@
    "from": 1200
   },
   {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/magicals/brain_squid.lua",
+   "monster": "Brain Squid",
+   "item": "money",
+   "entries": [
+    [
+     "platinum coin",
+     76057,
+     1,
+     20
+    ]
+   ],
+   "from": [
+    [
+     "platinum coin",
+     100000,
+     1,
+     20
+    ]
+   ],
+   "source": {
+    "version": "12.31.9530",
+    "kills": 7856,
+    "loot_revid": 1204337,
+    "datapack_money": 1050,
+    "wiki_money": 799
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/magicals/brain_squid.lua",
    "monster": "Brain Squid",
@@ -23719,6 +25686,35 @@
     "times": 317
    },
    "from": 1800
+  },
+  {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/magicals/burning_book.lua",
+   "monster": "Burning Book",
+   "item": "money",
+   "entries": [
+    [
+     "platinum coin",
+     61536,
+     1,
+     35
+    ]
+   ],
+   "from": [
+    [
+     "platinum coin",
+     89960,
+     1,
+     35
+    ]
+   ],
+   "source": {
+    "version": "12.31.9530",
+    "kills": 41285,
+    "loot_revid": 1210426,
+    "datapack_money": 1619,
+    "wiki_money": 1108
+   }
   },
   {
    "kind": "max_count",
@@ -24036,6 +26032,41 @@
    "from": 3500
   },
   {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/magicals/choking_fear.lua",
+   "monster": "Choking Fear",
+   "item": "money",
+   "entries": [
+    [
+     "platinum coin",
+     87727,
+     2,
+     4
+    ]
+   ],
+   "from": [
+    [
+     "gold coin",
+     100000,
+     1,
+     100
+    ],
+    [
+     "platinum coin",
+     100000,
+     1,
+     8
+    ]
+   ],
+   "source": {
+    "version": "15.32.87b266",
+    "kills": 9598,
+    "loot_revid": 1213416,
+    "datapack_money": 500,
+    "wiki_money": 263
+   }
+  },
+  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/magicals/choking_fear.lua",
    "monster": "Choking Fear",
@@ -24143,6 +26174,35 @@
     "times": 2179
    },
    "from": 8680
+  },
+  {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/magicals/crypt_warden.lua",
+   "monster": "Crypt Warden",
+   "item": "money",
+   "entries": [
+    [
+     "platinum coin",
+     89949,
+     1,
+     6
+    ]
+   ],
+   "from": [
+    [
+     "platinum coin",
+     100000,
+     1,
+     6
+    ]
+   ],
+   "source": {
+    "version": "12.31.9580",
+    "kills": 22167,
+    "loot_revid": 1212493,
+    "datapack_money": 350,
+    "wiki_money": 315
+   }
   },
   {
    "kind": "max_count",
@@ -24383,6 +26443,35 @@
    "from": 250
   },
   {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/magicals/cursed_book.lua",
+   "monster": "Cursed Book",
+   "item": "money",
+   "entries": [
+    [
+     "platinum coin",
+     75655,
+     1,
+     15
+    ]
+   ],
+   "from": [
+    [
+     "platinum coin",
+     10000,
+     1,
+     15
+    ]
+   ],
+   "source": {
+    "version": "12.31.9530",
+    "kills": 4350,
+    "loot_revid": 1196775,
+    "datapack_money": 80,
+    "wiki_money": 605
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/magicals/cursed_book.lua",
    "monster": "Cursed Book",
@@ -24620,6 +26709,35 @@
     "loot_revid": 1210476,
     "evidence": "confirmed by another version",
     "times": 5
+   }
+  },
+  {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/magicals/energetic_book.lua",
+   "monster": "Energetic Book",
+   "item": "money",
+   "entries": [
+    [
+     "platinum coin",
+     79082,
+     1,
+     28
+    ]
+   ],
+   "from": [
+    [
+     "platinum coin",
+     100000,
+     1,
+     28
+    ]
+   ],
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 196,
+    "loot_revid": 1210476,
+    "datapack_money": 1450,
+    "wiki_money": 1147
    }
   },
   {
@@ -25526,6 +27644,47 @@
    "from": 3200
   },
   {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/magicals/frazzlemaw.lua",
+   "monster": "Frazzlemaw",
+   "item": "money",
+   "entries": [
+    [
+     "platinum coin",
+     90798,
+     1,
+     7
+    ],
+    [
+     "gold coin",
+     79713,
+     1,
+     100
+    ]
+   ],
+   "from": [
+    [
+     "gold coin",
+     100000,
+     1,
+     100
+    ],
+    [
+     "platinum coin",
+     100000,
+     1,
+     7
+    ]
+   ],
+   "source": {
+    "version": "12.31.9530",
+    "kills": 11574,
+    "loot_revid": 1213417,
+    "datapack_money": 450,
+    "wiki_money": 403
+   }
+  },
+  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/magicals/frazzlemaw.lua",
    "monster": "Frazzlemaw",
@@ -25600,6 +27759,35 @@
    "from": 0.38,
    "source": {
     "revid": 1192002
+   }
+  },
+  {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/magicals/girtablilu_warrior.lua",
+   "monster": "Girtablilu Warrior",
+   "item": "money",
+   "entries": [
+    [
+     "platinum coin",
+     73019,
+     1,
+     16
+    ]
+   ],
+   "from": [
+    [
+     "platinum coin",
+     70000,
+     1,
+     25
+    ]
+   ],
+   "source": {
+    "version": "13.14.13163",
+    "kills": 997,
+    "loot_revid": 1206752,
+    "datapack_money": 910,
+    "wiki_money": 621
    }
   },
   {
@@ -25852,6 +28040,35 @@
     "loot_revid": 1207071,
     "evidence": "single large sample",
     "times": 683
+   }
+  },
+  {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/magicals/guardian_of_tales.lua",
+   "monster": "Guardian of Tales",
+   "item": "money",
+   "entries": [
+    [
+     "platinum coin",
+     85676,
+     1,
+     32
+    ]
+   ],
+   "from": [
+    [
+     "platinum coin",
+     10000,
+     1,
+     32
+    ]
+   ],
+   "source": {
+    "version": "12.31.9530",
+    "kills": 7833,
+    "loot_revid": 1207071,
+    "datapack_money": 165,
+    "wiki_money": 1414
    }
   },
   {
@@ -26157,6 +28374,47 @@
     "times": 411
    },
    "from": 10400
+  },
+  {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/magicals/guzzlemaw.lua",
+   "monster": "Guzzlemaw",
+   "item": "money",
+   "entries": [
+    [
+     "platinum coin",
+     88042,
+     1,
+     7
+    ],
+    [
+     "gold coin",
+     74781,
+     1,
+     100
+    ]
+   ],
+   "from": [
+    [
+     "gold coin",
+     100000,
+     1,
+     100
+    ],
+    [
+     "platinum coin",
+     100000,
+     1,
+     7
+    ]
+   ],
+   "source": {
+    "version": "12.31.9530",
+    "kills": 4683,
+    "loot_revid": 1213418,
+    "datapack_money": 450,
+    "wiki_money": 390
+   }
   },
   {
    "kind": "stat",
@@ -26475,6 +28733,35 @@
     "times": 2915
    },
    "from": 100000
+  },
+  {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/magicals/icecold_book.lua",
+   "monster": "Icecold Book",
+   "item": "money",
+   "entries": [
+    [
+     "platinum coin",
+     91147,
+     1,
+     5
+    ]
+   ],
+   "from": [
+    [
+     "platinum coin",
+     100000,
+     1,
+     8
+    ]
+   ],
+   "source": {
+    "version": "12.31.9580",
+    "kills": 13780,
+    "loot_revid": 1207086,
+    "datapack_money": 450,
+    "wiki_money": 273
+   }
   },
   {
    "kind": "max_count",
@@ -27056,6 +29343,53 @@
    "from": 9090
   },
   {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/magicals/nightmare.lua",
+   "monster": "Nightmare",
+   "item": "money",
+   "entries": [
+    [
+     "gold coin",
+     97263,
+     1,
+     155
+    ],
+    [
+     "platinum coin",
+     2560,
+     1,
+     3
+    ]
+   ],
+   "from": [
+    [
+     "gold coin",
+     50000,
+     1,
+     155
+    ],
+    [
+     "gold coin",
+     50000,
+     1,
+     55
+    ],
+    [
+     "platinum coin",
+     2564,
+     1,
+     3
+    ]
+   ],
+   "source": {
+    "version": "12.31",
+    "kills": 9571,
+    "loot_revid": 1211884,
+    "datapack_money": 58,
+    "wiki_money": 81
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/magicals/nightmare.lua",
    "monster": "Nightmare",
@@ -27500,6 +29834,35 @@
    "from": 10000
   },
   {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/magicals/rage_squid.lua",
+   "monster": "Rage Squid",
+   "item": "money",
+   "entries": [
+    [
+     "platinum coin",
+     75075,
+     1,
+     29
+    ]
+   ],
+   "from": [
+    [
+     "platinum coin",
+     100000,
+     1,
+     29
+    ]
+   ],
+   "source": {
+    "version": "12.31.9530",
+    "kills": 42725,
+    "loot_revid": 1210600,
+    "datapack_money": 1500,
+    "wiki_money": 1126
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/magicals/rage_squid.lua",
    "monster": "Rage Squid",
@@ -27730,6 +30093,41 @@
     "times": 105
    },
    "from": 1800
+  },
+  {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/magicals/retching_horror.lua",
+   "monster": "Retching Horror",
+   "item": "money",
+   "entries": [
+    [
+     "platinum coin",
+     92179,
+     1,
+     5
+    ]
+   ],
+   "from": [
+    [
+     "gold coin",
+     100000,
+     1,
+     100
+    ],
+    [
+     "platinum coin",
+     100000,
+     1,
+     9
+    ]
+   ],
+   "source": {
+    "version": "15.32.87b266",
+    "kills": 8158,
+    "loot_revid": 1213082,
+    "datapack_money": 550,
+    "wiki_money": 277
+   }
   },
   {
    "kind": "element",
@@ -28370,6 +30768,35 @@
    "from": 10003
   },
   {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/magicals/squid_warden.lua",
+   "monster": "Squid Warden",
+   "item": "money",
+   "entries": [
+    [
+     "platinum coin",
+     50388,
+     1,
+     50
+    ]
+   ],
+   "from": [
+    [
+     "platinum coin",
+     11000,
+     1,
+     57
+    ]
+   ],
+   "source": {
+    "version": "12.31.9580",
+    "kills": 11584,
+    "loot_revid": 1207234,
+    "datapack_money": 319,
+    "wiki_money": 1285
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/magicals/squid_warden.lua",
    "monster": "Squid Warden",
@@ -28835,6 +31262,35 @@
     "loot_revid": 1211670,
     "evidence": "single large sample",
     "times": 303
+   }
+  },
+  {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/magicals/thanatursus.lua",
+   "monster": "Thanatursus",
+   "item": "money",
+   "entries": [
+    [
+     "platinum coin",
+     100000,
+     1,
+     12
+    ]
+   ],
+   "from": [
+    [
+     "platinum coin",
+     100000,
+     1,
+     17
+    ]
+   ],
+   "source": {
+    "version": "12.00",
+    "kills": 10165,
+    "loot_revid": 1211670,
+    "datapack_money": 900,
+    "wiki_money": 650
    }
   },
   {
@@ -29374,6 +31830,35 @@
    "by_id": true
   },
   {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/mammals/gore_horn.lua",
+   "monster": "Gore Horn",
+   "item": "money",
+   "entries": [
+    [
+     "crystal coin",
+     20294,
+     1,
+     1
+    ]
+   ],
+   "from": [
+    [
+     "crystal coin",
+     30050,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "14.00.7103e2",
+    "kills": 340,
+    "loot_revid": 1204443,
+    "datapack_money": 3005,
+    "wiki_money": 2029
+   }
+  },
+  {
    "kind": "element",
    "file": "data-otservbr-global/monster/mammals/gore_horn.lua",
    "monster": "Gore Horn",
@@ -29437,6 +31922,35 @@
    "from": 2.28,
    "source": {
     "revid": 1197342
+   }
+  },
+  {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/mammals/gorerilla.lua",
+   "monster": "Gorerilla",
+   "item": "money",
+   "entries": [
+    [
+     "crystal coin",
+     15294,
+     1,
+     2
+    ]
+   ],
+   "from": [
+    [
+     "crystal coin",
+     20700,
+     1,
+     2
+    ]
+   ],
+   "source": {
+    "version": "14.00.7103e2",
+    "kills": 170,
+    "loot_revid": 1204444,
+    "datapack_money": 3105,
+    "wiki_money": 2294
    }
   },
   {
@@ -29693,6 +32207,35 @@
     "times": 153
    },
    "from": 3980
+  },
+  {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/mammals/nighthunter.lua",
+   "monster": "Nighthunter",
+   "item": "money",
+   "entries": [
+    [
+     "crystal coin",
+     28943,
+     1,
+     1
+    ]
+   ],
+   "from": [
+    [
+     "crystal coin",
+     34190,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "14.00.7103e2",
+    "kills": 2885,
+    "loot_revid": 1196117,
+    "datapack_money": 3419,
+    "wiki_money": 2894
+   }
   },
   {
    "kind": "element",
@@ -30805,6 +33348,53 @@
    }
   },
   {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/plants/rootthing_amber_shaper.lua",
+   "monster": "Rootthing Amber Shaper",
+   "item": "money",
+   "entries": [
+    [
+     "platinum coin",
+     65957,
+     1,
+     40
+    ],
+    [
+     "crystal coin",
+     1330,
+     1,
+     1
+    ]
+   ],
+   "from": [
+    [
+     "gold coin",
+     100000,
+     1,
+     200
+    ],
+    [
+     "platinum coin",
+     88010,
+     1,
+     40
+    ],
+    [
+     "crystal coin",
+     2560,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "13.40.e15431",
+    "kills": 376,
+    "loot_revid": 1210607,
+    "datapack_money": 2161,
+    "wiki_money": 1485
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/plants/rootthing_amber_shaper.lua",
    "monster": "Rootthing Amber Shaper",
@@ -30888,6 +33478,35 @@
    }
   },
   {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/plants/rootthing_nutshell.lua",
+   "monster": "Rootthing Nutshell",
+   "item": "money",
+   "entries": [
+    [
+     "platinum coin",
+     75269,
+     1,
+     45
+    ]
+   ],
+   "from": [
+    [
+     "platinum coin",
+     88000,
+     1,
+     45
+    ]
+   ],
+   "source": {
+    "version": "15.11.dd3523",
+    "kills": 279,
+    "loot_revid": 1210609,
+    "datapack_money": 2024,
+    "wiki_money": 1731
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/plants/rootthing_nutshell.lua",
    "monster": "Rootthing Nutshell",
@@ -30959,6 +33578,35 @@
    "from": 0.86,
    "source": {
     "revid": 1192116
+   }
+  },
+  {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/plants/stalking_stalk.lua",
+   "monster": "Stalking Stalk",
+   "item": "money",
+   "entries": [
+    [
+     "crystal coin",
+     12727,
+     1,
+     3
+    ]
+   ],
+   "from": [
+    [
+     "crystal coin",
+     16570,
+     1,
+     3
+    ]
+   ],
+   "source": {
+    "version": "14.00.7103e2",
+    "kills": 1375,
+    "loot_revid": 1196177,
+    "datapack_money": 3314,
+    "wiki_money": 2545
    }
   },
   {
@@ -32199,6 +34847,35 @@
    "maxCount": 2
   },
   {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/quests/cults_of_tibia/misguided_bully.lua",
+   "monster": "Misguided Bully",
+   "item": "money",
+   "entries": [
+    [
+     "gold coin",
+     84058,
+     3,
+     144
+    ]
+   ],
+   "from": [
+    [
+     "gold coin",
+     100000,
+     1,
+     153
+    ]
+   ],
+   "source": {
+    "version": "15.25.bd5a04",
+    "kills": 207,
+    "loot_revid": 1206058,
+    "datapack_money": 77,
+    "wiki_money": 62
+   }
+  },
+  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/quests/cults_of_tibia/misguided_bully.lua",
    "monster": "Misguided Bully",
@@ -33001,6 +35678,47 @@
    "from": 46100
   },
   {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/quests/ferumbras_ascension/bosses/the_shatterer.lua",
+   "monster": "The Shatterer",
+   "item": "money",
+   "entries": [
+    [
+     "gold coin",
+     100000,
+     1,
+     199
+    ],
+    [
+     "platinum coin",
+     99713,
+     1,
+     19
+    ]
+   ],
+   "from": [
+    [
+     "platinum coin",
+     8000,
+     1,
+     19
+    ],
+    [
+     "gold coin",
+     30000,
+     1,
+     200
+    ]
+   ],
+   "source": {
+    "version": "12.86.11580",
+    "kills": 348,
+    "loot_revid": 1126232,
+    "datapack_money": 110,
+    "wiki_money": 1097
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/quests/ferumbras_ascension/bosses/the_shatterer.lua",
    "monster": "The Shatterer",
@@ -33692,6 +36410,35 @@
    }
   },
   {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/quests/rotten_blood/bloated_man-maggot.lua",
+   "monster": "Bloated Man-Maggot",
+   "item": "money",
+   "entries": [
+    [
+     "crystal coin",
+     55154,
+     1,
+     1
+    ]
+   ],
+   "from": [
+    [
+     "crystal coin",
+     12961,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "15.32.87b266",
+    "kills": 553,
+    "loot_revid": 1206607,
+    "datapack_money": 1296,
+    "wiki_money": 5515
+   }
+  },
+  {
    "kind": "immunity",
    "file": "data-otservbr-global/monster/quests/rotten_blood/bloated_man-maggot.lua",
    "monster": "Bloated Man-Maggot",
@@ -33873,6 +36620,35 @@
    }
   },
   {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/quests/rotten_blood/converter.lua",
+   "monster": "Converter",
+   "item": "money",
+   "entries": [
+    [
+     "crystal coin",
+     60961,
+     1,
+     1
+    ]
+   ],
+   "from": [
+    [
+     "crystal coin",
+     5230,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 1373,
+    "loot_revid": 1198885,
+    "datapack_money": 523,
+    "wiki_money": 6096
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/quests/rotten_blood/converter.lua",
    "monster": "Converter",
@@ -34011,6 +36787,35 @@
    }
   },
   {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/quests/rotten_blood/darklight_construct.lua",
+   "monster": "Darklight Construct",
+   "item": "money",
+   "entries": [
+    [
+     "crystal coin",
+     61520,
+     1,
+     1
+    ]
+   ],
+   "from": [
+    [
+     "crystal coin",
+     11290,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "13.22.14242",
+    "kills": 829,
+    "loot_revid": 1198886,
+    "datapack_money": 1129,
+    "wiki_money": 6152
+   }
+  },
+  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/quests/rotten_blood/darklight_construct.lua",
    "monster": "Darklight Construct",
@@ -34105,6 +36910,35 @@
     "loot_revid": 1198887,
     "times": 9,
     "evidence": "large gap (8574 -> 568), wiki is the source of truth"
+   }
+  },
+  {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/quests/rotten_blood/darklight_emitter.lua",
+   "monster": "Darklight Emitter",
+   "item": "money",
+   "entries": [
+    [
+     "crystal coin",
+     58144,
+     1,
+     1
+    ]
+   ],
+   "from": [
+    [
+     "crystal coin",
+     12516,
+     1,
+     2
+    ]
+   ],
+   "source": {
+    "version": "13.22.14242",
+    "kills": 1584,
+    "loot_revid": 1198887,
+    "datapack_money": 1877,
+    "wiki_money": 5814
    }
   },
   {
@@ -34219,6 +37053,35 @@
     "loot_revid": 1197278,
     "evidence": "confirmed by another version",
     "times": 45
+   }
+  },
+  {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/quests/rotten_blood/darklight_matter.lua",
+   "monster": "Darklight Matter",
+   "item": "money",
+   "entries": [
+    [
+     "crystal coin",
+     49554,
+     1,
+     1
+    ]
+   ],
+   "from": [
+    [
+     "crystal coin",
+     11755,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "14.00.7103e2",
+    "kills": 7182,
+    "loot_revid": 1197278,
+    "datapack_money": 1176,
+    "wiki_money": 4955
    }
   },
   {
@@ -34368,6 +37231,35 @@
    "from": 9397
   },
   {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/quests/rotten_blood/darklight_source.lua",
+   "monster": "Darklight Source",
+   "item": "money",
+   "entries": [
+    [
+     "crystal coin",
+     49744,
+     1,
+     1
+    ]
+   ],
+   "from": [
+    [
+     "crystal coin",
+     5214,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "14.00.7103e2",
+    "kills": 4495,
+    "loot_revid": 1197279,
+    "datapack_money": 521,
+    "wiki_money": 4974
+   }
+  },
+  {
    "kind": "element",
    "file": "data-otservbr-global/monster/quests/rotten_blood/darklight_source.lua",
    "monster": "Darklight Source",
@@ -34489,6 +37381,35 @@
    }
   },
   {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/quests/rotten_blood/darklight_striker.lua",
+   "monster": "Darklight Striker",
+   "item": "money",
+   "entries": [
+    [
+     "crystal coin",
+     49293,
+     1,
+     1
+    ]
+   ],
+   "from": [
+    [
+     "crystal coin",
+     14380,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "14.00.7103e2",
+    "kills": 8348,
+    "loot_revid": 1197280,
+    "datapack_money": 1438,
+    "wiki_money": 4929
+   }
+  },
+  {
    "kind": "element",
    "file": "data-otservbr-global/monster/quests/rotten_blood/darklight_striker.lua",
    "monster": "Darklight Striker",
@@ -34593,6 +37514,35 @@
     "times": 15
    },
    "from": 13520
+  },
+  {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/quests/rotten_blood/meandering_mushroom.lua",
+   "monster": "Meandering Mushroom",
+   "item": "money",
+   "entries": [
+    [
+     "crystal coin",
+     52713,
+     1,
+     1
+    ]
+   ],
+   "from": [
+    [
+     "crystal coin",
+     11755,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "14.00.7103e2",
+    "kills": 387,
+    "loot_revid": 1195222,
+    "datapack_money": 1176,
+    "wiki_money": 5271
+   }
   },
   {
    "kind": "immunity",
@@ -34790,6 +37740,35 @@
    }
   },
   {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/quests/rotten_blood/mycobiontic_beetle.lua",
+   "monster": "Mycobiontic Beetle",
+   "item": "money",
+   "entries": [
+    [
+     "crystal coin",
+     48729,
+     1,
+     1
+    ]
+   ],
+   "from": [
+    [
+     "crystal coin",
+     15540,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "15.32.87b266",
+    "kills": 669,
+    "loot_revid": 1206608,
+    "datapack_money": 1554,
+    "wiki_money": 4873
+   }
+  },
+  {
    "kind": "element",
    "file": "data-otservbr-global/monster/quests/rotten_blood/mycobiontic_beetle.lua",
    "monster": "Mycobiontic Beetle",
@@ -34920,6 +37899,35 @@
     "times": 27
    },
    "from": 8634
+  },
+  {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/quests/rotten_blood/oozing_carcass.lua",
+   "monster": "Oozing Carcass",
+   "item": "money",
+   "entries": [
+    [
+     "crystal coin",
+     42175,
+     1,
+     1
+    ]
+   ],
+   "from": [
+    [
+     "crystal coin",
+     9000,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 607,
+    "loot_revid": 1195223,
+    "datapack_money": 900,
+    "wiki_money": 4218
+   }
   },
   {
    "kind": "max_count",
@@ -35089,6 +38097,35 @@
    "from": 7270
   },
   {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/quests/rotten_blood/oozing_corpus.lua",
+   "monster": "Oozing Corpus",
+   "item": "money",
+   "entries": [
+    [
+     "crystal coin",
+     49497,
+     1,
+     1
+    ]
+   ],
+   "from": [
+    [
+     "crystal coin",
+     9000,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "15.32.87b266",
+    "kills": 796,
+    "loot_revid": 1206609,
+    "datapack_money": 900,
+    "wiki_money": 4950
+   }
+  },
+  {
    "kind": "element",
    "file": "data-otservbr-global/monster/quests/rotten_blood/oozing_corpus.lua",
    "monster": "Oozing Corpus",
@@ -35150,6 +38187,35 @@
     "times": 12
    },
    "from": 14371
+  },
+  {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/quests/rotten_blood/rotten_man-maggot.lua",
+   "monster": "Rotten Man-Maggot",
+   "item": "money",
+   "entries": [
+    [
+     "crystal coin",
+     44713,
+     1,
+     1
+    ]
+   ],
+   "from": [
+    [
+     "crystal coin",
+     10340,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "14.00.7103e2",
+    "kills": 331,
+    "loot_revid": 1195224,
+    "datapack_money": 1034,
+    "wiki_money": 4471
+   }
   },
   {
    "kind": "immunity",
@@ -35300,6 +38366,28 @@
     "kills": 338,
     "loot_revid": 1195225,
     "times": 18
+   }
+  },
+  {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/quests/rotten_blood/sopping_carcass.lua",
+   "monster": "Sopping Carcass",
+   "item": "money",
+   "entries": [
+    [
+     "crystal coin",
+     50592,
+     1,
+     1
+    ]
+   ],
+   "from": [],
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 338,
+    "loot_revid": 1195225,
+    "datapack_money": 0,
+    "wiki_money": 5059
    }
   },
   {
@@ -35623,6 +38711,35 @@
    "from": 5354
   },
   {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/quests/rotten_blood/walking_pillar.lua",
+   "monster": "Walking Pillar",
+   "item": "money",
+   "entries": [
+    [
+     "crystal coin",
+     49110,
+     1,
+     1
+    ]
+   ],
+   "from": [
+    [
+     "crystal coin",
+     12186,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "14.00.7103e2",
+    "kills": 5561,
+    "loot_revid": 1196726,
+    "datapack_money": 1219,
+    "wiki_money": 4911
+   }
+  },
+  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/quests/rotten_blood/walking_pillar.lua",
    "monster": "Walking Pillar",
@@ -35761,6 +38878,35 @@
     "times": 54
    },
    "from": 9915
+  },
+  {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/quests/rotten_blood/wandering_pillar.lua",
+   "monster": "Wandering Pillar",
+   "item": "money",
+   "entries": [
+    [
+     "crystal coin",
+     56428,
+     1,
+     1
+    ]
+   ],
+   "from": [
+    [
+     "crystal coin",
+     6629,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "13.22.14242",
+    "kills": 1159,
+    "loot_revid": 1198897,
+    "datapack_money": 663,
+    "wiki_money": 5643
+   }
   },
   {
    "kind": "element",
@@ -35960,6 +39106,35 @@
    "from": 4420
   },
   {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/quests/soul_war/normal_monsters/bony_sea_devil.lua",
+   "monster": "Bony Sea Devil",
+   "item": "money",
+   "entries": [
+    [
+     "crystal coin",
+     43389,
+     1,
+     1
+    ]
+   ],
+   "from": [
+    [
+     "crystal coin",
+     59290,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "15.32.fc9100",
+    "kills": 537,
+    "loot_revid": 1199845,
+    "datapack_money": 5929,
+    "wiki_money": 4339
+   }
+  },
+  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/quests/soul_war/normal_monsters/bony_sea_devil.lua",
    "monster": "Bony Sea Devil",
@@ -36008,6 +39183,35 @@
     "times": 595
    },
    "from": 29110
+  },
+  {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/quests/soul_war/normal_monsters/brachiodemon.lua",
+   "monster": "Brachiodemon",
+   "item": "money",
+   "entries": [
+    [
+     "crystal coin",
+     42146,
+     1,
+     1
+    ]
+   ],
+   "from": [
+    [
+     "crystal coin",
+     58990,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "15.11.b91244",
+    "kills": 2432,
+    "loot_revid": 1204336,
+    "datapack_money": 5899,
+    "wiki_money": 4215
+   }
   },
   {
    "kind": "stat",
@@ -36111,6 +39315,35 @@
     "times": 534
    },
    "from": 61410
+  },
+  {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/quests/soul_war/normal_monsters/capricious_phantom.lua",
+   "monster": "Capricious Phantom",
+   "item": "money",
+   "entries": [
+    [
+     "crystal coin",
+     45998,
+     1,
+     1
+    ]
+   ],
+   "from": [
+    [
+     "crystal coin",
+     77650,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "15.32.fc9100",
+    "kills": 1237,
+    "loot_revid": 1199846,
+    "datapack_money": 7765,
+    "wiki_money": 4600
+   }
   },
   {
    "kind": "stat",
@@ -36290,6 +39523,35 @@
    "from": 4820
   },
   {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/quests/soul_war/normal_monsters/distorted_phantom.lua",
+   "monster": "Distorted Phantom",
+   "item": "money",
+   "entries": [
+    [
+     "crystal coin",
+     57481,
+     1,
+     1
+    ]
+   ],
+   "from": [
+    [
+     "crystal coin",
+     74920,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "15.00.249ccc",
+    "kills": 3128,
+    "loot_revid": 1212308,
+    "datapack_money": 7492,
+    "wiki_money": 5748
+   }
+  },
+  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/quests/soul_war/normal_monsters/distorted_phantom.lua",
    "monster": "Distorted Phantom",
@@ -36355,6 +39617,35 @@
     "times": 296
    },
    "from": 17540
+  },
+  {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/quests/soul_war/normal_monsters/druid's_apparition.lua",
+   "monster": "Druid's Apparition",
+   "item": "money",
+   "entries": [
+    [
+     "crystal coin",
+     57847,
+     1,
+     1
+    ]
+   ],
+   "from": [
+    [
+     "crystal coin",
+     80700,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 2090,
+    "loot_revid": 1212309,
+    "datapack_money": 8070,
+    "wiki_money": 5785
+   }
   },
   {
    "kind": "stat",
@@ -36614,6 +39905,35 @@
    "from": 1190
   },
   {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/quests/soul_war/normal_monsters/furious_crater/courage_leech.lua",
+   "monster": "Courage Leech",
+   "item": "money",
+   "entries": [
+    [
+     "crystal coin",
+     60119,
+     1,
+     1
+    ]
+   ],
+   "from": [
+    [
+     "crystal coin",
+     70910,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "12.66.10866",
+    "kills": 9892,
+    "loot_revid": 1193553,
+    "datapack_money": 7091,
+    "wiki_money": 6012
+   }
+  },
+  {
    "kind": "element",
    "file": "data-otservbr-global/monster/quests/soul_war/normal_monsters/furious_crater/courage_leech.lua",
    "monster": "Courage Leech",
@@ -36734,6 +40054,35 @@
    "from": 6450
   },
   {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/quests/soul_war/normal_monsters/furious_crater/vibrant_phantom.lua",
+   "monster": "Vibrant Phantom",
+   "item": "money",
+   "entries": [
+    [
+     "crystal coin",
+     55894,
+     1,
+     1
+    ]
+   ],
+   "from": [
+    [
+     "crystal coin",
+     66670,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 2231,
+    "loot_revid": 1193661,
+    "datapack_money": 6667,
+    "wiki_money": 5589
+   }
+  },
+  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/quests/soul_war/normal_monsters/furious_crater/vibrant_phantom.lua",
    "monster": "Vibrant Phantom",
@@ -36742,6 +40091,35 @@
    "from": 2.45,
    "source": {
     "revid": 1192236
+   }
+  },
+  {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/quests/soul_war/normal_monsters/infernal_demon.lua",
+   "monster": "Infernal Demon",
+   "item": "money",
+   "entries": [
+    [
+     "crystal coin",
+     49167,
+     1,
+     1
+    ]
+   ],
+   "from": [
+    [
+     "crystal coin",
+     64000,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "15.11.b91244",
+    "kills": 240,
+    "loot_revid": 1197827,
+    "datapack_money": 6400,
+    "wiki_money": 4917
    }
   },
   {
@@ -36767,6 +40145,35 @@
     "kills": 191,
     "loot_revid": 1197828,
     "times": 7
+   }
+  },
+  {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/quests/soul_war/normal_monsters/infernal_phantom.lua",
+   "monster": "Infernal Phantom",
+   "item": "money",
+   "entries": [
+    [
+     "crystal coin",
+     46073,
+     1,
+     1
+    ]
+   ],
+   "from": [
+    [
+     "crystal coin",
+     61900,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "15.11.b91244",
+    "kills": 191,
+    "loot_revid": 1197828,
+    "datapack_money": 6190,
+    "wiki_money": 4607
    }
   },
   {
@@ -36807,6 +40214,35 @@
     "times": 38
    },
    "from": 3860
+  },
+  {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/quests/soul_war/normal_monsters/knight's_apparition.lua",
+   "monster": "Knight's Apparition",
+   "item": "money",
+   "entries": [
+    [
+     "crystal coin",
+     58060,
+     1,
+     1
+    ]
+   ],
+   "from": [
+    [
+     "crystal coin",
+     76610,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 2072,
+    "loot_revid": 1212310,
+    "datapack_money": 7661,
+    "wiki_money": 5806
+   }
   },
   {
    "kind": "stat",
@@ -36999,6 +40435,35 @@
    "from": 5100
   },
   {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/quests/soul_war/normal_monsters/many_faces.lua",
+   "monster": "Many Faces",
+   "item": "money",
+   "entries": [
+    [
+     "crystal coin",
+     55780,
+     1,
+     1
+    ]
+   ],
+   "from": [
+    [
+     "crystal coin",
+     76710,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "12.66.10866",
+    "kills": 10407,
+    "loot_revid": 1212314,
+    "datapack_money": 7671,
+    "wiki_money": 5578
+   }
+  },
+  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/quests/soul_war/normal_monsters/many_faces.lua",
    "monster": "Many Faces",
@@ -37096,6 +40561,35 @@
    "from": 1560
   },
   {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/quests/soul_war/normal_monsters/paladin's_apparition.lua",
+   "monster": "Paladin's Apparition",
+   "item": "money",
+   "entries": [
+    [
+     "crystal coin",
+     60445,
+     1,
+     1
+    ]
+   ],
+   "from": [
+    [
+     "crystal coin",
+     81310,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 2202,
+    "loot_revid": 1212312,
+    "datapack_money": 8131,
+    "wiki_money": 6044
+   }
+  },
+  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/quests/soul_war/normal_monsters/paladin's_apparition.lua",
    "monster": "Paladin's Apparition",
@@ -37130,6 +40624,35 @@
     "times": 652
    },
    "from": 31180
+  },
+  {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/quests/soul_war/normal_monsters/rotten_golem.lua",
+   "monster": "Rotten Golem",
+   "item": "money",
+   "entries": [
+    [
+     "crystal coin",
+     54160,
+     1,
+     1
+    ]
+   ],
+   "from": [
+    [
+     "crystal coin",
+     60590,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "13.15.13186",
+    "kills": 2356,
+    "loot_revid": 1193645,
+    "datapack_money": 6059,
+    "wiki_money": 5416
+   }
   },
   {
    "kind": "stat",
@@ -37239,6 +40762,35 @@
    "from": 4370
   },
   {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/quests/soul_war/normal_monsters/sorcerer's_apparition.lua",
+   "monster": "Sorcerer's Apparition",
+   "item": "money",
+   "entries": [
+    [
+     "crystal coin",
+     56102,
+     1,
+     1
+    ]
+   ],
+   "from": [
+    [
+     "crystal coin",
+     79040,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 1729,
+    "loot_revid": 1212313,
+    "datapack_money": 7904,
+    "wiki_money": 5610
+   }
+  },
+  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/quests/soul_war/normal_monsters/sorcerer's_apparition.lua",
    "monster": "Sorcerer's Apparition",
@@ -37343,6 +40895,35 @@
     "times": 242
    },
    "from": 17300
+  },
+  {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/quests/soul_war/normal_monsters/turbulent_elemental.lua",
+   "monster": "Turbulent Elemental",
+   "item": "money",
+   "entries": [
+    [
+     "crystal coin",
+     42314,
+     1,
+     1
+    ]
+   ],
+   "from": [
+    [
+     "crystal coin",
+     74880,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "15.32.fc9100",
+    "kills": 1815,
+    "loot_revid": 1199857,
+    "datapack_money": 7488,
+    "wiki_money": 4231
+   }
   },
   {
    "kind": "stat",
@@ -39138,6 +42719,35 @@
    }
   },
   {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/reptiles/crape_man.lua",
+   "monster": "Crape Man",
+   "item": "money",
+   "entries": [
+    [
+     "platinum coin",
+     49686,
+     1,
+     8
+    ]
+   ],
+   "from": [
+    [
+     "platinum coin",
+     71540,
+     1,
+     25
+    ]
+   ],
+   "source": {
+    "version": "15.32.87b266",
+    "kills": 159,
+    "loot_revid": 1212039,
+    "datapack_money": 930,
+    "wiki_money": 224
+   }
+  },
+  {
    "kind": "element",
    "file": "data-otservbr-global/monster/reptiles/crape_man.lua",
    "monster": "Crape Man",
@@ -39179,6 +42789,35 @@
    "from": 2000,
    "source": {
     "revid": 1065864
+   }
+  },
+  {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/reptiles/emerald_tortoise.lua",
+   "monster": "Emerald Tortoise",
+   "item": "money",
+   "entries": [
+    [
+     "crystal coin",
+     12585,
+     1,
+     3
+    ]
+   ],
+   "from": [
+    [
+     "crystal coin",
+     15520,
+     1,
+     3
+    ]
+   ],
+   "source": {
+    "version": "14.00.7103e2",
+    "kills": 294,
+    "loot_revid": 1204400,
+    "datapack_money": 3104,
+    "wiki_money": 2517
    }
   },
   {
@@ -39349,6 +42988,59 @@
     "times": 377
    },
    "from": 5350
+  },
+  {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/reptiles/lizard_chosen.lua",
+   "monster": "Lizard Chosen",
+   "item": "money",
+   "entries": [
+    [
+     "gold coin",
+     97825,
+     1,
+     227
+    ],
+    [
+     "platinum coin",
+     2996,
+     1,
+     5
+    ]
+   ],
+   "from": [
+    [
+     "gold coin",
+     33000,
+     1,
+     227
+    ],
+    [
+     "gold coin",
+     32000,
+     1,
+     100
+    ],
+    [
+     "gold coin",
+     32000,
+     1,
+     36
+    ],
+    [
+     "platinum coin",
+     2920,
+     1,
+     5
+    ]
+   ],
+   "source": {
+    "version": "15.00.249ccc",
+    "kills": 5608,
+    "loot_revid": 1212689,
+    "datapack_money": 68,
+    "wiki_money": 121
+   }
   },
   {
    "kind": "max_count",
@@ -39617,6 +43309,35 @@
    }
   },
   {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/reptiles/mantosaurus.lua",
+   "monster": "Mantosaurus",
+   "item": "money",
+   "entries": [
+    [
+     "crystal coin",
+     22423,
+     1,
+     2
+    ]
+   ],
+   "from": [
+    [
+     "crystal coin",
+     25640,
+     1,
+     2
+    ]
+   ],
+   "source": {
+    "version": "14.00.7103e2",
+    "kills": 2212,
+    "loot_revid": 1206651,
+    "datapack_money": 3846,
+    "wiki_money": 3363
+   }
+  },
+  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/reptiles/mantosaurus.lua",
    "monster": "Mantosaurus",
@@ -39636,6 +43357,35 @@
    "from": 1.79,
    "source": {
     "revid": 1192160
+   }
+  },
+  {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/reptiles/mercurial_menace.lua",
+   "monster": "Mercurial Menace",
+   "item": "money",
+   "entries": [
+    [
+     "crystal coin",
+     22032,
+     1,
+     2
+    ]
+   ],
+   "from": [
+    [
+     "crystal coin",
+     24890,
+     1,
+     2
+    ]
+   ],
+   "source": {
+    "version": "14.00.7103e2",
+    "kills": 817,
+    "loot_revid": 1206652,
+    "datapack_money": 3734,
+    "wiki_money": 3305
    }
   },
   {
@@ -39703,6 +43453,35 @@
    "from": 310
   },
   {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/reptiles/naga_archer.lua",
+   "monster": "Naga Archer",
+   "item": "money",
+   "entries": [
+    [
+     "platinum coin",
+     100000,
+     1,
+     12
+    ]
+   ],
+   "from": [
+    [
+     "platinum coin",
+     100000,
+     1,
+     17
+    ]
+   ],
+   "source": {
+    "version": "13.22.14242",
+    "kills": 3102,
+    "loot_revid": 1210351,
+    "datapack_money": 900,
+    "wiki_money": 650
+   }
+  },
+  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/reptiles/naga_archer.lua",
    "monster": "Naga Archer",
@@ -39767,6 +43546,35 @@
    "from": 3730
   },
   {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/reptiles/naga_warrior.lua",
+   "monster": "Naga Warrior",
+   "item": "money",
+   "entries": [
+    [
+     "platinum coin",
+     100000,
+     1,
+     11
+    ]
+   ],
+   "from": [
+    [
+     "platinum coin",
+     100000,
+     1,
+     20
+    ]
+   ],
+   "source": {
+    "version": "13.22.14242",
+    "kills": 5578,
+    "loot_revid": 1210352,
+    "datapack_money": 1050,
+    "wiki_money": 600
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/reptiles/naga_warrior.lua",
    "monster": "Naga Warrior",
@@ -39799,6 +43607,35 @@
    "from": 2.19,
    "source": {
     "revid": 1192157
+   }
+  },
+  {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/reptiles/noxious_ripptor.lua",
+   "monster": "Noxious Ripptor",
+   "item": "money",
+   "entries": [
+    [
+     "crystal coin",
+     22313,
+     1,
+     2
+    ]
+   ],
+   "from": [
+    [
+     "crystal coin",
+     26770,
+     1,
+     2
+    ]
+   ],
+   "source": {
+    "version": "14.00.7103e2",
+    "kills": 2075,
+    "loot_revid": 1206653,
+    "datapack_money": 4015,
+    "wiki_money": 3347
    }
   },
   {
@@ -39838,6 +43675,35 @@
     "times": 6
    },
    "from": 1200
+  },
+  {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/reptiles/rhindeer.lua",
+   "monster": "Rhindeer",
+   "item": "money",
+   "entries": [
+    [
+     "platinum coin",
+     73134,
+     1,
+     10
+    ]
+   ],
+   "from": [
+    [
+     "platinum coin",
+     72260,
+     1,
+     30
+    ]
+   ],
+   "source": {
+    "version": "15.32.87b266",
+    "kills": 134,
+    "loot_revid": 1212042,
+    "datapack_money": 1120,
+    "wiki_money": 402
+   }
   },
   {
    "kind": "max_count",
@@ -40437,6 +44303,41 @@
    }
   },
   {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/reptiles/young_sea_serpent.lua",
+   "monster": "Young Sea Serpent",
+   "item": "money",
+   "entries": [
+    [
+     "gold coin",
+     98247,
+     1,
+     174
+    ]
+   ],
+   "from": [
+    [
+     "gold coin",
+     50000,
+     1,
+     174
+    ],
+    [
+     "gold coin",
+     48000,
+     1,
+     74
+    ]
+   ],
+   "source": {
+    "version": "12.15.8659",
+    "kills": 10153,
+    "loot_revid": 1211307,
+    "datapack_money": 62,
+    "wiki_money": 86
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/reptiles/young_sea_serpent.lua",
    "monster": "Young Sea Serpent",
@@ -40765,6 +44666,47 @@
    "from": 1090
   },
   {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/slimes/devourer.lua",
+   "monster": "Devourer",
+   "item": "money",
+   "entries": [
+    [
+     "gold coin",
+     99403,
+     1,
+     165
+    ],
+    [
+     "platinum coin",
+     55596,
+     1,
+     2
+    ]
+   ],
+   "from": [
+    [
+     "gold coin",
+     100000,
+     1,
+     165
+    ],
+    [
+     "platinum coin",
+     9100,
+     1,
+     2
+    ]
+   ],
+   "source": {
+    "version": "12.31",
+    "kills": 20613,
+    "loot_revid": 1212871,
+    "datapack_money": 97,
+    "wiki_money": 166
+   }
+  },
+  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/slimes/devourer.lua",
    "monster": "Devourer",
@@ -40931,6 +44873,35 @@
     "times": 101
    },
    "from": 650
+  },
+  {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/slimes/ink_blob.lua",
+   "monster": "Ink Blob",
+   "item": "money",
+   "entries": [
+    [
+     "platinum coin",
+     75460,
+     1,
+     25
+    ]
+   ],
+   "from": [
+    [
+     "platinum coin",
+     120000,
+     1,
+     4
+    ]
+   ],
+   "source": {
+    "version": "12.31.9530",
+    "kills": 3529,
+    "loot_revid": 1210523,
+    "datapack_money": 250,
+    "wiki_money": 981
+   }
   },
   {
    "kind": "max_count",
@@ -41510,6 +45481,35 @@
    }
   },
   {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/undeads/bonebeast.lua",
+   "monster": "Bonebeast",
+   "item": "money",
+   "entries": [
+    [
+     "gold coin",
+     28782,
+     1,
+     90
+    ]
+   ],
+   "from": [
+    [
+     "gold coin",
+     50000,
+     1,
+     90
+    ]
+   ],
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 7039,
+    "loot_revid": 1212910,
+    "datapack_money": 23,
+    "wiki_money": 13
+   }
+  },
+  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/undeads/bonebeast.lua",
    "monster": "Bonebeast",
@@ -41781,6 +45781,35 @@
    "from": 11050
   },
   {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/undeads/burster_spectre.lua",
+   "monster": "Burster Spectre",
+   "item": "money",
+   "entries": [
+    [
+     "platinum coin",
+     75096,
+     1,
+     7
+    ]
+   ],
+   "from": [
+    [
+     "platinum coin",
+     100000,
+     1,
+     7
+    ]
+   ],
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 26963,
+    "loot_revid": 1206475,
+    "datapack_money": 400,
+    "wiki_money": 300
+   }
+  },
+  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/undeads/burster_spectre.lua",
    "monster": "Burster Spectre",
@@ -41843,6 +45872,47 @@
     "kills": 3537,
     "loot_revid": 1212769,
     "times": 23
+   }
+  },
+  {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/undeads/cursed_ape.lua",
+   "monster": "Cursed Ape",
+   "item": "money",
+   "entries": [
+    [
+     "gold coin",
+     60758,
+     1,
+     100
+    ],
+    [
+     "platinum coin",
+     46961,
+     1,
+     2
+    ]
+   ],
+   "from": [
+    [
+     "gold coin",
+     96120,
+     1,
+     100
+    ],
+    [
+     "platinum coin",
+     96120,
+     1,
+     2
+    ]
+   ],
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 3537,
+    "loot_revid": 1212769,
+    "datapack_money": 193,
+    "wiki_money": 101
    }
   },
   {
@@ -41951,6 +46021,35 @@
    "from": 2.4,
    "source": {
     "revid": 1192233
+   }
+  },
+  {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/undeads/death_priest.lua",
+   "monster": "Death Priest",
+   "item": "money",
+   "entries": [
+    [
+     "gold coin",
+     81000,
+     3,
+     143
+    ]
+   ],
+   "from": [
+    [
+     "gold coin",
+     70000,
+     1,
+     144
+    ]
+   ],
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 100,
+    "loot_revid": 1173670,
+    "datapack_money": 51,
+    "wiki_money": 59
    }
   },
   {
@@ -42595,6 +46694,35 @@
    "from": 3800
   },
   {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/undeads/freakish_lost_soul.lua",
+   "monster": "Freakish Lost Soul",
+   "item": "money",
+   "entries": [
+    [
+     "platinum coin",
+     100000,
+     1,
+     5
+    ]
+   ],
+   "from": [
+    [
+     "platinum coin",
+     10000,
+     1,
+     5
+    ]
+   ],
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 2295,
+    "loot_revid": 1208099,
+    "datapack_money": 30,
+    "wiki_money": 300
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/undeads/freakish_lost_soul.lua",
    "monster": "Freakish Lost Soul",
@@ -42802,6 +46930,35 @@
    "from": 3000
   },
   {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/undeads/gazer_spectre.lua",
+   "monster": "Gazer Spectre",
+   "item": "money",
+   "entries": [
+    [
+     "platinum coin",
+     74308,
+     1,
+     5
+    ]
+   ],
+   "from": [
+    [
+     "platinum coin",
+     100000,
+     1,
+     5
+    ]
+   ],
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 10408,
+    "loot_revid": 1208303,
+    "datapack_money": 300,
+    "wiki_money": 223
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/undeads/gazer_spectre.lua",
    "monster": "Gazer Spectre",
@@ -42901,6 +47058,41 @@
     "kills": 164,
     "loot_revid": 1201845,
     "times": 6
+   }
+  },
+  {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/undeads/grave_guard.lua",
+   "monster": "Grave Guard",
+   "item": "money",
+   "entries": [
+    [
+     "gold coin",
+     93902,
+     2,
+     121
+    ]
+   ],
+   "from": [
+    [
+     "gold coin",
+     50000,
+     1,
+     121
+    ],
+    [
+     "gold coin",
+     50000,
+     1,
+     30
+    ]
+   ],
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 164,
+    "loot_revid": 1201845,
+    "datapack_money": 38,
+    "wiki_money": 58
    }
   },
   {
@@ -43218,6 +47410,47 @@
    }
   },
   {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/undeads/iks_aucar.lua",
+   "monster": "Iks Aucar",
+   "item": "money",
+   "entries": [
+    [
+     "gold coin",
+     100000,
+     1,
+     110
+    ],
+    [
+     "platinum coin",
+     42683,
+     1,
+     5
+    ]
+   ],
+   "from": [
+    [
+     "gold coin",
+     100000,
+     1,
+     110
+    ],
+    [
+     "platinum coin",
+     100000,
+     1,
+     5
+    ]
+   ],
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 6799,
+    "loot_revid": 1212770,
+    "datapack_money": 356,
+    "wiki_money": 184
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/undeads/iks_aucar.lua",
    "monster": "Iks Aucar",
@@ -43291,6 +47524,47 @@
     "kills": 6069,
     "loot_revid": 1212771,
     "times": 29
+   }
+  },
+  {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/undeads/iks_chuka.lua",
+   "monster": "Iks Chuka",
+   "item": "money",
+   "entries": [
+    [
+     "gold coin",
+     86456,
+     1,
+     100
+    ],
+    [
+     "platinum coin",
+     40221,
+     1,
+     4
+    ]
+   ],
+   "from": [
+    [
+     "gold coin",
+     100000,
+     1,
+     100
+    ],
+    [
+     "platinum coin",
+     100000,
+     1,
+     4
+    ]
+   ],
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 6069,
+    "loot_revid": 1212771,
+    "datapack_money": 300,
+    "wiki_money": 144
    }
   },
   {
@@ -43464,6 +47738,47 @@
    "from": 960
   },
   {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/undeads/iks_pututu.lua",
+   "monster": "Iks Pututu",
+   "item": "money",
+   "entries": [
+    [
+     "gold coin",
+     78663,
+     1,
+     100
+    ],
+    [
+     "platinum coin",
+     39420,
+     1,
+     4
+    ]
+   ],
+   "from": [
+    [
+     "gold coin",
+     100000,
+     1,
+     100
+    ],
+    [
+     "platinum coin",
+     100000,
+     1,
+     4
+    ]
+   ],
+   "source": {
+    "version": "15.00.249ccc",
+    "kills": 4518,
+    "loot_revid": 1212772,
+    "datapack_money": 300,
+    "wiki_money": 138
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/undeads/iks_pututu.lua",
    "monster": "Iks Pututu",
@@ -43537,6 +47852,47 @@
     "kills": 4802,
     "loot_revid": 1210218,
     "times": 662
+   }
+  },
+  {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/undeads/iks_yapunac.lua",
+   "monster": "Iks Yapunac",
+   "item": "money",
+   "entries": [
+    [
+     "platinum coin",
+     54602,
+     1,
+     10
+    ],
+    [
+     "gold coin",
+     19554,
+     1,
+     50
+    ]
+   ],
+   "from": [
+    [
+     "platinum coin",
+     100000,
+     1,
+     10
+    ],
+    [
+     "gold coin",
+     100000,
+     1,
+     50
+    ]
+   ],
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 4802,
+    "loot_revid": 1210218,
+    "datapack_money": 576,
+    "wiki_money": 305
    }
   },
   {
@@ -43709,6 +48065,35 @@
     "times": 40
    },
    "from": 730
+  },
+  {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/undeads/mean_lost_soul.lua",
+   "monster": "Mean Lost Soul",
+   "item": "money",
+   "entries": [
+    [
+     "platinum coin",
+     72097,
+     1,
+     1
+    ]
+   ],
+   "from": [
+    [
+     "platinum coin",
+     56040,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 3118,
+    "loot_revid": 1208101,
+    "datapack_money": 56,
+    "wiki_money": 72
+   }
   },
   {
    "kind": "stat",
@@ -44060,6 +48445,35 @@
    "from": 16500
   },
   {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/undeads/ripper_spectre.lua",
+   "monster": "Ripper Spectre",
+   "item": "money",
+   "entries": [
+    [
+     "platinum coin",
+     74281,
+     1,
+     4
+    ]
+   ],
+   "from": [
+    [
+     "platinum coin",
+     100000,
+     1,
+     5
+    ]
+   ],
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 10222,
+    "loot_revid": 1211386,
+    "datapack_money": 300,
+    "wiki_money": 186
+   }
+  },
+  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/undeads/ripper_spectre.lua",
    "monster": "Ripper Spectre",
@@ -44350,6 +48764,35 @@
    "from": 2630
   },
   {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/undeads/skeleton_elite_warrior.lua",
+   "monster": "Skeleton Elite Warrior",
+   "item": "money",
+   "entries": [
+    [
+     "platinum coin",
+     100000,
+     1,
+     15
+    ]
+   ],
+   "from": [
+    [
+     "platinum coin",
+     43500,
+     1,
+     15
+    ]
+   ],
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 1883,
+    "loot_revid": 1212611,
+    "datapack_money": 348,
+    "wiki_money": 800
+   }
+  },
+  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/undeads/skeleton_elite_warrior.lua",
    "monster": "Skeleton Elite Warrior",
@@ -44397,6 +48840,53 @@
    }
   },
   {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/undeads/souleater.lua",
+   "monster": "Souleater",
+   "item": "money",
+   "entries": [
+    [
+     "gold coin",
+     87252,
+     1,
+     197
+    ],
+    [
+     "platinum coin",
+     50259,
+     1,
+     6
+    ]
+   ],
+   "from": [
+    [
+     "gold coin",
+     33400,
+     1,
+     197
+    ],
+    [
+     "gold coin",
+     33400,
+     1,
+     100
+    ],
+    [
+     "platinum coin",
+     49610,
+     1,
+     6
+    ]
+   ],
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 4628,
+    "loot_revid": 1210033,
+    "datapack_money": 224,
+    "wiki_money": 262
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/undeads/souleater.lua",
    "monster": "Souleater",
@@ -44418,6 +48908,59 @@
    "from": 0.51,
    "source": {
     "revid": 1192310
+   }
+  },
+  {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/undeads/spectre.lua",
+   "monster": "Spectre",
+   "item": "money",
+   "entries": [
+    [
+     "gold coin",
+     99875,
+     1,
+     288
+    ],
+    [
+     "platinum coin",
+     3549,
+     1,
+     7
+    ]
+   ],
+   "from": [
+    [
+     "gold coin",
+     33000,
+     1,
+     288
+    ],
+    [
+     "gold coin",
+     33000,
+     1,
+     100
+    ],
+    [
+     "gold coin",
+     33000,
+     1,
+     97
+    ],
+    [
+     "platinum coin",
+     3850,
+     1,
+     7
+    ]
+   ],
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 1606,
+    "loot_revid": 1212349,
+    "datapack_money": 96,
+    "wiki_money": 159
    }
   },
   {
@@ -45055,6 +49598,35 @@
    }
   },
   {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/undeads/undead_elite_gladiator.lua",
+   "monster": "Undead Elite Gladiator",
+   "item": "money",
+   "entries": [
+    [
+     "platinum coin",
+     100000,
+     1,
+     35
+    ]
+   ],
+   "from": [
+    [
+     "platinum coin",
+     44000,
+     1,
+     40
+    ]
+   ],
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 1950,
+    "loot_revid": 1212612,
+    "datapack_money": 902,
+    "wiki_money": 1800
+   }
+  },
+  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/undeads/undead_elite_gladiator.lua",
    "monster": "Undead Elite Gladiator",
@@ -45105,6 +49677,41 @@
    "from": 4200
   },
   {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/undeads/undead_gladiator.lua",
+   "monster": "Undead Gladiator",
+   "item": "money",
+   "entries": [
+    [
+     "gold coin",
+     95006,
+     1,
+     149
+    ]
+   ],
+   "from": [
+    [
+     "gold coin",
+     44000,
+     1,
+     149
+    ],
+    [
+     "gold coin",
+     50500,
+     1,
+     48
+    ]
+   ],
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 3564,
+    "loot_revid": 1212867,
+    "datapack_money": 45,
+    "wiki_money": 71
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/undeads/undead_gladiator.lua",
    "monster": "Undead Gladiator",
@@ -45140,6 +49747,35 @@
     "kills": 193,
     "loot_revid": 1210656,
     "times": 8
+   }
+  },
+  {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/undeads/undead_mine_worker.lua",
+   "monster": "Undead Mine Worker",
+   "item": "money",
+   "entries": [
+    [
+     "gold coin",
+     43523,
+     1,
+     10
+    ]
+   ],
+   "from": [
+    [
+     "gold coin",
+     73000,
+     1,
+     10
+    ]
+   ],
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 193,
+    "loot_revid": 1210656,
+    "datapack_money": 4,
+    "wiki_money": 2
    }
   },
   {
@@ -45485,6 +50121,35 @@
    "from": 1060
   },
   {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/vermins/afflicted_strider.lua",
+   "monster": "Afflicted Strider",
+   "item": "money",
+   "entries": [
+    [
+     "platinum coin",
+     100000,
+     2,
+     15
+    ]
+   ],
+   "from": [
+    [
+     "platinum coin",
+     70000,
+     1,
+     16
+    ]
+   ],
+   "source": {
+    "version": "12.85.11525",
+    "kills": 2252,
+    "loot_revid": 1209066,
+    "datapack_money": 595,
+    "wiki_money": 850
+   }
+  },
+  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/vermins/afflicted_strider.lua",
    "monster": "Afflicted Strider",
@@ -45574,6 +50239,35 @@
     "times": 6
    },
    "from": 80
+  },
+  {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/vermins/cave_chimera.lua",
+   "monster": "Cave Chimera",
+   "item": "money",
+   "entries": [
+    [
+     "platinum coin",
+     100000,
+     2,
+     29
+    ]
+   ],
+   "from": [
+    [
+     "platinum coin",
+     70000,
+     1,
+     29
+    ]
+   ],
+   "source": {
+    "version": "12.85.11525",
+    "kills": 2026,
+    "loot_revid": 1207420,
+    "datapack_money": 1050,
+    "wiki_money": 1550
+   }
   },
   {
    "kind": "max_count",
@@ -45958,6 +50652,35 @@
    "from": 640
   },
   {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/vermins/eyeless_devourer.lua",
+   "monster": "Eyeless Devourer",
+   "item": "money",
+   "entries": [
+    [
+     "platinum coin",
+     100000,
+     2,
+     21
+    ]
+   ],
+   "from": [
+    [
+     "platinum coin",
+     70000,
+     1,
+     22
+    ]
+   ],
+   "source": {
+    "version": "12.85.11525",
+    "kills": 3343,
+    "loot_revid": 1207431,
+    "datapack_money": 805,
+    "wiki_money": 1150
+   }
+  },
+  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/vermins/eyeless_devourer.lua",
    "monster": "Eyeless Devourer",
@@ -46298,6 +51021,35 @@
    "from": 2330
   },
   {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/vermins/lavafungus.lua",
+   "monster": "Lavafungus",
+   "item": "money",
+   "entries": [
+    [
+     "platinum coin",
+     100000,
+     2,
+     16
+    ]
+   ],
+   "from": [
+    [
+     "platinum coin",
+     70000,
+     1,
+     22
+    ]
+   ],
+   "source": {
+    "version": "13.22.14282",
+    "kills": 1012,
+    "loot_revid": 1210532,
+    "datapack_money": 805,
+    "wiki_money": 900
+   }
+  },
+  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/vermins/lavafungus.lua",
    "monster": "Lavafungus",
@@ -46363,6 +51115,35 @@
     "times": 56
    },
    "from": 2920
+  },
+  {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/vermins/lavaworm.lua",
+   "monster": "Lavaworm",
+   "item": "money",
+   "entries": [
+    [
+     "platinum coin",
+     100000,
+     2,
+     12
+    ]
+   ],
+   "from": [
+    [
+     "platinum coin",
+     70000,
+     1,
+     24
+    ]
+   ],
+   "source": {
+    "version": "13.22.14282",
+    "kills": 1164,
+    "loot_revid": 1210533,
+    "datapack_money": 875,
+    "wiki_money": 700
+   }
   },
   {
    "kind": "stat",
@@ -46656,6 +51437,35 @@
    }
   },
   {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/vermins/sulphider.lua",
+   "monster": "Sulphider",
+   "item": "money",
+   "entries": [
+    [
+     "crystal coin",
+     10578,
+     1,
+     3
+    ]
+   ],
+   "from": [
+    [
+     "crystal coin",
+     14430,
+     1,
+     3
+    ]
+   ],
+   "source": {
+    "version": "14.00.7103e2",
+    "kills": 2543,
+    "loot_revid": 1196182,
+    "datapack_money": 2886,
+    "wiki_money": 2116
+   }
+  },
+  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/vermins/sulphider.lua",
    "monster": "Sulphider",
@@ -46837,6 +51647,35 @@
    "from": 9090
   },
   {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/vermins/tremendous_tyrant.lua",
+   "monster": "Tremendous Tyrant",
+   "item": "money",
+   "entries": [
+    [
+     "platinum coin",
+     100000,
+     2,
+     28
+    ]
+   ],
+   "from": [
+    [
+     "platinum coin",
+     70000,
+     1,
+     28
+    ]
+   ],
+   "source": {
+    "version": "12.85.11525",
+    "kills": 1783,
+    "loot_revid": 1207445,
+    "datapack_money": 1015,
+    "wiki_money": 1500
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/vermins/tremendous_tyrant.lua",
    "monster": "Tremendous Tyrant",
@@ -46978,6 +51817,35 @@
    "from": 1.82,
    "source": {
     "revid": 1192352
+   }
+  },
+  {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/vermins/undertaker.lua",
+   "monster": "Undertaker",
+   "item": "money",
+   "entries": [
+    [
+     "crystal coin",
+     11663,
+     1,
+     3
+    ]
+   ],
+   "from": [
+    [
+     "crystal coin",
+     15100,
+     1,
+     3
+    ]
+   ],
+   "source": {
+    "version": "14.00.7103e2",
+    "kills": 2615,
+    "loot_revid": 1202129,
+    "datapack_money": 3020,
+    "wiki_money": 2333
    }
   },
   {
@@ -47171,6 +52039,35 @@
    "from": 2650
   },
   {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/vermins/varnished_diremaw.lua",
+   "monster": "Varnished Diremaw",
+   "item": "money",
+   "entries": [
+    [
+     "platinum coin",
+     100000,
+     1,
+     11
+    ]
+   ],
+   "from": [
+    [
+     "platinum coin",
+     70000,
+     1,
+     18
+    ]
+   ],
+   "source": {
+    "version": "12.85.11525",
+    "kills": 1913,
+    "loot_revid": 1207449,
+    "datapack_money": 665,
+    "wiki_money": 600
+   }
+  },
+  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/vermins/varnished_diremaw.lua",
    "monster": "Varnished Diremaw",
@@ -47274,6 +52171,47 @@
     "kills": 865,
     "loot_revid": 1209807,
     "times": 7
+   }
+  },
+  {
+   "kind": "coins",
+   "file": "data-otservbr-global/monster/vermins/wiggler.lua",
+   "monster": "Wiggler",
+   "item": "money",
+   "entries": [
+    [
+     "gold coin",
+     100000,
+     40,
+     100
+    ],
+    [
+     "platinum coin",
+     15491,
+     8,
+     12
+    ]
+   ],
+   "from": [
+    [
+     "gold coin",
+     100000,
+     1,
+     100
+    ],
+    [
+     "platinum coin",
+     14790,
+     1,
+     12
+    ]
+   ],
+   "source": {
+    "version": "15.24.95dcf3",
+    "kills": 865,
+    "loot_revid": 1209807,
+    "datapack_money": 147,
+    "wiki_money": 225
    }
   },
   {

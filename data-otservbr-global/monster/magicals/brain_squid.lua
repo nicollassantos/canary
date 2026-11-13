@@ -76,7 +76,7 @@ monster.voices = {
 
 monster.loot = {
 	{ name = "violet crystal shard", chance = 33796, maxCount = 4 },
-	{ name = "platinum coin", chance = 100000, maxCount = 20 },
+	{ name = "platinum coin", chance = 76057, maxCount = 20 },
 	{ name = "glowing rune", chance = 22951, maxCount = 4 },
 	{ name = "instable proto matter", chance = 18343, maxCount = 4 },
 	{ name = "energy ball", chance = 19603, maxCount = 4 },

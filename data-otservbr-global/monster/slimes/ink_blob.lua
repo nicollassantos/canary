@@ -73,7 +73,7 @@ monster.voices = {
 }
 
 monster.loot = {
-	{ name = "platinum coin", chance = 120000, maxCount = 4 },
+	{ name = "platinum coin", chance = 75460, maxCount = 25 },
 	{ name = "envenomed arrow", chance = 69453, maxCount = 50 },
 	{ id = 28568, chance = 1200, maxCount = 4 }, -- inkwell
 	{ name = "poisonous slime", chance = 35477, maxCount = 4 },

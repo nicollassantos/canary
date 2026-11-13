@@ -78,8 +78,8 @@ monster.voices = {
 }
 
 monster.loot = {
-	{ id = 3031, chance = 100000, maxCount = 100 }, -- gold coin
-	{ id = 3035, chance = 20000, maxCount = 3 }, -- platinum coin
+	{ name = "gold coin", chance = 100000, maxCount = 100 },
+	{ name = "platinum coin", chance = 89887, maxCount = 3 },
 	{ id = 23502, chance = 15000 }, -- sparkion claw
 	{ id = 23545, chance = 15000 }, -- energy drink
 	{ id = 23535, chance = 15569 }, -- energy bar

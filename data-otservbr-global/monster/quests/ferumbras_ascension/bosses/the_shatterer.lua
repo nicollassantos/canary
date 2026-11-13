@@ -79,8 +79,8 @@ monster.loot = {
 	{ id = 7643, chance = 100000, maxCount = 19 }, -- ultimate health potion
 	{ id = 3030, chance = 100000, maxCount = 23 }, -- small ruby
 	{ name = "lump of earth", chance = 9483 },
-	{ id = 3035, chance = 8000, maxCount = 19 }, -- platinum coin
-	{ id = 3031, chance = 30000, maxCount = 200 }, -- gold coin
+	{ name = "gold coin", chance = 100000, maxCount = 199 },
+	{ name = "platinum coin", chance = 99713, maxCount = 19 },
 	{ name = "shiny stone", chance = 6034 },
 	{ name = "bonebreaker", chance = 5172 },
 	{ name = "chaos mace", chance = 4598 },

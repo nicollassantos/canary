@@ -79,8 +79,8 @@ monster.voices = {
 }
 
 monster.loot = {
-	{ id = 3031, chance = 97000, maxCount = 242 }, -- gold coin
-	{ id = 3035, chance = 18200, maxCount = 5 }, -- platinum coin
+	{ name = "platinum coin", chance = 100000, maxCount = 3 },
+	{ name = "gold coin", chance = 79960, maxCount = 75 },
 	{ id = 8017, chance = 25727 }, -- beetroot
 	{ id = 3725, chance = 7300 }, -- brown mushroom
 	{ id = 268, chance = 5201 }, -- mana potion

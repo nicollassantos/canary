@@ -74,7 +74,7 @@ monster.voices = {
 }
 
 monster.loot = {
-	{ name = "Crystal Coin", chance = 25640, minCount = 1, maxCount = 2 },
+	{ name = "crystal coin", chance = 22423, maxCount = 2 },
 	{ name = "Mantosaurus Jaw", chance = 19120 },
 	{ name = "Ultimate Mana Potion", chance = 9660, minCount = 1, maxCount = 3 },
 	{ name = "Silver Brooch", chance = 3920 },

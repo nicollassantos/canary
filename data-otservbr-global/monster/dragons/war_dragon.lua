@@ -76,7 +76,7 @@ monster.voices = {
 }
 
 monster.loot = {
-	{ name = "Platinum Coin", chance = 52560, minCount = 1, maxCount = 45 },
+	{ name = "platinum coin", chance = 53333, maxCount = 26 },
 	{ name = "Wardragon Claw", chance = 14420 },
 	{ name = "Nimmersatt's Seal", chance = 10620 },
 	{ name = "Dragon Tongue", chance = 8450 },

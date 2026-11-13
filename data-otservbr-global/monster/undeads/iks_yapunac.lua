@@ -76,8 +76,8 @@ monster.voices = {
 }
 
 monster.loot = {
-	{ name = "platinum coin", chance = 100000, maxCount = 10 },
-	{ name = "gold coin", chance = 100000, maxCount = 50 },
+	{ name = "platinum coin", chance = 54602, maxCount = 10 },
+	{ name = "gold coin", chance = 19554, maxCount = 50 },
 	{ id = 281, chance = 14830 }, -- giant shimmering pearl
 	{ name = "great health potion", chance = 14530 },
 	{ name = "yapunac dagger", chance = 13786 },

@@ -76,7 +76,7 @@ monster.voices = {
 }
 
 monster.loot = {
-	{ name = "Platinum Coin", chance = 52610, minCount = 1, maxCount = 46 },
+	{ name = "platinum coin", chance = 53742, maxCount = 29 },
 	{ name = "Dragolisk Poison Gland", chance = 12600 },
 	{ name = "Nimmersatt's Seal", chance = 8320 },
 	{ id = 3039, chance = 7790 }, -- red gem

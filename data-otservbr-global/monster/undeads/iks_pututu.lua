@@ -74,8 +74,8 @@ monster.voices = {
 }
 
 monster.loot = {
-	{ name = "gold coin", chance = 100000, maxCount = 100 },
-	{ name = "platinum coin", chance = 100000, maxCount = 4 },
+	{ name = "gold coin", chance = 78663, maxCount = 100 },
+	{ name = "platinum coin", chance = 39420, maxCount = 4 },
 	{ id = 281, chance = 7100 }, -- giant shimmering pearl (green)
 	{ name = "tiger eye", chance = 6910 },
 	{ name = "strong mana potion", chance = 6360, maxCount = 2 },

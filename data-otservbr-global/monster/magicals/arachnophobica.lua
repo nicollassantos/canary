@@ -78,7 +78,7 @@ monster.voices = {
 }
 
 monster.loot = {
-	{ name = "platinum coin", chance = 100000, maxCount = 14 },
+	{ name = "platinum coin", chance = 81353, maxCount = 13 },
 	{ name = "great spirit potion", chance = 29310, maxCount = 3 },
 	{ name = "essence of a bad dream", chance = 7475 },
 	{ id = 3051, chance = 3936 }, -- energy ring
