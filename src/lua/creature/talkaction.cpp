@@ -12,6 +12,7 @@
 #include "utils/tools.hpp"
 #include "creatures/players/grouping/groups.hpp"
 #include "creatures/players/player.hpp"
+#include "lua/creature/talkaction_cooldown.hpp"
 #include "lua/scripts/scripts.hpp"
 #include "lib/di/container.hpp"
 #include "enums/account_type.hpp"
@@ -85,6 +86,11 @@ bool TalkActions::checkWord(const std::shared_ptr<Player> &player, SpeakClasses 
 				param.erase(param.begin());
 			}
 		}
+	}
+
+	// Matched: from here the word is consumed even when the player has to wait.
+	if (!TalkActionCooldown::global().admit(*player, OTSYS_TIME())) {
+		return true;
 	}
 
 	return talkActionPtr->executeSay(player, words, param, type);

@@ -6,4 +6,5 @@ target_sources(
             movement.cpp
             raids.cpp
             talkaction.cpp
+            talkaction_cooldown.cpp
 )
