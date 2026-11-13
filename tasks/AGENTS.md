@@ -564,6 +564,17 @@ Resultado atual: ver a última linha de validação no `todo.md` (CHECKPOINT 23)
   elementos incertos); entraram 42 atributos de bosses de corpo (identidade pelo `bossRaceId`).
   Total: 1963. A lista de revisão (com o motivo de cada item) fica em `build/datapack-wiki/review.json`,
   fora do repositório.
+- **Revisão do que sobrou (24.7):** saltos grandes passam com evidência independente (outra versão
+  concorda e nenhuma apoia o datapack, ou bloco único com ≥ 30 quedas em ≥ 1000 kills); decisões
+  manuais em `tools/datapack/reviewed.json` (`apply`/`keep` com nota); elementos e imunidades de
+  bosses de baú seguem as regras, mas HP/XP/armor de qualquer boss ficam para revisão (scripts de
+  quest podem usar valores absolutos); nomes ambíguos/sufixados resolvidos pelas flags `take` e
+  `market` do `appearances.dat` e gravados por id; estatística antiga só quando cabe na raridade
+  atual da infobox (faixas do `Template:Loot Item`, tolerância de 25%) e o datapack não cabe.
+  Manifesto: 2823 fixes.
+- **Moeda (pendente com o usuário):** dinheiro por kill do datapack (chance × média de
+  `[1, maxCount]` × valor) contra o `total` das Loot Statistics ÷ kills, mediana 1,07; os
+  desvios fortes estão em criaturas das versões 14–15.
 - **Controle negativo do smoke:** um item de loot inexistente injetado no Dragon gera
   `[LootFunctions::luaLootSetIdFromName] - Unknown loot item` e `could not be loaded`; o grep do
   smoke pega os dois.
