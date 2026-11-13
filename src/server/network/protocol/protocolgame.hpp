@@ -142,6 +142,10 @@ private:
 	}
 	void connect(const std::string &playerName, OperatingSystem_t operatingSystem);
 	void disconnectClient(const std::string &message) const;
+	/**
+	 * @brief Write the 0x14 login error (text and, for 15.23+ clients, the reason byte they read after it).
+	 */
+	void addLoginError(NetworkMessage &msg, const std::string &message) const;
 	void writeToOutputBuffer(NetworkMessage &msg);
 	[[nodiscard]] bool shouldSuppressPreLoginPacket() const;
 	[[nodiscard]] bool isSessionEnding() const;
@@ -623,6 +627,7 @@ private:
 	friend class PlayerPreyComponent;
 	friend class PlayerStashComponent;
 	friend class SkillAdvanceGameEventTest;
+	friend class LoginErrorPacketTest;
 	friend class PlayerWheel;
 	friend class PlayerVIP;
 	friend class PlayerAttachedEffects;

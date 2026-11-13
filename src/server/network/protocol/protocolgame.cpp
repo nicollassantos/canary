@@ -635,8 +635,7 @@ void ProtocolGame::onRecvFirstMessage(NetworkMessage &msg) {
 		}
 
 		auto output = OutputMessagePool::getOutputMessage();
-		output->addByte(0x14);
-		output->addString(ss.str());
+		addLoginError(*output, ss.str());
 		send(output);
 		[[maybe_unused]] auto eventId = scheduleProtocolTask(
 			1000, [self = getThis()] { self->disconnect(); }, "ProtocolGame::disconnect"
@@ -676,10 +675,19 @@ void ProtocolGame::onRecvFirstMessage(NetworkMessage &msg) {
 
 void ProtocolGame::disconnectClient(const std::string &message) const {
 	auto output = OutputMessagePool::getOutputMessage();
-	output->addByte(0x14);
-	output->addString(message);
+	addLoginError(*output, message);
 	send(output);
 	disconnect();
+}
+
+void ProtocolGame::addLoginError(NetworkMessage &msg, const std::string &message) const {
+	msg.addByte(0x14);
+	msg.addString(message);
+	// Clients 15.23+ read a reason byte after the text; without it the official client fails to
+	// parse the packet and closes instead of showing the message (issue #4153).
+	if (!oldProtocol && version >= 1523) {
+		msg.addByte(0x00);
+	}
 }
 
 void ProtocolGame::writeToOutputBuffer(NetworkMessage &msg) {

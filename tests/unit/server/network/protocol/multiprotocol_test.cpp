@@ -175,6 +175,65 @@ TEST_F(SkillAdvanceGameEventTest, SendsClientSkillIdsOnOfflineTrainingAdvances) 
 	expectGameplayAdvances(true);
 }
 
+// Issue #4153: clients 15.23+ read a reason byte after the 0x14 text and close when it is missing.
+class LoginErrorPacketTest : public ::testing::Test {
+protected:
+	void SetUp() override {
+		previousInjector = DI::getTestContainer();
+		injection = std::make_unique<InjectionFixture>();
+		protocol = std::make_shared<ProtocolGame>(nullptr);
+	}
+
+	void TearDown() override {
+		protocol.reset();
+		const bool previousShutdown = LuaEnvironment::shuttingDown;
+		LuaEnvironment::shuttingDown = true;
+		DI::setTestContainer(previousInjector);
+		injection.reset();
+		LuaEnvironment::shuttingDown = previousShutdown;
+	}
+
+	NetworkMessage loginError(uint16_t version, bool oldProtocol, const std::string &text) const {
+		protocol->version = version;
+		protocol->oldProtocol = oldProtocol;
+		NetworkMessage msg;
+		protocol->addLoginError(msg, text);
+		msg.setBufferPosition(NetworkMessage::INITIAL_BUFFER_POSITION);
+		return msg;
+	}
+
+	std::shared_ptr<ProtocolGame> protocol;
+
+private:
+	di::extension::injector<>* previousInjector = nullptr;
+	std::unique_ptr<InjectionFixture> injection;
+};
+
+TEST_F(LoginErrorPacketTest, CurrentClientGetsTheReasonByteAfterTheText) {
+	auto msg = loginError(CLIENT_VERSION, false, "You are already logged in.");
+	EXPECT_EQ(0x14, msg.getByte());
+	EXPECT_EQ("You are already logged in.", msg.getString());
+	ASSERT_EQ(1U, msg.getUnreadBytes());
+	EXPECT_EQ(0x00, msg.getByte());
+}
+
+TEST_F(LoginErrorPacketTest, ClientsBefore1523GetOnlyTheText) {
+	auto msg = loginError(1522, false, "Banned.");
+	EXPECT_EQ(0x14, msg.getByte());
+	EXPECT_EQ("Banned.", msg.getString());
+	EXPECT_EQ(0U, msg.getUnreadBytes());
+}
+
+TEST_F(LoginErrorPacketTest, OldProtocolProfilesGetOnlyTheText) {
+	for (const uint16_t version : { 860, 1100 }) {
+		SCOPED_TRACE(version);
+		auto msg = loginError(version, true, "Banned.");
+		EXPECT_EQ(0x14, msg.getByte());
+		EXPECT_EQ("Banned.", msg.getString());
+		EXPECT_EQ(0U, msg.getUnreadBytes());
+	}
+}
+
 TEST(ProtocolProfileRegistryTest, Version860ProfilesAreDifferentProfiles) {
 	using enum ProtocolProfileId;
 	const auto* vanilla = ProtocolProfileRegistry::resolveByClientVersion(860, ClientWireFamily::CipsoftVanilla);

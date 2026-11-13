@@ -374,7 +374,7 @@
 
 - [x] **25.1** — #4154 datas locais sem nanossegundos: porta idêntica do PR #4179 (`toLocalTime`); 4 testes `DateFormattingTest` (UTC, virada de ano em BRT, virada de dia em JST, conversão impossível)
 - [x] **25.2** — #4114 IDs do aviso de avanço de skill: porta do PR #4181 (mapa próprio do evento `0x75/0x05`, sem mexer no `CipbiaSkills_t`) nos components; 3 testes `SkillAdvanceGameEventTest` (pacote, avanço normal e offline)
-- [ ] **25.3** — #4153 byte de motivo no `0x14` (15.23+)
+- [x] **25.3** — #4153 byte de motivo no `0x14` (15.23+): `ProtocolGame::addLoginError` usado pelas duas montagens; 3 testes `LoginErrorPacketTest` (1525 com byte, 1522 sem, 8.60/11.00 sem)
 - [ ] **25.4** — #4125 reset de charm sem leitura além do pacote
 - [x] **25.5** — #3478 freequests: harness `tools/lua/freequests_check.lua` roda o freequests num player falso e confere cada storage contra o catálogo do questlog; achou 5 (os 2 relatados + Factions sem início e Grave Danger 14 numa missão 1..2, o `46851` citado no relato); upstream falha 5, branch passa
 - [ ] **25.6** — #3453 porta do Oasis + `[12107]` duplicada
