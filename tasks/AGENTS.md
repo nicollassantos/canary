@@ -615,7 +615,15 @@ Resultado atual: ver a última linha de validação no `todo.md` (CHECKPOINT 23)
   tabela atual, 23 recentes; nenhuma sem tabela atual). Conferência: a página do Rotworm diz que o
   Legion Helmet saiu do loot no Christmas Update 2009, e o datapack ainda tinha 1,89%. Ficaram fora
   207: baú 141, sem race id 36, listado na tabela atual 9, id sem nome 9, antiga sem tabela 8, moeda
-  3, nome do wiki sem resolução 1. Manifesto: 3745.
+  3, nome do wiki sem resolução 1. Manifesto: 3745. "Nunca registrado" vale para o bloco usado e a tabela
+  atual: 4 dos 78 aparecem em blocos antigos pequenos (ex.: Cobra Assassin ring of red plasma, 18 em 474 kills
+  na 12.20, 0 em 43916 na 12.65). Varredura de obtenção: todos os 78 continuam vindo de outro monstro ou de
+  NPC (eternal flames do Fire Overlord, reinvigorating seeds do Orclops Ravager, witchesbroom 3211 na loja
+  da Nelliem); nenhum passo de quest ficou sem fonte.
+- **Rótulo de versão do `Loot2`:** o bloco "8.6" aparece em criaturas que não existiam na 8.6 (Candy
+  Horror 13.40, Weretiger 13.20, Cult Believer 11.40); o rótulo parece ser o padrão do coletor antigo. Os
+  portões de "estatística antiga" usam o rótulo, então são conservadores demais para essas criaturas
+  (24.7k, decisão pendente).
 - **Controle negativo do smoke:** um item de loot inexistente injetado no Dragon gera
   `[LootFunctions::luaLootSetIdFromName] - Unknown loot item` e `could not be loaded`; o grep do
   smoke pega os dois.
