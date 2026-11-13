@@ -59,32 +59,32 @@ monster.voices = {
 }
 
 monster.loot = {
-	{ name = "piggy bank", chance = 80000 },
-	{ name = "royal star", chance = 80000, maxCount = 100 },
+	{ name = "piggy bank", chance = 100000 },
+	{ name = "royal star", chance = 35833, maxCount = 100 },
 	{ name = "platinum coin", chance = 80000, maxCount = 5 },
-	{ name = "energy bar", chance = 75000 },
+	{ name = "energy bar", chance = 99167 },
 	{ name = "supreme health potion", chance = 65000, maxCount = 20 },
-	{ name = "huge chunk of crude iron", chance = 64000 },
-	{ name = "mysterious remains", chance = 63000 },
-	{ name = "ultimate spirit potion", chance = 62000, maxCount = 20 },
+	{ name = "huge chunk of crude iron", chance = 28333 },
+	{ name = "mysterious remains", chance = 99167 },
+	{ name = "ultimate spirit potion", chance = 46667, maxCount = 20 },
 	{ name = "ultimate mana potion", chance = 61000, maxCount = 20 },
-	{ name = "bullseye potion", chance = 25500, maxCount = 10 },
-	{ name = "chaos mace", chance = 25000 },
-	{ id = 30279, chance = 24500 }, -- frozen claw
+	{ name = "bullseye potion", chance = 10833, maxCount = 10 },
+	{ name = "chaos mace", chance = 10833 },
+	{ id = 30279, chance = 5000 }, -- frozen claw
 	{ name = "berserk potion", chance = 23000, maxCount = 10 },
-	{ id = 3039, chance = 22500 }, -- red gem
-	{ name = "soul stone", chance = 224000 },
+	{ id = 3039, chance = 37500 }, -- red gem
+	{ name = "soul stone", chance = 1667 },
 	{ id = 30275, chance = 25000 }, -- crown of the percht queen
 	{ name = "flames of the percht queen", chance = 18000 },
-	{ name = "small ladybug", chance = 24980 },
+	{ name = "small ladybug", chance = 1667 },
 	{ name = "gold ingot", chance = 22480 },
-	{ name = "crystal coin", chance = 24890, maxCount = 2 },
+	{ name = "crystal coin", chance = 24890, maxCount = 3 },
 	{ id = 281, chance = 21580 }, -- giant shimmering pearl (green)
 	{ name = "skull staff", chance = 19850 },
-	{ name = "magic sulphur", chance = 25480 },
-	{ name = "percht queen's frozen heart", chance = 26800 },
+	{ name = "magic sulphur", chance = 10833 },
+	{ name = "percht queen's frozen heart", chance = 2500 },
 	{ name = "percht skull", chance = 25842 },
-	{ id = 30277, chance = 25840 }, -- icicle
+	{ id = 30277, chance = 6667 }, -- icicle
 	{ name = "silver token", chance = 5480, maxCount = 5 },
 	{ name = "percht handkerchief", chance = 5808 },
 	{ name = "ring of the sky", chance = 5100 },
@@ -94,12 +94,12 @@ monster.loot = {
 	{ name = "ice hatchet", chance = 5485 },
 	{ id = 23533, chance = 4858 }, -- ring of red plasma
 	{ id = 23531, chance = 3485 }, -- ring of green plasma
-	{ name = "yellow gem", chance = 5485 },
+	{ name = "yellow gem", chance = 28333, maxCount = 2 },
 	{ name = "violet gem", chance = 6485 },
 	{ id = 23544, chance = 7848 }, -- collar of red plasma
-	{ id = 23543, chance = 5485 }, -- collar of green plasma
-	{ name = "green gem", chance = 5485 },
-	{ name = "blue gem", chance = 5845 },
+	{ id = 23543, chance = 12500 }, -- collar of green plasma
+	{ name = "green gem", chance = 47500, maxCount = 2 },
+	{ name = "blue gem", chance = 16667, maxCount = 2 },
 	{ name = "frozen chain", chance = 5485 },
 	{ id = 23542, chance = 5158 }, -- collar of blue plasma
 	{ name = "horseshoe", chance = 1250 },

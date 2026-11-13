@@ -73,20 +73,20 @@ monster.voices = {
 }
 
 monster.loot = {
-	{ id = 3031, chance = 100000, maxCount = 200 }, -- gold coin
-	{ id = 3035, chance = 100000, maxCount = 10 }, -- platinum coin
-	{ id = 16119, chance = 8000, maxCount = 3 }, -- blue crystal shard
-	{ id = 238, chance = 8000, maxCount = 10 }, -- great mana potion
-	{ id = 16121, chance = 8000, maxCount = 3 }, -- green crystal shard
-	{ id = 3033, chance = 8000, maxCount = 10 }, -- small amethyst
-	{ id = 3029, chance = 8000, maxCount = 5 }, -- small sapphire
-	{ id = 7643, chance = 8000, maxCount = 5 }, -- ultimate health potion
-	{ id = 16120, chance = 8000, maxCount = 3 }, -- violet crystal shard
-	{ id = 22721, chance = 100000 }, -- gold token
+	{ id = 3031, chance = 100000, maxCount = 394 }, -- gold coin
+	{ id = 3035, chance = 100000, maxCount = 43 }, -- platinum coin
+	{ id = 16119, chance = 60976, maxCount = 5 }, -- blue crystal shard
+	{ id = 238, chance = 63415, maxCount = 18 }, -- great mana potion
+	{ id = 16121, chance = 55285, maxCount = 5 }, -- green crystal shard
+	{ id = 3033, chance = 21138, maxCount = 19 }, -- small amethyst
+	{ id = 3029, chance = 18699, maxCount = 19 }, -- small sapphire
+	{ id = 7643, chance = 54472, maxCount = 16 }, -- ultimate health potion
+	{ id = 16120, chance = 60163, maxCount = 5 }, -- violet crystal shard
+	{ id = 22721, chance = 100000, maxCount = 7 }, -- gold token
 	{ id = 23509, chance = 100000 }, -- mysterious remains
-	{ id = 3038, chance = 8000 }, -- green gem
+	{ id = 3038, chance = 18699 }, -- green gem
 	{ id = 7427, chance = 6000 }, -- chaos mace
-	{ id = 23533, chance = 5000 }, -- ring of red plasma
+	{ id = 23533, chance = 17886 }, -- ring of red plasma
 	{ id = 23474, chance = 2000, unique = true }, -- tiara of power
 	{ id = 23477, chance = 2000, unique = true }, -- void boots
 	{ id = 16160, chance = 2000, unique = true }, -- crystalline sword

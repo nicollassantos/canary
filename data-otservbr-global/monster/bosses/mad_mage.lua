@@ -79,15 +79,15 @@ monster.voices = {
 
 monster.loot = {
 	{ id = 3031, chance = 100000, maxCount = 340 }, -- gold coin
-	{ id = 3035, chance = 48000, maxCount = 5 }, -- platinum coin
-	{ id = 237, chance = 21000, maxCount = 5 }, -- strong mana potion
-	{ id = 236, chance = 17000, maxCount = 5 }, -- strong health potion
+	{ id = 3035, chance = 48000, maxCount = 8 }, -- platinum coin
+	{ id = 237, chance = 46875, maxCount = 9 }, -- strong mana potion
+	{ id = 236, chance = 52500, maxCount = 9 }, -- strong health potion
 	{ id = 3062, chance = 9000 }, -- mind stone
-	{ id = 3049, chance = 6000 }, -- stealth ring
-	{ id = 7368, chance = 4000, maxCount = 4 }, -- assassin star
+	{ id = 3049, chance = 23125 }, -- stealth ring
+	{ id = 7368, chance = 20625, maxCount = 14 }, -- assassin star
 	{ id = 3728, chance = 4000, maxCount = 3 }, -- dark mushroom
 	{ id = 5911, chance = 5000 }, -- red piece of cloth
-	{ id = 3033, chance = 4000, maxCount = 3 }, -- small amethyst
+	{ id = 3033, chance = 15000, maxCount = 3 }, -- small amethyst
 	{ id = 12599, chance = 1680, unique = true }, -- mage's cap
 	{ id = 7443, chance = 1100 }, -- bullseye potion
 	{ id = 9027, chance = 740 }, -- crystal of focus

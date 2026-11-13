@@ -71,7 +71,6 @@ monster.voices = {
 monster.loot = {
 	{ id = 3115, chance = 30000, maxCount = 1 }, -- bone
 	{ name = "brass shield", chance = 30000, maxCount = 1 },
-	{ name = "spatial warp almanac", chance = 25000, maxCount = 1 },
 	{ name = "viking helmet", chance = 23000, maxCount = 1 },
 	{ name = "falcon battleaxe", chance = 500, maxCount = 1 },
 	{ name = "falcon longsword", chance = 500, maxCount = 1 },

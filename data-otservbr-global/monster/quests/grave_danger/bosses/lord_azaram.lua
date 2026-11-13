@@ -77,27 +77,27 @@ monster.voices = {
 }
 
 monster.loot = {
-	{ name = "platinum coin", minCount = 1, maxCount = 5, chance = 100000 },
-	{ name = "crystal coin", minCount = 0, maxCount = 2, chance = 50000 },
-	{ name = "supreme health potion", minCount = 0, maxCount = 6, chance = 35000 },
-	{ name = "ultimate mana potion", minCount = 0, maxCount = 20, chance = 32000 },
-	{ name = "ultimate spirit potion", minCount = 0, maxCount = 20, chance = 32000 },
-	{ name = "bullseye potion", minCount = 0, maxCount = 10, chance = 12000 },
-	{ name = "berserk potion", minCount = 0, maxCount = 10, chance = 12000 },
-	{ name = "piece of hell steel", minCount = 0, maxCount = 4, chance = 9000 },
-	{ id = 3039, minCount = 0, maxCount = 2, chance = 12000 }, -- red gem
+	{ name = "platinum coin", minCount = 1, maxCount = 9, chance = 100000 },
+	{ name = "crystal coin", minCount = 0, maxCount = 3, chance = 50000 },
+	{ name = "supreme health potion", minCount = 0, maxCount = 6, chance = 61765 },
+	{ name = "ultimate mana potion", minCount = 0, maxCount = 32, chance = 60784 },
+	{ name = "ultimate spirit potion", minCount = 0, maxCount = 34, chance = 48039 },
+	{ name = "bullseye potion", minCount = 0, maxCount = 18, chance = 12000 },
+	{ name = "berserk potion", minCount = 0, maxCount = 19, chance = 12000 },
+	{ name = "piece of hell steel", minCount = 0, maxCount = 7, chance = 30392 },
+	{ id = 3039, minCount = 0, maxCount = 2, chance = 38235 }, -- red gem
 	{ name = "blue gem", minCount = 0, maxCount = 2, chance = 12000 },
-	{ name = "silver token", minCount = 0, maxCount = 2, chance = 9500 },
+	{ name = "silver token", minCount = 0, maxCount = 3, chance = 100000 },
 	{ name = "ancient liche bone", chance = 5200 },
 	{ id = 23542, chance = 5200 }, -- collar of blue plasma
-	{ id = 23544, chance = 5200 }, -- collar of red plasma
+	{ id = 23544, chance = 12745 }, -- collar of red plasma
 	{ id = 23543, chance = 5200 }, -- collar of green plasma
 	{ name = "giant sapphire", chance = 7000 },
-	{ name = "haunted blade", chance = 9000 },
+	{ name = "haunted blade", chance = 19608 },
 	{ name = "huge chunk of crude iron", chance = 4500 },
 	{ name = "knight armor", chance = 15000 },
 	{ name = "violet gem", minCount = 0, maxCount = 1, chance = 10000 },
-	{ name = "yellow gem", minCount = 0, maxCount = 1, chance = 10000 },
+	{ name = "yellow gem", minCount = 0, maxCount = 2, chance = 33333 },
 	{ id = 23531, chance = 5000 }, -- ring of green plasma
 	{ id = 23533, chance = 5000 }, -- ring of red plasma
 	{ name = "young lich worm", chance = 5800 },

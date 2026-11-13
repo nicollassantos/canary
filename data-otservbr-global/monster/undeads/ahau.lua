@@ -74,13 +74,13 @@ monster.voices = {
 }
 
 monster.loot = {
-	{ name = "gold coin", chance = 100000, maxCount = 100 },
-	{ name = "the living idol of tukh", chance = 100000 },
-	{ name = "rotten feather", chance = 50000 },
+	{ name = "gold coin", chance = 100000, maxCount = 250 },
+	{ name = "the living idol of tukh", chance = 743 },
+	{ name = "rotten feather", chance = 50000, maxCount = 3 },
 	{ name = "great health potion", chance = 40000, maxCount = 5 },
-	{ name = "great spirit potion", chance = 25530, maxCount = 1 },
-	{ name = "great mana potion", chance = 34040, maxCount = 5 },
-	{ name = "ritual tooth", chance = 32980 },
+	{ name = "great spirit potion", chance = 25530, maxCount = 3 },
+	{ name = "great mana potion", chance = 34040, maxCount = 6 },
+	{ name = "ritual tooth", chance = 32980, maxCount = 2 },
 	{ name = "diamond", chance = 5320, maxCount = 8 },
 	{ name = "amber with a bug", chance = 3190 },
 	{ name = "amber", chance = 5320 },

@@ -83,11 +83,11 @@ monster.loot = {
 	{ name = "gold coin", chance = 70000, maxCount = 60 },
 	{ name = "platinum coin", chance = 80000, maxCount = 10 },
 	{ name = "gold ingot", chance = 3448, maxCount = 10 },
-	{ name = "broccoli", chance = 2439, maxCount = 10 },
-	{ name = "small diamond", chance = 498, maxCount = 10 },
+	{ name = "broccoli", chance = 8911, maxCount = 1 },
+	{ name = "small diamond", chance = 4950, maxCount = 1 },
 	{ name = "blue gem", chance = 2500 },
 	{ id = 3039, chance = 2000 }, -- red gem
-	{ name = "deepling ceremonial dagger", chance = 200 },
+	{ name = "deepling ceremonial dagger", chance = 2970 },
 	{ name = "deepling fork", chance = 200 },
 	{ name = "true book of death", chance = 70000 },
 }

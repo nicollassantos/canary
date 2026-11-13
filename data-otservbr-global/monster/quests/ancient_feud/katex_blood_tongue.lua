@@ -89,14 +89,14 @@ monster.loot = {
 	{ id = 3366, chance = 1110 }, -- magic plate armor
 	{ id = 7404, chance = 1110 }, -- assassin dagger
 	{ id = 7440, chance = 1110 }, -- mastermind potion
-	{ id = 22083, chance = 1110 }, -- moonlight crystals
+	{ id = 22083, chance = 3865, maxCount = 5 }, -- moonlight crystals
 	{ id = 23531, chance = 1110 }, -- ring of green plasma
 	{ id = 7422, chance = 1110 }, -- jade hammer
 	{ id = 3342, chance = 1000 }, -- war axe
 	{ id = 21168, chance = 1000 }, -- alloy legs
 	{ id = 34258, chance = 560 }, -- red silk flower
 	{ id = 7382, chance = 560 }, -- demonrage sword
-	{ id = 3360, chance = 560 }, -- golden armor
+	{ id = 3360, chance = 1932 }, -- golden armor
 	{ id = 33778, chance = 360 }, -- raw watermelon tourmaline
 	{ id = 282, chance = 140 }, -- giant shimmering pearl (brown)
 }

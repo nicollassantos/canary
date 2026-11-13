@@ -86,7 +86,7 @@ monster.loot = {
 	{ name = "dream blossom staff", chance = 1750 },
 	{ name = "ectoplasmic shield", chance = 1750 },
 	{ id = 30344, chance = 1750 }, -- enchanted pendulet
-	{ id = 282, chance = 880 }, -- giant shimmering pearl
+	{ id = 282, chance = 4902 }, -- giant shimmering pearl
 	{ name = "gold ingot", chance = 8330 },
 	{ name = "green crystal shard", chance = 4390 },
 	{ name = "green gem", chance = 8330 },
@@ -101,9 +101,9 @@ monster.loot = {
 	{ name = "orb", chance = 2630 },
 	{ name = "platinum coin", chance = 83330, maxCount = 19 },
 	{ name = "red crystal fragment", chance = 16670 },
-	{ name = "small sapphire", chance = 33330, maxCount = 4 },
+	{ name = "small sapphire", chance = 33330, maxCount = 5 },
 	{ name = "snakebite rod", chance = 7020 },
-	{ name = "spear", chance = 16670, maxCount = 3 },
+	{ name = "spear", chance = 16670, maxCount = 5 },
 	{ name = "spirit guide", chance = 1750 },
 	{ name = "springsprout rod", chance = 880 },
 	{ name = "strange talisman", chance = 2630 },
@@ -113,7 +113,7 @@ monster.loot = {
 	{ name = "violet crystal shard", chance = 2630 },
 	{ name = "violet gem", chance = 1750 },
 	{ name = "wand of everblazing", chance = 880 },
-	{ name = "yellow gem", chance = 16670 },
+	{ name = "yellow gem", chance = 2941 },
 }
 
 monster.attacks = {

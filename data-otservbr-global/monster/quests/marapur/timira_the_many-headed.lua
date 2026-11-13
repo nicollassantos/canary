@@ -63,10 +63,10 @@ monster.loot = {
 	{ name = "crystal coin", chance = 100000, maxCount = 22 },
 	{ name = "ultimate mana potion", chance = 32653, maxCount = 14 },
 	{ name = "ultimate health potion", chance = 30612, maxCount = 14 },
-	{ name = "bullseye potion", chance = 24490, maxCount = 5 },
+	{ name = "bullseye potion", chance = 15678, maxCount = 5 },
 	{ name = "berserk potion", chance = 22449, maxCount = 5 },
 	{ name = "mastermind potion", chance = 18367, maxCount = 5 },
-	{ name = "naga basin", chance = 12245 },
+	{ name = "naga basin", chance = 212 },
 	{ id = 49271, chance = 18367, maxCount = 5 }, -- transcendence potion
 	{ name = "piece of timira's sensors", chance = 10204 },
 	{ name = "giant amethyst", chance = 6122 },

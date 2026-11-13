@@ -75,7 +75,6 @@ monster.voices = {
 
 monster.loot = {
 	{ name = "platinum coin", chance = 100000, maxCount = 20 },
-	{ name = "leaf star", chance = 73000, maxCount = 2 },
 	{ name = "throwing star", chance = 65000, maxCount = 6 },
 	{ name = "hunting spear", chance = 62000 },
 	{ name = "gold ingot", chance = 48000 },
@@ -84,7 +83,6 @@ monster.loot = {
 	{ name = "green crystal shard", chance = 8600 },
 	{ id = 281, chance = 28000 }, -- giant shimmering pearl (green)
 	{ name = "skull helmet", chance = 7500 },
-	{ id = 23542, chance = 7200 }, -- collar of blue plasma
 	{ name = "cobra crest", chance = 11000 },
 	{ name = "cobra boots", chance = 115 },
 	{ name = "cobra hood", chance = 120 },

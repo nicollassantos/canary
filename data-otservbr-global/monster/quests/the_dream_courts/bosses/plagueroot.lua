@@ -86,9 +86,9 @@ monster.loot = {
 	{ id = 3039, chance = 60000 }, -- red gem
 	{ name = "mastermind potion", chance = 40000, maxCount = 13 },
 	{ name = "crunor idol", chance = 40000 },
-	{ name = "bullseye potion", chance = 20000 },
+	{ name = "bullseye potion", chance = 20000, maxCount = 10 },
 	{ name = "ultimate spirit potion", chance = 20000 },
-	{ name = "berserk potion", chance = 20000 },
+	{ name = "berserk potion", chance = 20000, maxCount = 10 },
 	{ name = "gold ingot", chance = 20000 },
 	{ name = "violet gem", chance = 20000 },
 	{ name = "pomegranate", chance = 20000 },
@@ -117,7 +117,7 @@ monster.loot = {
 	{ name = "pomegranate", chance = 16329 },
 	{ id = 23542, chance = 14290 }, -- collar of blue plasma
 	{ name = "blue gem", chance = 12240 },
-	{ name = "green gem", chance = 12240 },
+	{ name = "green gem", chance = 12240, maxCount = 2 },
 	{ id = 23529, chance = 10200 }, -- ring of blue plasma
 	{ name = "violet gem", chance = 8160, maxCount = 2 },
 	{ id = 23543, chance = 8160 }, -- collar of green plasma

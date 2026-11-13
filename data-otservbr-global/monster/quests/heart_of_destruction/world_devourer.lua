@@ -72,22 +72,20 @@ monster.voices = {
 }
 
 monster.loot = {
-	{ id = 3031, chance = 100000, maxCount = 100 }, -- gold coin
-	{ id = 3035, chance = 100000, maxCount = 20 }, -- platinum coin
-	{ id = 16119, chance = 10000, maxCount = 3 }, -- blue crystal shard
-	{ id = 238, chance = 10000, maxCount = 5 }, -- great mana potion
-	{ id = 7642, chance = 10000, maxCount = 5 }, -- great spirit potion
-	{ id = 16121, chance = 10000, maxCount = 3 }, -- green crystal shard
-	{ id = 7643, chance = 10000, maxCount = 5 }, -- ultimate health potion
-	{ id = 16120, chance = 10000, maxCount = 3 }, -- violet crystal shard
-	{ id = 23507, chance = 10000 }, -- crystallized anger
-	{ id = 23508, chance = 10000 }, -- energy vein
+	{ id = 3031, chance = 100000, maxCount = 361 }, -- gold coin
+	{ id = 3035, chance = 100000, maxCount = 46 }, -- platinum coin
+	{ id = 16119, chance = 59402, maxCount = 8 }, -- blue crystal shard
+	{ id = 238, chance = 50000, maxCount = 18 }, -- great mana potion
+	{ id = 7642, chance = 51709, maxCount = 17 }, -- great spirit potion
+	{ id = 16121, chance = 60256, maxCount = 6 }, -- green crystal shard
+	{ id = 7643, chance = 53419, maxCount = 16 }, -- ultimate health potion
+	{ id = 16120, chance = 53846, maxCount = 5 }, -- violet crystal shard
+	{ id = 23507, chance = 86752 }, -- crystallized anger
+	{ id = 23508, chance = 86752 }, -- energy vein
 	{ id = 281, chance = 5000 }, -- giant shimmering pearl (green)
 	{ id = 282, chance = 5000 }, -- giant shimmering pearl (brown)
-	{ id = 23510, chance = 10000 }, -- odd organ
-	{ id = 23520, chance = 10000 }, -- plasmatic lightning
-	{ id = 3038, chance = 10000 }, -- green gem
-	{ id = 22721, chance = 100000 }, -- gold token
+	{ id = 3038, chance = 10000, maxCount = 4 }, -- green gem
+	{ id = 22721, chance = 96154 }, -- gold token
 	{ id = 7426, chance = 10000 }, -- amber staff
 	{ id = 828, chance = 8000 }, -- lightning headband
 	{ id = 23533, chance = 8000 }, -- ring of red plasma

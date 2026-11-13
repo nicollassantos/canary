@@ -82,20 +82,15 @@ monster.voices = {
 
 monster.loot = {
 	{ name = "platinum coin", chance = 100000, maxCount = 17 },
-	{ name = "small amethyst", chance = 33500, maxCount = 2 },
-	{ name = "small ruby", chance = 33500, maxCount = 2 },
-	{ name = "small sapphire", chance = 33500 },
-	{ name = "small topaz", chance = 33500 },
-	{ name = "small diamond", chance = 33500 },
+	{ name = "small amethyst", chance = 33500, maxCount = 1 },
+	{ name = "small ruby", chance = 13548, maxCount = 1 },
+	{ name = "small sapphire", chance = 14839 },
+	{ name = "small topaz", chance = 16129 },
+	{ name = "small diamond", chance = 20645 },
 	{ name = "great spirit potion", chance = 26400 },
 	{ name = "terra rod", chance = 24000, maxCount = 3 },
 	{ name = "springsprout rod", chance = 21000 },
-	{ name = "blue crystal shard", chance = 21000 },
-	{ name = "blue gem", chance = 21000 },
 	{ name = "cobra crest", chance = 12560 },
-	{ name = "violet crystal shard", chance = 14800 },
-	{ id = 281, chance = 14520 }, -- giant shimmering pearl (green)
-	{ name = "gold ingot", chance = 14500 },
 	{ name = "spellbook of warding", chance = 6500 },
 	{ id = 3098, chance = 5400 }, -- ring of healing
 	{ name = "terra hood", chance = 1600 },

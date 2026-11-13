@@ -79,36 +79,35 @@ monster.voices = {
 }
 
 monster.loot = {
-	{ name = "platinum coin", chance = 100000, maxCount = 15 },
-	{ name = "crystal coin", chance = 100000, maxCount = 7 },
-	{ name = "green crystal shard", chance = 100000, maxCount = 3 },
-	{ name = "violet crystal shard", chance = 100000, maxCount = 3 },
-	{ id = 23516, chance = 100000 }, -- instable proto matter
+	{ name = "platinum coin", chance = 100000, maxCount = 25 },
+	{ name = "crystal coin", chance = 100000, maxCount = 22 },
+	{ name = "green crystal shard", chance = 63125, maxCount = 5 },
+	{ name = "violet crystal shard", chance = 66250, maxCount = 5 },
 	{ name = "plasmatic lightning", chance = 100000 },
 	{ name = "emerald bangle", chance = 100000 },
-	{ name = "royal star", chance = 66666, maxCount = 100 },
-	{ name = "small amethyst", chance = 66666, maxCount = 12 },
-	{ name = "silver token", chance = 66666, maxCount = 12 },
-	{ name = "mastermind potion", chance = 66666, maxCount = 10 },
-	{ name = "ultimate mana potion", chance = 66666, maxCount = 6 },
-	{ name = "giant emerald", chance = 66666 },
-	{ id = 3039, chance = 66666 }, -- red gem
-	{ name = "small ruby", chance = 33333, maxCount = 12 },
-	{ name = "bullseye potion", chance = 33333, maxCount = 10 },
-	{ name = "gold token", chance = 33333, maxCount = 8 },
-	{ name = "supreme health potion", chance = 33333, maxCount = 6 },
-	{ name = "blue crystal shard", chance = 33333, maxCount = 3 },
+	{ name = "royal star", chance = 37500, maxCount = 197 },
+	{ name = "small amethyst", chance = 18125, maxCount = 23 },
+	{ name = "silver token", chance = 95000, maxCount = 22 },
+	{ name = "mastermind potion", chance = 22500, maxCount = 19 },
+	{ name = "ultimate mana potion", chance = 28750, maxCount = 11 },
+	{ name = "giant emerald", chance = 19375 },
+	{ id = 3039, chance = 20000 }, -- red gem
+	{ name = "small ruby", chance = 33333, maxCount = 22 },
+	{ name = "bullseye potion", chance = 33333, maxCount = 19 },
+	{ name = "gold token", chance = 33333, maxCount = 12 },
+	{ name = "supreme health potion", chance = 33333, maxCount = 11 },
+	{ name = "blue crystal shard", chance = 69375, maxCount = 5 },
 	{ name = "giant sapphire", chance = 33333 },
-	{ name = "green gem", chance = 33333 },
-	{ id = 23542, chance = 33333 }, -- collar of blue plasma
+	{ name = "green gem", chance = 7500 },
+	{ id = 23542, chance = 10625 }, -- collar of blue plasma
 	{ name = "huge chunk of crude iron", chance = 33333 },
-	{ name = "magic sulphur", chance = 33333 },
-	{ name = "ring of the sky", chance = 33333 },
-	{ name = "ultimate spirit potion", chance = 15000, maxCount = 20 },
-	{ name = "small diamond", chance = 15000, maxCount = 12 },
-	{ name = "small emerald", chance = 15000, maxCount = 12 },
+	{ name = "magic sulphur", chance = 5000 },
+	{ name = "ring of the sky", chance = 8125 },
+	{ name = "ultimate spirit potion", chance = 35625, maxCount = 11 },
+	{ name = "small diamond", chance = 15000, maxCount = 23 },
+	{ name = "small emerald", chance = 15000, maxCount = 22 },
 	{ name = "rift shield", chance = 5000 },
-	{ id = 281, chance = 5000 }, -- giant shimmering pearl (green)
+	{ id = 281, chance = 16875 }, -- giant shimmering pearl (green)
 	{ id = 3341, chance = 5000 }, -- arcane staff
 	{ name = "skullcracker armor", chance = 5000 },
 	{ name = "chaos mace", chance = 5000 },

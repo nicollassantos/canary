@@ -75,7 +75,6 @@ monster.loot = {
 	{ id = 239, chance = 30500 }, -- great health potion
 	{ id = 3035, chance = 41325, maxCount = 30 }, -- platinum coin
 	{ id = 3031, chance = 49650, maxCount = 100 }, -- gold coin
-	{ id = 8894, chance = 50500 }, -- heavily rusted armor
 	{ id = 9058, chance = 33000, maxCount = 4 }, -- gold ingot
 	{ id = 3041, chance = 30500 }, -- blue gem
 	{ id = 3038, chance = 20500 }, -- green gem

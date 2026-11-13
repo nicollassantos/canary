@@ -78,21 +78,21 @@ monster.voices = {
 }
 
 monster.loot = {
-	{ name = "crystal coin", chance = 5441, maxCount = 108 },
-	{ name = "mastermind potion", chance = 5530, maxCount = 28 },
-	{ name = "supreme health potion", chance = 5044, maxCount = 154 },
+	{ name = "crystal coin", chance = 5441, maxCount = 127 },
+	{ name = "mastermind potion", chance = 5530, maxCount = 46 },
+	{ name = "supreme health potion", chance = 5044, maxCount = 196 },
 	{ name = "giant sapphire", chance = 10546, maxCount = 1 },
-	{ name = "ultimate mana potion", chance = 5752, maxCount = 107 },
+	{ name = "ultimate mana potion", chance = 5752, maxCount = 208 },
 	{ name = "violet gem", chance = 13217, maxCount = 4 },
 	{ id = 3039, chance = 13465, maxCount = 1 }, -- red gem
-	{ name = "yellow gem", chance = 14071, maxCount = 1 },
-	{ name = "blue gem", chance = 11156, maxCount = 3 },
-	{ name = "bullseye potion", chance = 6792, maxCount = 21 },
-	{ name = "giant amethyst", chance = 11603, maxCount = 1 },
+	{ name = "yellow gem", chance = 14071, maxCount = 3 },
+	{ name = "blue gem", chance = 11156, maxCount = 5 },
+	{ name = "bullseye potion", chance = 6792, maxCount = 40 },
+	{ name = "giant amethyst", chance = 11603, maxCount = 2 },
 	{ name = "giant topaz", chance = 12280, maxCount = 1 },
-	{ name = "green gem", chance = 8348, maxCount = 1 },
+	{ name = "green gem", chance = 8348, maxCount = 4 },
 	{ name = "ultimate spirit potion", chance = 10934, maxCount = 18 },
-	{ name = "white gem", chance = 9600, maxCount = 3 },
+	{ name = "white gem", chance = 9600, maxCount = 4 },
 }
 
 monster.attacks = {

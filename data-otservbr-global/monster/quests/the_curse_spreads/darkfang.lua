@@ -76,26 +76,26 @@ monster.voices = {
 }
 
 monster.loot = {
-	{ name = "gold coin", chance = 13600000, maxCount = 100 },
+	{ name = "gold coin", chance = 13600000, maxCount = 120 },
 	{ name = "gold coin", chance = 13600000, maxCount = 100 },
 	{ name = "platinum coin", chance = 13600000, maxCount = 10 },
-	{ name = "berserk potion", chance = 13600000, maxCount = 3 },
-	{ name = "black pearl", chance = 13600000, maxCount = 3 },
-	{ name = "onyx chip", chance = 13600000, maxCount = 5 },
-	{ name = "small enchanted sapphire", chance = 13600000, maxCount = 10 },
-	{ name = "ultimate health potion", chance = 13600000, maxCount = 5 },
-	{ name = "platinum amulet", chance = 13600000 },
-	{ name = "stone skin amulet", chance = 13600000 },
-	{ id = 3053, chance = 13600000 }, -- time ring
-	{ name = "troll green", chance = 13600000, maxCount = 2 },
-	{ name = "werewolf fur", chance = 13600000, maxCount = 2 },
-	{ name = "wolf paw", chance = 13600000, maxCount = 2 },
-	{ name = "bonebreaker", chance = 400 },
-	{ name = "dreaded cleaver", chance = 400 },
-	{ name = "werewolf amulet", chance = 400 },
-	{ name = "traditional sai", chance = 250 },
-	{ id = 7394, chance = 13600000 }, -- wolf trophy
-	{ name = "silver token", chance = 250 },
+	{ name = "berserk potion", chance = 85050, maxCount = 2 },
+	{ name = "black pearl", chance = 79899, maxCount = 5 },
+	{ name = "onyx chip", chance = 83543, maxCount = 3 },
+	{ name = "small enchanted sapphire", chance = 78643, maxCount = 2 },
+	{ name = "ultimate health potion", chance = 100000, maxCount = 2 },
+	{ name = "platinum amulet", chance = 3141 },
+	{ name = "stone skin amulet", chance = 21734 },
+	{ id = 3053, chance = 7789 }, -- time ring
+	{ name = "troll green", chance = 23618, maxCount = 1 },
+	{ name = "werewolf fur", chance = 100000, maxCount = 1 },
+	{ name = "wolf paw", chance = 99874, maxCount = 1 },
+	{ name = "bonebreaker", chance = 8040 },
+	{ name = "dreaded cleaver", chance = 7663 },
+	{ name = "werewolf amulet", chance = 3643 },
+	{ name = "traditional sai", chance = 2136 },
+	{ id = 7394, chance = 9925 }, -- wolf trophy
+	{ name = "silver token", chance = 2638 },
 	{ name = "wolf backpack", chance = 100 },
 }
 

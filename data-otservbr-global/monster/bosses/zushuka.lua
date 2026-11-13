@@ -74,11 +74,11 @@ monster.voices = {
 }
 
 monster.loot = {
-	{ id = 3031, chance = 92000, maxCount = 200 }, -- gold coin
+	{ id = 3031, chance = 92000, maxCount = 352 }, -- gold coin
 	{ id = 19083, chance = 92000 }, -- silver raid token
 	{ id = 7290, chance = 57000 }, -- shard
 	{ id = 7449, chance = 42000 }, -- crystal sword
-	{ id = 7642, chance = 42000, maxCount = 5 }, -- great spirit potion
+	{ id = 7642, chance = 42000, maxCount = 9 }, -- great spirit potion
 	{ id = 3284, chance = 42000 }, -- ice rapier
 	{ id = 3052, chance = 42000 }, -- life ring
 	{ id = 7443, chance = 35000 }, -- bullseye potion
@@ -90,14 +90,14 @@ monster.loot = {
 	{ id = 3041, chance = 28000 }, -- blue gem
 	{ id = 3574, chance = 28000 }, -- mystic turban
 	{ id = 815, chance = 21000 }, -- glacier amulet
-	{ id = 238, chance = 21000, maxCount = 5 }, -- great mana potion
+	{ id = 238, chance = 21000, maxCount = 7 }, -- great mana potion
 	{ id = 5912, chance = 14000 }, -- blue piece of cloth
 	{ id = 3333, chance = 14000 }, -- crystal mace
 	{ id = 3085, chance = 14000 }, -- dragon necklace
 	{ id = 823, chance = 14000 }, -- glacier kilt
 	{ id = 824, chance = 14000 }, -- glacier robe
 	{ id = 9058, chance = 14000 }, -- gold ingot
-	{ id = 239, chance = 14000, maxCount = 5 }, -- great health potion
+	{ id = 239, chance = 14000, maxCount = 9 }, -- great health potion
 	{ id = 7459, chance = 14000 }, -- pair of earmuffs
 	{ id = 3324, chance = 14000 }, -- skull staff
 	{ id = 3079, chance = 7000 }, -- boots of haste

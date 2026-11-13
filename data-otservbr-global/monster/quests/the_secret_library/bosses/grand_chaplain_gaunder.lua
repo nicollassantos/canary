@@ -71,15 +71,15 @@ monster.voices = {
 }
 
 monster.loot = {
-	{ name = "flask of demonic blood", chance = 50000, maxCount = 2 },
-	{ name = "ham", chance = 50000, maxCount = 2 },
-	{ name = "onyx arrow", chance = 35000, maxCount = 3 },
-	{ name = "small diamond", chance = 30000, maxCount = 3 },
-	{ name = "small emerald", chance = 30000, maxCount = 3 },
+	{ name = "flask of demonic blood", chance = 28999, maxCount = 4 },
+	{ name = "ham", chance = 71001, maxCount = 1 },
+	{ name = "onyx arrow", chance = 16741, maxCount = 15 },
+	{ name = "small diamond", chance = 5082, maxCount = 3 },
+	{ name = "small emerald", chance = 4484, maxCount = 3 },
 	{ name = "small enchanted amethyst", chance = 20000, maxCount = 3 },
-	{ name = "damaged armor plates", chance = 2350, maxCount = 3 },
-	{ id = 281, chance = 12000, maxCount = 1 }, -- giant shimmering pearl (green)
-	{ name = "knight armor", chance = 7000 },
+	{ name = "damaged armor plates", chance = 2350, maxCount = 1 },
+	{ id = 281, chance = 3288, maxCount = 1 }, -- giant shimmering pearl (green)
+	{ name = "knight armor", chance = 1943 },
 	{ name = "patch of fine cloth", chance = 1800 },
 	{ name = "spiked squelcher", chance = 3200 },
 	{ name = "titan axe", chance = 2400 },
