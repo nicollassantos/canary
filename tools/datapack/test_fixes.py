@@ -136,6 +136,24 @@ class PlanTest(unittest.TestCase):
         self.assertEqual([], planned)
         self.assertTrue(all("reward chest" in r["reason"] for r in review))
 
+    def test_reward_boss_attributes_follow_the_normal_rules(self):
+        report = {"monsters": [{"name": "Chest Boss", "file": "boss.lua", "race_id": 7, "wiki_race_id": 7.0, "revid": 1, "findings": [
+            {"kind": "stat", "subject": "armor", "datapack": 40, "wiki": 50.0},
+            {"kind": "loot_count", "subject": "gold coin", "datapack_max": 40, "wiki_observed_max": 60}]}]}
+        planned, review = fixes.plan(report, {"gold coin": {3031}}, stackable={3031}, bosses={"Chest Boss"})
+        self.assertEqual([("stat", "armor")], [(f["kind"], f["item"]) for f in planned])
+        self.assertEqual(["gold coin"], [r["item"] for r in review])
+
+    def test_boss_stats_are_left_for_review(self):
+        report = {"monsters": [{"name": "Chest Boss", "file": "boss.lua", "race_id": 7, "wiki_race_id": 7.0, "revid": 1, "findings": [
+            {"kind": "stat", "subject": "maxHealth", "datapack": 350000, "wiki": 600000.0},
+            {"kind": "element", "subject": "fireDmgMod", "datapack": 0, "wiki": 20.0}]}]}
+        planned, review = fixes.plan(report, {}, set(), bosses={"Chest Boss"}, boss_names={"Chest Boss"},
+                                     element_types={"fireDmgMod": "COMBAT_FIREDAMAGE"})
+        self.assertEqual([("element", "COMBAT_FIREDAMAGE")], [(f["kind"], f["item"]) for f in planned])
+        self.assertIn("quest scripts", review[0]["reason"])
+        self.assertIn("quest scripts", fixes.validate({"kind": "stat", "item": "maxHealth", "value": 1}, {"boss": True, "race": 7, "wiki_race": 7}, {}))
+
     def test_only_safe_fixes_are_planned(self):
         planned, review = fixes.plan(self.REPORT, self.BY_NAME, stackable={3031, 9001})
         self.assertEqual([("add_loot", "rare gem"), ("max_count", "gold coin")], [(f["kind"], f["item"]) for f in planned])
@@ -289,8 +307,10 @@ class ValidateTest(unittest.TestCase):
         self.assertIn("no race id", self.check(add("rare gem", 10), race=None, wiki_race=34))
         self.assertIn("differs", self.check(add("rare gem", 10), race=35, wiki_race=34))
 
-    def test_reward_chest_monsters_are_refused(self):
+    def test_reward_chest_monsters_keep_their_loot_but_not_their_attributes_out(self):
         self.assertIn("reward chest", self.check(add("rare gem", 10), race=34, wiki_race=34, reward=True))
+        element = {"kind": "element", "item": "COMBAT_DROWNDAMAGE", "percent": 0}
+        self.assertIsNone(self.check(element, race=34, wiki_race=34, reward=True, uncertain=set()))
 
     def test_attributes_need_matching_ids_and_a_certain_value(self):
         element = {"kind": "element", "item": "COMBAT_DROWNDAMAGE", "percent": 0}

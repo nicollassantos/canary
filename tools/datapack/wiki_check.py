@@ -475,6 +475,7 @@ def monster_info(monsters, cache_dir):
             "race": datapack_race(monster),
             "wiki_race": parse_number(infobox.get("race_id")),
             "reward": bool(monster.get("rewardBoss")),
+            "boss": bool(monster.get("rewardBoss") or monster.get("bosstiary")),
             "uncertain": {k for k in keys if any(mark in infobox.get(k, "") for mark in "?~")},
         }
     return info
@@ -499,8 +500,9 @@ def command_plan(args):
     if os.path.exists(reviewed_path):
         with open(reviewed_path, encoding="utf-8") as handle:
             reviewed = json.load(handle)["decisions"]
+    boss_names = {m["name"] for m in monsters if m.get("rewardBoss") or m.get("bosstiary")}
     fixes, review = fixes_module.plan(report, by_name, stackable, kinds=tuple(args.kinds.split(",")), bosses=bosses, element_types=element_types,
-                                      reviewed=reviewed)
+                                      reviewed=reviewed, boss_names=boss_names)
     manifest_path = os.path.join(ROOT, args.manifest)
     if os.path.exists(manifest_path):
         with open(manifest_path, encoding="utf-8") as handle:
@@ -508,6 +510,9 @@ def command_plan(args):
     # Every fix, old or new, is re-checked with the current rules; the ones that no longer hold
     # leave the manifest and their files must be restored before re-applying it.
     info = monster_info(monsters, os.path.join(args.out, "cache", "creature"))
+    for decision in reviewed:
+        if decision.get("decision") == "apply" and decision["monster"] in info:
+            info[decision["monster"]].setdefault("approved", {})[(decision["kind"], decision["item"])] = True
     kept, dropped = [], []
     for fix in fixes:
         reason = fixes_module.validate(fix, info.get(fix.get("monster")), {combat: key for combat, key in ELEMENTS.items()})

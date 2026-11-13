@@ -128,7 +128,9 @@ def validate(fix, info, element_keys):
     """
     if info is None:
         return None
-    if info.get("reward"):
+    if info.get("boss") and fix["kind"] == "stat" and not info.get("approved", {}).get((fix["kind"], fix["item"])):
+        return BOSS_STAT_REASON
+    if info.get("reward") and fix["kind"] in LOOT_KINDS:
         return "reward chest: chances are base values scaled per participant"
     if fix["kind"] in LOOT_KINDS:
         return identity_problem(info.get("race"), info.get("wiki_race"))
@@ -154,24 +156,24 @@ def gap_evidence(finding):
     return None
 
 
+BOSS_STAT_REASON = "boss hit points, experience and armor can be tied to quest scripts and balance; review by hand"
+
+
 def plan(report, by_name, stackable, kinds=("max_count", "add_loot", "chance", "stat", "element", "immunity"), bosses=frozenset(), element_types=None,
-         reviewed=()):
+         reviewed=(), boss_names=frozenset()):
     """`reviewed` holds case-by-case decisions (tools/datapack/reviewed.json): stat findings to apply
     despite the STAT_FACTOR rule, each with a note. Identity and certainty still apply (validate)."""
     approved = {(d["monster"], d["kind"], d["item"]) for d in reviewed if d.get("decision") == "apply"}
     """Fixes for the chosen kinds plus the findings left for manual review, with the reason.
 
-    Reward-chest monsters (`bosses`, flagged rewardBoss) are always left for review: each
+    Loot of reward-chest monsters (`bosses`, flagged rewardBoss) is always left for review: each
     participant rolls the table with a contribution factor (2x for a solo kill), so the wiki's
-    per-player amounts and rates do not describe one roll of the datapack table.
+    per-player amounts and rates do not describe one roll of the datapack table. Their stats,
+    elements and immunities follow the normal rules.
     """
     fixes, review = [], []
     for monster in report["monsters"]:
-        if monster["name"] in bosses:
-            for finding in monster["findings"]:
-                if finding["kind"] in ("loot_count", "loot_missing", "loot_chance", "stat", "element", "immunity"):
-                    review.append({"monster": monster["name"], "item": finding["subject"], "reason": "reward chest: chances are base values scaled per participant"})
-            continue
+        reward_chest = monster["name"] in bosses
         block = monster.get("loot_block") or {}
         source = {"version": block.get("version"), "kills": block.get("kills"), "loot_revid": monster.get("loot_revid")}
         same_creature = bool(monster.get("race_id")) and bool(monster.get("wiki_race_id")) and int(monster["race_id"]) == int(monster["wiki_race_id"])
@@ -179,6 +181,10 @@ def plan(report, by_name, stackable, kinds=("max_count", "add_loot", "chance", "
         for finding in monster["findings"]:
             item = finding["subject"]
             ids = sorted(by_name.get(item, set()))
+            if finding["kind"] in ("loot_count", "loot_chance", "loot_missing") and reward_chest:
+                # Only the loot depends on the reward chest; stats, elements and immunities do not.
+                review.append({"monster": monster["name"], "item": item, "reason": "reward chest: chances are base values scaled per participant"})
+                continue
             if finding["kind"] in ("loot_count", "loot_chance", "loot_missing") and loot_identity:
                 review.append({"monster": monster["name"], "item": item, "reason": loot_identity})
                 continue
@@ -198,6 +204,9 @@ def plan(report, by_name, stackable, kinds=("max_count", "add_loot", "chance", "
                 if finding["kind"] == "stat":
                     ours, wiki = float(finding["datapack"]), float(finding["wiki"])
                     manual = (monster["name"], "stat", finding["subject"]) in approved
+                    if monster["name"] in boss_names and not manual:
+                        review.append({"monster": monster["name"], "item": finding["subject"], "reason": BOSS_STAT_REASON})
+                        continue
                     if not manual and (ours <= 0 or wiki <= 0 or not (1 / STAT_FACTOR <= ours / wiki <= STAT_FACTOR)):
                         review.append({"monster": monster["name"], "item": finding["subject"], "reason": f"stat gap from {ours:g} to {wiki:g} is too large to trust"})
                         continue
