@@ -563,6 +563,39 @@ class DuplicateAddTest(unittest.TestCase):
         self.assertEqual(2, len(dropped))
 
 
+class LowerMaxCountTest(unittest.TestCase):
+    def plan(self, version="14.0", **overrides):
+        finding = {"kind": "loot_count_high", "subject": "beast fang", "datapack_max": 5, "datapack_min": 1, "wiki_observed_max": 3, "times": 2000}
+        finding.update(overrides)
+        report = {"monsters": [{"name": "Sample Beast", "file": "beast.lua", "race_id": 900, "loot_block": {"version": version, "kills": 10000},
+                                "findings": [finding]}]}
+        return fixes.plan(report, {"beast fang": {9001}}, stackable={9001}, kinds=("max_count",))
+
+    def test_lowering_is_planned_from_recent_statistics(self):
+        planned, review = self.plan()
+        self.assertEqual([], review)
+        self.assertEqual((3, 5), (planned[0]["maxCount"], planned[0]["from"]))
+        self.assertIn("no drop above 3 in 2000 drops", planned[0]["source"]["evidence"])
+
+    def test_old_statistics_and_counts_below_min_stay_for_review(self):
+        self.assertIn("amounts may have changed", self.plan(version="8.6")[1][0]["reason"])
+        self.assertIn("below the datapack minCount", self.plan(datapack_min=4)[1][0]["reason"])
+
+    def test_lowering_is_exact_and_idempotent(self):
+        text = MONSTER.replace("{ id = 9001, chance = 20000 }, -- beast fang", "{ id = 9001, chance = 20000, maxCount = 5 }, -- beast fang")
+        fix = {**max_count("beast fang", 3), "from": 5}
+        lowered, outcomes = fixes.apply_to_text(text, [fix], BY_ID)
+        self.assertEqual(["applied"], outcomes)
+        self.assertIn("{ id = 9001, chance = 20000, maxCount = 3 }, -- beast fang", lowered)
+        self.assertEqual((lowered, ["already"]), fixes.apply_to_text(lowered, [fix], BY_ID))
+        changed = text.replace("maxCount = 5", "maxCount = 4")
+        self.assertEqual("changed upstream (maxCount 4)", fixes.apply_to_text(changed, [fix], BY_ID)[1][0])
+
+    def test_lowering_needs_a_single_entry(self):
+        doubled = MONSTER.replace('\t{ name = "beast hide", chance = 500 },', '\t{ id = 9001, chance = 100, maxCount = 5 },')
+        self.assertEqual(["several entries"], fixes.apply_to_text(doubled, [{**max_count("beast fang", 3), "from": 5}], BY_ID)[1])
+
+
 class StackableTest(unittest.TestCase):
     def test_cumulative_flag_is_read_from_the_protobuf(self):
         def varint(n):

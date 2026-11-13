@@ -213,6 +213,32 @@ class CompareTest(unittest.TestCase):
         self.assertEqual({("loot_missing", "pearl (brown)"), ("loot_missing", "pearl (green)")}, kinds(findings))
         self.assertTrue(all(f["datapack_alias"] == ["pearl"] for f in findings))
 
+    def test_max_count_above_every_observed_amount_is_flagged_when_the_sample_says_so(self):
+        # Beast Fang: 2000 drops, never more than 3; a range up to 5 would have shown 4 or 5.
+        loot = monster()["loot"]
+        loot[1] = {"name": "beast fang", "chance": 20000, "maxCount": 5}
+        findings, _ = wiki_check.compare(monster(loot=loot), self.infobox, self.blocks, BY_NAME, BY_ID)
+        finding = next(f for f in findings if f["kind"] == "loot_count_high")
+        self.assertEqual(("beast fang", 5, 1, 3, 2000), (finding["subject"], finding["datapack_max"], finding["datapack_min"],
+                                                         finding["wiki_observed_max"], finding["times"]))
+
+    def test_a_total_above_the_amounts_blocks_the_lowering(self):
+        # The row has no amount field but its total says some drops were stacks.
+        rows = [{"version": "13.0", "kills": 10000, "items": {"beast fang": (2000, 1, 1)}, "totals": {"beast fang": 3500}}]
+        loot = [{"name": "beast fang", "chance": 20000, "maxCount": 3}]
+        findings, _ = wiki_check.compare(monster(loot=loot), {}, rows, BY_NAME, BY_ID)
+        self.assertNotIn("loot_count_high", {f["kind"] for f in findings})
+        rows[0]["totals"]["beast fang"] = 2000
+        findings, _ = wiki_check.compare(monster(loot=loot), {}, rows, BY_NAME, BY_ID)
+        self.assertIn("loot_count_high", {f["kind"] for f in findings})
+
+    def test_few_drops_do_not_lower_max_count(self):
+        # 9 drops of 1 with maxCount 2: (1/2)^9 = 0.002 is above e^-7 (0.0009), so the sample cannot tell.
+        few = [{"version": "13.0", "kills": 10000, "items": {"rare gem": (9, 1, 1)}, "totals": {}}]
+        loot = [{"name": "rare gem", "chance": 90, "maxCount": 2}]
+        findings, _ = wiki_check.compare(monster(loot=loot), {}, few, BY_NAME, BY_ID)
+        self.assertNotIn("loot_count_high", {f["kind"] for f in findings})
+
     def test_stats_elements_and_immunities(self):
         changed = monster(maxHealth=1100, elements=[{"type": "COMBAT_FIREDAMAGE", "percent": 50}],
                           immunities=[{"type": "paralyze", "condition": False}])

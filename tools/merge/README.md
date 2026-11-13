@@ -90,13 +90,13 @@ The fork's monster corrections live in `tools/datapack/fixes.json`. On a conflic
 
 ```sh
 git checkout --theirs -- data-otservbr-global/monster/<path>.lua
-python3 -I tools/datapack/wiki_check.py apply   # idempotent; never lowers a maxCount
+python3 -I tools/datapack/wiki_check.py apply   # idempotent; a raise never undoes a larger upstream maxCount
 ```
 
 Each fix records the value it replaces (`from`). `apply` changes a value only while the file
 still holds that `from`; when upstream changed it to something else it prints
 `changed upstream (...)`, exits 1 and leaves the file alone, so the conflict is decided by hand.
-A `remove_loot` fix deletes an item's one-line entries only while they equal its `from`; an item
+A `max_count` fix that lowers (its `maxCount` below `from`) is exact and needs a single entry. A `remove_loot` fix deletes an item's one-line entries only while they equal its `from`; an item
 upstream already dropped is `already`, and an entry upstream spread over several lines is reported.
 An `add_loot` whose item upstream now lists under another spelling or id is reported as
 `listed as another entry (...)` instead of adding it twice. Then run the smoke boot (no loot

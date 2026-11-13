@@ -6,8 +6,9 @@ edits the files from the manifest only, so after an upstream merge the same mani
 on top of upstream's version ("take theirs, re-apply"). Applying twice changes nothing.
 
 Kinds handled (chosen by the user, batch by batch):
-- max_count: raise an item's maxCount to the largest amount the wiki observed (stackable items
-  only: the server ignores maxCount for the rest);
+- max_count: set a stackable item's maxCount (the server ignores it for the rest) to the largest
+  amount the wiki observed: raised when the wiki saw more; lowered when no drop in a sample from
+  MIN_ADD_VERSION on went above it and the datapack range would have shown more (single entry only);
 - add_loot: add an item the wiki drops and the datapack lacks, when its name resolves to exactly
   one item;
 - chance: set an item's chance to the wiki rate when the datapack falls outside the binomial
@@ -179,7 +180,7 @@ def resolve_item(name, by_name, flags):
 # --- plan: report -> manifest ----------------------------------------------------------------
 
 LOOT_KINDS = ("max_count", "add_loot", "chance", "coins", "remove_loot")
-LOOT_FINDINGS = ("loot_count", "loot_chance", "loot_missing", "coins", "loot_datapack_only")
+LOOT_FINDINGS = ("loot_count", "loot_count_high", "loot_chance", "loot_missing", "coins", "loot_datapack_only")
 COIN_NAMES = ("gold coin", "platinum coin", "crystal coin")
 STAT_KEYS = {"experience": "exp", "maxHealth": "hp", "armor": "armor", "mitigation": "mitigation"}
 IMMUNITY_KEYS = {"paralyze": "paraimmune", "invisible": "senseinvis"}
@@ -275,7 +276,7 @@ def plan(report, by_name, stackable, kinds=("max_count", "add_loot", "chance", "
     certainty still apply (validate)."""
     approved = {(d["monster"], d["kind"], d["item"]) for d in reviewed if d.get("decision") == "apply"}
     kept = {(d["monster"], d["kind"], d["item"]): d.get("note", "") for d in reviewed if d.get("decision") == "keep"}
-    finding_kind = {"loot_count": "max_count", "loot_missing": "add_loot", "loot_chance": "chance", "coins": "coins",
+    finding_kind = {"loot_count": "max_count", "loot_count_high": "max_count", "loot_missing": "add_loot", "loot_chance": "chance", "coins": "coins",
                     "loot_datapack_only": "remove_loot"}
     """Fixes for the chosen kinds plus the findings left for manual review, with the reason.
 
@@ -322,6 +323,21 @@ def plan(report, by_name, stackable, kinds=("max_count", "add_loot", "chance", "
                     review.append({"monster": monster["name"], "item": item, "reason": f"jump from {old} to {new} is too large to trust", "wiki": new})
                 else:
                     fixes.append({"kind": "max_count", "file": monster["file"], "monster": monster["name"], "item": item, "maxCount": new, "from": old, "source": source})
+            elif finding["kind"] == "loot_count_high" and "max_count" in kinds:
+                major = int((re.findall(r"\d+", str(source.get("version") or "")) or [0])[0])
+                old, new = finding["datapack_max"], finding["wiki_observed_max"]
+                if major < MIN_ADD_VERSION:
+                    # The rarity check that confirms old chances says nothing about amounts.
+                    review.append({"monster": monster["name"], "item": item, "reason": f"old statistics (version {source.get('version')}): amounts may have changed since", "wiki": new})
+                elif item in CURRENCY:
+                    review.append({"monster": monster["name"], "item": item, "reason": "currency: the coins fix owns the coin entries"})
+                elif not ids or not all(i in stackable for i in ids):
+                    review.append({"monster": monster["name"], "item": item, "reason": "not stackable; maxCount has no effect", "wiki": new})
+                elif new < finding["datapack_min"]:
+                    review.append({"monster": monster["name"], "item": item, "reason": f"the wiki saw at most {new}, below the datapack minCount {finding['datapack_min']}"})
+                else:
+                    fixes.append({"kind": "max_count", "file": monster["file"], "monster": monster["name"], "item": item, "maxCount": new, "from": old,
+                                  "source": {**source, "times": finding["times"], "evidence": f"no drop above {new} in {finding['times']} drops"}})
             elif finding["kind"] in ("stat", "element", "immunity") and finding["kind"] in kinds:
                 page = {"revid": monster.get("revid")}
                 if not same_creature:
@@ -632,10 +648,16 @@ def apply_to_text(text, fixes, by_id, by_name=None):
             if not matching:
                 outcomes.append("item not in loot")
                 continue
+            # A raise never lowers what upstream raised further; a lowering (maxCount below `from`) is
+            # exact and touches a single entry only.
+            lowering = "from" in fix and fix["maxCount"] < fix["from"]
+            if lowering and len(matching) != 1:
+                outcomes.append("several entries")
+                continue
             index, match = max(matching, key=lambda im: entry_number(im[1].group("body"), "maxCount") or 1)
             body = match.group("body")
             current = entry_number(body, "maxCount") or 1
-            if current >= fix["maxCount"]:
+            if current == fix["maxCount"] or (not lowering and current > fix["maxCount"]):
                 outcomes.append("already")
                 continue
             if "from" in fix and current != fix["from"]:

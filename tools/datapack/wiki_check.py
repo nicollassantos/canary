@@ -354,6 +354,14 @@ def compare(monster, infobox, blocks, by_name, by_id, checked=None):
                 other_versions=others, current_rarity=current.get(name), **named)
         if high > max_count:
             add("loot_count", key, datapack_max=max_count, wiki_observed_max=high, **named)
+        elif strong and high < max_count and entries == 1 and key not in COINS and block["totals"].get(name, 0) <= times * high:
+            # (A row without `amount:` whose recorded total exceeds times x high did see larger stacks.)
+            # The server draws the count uniformly in [minCount, maxCount]: when no drop in the sample
+            # went above `high`, a larger maxCount is as unlikely as an absent item (MIN_EXPECTED_DROPS).
+            (_, low_count, high_count), = datapack_entries(monster.get("loot"), by_id, key)
+            span = high_count - low_count + 1
+            if ((max(high, low_count) - low_count + 1) / span) ** times <= math.exp(-MIN_EXPECTED_DROPS):
+                add("loot_count_high", key, datapack_max=high_count, datapack_min=low_count, wiki_observed_max=high, times=times, **named)
     totals = block.get("totals", {})
     wiki_coins = [(name, round(times / kills * MAX_CHANCE)) + coin_range(totals.get(name, 0) / times, low, high)
                   for name, (times, low, high) in block["items"].items() if name in COINS and kills and times]
