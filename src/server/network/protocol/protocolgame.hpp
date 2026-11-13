@@ -622,6 +622,7 @@ private:
 	friend class PlayerImbuementComponent;
 	friend class PlayerPreyComponent;
 	friend class PlayerStashComponent;
+	friend class SkillAdvanceGameEventTest;
 	friend class PlayerWheel;
 	friend class PlayerVIP;
 	friend class PlayerAttachedEffects;
@@ -673,6 +674,7 @@ private:
 	void sendAmbientSoundEffect(const SoundAmbientEffect_t id);
 	void sendMusicSoundEffect(const SoundMusicEffect_t id);
 
+	void sendSkillAdvance(skills_t skill, uint16_t skillLevel);
 	void sendTakeScreenshot(Screenshot_t screenshotType, uint8_t skillId = 0, uint16_t skillLevel = 0, const std::string &achievementName = "", uint16_t raceId = 0, uint8_t bestiaryStep = 0);
 	void sendDisableLoginMusic();
 

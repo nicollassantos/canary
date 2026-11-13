@@ -373,7 +373,7 @@
 ## Phase 25 — issues abertas do upstream (aberta em 2026-11-13; plano em `tasks/plan.md`, triagem em `tasks/upstream_issues.md`)
 
 - [x] **25.1** — #4154 datas locais sem nanossegundos: porta idêntica do PR #4179 (`toLocalTime`); 4 testes `DateFormattingTest` (UTC, virada de ano em BRT, virada de dia em JST, conversão impossível)
-- [ ] **25.2** — #4114 IDs do aviso de avanço de skill
+- [x] **25.2** — #4114 IDs do aviso de avanço de skill: porta do PR #4181 (mapa próprio do evento `0x75/0x05`, sem mexer no `CipbiaSkills_t`) nos components; 3 testes `SkillAdvanceGameEventTest` (pacote, avanço normal e offline)
 - [ ] **25.3** — #4153 byte de motivo no `0x14` (15.23+)
 - [ ] **25.4** — #4125 reset de charm sem leitura além do pacote
 - [ ] **25.5** — #3478 freequests + harness

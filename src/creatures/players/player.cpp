@@ -4757,6 +4757,15 @@ void Player::sendOpenStash(bool isNpc) const {
 	m_stashComponent.sendOpenStash(isNpc);
 }
 
+/**
+ * @brief Forward a skill advance and its resulting level when a client is attached.
+ */
+void Player::sendSkillAdvance(skills_t skill, uint16_t skillLevel) const {
+	if (client) {
+		client->sendSkillAdvance(skill, skillLevel);
+	}
+}
+
 void Player::sendTakeScreenshot(Screenshot_t screenshotType, uint8_t skillId, uint16_t skillLevel, const std::string &achievementName, uint16_t raceId, uint8_t bestiaryStep) const {
 	if (client) {
 		client->sendTakeScreenshot(screenshotType, skillId, skillLevel, achievementName, raceId, bestiaryStep);
