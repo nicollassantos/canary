@@ -1,4 +1,7 @@
 local doorPosition = Position(33122, 32765, 14)
+-- The door keeps action id 12107 when opened, and closing_door.lua only lets a player through an
+-- open quest door with the storage named by that action id.
+local doorAccessStorage = 12107
 
 local function revertCarrotAndLever(position, carrotPosition)
 	local leverItem = Tile(position):getItemById(2773)
@@ -30,6 +33,7 @@ function theAncientOasisLever.onUse(player, item, fromPosition, target, toPositi
 		Game.createItem(3595, 1, hatPosition)
 
 		player:sendTextMessage(MESSAGE_EVENT_ADVANCE, "You found the carrot! The door is open!")
+		player:setStorageValue(doorAccessStorage, 1)
 		item:transform(2773)
 		addEvent(revertCarrotAndLever, 4 * 1000, toPosition, hatPosition)
 

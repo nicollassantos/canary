@@ -20,32 +20,38 @@ function loadLuaMapAction(tablename)
 	-- It load actions
 	for index, value in pairs(tablename) do
 		for i = 1, #value.itemPos do
+			-- A position may name its own item id, so one action id can cover different items
+			-- (a Lua table keeps only the last of two entries with the same key).
+			local itemId = value.itemPos[i].itemId
+			if itemId == nil then
+				itemId = value.itemId
+			end
 			local tile = Tile(value.itemPos[i])
 			local item
 			-- Checks if the position is valid
 			if tile then
 				-- Checks that you have no items created
-				if not value.itemId == false and tile:getItemCountById(value.itemId) == 0 then
-					logger.error("[loadLuaMapAction] - Wrong item id {} found", value.itemId)
+				if not itemId == false and tile:getItemCountById(itemId) == 0 then
+					logger.error("[loadLuaMapAction] - Wrong item id {} found", itemId)
 					logger.warn("Action id: {}, position {}", index, tile:getPosition():toString())
 					goto continue
 				end
 
-				if value.itemId ~= false and tile:getItemCountById(value.itemId) > 0 then
-					item = tile:getItemById(value.itemId)
+				if itemId ~= false and tile:getItemCountById(itemId) > 0 then
+					item = tile:getItemById(itemId)
 				end
 
 				-- If he found the item, add the action id.
-				if item and value.itemId ~= false then
+				if item and itemId ~= false then
 					item:setAttribute(ITEM_ATTRIBUTE_ACTIONID, index)
 				end
-				if value.itemId == false and tile:getTopDownItem() then
+				if itemId == false and tile:getTopDownItem() then
 					tile:getTopDownItem():setAttribute(ITEM_ATTRIBUTE_ACTIONID, index)
 				end
-				if value.itemId == false and tile:getTopTopItem() then
+				if itemId == false and tile:getTopTopItem() then
 					tile:getTopTopItem():setAttribute(ITEM_ATTRIBUTE_ACTIONID, index)
 				end
-				if value.itemId == false and tile:getGround() then
+				if itemId == false and tile:getGround() then
 					tile:getGround():setAttribute(ITEM_ATTRIBUTE_ACTIONID, index)
 				end
 			end

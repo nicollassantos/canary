@@ -377,7 +377,7 @@
 - [x] **25.3** — #4153 byte de motivo no `0x14` (15.23+): `ProtocolGame::addLoginError` usado pelas duas montagens; 3 testes `LoginErrorPacketTest` (1525 com byte, 1522 sem, 8.60/11.00 sem)
 - [ ] **25.4** — #4125 reset de charm sem leitura além do pacote
 - [x] **25.5** — #3478 freequests: harness `tools/lua/freequests_check.lua` roda o freequests num player falso e confere cada storage contra o catálogo do questlog; achou 5 (os 2 relatados + Factions sem início e Grave Danger 14 numa missão 1..2, o `46851` citado no relato); upstream falha 5, branch passa
-- [ ] **25.6** — #3453 porta do Oasis + `[12107]` duplicada
+- [x] **25.6** — #3453 porta do Oasis: storage 12107 para quem acha a cenoura; `[12107]` duplicada unificada com `itemId` por posição no `loadLuaMapAction`; harness `tools/lua/oasis_door_check.lua` (branch passa, upstream falha 4: alavancas sem aid pela tabela e player devolvido; o `.otbm` atual já dá o aid às alavancas, então em jogo o defeito real era só o storage)
 - [ ] **25.7** — #3513 callbacks de zona depois da entrada do player
 - [ ] **25.8** — chaves duplicadas no startup + check
 - [ ] **25.9** — #3742 saldo do store; #2083 preços aos online

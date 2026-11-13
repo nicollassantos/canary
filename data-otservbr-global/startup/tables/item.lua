@@ -1097,12 +1097,8 @@ ItemAction = {
 			{ x = 33118, y = 32761, z = 14 },
 			{ x = 33118, y = 32762, z = 14 },
 			{ x = 33118, y = 32763, z = 14 },
-		},
-	},
-	[12107] = {
-		itemId = 1662,
-		itemPos = {
-			{ x = 33122, y = 32765, z = 14 },
+			-- The door the levers open (a second [12107] entry replaced the levers above).
+			{ x = 33122, y = 32765, z = 14, itemId = 1662 },
 		},
 	},
 	-- Children of the Revolution Quest
