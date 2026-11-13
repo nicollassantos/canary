@@ -89,7 +89,7 @@ monster.loot = {
 	{ id = 3039, chance = 2000 }, -- red gem
 	{ name = "deepling ceremonial dagger", chance = 2970 },
 	{ name = "deepling fork", chance = 200 },
-	{ name = "true book of death", chance = 70000 },
+	{ name = "true book of death", chance = 100000 },
 }
 
 monster.attacks = {

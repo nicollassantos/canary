@@ -85,9 +85,9 @@ monster.voices = {
 monster.loot = {
 	{ name = "platinum coin", chance = 100000, maxCount = 4 },
 	{ name = "fafnar symbol", chance = 10211 },
-	{ id = 31433, chance = 5600 }, -- secret instruction
-	{ id = 31435, chance = 5600 }, -- secret instruction
-	{ id = 31436, chance = 5600 }, -- secret instruction
+	{ id = 31433, chance = 2589 }, -- secret instruction
+	{ id = 31435, chance = 2589 }, -- secret instruction
+	{ id = 31436, chance = 2589 }, -- secret instruction
 	{ name = "dragon necklace", chance = 5915 },
 	{ name = "lightning pendant", chance = 4100 },
 	{ name = "magma amulet", chance = 4418 },

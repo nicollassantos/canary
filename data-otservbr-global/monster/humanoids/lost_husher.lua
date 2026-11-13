@@ -94,8 +94,8 @@ monster.loot = {
 	{ name = "small topaz", chance = 9780 },
 	{ name = "clay lump", chance = 500 },
 	{ id = 12600, chance = 10930 }, -- coal
-	{ name = "buckle", chance = 8180 },
-	{ name = "buckle", chance = 770 },
+	{ name = "buckle", chance = 672 },
+	{ name = "buckle", chance = 63 },
 	{ name = "bonecarving knife", chance = 8510 },
 	{ name = "wimp tooth chain", chance = 8950 },
 	{ name = "skull shatterer", chance = 12320 },

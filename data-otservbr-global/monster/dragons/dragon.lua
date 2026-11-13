@@ -106,6 +106,7 @@ monster.loot = {
 	{ name = "small diamond", chance = 450 },
 	{ name = "serpent sword", chance = 499 },
 	{ name = "dragon hammer", chance = 433 },
+	{ id = 44158, chance = 77 }, -- dragon trophy
 	{ name = "dragonbone staff", chance = 53 },
 	{ name = "life crystal", chance = 65 },
 	{ name = "dragon shield", chance = 303 },

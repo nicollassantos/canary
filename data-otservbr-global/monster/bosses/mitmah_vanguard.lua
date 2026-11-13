@@ -93,8 +93,6 @@ monster.loot = {
 	{ name = "broken mitmah chestplate", chance = 9000 },
 	{ name = "giant sapphire", chance = 9000 },
 	{ name = "splintered mitmah gem", chance = 9000 },
-	{ name = "amber with a bug", chance = 3190 },
-	{ name = "amber", chance = 5320 },
 	{ name = "stoic iks boots", chance = 452 },
 	{ name = "stoic iks casque", chance = 372 },
 	{ name = "stoic iks chestplate", chance = 545 },

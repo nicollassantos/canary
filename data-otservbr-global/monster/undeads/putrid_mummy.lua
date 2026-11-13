@@ -79,6 +79,7 @@ monster.voices = {
 
 monster.loot = {
 	{ name = "gold coin", chance = 60870, maxCount = 64 },
+	{ id = 2894, chance = 9373 }, -- broken flask
 	{ id = 12483, chance = 2220 }, -- pharaoh banner
 	{ name = "black pearl", chance = 1280 },
 	{ name = "little bowl of myrrh", chance = 13550 },

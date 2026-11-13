@@ -84,6 +84,7 @@ monster.loot = {
 	{ name = "crystal coin", chance = 56102 },
 	{ name = "great mana potion", chance = 50607, maxCount = 3 },
 	-- {name = "giant shimmering pearl", chance = 10040}, -- unknown item: giant shimmering pearl
+	{ id = 282, chance = 5784 }, -- giant shimmering pearl
 	{ name = "blue gem", chance = 5240 },
 	{ id = 23533, chance = 2429 }, -- ring of red plasma
 	{ name = "wand of voodoo", chance = 2256 },

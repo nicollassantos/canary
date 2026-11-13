@@ -73,6 +73,7 @@ monster.light = {
 monster.loot = {
 	{ name = "soul orb", chance = 15976, maxCount = 3 },
 	{ name = "decayed finger bone", chance = 8580 },
+	{ id = 43782, chance = 8284 }, -- lichen gobbler
 	{ name = "rotten roots", chance = 5325 },
 	{ name = "yellow gem", chance = 5325 },
 	{ id = 3039, chance = 4734 }, -- red gem

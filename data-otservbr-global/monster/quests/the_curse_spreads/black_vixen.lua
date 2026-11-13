@@ -96,11 +96,11 @@ monster.loot = {
 	{ name = "werewolf amulet", chance = 2452 },
 	{ name = "composite hornbow", chance = 1419 },
 	{ name = "traditional sai", chance = 2710 },
-	{ name = "silver token", chance = 250 },
+	{ name = "silver token", chance = 1202 },
 	{ id = 27706, chance = 5419 }, -- werefox trophy
 	{ name = "foxtail", chance = 100 },
 	{ name = "wolf backpack", chance = 100 },
-	{ name = "silver token", chance = 100 },
+	{ name = "silver token", chance = 481 },
 }
 
 monster.attacks = {

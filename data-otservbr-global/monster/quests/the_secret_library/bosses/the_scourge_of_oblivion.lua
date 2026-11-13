@@ -107,7 +107,7 @@ monster.loot = {
 	{ name = "small diamond", chance = 15000, maxCount = 23 },
 	{ name = "small emerald", chance = 15000, maxCount = 22 },
 	{ name = "rift shield", chance = 5000 },
-	{ id = 281, chance = 16875 }, -- giant shimmering pearl (green)
+	{ id = 281, chance = 5000 }, -- giant shimmering pearl (green)
 	{ id = 3341, chance = 5000 }, -- arcane staff
 	{ name = "skullcracker armor", chance = 5000 },
 	{ name = "chaos mace", chance = 5000 },

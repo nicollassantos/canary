@@ -95,8 +95,8 @@ monster.loot = {
 	{ name = "demonic essence", chance = 29868 },
 	{ name = "assassin star", chance = 7551, maxCount = 10 },
 	{ name = "great mana potion", chance = 30179, maxCount = 3 },
-	{ id = 281, chance = 4450 }, -- giant shimmering pearl (green)
-	{ id = 282, chance = 4450 }, -- giant shimmering pearl (brown)
+	{ id = 281, chance = 2472 }, -- giant shimmering pearl (green)
+	{ id = 282, chance = 2472 }, -- giant shimmering pearl (brown)
 	{ name = "seeds", chance = 3979 },
 	{ name = "terra mantle", chance = 1050 },
 	{ name = "terra legs", chance = 2500 },

@@ -80,6 +80,7 @@ monster.voices = {
 
 monster.loot = {
 	{ name = "stone skin amulet", chance = 1926 },
+	{ id = 2814, chance = 1481 }, -- parchment
 	{ id = 2817, chance = 910 }, -- blank parchment
 	{ name = "gold coin", chance = 48000, maxCount = 67 },
 	{ id = 3049, chance = 650 }, -- stealth ring
