@@ -89,7 +89,7 @@ monster.loot = {
 	{ name = "gold ingot", chance = 12380 },
 	{ name = "wand of starstorm", chance = 4686 },
 	{ name = "telescope eye", chance = 5450 },
-	{ id = 33935, chance = 4460 }, --  crown (terror)
+	{ id = 33935, chance = 2961 }, --  crown (terror)
 	{ name = "violet gem", chance = 3960 },
 	{ name = "wand of inferno", chance = 3960 },
 	{ name = "lightning headband", chance = 1549 },

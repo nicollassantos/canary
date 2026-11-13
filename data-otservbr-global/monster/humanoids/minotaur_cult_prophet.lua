@@ -94,7 +94,6 @@ monster.loot = {
 	{ name = "yellow gem", chance = 490 },
 	{ name = "platinum coin", chance = 67040, maxCount = 3 },
 	{ name = "small emerald", chance = 11160 },
-	{ name = "small diamond", chance = 2900, maxCount = 2 },
 	{ name = "small amethyst", chance = 6680, maxCount = 2 },
 	{ name = "red piece of cloth", chance = 630 },
 	{ id = 3098, chance = 6730 }, -- ring of healing

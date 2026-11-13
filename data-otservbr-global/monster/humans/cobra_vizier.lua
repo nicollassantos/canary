@@ -83,7 +83,7 @@ monster.loot = {
 	{ name = "terra hood", chance = 13710 },
 	{ name = "cyan crystal fragment", chance = 10805 },
 	{ name = "terra boots", chance = 14004 },
-	{ id = 281, chance = 8870 }, -- giant shimmering pearl (green)
+	{ id = 281, chance = 6906 }, -- giant shimmering pearl (green)
 	{ id = 3039, chance = 7137 }, -- red gem
 	{ name = "emerald bangle", chance = 3349 },
 	{ name = "gemmed figurine", chance = 4840 },

@@ -85,7 +85,6 @@ monster.loot = {
 	{ name = "lion's mane", chance = 13182 },
 	{ name = "lightning headband", chance = 1500 },
 	{ name = "steel helmet", chance = 3662 },
-	{ name = "doublet", chance = 1500 },
 	{ name = "ivory carving", chance = 2733 },
 	{ name = "moonlight crystals", chance = 915 },
 	{ name = "magma legs", chance = 850 },

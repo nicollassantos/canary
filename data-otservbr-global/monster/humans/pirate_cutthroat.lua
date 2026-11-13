@@ -79,7 +79,6 @@ monster.loot = {
 	{ name = "gold coin", chance = 78000, maxCount = 50 },
 	{ name = "scale armor", chance = 3000 },
 	{ name = "steel shield", chance = 2800 },
-	{ id = 5706, chance = 1093 }, -- treasure map
 	{ id = 5090, chance = 1000 }, -- treasure map
 	{ name = "rum flask", chance = 90 },
 	{ name = "light shovel", chance = 2000 },

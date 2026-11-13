@@ -79,7 +79,6 @@ monster.loot = {
 	{ name = "serpent sword", chance = 5910 },
 	{ name = "crocodile boots", chance = 8530 },
 	{ name = "meat", chance = 5500, maxCount = 4 },
-	{ name = "small topaz", chance = 9120, maxCount = 4 },
 	{ name = "moonlight crystals", chance = 4912 },
 	{ id = 3039, chance = 5120 }, -- red gem
 	{ name = "green crystal shard", chance = 2800 },

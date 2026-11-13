@@ -88,7 +88,7 @@ monster.loot = {
 	{ name = "purple tome", chance = 1042 },
 	{ name = "great mana potion", chance = 19277, maxCount = 3 },
 	{ name = "demonic essence", chance = 7342 },
-	{ id = 28568, chance = 10000 }, -- inkwell
+	{ id = 28568, chance = 11230 }, -- inkwell
 	{ name = "small ruby", chance = 7375, maxCount = 5 },
 	{ name = "talon", chance = 2589 },
 	{ name = "might ring", chance = 1783 },

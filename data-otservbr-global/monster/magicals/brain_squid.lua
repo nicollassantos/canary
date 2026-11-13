@@ -84,7 +84,7 @@ monster.loot = {
 	{ name = "energy drink", chance = 15109, maxCount = 4 },
 	{ name = "odd organ", chance = 7587, maxCount = 4 },
 	{ name = "frozen lightning", chance = 12054, maxCount = 4 },
-	{ id = 28568, chance = 1200, maxCount = 3 }, -- inkwell
+	{ id = 28568, chance = 11316, maxCount = 3 }, -- inkwell
 	{ name = "small ruby", chance = 5932, maxCount = 6 },
 	{ name = "violet gem", chance = 4761, maxCount = 4 },
 	{ name = "blue crystal splinter", chance = 6988, maxCount = 4 },

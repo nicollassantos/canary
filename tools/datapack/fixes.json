@@ -3437,6 +3437,26 @@
    "from": 3
   },
   {
+   "kind": "remove_loot",
+   "file": "data-otservbr-global/monster/constructs/walker.lua",
+   "monster": "Walker",
+   "item": "great mana potion",
+   "from": [
+    [
+     2300,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "10.5",
+    "kills": 3389,
+    "loot_revid": 1210060,
+    "expected_drops": 77.9,
+    "evidence": "no drop in 3389 kills (about 78 expected, version 10.5); the current loot table lacks it"
+   }
+  },
+  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/constructs/walker.lua",
    "monster": "Walker",
@@ -3584,6 +3604,21 @@
    "from": 2.19,
    "source": {
     "revid": 1191633
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/constructs/worker_golem.lua",
+   "monster": "Worker Golem",
+   "item": "crystal pedestal",
+   "chance": 157,
+   "from": 2270,
+   "source": {
+    "version": "9.1",
+    "kills": 22943,
+    "loot_revid": 1210069,
+    "times": 36,
+    "evidence": "old statistics within the current rarity (very rare); confirmed by another version"
    }
   },
   {
@@ -5477,6 +5512,26 @@
    }
   },
   {
+   "kind": "remove_loot",
+   "file": "data-otservbr-global/monster/demons/hellfire_fighter.lua",
+   "monster": "Hellfire Fighter",
+   "item": "eternal flames",
+   "from": [
+    [
+     380,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "12.31",
+    "kills": 24468,
+    "loot_revid": 1213557,
+    "expected_drops": 93.0,
+    "evidence": "no drop in 24468 kills (about 93 expected)"
+   }
+  },
+  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/demons/hellfire_fighter.lua",
    "monster": "Hellfire Fighter",
@@ -5572,6 +5627,20 @@
     "loot_revid": 1213558,
     "evidence": "confirmed by another version",
     "times": 7927
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/demons/hellflayer.lua",
+   "monster": "Hellflayer",
+   "item": "giant shimmering pearl",
+   "chance": 3599,
+   "from": 800,
+   "source": {
+    "version": "15.32.87b266",
+    "kills": 37374,
+    "loot_revid": 1213558,
+    "times": 1345
    }
   },
   {
@@ -6913,6 +6982,66 @@
     "loot_revid": 1212889
    },
    "from": 4
+  },
+  {
+   "kind": "remove_loot",
+   "file": "data-otservbr-global/monster/demons/juggernaut.lua",
+   "monster": "Juggernaut",
+   "item": "dragon hammer",
+   "from": [
+    [
+     9000,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "12.31.9580",
+    "kills": 4230,
+    "loot_revid": 1212889,
+    "expected_drops": 380.7,
+    "evidence": "no drop in 4230 kills (about 381 expected)"
+   }
+  },
+  {
+   "kind": "remove_loot",
+   "file": "data-otservbr-global/monster/demons/juggernaut.lua",
+   "monster": "Juggernaut",
+   "item": "golden legs",
+   "from": [
+    [
+     500,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "12.31.9580",
+    "kills": 4230,
+    "loot_revid": 1212889,
+    "expected_drops": 21.1,
+    "evidence": "no drop in 4230 kills (about 21 expected)"
+   }
+  },
+  {
+   "kind": "remove_loot",
+   "file": "data-otservbr-global/monster/demons/juggernaut.lua",
+   "monster": "Juggernaut",
+   "item": "skullcracker armor",
+   "from": [
+    [
+     400,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "12.31.9580",
+    "kills": 4230,
+    "loot_revid": 1212889,
+    "expected_drops": 16.9,
+    "evidence": "no drop in 4230 kills (about 17 expected)"
+   }
   },
   {
    "kind": "stat",
@@ -8445,6 +8574,106 @@
    }
   },
   {
+   "kind": "remove_loot",
+   "file": "data-otservbr-global/monster/demons/vexclaw.lua",
+   "monster": "Vexclaw",
+   "item": "golden sickle",
+   "from": [
+    [
+     18940,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "15.32.87b266",
+    "kills": 41224,
+    "loot_revid": 1213560,
+    "expected_drops": 7807.8,
+    "evidence": "no drop in 41224 kills (about 7808 expected)"
+   }
+  },
+  {
+   "kind": "remove_loot",
+   "file": "data-otservbr-global/monster/demons/vexclaw.lua",
+   "monster": "Vexclaw",
+   "item": "purple tome",
+   "from": [
+    [
+     18450,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "15.32.87b266",
+    "kills": 41224,
+    "loot_revid": 1213560,
+    "expected_drops": 7605.8,
+    "evidence": "no drop in 41224 kills (about 7606 expected)"
+   }
+  },
+  {
+   "kind": "remove_loot",
+   "file": "data-otservbr-global/monster/demons/vexclaw.lua",
+   "monster": "Vexclaw",
+   "item": "stealth ring",
+   "from": [
+    [
+     1790,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "15.32.87b266",
+    "kills": 41224,
+    "loot_revid": 1213560,
+    "expected_drops": 737.9,
+    "evidence": "no drop in 41224 kills (about 738 expected)"
+   }
+  },
+  {
+   "kind": "remove_loot",
+   "file": "data-otservbr-global/monster/demons/vexclaw.lua",
+   "monster": "Vexclaw",
+   "item": "talon",
+   "from": [
+    [
+     5400,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "15.32.87b266",
+    "kills": 41224,
+    "loot_revid": 1213560,
+    "expected_drops": 2226.1,
+    "evidence": "no drop in 41224 kills (about 2226 expected)"
+   }
+  },
+  {
+   "kind": "remove_loot",
+   "file": "data-otservbr-global/monster/demons/vexclaw.lua",
+   "monster": "Vexclaw",
+   "item": "wand of voodoo",
+   "from": [
+    [
+     4940,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "15.32.87b266",
+    "kills": 41224,
+    "loot_revid": 1213560,
+    "expected_drops": 2036.5,
+    "evidence": "no drop in 41224 kills (about 2036 expected)"
+   }
+  },
+  {
    "kind": "add_loot",
    "file": "data-otservbr-global/monster/dragons/dragolisk.lua",
    "monster": "Dragolisk",
@@ -8752,22 +8981,6 @@
    "source": {
     "revid": 1195798
    }
-  },
-  {
-   "kind": "add_loot",
-   "file": "data-otservbr-global/monster/dragons/dragon_lord.lua",
-   "monster": "Dragon Lord",
-   "item": "book (gemmed)",
-   "id": 401,
-   "chance": 9043,
-   "source": {
-    "version": "8.6",
-    "kills": 51080,
-    "loot_revid": 1212944,
-    "times": 4619,
-    "evidence": "old statistics within the current rarity (uncommon)"
-   },
-   "by_id": true
   },
   {
    "kind": "max_count",
@@ -9110,22 +9323,6 @@
    "source": {
     "revid": 1191701
    }
-  },
-  {
-   "kind": "add_loot",
-   "file": "data-otservbr-global/monster/dragons/frost_dragon.lua",
-   "monster": "Frost Dragon",
-   "item": "book (gemmed)",
-   "id": 401,
-   "chance": 8782,
-   "source": {
-    "version": "8.6",
-    "kills": 45820,
-    "loot_revid": 1211704,
-    "times": 4024,
-    "evidence": "old statistics within the current rarity (uncommon)"
-   },
-   "by_id": true
   },
   {
    "kind": "chance",
@@ -11455,6 +11652,21 @@
    "kind": "chance",
    "file": "data-otservbr-global/monster/event_creatures/grynch_clan_goblin.lua",
    "monster": "Grynch Clan Goblin",
+   "item": "picture",
+   "chance": 107,
+   "from": 4000,
+   "source": {
+    "version": "8.6",
+    "kills": 35611,
+    "loot_revid": 1169935,
+    "times": 38,
+    "evidence": "old statistics within the current rarity (very rare); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/event_creatures/grynch_clan_goblin.lua",
+   "monster": "Grynch Clan Goblin",
    "item": "piggy bank",
    "chance": 95,
    "from": 1000,
@@ -11509,6 +11721,26 @@
     "loot_revid": 1169935,
     "times": 35,
     "evidence": "old statistics within the current rarity (very rare); single large sample"
+   }
+  },
+  {
+   "kind": "remove_loot",
+   "file": "data-otservbr-global/monster/event_creatures/grynch_clan_goblin.lua",
+   "monster": "Grynch Clan Goblin",
+   "item": "witchesbroom",
+   "from": [
+    [
+     1500,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "8.6",
+    "kills": 35611,
+    "loot_revid": 1169935,
+    "expected_drops": 534.2,
+    "evidence": "no drop in 35611 kills (about 534 expected, version 8.6); the current loot table lacks it"
    }
   },
   {
@@ -11737,6 +11969,26 @@
     "times": 5319
    },
    "from": 15000
+  },
+  {
+   "kind": "remove_loot",
+   "file": "data-otservbr-global/monster/extra_dimensional/breach_brood.lua",
+   "monster": "Breach Brood",
+   "item": "instable proto matter",
+   "from": [
+    [
+     15000,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "15.00.249ccc",
+    "kills": 29494,
+    "loot_revid": 1212340,
+    "expected_drops": 4424.1,
+    "evidence": "no drop in 29494 kills (about 4424 expected)"
+   }
   },
   {
    "kind": "stat",
@@ -15705,6 +15957,26 @@
    "from": 1
   },
   {
+   "kind": "remove_loot",
+   "file": "data-otservbr-global/monster/giants/orclops_doomhauler.lua",
+   "monster": "Orclops Doomhauler",
+   "item": "reinvigorating seeds",
+   "from": [
+    [
+     300,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "8.6",
+    "kills": 12132,
+    "loot_revid": 1211728,
+    "expected_drops": 36.4,
+    "evidence": "no drop in 12132 kills (about 36 expected, version 8.6); the current loot table lacks it"
+   }
+  },
+  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/giants/orclops_doomhauler.lua",
    "monster": "Orclops Doomhauler",
@@ -16112,6 +16384,26 @@
    }
   },
   {
+   "kind": "remove_loot",
+   "file": "data-otservbr-global/monster/humanoids/crazed_summer_rearguard.lua",
+   "monster": "Crazed Summer Rearguard",
+   "item": "power bolt",
+   "from": [
+    [
+     1000000,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "12.31.9530",
+    "kills": 16584,
+    "loot_revid": 1211665,
+    "expected_drops": 16584.0,
+    "evidence": "no drop in 16584 kills (about 16584 expected)"
+   }
+  },
+  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/humanoids/crazed_summer_rearguard.lua",
    "monster": "Crazed Summer Rearguard",
@@ -16134,20 +16426,44 @@
    }
   },
   {
-   "kind": "add_loot",
+   "kind": "remove_loot",
    "file": "data-otservbr-global/monster/humanoids/crazed_winter_rearguard.lua",
    "monster": "Crazed Winter Rearguard",
-   "item": "ice flower (item)",
-   "id": 30058,
-   "chance": 8723,
+   "item": "red crystal fragment",
+   "from": [
+    [
+     2000,
+     1,
+     1
+    ]
+   ],
    "source": {
     "version": "12.31.9530",
     "kills": 15809,
     "loot_revid": 1211333,
-    "times": 1379
-   },
-   "by_id": true,
-   "maxCount": 2
+    "expected_drops": 316.2,
+    "evidence": "no drop in 15809 kills (about 316 expected)"
+   }
+  },
+  {
+   "kind": "remove_loot",
+   "file": "data-otservbr-global/monster/humanoids/crazed_winter_rearguard.lua",
+   "monster": "Crazed Winter Rearguard",
+   "item": "red gem",
+   "from": [
+    [
+     330,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "12.31.9530",
+    "kills": 15809,
+    "loot_revid": 1211333,
+    "expected_drops": 52.2,
+    "evidence": "no drop in 15809 kills (about 52 expected)"
+   }
   },
   {
    "kind": "stat",
@@ -16159,21 +16475,6 @@
    "source": {
     "revid": 1191927
    }
-  },
-  {
-   "kind": "add_loot",
-   "file": "data-otservbr-global/monster/humanoids/crazed_winter_vanguard.lua",
-   "monster": "Crazed Winter Vanguard",
-   "item": "ice flower (item)",
-   "id": 30058,
-   "chance": 13230,
-   "source": {
-    "version": "12.31.9530",
-    "kills": 18768,
-    "loot_revid": 1211667,
-    "times": 2483
-   },
-   "by_id": true
   },
   {
    "kind": "stat",
@@ -17455,6 +17756,26 @@
    "by_id": true
   },
   {
+   "kind": "remove_loot",
+   "file": "data-otservbr-global/monster/humanoids/minotaur_cult_prophet.lua",
+   "monster": "Minotaur Cult Prophet",
+   "item": "small diamond",
+   "from": [
+    [
+     2900,
+     1,
+     2
+    ]
+   ],
+   "source": {
+    "version": "8.6",
+    "kills": 6328,
+    "loot_revid": 1212180,
+    "expected_drops": 183.5,
+    "evidence": "no drop in 6328 kills (about 184 expected, version 8.6); the current loot table lacks it"
+   }
+  },
+  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/humanoids/minotaur_cult_prophet.lua",
    "monster": "Minotaur Cult Prophet",
@@ -18006,22 +18327,6 @@
    }
   },
   {
-   "kind": "add_loot",
-   "file": "data-otservbr-global/monster/humanoids/orc_shaman.lua",
-   "monster": "Orc Shaman",
-   "item": "book (grey)",
-   "id": 401,
-   "chance": 436,
-   "source": {
-    "version": "11.02",
-    "kills": 16733,
-    "loot_revid": 1213015,
-    "times": 73,
-    "evidence": "old statistics within the current rarity (very rare)"
-   },
-   "by_id": true
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/humanoids/orc_shaman.lua",
    "monster": "Orc Shaman",
@@ -18243,6 +18548,26 @@
    }
   },
   {
+   "kind": "remove_loot",
+   "file": "data-otservbr-global/monster/humanoids/shaper_matriarch.lua",
+   "monster": "Shaper Matriarch",
+   "item": "slightly rusted helmet",
+   "from": [
+    [
+     4500,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "8.6",
+    "kills": 7983,
+    "loot_revid": 1212865,
+    "expected_drops": 359.2,
+    "evidence": "no drop in 7983 kills (about 359 expected, version 8.6); the current loot table lacks it"
+   }
+  },
+  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/humanoids/shaper_matriarch.lua",
    "monster": "Shaper Matriarch",
@@ -18252,22 +18577,6 @@
    "source": {
     "revid": 1191913
    }
-  },
-  {
-   "kind": "add_loot",
-   "file": "data-otservbr-global/monster/humanoids/soul-broken_harbinger.lua",
-   "monster": "Soul-Broken Harbinger",
-   "item": "ice flower (item)",
-   "id": 30058,
-   "chance": 14979,
-   "source": {
-    "version": "12.00",
-    "kills": 9927,
-    "loot_revid": 1211396,
-    "times": 1487
-   },
-   "by_id": true,
-   "maxCount": 3
   },
   {
    "kind": "chance",
@@ -18644,22 +18953,6 @@
    }
   },
   {
-   "kind": "add_loot",
-   "file": "data-otservbr-global/monster/humans/acolyte_of_the_cult.lua",
-   "monster": "Acolyte of the Cult",
-   "item": "book (orange)",
-   "id": 401,
-   "chance": 732,
-   "source": {
-    "version": "8.6",
-    "kills": 43577,
-    "loot_revid": 1211699,
-    "times": 319,
-    "evidence": "old statistics within the current rarity (rare)"
-   },
-   "by_id": true
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/humans/acolyte_of_the_cult.lua",
    "monster": "Acolyte of the Cult",
@@ -18669,22 +18962,6 @@
    "source": {
     "revid": 1192290
    }
-  },
-  {
-   "kind": "add_loot",
-   "file": "data-otservbr-global/monster/humans/adept_of_the_cult.lua",
-   "monster": "Adept of the Cult",
-   "item": "book (orange)",
-   "id": 401,
-   "chance": 839,
-   "source": {
-    "version": "8.6",
-    "kills": 38024,
-    "loot_revid": 1211700,
-    "times": 319,
-    "evidence": "old statistics within the current rarity (rare)"
-   },
-   "by_id": true
   },
   {
    "kind": "chance",
@@ -18782,22 +19059,6 @@
    "source": {
     "revid": 1191801
    }
-  },
-  {
-   "kind": "add_loot",
-   "file": "data-otservbr-global/monster/humans/barbarian_brutetamer.lua",
-   "monster": "Barbarian Brutetamer",
-   "item": "book (grey)",
-   "id": 401,
-   "chance": 4666,
-   "source": {
-    "version": "8.6",
-    "kills": 16931,
-    "loot_revid": 1210287,
-    "times": 790,
-    "evidence": "old statistics within the current rarity (semi-rare)"
-   },
-   "by_id": true
   },
   {
    "kind": "stat",
@@ -19327,6 +19588,26 @@
    "from": 3
   },
   {
+   "kind": "remove_loot",
+   "file": "data-otservbr-global/monster/humans/burning_gladiator.lua",
+   "monster": "Burning Gladiator",
+   "item": "gryphon mask",
+   "from": [
+    [
+     570,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "12.31.9580",
+    "kills": 13965,
+    "loot_revid": 1212492,
+    "expected_drops": 79.6,
+    "evidence": "no drop in 13965 kills (about 80 expected)"
+   }
+  },
+  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/humans/burning_gladiator.lua",
    "monster": "Burning Gladiator",
@@ -19579,6 +19860,26 @@
    }
   },
   {
+   "kind": "remove_loot",
+   "file": "data-otservbr-global/monster/humans/cobra_assassin.lua",
+   "monster": "Cobra Assassin",
+   "item": "ring of red plasma",
+   "from": [
+    [
+     1690,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "12.65.10733",
+    "kills": 43916,
+    "loot_revid": 1209633,
+    "expected_drops": 742.2,
+    "evidence": "no drop in 43916 kills (about 742 expected)"
+   }
+  },
+  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/humans/cobra_assassin.lua",
    "monster": "Cobra Assassin",
@@ -19656,6 +19957,20 @@
     "times": 594
    },
    "from": 5650
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/humans/cobra_vizier.lua",
+   "monster": "Cobra Vizier",
+   "item": "giant shimmering pearl",
+   "chance": 6906,
+   "from": 8870,
+   "source": {
+    "version": "12.65.10733",
+    "kills": 17738,
+    "loot_revid": 1204362,
+    "times": 1225
+   }
   },
   {
    "kind": "chance",
@@ -19975,22 +20290,6 @@
    "source": {
     "revid": 1191793
    }
-  },
-  {
-   "kind": "add_loot",
-   "file": "data-otservbr-global/monster/humans/enlightened_of_the_cult.lua",
-   "monster": "Enlightened of the Cult",
-   "item": "book (orange)",
-   "id": 401,
-   "chance": 799,
-   "source": {
-    "version": "8.6",
-    "kills": 27032,
-    "loot_revid": 1209917,
-    "times": 216,
-    "evidence": "old statistics within the current rarity (rare)"
-   },
-   "by_id": true
   },
   {
    "kind": "add_loot",
@@ -20369,22 +20668,6 @@
    }
   },
   {
-   "kind": "add_loot",
-   "file": "data-otservbr-global/monster/humans/novice_of_the_cult.lua",
-   "monster": "Novice of the Cult",
-   "item": "book (orange)",
-   "id": 401,
-   "chance": 755,
-   "source": {
-    "version": "8.6",
-    "kills": 23188,
-    "loot_revid": 1210570,
-    "times": 175,
-    "evidence": "old statistics within the current rarity (rare)"
-   },
-   "by_id": true
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/humans/novice_of_the_cult.lua",
    "monster": "Novice of the Cult",
@@ -20394,22 +20677,6 @@
    "source": {
     "revid": 1192292
    }
-  },
-  {
-   "kind": "add_loot",
-   "file": "data-otservbr-global/monster/humans/pirate_buccaneer.lua",
-   "monster": "Pirate Buccaneer",
-   "item": "treasure map (pirate)",
-   "id": 5706,
-   "chance": 1019,
-   "source": {
-    "version": "8.6",
-    "kills": 26003,
-    "loot_revid": 1213022,
-    "times": 265,
-    "evidence": "old statistics within the current rarity (rare)"
-   },
-   "by_id": true
   },
   {
    "kind": "max_count",
@@ -20447,22 +20714,6 @@
    }
   },
   {
-   "kind": "add_loot",
-   "file": "data-otservbr-global/monster/humans/pirate_cutthroat.lua",
-   "monster": "Pirate Cutthroat",
-   "item": "treasure map (pirate)",
-   "id": 5706,
-   "chance": 1093,
-   "source": {
-    "version": "8.6",
-    "kills": 50795,
-    "loot_revid": 1213023,
-    "times": 555,
-    "evidence": "old statistics within the current rarity (rare)"
-   },
-   "by_id": true
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/humans/pirate_cutthroat.lua",
    "monster": "Pirate Cutthroat",
@@ -20472,22 +20723,6 @@
    "source": {
     "revid": 1192289
    }
-  },
-  {
-   "kind": "add_loot",
-   "file": "data-otservbr-global/monster/humans/pirate_marauder.lua",
-   "monster": "Pirate Marauder",
-   "item": "treasure map (pirate)",
-   "id": 5706,
-   "chance": 955,
-   "source": {
-    "version": "8.6",
-    "kills": 81169,
-    "loot_revid": 1213025,
-    "times": 775,
-    "evidence": "old statistics within the current rarity (rare)"
-   },
-   "by_id": true
   },
   {
    "kind": "stat",
@@ -20634,22 +20869,6 @@
    }
   },
   {
-   "kind": "add_loot",
-   "file": "data-otservbr-global/monster/humans/priestess.lua",
-   "monster": "Priestess",
-   "item": "book (orange)",
-   "id": 401,
-   "chance": 951,
-   "source": {
-    "version": "8.6",
-    "kills": 23130,
-    "loot_revid": 1213029,
-    "times": 220,
-    "evidence": "old statistics within the current rarity (rare)"
-   },
-   "by_id": true
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/humans/priestess.lua",
    "monster": "Priestess",
@@ -20756,6 +20975,26 @@
     "loot_revid": 1212494
    },
    "from": 2
+  },
+  {
+   "kind": "remove_loot",
+   "file": "data-otservbr-global/monster/humans/priestess_of_the_wild_sun.lua",
+   "monster": "Priestess of the Wild Sun",
+   "item": "gryphon mask",
+   "from": [
+    [
+     530,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "12.31.9580",
+    "kills": 11588,
+    "loot_revid": 1212494,
+    "expected_drops": 61.4,
+    "evidence": "no drop in 11588 kills (about 61 expected)"
+   }
   },
   {
    "kind": "stat",
@@ -20960,6 +21199,166 @@
     "loot_revid": 1212864
    },
    "from": 30
+  },
+  {
+   "kind": "remove_loot",
+   "file": "data-otservbr-global/monster/humans/renegade_knight.lua",
+   "monster": "Renegade Knight",
+   "item": "arrow",
+   "from": [
+    [
+     90450,
+     1,
+     10
+    ]
+   ],
+   "source": {
+    "version": "10.8",
+    "kills": 21189,
+    "loot_revid": 1212864,
+    "expected_drops": 19165.5,
+    "evidence": "no drop in 21189 kills (about 19165 expected, version 10.8); the current loot table lacks it"
+   }
+  },
+  {
+   "kind": "remove_loot",
+   "file": "data-otservbr-global/monster/humans/renegade_knight.lua",
+   "monster": "Renegade Knight",
+   "item": "grapes",
+   "from": [
+    [
+     1210,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "10.8",
+    "kills": 21189,
+    "loot_revid": 1212864,
+    "expected_drops": 256.4,
+    "evidence": "no drop in 21189 kills (about 256 expected, version 10.8); the current loot table lacks it"
+   }
+  },
+  {
+   "kind": "remove_loot",
+   "file": "data-otservbr-global/monster/humans/renegade_knight.lua",
+   "monster": "Renegade Knight",
+   "item": "halberd",
+   "from": [
+    [
+     1610,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "10.8",
+    "kills": 21189,
+    "loot_revid": 1212864,
+    "expected_drops": 341.1,
+    "evidence": "no drop in 21189 kills (about 341 expected, version 10.8); the current loot table lacks it"
+   }
+  },
+  {
+   "kind": "remove_loot",
+   "file": "data-otservbr-global/monster/humans/renegade_knight.lua",
+   "monster": "Renegade Knight",
+   "item": "red rose",
+   "from": [
+    [
+     510,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "10.8",
+    "kills": 21189,
+    "loot_revid": 1212864,
+    "expected_drops": 108.1,
+    "evidence": "no drop in 21189 kills (about 108 expected, version 10.8); the current loot table lacks it"
+   }
+  },
+  {
+   "kind": "remove_loot",
+   "file": "data-otservbr-global/monster/humans/renegade_knight.lua",
+   "monster": "Renegade Knight",
+   "item": "rope",
+   "from": [
+    [
+     1510,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "10.8",
+    "kills": 21189,
+    "loot_revid": 1212864,
+    "expected_drops": 320.0,
+    "evidence": "no drop in 21189 kills (about 320 expected, version 10.8); the current loot table lacks it"
+   }
+  },
+  {
+   "kind": "remove_loot",
+   "file": "data-otservbr-global/monster/humans/renegade_knight.lua",
+   "monster": "Renegade Knight",
+   "item": "scroll",
+   "from": [
+    [
+     910,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "10.8",
+    "kills": 21189,
+    "loot_revid": 1212864,
+    "expected_drops": 192.8,
+    "evidence": "no drop in 21189 kills (about 193 expected, version 10.8); the current loot table lacks it"
+   }
+  },
+  {
+   "kind": "remove_loot",
+   "file": "data-otservbr-global/monster/humans/renegade_knight.lua",
+   "monster": "Renegade Knight",
+   "item": "sniper arrow",
+   "from": [
+    [
+     1210,
+     1,
+     4
+    ]
+   ],
+   "source": {
+    "version": "10.8",
+    "kills": 21189,
+    "loot_revid": 1212864,
+    "expected_drops": 256.4,
+    "evidence": "no drop in 21189 kills (about 256 expected, version 10.8); the current loot table lacks it"
+   }
+  },
+  {
+   "kind": "remove_loot",
+   "file": "data-otservbr-global/monster/humans/renegade_knight.lua",
+   "monster": "Renegade Knight",
+   "item": "wedding ring",
+   "from": [
+    [
+     510,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "10.8",
+    "kills": 21189,
+    "loot_revid": 1212864,
+    "expected_drops": 108.1,
+    "evidence": "no drop in 21189 kills (about 108 expected, version 10.8); the current loot table lacks it"
+   }
   },
   {
    "kind": "stat",
@@ -21237,6 +21636,86 @@
    "from": 30
   },
   {
+   "kind": "remove_loot",
+   "file": "data-otservbr-global/monster/humans/vicious_squire.lua",
+   "monster": "Vicious Squire",
+   "item": "grapes",
+   "from": [
+    [
+     15400,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "10.8",
+    "kills": 40190,
+    "loot_revid": 1212868,
+    "expected_drops": 6189.3,
+    "evidence": "no drop in 40190 kills (about 6189 expected, version 10.8); the current loot table lacks it"
+   }
+  },
+  {
+   "kind": "remove_loot",
+   "file": "data-otservbr-global/monster/humans/vicious_squire.lua",
+   "monster": "Vicious Squire",
+   "item": "green tunic",
+   "from": [
+    [
+     760,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "10.8",
+    "kills": 40190,
+    "loot_revid": 1212868,
+    "expected_drops": 305.4,
+    "evidence": "no drop in 40190 kills (about 305 expected, version 10.8); the current loot table lacks it"
+   }
+  },
+  {
+   "kind": "remove_loot",
+   "file": "data-otservbr-global/monster/humans/vicious_squire.lua",
+   "monster": "Vicious Squire",
+   "item": "rope",
+   "from": [
+    [
+     1000,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "10.8",
+    "kills": 40190,
+    "loot_revid": 1212868,
+    "expected_drops": 401.9,
+    "evidence": "no drop in 40190 kills (about 402 expected, version 10.8); the current loot table lacks it"
+   }
+  },
+  {
+   "kind": "remove_loot",
+   "file": "data-otservbr-global/monster/humans/vicious_squire.lua",
+   "monster": "Vicious Squire",
+   "item": "scroll",
+   "from": [
+    [
+     830,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "10.8",
+    "kills": 40190,
+    "loot_revid": 1212868,
+    "expected_drops": 333.6,
+    "evidence": "no drop in 40190 kills (about 334 expected, version 10.8); the current loot table lacks it"
+   }
+  },
+  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/humans/vicious_squire.lua",
    "monster": "Vicious Squire",
@@ -21410,6 +21889,106 @@
     "loot_revid": 1212869,
     "times": 512,
     "evidence": "old statistics within the current rarity (semi-rare); single large sample"
+   }
+  },
+  {
+   "kind": "remove_loot",
+   "file": "data-otservbr-global/monster/humans/vile_grandmaster.lua",
+   "monster": "Vile Grandmaster",
+   "item": "grapes",
+   "from": [
+    [
+     1210,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "10.8",
+    "kills": 10233,
+    "loot_revid": 1212869,
+    "expected_drops": 123.8,
+    "evidence": "no drop in 10233 kills (about 124 expected, version 10.8); the current loot table lacks it"
+   }
+  },
+  {
+   "kind": "remove_loot",
+   "file": "data-otservbr-global/monster/humans/vile_grandmaster.lua",
+   "monster": "Vile Grandmaster",
+   "item": "halberd",
+   "from": [
+    [
+     1610,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "10.8",
+    "kills": 10233,
+    "loot_revid": 1212869,
+    "expected_drops": 164.8,
+    "evidence": "no drop in 10233 kills (about 165 expected, version 10.8); the current loot table lacks it"
+   }
+  },
+  {
+   "kind": "remove_loot",
+   "file": "data-otservbr-global/monster/humans/vile_grandmaster.lua",
+   "monster": "Vile Grandmaster",
+   "item": "red rose",
+   "from": [
+    [
+     510,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "10.8",
+    "kills": 10233,
+    "loot_revid": 1212869,
+    "expected_drops": 52.2,
+    "evidence": "no drop in 10233 kills (about 52 expected, version 10.8); the current loot table lacks it"
+   }
+  },
+  {
+   "kind": "remove_loot",
+   "file": "data-otservbr-global/monster/humans/vile_grandmaster.lua",
+   "monster": "Vile Grandmaster",
+   "item": "rope",
+   "from": [
+    [
+     1510,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "10.8",
+    "kills": 10233,
+    "loot_revid": 1212869,
+    "expected_drops": 154.5,
+    "evidence": "no drop in 10233 kills (about 155 expected, version 10.8); the current loot table lacks it"
+   }
+  },
+  {
+   "kind": "remove_loot",
+   "file": "data-otservbr-global/monster/humans/vile_grandmaster.lua",
+   "monster": "Vile Grandmaster",
+   "item": "sniper arrow",
+   "from": [
+    [
+     1210,
+     1,
+     4
+    ]
+   ],
+   "source": {
+    "version": "10.8",
+    "kills": 10233,
+    "loot_revid": 1212869,
+    "expected_drops": 123.8,
+    "evidence": "no drop in 10233 kills (about 124 expected, version 10.8); the current loot table lacks it"
    }
   },
   {
@@ -21595,6 +22174,26 @@
     "loot_revid": 1210481,
     "datapack_money": 1150,
     "wiki_money": 896
+   }
+  },
+  {
+   "kind": "remove_loot",
+   "file": "data-otservbr-global/monster/lycanthropes/feral_werecrocodile.lua",
+   "monster": "Feral Werecrocodile",
+   "item": "green crystal shard",
+   "from": [
+    [
+     2800,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "15.00.249ccc",
+    "kills": 1370,
+    "loot_revid": 1210481,
+    "expected_drops": 38.4,
+    "evidence": "no drop in 1370 kills (about 38 expected)"
    }
   },
   {
@@ -22131,6 +22730,26 @@
    "from": 2
   },
   {
+   "kind": "remove_loot",
+   "file": "data-otservbr-global/monster/lycanthropes/werebear.lua",
+   "monster": "Werebear",
+   "item": "great mana potion",
+   "from": [
+    [
+     1200,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "12.90.12182",
+    "kills": 6230,
+    "loot_revid": 1212563,
+    "expected_drops": 74.8,
+    "evidence": "no drop in 6230 kills (about 75 expected)"
+   }
+  },
+  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/lycanthropes/werebear.lua",
    "monster": "Werebear",
@@ -22391,6 +23010,26 @@
     "loot_revid": 1210667,
     "times": 160,
     "evidence": "old statistics within the current rarity (uncommon)"
+   }
+  },
+  {
+   "kind": "remove_loot",
+   "file": "data-otservbr-global/monster/lycanthropes/werecrocodile.lua",
+   "monster": "Werecrocodile",
+   "item": "small topaz",
+   "from": [
+    [
+     9120,
+     1,
+     4
+    ]
+   ],
+   "source": {
+    "version": "8.6",
+    "kills": 3257,
+    "loot_revid": 1210667,
+    "expected_drops": 297.0,
+    "evidence": "no drop in 3257 kills (about 297 expected, version 8.6); the current loot table lacks it"
    }
   },
   {
@@ -23415,6 +24054,26 @@
    "from": 2
   },
   {
+   "kind": "remove_loot",
+   "file": "data-otservbr-global/monster/lycanthropes/werelioness.lua",
+   "monster": "Werelioness",
+   "item": "doublet",
+   "from": [
+    [
+     1500,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "13.22.14282",
+    "kills": 7647,
+    "loot_revid": 1213068,
+    "expected_drops": 114.7,
+    "evidence": "no drop in 7647 kills (about 115 expected)"
+   }
+  },
+  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/lycanthropes/werelioness.lua",
    "monster": "Werelioness",
@@ -23509,6 +24168,46 @@
    "from": 2.05,
    "source": {
     "revid": 1200627
+   }
+  },
+  {
+   "kind": "remove_loot",
+   "file": "data-otservbr-global/monster/lycanthropes/weretiger.lua",
+   "monster": "Weretiger",
+   "item": "gemmed figurine",
+   "from": [
+    [
+     1770,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "8.6",
+    "kills": 5638,
+    "loot_revid": 1209802,
+    "expected_drops": 99.8,
+    "evidence": "no drop in 5638 kills (about 100 expected, version 8.6); the current loot table lacks it"
+   }
+  },
+  {
+   "kind": "remove_loot",
+   "file": "data-otservbr-global/monster/lycanthropes/weretiger.lua",
+   "monster": "Weretiger",
+   "item": "magma amulet",
+   "from": [
+    [
+     1770,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "8.6",
+    "kills": 5638,
+    "loot_revid": 1209802,
+    "expected_drops": 99.8,
+    "evidence": "no drop in 5638 kills (about 100 expected, version 8.6); the current loot table lacks it"
    }
   },
   {
@@ -23685,6 +24384,26 @@
     "revid": 1191974
    },
    "from": 25
+  },
+  {
+   "kind": "remove_loot",
+   "file": "data-otservbr-global/monster/lycanthropes/white_weretiger.lua",
+   "monster": "White Weretiger",
+   "item": "weretiger trophy",
+   "from": [
+    [
+     610,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "15.00.249ccc",
+    "kills": 1211,
+    "loot_revid": 1209806,
+    "expected_drops": 7.4,
+    "evidence": "no drop in 1211 kills (about 7 expected)"
+   }
   },
   {
    "kind": "stat",
@@ -23981,6 +24700,46 @@
     "loot_revid": 1206935
    },
    "from": 5
+  },
+  {
+   "kind": "remove_loot",
+   "file": "data-otservbr-global/monster/magicals/animated_feather.lua",
+   "monster": "Animated Feather",
+   "item": "great mana potion",
+   "from": [
+    [
+     900,
+     1,
+     6
+    ]
+   ],
+   "source": {
+    "version": "12.31.9580",
+    "kills": 11711,
+    "loot_revid": 1206935,
+    "expected_drops": 105.4,
+    "evidence": "no drop in 11711 kills (about 105 expected)"
+   }
+  },
+  {
+   "kind": "remove_loot",
+   "file": "data-otservbr-global/monster/magicals/animated_feather.lua",
+   "monster": "Animated Feather",
+   "item": "shard",
+   "from": [
+    [
+     250,
+     1,
+     3
+    ]
+   ],
+   "source": {
+    "version": "12.31.9580",
+    "kills": 11711,
+    "loot_revid": 1206935,
+    "expected_drops": 29.3,
+    "evidence": "no drop in 11711 kills (about 29 expected)"
+   }
   },
   {
    "kind": "stat",
@@ -24553,22 +25312,6 @@
    }
   },
   {
-   "kind": "add_loot",
-   "file": "data-otservbr-global/monster/magicals/blue_djinn.lua",
-   "monster": "Blue Djinn",
-   "item": "book (blue)",
-   "id": 401,
-   "chance": 2431,
-   "source": {
-    "version": "8.6",
-    "kills": 27602,
-    "loot_revid": 1202572,
-    "times": 671,
-    "evidence": "old statistics within the current rarity (semi-rare)"
-   },
-   "by_id": true
-  },
-  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/magicals/blue_djinn.lua",
    "monster": "Blue Djinn",
@@ -24773,6 +25516,21 @@
     "loot_revid": 1204337,
     "evidence": "single large sample",
     "times": 1803
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/brain_squid.lua",
+   "monster": "Brain Squid",
+   "item": "inkwell",
+   "chance": 11316,
+   "from": 1200,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 7856,
+    "loot_revid": 1204337,
+    "times": 889,
+    "evidence": "single large sample"
    }
   },
   {
@@ -25353,6 +26111,26 @@
     "loot_revid": 1212364
    },
    "from": 2
+  },
+  {
+   "kind": "remove_loot",
+   "file": "data-otservbr-global/monster/magicals/candy_horror.lua",
+   "monster": "Candy Horror",
+   "item": "raspberry",
+   "from": [
+    [
+     1240,
+     1,
+     2
+    ]
+   ],
+   "source": {
+    "version": "8.6",
+    "kills": 14269,
+    "loot_revid": 1212364,
+    "expected_drops": 176.9,
+    "evidence": "no drop in 14269 kills (about 177 expected, version 8.6); the current loot table lacks it"
+   }
   },
   {
    "kind": "stat",
@@ -27277,22 +28055,6 @@
    }
   },
   {
-   "kind": "add_loot",
-   "file": "data-otservbr-global/monster/magicals/green_djinn.lua",
-   "monster": "Green Djinn",
-   "item": "book (green)",
-   "id": 401,
-   "chance": 3500,
-   "source": {
-    "version": "8.54",
-    "kills": 400,
-    "loot_revid": 1212977,
-    "times": 14,
-    "evidence": "old statistics within the current rarity (semi-rare)"
-   },
-   "by_id": true
-  },
-  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/magicals/green_djinn.lua",
    "monster": "Green Djinn",
@@ -29097,6 +29859,20 @@
    "kind": "chance",
    "file": "data-otservbr-global/monster/magicals/rage_squid.lua",
    "monster": "Rage Squid",
+   "item": "inkwell",
+   "chance": 11230,
+   "from": 10000,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 42725,
+    "loot_revid": 1210600,
+    "times": 4798
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/rage_squid.lua",
+   "monster": "Rage Squid",
    "item": "magic plate armor",
    "chance": 272,
    "source": {
@@ -30130,6 +30906,20 @@
     "loot_revid": 1207234,
     "evidence": "single large sample",
     "times": 616
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/squid_warden.lua",
+   "monster": "Squid Warden",
+   "item": "inkwell",
+   "chance": 15590,
+   "from": 20000,
+   "source": {
+    "version": "12.31.9580",
+    "kills": 11584,
+    "loot_revid": 1207234,
+    "times": 1806
    }
   },
   {
@@ -31249,21 +32039,6 @@
    "source": {
     "revid": 1192302
    }
-  },
-  {
-   "kind": "add_loot",
-   "file": "data-otservbr-global/monster/mammals/gore_horn.lua",
-   "monster": "Gore Horn",
-   "item": "gore horn (item)",
-   "id": 39377,
-   "chance": 41176,
-   "source": {
-    "version": "14.00.7103e2",
-    "kills": 340,
-    "loot_revid": 1204443,
-    "times": 140
-   },
-   "by_id": true
   },
   {
    "kind": "element",
@@ -33975,6 +34750,226 @@
    "from": 30
   },
   {
+   "kind": "remove_loot",
+   "file": "data-otservbr-global/monster/quests/cults_of_tibia/cult_believer.lua",
+   "monster": "Cult Believer",
+   "item": "bolt",
+   "from": [
+    [
+     90450,
+     1,
+     10
+    ]
+   ],
+   "source": {
+    "version": "8.6",
+    "kills": 19782,
+    "loot_revid": 1207322,
+    "expected_drops": 17892.8,
+    "evidence": "no drop in 19782 kills (about 17893 expected, version 8.6); the current loot table lacks it"
+   }
+  },
+  {
+   "kind": "remove_loot",
+   "file": "data-otservbr-global/monster/quests/cults_of_tibia/cult_believer.lua",
+   "monster": "Cult Believer",
+   "item": "crossbow",
+   "from": [
+    [
+     830,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "8.6",
+    "kills": 19782,
+    "loot_revid": 1207322,
+    "expected_drops": 164.2,
+    "evidence": "no drop in 19782 kills (about 164 expected, version 8.6); the current loot table lacks it"
+   }
+  },
+  {
+   "kind": "remove_loot",
+   "file": "data-otservbr-global/monster/quests/cults_of_tibia/cult_believer.lua",
+   "monster": "Cult Believer",
+   "item": "grapes",
+   "from": [
+    [
+     15400,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "8.6",
+    "kills": 19782,
+    "loot_revid": 1207322,
+    "expected_drops": 3046.4,
+    "evidence": "no drop in 19782 kills (about 3046 expected, version 8.6); the current loot table lacks it"
+   }
+  },
+  {
+   "kind": "remove_loot",
+   "file": "data-otservbr-global/monster/quests/cults_of_tibia/cult_believer.lua",
+   "monster": "Cult Believer",
+   "item": "green tunic",
+   "from": [
+    [
+     760,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "8.6",
+    "kills": 19782,
+    "loot_revid": 1207322,
+    "expected_drops": 150.3,
+    "evidence": "no drop in 19782 kills (about 150 expected, version 8.6); the current loot table lacks it"
+   }
+  },
+  {
+   "kind": "remove_loot",
+   "file": "data-otservbr-global/monster/quests/cults_of_tibia/cult_believer.lua",
+   "monster": "Cult Believer",
+   "item": "guardian shield",
+   "from": [
+    [
+     330,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "8.6",
+    "kills": 19782,
+    "loot_revid": 1207322,
+    "expected_drops": 65.3,
+    "evidence": "no drop in 19782 kills (about 65 expected, version 8.6); the current loot table lacks it"
+   }
+  },
+  {
+   "kind": "remove_loot",
+   "file": "data-otservbr-global/monster/quests/cults_of_tibia/cult_believer.lua",
+   "monster": "Cult Believer",
+   "item": "halberd",
+   "from": [
+    [
+     830,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "8.6",
+    "kills": 19782,
+    "loot_revid": 1207322,
+    "expected_drops": 164.2,
+    "evidence": "no drop in 19782 kills (about 164 expected, version 8.6); the current loot table lacks it"
+   }
+  },
+  {
+   "kind": "remove_loot",
+   "file": "data-otservbr-global/monster/quests/cults_of_tibia/cult_believer.lua",
+   "monster": "Cult Believer",
+   "item": "knight legs",
+   "from": [
+    [
+     230,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "8.6",
+    "kills": 19782,
+    "loot_revid": 1207322,
+    "expected_drops": 45.5,
+    "evidence": "no drop in 19782 kills (about 45 expected, version 8.6); the current loot table lacks it"
+   }
+  },
+  {
+   "kind": "remove_loot",
+   "file": "data-otservbr-global/monster/quests/cults_of_tibia/cult_believer.lua",
+   "monster": "Cult Believer",
+   "item": "rope",
+   "from": [
+    [
+     1000,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "8.6",
+    "kills": 19782,
+    "loot_revid": 1207322,
+    "expected_drops": 197.8,
+    "evidence": "no drop in 19782 kills (about 198 expected, version 8.6); the current loot table lacks it"
+   }
+  },
+  {
+   "kind": "remove_loot",
+   "file": "data-otservbr-global/monster/quests/cults_of_tibia/cult_believer.lua",
+   "monster": "Cult Believer",
+   "item": "scroll",
+   "from": [
+    [
+     830,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "8.6",
+    "kills": 19782,
+    "loot_revid": 1207322,
+    "expected_drops": 164.2,
+    "evidence": "no drop in 19782 kills (about 164 expected, version 8.6); the current loot table lacks it"
+   }
+  },
+  {
+   "kind": "remove_loot",
+   "file": "data-otservbr-global/monster/quests/cults_of_tibia/cult_believer.lua",
+   "monster": "Cult Believer",
+   "item": "war hammer",
+   "from": [
+    [
+     130,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "8.6",
+    "kills": 19782,
+    "loot_revid": 1207322,
+    "expected_drops": 25.7,
+    "evidence": "no drop in 19782 kills (about 26 expected, version 8.6); the current loot table lacks it"
+   }
+  },
+  {
+   "kind": "remove_loot",
+   "file": "data-otservbr-global/monster/quests/cults_of_tibia/cult_believer.lua",
+   "monster": "Cult Believer",
+   "item": "warrior helmet",
+   "from": [
+    [
+     200,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "8.6",
+    "kills": 19782,
+    "loot_revid": 1207322,
+    "expected_drops": 39.6,
+    "evidence": "no drop in 19782 kills (about 40 expected, version 8.6); the current loot table lacks it"
+   }
+  },
+  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/quests/cults_of_tibia/cult_believer.lua",
    "monster": "Cult Believer",
@@ -34059,6 +35054,126 @@
    "from": 30
   },
   {
+   "kind": "remove_loot",
+   "file": "data-otservbr-global/monster/quests/cults_of_tibia/cult_enforcer.lua",
+   "monster": "Cult Enforcer",
+   "item": "bolt",
+   "from": [
+    [
+     90450,
+     1,
+     10
+    ]
+   ],
+   "source": {
+    "version": "8.6",
+    "kills": 6312,
+    "loot_revid": 1212932,
+    "expected_drops": 5709.2,
+    "evidence": "no drop in 6312 kills (about 5709 expected, version 8.6); the current loot table lacks it"
+   }
+  },
+  {
+   "kind": "remove_loot",
+   "file": "data-otservbr-global/monster/quests/cults_of_tibia/cult_enforcer.lua",
+   "monster": "Cult Enforcer",
+   "item": "crossbow",
+   "from": [
+    [
+     830,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "8.6",
+    "kills": 6312,
+    "loot_revid": 1212932,
+    "expected_drops": 52.4,
+    "evidence": "no drop in 6312 kills (about 52 expected, version 8.6); the current loot table lacks it"
+   }
+  },
+  {
+   "kind": "remove_loot",
+   "file": "data-otservbr-global/monster/quests/cults_of_tibia/cult_enforcer.lua",
+   "monster": "Cult Enforcer",
+   "item": "grapes",
+   "from": [
+    [
+     15400,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "8.6",
+    "kills": 6312,
+    "loot_revid": 1212932,
+    "expected_drops": 972.0,
+    "evidence": "no drop in 6312 kills (about 972 expected, version 8.6); the current loot table lacks it"
+   }
+  },
+  {
+   "kind": "remove_loot",
+   "file": "data-otservbr-global/monster/quests/cults_of_tibia/cult_enforcer.lua",
+   "monster": "Cult Enforcer",
+   "item": "green tunic",
+   "from": [
+    [
+     760,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "8.6",
+    "kills": 6312,
+    "loot_revid": 1212932,
+    "expected_drops": 48.0,
+    "evidence": "no drop in 6312 kills (about 48 expected, version 8.6); the current loot table lacks it"
+   }
+  },
+  {
+   "kind": "remove_loot",
+   "file": "data-otservbr-global/monster/quests/cults_of_tibia/cult_enforcer.lua",
+   "monster": "Cult Enforcer",
+   "item": "rope",
+   "from": [
+    [
+     1000,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "8.6",
+    "kills": 6312,
+    "loot_revid": 1212932,
+    "expected_drops": 63.1,
+    "evidence": "no drop in 6312 kills (about 63 expected, version 8.6); the current loot table lacks it"
+   }
+  },
+  {
+   "kind": "remove_loot",
+   "file": "data-otservbr-global/monster/quests/cults_of_tibia/cult_enforcer.lua",
+   "monster": "Cult Enforcer",
+   "item": "scroll",
+   "from": [
+    [
+     830,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "8.6",
+    "kills": 6312,
+    "loot_revid": 1212932,
+    "expected_drops": 52.4,
+    "evidence": "no drop in 6312 kills (about 52 expected, version 8.6); the current loot table lacks it"
+   }
+  },
+  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/quests/cults_of_tibia/cult_enforcer.lua",
    "monster": "Cult Enforcer",
@@ -34126,6 +35241,206 @@
     "loot_revid": 1207324
    },
    "from": 30
+  },
+  {
+   "kind": "remove_loot",
+   "file": "data-otservbr-global/monster/quests/cults_of_tibia/cult_scholar.lua",
+   "monster": "Cult Scholar",
+   "item": "bolt",
+   "from": [
+    [
+     90450,
+     1,
+     10
+    ]
+   ],
+   "source": {
+    "version": "8.6",
+    "kills": 3789,
+    "loot_revid": 1207324,
+    "expected_drops": 3427.2,
+    "evidence": "no drop in 3789 kills (about 3427 expected, version 8.6); the current loot table lacks it"
+   }
+  },
+  {
+   "kind": "remove_loot",
+   "file": "data-otservbr-global/monster/quests/cults_of_tibia/cult_scholar.lua",
+   "monster": "Cult Scholar",
+   "item": "crossbow",
+   "from": [
+    [
+     830,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "8.6",
+    "kills": 3789,
+    "loot_revid": 1207324,
+    "expected_drops": 31.4,
+    "evidence": "no drop in 3789 kills (about 31 expected, version 8.6); the current loot table lacks it"
+   }
+  },
+  {
+   "kind": "remove_loot",
+   "file": "data-otservbr-global/monster/quests/cults_of_tibia/cult_scholar.lua",
+   "monster": "Cult Scholar",
+   "item": "grapes",
+   "from": [
+    [
+     15400,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "8.6",
+    "kills": 3789,
+    "loot_revid": 1207324,
+    "expected_drops": 583.5,
+    "evidence": "no drop in 3789 kills (about 584 expected, version 8.6); the current loot table lacks it"
+   }
+  },
+  {
+   "kind": "remove_loot",
+   "file": "data-otservbr-global/monster/quests/cults_of_tibia/cult_scholar.lua",
+   "monster": "Cult Scholar",
+   "item": "green tunic",
+   "from": [
+    [
+     760,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "8.6",
+    "kills": 3789,
+    "loot_revid": 1207324,
+    "expected_drops": 28.8,
+    "evidence": "no drop in 3789 kills (about 29 expected, version 8.6); the current loot table lacks it"
+   }
+  },
+  {
+   "kind": "remove_loot",
+   "file": "data-otservbr-global/monster/quests/cults_of_tibia/cult_scholar.lua",
+   "monster": "Cult Scholar",
+   "item": "guardian shield",
+   "from": [
+    [
+     330,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "8.6",
+    "kills": 3789,
+    "loot_revid": 1207324,
+    "expected_drops": 12.5,
+    "evidence": "no drop in 3789 kills (about 13 expected, version 8.6); the current loot table lacks it"
+   }
+  },
+  {
+   "kind": "remove_loot",
+   "file": "data-otservbr-global/monster/quests/cults_of_tibia/cult_scholar.lua",
+   "monster": "Cult Scholar",
+   "item": "halberd",
+   "from": [
+    [
+     830,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "8.6",
+    "kills": 3789,
+    "loot_revid": 1207324,
+    "expected_drops": 31.4,
+    "evidence": "no drop in 3789 kills (about 31 expected, version 8.6); the current loot table lacks it"
+   }
+  },
+  {
+   "kind": "remove_loot",
+   "file": "data-otservbr-global/monster/quests/cults_of_tibia/cult_scholar.lua",
+   "monster": "Cult Scholar",
+   "item": "knight legs",
+   "from": [
+    [
+     230,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "8.6",
+    "kills": 3789,
+    "loot_revid": 1207324,
+    "expected_drops": 8.7,
+    "evidence": "no drop in 3789 kills (about 9 expected, version 8.6); the current loot table lacks it"
+   }
+  },
+  {
+   "kind": "remove_loot",
+   "file": "data-otservbr-global/monster/quests/cults_of_tibia/cult_scholar.lua",
+   "monster": "Cult Scholar",
+   "item": "rope",
+   "from": [
+    [
+     1000,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "8.6",
+    "kills": 3789,
+    "loot_revid": 1207324,
+    "expected_drops": 37.9,
+    "evidence": "no drop in 3789 kills (about 38 expected, version 8.6); the current loot table lacks it"
+   }
+  },
+  {
+   "kind": "remove_loot",
+   "file": "data-otservbr-global/monster/quests/cults_of_tibia/cult_scholar.lua",
+   "monster": "Cult Scholar",
+   "item": "scroll",
+   "from": [
+    [
+     830,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "8.6",
+    "kills": 3789,
+    "loot_revid": 1207324,
+    "expected_drops": 31.4,
+    "evidence": "no drop in 3789 kills (about 31 expected, version 8.6); the current loot table lacks it"
+   }
+  },
+  {
+   "kind": "remove_loot",
+   "file": "data-otservbr-global/monster/quests/cults_of_tibia/cult_scholar.lua",
+   "monster": "Cult Scholar",
+   "item": "warrior helmet",
+   "from": [
+    [
+     200,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "8.6",
+    "kills": 3789,
+    "loot_revid": 1207324,
+    "expected_drops": 7.6,
+    "evidence": "no drop in 3789 kills (about 8 expected, version 8.6); the current loot table lacks it"
+   }
   },
   {
    "kind": "stat",
@@ -35696,36 +37011,6 @@
    "kind": "add_loot",
    "file": "data-otservbr-global/monster/quests/rotten_blood/converter.lua",
    "monster": "Converter",
-   "item": "darklight core (object)",
-   "id": 43853,
-   "chance": 7793,
-   "source": {
-    "version": "14.12.5229e4",
-    "kills": 1373,
-    "loot_revid": 1198885,
-    "times": 107
-   },
-   "by_id": true
-  },
-  {
-   "kind": "add_loot",
-   "file": "data-otservbr-global/monster/quests/rotten_blood/converter.lua",
-   "monster": "Converter",
-   "item": "darklight matter (object)",
-   "id": 43851,
-   "chance": 2840,
-   "source": {
-    "version": "14.12.5229e4",
-    "kills": 1373,
-    "loot_revid": 1198885,
-    "times": 39
-   },
-   "by_id": true
-  },
-  {
-   "kind": "add_loot",
-   "file": "data-otservbr-global/monster/quests/rotten_blood/converter.lua",
-   "monster": "Converter",
    "item": "lightning legs",
    "id": 822,
    "chance": 437,
@@ -35778,6 +37063,34 @@
     "loot_revid": 1198885,
     "times": 7,
     "evidence": "large gap (9372 -> 510), wiki is the source of truth"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/quests/rotten_blood/converter.lua",
+   "monster": "Converter",
+   "item": "darklight core",
+   "chance": 7793,
+   "from": 10715,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 1373,
+    "loot_revid": 1198885,
+    "times": 107
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/quests/rotten_blood/converter.lua",
+   "monster": "Converter",
+   "item": "darklight matter",
+   "chance": 2840,
+   "from": 6927,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 1373,
+    "loot_revid": 1198885,
+    "times": 39
    }
   },
   {
@@ -35908,21 +37221,6 @@
    "kind": "add_loot",
    "file": "data-otservbr-global/monster/quests/rotten_blood/darklight_construct.lua",
    "monster": "Darklight Construct",
-   "item": "darklight core (object)",
-   "id": 43853,
-   "chance": 7600,
-   "source": {
-    "version": "13.22.14242",
-    "kills": 829,
-    "loot_revid": 1198886,
-    "times": 63
-   },
-   "by_id": true
-  },
-  {
-   "kind": "add_loot",
-   "file": "data-otservbr-global/monster/quests/rotten_blood/darklight_construct.lua",
-   "monster": "Darklight Construct",
    "item": "green gem",
    "id": 3038,
    "chance": 603,
@@ -36033,21 +37331,6 @@
    "kind": "add_loot",
    "file": "data-otservbr-global/monster/quests/rotten_blood/darklight_emitter.lua",
    "monster": "Darklight Emitter",
-   "item": "darklight core (object)",
-   "id": 43853,
-   "chance": 6313,
-   "source": {
-    "version": "13.22.14242",
-    "kills": 1584,
-    "loot_revid": 1198887,
-    "times": 100
-   },
-   "by_id": true
-  },
-  {
-   "kind": "add_loot",
-   "file": "data-otservbr-global/monster/quests/rotten_blood/darklight_emitter.lua",
-   "monster": "Darklight Emitter",
    "item": "green gem",
    "id": 3038,
    "chance": 505,
@@ -36071,6 +37354,20 @@
     "times": 33
    },
    "from": 6240
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/quests/rotten_blood/darklight_emitter.lua",
+   "monster": "Darklight Emitter",
+   "item": "darklight core",
+   "chance": 6313,
+   "from": 13367,
+   "source": {
+    "version": "13.22.14242",
+    "kills": 1584,
+    "loot_revid": 1198887,
+    "times": 100
+   }
   },
   {
    "kind": "chance",
@@ -36156,36 +37453,6 @@
    }
   },
   {
-   "kind": "add_loot",
-   "file": "data-otservbr-global/monster/quests/rotten_blood/darklight_matter.lua",
-   "monster": "Darklight Matter",
-   "item": "darklight core (object)",
-   "id": 43853,
-   "chance": 8048,
-   "source": {
-    "version": "14.00.7103e2",
-    "kills": 7182,
-    "loot_revid": 1197278,
-    "times": 578
-   },
-   "by_id": true
-  },
-  {
-   "kind": "add_loot",
-   "file": "data-otservbr-global/monster/quests/rotten_blood/darklight_matter.lua",
-   "monster": "Darklight Matter",
-   "item": "darklight matter (object)",
-   "id": 43851,
-   "chance": 4135,
-   "source": {
-    "version": "14.00.7103e2",
-    "kills": 7182,
-    "loot_revid": 1197278,
-    "times": 297
-   },
-   "by_id": true
-  },
-  {
    "kind": "chance",
    "file": "data-otservbr-global/monster/quests/rotten_blood/darklight_matter.lua",
    "monster": "Darklight Matter",
@@ -36198,6 +37465,34 @@
     "times": 79
    },
    "from": 3500
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/quests/rotten_blood/darklight_matter.lua",
+   "monster": "Darklight Matter",
+   "item": "darklight core",
+   "chance": 8048,
+   "from": 12887,
+   "source": {
+    "version": "14.00.7103e2",
+    "kills": 7182,
+    "loot_revid": 1197278,
+    "times": 578
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/quests/rotten_blood/darklight_matter.lua",
+   "monster": "Darklight Matter",
+   "item": "darklight matter",
+   "chance": 4135,
+   "from": 8849,
+   "source": {
+    "version": "14.00.7103e2",
+    "kills": 7182,
+    "loot_revid": 1197278,
+    "times": 297
+   }
   },
   {
    "kind": "chance",
@@ -36346,21 +37641,6 @@
    }
   },
   {
-   "kind": "add_loot",
-   "file": "data-otservbr-global/monster/quests/rotten_blood/darklight_source.lua",
-   "monster": "Darklight Source",
-   "item": "darklight core (object)",
-   "id": 43853,
-   "chance": 7230,
-   "source": {
-    "version": "14.00.7103e2",
-    "kills": 4495,
-    "loot_revid": 1197279,
-    "times": 325
-   },
-   "by_id": true
-  },
-  {
    "kind": "chance",
    "file": "data-otservbr-global/monster/quests/rotten_blood/darklight_source.lua",
    "monster": "Darklight Source",
@@ -36499,21 +37779,6 @@
    "kind": "add_loot",
    "file": "data-otservbr-global/monster/quests/rotten_blood/darklight_striker.lua",
    "monster": "Darklight Striker",
-   "item": "darklight core (object)",
-   "id": 43853,
-   "chance": 7726,
-   "source": {
-    "version": "14.00.7103e2",
-    "kills": 8348,
-    "loot_revid": 1197280,
-    "times": 645
-   },
-   "by_id": true
-  },
-  {
-   "kind": "add_loot",
-   "file": "data-otservbr-global/monster/quests/rotten_blood/darklight_striker.lua",
-   "monster": "Darklight Striker",
    "item": "white gem",
    "id": 32769,
    "chance": 443,
@@ -36567,6 +37832,20 @@
     "times": 308
    },
    "from": 14185
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/quests/rotten_blood/darklight_striker.lua",
+   "monster": "Darklight Striker",
+   "item": "darklight core",
+   "chance": 7726,
+   "from": 9783,
+   "source": {
+    "version": "14.00.7103e2",
+    "kills": 8348,
+    "loot_revid": 1197280,
+    "times": 645
+   }
   },
   {
    "kind": "chance",
@@ -37589,21 +38868,6 @@
    }
   },
   {
-   "kind": "add_loot",
-   "file": "data-otservbr-global/monster/quests/rotten_blood/walking_pillar.lua",
-   "monster": "Walking Pillar",
-   "item": "darklight core (object)",
-   "id": 43853,
-   "chance": 6743,
-   "source": {
-    "version": "14.00.7103e2",
-    "kills": 5561,
-    "loot_revid": 1196726,
-    "times": 375
-   },
-   "by_id": true
-  },
-  {
    "kind": "chance",
    "file": "data-otservbr-global/monster/quests/rotten_blood/walking_pillar.lua",
    "monster": "Walking Pillar",
@@ -37631,6 +38895,20 @@
     "times": 491
    },
    "from": 12855
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/quests/rotten_blood/walking_pillar.lua",
+   "monster": "Walking Pillar",
+   "item": "darklight core",
+   "chance": 6743,
+   "from": 10276,
+   "source": {
+    "version": "14.00.7103e2",
+    "kills": 5561,
+    "loot_revid": 1196726,
+    "times": 375
+   }
   },
   {
    "kind": "chance",
@@ -37785,21 +39063,6 @@
    "source": {
     "revid": 1191648
    }
-  },
-  {
-   "kind": "add_loot",
-   "file": "data-otservbr-global/monster/quests/rotten_blood/wandering_pillar.lua",
-   "monster": "Wandering Pillar",
-   "item": "darklight core (object)",
-   "id": 43853,
-   "chance": 6903,
-   "source": {
-    "version": "13.22.14242",
-    "kills": 1159,
-    "loot_revid": 1198897,
-    "times": 80
-   },
-   "by_id": true
   },
   {
    "kind": "chance",
@@ -38099,21 +39362,6 @@
    }
   },
   {
-   "kind": "add_loot",
-   "file": "data-otservbr-global/monster/quests/soul_war/normal_monsters/bony_sea_devil.lua",
-   "monster": "Bony Sea Devil",
-   "item": "rod (creature product)",
-   "id": 33929,
-   "chance": 4283,
-   "source": {
-    "version": "15.32.fc9100",
-    "kills": 537,
-    "loot_revid": 1199845,
-    "times": 23
-   },
-   "by_id": true
-  },
-  {
    "kind": "chance",
    "file": "data-otservbr-global/monster/quests/soul_war/normal_monsters/bony_sea_devil.lua",
    "monster": "Bony Sea Devil",
@@ -38126,6 +39374,20 @@
     "times": 17
    },
    "from": 7960
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/quests/soul_war/normal_monsters/bony_sea_devil.lua",
+   "monster": "Bony Sea Devil",
+   "item": "rod",
+   "chance": 4283,
+   "from": 880,
+   "source": {
+    "version": "15.32.fc9100",
+    "kills": 537,
+    "loot_revid": 1199845,
+    "times": 23
+   }
   },
   {
    "kind": "chance",
@@ -38703,6 +39965,20 @@
     "times": 137
    },
    "from": 1490
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/quests/soul_war/normal_monsters/furious_crater/cloak_of_terror.lua",
+   "monster": "Cloak of Terror",
+   "item": "crown",
+   "chance": 2961,
+   "from": 4460,
+   "source": {
+    "version": "12.66.10866",
+    "kills": 17564,
+    "loot_revid": 1193550,
+    "times": 520
+   }
   },
   {
    "kind": "chance",
@@ -39298,6 +40574,20 @@
     "times": 528
    },
    "from": 7610
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/quests/soul_war/normal_monsters/many_faces.lua",
+   "monster": "Many Faces",
+   "item": "head",
+   "chance": 2767,
+   "from": 3500,
+   "source": {
+    "version": "12.66.10866",
+    "kills": 10407,
+    "loot_revid": 1212314,
+    "times": 288
+   }
   },
   {
    "kind": "chance",
@@ -40853,6 +42143,26 @@
     "loot_revid": 1188993
    },
    "from": 26
+  },
+  {
+   "kind": "remove_loot",
+   "file": "data-otservbr-global/monster/quests/the_inquisition/ushuriel.lua",
+   "monster": "Ushuriel",
+   "item": "heavily rusted armor",
+   "from": [
+    [
+     20000,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "8.6",
+    "kills": 638,
+    "loot_revid": 1188993,
+    "expected_drops": 127.6,
+    "evidence": "no drop in 638 kills (about 128 expected, version 8.6); the current loot table lacks it"
+   }
   },
   {
    "kind": "max_count",
@@ -43576,6 +44886,36 @@
    "kind": "chance",
    "file": "data-otservbr-global/monster/slimes/ink_blob.lua",
    "monster": "Ink Blob",
+   "item": "giant shimmering pearl",
+   "chance": 15500,
+   "from": 900,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 3529,
+    "loot_revid": 1210523,
+    "times": 547,
+    "evidence": "single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/slimes/ink_blob.lua",
+   "monster": "Ink Blob",
+   "item": "inkwell",
+   "chance": 43922,
+   "from": 1200,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 3529,
+    "loot_revid": 1210523,
+    "times": 1550,
+    "evidence": "single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/slimes/ink_blob.lua",
+   "monster": "Ink Blob",
    "item": "poisonous slime",
    "chance": 35477,
    "from": 1200,
@@ -44611,6 +45951,26 @@
    }
   },
   {
+   "kind": "remove_loot",
+   "file": "data-otservbr-global/monster/undeads/burster_spectre.lua",
+   "monster": "Burster Spectre",
+   "item": "silver amulet",
+   "from": [
+    [
+     15000,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 26963,
+    "loot_revid": 1206475,
+    "expected_drops": 4044.4,
+    "evidence": "no drop in 26963 kills (about 4044 expected)"
+   }
+  },
+  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/undeads/burster_spectre.lua",
    "monster": "Burster Spectre",
@@ -45061,6 +46421,20 @@
    "kind": "chance",
    "file": "data-otservbr-global/monster/undeads/falcon_knight.lua",
    "monster": "Falcon Knight",
+   "item": "giant shimmering pearl",
+   "chance": 3652,
+   "from": 3000,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 7886,
+    "loot_revid": 1210214,
+    "times": 288
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/undeads/falcon_knight.lua",
+   "monster": "Falcon Knight",
    "item": "green gem",
    "chance": 1243,
    "source": {
@@ -45359,21 +46733,6 @@
    }
   },
   {
-   "kind": "add_loot",
-   "file": "data-otservbr-global/monster/undeads/flimsy_lost_soul.lua",
-   "monster": "Flimsy Lost Soul",
-   "item": "lost soul (item)",
-   "id": 32227,
-   "chance": 29995,
-   "source": {
-    "version": "14.12.5229e4",
-    "kills": 5471,
-    "loot_revid": 1208098,
-    "times": 1641
-   },
-   "by_id": true
-  },
-  {
    "kind": "chance",
    "file": "data-otservbr-global/monster/undeads/flimsy_lost_soul.lua",
    "monster": "Flimsy Lost Soul",
@@ -45438,21 +46797,6 @@
    "source": {
     "revid": 1192230
    }
-  },
-  {
-   "kind": "add_loot",
-   "file": "data-otservbr-global/monster/undeads/freakish_lost_soul.lua",
-   "monster": "Freakish Lost Soul",
-   "item": "lost soul (item)",
-   "id": 32227,
-   "chance": 43355,
-   "source": {
-    "version": "14.12.5229e4",
-    "kills": 2295,
-    "loot_revid": 1208099,
-    "times": 995
-   },
-   "by_id": true
   },
   {
    "kind": "add_loot",
@@ -45798,21 +47142,6 @@
    "source": {
     "revid": 1192228
    }
-  },
-  {
-   "kind": "add_loot",
-   "file": "data-otservbr-global/monster/undeads/ghost.lua",
-   "monster": "Ghost",
-   "item": "book (orange)",
-   "id": 401,
-   "chance": 1325,
-   "source": {
-    "version": "14.12.5229e4",
-    "kills": 4228,
-    "loot_revid": 1213440,
-    "times": 56
-   },
-   "by_id": true
   },
   {
    "kind": "stat",
@@ -46786,21 +48115,6 @@
    }
   },
   {
-   "kind": "add_loot",
-   "file": "data-otservbr-global/monster/undeads/mean_lost_soul.lua",
-   "monster": "Mean Lost Soul",
-   "item": "lost soul (item)",
-   "id": 32227,
-   "chance": 34253,
-   "source": {
-    "version": "14.12.5229e4",
-    "kills": 3118,
-    "loot_revid": 1208101,
-    "times": 1068
-   },
-   "by_id": true
-  },
-  {
    "kind": "chance",
    "file": "data-otservbr-global/monster/undeads/mean_lost_soul.lua",
    "monster": "Mean Lost Soul",
@@ -47702,21 +49016,6 @@
    "source": {
     "revid": 1209167
    }
-  },
-  {
-   "kind": "add_loot",
-   "file": "data-otservbr-global/monster/undeads/tarnished_spirit.lua",
-   "monster": "Tarnished Spirit",
-   "item": "book (orange)",
-   "id": 401,
-   "chance": 1187,
-   "source": {
-    "version": "14.12.5229e4",
-    "kills": 674,
-    "loot_revid": 1213450,
-    "times": 8
-   },
-   "by_id": true
   },
   {
    "kind": "add_loot",
@@ -49032,6 +50331,20 @@
    "from": 80
   },
   {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/vermins/cave_chimera.lua",
+   "monster": "Cave Chimera",
+   "item": "giant shimmering pearl",
+   "chance": 3011,
+   "from": 1740,
+   "source": {
+    "version": "12.85.11525",
+    "kills": 2026,
+    "loot_revid": 1207420,
+    "times": 61
+   }
+  },
+  {
    "kind": "coins",
    "file": "data-otservbr-global/monster/vermins/cave_chimera.lua",
    "monster": "Cave Chimera",
@@ -49943,6 +51256,26 @@
    "from": 0.15,
    "source": {
     "revid": 1192271
+   }
+  },
+  {
+   "kind": "remove_loot",
+   "file": "data-otservbr-global/monster/vermins/rotworm.lua",
+   "monster": "Rotworm",
+   "item": "legion helmet",
+   "from": [
+    [
+     1890,
+     1,
+     1
+    ]
+   ],
+   "source": {
+    "version": "8.6",
+    "kills": 133578,
+    "loot_revid": 1213035,
+    "expected_drops": 2524.6,
+    "evidence": "no drop in 133578 kills (about 2525 expected, version 8.6); the current loot table lacks it"
    }
   },
   {

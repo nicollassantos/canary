@@ -89,7 +89,6 @@ monster.loot = {
 	{ id = 24962, chance = 2800 }, -- prismatic quartz
 	{ id = 24386, chance = 20000 }, -- rhino horn carving
 	{ id = 3098, chance = 1300 }, -- ring of healing
-	{ id = 8908, chance = 4500 }, -- slightly rusted helmet
 	{ id = 3114, chance = 10000 }, -- skull
 	{ id = 3030, chance = 4000 }, -- small ruby
 	{ id = 3081, chance = 1500 }, -- stone skin amulet

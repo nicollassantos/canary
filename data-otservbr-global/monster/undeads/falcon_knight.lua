@@ -87,7 +87,7 @@ monster.loot = {
 	{ name = "onyx arrow", chance = 17918, maxCount = 15 },
 	{ name = "small topaz", chance = 6011, maxCount = 3 },
 	{ name = "titan axe", chance = 3000 },
-	{ id = 282, chance = 3000 }, -- giant shimmering pearl (brown)
+	{ id = 282, chance = 3652 }, -- giant shimmering pearl (brown)
 	{ name = "spiked squelcher", chance = 2200 },
 	{ name = "knight armor", chance = 1980 },
 	{ name = "falcon crest", chance = 1250 },

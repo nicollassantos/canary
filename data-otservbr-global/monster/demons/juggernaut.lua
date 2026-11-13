@@ -92,11 +92,9 @@ monster.loot = {
 	{ name = "violet gem", chance = 830 },
 	{ name = "green gem", chance = 2435 },
 	{ id = 3039, chance = 9716 }, -- red gem
-	{ name = "dragon hammer", chance = 9000 },
 	{ name = "heavy mace", chance = 400 },
 	{ name = "war axe", chance = 1442 },
 	{ name = "golden armor", chance = 550 },
-	{ name = "golden legs", chance = 500 },
 	{ name = "knight armor", chance = 4990 },
 	{ name = "mastermind shield", chance = 331 },
 	{ id = 3481, chance = 280 }, -- closed trap
@@ -110,7 +108,6 @@ monster.loot = {
 	{ name = "spiked squelcher", chance = 3924 },
 	{ name = "great mana potion", chance = 21182, maxCount = 3 },
 	{ name = "great health potion", chance = 21087, maxCount = 3 },
-	{ name = "skullcracker armor", chance = 400 },
 	{ name = "gold ingot", chance = 5319, maxCount = 2 },
 }
 

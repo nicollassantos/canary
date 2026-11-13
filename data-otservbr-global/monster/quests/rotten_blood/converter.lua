@@ -71,17 +71,15 @@ monster.light = {
 }
 
 monster.loot = {
-	{ id = 43853, chance = 7793 }, -- darklight core
 	{ name = "crystal coin", chance = 60961 },
 	{ name = "darklight obsidian axe", chance = 9614, maxCount = 1 },
-	{ name = "darklight matter", chance = 6927, maxCount = 1 },
-	{ name = "darklight core", chance = 10715, maxCount = 1 },
+	{ name = "darklight matter", chance = 2840, maxCount = 1 },
+	{ name = "darklight core", chance = 7793, maxCount = 1 },
 	{ name = "wand of starstorm", chance = 4807, maxCount = 1 },
 	{ name = "blue gem", chance = 510, maxCount = 1 },
 	{ name = "ultimate health potion", chance = 4151, maxCount = 6 },
 	{ name = "focus cape", chance = 2549, maxCount = 1 },
 	{ name = "white gem", chance = 218, maxCount = 1 },
-	{ id = 43851, chance = 2840 }, -- darklight matter
 	{ name = "ultimate mana potion", chance = 1894, maxCount = 3 },
 	{ name = "might ring", chance = 1602 },
 	{ name = "lightning legs", chance = 437 },

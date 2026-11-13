@@ -91,7 +91,6 @@ monster.loot = {
 	{ name = "machete", chance = 5303 },
 	{ name = "carlin sword", chance = 4511 },
 	{ name = "soul orb", chance = 1967 },
-	{ id = 23533, chance = 1690 }, -- ring of red plasma
 	{ name = "red crystal fragment", chance = 870 },
 }
 

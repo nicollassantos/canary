@@ -81,15 +81,12 @@ monster.voices = {
 }
 
 monster.loot = {
-	{ id = 3447, chance = 90450, maxCount = 10 }, -- arrow
 	{ id = 3031, chance = 75410, maxCount = 100 }, -- gold coin
 	{ name = "two handed sword", chance = 5121 },
 	{ name = "small ruby", chance = 3691 },
 	{ name = "red piece of cloth", chance = 1784 },
-	{ id = 3592, chance = 1210 }, -- grapes
 	{ id = 239, chance = 7051 }, -- great health potion
 	{ id = 3577, chance = 9307, maxCount = 2 }, -- meat
-	{ id = 7364, chance = 1210, maxCount = 4 }, -- sniper arrow
 	{ name = "war hammer", chance = 991 },
 	{ id = 3381, chance = 661 }, -- crown armor
 	{ id = 3385, chance = 562 }, -- crown helmet
@@ -97,13 +94,8 @@ monster.loot = {
 	{ name = "piggy bank", chance = 113 },
 	{ id = 3382, chance = 585 }, -- crown legs
 	{ id = 3280, chance = 529 }, -- fire sword
-	{ id = 3269, chance = 1610 }, -- halberd
-	{ id = 3658, chance = 510 }, -- red rose
-	{ id = 3003, chance = 1510 }, -- rope
-	{ id = 2815, chance = 910 }, -- scroll
 	{ id = 11510, chance = 6060 }, -- scroll of heroic deeds
 	{ id = 11450, chance = 910 }, -- small notebook
-	{ id = 3004, chance = 510 }, -- wedding ring
 }
 
 monster.attacks = {

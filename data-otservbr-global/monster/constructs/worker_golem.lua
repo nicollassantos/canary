@@ -99,7 +99,7 @@ monster.loot = {
 	{ name = "gear wheel", chance = 1007 },
 	{ id = 8895, chance = 1543 }, -- rusted armor
 	{ id = 8898, chance = 889 }, -- rusted legs
-	{ id = 9066, chance = 2270 }, -- crystal pedestal
+	{ id = 9066, chance = 157 }, -- crystal pedestal
 	{ name = "gear crystal", chance = 2270 },
 }
 

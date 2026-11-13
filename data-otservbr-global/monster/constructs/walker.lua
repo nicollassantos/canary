@@ -88,7 +88,6 @@ monster.loot = {
 	{ id = 3032, chance = 4338, maxCount = 3 }, -- small emerald
 	{ id = 7642, chance = 7200 }, -- great spirit potion
 	{ id = 239, chance = 7731 }, -- great health potion
-	{ id = 238, chance = 2300 }, -- great mana potion
 	{ id = 21169, chance = 1780 }, -- metal spats
 	{ name = "crystal mace", chance = 620 },
 	{ id = 3554, chance = 450 }, -- steel boots

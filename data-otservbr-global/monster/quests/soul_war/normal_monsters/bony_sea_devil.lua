@@ -96,7 +96,7 @@ monster.loot = {
 	{ name = "northwind rod", chance = 1770 },
 	{ name = "underworld rod", chance = 1770 },
 	{ name = "skullcracker armor", chance = 1770 },
-	{ id = 33929, chance = 880 }, -- rod
+	{ id = 33929, chance = 4283 }, -- rod
 	{ name = "goblet of gloom", chance = 880 },
 	{ name = "glacier kilt", chance = 880 },
 	{ name = "glacial rod", chance = 1210 },

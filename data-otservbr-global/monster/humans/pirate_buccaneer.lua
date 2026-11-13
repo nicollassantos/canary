@@ -83,7 +83,6 @@ monster.loot = {
 	{ name = "throwing knife", chance = 9000, maxCount = 5 },
 	{ name = "plate armor", chance = 1130 },
 	{ name = "battle shield", chance = 3850 },
-	{ id = 5706, chance = 1019 }, -- treasure map
 	{ id = 5090, chance = 1000 }, -- treasure map
 	{ name = "rum flask", chance = 120 },
 	{ id = 5792, chance = 40 }, -- die

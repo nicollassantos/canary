@@ -93,7 +93,6 @@ monster.loot = {
 	{ name = "green mushroom", chance = 12030 },
 	{ id = 2842, chance = 9590 }, -- gemmed book
 	{ name = "royal spear", chance = 9380, maxCount = 3 },
-	{ id = 401, chance = 9043 }, -- book
 	{ name = "power bolt", chance = 5920, maxCount = 7 },
 	{ name = "small sapphire", chance = 5590 },
 	{ id = 3051, chance = 4550 }, -- energy ring

@@ -81,7 +81,7 @@ monster.loot = {
 	{ name = "small sapphire", chance = 67947, maxCount = 4 },
 	{ name = "frosty heart", chance = 22436, maxCount = 4 },
 	{ id = 7441, chance = 13795 }, -- ice cube
-	{ id = 28568, chance = 20000 }, -- inkwell
+	{ id = 28568, chance = 15590 }, -- inkwell
 	{ name = "ultimate health potion", chance = 15746, maxCount = 4 },
 	{ name = "ultimate mana potion", chance = 17567, maxCount = 4 },
 	{ name = "glacial rod", chance = 751 },

@@ -85,7 +85,6 @@ monster.loot = {
 	{ name = "blue robe", chance = 1160 },
 	{ name = "moon pin", chance = 660 },
 	{ name = "crystal mace", chance = 500 },
-	{ id = 43915, chance = 610 }, -- weretiger trophy
 }
 
 monster.attacks = {

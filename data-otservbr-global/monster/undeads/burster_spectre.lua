@@ -81,7 +81,6 @@ monster.loot = {
 	{ name = "great spirit potion", chance = 23098, maxCount = 3 },
 	{ name = "protection amulet", chance = 7648 },
 	{ name = "life crystal", chance = 7399 },
-	{ name = "silver amulet", chance = 15000 },
 	{ name = "wand of voodoo", chance = 3445 },
 	{ name = "wand of cosmic energy", chance = 3023 },
 	{ name = "dragon necklace", chance = 1947 },

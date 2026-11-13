@@ -93,7 +93,7 @@ monster.loot = {
 	{ id = 7643, chance = 12407, maxCount = 5 }, -- ultimate health potion
 	{ id = 3019, chance = 169 }, -- demonbone amulet
 	{ id = 6499, chance = 17461 }, -- demonic essence
-	{ id = 281, chance = 800 }, -- giant shimmering pearl (green)
+	{ id = 281, chance = 3599 }, -- giant shimmering pearl (green)
 	{ id = 3038, chance = 800 }, -- green gem
 	{ id = 818, chance = 856 }, -- magma boots
 	{ id = 821, chance = 870 }, -- magma legs

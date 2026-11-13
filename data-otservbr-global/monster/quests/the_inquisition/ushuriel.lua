@@ -109,7 +109,6 @@ monster.loot = {
 	{ name = "great health potion", chance = 20000 },
 	{ name = "great spirit potion", chance = 20000 },
 	{ name = "ultimate health potion", chance = 20000 },
-	{ id = 8894, chance = 20000 }, -- heavily rusted armor
 	{ name = "gold ingot", chance = 16666 },
 }
 

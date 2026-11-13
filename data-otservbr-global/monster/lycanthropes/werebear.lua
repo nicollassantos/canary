@@ -83,7 +83,6 @@ monster.loot = {
 	{ name = "small enchanted sapphire", chance = 1637, maxCount = 2 },
 	{ id = 239, chance = 5088, maxCount = 2 }, -- great health potion
 	{ id = 7643, chance = 2210 }, -- ultimate health potion
-	{ id = 238, chance = 1200 }, -- great mana potion
 	{ id = 5896, chance = 2825 }, -- bear paw
 	{ id = 3582, chance = 12119, maxCount = 3 }, -- ham
 	{ id = 5902, chance = 2456 }, -- honeycomb

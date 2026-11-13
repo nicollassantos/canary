@@ -91,7 +91,6 @@ monster.loot = {
 	{ name = "fiery heart", chance = 10381 },
 	{ name = "piece of hellfire armor", chance = 5060 },
 	{ id = 12600, chance = 670 }, -- coal
-	{ name = "eternal flames", chance = 380 },
 }
 
 monster.attacks = {

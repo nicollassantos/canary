@@ -83,8 +83,6 @@ monster.loot = {
 	{ id = 3041, chance = 1200 }, -- blue gem
 	{ name = "knight armor", chance = 3000 },
 	{ name = "angelic axe", chance = 1430 },
-	{ name = "gemmed figurine", chance = 1770 },
-	{ id = 817, chance = 1770 }, -- magma amulet
 	{ name = "silver moon coin", chance = 510 },
 	{ id = 43915, chance = 610 }, -- weretiger trophy
 }

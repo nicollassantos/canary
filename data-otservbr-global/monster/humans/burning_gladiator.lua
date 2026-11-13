@@ -100,7 +100,6 @@ monster.loot = {
 	{ name = "lightning boots", chance = 1400 },
 	{ name = "spellweaver's robe", chance = 1224 },
 	{ name = "golden mask", chance = 766 },
-	{ id = 31369, chance = 570 }, -- gryphon mask
 	{ name = "sea horse figurine", chance = 609 },
 }
 

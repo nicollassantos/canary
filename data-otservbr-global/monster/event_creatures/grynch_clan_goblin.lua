@@ -104,7 +104,7 @@ monster.voices = {
 }
 
 monster.loot = {
-	{ id = 2639, chance = 4000 }, -- picture
+	{ id = 2639, chance = 107 }, -- picture
 	{ id = 2950, chance = 98 }, -- lute
 	{ name = "snowman package", chance = 960 },
 	{ name = "bottle", chance = 520 },
@@ -115,7 +115,6 @@ monster.loot = {
 	{ name = "scarab coin", chance = 500, maxCount = 2 },
 	{ id = 3047, chance = 115 }, -- magic light wand
 	{ name = "blank rune", chance = 110 },
-	{ id = 3211, chance = 1500 }, -- witchesbroom
 	{ id = 3463, chance = 73 }, -- mirror
 	{ name = "scarf", chance = 755 },
 	{ name = "red apple", chance = 9927, maxCount = 3 },

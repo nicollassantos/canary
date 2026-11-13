@@ -85,21 +85,16 @@ monster.loot = {
 	{ name = "demonic essence", chance = 13036 },
 	{ name = "ultimate health potion", chance = 12941, maxCount = 5 },
 	{ name = "fire mushroom", chance = 12973, maxCount = 6 },
-	{ name = "golden sickle", chance = 18940 },
-	{ name = "purple tome", chance = 18450 },
 	{ name = "small amethyst", chance = 2928, maxCount = 5 },
 	{ name = "small topaz", chance = 3124, maxCount = 5 },
 	{ name = "small emerald", chance = 3032, maxCount = 5 },
 	{ name = "small ruby", chance = 3015, maxCount = 5 },
-	{ name = "talon", chance = 5400 },
 	{ name = "yellow gem", chance = 922 },
-	{ name = "wand of voodoo", chance = 4940 },
 	{ id = 3039, chance = 982 }, -- red gem
 	{ name = "ice rapier", chance = 3066 },
 	{ name = "fire axe", chance = 2450 },
 	{ name = "might ring", chance = 570 },
 	{ name = "giant sword", chance = 1366 },
-	{ id = 3049, chance = 1790 }, -- stealth ring
 	{ id = 3051, chance = 1790 }, -- energy ring
 	{ name = "rift lance", chance = 519 },
 	{ id = 3098, chance = 1082 }, -- ring of healing

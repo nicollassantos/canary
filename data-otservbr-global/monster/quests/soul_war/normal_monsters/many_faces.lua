@@ -94,7 +94,7 @@ monster.loot = {
 	{ name = "violet gem", chance = 3901 },
 	{ name = "blue gem", chance = 3959 },
 	{ id = 23533, chance = 3142 }, -- ring of red plasma
-	{ id = 33932, chance = 3500 }, -- head many faces
+	{ id = 33932, chance = 2767 }, -- head many faces
 	{ name = "glacier shoes", chance = 1970 },
 	{ name = "glacier robe", chance = 1528 },
 	{ name = "gruesome fan", chance = 610 },
