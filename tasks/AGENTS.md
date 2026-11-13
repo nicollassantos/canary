@@ -308,7 +308,7 @@ upstream já adicionou fica como está (também com outra grafia ou outro id: o 
 = `already`; entrada em várias linhas = conflito); rodar duas vezes não muda nada. Depois, smoke boot. Para provar
 o lado do upstream: `git archive <base> data-otservbr-global/monster` numa pasta temporária,
 `wiki_check.py apply --root <pasta>` e `diff -rq` contra a branch (em 2026-11-13, com base
-`997af9180`: 0 conflitos; 2 arquivos só com linhas de loot em outra ordem).
+`997af9180`: 0 conflitos; 4 arquivos só com linhas de loot em outra ordem).
 
 | Upstream (como vem no `main`) | Onde está na branch | O que fazer no merge |
 |---|---|---|
@@ -689,6 +689,21 @@ Resultado atual: ver a última linha de validação no `todo.md` (CHECKPOINT 23)
   (`datapack_raw_chance`); sem isso o `apply` acusava conflito. 48 drops garantidos viraram a taxa do wiki.
   Estatística antiga sem confirmação e identidade não confirmada ficam como no upstream (decisão do usuário).
   Manifesto: 4739.
+- **Grupos pequenos (24.7o):** `tools/datapack/wiki_item_ids.json` guarda o `itemid` da página de item do wiki
+  (`wiki_check.py item-ids`, 247 de 281 nomes) para nomes de loot que o `items.xml` não fixa. Ele entra só para nomes
+  que o `items.xml` **não tem** (itens novos sem nome, como bulltaur horn = 44736, e variantes com sufixo, como giant
+  shimmering pearl (green) = 281); nome que o `items.xml` tem, mesmo ambíguo, continua como o servidor o resolve (o
+  datapack usa esses nomes; sobrescrever quebrou o par `{ id = 28568 } -- inkwell` ↔ "inkwell (black)" na primeira
+  tentativa) e a página só escolhe o id de uma **adição** quando dá um id só. Adição com id da página é `exact`: o
+  `apply` só recusa se aquele id já estiver listado (o pedestal vermelho 9063 entra ao lado do 9065 de outra cor).
+  `validate` derruba fix tirado de linha do wiki com sufixo que a página diz ser outro item (a The Scourge of Oblivion
+  tinha a taxa da pérola marrom na entrada verde; arquivo restaurado). Item em 2+ entradas vira `chance_split`: todas
+  as chances escaladas pelo mesmo fator até a probabilidade combinada bater com o wiki (mantém a forma das entradas).
+  Fix de chance de entrada única acha a própria entrada pelo valor quando outra do mesmo nome aparece depois.
+  Resultado: 18 splits, 10 adições por id (dragon trophy 44158, sai 50183, lichen gobbler 43782, pérolas, frasco,
+  pedestal, pergaminho), 3 remoções liberadas (as linhas do wiki que bloqueavam são outros itens) e 1 chance; ficaram
+  `die` e `wooden trash` (a página lista vários ids equivalentes) e a coroa da Percht Queen (página sem `itemid`).
+  Manifesto: 4770; lado do upstream: 0 conflitos, 4 arquivos só com outra ordem de linhas.
 - **Controle negativo do smoke:** um item de loot inexistente injetado no Dragon gera
   `[LootFunctions::luaLootSetIdFromName] - Unknown loot item` e `could not be loaded`; o grep do
   smoke pega os dois.

@@ -101,11 +101,13 @@ upstream already dropped is `already`, and an entry upstream spread over several
 An `add_loot` whose item upstream now lists under another spelling or id is reported as
 `listed as another entry (...)` instead of adding it twice. A chance fix's `from` is the raw value
 of the entry (some boss files write `chance = 13600000` for a sure drop). Reward-chest bosses follow the
-manifest too, except their `unique` entries. Then run the smoke boot (no loot warnings, no Lua errors).
+manifest too, except their `unique` entries. A `chance_split` rewrites every entry of one item, in file order,
+only while they hold its `from`. An `exact` add_loot (id from the wiki item page) is refused only when that id is
+already listed. `tools/datapack/wiki_item_ids.json` (wiki item ids) is regenerated with `wiki_check.py item-ids`. Then run the smoke boot (no loot warnings, no Lua errors).
 
 To prove the manifest still re-applies from upstream's side, apply it to a copy of the monster files
 at a base commit and compare with the branch (expect no conflicts; at most a different order of loot
-lines, which does not matter because every entry rolls on its own):
+lines, which does not matter because every entry rolls on its own; 4 files on 2026-11-13):
 
 ```sh
 T=$(mktemp -d) && git archive <base> data-otservbr-global/monster | tar -x -C "$T"
