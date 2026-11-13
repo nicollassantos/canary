@@ -571,30 +571,6 @@ void ProtocolGame::onRecvFirstMessage(NetworkMessage &msg) {
 	}
 	sessionHintLease.reset();
 
-	const auto &onlinePlayer = g_game().getPlayerByName(characterName);
-	const auto &foundPlayer = !onlinePlayer ? g_game().getDeadPlayer(characterName) : onlinePlayer;
-	if (foundPlayer && foundPlayer->client && accountDescriptor != "@livestream") {
-		if (foundPlayer->isDead()) {
-			disconnectClient("You are already logged in.");
-			return;
-		}
-
-		const auto* existingProfile = foundPlayer->client->getProtocolProfile();
-		const bool sameProtocolProfile = existingProfile && protocolProfile && existingProfile->id == protocolProfile->id;
-		const bool sameLegacyContract = !existingProfile && !protocolProfile && foundPlayer->getProtocolVersion() == getVersion() && foundPlayer->isOldProtocol() == oldProtocol;
-		if (!sameProtocolProfile && !sameLegacyContract) {
-			const auto formatClientVersion = [](uint32_t clientVersion) {
-				return fmt::format("{}.{:02d}", clientVersion / 100, clientVersion % 100);
-			};
-			disconnectClient(fmt::format("This character is already online using client version {}. Please log out from that client before switching to version {}.", formatClientVersion(foundPlayer->getProtocolVersion()), formatClientVersion(getVersion())));
-			return;
-		}
-
-		if (!foundPlayer->client->isSessionEnding()) {
-			foundPlayer->client->disconnectClient("You are already connected through another client. Please use only one client at a time!");
-		}
-	}
-
 	if (gameLoginLayout->hasChallengeResponse) {
 		auto timeStamp = msg.get<uint32_t>();
 		uint8_t randNumber = msg.getByte();
@@ -666,6 +642,33 @@ void ProtocolGame::onRecvFirstMessage(NetworkMessage &msg) {
 			1000, [self = getThis()] { self->disconnect(); }, "ProtocolGame::disconnect"
 		);
 		return;
+	}
+
+	// Only the authenticated owner may touch the character's current session. This block ran
+	// before the challenge, the IP ban and the password check, so anyone who knew a character
+	// name could drop that player's client in a loop (and read its client version).
+	const auto &onlinePlayer = g_game().getPlayerByName(characterName);
+	const auto &foundPlayer = !onlinePlayer ? g_game().getDeadPlayer(characterName) : onlinePlayer;
+	if (foundPlayer && foundPlayer->client && accountDescriptor != "@livestream") {
+		if (foundPlayer->isDead()) {
+			disconnectClient("You are already logged in.");
+			return;
+		}
+
+		const auto* existingProfile = foundPlayer->client->getProtocolProfile();
+		const bool sameProtocolProfile = existingProfile && protocolProfile && existingProfile->id == protocolProfile->id;
+		const bool sameLegacyContract = !existingProfile && !protocolProfile && foundPlayer->getProtocolVersion() == getVersion() && foundPlayer->isOldProtocol() == oldProtocol;
+		if (!sameProtocolProfile && !sameLegacyContract) {
+			const auto formatClientVersion = [](uint32_t clientVersion) {
+				return fmt::format("{}.{:02d}", clientVersion / 100, clientVersion % 100);
+			};
+			disconnectClient(fmt::format("This character is already online using client version {}. Please log out from that client before switching to version {}.", formatClientVersion(foundPlayer->getProtocolVersion()), formatClientVersion(getVersion())));
+			return;
+		}
+
+		if (!foundPlayer->client->isSessionEnding()) {
+			foundPlayer->client->disconnectClient("You are already connected through another client. Please use only one client at a time!");
+		}
 	}
 
 	dispatchProtocolTask([self = getThis(), characterName, accountId, operatingSystem] { self->login(characterName, accountId, operatingSystem); }, __FUNCTION__);

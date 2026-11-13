@@ -124,6 +124,10 @@ base. Cada regra vem de um defeito explorável por pacote forjado (tabela de cor
 - Pedido que chega ao banco, a arquivo ou a broadcast: `RequestCooldown` por player
   (`src/utils/request_cooldown.hpp`) e métrica `*_rejected{reason}`, para o ataque aparecer no
   Prometheus.
+- Antes da autenticação (primeira mensagem, login), nada pode tocar o estado de outro jogador:
+  derrubar sessão, revelar versão de client, carregar personagem. Tudo que depende do personagem
+  pedido vem depois do `gameWorldAuthentication`. Prova com sockets reais:
+  `tools/smoke/login_takeover_check.py`.
 
 **Lua (datapack):**
 - Texto do cliente nunca é padrão Lua (segundo argumento de `string.match`/`find`/`gmatch`/`gsub`):
@@ -345,6 +349,7 @@ desfazer; se o upstream mexer nessas linhas, reaplique):
 | `src/server/network/protocol/protocolgame.cpp` `ProtocolGame::parsePacket` | `const packet_watch::Scope packetWatch(recvbyte, player, getIP());` logo após ler o opcode (+ include) | latência por opcode e aviso de pacote lento com player/IP (`src/server/network/protocol/packet_watch.cpp`) |
 | `game.cpp` `cacheQueryHighscore` (hoje em `highscore_repository_db.cpp`) e `processHighscoreResults` (hoje em `highscore_service.cpp`) | `highscore_cache::prune` antes de inserir (expiradas saem; no teto, o cache é limpo) + métrica `highscore_cache_evictions` | as chaves vêm do cliente; no upstream os caches crescem sem fim |
 | `game.cpp` `playerHighscores` (hoje em `highscore_service.cpp`) | página 0 em `HIGHSCORE_GETENTRIES` é recusada antes da query; página fresca no cache de resultado sai sem query; intervalo de 1s por player; teto de 8 queries em andamento no servidor (contador liberado no topo de `processHighscoreResults`, mesmo se o player saiu); métricas `highscore_requests_total{type}`, `highscore_served_from_cache`, `highscore_requests_rejected{reason}` | `(page - 1)` dava underflow e rodava o ranking inteiro; toda query de highscore ocupa a única conexão do `Database` (com mutex) e atrasa saves, e bots com vários personagens podiam saturá-la |
+| `src/server/network/protocol/protocolgame.cpp` `ProtocolGame::onRecvFirstMessage` | o bloco da sessão existente (`getPlayerByName`/`getDeadPlayer` → "already logged in", versão de client diferente, `foundPlayer->client->disconnectClient(...)`) foi movido **inteiro** para depois do `gameWorldAuthentication`, logo antes do `dispatchProtocolTask(login)` | **derrubar qualquer jogador sem a senha** (igual no upstream desde `c07696b2c`): o bloco rodava antes do challenge, do ban de IP e da senha, então o nome do personagem e um bloco RSA (chave pública) bastavam para derrubar o client da vítima em loop (o personagem fica no mundo; em open-pvp morre sem curar) e ler a versão do client dela. Reproduzido e provado com sockets reais (`tools/smoke/login_takeover_check.py`): antes, uma conexão com conta inexistente derrubava a vítima; depois, a vítima fica e o relogin do dono continua substituindo a conexão antiga |
 
 **Banco de dados:** índice novo **nunca** vai em migration numerada (`data-*/migrations/N.lua`) nem
 no `schema.sql`. O upstream numera as migrations, então um número nosso colidiria com o próximo
