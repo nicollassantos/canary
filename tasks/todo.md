@@ -369,3 +369,19 @@
 - Pendências da revisão: medir o `market_history` com centenas de milhares de linhas (com e sem índice); digests do `performance_schema` (também pega SQL do datapack Lua); custo do `packet_watch::Scope` no build com métricas; o que limita conexões por IP antes e depois do login.
 - **Segurança**: `metricsPrometheusAddress` padrão `0.0.0.0:9464` expõe métricas (latências, começo do SQL) a qualquer um; em produção usar `127.0.0.1:9464` ou firewall liberando só o Prometheus.
 
+
+## Phase 25 — issues abertas do upstream (aberta em 2026-11-13; plano em `tasks/plan.md`, triagem em `tasks/upstream_issues.md`)
+
+- [ ] **25.1** — #4154 datas locais sem nanossegundos
+- [ ] **25.2** — #4114 IDs do aviso de avanço de skill
+- [ ] **25.3** — #4153 byte de motivo no `0x14` (15.23+)
+- [ ] **25.4** — #4125 reset de charm sem leitura além do pacote
+- [ ] **25.5** — #3478 freequests + harness
+- [ ] **25.6** — #3453 porta do Oasis + `[12107]` duplicada
+- [ ] **25.7** — #3513 callbacks de zona depois da entrada do player
+- [ ] **25.8** — chaves duplicadas no startup + check
+- [ ] **25.9** — #3742 saldo do store; #2083 preços aos online
+- [ ] **25.10** — varredura do mapa (#4091, #4057, #3438)
+- [ ] **25.11** — verificação: campo/bomba, aljava, hazard, `/n`
+- [ ] **25.12** — #3374 medir e limitar o saque
+- [ ] **CHECKPOINT 25**

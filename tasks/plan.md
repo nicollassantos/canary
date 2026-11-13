@@ -602,3 +602,38 @@ Pedido do usuário (2026-11-12): depois do hardening, vasculhar o TibiaWiki em b
 - **24.2** — Revisão do relatório pelo usuário. Nada é removido automaticamente (drops de evento, quest e do fork são legítimos); o wiki é editável por qualquer um, então revids fixos e limites para saltos grandes.
 - **24.3** — Decidir com o usuário a estratégia de merge antes do primeiro lote (o upstream reescreve esses blocos de loot): de preferência um `--apply` idempotente que reaplica as correções sobre a versão do upstream. Registrar no §5b.
 - **24.4** — Lotes pequenos de correção, com carga do datapack e smoke a cada lote.
+
+## Phase 25 (aberta em 2026-11-13): issues abertas do upstream
+
+Pedido do usuário (2026-11-13): anotar todas as issues abertas de `opentibiabr/canary`, verificar quais
+acontecem de verdade e corrigir as reais. Trabalho na worktree `canary-upstream-issues` (branch
+`nicollassantos/upstream-issues`, saída do HEAD `7e517fb00`). O `main` do upstream estava em `666a60f6f`,
+a base do último merge: nenhuma correção do upstream ficou de fora.
+
+Triagem (58 issues, só leitura + programa avulso): 9 reais, 4 parciais ou dependentes do mapa, 5 já
+corrigidas, 9 não reproduzíveis ou não são bug, 7 decidíveis com teste/smoke, 14 só com client, 10 de
+conteúdo/feature. Relatório completo e níveis de prova em `tasks/upstream_issues.md`.
+
+Decisões do usuário (2026-11-13): porta do Oasis dá o storage 12107 a quem acha a cenoura; callbacks de
+zona adiados só no login do player; opcionais aceitos (teto no saque, chaves duplicadas do startup, store e
+preços, varredura do mapa); verificar o grupo "decidível com teste" antes de corrigir.
+
+Regras: portar PR do upstream quando existir (merge limpo depois); cada task com build, `syntax_check`, ut +
+it, commit próprio e linha no §5b do `tasks/AGENTS.md` quando tocar arquivo do upstream; Lua com
+`luajit -bl`/`luac5.4 -p` e harness que falha no upstream.
+
+### Tasks
+
+- **25.1** — #4154 datas locais sem nanossegundos (porta do PR #4179: `tools.cpp` + teste).
+- **25.2** — #4114 IDs do aviso de avanço de skill (porta do PR #4181 para os components).
+- **25.3** — #4153 byte de motivo no `0x14` para clients 15.23+ (helper único + teste dos bytes).
+- **25.4** — #4125 reset de charm lê só os campos enviados (teste).
+- **25.5** — #3478 freequests (Secret Library, Barbarian Test) + harness contra o catálogo do questlog.
+- **25.6** — #3453 porta do Oasis (storage 12107) + chave `[12107]` duplicada no startup.
+- **25.7** — #3513 callbacks de zona depois do pacote de entrada no login do player.
+- **25.8** — Chaves duplicadas nas tabelas de startup: conferir cada uma + check que impede a repetição.
+- **25.9** — #3742 saldo do store enviado uma vez; #2083 preços reenviados aos online após o recálculo.
+- **25.10** — Varredura do `.otbm` (só leitura) para #4091, #4057 e #3438.
+- **25.11** — Verificação do grupo decidível: #3584/#3426 (campo/bomba), #3745 (aljava), #2553/#3549 (hazard), #3059 (`/n`).
+- **25.12** — #3374 medir o saque grande e pôr teto (valor escolhido pelo usuário).
+- **CHECKPOINT 25** — build, ut/it, preset de métricas, smoke boot com data-otservbr-global.
