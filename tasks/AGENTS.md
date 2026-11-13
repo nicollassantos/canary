@@ -628,6 +628,10 @@ Resultado atual: ver a última linha de validação no `todo.md` (CHECKPOINT 23)
   atual não fala de quantidade), `m` ≥ `minCount`, e linha do wiki coerente: 14 linhas sem `amount:` tinham
   `total` maior que vezes × 1 (o wiki viu pilhas sem registrar a faixa) e ficam de fora. 171 reduções
   (ex.: Icecold Book com 7 itens de até 8 para 1, em milhares de quedas). Manifesto: 3916.
+- **Aumento de `maxCount` também só com estatística 12+ (decisão do usuário, 2026-11-13):** quantidade segue
+  o jogo atual, então o aumento ganhou o mesmo portão da redução (`plan` e `validate`). Saíram 233 aumentos
+  vindos de blocos anteriores à 12; os 177 arquivos voltaram a `997af9180` e o manifesto foi reaplicado
+  (233 linhas voltaram ao valor do upstream). Ficam 144 aumentos e 171 reduções. Manifesto: 3683.
 - **Versão das estatísticas (decisão do usuário, 2026-11-13: "15+ quando existir"):** o bloco mais novo
   com ≥ 100 kills manda (já era a regra); 23 monstros têm bloco 15+ menor (quase todos bosses, 1–90 kills)
   e usam o bloco maior anterior. O resto segue as regras de antes (12+, ou antiga confirmada pela
