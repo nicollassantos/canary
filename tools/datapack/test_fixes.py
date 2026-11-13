@@ -454,6 +454,115 @@ class ConflictTest(unittest.TestCase):
         self.assertIn("monster.experience = 750", text)
 
 
+def removal(item, entries):
+    return {"kind": "remove_loot", "file": "beast.lua", "item": item, "from": entries}
+
+
+def absent(item, **overrides):
+    finding = {"kind": "loot_datapack_only", "subject": item, "datapack_chance": 500, "kills": 10000,
+               "datapack_entries": [[500, 1, 1]], "current_listed": False, "current_size": 12, "unresolved_wiki_names": []}
+    finding.update(overrides)
+    return finding
+
+
+class RemoveLootTest(unittest.TestCase):
+    def plan(self, findings, version="14.0", **monster):
+        report = {"monsters": [{"name": "Sample Beast", "file": "beast.lua", "race_id": 900, "wiki_race_id": 900.0,
+                                "loot_block": {"version": version, "kills": 10000}, "findings": findings, **monster}]}
+        return fixes.plan(report, {"beast hide": {9002}}, stackable=set(), kinds=("remove_loot",))
+
+    def test_absent_item_is_removed_with_its_upstream_entries_and_evidence(self):
+        planned, review = self.plan([absent("beast hide")])
+        self.assertEqual([], review)
+        self.assertEqual([[500, 1, 1]], planned[0]["from"])
+        self.assertIn("no drop in 10000 kills (about 50 expected)", planned[0]["source"]["evidence"])
+
+    def test_removal_gates(self):
+        cases = {
+            "gold coin": absent("gold coin"),
+            "#44736": absent("#44736"),
+            "listed": absent("listed", current_listed=True),
+            "renamed": absent("renamed", unresolved_wiki_names=["mystery lump"]),
+        }
+        planned, review = self.plan(list(cases.values()))
+        self.assertEqual([], planned)
+        reasons = {r["item"]: r["reason"] for r in review}
+        self.assertIn("coins", reasons["gold coin"])
+        self.assertIn("does not name", reasons["#44736"])
+        self.assertIn("current loot table lists", reasons["listed"])
+        self.assertIn("mystery lump", reasons["renamed"])
+
+    def test_old_statistics_need_a_current_loot_table_that_lacks_the_item(self):
+        planned, _ = self.plan([absent("beast hide")], version="8.6")
+        self.assertIn("current loot table lacks it", planned[0]["source"]["evidence"])
+        planned, review = self.plan([absent("beast hide", current_size=0)], version="8.6")
+        self.assertEqual([], planned)
+        self.assertIn("no current loot table", review[0]["reason"])
+
+    def test_reward_chest_and_unconfirmed_identity_stay_out(self):
+        report = {"monsters": [{"name": "Sample Beast", "file": "beast.lua", "race_id": None, "loot_block": {"version": "14.0", "kills": 10000},
+                                "findings": [absent("beast hide")]}]}
+        self.assertEqual([], fixes.plan(report, {}, set(), kinds=("remove_loot",))[0])
+        self.assertEqual([], fixes.plan({"monsters": [{**report["monsters"][0], "race_id": 900}]}, {}, set(), kinds=("remove_loot",),
+                                        bosses={"Sample Beast"})[0])
+        self.assertIn("reward chest", fixes.validate(removal("beast hide", []), {"race": 900, "reward": True}, {}))
+
+    def test_entries_are_removed_once_and_comments_go_with_them(self):
+        fix = removal("beast fang", [[20000, 1, 1]])
+        text, outcomes = fixes.apply_to_text(MONSTER, [fix], BY_ID)
+        self.assertEqual(["applied"], outcomes)
+        self.assertNotIn("9001", text)
+        self.assertIn('{ name = "beast hide", chance = 500 },', text)
+        again, outcomes = fixes.apply_to_text(text, [fix], BY_ID)
+        self.assertEqual((text, ["already"]), (again, outcomes))
+
+    def test_entry_changed_upstream_is_kept(self):
+        text, outcomes = fixes.apply_to_text(MONSTER, [removal("beast hide", [[700, 1, 1]])], BY_ID)
+        self.assertEqual(MONSTER, text)
+        self.assertTrue(outcomes[0].startswith("changed upstream"))
+
+    def test_entry_on_several_lines_is_left_for_a_person(self):
+        nested = MONSTER.replace('\t{ name = "beast hide", chance = 500 },', '\t{\n\t\tname = "beast hide",\n\t\tchance = 500,\n\t},')
+        text, outcomes = fixes.apply_to_text(nested, [removal("beast hide", [[500, 1, 1]])], BY_ID)
+        self.assertEqual(nested, text)
+        self.assertEqual(["changed upstream (entry not on one line)"], outcomes)
+
+
+class DuplicateAddTest(unittest.TestCase):
+    BY_NAME = {"book": {2828, 401}, "gore horn": {500}}
+
+    def test_item_listed_under_another_spelling_is_not_added(self):
+        text = MONSTER.replace('\t{ name = "beast hide", chance = 500 },', '\t{ id = 2828, chance = 730 }, -- book')
+        fix = {"kind": "add_loot", "file": "beast.lua", "item": "book (orange)", "id": 401, "chance": 732, "by_id": True}
+        again, outcomes = fixes.apply_to_text(text, [fix], {**BY_ID, 2828: "book", 401: "book"})
+        self.assertEqual(text, again)
+        self.assertTrue(outcomes[0].startswith("listed as another entry"))
+
+    def test_validate_drops_an_add_the_datapack_already_holds(self):
+        fix = {"kind": "add_loot", "item": "gore horn (item)", "id": 500, "chance": 41176, "by_id": True}
+        doubled = [{"id": 500, "chance": 41176}, {"name": "Gore Horn", "chance": 36040}]
+        reason = fixes.validate(fix, {"race": 1, "loot": doubled}, {}, self.BY_NAME)
+        self.assertIn("already lists this item as Gore Horn", reason)
+        # The fix's own line alone is not a duplicate.
+        self.assertIsNone(fixes.validate(fix, {"race": 1, "loot": doubled[:1]}, {}, self.BY_NAME))
+
+    def test_plan_leaves_an_aliased_missing_item_for_review(self):
+        report = {"monsters": [{"name": "Sample Beast", "file": "beast.lua", "race_id": 900, "loot_block": {"version": "14.0", "kills": 10000},
+                                "findings": [{"kind": "loot_missing", "subject": "pearl (green)", "wiki_chance": 3000, "times": 300,
+                                              "max_amount": 1, "datapack_alias": ["pearl"]}]}]}
+        planned, review = fixes.plan(report, {"pearl": {281, 282}}, set(), kinds=("add_loot",))
+        self.assertEqual([], planned)
+        self.assertIn("lists this item as pearl", review[0]["reason"])
+
+    def test_add_and_removal_of_the_same_item_drop_out_together(self):
+        batch = [{"kind": "add_loot", "file": "a.lua", "item": "book (orange)", "id": 401, "chance": 700},
+                 removal("book", [[730, 1, 1]]) | {"file": "a.lua"},
+                 {"kind": "chance", "file": "a.lua", "item": "beast hide", "chance": 900}]
+        kept, dropped = fixes.loot_conflicts(batch, self.BY_NAME)
+        self.assertEqual(["chance"], [f["kind"] for f in kept])
+        self.assertEqual(2, len(dropped))
+
+
 class StackableTest(unittest.TestCase):
     def test_cumulative_flag_is_read_from_the_protobuf(self):
         def varint(n):

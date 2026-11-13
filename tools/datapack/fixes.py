@@ -12,6 +12,8 @@ Kinds handled (chosen by the user, batch by batch):
   one item;
 - chance: set an item's chance to the wiki rate when the datapack falls outside the binomial
   interval (single entry only, recent statistics, no money, within MAX_CHANCE_FACTOR);
+- remove_loot: remove an item the datapack drops and the wiki never recorded, when the datapack
+  chance would have produced several drops in the wiki sample (see removal_problem for the gates);
 - stat (experience, maxHealth, armor, mitigation), element (damage modifier) and immunity
   (paralyze, invisible): only when the datapack race id equals the wiki race_id, so a quest variant
   that shares a name with another creature is never touched, and only from values the wiki does
@@ -136,6 +138,24 @@ def load_stackable(path):
     return {item_id for item_id, flags in load_flags(path).items() if "cumulative" in flags}
 
 
+def candidate_ids(name, by_name):
+    """Every item id a wiki name can stand for: its exact items.xml name, else the name without the
+    wiki's disambiguation suffix ("gore horn (item)" -> "gore horn")."""
+    ids = by_name.get(name, set())
+    if not ids:
+        stripped = re.sub(r"\s*\([^)]*\)$", "", name)
+        ids = by_name.get(stripped, set()) if stripped != name else set()
+    return set(ids)
+
+
+def entry_ids(key, by_name):
+    """Item ids a datapack loot key stands for: `#<id>` for an id items.xml does not name, otherwise
+    every id with that name (the server picks one of them for a name entry)."""
+    if key.startswith("#") and key[1:].isdigit():
+        return {int(key[1:])}
+    return set(by_name.get(key, set()))
+
+
 def resolve_item(name, by_name, flags):
     """(item id, how) for a wiki item name, or (None, reason).
 
@@ -147,8 +167,7 @@ def resolve_item(name, by_name, flags):
     if len(ids) == 1:
         return ids[0], "name"
     if not ids:
-        stripped = re.sub(r"\s*\([^)]*\)$", "", name)
-        ids = sorted(by_name.get(stripped, set())) if stripped != name else []
+        ids = sorted(candidate_ids(name, by_name))
         if not ids:
             return None, "name resolves to 0 items"
     loot_like = [i for i in ids if {"take", "market"} <= flags.get(i, set())]
@@ -159,7 +178,8 @@ def resolve_item(name, by_name, flags):
 
 # --- plan: report -> manifest ----------------------------------------------------------------
 
-LOOT_KINDS = ("max_count", "add_loot", "chance", "coins")
+LOOT_KINDS = ("max_count", "add_loot", "chance", "coins", "remove_loot")
+LOOT_FINDINGS = ("loot_count", "loot_chance", "loot_missing", "coins", "loot_datapack_only")
 COIN_NAMES = ("gold coin", "platinum coin", "crystal coin")
 STAT_KEYS = {"experience": "exp", "maxHealth": "hp", "armor": "armor", "mitigation": "mitigation"}
 IMMUNITY_KEYS = {"paralyze": "paraimmune", "invisible": "senseinvis"}
@@ -179,16 +199,51 @@ def identity_problem(race, wiki_race):
     return None
 
 
-def validate(fix, info, element_keys):
+def add_ids(fix, by_name):
+    """Item ids an add_loot fix stands for: its id and every id its wiki name can mean."""
+    return candidate_ids(fix["item"], by_name) | ({fix["id"]} if fix.get("id") is not None else set())
+
+
+def own_entry(fix, entry):
+    """Whether a datapack loot entry is the line this add_loot fix writes."""
+    if int(entry.get("chance") or 0) != fix["chance"]:
+        return False
+    if fix.get("by_id"):
+        return entry.get("id") is not None and int(entry["id"]) == fix["id"]
+    return str(entry.get("name", "")).strip().lower() == fix["item"]
+
+
+def listed_elsewhere(fix, loot, by_name):
+    """For an add_loot fix: another entry of the monster's loot that holds the same item (any id the
+    wiki name can stand for), or None. Such a fix would make the item drop twice."""
+    wanted = add_ids(fix, by_name)
+    for entry in loot or []:
+        if not isinstance(entry, dict) or own_entry(fix, entry):
+            continue
+        if entry.get("id") is not None:
+            ids = {int(entry["id"])}
+        else:
+            ids = by_name.get(str(entry.get("name", "")).strip().lower(), set())
+        if ids & wanted:
+            return entry.get("name") or f"id {entry['id']}"
+    return None
+
+
+def validate(fix, info, element_keys, by_name=None):
     """Re-check a manifest fix with the current rules; returns the reason it no longer holds, or None.
 
-    `info` describes the fix's monster: race, wiki_race, reward (rewardBoss) and uncertain (infobox
-    keys whose value the wiki marks with ? or ~). Unknown monsters are kept.
+    `info` describes the fix's monster: race, wiki_race, reward (rewardBoss), uncertain (infobox
+    keys whose value the wiki marks with ? or ~) and loot (the datapack entries). Unknown monsters
+    are kept.
     """
     if info is None:
         return None
     if info.get("reward") and fix["kind"] in LOOT_KINDS:
         return "reward chest: chances are base values scaled per participant"
+    if fix["kind"] == "add_loot" and by_name is not None:
+        other = listed_elsewhere(fix, info.get("loot"), by_name)
+        if other:
+            return f"the datapack already lists this item as {other}"
     if fix["kind"] in LOOT_KINDS:
         return identity_problem(info.get("race"), info.get("wiki_race"))
     race, wiki_race = info.get("race"), info.get("wiki_race")
@@ -220,7 +275,8 @@ def plan(report, by_name, stackable, kinds=("max_count", "add_loot", "chance", "
     certainty still apply (validate)."""
     approved = {(d["monster"], d["kind"], d["item"]) for d in reviewed if d.get("decision") == "apply"}
     kept = {(d["monster"], d["kind"], d["item"]): d.get("note", "") for d in reviewed if d.get("decision") == "keep"}
-    finding_kind = {"loot_count": "max_count", "loot_missing": "add_loot", "loot_chance": "chance", "coins": "coins"}
+    finding_kind = {"loot_count": "max_count", "loot_missing": "add_loot", "loot_chance": "chance", "coins": "coins",
+                    "loot_datapack_only": "remove_loot"}
     """Fixes for the chosen kinds plus the findings left for manual review, with the reason.
 
     Loot of reward-chest monsters (`bosses`, flagged rewardBoss) is always left for review: each
@@ -242,11 +298,11 @@ def plan(report, by_name, stackable, kinds=("max_count", "add_loot", "chance", "
                 review.append({"monster": monster["name"], "item": item, "reason": f"kept by review: {kept[decision_key]}"})
                 continue
             ids = sorted(by_name.get(item, set()))
-            if finding["kind"] in ("loot_count", "loot_chance", "loot_missing", "coins") and reward_chest:
+            if finding["kind"] in LOOT_FINDINGS and reward_chest:
                 # Only the loot depends on the reward chest; stats, elements and immunities do not.
                 review.append({"monster": monster["name"], "item": item, "reason": "reward chest: chances are base values scaled per participant"})
                 continue
-            if finding["kind"] in ("loot_count", "loot_chance", "loot_missing", "coins") and loot_identity:
+            if finding["kind"] in LOOT_FINDINGS and loot_identity:
                 review.append({"monster": monster["name"], "item": item, "reason": loot_identity})
                 continue
             if finding["kind"] == "coins" and "coins" in kinds:
@@ -312,6 +368,8 @@ def plan(report, by_name, stackable, kinds=("max_count", "add_loot", "chance", "
                     review.append({"monster": monster["name"], "item": item, "reason": reason})
                 else:
                     fix_source = {**source, "times": finding["times"], "kills": finding["kills"]}
+                    if finding.get("wiki_name"):
+                        fix_source["wiki_name"] = finding["wiki_name"]
                     if evidence:
                         fix_source["evidence"] = "; ".join(evidence)
                     fixes.append({"kind": "chance", "file": monster["file"], "monster": monster["name"], "item": item, "chance": wiki, "from": ours,
@@ -320,6 +378,12 @@ def plan(report, by_name, stackable, kinds=("max_count", "add_loot", "chance", "
                 major = int((re.findall(r"\d+", str(source.get("version") or "")) or [0])[0])
                 if item in CURRENCY:
                     review.append({"monster": monster["name"], "item": item, "reason": "currency: compare with the existing coin entries"})
+                    continue
+                if finding.get("datapack_alias"):
+                    # Two wiki rows may stand for one datapack entry (two pearl colours): adding would
+                    # make the item drop twice.
+                    review.append({"monster": monster["name"], "item": item,
+                                   "reason": f"the datapack lists this item as {', '.join(finding['datapack_alias'])}"})
                     continue
                 fix_source = {**source, "times": finding["times"]}
                 if major < MIN_ADD_VERSION:
@@ -339,8 +403,46 @@ def plan(report, by_name, stackable, kinds=("max_count", "add_loot", "chance", "
                 if item_id in stackable and finding["max_amount"] > 1:
                     fix["maxCount"] = finding["max_amount"]
                 fixes.append(fix)
+            elif finding["kind"] == "loot_datapack_only" and "remove_loot" in kinds:
+                reason, evidence = removal_problem(finding, item, source.get("version"))
+                if reason:
+                    review.append({"monster": monster["name"], "item": item, "reason": reason})
+                    continue
+                expected = round(finding["datapack_chance"] * finding["kills"] / 100000, 1)
+                fixes.append({"kind": "remove_loot", "file": monster["file"], "monster": monster["name"], "item": item,
+                              "from": finding["datapack_entries"], "source": {**source, "expected_drops": expected, "evidence": evidence}})
     fixes.sort(key=lambda f: (f["file"], f["kind"], f["item"]))
     return fixes, review
+
+
+def removal_problem(finding, item, version):
+    """(reason to leave a datapack-only item for review, or None; evidence for removing it).
+
+    The finding already says the datapack chance would have produced at least MIN_EXPECTED_DROPS
+    drops in the wiki sample and none was recorded. The item is removed only when nothing else can
+    explain the absence: not money (the coins fix owns coin entries), named, not in the wiki's
+    current loot table, no wiki row the plan could not resolve to an item (it may be this drop
+    under another name), entries on single lines, and statistics from MIN_ADD_VERSION on unless the
+    current loot table, listing other items, confirms the absence.
+    """
+    major = int((re.findall(r"\d+", str(version or "")) or [0])[0])
+    if item in CURRENCY:
+        return "currency: the coins fix owns the coin entries", None
+    if item.startswith("#"):
+        return "items.xml does not name this id", None
+    if finding.get("current_listed"):
+        return "the wiki's current loot table lists it", None
+    if finding.get("unresolved_wiki_names"):
+        return f"wiki rows that resolve to no item ({', '.join(finding['unresolved_wiki_names'][:3])}) may be this drop", None
+    if not finding.get("datapack_entries"):
+        return "no plain datapack entry", None
+    expected = round(finding["datapack_chance"] * finding["kills"] / 100000)
+    if major >= MIN_ADD_VERSION:
+        tail = "" if finding.get("current_size") else "; the page has no current loot table"
+        return None, f"no drop in {finding['kills']} kills (about {expected} expected){tail}"
+    if finding.get("current_size"):
+        return None, f"no drop in {finding['kills']} kills (about {expected} expected, version {version}); the current loot table lacks it"
+    return f"old statistics (version {version}) and no current loot table", None
 
 
 # --- apply: manifest -> monster files ----------------------------------------------------------
@@ -480,9 +582,33 @@ def apply_coins(text, fix, by_id):
     return text[:start] + "\n".join(lines) + text[end:], "applied"
 
 
-def apply_to_text(text, fixes, by_id):
+def names_to_ids(by_id):
+    by_name = {}
+    for item_id, name in by_id.items():
+        by_name.setdefault(name, set()).add(item_id)
+    return by_name
+
+
+def line_ids(body, by_name):
+    """Item ids a one-line loot entry can hold (a name entry may be any id with that name)."""
+    name = re.search(r'name\s*=\s*"([^"]*)"', body)
+    if name:
+        return by_name.get(name.group(1).strip().lower(), set())
+    item_id = entry_number(body, "id")
+    return {item_id} if item_id is not None else set()
+
+
+def mentions(block, item, by_id):
+    """Whether a loot block names `item` anywhere (a multi-line entry or child loot included)."""
+    if re.search(rf'name\s*=\s*"{re.escape(item)}"', block, re.I):
+        return True
+    return any(by_id.get(int(n)) == item for n in re.findall(r"\bid\s*=\s*(\d+)", block))
+
+
+def apply_to_text(text, fixes, by_id, by_name=None):
     """Apply one file's fixes; returns (new text, outcomes) with outcome per fix:
     'applied', 'already' or a failure reason."""
+    by_name = by_name if by_name is not None else names_to_ids(by_id)
     outcomes = []
     for fix in fixes:
         if fix["kind"] in ("stat", "element", "immunity"):
@@ -543,6 +669,12 @@ def apply_to_text(text, fixes, by_id):
             if matching:
                 outcomes.append("already")
                 continue
+            wanted = add_ids(fix, by_name)
+            other = next((m for _, m in entries if line_ids(m.group("body"), by_name) & wanted), None)
+            if other is not None:
+                # The item is there under another spelling or id; adding it would drop it twice.
+                outcomes.append(f"listed as another entry ({other.group('body').strip()})")
+                continue
             indent = entries[0][1].group("indent") if entries else "\t"
             count = f", maxCount = {fix['maxCount']}" if fix.get("maxCount") else ""
             if fix.get("by_id"):
@@ -557,6 +689,22 @@ def apply_to_text(text, fixes, by_id):
                     position = 1
             lines.insert(position, new_line)
             outcomes.append("applied")
+        elif fix["kind"] == "remove_loot":
+            gone = {i for i, _ in matching}
+            if mentions("\n".join(line for i, line in enumerate(lines) if i not in gone), fix["item"], by_id):
+                # An entry spread over several lines (child loot) is left for a person to edit.
+                outcomes.append("changed upstream (entry not on one line)")
+                continue
+            if not matching:
+                outcomes.append("already")
+                continue
+            current = [[entry_number(m.group("body"), "chance") or 0, entry_number(m.group("body"), "minCount") or 1,
+                        entry_number(m.group("body"), "maxCount") or 1] for _, m in matching]
+            if current != [list(e) for e in fix["from"]]:
+                outcomes.append(f"changed upstream (entries {current})")
+                continue
+            lines = [line for i, line in enumerate(lines) if i not in gone]
+            outcomes.append("applied")
         else:
             outcomes.append(f"unknown kind {fix['kind']}")
             continue
@@ -566,6 +714,7 @@ def apply_to_text(text, fixes, by_id):
 
 def apply_manifest(manifest, root, by_id, write=True):
     """Apply every fix; returns {outcome: count} and the failures."""
+    by_name = names_to_ids(by_id)
     by_file = {}
     for fix in manifest["fixes"]:
         by_file.setdefault(fix["file"], []).append(fix)
@@ -578,7 +727,7 @@ def apply_manifest(manifest, root, by_id, write=True):
             continue
         with open(full, encoding="utf-8") as handle:
             text = handle.read()
-        new_text, outcomes = apply_to_text(text, fixes, by_id)
+        new_text, outcomes = apply_to_text(text, fixes, by_id, by_name)
         for fix, outcome in zip(fixes, outcomes):
             summary[outcome] = summary.get(outcome, 0) + 1
             if outcome not in ("applied", "already"):
@@ -609,6 +758,26 @@ def supersede_coins(fixes, previous_keys=frozenset()):
                     if entry[0] == fix["item"] and entry[3] == fix["maxCount"]:
                         entry[3] = fix["from"]
                         break
+        else:
+            kept.append(fix)
+    return kept, dropped
+
+
+def loot_conflicts(fixes, by_name):
+    """An add_loot and a remove_loot of one file that touch the same item ids would undo each other;
+    both leave the manifest. Returns (kept, dropped)."""
+    removed = {}
+    for fix in fixes:
+        if fix["kind"] == "remove_loot":
+            removed.setdefault(fix["file"], set()).update(entry_ids(fix["item"], by_name))
+    clash = set()
+    for fix in fixes:
+        if fix["kind"] == "add_loot" and (add_ids(fix, by_name)) & removed.get(fix["file"], set()):
+            clash.add(fix["file"])
+    kept, dropped = [], []
+    for fix in fixes:
+        if fix["file"] in clash and fix["kind"] in ("add_loot", "remove_loot"):
+            dropped.append({**fix, "dropped": "an add and a removal of the same item in one file"})
         else:
             kept.append(fix)
     return kept, dropped

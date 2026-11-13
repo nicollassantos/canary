@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Compare the monster datapack with TibiaWiki facts and write a review report.
 
-Report only: nothing in the datapack is changed. Steps (each can run alone):
+Only `apply` edits the datapack, and only from the manifest. Steps (each can run alone):
 
     python3 -I tools/datapack/wiki_check.py extract   # luajit extractor -> monsters.jsonl
     python3 -I tools/datapack/wiki_check.py fetch     # TibiaWiki pages -> cache (about 1 request/s)
@@ -32,6 +32,7 @@ import xml.etree.ElementTree as ElementTree
 
 # Run with `python3 -I`, which leaves the script's own directory off sys.path.
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import fixes as fixes_module  # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 API = "https://tibia.fandom.com/api.php"
@@ -325,6 +326,7 @@ def compare(monster, infobox, blocks, by_name, by_id, checked=None):
     ours = datapack_loot(monster.get("loot"), by_id)
     current = parse_current_loot((infobox or {}).get("__text__", "")) if infobox else {}
     kills = block["kills"]
+    claims, alias = loot_aliases(block["items"], ours, by_name)
     for name, (times, _, high) in block["items"].items():
         if times > kills:
             # The page counts more drops than kills (merged or mistyped rows): nothing to judge.
@@ -333,21 +335,25 @@ def compare(monster, infobox, blocks, by_name, by_id, checked=None):
         low_p, high_p = wilson(times, kills)
         observed = times / kills if kills else 0.0
         resolved = by_name.get(name, set())
-        if name not in ours:
+        key = alias.get(name, name)
+        named = {} if key == name else {"wiki_name": name}
+        if key not in ours:
             if times >= MIN_TIMES_MISSING and strong:
+                listed = sorted(k for k, names in claims.items() if name in names)
                 add("loot_missing", name, wiki_chance=round(observed * MAX_CHANCE), times=times, kills=kills,
-                    max_amount=high, resolves_to=sorted(resolved), current_rarity=current.get(name))
+                    max_amount=high, resolves_to=sorted(resolved), current_rarity=current.get(name),
+                    **({"datapack_alias": listed} if listed else {}))
             continue
-        probability, max_count, entries = ours[name]
+        probability, max_count, entries = ours[key]
         if strong and not (low_p <= probability <= high_p):
             # Other version blocks are independent samples: they let a large gap be confirmed.
             others = [[b["version"], b["kills"], b["items"].get(name, (0, 1, 1))[0]] for b in blocks
                       if b is not block and b["kills"] >= MIN_KILLS]
-            add("loot_chance", name, datapack_chance=round(probability * MAX_CHANCE), wiki_chance=round(observed * MAX_CHANCE),
+            add("loot_chance", key, datapack_chance=round(probability * MAX_CHANCE), wiki_chance=round(observed * MAX_CHANCE),
                 wiki_low=round(low_p * MAX_CHANCE), wiki_high=round(high_p * MAX_CHANCE), times=times, kills=kills, entries=entries,
-                other_versions=others, current_rarity=current.get(name))
+                other_versions=others, current_rarity=current.get(name), **named)
         if high > max_count:
-            add("loot_count", name, datapack_max=max_count, wiki_observed_max=high)
+            add("loot_count", key, datapack_max=max_count, wiki_observed_max=high, **named)
     totals = block.get("totals", {})
     wiki_coins = [(name, round(times / kills * MAX_CHANCE)) + coin_range(totals.get(name, 0) / times, low, high)
                   for name, (times, low, high) in block["items"].items() if name in COINS and kills and times]
@@ -360,10 +366,52 @@ def compare(monster, infobox, blocks, by_name, by_id, checked=None):
             add("coins", "money", datapack_money=round(ours_money), wiki_money=round(wiki_money), datapack=[list(c) for c in mine],
                 wiki=[list(c) for c in sorted(wiki_coins, key=lambda c: -c[1])], kills=kills)
     if strong:
+        unresolved = sorted(name for name in block["items"] if not fixes_module.candidate_ids(name, by_name))
         for name, (probability, _, _) in ours.items():
-            if name not in block["items"] and probability * kills >= MIN_EXPECTED_DROPS:
-                add("loot_datapack_only", name, datapack_chance=round(probability * MAX_CHANCE), kills=kills)
+            # An entry a wiki row may stand for (same item under another spelling) is not absent.
+            if name not in block["items"] and name not in claims and probability * kills >= MIN_EXPECTED_DROPS:
+                ids = fixes_module.entry_ids(name, by_name)
+                listed = name in current or any(fixes_module.candidate_ids(c, by_name) & ids for c in current)
+                add("loot_datapack_only", name, datapack_chance=round(probability * MAX_CHANCE), kills=kills,
+                    datapack_entries=datapack_entries(monster.get("loot"), by_id, name), current_listed=listed,
+                    current_size=len(current), unresolved_wiki_names=unresolved)
     return findings, {"version": block["version"], "kills": kills, "strong": strong}
+
+
+def loot_aliases(wiki_items, ours, by_name):
+    """Pair wiki rows with datapack entries that hold the same item under another spelling.
+
+    The wiki suffixes ambiguous names ("book (orange)", "gore horn (item)") while the datapack uses
+    the plain items.xml name or an id. A wiki row without an exact datapack match claims every
+    datapack entry whose item ids meet the row's candidate ids (`fixes.candidate_ids`); entries an
+    exact wiki row already matches are not claimable. Returns (claims: datapack name -> wiki names,
+    alias: wiki name -> datapack name), the alias only for one-to-one pairs: when two wiki rows claim
+    one entry (two pearl colours) neither is paired, and the plan leaves both for review.
+    """
+    claims, by_row = {}, {}
+    for name in wiki_items:
+        if name in ours:
+            continue
+        wanted = fixes_module.candidate_ids(name, by_name)
+        for key in ours:
+            if key in wiki_items or not wanted & fixes_module.entry_ids(key, by_name):
+                continue
+            claims.setdefault(key, []).append(name)
+            by_row.setdefault(name, []).append(key)
+    alias = {name: keys[0] for name, keys in by_row.items() if len(keys) == 1 and len(claims[keys[0]]) == 1}
+    return claims, alias
+
+
+def datapack_entries(loot, by_id, name):
+    """[chance, minCount, maxCount] of every datapack entry for `name`, in file order."""
+    found = []
+    for entry in loot or []:
+        if not isinstance(entry, dict):
+            continue
+        key = by_id.get(int(entry["id"]), f"#{entry['id']}") if entry.get("id") is not None else str(entry.get("name", "")).strip().lower()
+        if key == name:
+            found.append([int(entry.get("chance") or 0), int(entry.get("minCount") or 1), int(entry.get("maxCount") or 1)])
+    return found
 
 
 # --- fetching ------------------------------------------------------------------------------
@@ -528,13 +576,12 @@ def monster_info(monsters, cache_dir):
             "wiki_race": parse_number(infobox.get("race_id")),
             "reward": bool(monster.get("rewardBoss")),
             "uncertain": {k for k in keys if any(mark in infobox.get(k, "") for mark in "?~")},
+            "loot": monster.get("loot") or [],
         }
     return info
 
 
 def command_plan(args):
-    import fixes as fixes_module
-
     with open(os.path.join(args.out, "report.json"), encoding="utf-8") as handle:
         report = json.load(handle)
     monsters = load_monsters(args.out)
@@ -570,12 +617,15 @@ def command_plan(args):
             info[decision["monster"]].setdefault("approved", {})[(decision["kind"], decision["item"])] = True
     kept, dropped = [], list(superseded)
     for fix in fixes:
-        reason = fixes_module.validate(fix, info.get(fix.get("monster")), {combat: key for combat, key in ELEMENTS.items()})
+        reason = fixes_module.validate(fix, info.get(fix.get("monster")), {combat: key for combat, key in ELEMENTS.items()}, by_name)
         if reason:
             dropped.append({**fix, "dropped": reason})
             review.append({"monster": fix.get("monster"), "item": fix["item"], "reason": reason})
         else:
             kept.append(fix)
+    kept, clashing = fixes_module.loot_conflicts(kept, by_name)
+    dropped += clashing
+    review += [{"monster": fix.get("monster"), "item": fix["item"], "reason": fix["dropped"]} for fix in clashing]
     note = ("Datapack corrections from TibiaWiki (CC BY-SA facts: chances, amounts, stats). `from` is the value the fix "
             "replaces; apply changes a value only while the file still holds it. Regenerate with `wiki_check.py plan`, "
             "apply with `wiki_check.py apply`; applying twice changes nothing.")
@@ -593,8 +643,6 @@ def command_plan(args):
 
 
 def command_apply(args):
-    import fixes as fixes_module
-
     with open(os.path.join(ROOT, args.manifest), encoding="utf-8") as handle:
         manifest = json.load(handle)
     _, by_id = load_items(os.path.join(ROOT, args.items))
@@ -613,7 +661,7 @@ def main(argv=None):
     parser.add_argument("--items", default="data/items/items.xml")
     parser.add_argument("--appearances", default="data/items/appearances.dat")
     parser.add_argument("--manifest", default="tools/datapack/fixes.json")
-    parser.add_argument("--kinds", default="max_count,add_loot,chance,stat,element,immunity,coins", help="plan: comma-separated kinds")
+    parser.add_argument("--kinds", default="max_count,add_loot,chance,stat,element,immunity,coins,remove_loot", help="plan: comma-separated kinds")
     parser.add_argument("--dry-run", action="store_true", help="apply: report what would change")
     parser.add_argument("--root", help="apply: tree holding the monster files (default: this repository)")
     args = parser.parse_args(argv)

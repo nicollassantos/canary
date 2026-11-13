@@ -96,7 +96,11 @@ python3 -I tools/datapack/wiki_check.py apply   # idempotent; never lowers a max
 Each fix records the value it replaces (`from`). `apply` changes a value only while the file
 still holds that `from`; when upstream changed it to something else it prints
 `changed upstream (...)`, exits 1 and leaves the file alone, so the conflict is decided by hand.
-Then run the smoke boot (no loot warnings, no Lua errors).
+A `remove_loot` fix deletes an item's one-line entries only while they equal its `from`; an item
+upstream already dropped is `already`, and an entry upstream spread over several lines is reported.
+An `add_loot` whose item upstream now lists under another spelling or id is reported as
+`listed as another entry (...)` instead of adding it twice. Then run the smoke boot (no loot
+warnings, no Lua errors).
 
 To prove the manifest still re-applies from upstream's side, apply it to a copy of the monster files
 at a base commit and compare with the branch (expect no conflicts; at most a different order of loot

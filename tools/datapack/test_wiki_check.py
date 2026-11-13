@@ -188,6 +188,31 @@ class CompareTest(unittest.TestCase):
         self.assertIn(("loot_datapack_only", "event token"), kinds(findings))  # ~100 expected drops
         self.assertNotIn(("loot_datapack_only", "tiny relic"), kinds(findings))  # 0.5 expected: absence is normal
 
+    def test_datapack_only_finding_carries_what_the_removal_gates_need(self):
+        loot = monster()["loot"] + [{"name": "event token", "chance": 1000, "maxCount": 2}]
+        infobox = {**self.infobox, "__text__": "{{Loot Item|Gold Coin|common}} {{Loot Item|Mystery Lump|rare}}"}
+        findings, _ = wiki_check.compare(monster(loot=loot), infobox, self.blocks, {**BY_NAME, "event token": {9010}}, BY_ID)
+        finding = next(f for f in findings if f["kind"] == "loot_datapack_only")
+        self.assertEqual([[1000, 1, 2]], finding["datapack_entries"])
+        self.assertFalse(finding["current_listed"])
+        self.assertEqual(2, finding["current_size"])
+        self.assertEqual([], finding["unresolved_wiki_names"])
+
+    def test_wiki_suffix_name_is_compared_with_the_datapack_entry_it_stands_for(self):
+        # The wiki writes "gore horn (item)"; the datapack lists the same item as "gore horn".
+        blocks = [{"version": "14.0", "kills": 10000, "items": {"gore horn (item)": (4000, 1, 1)}, "totals": {}}]
+        by_name = {"gore horn": {500}}
+        findings, _ = wiki_check.compare(monster(loot=[{"name": "gore horn", "chance": 60000}]), {}, blocks, by_name, {500: "gore horn"})
+        self.assertEqual({("loot_chance", "gore horn")}, kinds(findings))
+        self.assertEqual("gore horn (item)", findings[0]["wiki_name"])
+
+    def test_two_wiki_rows_for_one_entry_are_neither_added_nor_removed(self):
+        blocks = [{"version": "14.0", "kills": 10000, "items": {"pearl (brown)": (300, 1, 1), "pearl (green)": (300, 1, 1)}, "totals": {}}]
+        by_name = {"pearl": {281, 282}}
+        findings, _ = wiki_check.compare(monster(loot=[{"name": "pearl", "chance": 6000}]), {}, blocks, by_name, {281: "pearl", 282: "pearl"})
+        self.assertEqual({("loot_missing", "pearl (brown)"), ("loot_missing", "pearl (green)")}, kinds(findings))
+        self.assertTrue(all(f["datapack_alias"] == ["pearl"] for f in findings))
+
     def test_stats_elements_and_immunities(self):
         changed = monster(maxHealth=1100, elements=[{"type": "COMBAT_FIREDAMAGE", "percent": 50}],
                           immunities=[{"type": "paralyze", "condition": False}])
