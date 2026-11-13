@@ -121,20 +121,6 @@
    "note": "datapack 220, wiki 500 (bestiary hit points)"
   },
   {
-   "monster": "The Shatterer",
-   "kind": "stat",
-   "item": "maxHealth",
-   "decision": "keep",
-   "note": "Ferumbras Ascension boss: 220000 -> 80000 HP and 0 experience on the wiki do not fit the quest; not trusted"
-  },
-  {
-   "monster": "The Shatterer",
-   "kind": "stat",
-   "item": "experience",
-   "decision": "keep",
-   "note": "see maxHealth"
-  },
-  {
    "monster": "Biting Book",
    "kind": "max_count",
    "item": "platinum coin",

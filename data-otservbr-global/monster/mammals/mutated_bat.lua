@@ -88,7 +88,7 @@ monster.loot = {
 	{ name = "bat wing", chance = 4900, maxCount = 2 },
 	{ name = "mercenary sword", chance = 110 },
 	{ id = 8894, chance = 12530 }, -- heavily rusted armor
-	{ id = 8895, chance = 12530, maxCount = 2 }, -- rusted armor
+	{ id = 8895, chance = 707, maxCount = 2 }, -- rusted armor
 	{ name = "batwing hat", chance = 80 },
 	{ name = "mutated bat ear", chance = 4900 },
 }
@@ -105,7 +105,7 @@ monster.attacks = {
 monster.defenses = {
 	defense = 20,
 	armor = 19,
-	mitigation = 1.74,
+	mitigation = 2.76,
 	{ name = "combat", interval = 2000, chance = 10, type = COMBAT_HEALING, minDamage = 80, maxDamage = 95, effect = CONST_ME_MAGIC_BLUE, target = false },
 }
 

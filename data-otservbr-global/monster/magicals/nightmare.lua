@@ -90,7 +90,7 @@ monster.loot = {
 	{ name = "war axe", chance = 95 },
 	{ name = "knight legs", chance = 961 },
 	{ name = "ancient shield", chance = 990 },
-	{ name = "power bolt", chance = 9090, maxCount = 4 },
+	{ name = "power bolt", chance = 1170, maxCount = 4 },
 	{ name = "ham", chance = 29000, maxCount = 2 },
 	{ name = "mysterious voodoo skull", chance = 123 },
 	{ name = "soul orb", chance = 20000 },
@@ -111,7 +111,7 @@ monster.attacks = {
 monster.defenses = {
 	defense = 25,
 	armor = 25,
-	mitigation = 0.70,
+	mitigation = 1.09,
 	{ name = "combat", interval = 2000, chance = 10, type = COMBAT_HEALING, minDamage = 60, maxDamage = 100, effect = CONST_ME_MAGIC_BLUE, target = false },
 	{ name = "speed", interval = 2000, chance = 15, speedChange = 420, effect = CONST_ME_MAGIC_RED, target = false, duration = 5000 },
 }

@@ -87,7 +87,7 @@ monster.loot = {
 	{ name = "underworld rod", chance = 2625, maxCount = 1 },
 	{ name = "violet gem", chance = 525, maxCount = 1 },
 	{ name = "blue gem", chance = 1050, maxCount = 1 },
-	{ name = "relic sword", chance = 6964, maxCount = 1 },
+	{ name = "relic sword", chance = 525, maxCount = 1 },
 	{ name = "skullcracker armor", chance = 1050, maxCount = 1 },
 	{ id = 23531, chance = 3073, maxCount = 1 }, -- ring of green plasma
 }
@@ -104,7 +104,7 @@ monster.attacks = {
 monster.defenses = {
 	defense = 112,
 	armor = 112,
-	mitigation = 3.25,
+	mitigation = 5.21,
 }
 
 monster.elements = {

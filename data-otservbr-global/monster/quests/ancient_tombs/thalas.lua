@@ -82,9 +82,9 @@ monster.loot = {
 	{ id = 3049, chance = 1500 }, -- stealth ring
 	{ id = 3053, chance = 7000 }, -- time ring
 	{ name = "cobrafang dagger", chance = 100000 },
-	{ name = "serpent sword", chance = 500 },
+	{ name = "serpent sword", chance = 2625 },
 	{ name = "poison dagger", chance = 7000 },
-	{ name = "djinn blade", chance = 200 },
+	{ name = "djinn blade", chance = 1125 },
 	{ name = "great health potion", chance = 1500 },
 }
 
@@ -100,7 +100,7 @@ monster.attacks = {
 
 monster.defenses = {
 	defense = 30,
-	armor = 20,
+	armor = 40,
 	{ name = "combat", interval = 1000, chance = 20, type = COMBAT_HEALING, minDamage = 150, maxDamage = 450, effect = CONST_ME_MAGIC_BLUE, target = false },
 }
 

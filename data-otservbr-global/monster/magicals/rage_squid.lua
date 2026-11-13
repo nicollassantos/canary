@@ -94,7 +94,7 @@ monster.loot = {
 	{ name = "might ring", chance = 1783 },
 	{ name = "devil helmet", chance = 845 },
 	{ name = "demonrage sword", chance = 1456 },
-	{ id = 7393, chance = 390 }, -- demon trophy
+	{ id = 7393, chance = 30 }, -- demon trophy
 	{ name = "giant sword", chance = 2205 },
 	{ name = "demon shield", chance = 2078 },
 	{ name = "magic plate armor", chance = 272 },
@@ -115,7 +115,7 @@ monster.attacks = {
 monster.defenses = {
 	defense = 78,
 	armor = 78,
-	mitigation = 2.16,
+	mitigation = 3.45,
 }
 
 monster.elements = {

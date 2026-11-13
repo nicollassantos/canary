@@ -86,7 +86,7 @@ monster.loot = {
 	{ name = "gold ingot", chance = 730 },
 	{ name = "rotten feather", chance = 730 },
 	{ name = "broken iks faulds", chance = 360 },
-	{ name = "gold-brocaded cloth", chance = 360 },
+	{ name = "gold-brocaded cloth", chance = 2353 },
 }
 
 monster.attacks = {
@@ -97,7 +97,7 @@ monster.attacks = {
 monster.defenses = {
 	defense = 35,
 	armor = 34,
-	mitigation = 1.26,
+	mitigation = 2.00,
 }
 
 monster.elements = {

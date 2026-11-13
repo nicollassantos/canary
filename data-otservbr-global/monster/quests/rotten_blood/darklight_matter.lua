@@ -88,7 +88,7 @@ monster.loot = {
 	{ name = "darklight matter", chance = 8849, maxCount = 1 },
 	{ name = "rubber cap", chance = 529, maxCount = 1 },
 	{ id = 23544, chance = 1100, maxCount = 1 }, -- collar of red plasma
-	{ name = "green gem", chance = 3500, maxCount = 1 },
+	{ name = "green gem", chance = 348, maxCount = 1 },
 	{ name = "shadow sceptre", chance = 627, maxCount = 1 },
 }
 
@@ -103,7 +103,7 @@ monster.attacks = {
 monster.defenses = {
 	defense = 98,
 	armor = 98,
-	mitigation = 3.28,
+	mitigation = 5.26,
 }
 
 monster.elements = {

@@ -2,7 +2,7 @@ local mType = Game.createMonsterType("The Sandking")
 local monster = {}
 
 monster.description = "The Sandking"
-monster.experience = 0
+monster.experience = 200000
 monster.outfit = {
 	lookType = 1013,
 	lookHead = 0,

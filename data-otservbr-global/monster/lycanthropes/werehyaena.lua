@@ -105,7 +105,7 @@ monster.defenses = {
 	{ name = "speed", chance = 15, interval = 2 * 1000, speed = 200, duration = 5 * 1000, effect = CONST_ME_MAGIC_BLUE },
 	defense = 0,
 	armor = 36,
-	mitigation = 0.88,
+	mitigation = 1.39,
 }
 
 monster.elements = {

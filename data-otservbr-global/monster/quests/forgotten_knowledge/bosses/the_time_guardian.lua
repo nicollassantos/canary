@@ -17,8 +17,8 @@ monster.events = {
 	"ForgottenKnowledgeBossDeath",
 }
 
-monster.health = 150000
-monster.maxHealth = 150000
+monster.health = 290000
+monster.maxHealth = 290000
 monster.race = "undead"
 monster.corpse = 25085
 monster.speed = 170

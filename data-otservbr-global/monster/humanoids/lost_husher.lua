@@ -113,7 +113,7 @@ monster.attacks = {
 monster.defenses = {
 	defense = 25,
 	armor = 55,
-	mitigation = 1.35,
+	mitigation = 2.13,
 	{ name = "combat", interval = 2000, chance = 15, type = COMBAT_HEALING, minDamage = 75, maxDamage = 92, effect = CONST_ME_YELLOWENERGY, target = false },
 	{ name = "invisible", interval = 2000, chance = 15, effect = CONST_ME_TELEPORT },
 }

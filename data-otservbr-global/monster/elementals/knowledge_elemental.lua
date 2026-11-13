@@ -105,7 +105,7 @@ monster.attacks = {
 monster.defenses = {
 	defense = 33,
 	armor = 76,
-	mitigation = 2.08,
+	mitigation = 3.31,
 	{ name = "combat", interval = 2000, chance = 40, type = COMBAT_PHYSICALDAMAGE, minDamage = 100, maxDamage = 300, radius = 3, effect = CONST_ME_BLOCKHIT, target = false },
 	{ name = "combat", interval = 200, chance = 55, type = COMBAT_PHYSICALDAMAGE, minDamage = 100, maxDamage = 300, radius = 3, effect = CONST_ME_ENERGYHIT, target = false },
 }

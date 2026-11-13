@@ -74,7 +74,7 @@ monster.loot = {
 	{ name = "crystal coin", chance = 12516, maxCount = 2 },
 	{ name = "darklight core", chance = 13367, maxCount = 1 },
 	{ name = "darklight obsidian axe", chance = 10433, maxCount = 1 },
-	{ name = "zaoan armor", chance = 8574, maxCount = 1 },
+	{ name = "zaoan armor", chance = 568, maxCount = 1 },
 	{ id = 43853, chance = 6313 }, -- darklight core
 	{ name = "basalt crumbs", chance = 5794, maxCount = 1 },
 	{ name = "small topaz", chance = 13194, maxCount = 3 },
@@ -94,7 +94,7 @@ monster.attacks = {
 monster.defenses = {
 	defense = 120,
 	armor = 120,
-	mitigation = 3.04,
+	mitigation = 4.87,
 }
 
 monster.elements = {

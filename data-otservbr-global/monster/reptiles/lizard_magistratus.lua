@@ -83,7 +83,7 @@ monster.loot = {
 	{ name = "small ruby", chance = 8970, maxCount = 5 },
 	{ name = "gold coin", chance = 77230, maxCount = 50 },
 	{ name = "platinum coin", chance = 13400, maxCount = 20 },
-	{ name = "lizard leather", chance = 220 },
+	{ name = "lizard leather", chance = 1239 },
 	{ name = "lizard scale", chance = 450 },
 	{ name = "strong mana potion", chance = 6280 },
 	{ name = "great mana potion", chance = 4480 },
@@ -97,7 +97,7 @@ monster.attacks = {
 monster.defenses = {
 	defense = 15,
 	armor = 25,
-	mitigation = 1.18,
+	mitigation = 1.87,
 	{ name = "combat", interval = 2000, chance = 50, type = COMBAT_HEALING, minDamage = 200, maxDamage = 250, effect = CONST_ME_MAGIC_BLUE, target = false },
 }
 

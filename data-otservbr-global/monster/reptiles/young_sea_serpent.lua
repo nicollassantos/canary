@@ -86,7 +86,7 @@ monster.loot = {
 	{ name = "strong health potion", chance = 5000 },
 	{ name = "strong mana potion", chance = 4000 },
 	{ id = 8894, chance = 6973 }, -- heavily rusted armor
-	{ id = 8895, chance = 7940 }, -- rusted armor
+	{ id = 8895, chance = 837 }, -- rusted armor
 	{ name = "sea serpent scale", chance = 5000 },
 }
 
@@ -100,7 +100,7 @@ monster.attacks = {
 monster.defenses = {
 	defense = 30,
 	armor = 20,
-	mitigation = 0.78,
+	mitigation = 1.22,
 	{ name = "combat", interval = 2000, chance = 30, type = COMBAT_HEALING, minDamage = 25, maxDamage = 175, effect = CONST_ME_MAGIC_BLUE, target = false },
 	{ name = "speed", interval = 2000, chance = 15, speedChange = 400, effect = CONST_ME_MAGIC_RED, target = false, duration = 5000 },
 }

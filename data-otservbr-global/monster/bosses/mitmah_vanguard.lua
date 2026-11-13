@@ -22,8 +22,8 @@ monster.events = {
 	"iksupanBossesDeath",
 }
 
-monster.health = 200000
-monster.maxHealth = 200000
+monster.health = 50000
+monster.maxHealth = 50000
 monster.race = "blood"
 monster.corpse = 44687
 monster.speed = 350

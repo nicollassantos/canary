@@ -2,7 +2,7 @@ local mType = Game.createMonsterType("Gorzindel")
 local monster = {}
 
 monster.description = "Gorzindel"
-monster.experience = 100000
+monster.experience = 55000
 monster.outfit = {
 	lookType = 1062,
 	lookHead = 94,
@@ -22,8 +22,8 @@ monster.bosstiary = {
 	bossRace = RARITY_ARCHFOE,
 }
 
-monster.health = 300000
-monster.maxHealth = 300000
+monster.health = 350000
+monster.maxHealth = 350000
 monster.race = "blood"
 monster.corpse = 22495
 monster.speed = 115

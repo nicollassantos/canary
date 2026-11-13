@@ -94,7 +94,7 @@ monster.loot = {
 	{ id = 281, chance = 3100 }, -- giant shimmering pearl (green)
 	{ name = "suspicious device", chance = 1629 },
 	{ name = "mycological bow", chance = 200 },
-	{ name = "mushroom backpack", chance = 1500 },
+	{ name = "mushroom backpack", chance = 57 },
 }
 
 monster.attacks = {
@@ -107,7 +107,7 @@ monster.attacks = {
 monster.defenses = {
 	defense = 5,
 	armor = 71,
-	mitigation = 1.94,
+	mitigation = 3.08,
 }
 
 monster.elements = {

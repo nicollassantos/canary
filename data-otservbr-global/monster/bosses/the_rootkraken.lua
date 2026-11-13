@@ -2,7 +2,7 @@ local mType = Game.createMonsterType("The Rootkraken")
 local monster = {}
 
 monster.name = "The Rootkraken"
-monster.experience = 600000
+monster.experience = 700000
 monster.outfit = {
 	lookType = 1765,
 }

@@ -87,7 +87,7 @@ monster.loot = {
 	{ name = "magma boots", chance = 5080, maxCount = 1 },
 	{ id = 12600, chance = 4228, maxCount = 4 }, -- coal
 	{ name = "dark helmet", chance = 7490, maxCount = 1 },
-	{ name = "magma coat", chance = 11753, maxCount = 1 },
+	{ name = "magma coat", chance = 1812, maxCount = 1 },
 	{ name = "onyx chip", chance = 3624, maxCount = 2 },
 	{ name = "darklight core", chance = 5957, maxCount = 1 },
 	{ name = "fire sword", chance = 3796, maxCount = 1 },
@@ -108,7 +108,7 @@ monster.attacks = {
 monster.defenses = {
 	defense = 120,
 	armor = 120,
-	mitigation = 2.75,
+	mitigation = 4.15,
 }
 
 monster.elements = {

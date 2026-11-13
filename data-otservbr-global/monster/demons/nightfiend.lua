@@ -78,10 +78,10 @@ monster.voices = {
 monster.loot = {
 	{ name = "platinum coin", chance = 50000, maxCount = 1 },
 	{ name = "gold coin", chance = 50000, maxCount = 148 },
-	{ id = 3030, chance = 1052, maxCount = 3 },
-	{ name = "tooth file", chance = 564 },
-	{ name = "blood preservation", chance = 1000 },
-	{ name = "emerald bangle", chance = 120 },
+	{ id = 3030, chance = 8414, maxCount = 3 },
+	{ name = "tooth file", chance = 7767 },
+	{ name = "blood preservation", chance = 5502 },
+	{ name = "emerald bangle", chance = 971 },
 	{ name = "vampire teeth", chance = 10000 },
 	{ name = "vampire shield", chance = 50 },
 	{ name = "strong health potion", chance = 4761 },
@@ -98,7 +98,7 @@ monster.attacks = {
 monster.defenses = {
 	defense = 11,
 	armor = 46,
-	mitigation = 1.43,
+	mitigation = 2.27,
 }
 
 monster.elements = {

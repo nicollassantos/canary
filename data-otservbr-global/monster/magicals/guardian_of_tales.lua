@@ -86,7 +86,7 @@ monster.loot = {
 	{ name = "magma coat", chance = 983 },
 	{ name = "magma legs", chance = 1060 },
 	{ name = "piece of hellfire armor", chance = 4570, maxCount = 5 },
-	{ id = 12600, chance = 10000, maxCount = 5 }, -- coal
+	{ id = 12600, chance = 281, maxCount = 5 }, -- coal
 }
 
 monster.attacks = {
@@ -99,7 +99,7 @@ monster.attacks = {
 monster.defenses = {
 	defense = 40,
 	armor = 77,
-	mitigation = 1.94,
+	mitigation = 3.08,
 }
 
 monster.elements = {

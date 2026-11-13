@@ -79,7 +79,7 @@ monster.loot = {
 	{ name = "might ring", chance = 3538 },
 	{ name = "small diamond", chance = 4154, maxCount = 2 },
 	{ name = "gold coin", chance = 50000, maxCount = 100 },
-	{ name = "small emerald", chance = 1000, maxCount = 2 },
+	{ name = "small emerald", chance = 5385, maxCount = 2 },
 	{ name = "platinum coin", chance = 20000, maxCount = 2 },
 	{ id = 3051, chance = 910 }, -- energy ring
 	{ id = 3052, chance = 1000 }, -- life ring
@@ -101,7 +101,7 @@ monster.attacks = {
 monster.defenses = {
 	defense = 25,
 	armor = 45,
-	mitigation = 1.32,
+	mitigation = 2.09,
 	{ name = "combat", interval = 2000, chance = 5, type = COMBAT_HEALING, minDamage = 120, maxDamage = 250, effect = CONST_ME_MAGIC_BLUE, target = false },
 }
 

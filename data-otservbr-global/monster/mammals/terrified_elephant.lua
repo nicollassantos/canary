@@ -89,7 +89,7 @@ monster.attacks = {
 monster.defenses = {
 	defense = 0,
 	armor = 20,
-	mitigation = 0.41,
+	mitigation = 0.64,
 	{ name = "speed", interval = 2000, chance = 15, speedChange = 800, target = false, duration = 5000 },
 }
 

@@ -105,7 +105,7 @@ monster.attacks = {
 monster.defenses = {
 	defense = 15,
 	armor = 40,
-	mitigation = 1.18,
+	mitigation = 1.87,
 	{ name = "speed", interval = 2000, chance = 15, speedChange = 240, effect = CONST_ME_MAGIC_RED, target = false, duration = 5000 },
 	{ name = "invisible", interval = 2000, chance = 10, effect = CONST_ME_YELLOW_RINGS },
 	{ name = "outfit", interval = 5000, chance = 10, target = false, duration = 4000, outfitMonster = "nightstalker" },

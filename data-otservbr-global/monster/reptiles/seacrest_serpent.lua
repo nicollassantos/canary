@@ -111,7 +111,7 @@ monster.attacks = {
 monster.defenses = {
 	defense = 31,
 	armor = 51,
-	mitigation = 1.21,
+	mitigation = 1.91,
 	{ name = "combat", interval = 2000, chance = 15, type = COMBAT_HEALING, minDamage = 145, maxDamage = 200, effect = CONST_ME_SOUND_BLUE, target = false },
 	{ name = "melee", interval = 2000, chance = 10, minDamage = 0, maxDamage = 0 },
 }

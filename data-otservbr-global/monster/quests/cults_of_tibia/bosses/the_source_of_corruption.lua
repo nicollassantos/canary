@@ -2,7 +2,7 @@ local mType = Game.createMonsterType("The Source of Corruption")
 local monster = {}
 
 monster.description = "The Source Of Corruption"
-monster.experience = 0
+monster.experience = 50000
 monster.outfit = {
 	lookType = 979,
 	lookHead = 0,

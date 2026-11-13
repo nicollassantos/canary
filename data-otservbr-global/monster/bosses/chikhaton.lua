@@ -2,7 +2,7 @@ local mType = Game.createMonsterType("Chikhaton")
 local monster = {}
 
 monster.description = "Chikhaton"
-monster.experience = 20000
+monster.experience = 50000
 monster.outfit = {
 	lookType = 361,
 	lookHead = 0,
@@ -18,8 +18,8 @@ monster.bosstiary = {
 	bossRace = RARITY_NEMESIS,
 }
 
-monster.health = 20000
-monster.maxHealth = 20000
+monster.health = 130000
+monster.maxHealth = 130000
 monster.race = "blood"
 monster.corpse = 11319
 monster.speed = 110

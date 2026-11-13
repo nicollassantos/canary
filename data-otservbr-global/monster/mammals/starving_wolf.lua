@@ -89,7 +89,7 @@ monster.attacks = {
 monster.defenses = {
 	defense = 10,
 	armor = 2,
-	mitigation = 0.33,
+	mitigation = 0.52,
 	{ name = "effect", interval = 2000, chance = 10, radius = 1, effect = CONST_ME_YELLOW_RINGS, target = false },
 }
 

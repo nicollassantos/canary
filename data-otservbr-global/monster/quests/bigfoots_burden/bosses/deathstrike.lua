@@ -2,7 +2,7 @@ local mType = Game.createMonsterType("Deathstrike")
 local monster = {}
 
 monster.description = "Deathstrike"
-monster.experience = 40000
+monster.experience = 400000
 monster.outfit = {
 	lookType = 500,
 	lookHead = 0,

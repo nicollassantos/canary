@@ -85,7 +85,7 @@ monster.loot = {
 	{ name = "wand of voodoo", chance = 3445 },
 	{ name = "wand of cosmic energy", chance = 3023 },
 	{ name = "dragon necklace", chance = 1947 },
-	{ name = "stone skin amulet", chance = 8860 },
+	{ name = "stone skin amulet", chance = 241 },
 	{ id = 30082, chance = 2062 }, -- blue ectoplasm
 	{ name = "glacier amulet", chance = 2018 },
 	{ name = "orb", chance = 1294 },
@@ -112,7 +112,7 @@ monster.attacks = {
 monster.defenses = {
 	defense = 70,
 	armor = 70,
-	mitigation = 2.11,
+	mitigation = 3.36,
 	{ name = "combat", interval = 2000, chance = 30, type = COMBAT_HEALING, minDamage = 150, maxDamage = 200, effect = CONST_ME_MAGIC_BLUE, target = false },
 }
 

@@ -87,7 +87,7 @@ monster.voices = {
 monster.loot = {
 	{ name = "candlestick", chance = 70000 },
 	{ name = "wedding ring", chance = 460 },
-	{ id = 3007, chance = 60 }, -- crystal ring
+	{ id = 3007, chance = 1723 }, -- crystal ring
 	{ name = "silver brooch", chance = 1250 },
 	{ name = "white pearl", chance = 1010 },
 	{ name = "black pearl", chance = 2030 },
@@ -119,7 +119,7 @@ monster.attacks = {
 monster.defenses = {
 	defense = 25,
 	armor = 25,
-	mitigation = 1.74,
+	mitigation = 2.76,
 	{ name = "combat", interval = 2000, chance = 15, type = COMBAT_HEALING, minDamage = 120, maxDamage = 190, effect = CONST_ME_MAGIC_BLUE, target = false },
 }
 

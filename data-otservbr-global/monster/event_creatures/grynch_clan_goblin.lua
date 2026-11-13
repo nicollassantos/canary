@@ -116,7 +116,7 @@ monster.loot = {
 	{ id = 3047, chance = 115 }, -- magic light wand
 	{ name = "blank rune", chance = 110 },
 	{ id = 3211, chance = 1500 }, -- witchesbroom
-	{ id = 3463, chance = 1000 }, -- mirror
+	{ id = 3463, chance = 73 }, -- mirror
 	{ name = "scarf", chance = 755 },
 	{ name = "red apple", chance = 9927, maxCount = 3 },
 	{ name = "orange", chance = 5139, maxCount = 3 },
@@ -148,7 +148,7 @@ monster.attacks = {}
 monster.defenses = {
 	defense = 12,
 	armor = 5,
-	mitigation = 0.25,
+	mitigation = 0.40,
 	{ name = "speed", interval = 1000, chance = 15, speedChange = 500, effect = CONST_ME_MAGIC_RED, target = false, duration = 5000 },
 }
 

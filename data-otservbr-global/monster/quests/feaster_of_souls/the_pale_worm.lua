@@ -2,7 +2,7 @@ local mType = Game.createMonsterType("The Pale Worm")
 local monster = {}
 
 monster.description = "The Pale Worm"
-monster.experience = 30000
+monster.experience = 128000
 monster.outfit = {
 	lookType = 1272,
 	lookHead = 0,
@@ -13,8 +13,8 @@ monster.outfit = {
 	lookMount = 0,
 }
 
-monster.health = 420000
-monster.maxHealth = 420000
+monster.health = 435000
+monster.maxHealth = 435000
 monster.race = "undead"
 monster.corpse = 32702
 monster.speed = 125

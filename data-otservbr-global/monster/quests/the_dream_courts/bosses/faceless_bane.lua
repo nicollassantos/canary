@@ -2,7 +2,7 @@ local mType = Game.createMonsterType("Faceless Bane")
 local monster = {}
 
 monster.description = "Faceless Bane"
-monster.experience = 20000
+monster.experience = 14000
 monster.outfit = {
 	lookType = 1119,
 	lookHead = 0,
@@ -13,8 +13,8 @@ monster.outfit = {
 	lookMount = 0,
 }
 
-monster.health = 35000
-monster.maxHealth = 35000
+monster.health = 17000
+monster.maxHealth = 17000
 monster.race = "blood"
 monster.corpse = 30013
 monster.speed = 125

@@ -78,7 +78,7 @@ monster.voices = {
 monster.loot = {
 	{ name = "platinum coin", chance = 74000, maxCount = 9 },
 	{ name = "earth arrow", chance = 19490, maxCount = 28 },
-	{ name = "stone skin amulet", chance = 6800 },
+	{ name = "stone skin amulet", chance = 682 },
 	{ name = "gold ingot", chance = 5750, maxCount = 1 },
 	{ name = "cheesy figurine", chance = 11553 },
 	{ name = "opal", chance = 23800, maxCount = 5 },
@@ -103,7 +103,7 @@ monster.attacks = {
 monster.defenses = {
 	defense = 81,
 	armor = 81,
-	mitigation = 2.16,
+	mitigation = 3.45,
 }
 
 monster.elements = {

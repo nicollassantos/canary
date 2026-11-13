@@ -2,7 +2,7 @@ local mType = Game.createMonsterType("The Shatterer")
 local monster = {}
 
 monster.description = "The Shatterer"
-monster.experience = 58000
+monster.experience = 0
 monster.outfit = {
 	lookType = 842,
 	lookHead = 77,
@@ -17,8 +17,8 @@ monster.events = {
 	"TheShattererDeath",
 }
 
-monster.health = 220000
-monster.maxHealth = 220000
+monster.health = 80000
+monster.maxHealth = 80000
 monster.race = "fire"
 monster.corpse = 6068
 monster.speed = 160
@@ -77,7 +77,7 @@ monster.loot = {
 	{ id = 238, chance = 100000, maxCount = 19 }, -- great mana potion
 	{ id = 7642, chance = 100000, maxCount = 19 }, -- great spirit potion
 	{ id = 7643, chance = 100000, maxCount = 19 }, -- ultimate health potion
-	{ id = 3030, chance = 12000, maxCount = 23 }, -- small ruby
+	{ id = 3030, chance = 100000, maxCount = 23 }, -- small ruby
 	{ name = "lump of earth", chance = 9483 },
 	{ id = 3035, chance = 8000, maxCount = 19 }, -- platinum coin
 	{ id = 3031, chance = 30000, maxCount = 200 }, -- gold coin

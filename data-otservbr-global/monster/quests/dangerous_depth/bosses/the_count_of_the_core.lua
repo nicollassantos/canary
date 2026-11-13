@@ -17,8 +17,8 @@ monster.events = {
 	"DepthWarzoneBossDeath",
 }
 
-monster.health = 350000
-monster.maxHealth = 350000
+monster.health = 500000
+monster.maxHealth = 500000
 monster.race = "blood"
 monster.corpse = 27637
 monster.speed = 135

@@ -95,7 +95,7 @@ monster.loot = {
 	{ name = "great health potion", chance = 29603 },
 	{ name = "ultimate health potion", chance = 7405 },
 	{ id = 8895, chance = 2214 }, -- rusted armor
-	{ id = 8896, chance = 3125 }, -- slightly rusted armor
+	{ id = 8896, chance = 175 }, -- slightly rusted armor
 	{ id = 9034, chance = 140 }, -- dracoyle statue
 	{ id = 9056, chance = 151 }, -- black skull
 	{ name = "small topaz", chance = 4557, maxCount = 3 },
@@ -111,7 +111,7 @@ monster.attacks = {
 monster.defenses = {
 	defense = 40,
 	armor = 44,
-	mitigation = 1.32,
+	mitigation = 2.09,
 	{ name = "combat", interval = 2000, chance = 10, type = COMBAT_HEALING, minDamage = 120, maxDamage = 230, effect = CONST_ME_MAGIC_BLUE, target = false },
 	{ name = "speed", interval = 2000, chance = 15, speedChange = 270, effect = CONST_ME_MAGIC_RED, target = false, duration = 5000 },
 }

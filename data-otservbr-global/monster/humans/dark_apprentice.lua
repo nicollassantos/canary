@@ -98,7 +98,7 @@ monster.attacks = {
 monster.defenses = {
 	defense = 15,
 	armor = 16,
-	mitigation = 0.30,
+	mitigation = 0.48,
 	{ name = "combat", interval = 2000, chance = 15, type = COMBAT_HEALING, minDamage = 30, maxDamage = 40, effect = CONST_ME_MAGIC_GREEN, target = false },
 	{ name = "outfit", interval = 2000, chance = 5, target = true, duration = 3000, outfitMonster = "green frog" },
 }

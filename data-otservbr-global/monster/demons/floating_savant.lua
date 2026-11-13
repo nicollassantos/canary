@@ -90,7 +90,7 @@ monster.loot = {
 	{ name = "flask of demonic blood", chance = 12000, maxCount = 5 },
 	{ name = "demonic essence", chance = 10000, maxCount = 5 },
 	{ id = 3456, chance = 5212 }, -- pick
-	{ name = "sample of monster blood", chance = 10000, maxCount = 5 },
+	{ name = "sample of monster blood", chance = 114, maxCount = 5 },
 }
 
 monster.attacks = {
@@ -104,7 +104,7 @@ monster.attacks = {
 monster.defenses = {
 	defense = 40,
 	armor = 74,
-	mitigation = 1.96,
+	mitigation = 3.13,
 }
 
 monster.elements = {

@@ -17,8 +17,8 @@ monster.events = {
 	"AscendantBossesDeath",
 }
 
-monster.health = 40000
-monster.maxHealth = 40000
+monster.health = 290000
+monster.maxHealth = 290000
 monster.race = "undead"
 monster.corpse = 22495
 monster.speed = 160

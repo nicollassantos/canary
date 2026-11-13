@@ -80,7 +80,7 @@ monster.loot = {
 	{ name = "dragonbone staff", chance = 3518, maxCount = 1 },
 	{ name = "worm sponge", chance = 1759, maxCount = 1 },
 	{ name = "violet gem", chance = 628, maxCount = 1 },
-	{ name = "jade hammer", chance = 3073, maxCount = 1 },
+	{ name = "jade hammer", chance = 251, maxCount = 1 },
 	{ name = "stone skin amulet", chance = 628 },
 }
 
@@ -95,7 +95,7 @@ monster.attacks = {
 monster.defenses = {
 	defense = 100,
 	armor = 107,
-	mitigation = 3.25,
+	mitigation = 5.21,
 }
 
 monster.elements = {

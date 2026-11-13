@@ -17,8 +17,8 @@ monster.events = {
 	"XogixathDeath",
 }
 
-monster.health = 28000
-monster.maxHealth = 28000
+monster.health = 35000
+monster.maxHealth = 35000
 monster.race = "fire"
 monster.corpse = 12838
 monster.speed = 95

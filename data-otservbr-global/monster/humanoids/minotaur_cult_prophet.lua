@@ -114,7 +114,7 @@ monster.attacks = {
 monster.defenses = {
 	defense = 15,
 	armor = 28,
-	mitigation = 1.10,
+	mitigation = 1.74,
 	{ name = "Minotaur Cult Prophet Mass Healing", interval = 2000, chance = 20, target = false },
 }
 

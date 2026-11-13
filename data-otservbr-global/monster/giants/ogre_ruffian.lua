@@ -92,7 +92,7 @@ monster.loot = {
 	{ name = "war hammer", chance = 2160 },
 	{ name = "metal spats", chance = 1440 },
 	{ name = "skull fetish", chance = 3337 },
-	{ name = "stone skin amulet", chance = 4320 },
+	{ name = "stone skin amulet", chance = 861 },
 	{ name = "green crystal splinter", chance = 1292 },
 	{ name = "ogre klubba", chance = 1076 },
 	{ name = "small enchanted emerald", chance = 1076, maxCount = 2 },
@@ -108,7 +108,7 @@ monster.attacks = {
 monster.defenses = {
 	defense = 102,
 	armor = 102,
-	mitigation = 2.72,
+	mitigation = 4.34,
 }
 
 monster.elements = {

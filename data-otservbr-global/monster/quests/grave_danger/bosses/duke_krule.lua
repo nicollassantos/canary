@@ -17,8 +17,8 @@ monster.events = {
 	"grave_danger_death",
 }
 
-monster.health = 75000
-monster.maxHealth = 75000
+monster.health = 290000
+monster.maxHealth = 290000
 monster.race = "venom"
 monster.corpse = 31599
 monster.speed = 125

@@ -103,7 +103,7 @@ monster.loot = {
 	{ id = 3093, chance = 810 }, -- club ring
 	{ id = 3097, chance = 1210 }, -- dwarven ring
 	{ id = 9067, chance = 130 }, -- crystal of power
-	{ id = 9065, chance = 1080 }, -- crystal pedestal
+	{ id = 9065, chance = 25 }, -- crystal pedestal
 	{ id = 820, chance = 90 }, -- lightning boots
 	{ id = 3554, chance = 620 }, -- steel boots
 	{ id = 7403, chance = 173 }, -- berserker
@@ -124,7 +124,7 @@ monster.attacks = {
 monster.defenses = {
 	defense = 40,
 	armor = 35,
-	mitigation = 1.18,
+	mitigation = 1.87,
 	{ name = "speed", interval = 2000, chance = 15, speedChange = 300, effect = CONST_ME_MAGIC_RED, target = false, duration = 5000 },
 	{ name = "combat", interval = 2000, chance = 15, type = COMBAT_HEALING, minDamage = 200, maxDamage = 250, effect = CONST_ME_MAGIC_BLUE, target = false },
 }

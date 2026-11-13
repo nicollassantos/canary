@@ -88,7 +88,7 @@ monster.attacks = {
 monster.defenses = {
 	defense = 10,
 	armor = 11,
-	mitigation = 0.30,
+	mitigation = 0.48,
 	{ name = "invisible", interval = 2000, chance = 15 },
 }
 

@@ -95,7 +95,7 @@ monster.loot = {
 	{ name = "small diamond", chance = 2900, maxCount = 2 },
 	{ name = "small amethyst", chance = 2610, maxCount = 2 },
 	{ name = "red piece of cloth", chance = 2460 },
-	{ id = 3039, chance = 70 }, -- red gem
+	{ id = 3039, chance = 529 }, -- red gem
 	{ name = "minotaur leather", chance = 4780 },
 	{ name = "minotaur horn", chance = 2320, maxCount = 2 },
 }
@@ -108,7 +108,7 @@ monster.attacks = {
 monster.defenses = {
 	defense = 30,
 	armor = 35,
-	mitigation = 1.37,
+	mitigation = 2.18,
 }
 
 monster.elements = {

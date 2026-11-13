@@ -2,12 +2,12 @@ local mType = Game.createMonsterType("Brain Head")
 local monster = {}
 
 monster.description = "Brain Head"
-monster.experience = 0
+monster.experience = 50000
 monster.outfit = {
 	lookTypeEx = 32418,
 }
 
-monster.health = 75000
+monster.health = 230000
 monster.maxHealth = monster.health
 monster.race = "undead"
 monster.corpse = 32272
