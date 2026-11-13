@@ -285,6 +285,36 @@ class ReviewedTest(unittest.TestCase):
         self.assertEqual([(78, 30)], [(f["value"], f["from"]) for f in planned])
 
 
+class ResolveTest(unittest.TestCase):
+    BY_NAME = {"energy ring": {3051, 3088}, "ice flower": {9500}, "giant shimmering pearl": {281, 282}, "dragon trophy": {2681, 2682}}
+    FLAGS = {3051: {"take", "market"}, 3088: {"take"}, 9500: {"take", "market"}, 281: {"take", "market"}, 282: {"take", "market"}}
+
+    def resolve(self, name):
+        return fixes.resolve_item(name, self.BY_NAME, self.FLAGS)
+
+    def test_ambiguous_name_resolves_to_the_only_tradeable_item(self):
+        self.assertEqual((3051, "flags"), self.resolve("energy ring"))  # 3088 is the worn ring
+
+    def test_wiki_suffix_is_dropped_when_one_candidate_remains(self):
+        self.assertEqual((9500, "flags"), self.resolve("ice flower (item)"))
+
+    def test_colour_suffix_with_several_candidates_stays_unresolved(self):
+        item_id, reason = self.resolve("giant shimmering pearl (green)")
+        self.assertIsNone(item_id)
+        self.assertIn("2 items", reason)
+
+    def test_decoration_is_never_picked(self):
+        self.assertIsNone(self.resolve("dragon trophy")[0])
+
+    def test_added_by_id_writes_the_id_and_is_idempotent(self):
+        fix = {"kind": "add_loot", "file": "beast.lua", "item": "energy ring", "id": 3051, "chance": 700, "by_id": True}
+        text, outcomes = fixes.apply_to_text(MONSTER, [fix], {**BY_ID, 3051: "energy ring"})
+        self.assertEqual(["applied"], outcomes)
+        self.assertIn("{ id = 3051, chance = 700 }, -- energy ring", text)
+        again, outcomes = fixes.apply_to_text(text, [fix], {**BY_ID, 3051: "energy ring"})
+        self.assertEqual((text, ["already"]), (again, outcomes))
+
+
 class MergeTest(unittest.TestCase):
     def test_earlier_fixes_are_kept_and_same_key_is_replaced(self):
         earlier = [max_count("gold coin", 60), add("rare gem", 1200)]

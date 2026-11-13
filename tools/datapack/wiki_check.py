@@ -488,7 +488,8 @@ def command_plan(args):
         report = json.load(handle)
     monsters = load_monsters(args.out)
     by_name, _ = load_items(os.path.join(ROOT, args.items))
-    stackable = fixes_module.load_stackable(os.path.join(ROOT, args.appearances))
+    flags = fixes_module.load_flags(os.path.join(ROOT, args.appearances))
+    stackable = {item_id for item_id, item_flags in flags.items() if "cumulative" in item_flags}
     # Reward-chest monsters roll their table once per participant with a contribution factor
     # (data/scripts/systems/reward_chest.lua: 2x for a solo kill), so their datapack chances are
     # base values the wiki's per-player rates cannot check. Bosses that leave loot in the corpse
@@ -502,7 +503,7 @@ def command_plan(args):
             reviewed = json.load(handle)["decisions"]
     boss_names = {m["name"] for m in monsters if m.get("rewardBoss") or m.get("bosstiary")}
     fixes, review = fixes_module.plan(report, by_name, stackable, kinds=tuple(args.kinds.split(",")), bosses=bosses, element_types=element_types,
-                                      reviewed=reviewed, boss_names=boss_names)
+                                      reviewed=reviewed, boss_names=boss_names, flags=flags)
     manifest_path = os.path.join(ROOT, args.manifest)
     if os.path.exists(manifest_path):
         with open(manifest_path, encoding="utf-8") as handle:

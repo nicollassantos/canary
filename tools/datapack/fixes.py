@@ -77,26 +77,58 @@ def _fields(data):
         yield field, wire, value
 
 
-def load_stackable(path):
-    """Item ids whose appearance has the `cumulative` flag (Appearances.object = 1, id = 1,
-    flags = 3, AppearanceFlags.cumulative = 6 in src/protobuf/appearances.proto)."""
+# AppearanceFlags fields in src/protobuf/appearances.proto: bools are set when non-zero,
+# messages when present.
+FLAG_FIELDS = {6: "cumulative", 18: "take", 36: "market"}
+
+
+def load_flags(path):
+    """Item id -> set of flag names (cumulative, take, market) from appearances.dat
+    (Appearances.object = 1, Appearance.id = 1, Appearance.flags = 3)."""
     with open(path, "rb") as handle:
         data = handle.read()
-    stackable = set()
+    result = {}
     for field, wire, value in _fields(data):
         if field != 1 or wire != 2:
             continue
-        item_id, cumulative = None, False
+        item_id, flags = None, set()
         for sub_field, sub_wire, sub_value in _fields(value):
             if sub_field == 1 and sub_wire == 0:
                 item_id = sub_value
             elif sub_field == 3 and sub_wire == 2:
                 for flag_field, flag_wire, flag_value in _fields(sub_value):
-                    if flag_field == 6 and flag_wire == 0:
-                        cumulative = bool(flag_value)
-        if item_id is not None and cumulative:
-            stackable.add(item_id)
-    return stackable
+                    name = FLAG_FIELDS.get(flag_field)
+                    if name and ((flag_wire == 0 and flag_value) or flag_wire == 2):
+                        flags.add(name)
+        if item_id is not None:
+            result[item_id] = flags
+    return result
+
+
+def load_stackable(path):
+    """Item ids whose appearance has the `cumulative` flag."""
+    return {item_id for item_id, flags in load_flags(path).items() if "cumulative" in flags}
+
+
+def resolve_item(name, by_name, flags):
+    """(item id, how) for a wiki item name, or (None, reason).
+
+    An exact name with one id wins. Otherwise (several ids, or a wiki suffix such as "(item)" or
+    "(green)" that items.xml lacks) the candidates are narrowed to items one can pick up and trade
+    on the market, the kind a monster drops; exactly one must remain.
+    """
+    ids = sorted(by_name.get(name, set()))
+    if len(ids) == 1:
+        return ids[0], "name"
+    if not ids:
+        stripped = re.sub(r"\s*\([^)]*\)$", "", name)
+        ids = sorted(by_name.get(stripped, set())) if stripped != name else []
+        if not ids:
+            return None, "name resolves to 0 items"
+    loot_like = [i for i in ids if {"take", "market"} <= flags.get(i, set())]
+    if len(loot_like) == 1:
+        return loot_like[0], "flags"
+    return None, f"name resolves to {len(ids)} items ({len(loot_like)} pickable and marketable)"
 
 
 # --- plan: report -> manifest ----------------------------------------------------------------
@@ -160,7 +192,7 @@ BOSS_STAT_REASON = "boss hit points, experience and armor can be tied to quest s
 
 
 def plan(report, by_name, stackable, kinds=("max_count", "add_loot", "chance", "stat", "element", "immunity"), bosses=frozenset(), element_types=None,
-         reviewed=(), boss_names=frozenset()):
+         reviewed=(), boss_names=frozenset(), flags=None):
     """`reviewed` holds case-by-case decisions (tools/datapack/reviewed.json): stat findings to apply
     despite the STAT_FACTOR rule, each with a note. Identity and certainty still apply (validate)."""
     approved = {(d["monster"], d["kind"], d["item"]) for d in reviewed if d.get("decision") == "apply"}
@@ -251,12 +283,16 @@ def plan(report, by_name, stackable, kinds=("max_count", "add_loot", "chance", "
                 if major < MIN_ADD_VERSION:
                     review.append({"monster": monster["name"], "item": item, "reason": f"old statistics (version {source.get('version')})"})
                     continue
-                if len(ids) != 1:
-                    review.append({"monster": monster["name"], "item": item, "reason": f"name resolves to {len(ids)} items", "ids": ids})
+                item_id, how = resolve_item(item, by_name, flags or {})
+                if item_id is None:
+                    review.append({"monster": monster["name"], "item": item, "reason": how, "ids": ids})
                     continue
-                fix = {"kind": "add_loot", "file": monster["file"], "monster": monster["name"], "item": item, "id": ids[0],
+                fix = {"kind": "add_loot", "file": monster["file"], "monster": monster["name"], "item": item, "id": item_id,
                        "chance": max(1, int(finding["wiki_chance"])), "source": {**source, "times": finding["times"]}}
-                if ids[0] in stackable and finding["max_amount"] > 1:
+                if how != "name":
+                    # The server resolves names to the first id, so an ambiguous or suffixed name is written by id.
+                    fix["by_id"] = True
+                if item_id in stackable and finding["max_amount"] > 1:
                     fix["maxCount"] = finding["max_amount"]
                 fixes.append(fix)
     fixes.sort(key=lambda f: (f["file"], f["kind"], f["item"]))
@@ -408,12 +444,17 @@ def apply_to_text(text, fixes, by_id):
             lines[index] = f"{match.group('indent')}{{{body}}}{match.group('tail')}"
             outcomes.append("applied")
         elif fix["kind"] == "add_loot":
+            if fix.get("by_id"):
+                matching = [(i, m) for i, m in entries if entry_number(m.group("body"), "id") == fix["id"]]
             if matching:
                 outcomes.append("already")
                 continue
             indent = entries[0][1].group("indent") if entries else "\t"
             count = f", maxCount = {fix['maxCount']}" if fix.get("maxCount") else ""
-            new_line = f'{indent}{{ name = "{fix["item"]}", chance = {fix["chance"]}{count} }},'
+            if fix.get("by_id"):
+                new_line = f'{indent}{{ id = {fix["id"]}, chance = {fix["chance"]}{count} }}, -- {by_id.get(fix["id"], fix["item"])}'
+            else:
+                new_line = f'{indent}{{ name = "{fix["item"]}", chance = {fix["chance"]}{count} }},'
             position = next((i for i, m in entries if (entry_number(m.group("body"), "chance") or 0) < fix["chance"]), None)
             if position is None:
                 position = entries[-1][0] + 1 if entries else len(lines) - 1
