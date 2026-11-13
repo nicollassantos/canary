@@ -86,7 +86,6 @@ monster.loot = {
 	{ name = "crystal coin", chance = 57481 },
 	{ name = "great spirit potion", chance = 18830, maxCount = 5 },
 	{ name = "distorted heart", chance = 3357 },
-	{ id = 50150, chance = 1503 }, -- ring of orange plasma
 	{ id = 23529, chance = 1343 }, -- ring of blue plasma
 	{ name = "underworld rod", chance = 3197 },
 	{ name = "distorted robe", chance = 1918 },
@@ -97,6 +96,7 @@ monster.loot = {
 	{ name = "spellbook of warding", chance = 2890 },
 	{ id = 23531, chance = 1930 }, -- ring of green plasma
 	{ name = "stone skin amulet", chance = 1726 },
+	{ id = 50150, chance = 1503 }, -- ring of orange plasma
 	{ name = "glacial rod", chance = 2334 },
 	{ name = "bag you desire", chance = 15 },
 }

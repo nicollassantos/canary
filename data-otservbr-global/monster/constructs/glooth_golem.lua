@@ -84,7 +84,7 @@ monster.loot = {
 	{ id = 21183, chance = 1491 }, -- glooth amulet
 	{ id = 21170, chance = 950 }, -- gearwheel chain
 	{ id = 21165, chance = 1022 }, -- rubber cap
-	{ name = "gold coin", chance = 100000, minCount = 3, maxCount = 200 },
+	{ name = "gold coin", chance = 100000, minCount = 2, maxCount = 200 },
 	{ name = "platinum coin", chance = 59364, maxCount = 4 },
 	{ id = 21755, chance = 3083 }, -- bronze gear wheel
 	{ id = 8775, chance = 1794 }, -- gear wheel

@@ -317,7 +317,8 @@
 - [x] **24.7c** — Nomes ambíguos ou com sufixo do wiki resolvidos pelas flags `take`+`market` do `appearances.dat`: 52 itens gravados por id (`0c0a41509`, `b0f20a6db`)
 - [x] **24.7d** — Estatística antiga confirmada pela raridade atual da infobox (faixas do `Template:Loot Item`): 258 chances + 173 itens (`c1b8fa322`, `465b10291`); 829 achados antigos já batiam com a raridade atual
 - [x] **24.7e** — **Decisão do usuário: o wiki é a fonte da verdade** (o jogo original teve muitos rebalanceamentos). Atributos sem limite de proporção, bosses inclusos (scripts de quest conferidos: usam percentuais ou curas relativas), mitigation aplicada (683), chances com salto > 5× aplicadas; identidade e valores certos continuam obrigatórios (`d890a044d`, `dbdfff447`)
-- [x] **24.7g** — Dinheiro: tipo `coins` reescreve as entradas de moeda com as do wiki (chance e faixa observadas) quando os itens diferem ou o dinheiro por kill difere > 10%; 149 monstros (`93ae4c041`, `7c0108786`). Total no manifesto: 3747
+- [x] **24.7g** — Dinheiro: tipo `coins` reescreve as entradas de moeda com as do wiki quando os itens diferem ou o dinheiro por kill difere > 10% (`93ae4c041`, `7c0108786`)
+- [x] **24.7h** — Revisão do advisor: dinheiro pelo `total` do wiki (não pelo meio da faixa), mínimo de 1000 kills, `coins` substitui `max_count` de moeda, `from` preservado como valor do upstream; teste do lado do upstream (base `997af9180` + `apply`) com 0 conflitos; mitigation conferida (`rateMonsterDefense` = 1,0). 127 monstros com moeda, manifesto 3680
 - [ ] **24.7f** — Fora do automático: loot de baú de recompensa (2098; a chance do datapack é base por participante), sem identidade confirmada (419 + 291), estatística antiga sem confirmação (318) e dinheiro só com estatística antiga (142), nomes sem resolução (63), entradas compartilhadas (15), não empilhável (12)
 
 ### Achados do bot de ataque (`/home/nicollas/teste/proxy-bot`, lido sem executar) — próximas tasks da 23

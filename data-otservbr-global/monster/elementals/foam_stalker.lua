@@ -66,7 +66,7 @@ monster.voices = {
 }
 
 monster.loot = {
-	{ name = "platinum coin", chance = 100000, maxCount = 16 },
+	{ name = "platinum coin", chance = 100000, maxCount = 50 },
 	{ name = "halberd", chance = 11025 },
 	{ name = "strong mana potion", chance = 9728 },
 	{ name = "orichalcum pearl", chance = 9728 },
@@ -85,10 +85,10 @@ monster.loot = {
 	{ name = "small emerald", chance = 3243, maxCount = 2 },
 	{ id = 281, chance = 2205 }, -- giant shimmering pearl (green)
 	{ name = "terra boots", chance = 2413 },
-	{ id = 50152, chance = 1086 }, -- collar of orange plasma
 	{ name = "mercenary sword", chance = 724 },
 	{ name = "knight legs", chance = 3649 },
 	{ name = "violet gem", chance = 362 },
+	{ id = 50152, chance = 1086 }, -- collar of orange plasma
 }
 
 monster.attacks = {

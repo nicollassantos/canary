@@ -79,7 +79,7 @@ monster.voices = {
 }
 
 monster.loot = {
-	{ name = "platinum coin", chance = 100000, maxCount = 37 },
+	{ name = "platinum coin", chance = 100000, maxCount = 32 },
 	{ name = "wand of inferno", chance = 1878 },
 	{ name = "spellbook of mind control", chance = 699 },
 	{ name = "spellreaper staff totem", chance = 571 },

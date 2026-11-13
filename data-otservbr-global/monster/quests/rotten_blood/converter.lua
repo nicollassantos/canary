@@ -79,9 +79,9 @@ monster.loot = {
 	{ name = "wand of starstorm", chance = 4807, maxCount = 1 },
 	{ name = "blue gem", chance = 510, maxCount = 1 },
 	{ name = "ultimate health potion", chance = 4151, maxCount = 6 },
-	{ id = 43851, chance = 2840 }, -- darklight matter
 	{ name = "focus cape", chance = 2549, maxCount = 1 },
 	{ name = "white gem", chance = 218, maxCount = 1 },
+	{ id = 43851, chance = 2840 }, -- darklight matter
 	{ name = "ultimate mana potion", chance = 1894, maxCount = 3 },
 	{ name = "might ring", chance = 1602 },
 	{ name = "lightning legs", chance = 437 },

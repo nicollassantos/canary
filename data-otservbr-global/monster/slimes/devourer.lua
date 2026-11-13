@@ -80,7 +80,7 @@ monster.voices = {
 }
 
 monster.loot = {
-	{ name = "gold coin", chance = 99403, maxCount = 165 },
+	{ name = "gold coin", chance = 99403, maxCount = 153 },
 	{ name = "platinum coin", chance = 55596, maxCount = 2 },
 	{ id = 21182, chance = 13817 }, -- glob of glooth
 	{ id = 3034, chance = 2324 }, -- talon

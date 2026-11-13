@@ -82,8 +82,8 @@ monster.loot = {
 	{ name = "silver brooch", chance = 850 },
 	{ name = "silver brooch", chance = 110 },
 	{ id = 3019, chance = 110 }, -- demonbone amulet
-	{ name = "gold coin", chance = 99875, maxCount = 288 },
-	{ name = "platinum coin", chance = 3549, maxCount = 7 },
+	{ name = "gold coin", chance = 99875, maxCount = 234 },
+	{ name = "platinum coin", chance = 3549, maxCount = 6 },
 	{ id = 3049, chance = 190 }, -- stealth ring
 	{ name = "wand of cosmic energy", chance = 9800 },
 	{ name = "blank rune", chance = 30310, maxCount = 2 },

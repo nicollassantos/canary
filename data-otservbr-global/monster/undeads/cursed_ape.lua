@@ -73,7 +73,7 @@ monster.voices = {
 }
 
 monster.loot = {
-	{ name = "gold coin", chance = 60758, maxCount = 100 },
+	{ name = "gold coin", chance = 60758, minCount = 2, maxCount = 100 },
 	{ name = "platinum coin", chance = 46961, maxCount = 2 },
 	{ name = "banana", chance = 40910, maxCount = 12 },
 	{ name = "kongra's shoulderpad", chance = 13890 },

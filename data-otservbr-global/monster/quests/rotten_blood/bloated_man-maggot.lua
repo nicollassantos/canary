@@ -73,11 +73,10 @@ monster.light = {
 monster.voices = {}
 
 monster.loot = {
-	{ name = "crystal coin", chance = 55154 },
+	{ name = "crystal coin", chance = 12961, maxCount = 1 },
 	{ name = "organic acid", chance = 25859, maxCount = 1 },
 	{ name = "might ring", chance = 10020, maxCount = 1 },
 	{ name = "small emerald", chance = 9133, maxCount = 5 },
-	{ id = 3052, chance = 5425 }, -- life ring
 	{ name = "rotten roots", chance = 3978, maxCount = 1 },
 	{ name = "bloated maggot", chance = 3797, maxCount = 1 },
 	{ name = "terra rod", chance = 8078, maxCount = 1 },
@@ -86,6 +85,7 @@ monster.loot = {
 	{ name = "violet gem", chance = 542, maxCount = 1 },
 	{ name = "devil helmet", chance = 6329 },
 	{ name = "small topaz", chance = 5787, maxCount = 3 },
+	{ id = 3052, chance = 5425 }, -- life ring
 }
 
 monster.attacks = {

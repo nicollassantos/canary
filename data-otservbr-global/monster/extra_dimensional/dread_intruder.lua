@@ -77,9 +77,8 @@ monster.voices = {
 }
 
 monster.loot = {
-	{ id = 3031, chance = 100000, maxCount = 200 }, -- gold coin
-	{ id = 3031, chance = 100000, maxCount = 89 }, -- gold coin
-	{ id = 3035, chance = 100000, maxCount = 8 }, -- platinum coin
+	{ name = "gold coin", chance = 100000, maxCount = 171 },
+	{ name = "platinum coin", chance = 100000, maxCount = 6 },
 	{ id = 23545, chance = 20078 }, -- energy drink
 	{ id = 23535, chance = 19720 }, -- energy bar
 	{ id = 23519, chance = 15000 }, -- frozen lightning
@@ -96,9 +95,9 @@ monster.loot = {
 	{ id = 3033, chance = 5000, maxCount = 2 }, -- small amethyst
 	{ id = 16120, chance = 5010 }, -- violet crystal shard
 	{ id = 3036, chance = 1000 }, -- violet gem
+	{ id = 23533, chance = 247 }, -- ring of red plasma
 	{ id = 50150, chance = 291 }, -- ring of orange plasma
 	{ id = 23531, chance = 280 }, -- ring of green plasma
-	{ id = 23533, chance = 247 }, -- ring of red plasma
 	{ id = 23542, chance = 230 }, -- collar of blue plasma
 	{ id = 23543, chance = 230 }, -- collar of green plasma
 	{ id = 23529, chance = 230 }, -- ring of blue plasma

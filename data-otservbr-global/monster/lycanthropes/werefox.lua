@@ -85,8 +85,8 @@ monster.voices = {
 }
 
 monster.loot = {
-	{ name = "platinum coin", chance = 90003, maxCount = 4 },
-	{ name = "gold coin", chance = 85322, maxCount = 85 },
+	{ name = "platinum coin", chance = 90003, maxCount = 3 },
+	{ name = "gold coin", chance = 85322, minCount = 2, maxCount = 85 },
 	{ name = "fox paw", chance = 15159, maxCount = 2 },
 	{ name = "werefox tail", chance = 12819, maxCount = 2 },
 	{ name = "strong mana potion", chance = 4050, maxCount = 2 },

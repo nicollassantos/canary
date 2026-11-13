@@ -81,7 +81,7 @@ monster.loot = {
 	{ name = "slightly rusted legs", chance = 9981 },
 	{ name = "small amethyst", chance = 8007, maxCount = 3 },
 	{ id = 3007, chance = 410 }, -- crystal ring
-	{ name = "gold coin", chance = 98826, maxCount = 274 },
+	{ name = "gold coin", chance = 98826, maxCount = 213 },
 	{ name = "platinum coin", chance = 2475, maxCount = 4 },
 	{ name = "terra rod", chance = 20000 },
 	{ name = "golden legs", chance = 130 },

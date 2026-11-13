@@ -287,7 +287,10 @@ monstro: pegue a versão do upstream (`git checkout --theirs -- <arquivo>`) e ro
 valor que substitui (`from`): o `apply` só troca um valor enquanto o arquivo ainda tem esse `from`;
 se o upstream mudou o valor para outra coisa, ele **reporta** `changed upstream (...)`, sai com código
 1 e não sobrescreve (decida à mão e ajuste o manifesto). Nunca baixa um `maxCount`; item que o
-upstream já adicionou fica como está; rodar duas vezes não muda nada. Depois, smoke boot.
+upstream já adicionou fica como está; rodar duas vezes não muda nada. Depois, smoke boot. Para provar
+o lado do upstream: `git archive <base> data-otservbr-global/monster` numa pasta temporária,
+`wiki_check.py apply --root <pasta>` e `diff -rq` contra a branch (em 2026-11-13, com base
+`997af9180`: 0 conflitos; 2 arquivos só com linhas de loot em outra ordem).
 
 | Upstream (como vem no `main`) | Onde está na branch | O que fazer no merge |
 |---|---|---|
@@ -578,9 +581,15 @@ Resultado atual: ver a última linha de validação no `todo.md` (CHECKPOINT 23)
   datapack igual ao do wiki; loot exige race id no datapack), valores certos (sem `?`/`~`), loot de
   baú fora (chance base por participante) e estatística da versão 12+ (ou antiga confirmada pela
   raridade atual). Mitigation do datapack estava em ~0,63× o bestiário em quase todos.
-- **Dinheiro (`coins`):** dinheiro por kill = chance × média da faixa × valor da moeda; quando os
-  itens de moeda diferem ou o dinheiro difere > 10%, todas as entradas de moeda são trocadas pelas do
-  wiki (com `minCount` quando a faixa não começa em 1). 149 monstros. Manifesto: 3747 fixes.
+- **Dinheiro (`coins`):** o dinheiro do wiki é o registrado (`total ÷ kills` × valor da moeda); a
+  faixa escrita sai da média real por queda (`[1, 2×média−1]`), porque o servidor sorteia uniforme e
+  a faixa observada exageraria o dinheiro. Só com ≥ 1000 kills; quando os itens de moeda diferem ou o
+  dinheiro difere > 10%, todas as entradas de moeda são trocadas (com `minCount` quando preciso). O
+  `coins` substitui os `max_count` de moeda do mesmo monstro. 127 monstros; 3 continuam 10–15%
+  fora por arredondamento de faixas pequenas. Manifesto: 3680 fixes.
+- **`from` = valor do upstream:** um fix planejado de novo depois do `apply` lê o nosso próprio
+  valor; o merge mantém o `from` da primeira vez, e o `coins` novo recupera o valor do upstream
+  quando substitui um aumento de `maxCount` já aplicado.
 - **Controle negativo do smoke:** um item de loot inexistente injetado no Dragon gera
   `[LootFunctions::luaLootSetIdFromName] - Unknown loot item` e `could not be loaded`; o grep do
   smoke pega os dois.

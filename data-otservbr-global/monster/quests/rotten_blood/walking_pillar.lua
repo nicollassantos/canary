@@ -78,12 +78,12 @@ monster.voices = {
 
 monster.loot = {
 	{ name = "crystal coin", chance = 49110 },
+	{ id = 43853, chance = 6743 }, -- darklight core
 	{ name = "yellow darklight matter", chance = 15950, maxCount = 1 },
 	{ name = "magma clump", chance = 9153, maxCount = 1 },
 	{ name = "darklight core", chance = 10276, maxCount = 1 },
 	{ id = 12600, chance = 8489, maxCount = 4 }, -- coal
 	{ name = "darklight basalt chunk", chance = 8829, maxCount = 1 },
-	{ id = 43853, chance = 6743 }, -- darklight core
 	{ name = "onyx chip", chance = 4693, maxCount = 2 },
 	{ name = "strange helmet", chance = 3183, maxCount = 1 },
 	{ name = "fire sword", chance = 3578, maxCount = 1 },

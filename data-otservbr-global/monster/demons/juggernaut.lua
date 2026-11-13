@@ -86,8 +86,8 @@ monster.loot = {
 	{ name = "small amethyst", chance = 12648, maxCount = 5 },
 	{ id = 3019, chance = 550 }, -- demonbone amulet
 	{ name = "small ruby", chance = 12931, maxCount = 5 },
-	{ name = "gold coin", chance = 87896, maxCount = 198 },
-	{ name = "platinum coin", chance = 85816, maxCount = 15 },
+	{ name = "gold coin", chance = 87896, maxCount = 150 },
+	{ name = "platinum coin", chance = 85816, maxCount = 12 },
 	{ name = "small emerald", chance = 13735, maxCount = 5 },
 	{ name = "violet gem", chance = 830 },
 	{ name = "green gem", chance = 2435 },

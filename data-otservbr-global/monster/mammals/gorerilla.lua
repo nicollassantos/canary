@@ -74,7 +74,7 @@ monster.voices = {
 }
 
 monster.loot = {
-	{ name = "crystal coin", chance = 15294, maxCount = 2 },
+	{ name = "Crystal Coin", chance = 20700, minCount = 1, maxCount = 2 },
 	{ name = "Gorerilla Mane", chance = 19890 },
 	{ name = "Gorerilla Tail", chance = 17060 },
 	{ name = "Ultimate Mana Potion", chance = 11210, minCount = 1, maxCount = 3 },

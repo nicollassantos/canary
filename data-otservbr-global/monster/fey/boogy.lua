@@ -81,7 +81,7 @@ monster.loot = {
 	{ id = 7439, chance = 1500 }, -- berserk potion
 	{ id = 9067, chance = 100 }, -- crystal of power
 	{ id = 25693, chance = 18313 }, -- shimmering beetles
-	{ id = 3031, chance = 100000, maxCount = 200 }, -- gold coin
+	{ name = "gold coin", chance = 100000, maxCount = 174 },
 	{ id = 3306, chance = 900 }, -- golden sickle
 	{ id = 5014, chance = 100 }, -- mandrake
 	{ id = 24962, chance = 3143, maxCount = 2 }, -- prismatic quartz

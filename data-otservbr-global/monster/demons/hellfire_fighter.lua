@@ -77,7 +77,7 @@ monster.loot = {
 	{ name = "emerald bangle", chance = 2200 },
 	{ id = 3019, chance = 190 }, -- demonbone amulet
 	{ name = "small diamond", chance = 1400 },
-	{ name = "gold coin", chance = 100000, maxCount = 243 },
+	{ name = "gold coin", chance = 100000, maxCount = 195 },
 	{ name = "platinum coin", chance = 1018 },
 	{ name = "wand of inferno", chance = 9450 },
 	{ name = "burnt scroll", chance = 50000 },

@@ -78,8 +78,8 @@ monster.voices = {
 }
 
 monster.loot = {
-	{ name = "platinum coin", chance = 100000, maxCount = 3 },
-	{ name = "gold coin", chance = 79647, maxCount = 100 },
+	{ id = 3031, chance = 97000, maxCount = 242 }, -- gold coin
+	{ id = 3035, chance = 18200, maxCount = 5 }, -- platinum coin
 	{ name = "small enchanted sapphire", chance = 1637, maxCount = 2 },
 	{ id = 239, chance = 5088, maxCount = 2 }, -- great health potion
 	{ id = 7643, chance = 2210 }, -- ultimate health potion
