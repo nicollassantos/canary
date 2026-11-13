@@ -14,6 +14,7 @@
 #include "creatures/monsters/monsters.hpp"
 #include "creatures/npcs/npc.hpp"
 #include "creatures/players/player.hpp"
+#include "creatures/players/player_repository.hpp"
 #include "game/functions/game_reload.hpp"
 #include "game/game.hpp"
 #include "game/scheduling/dispatcher.hpp"
@@ -839,11 +840,19 @@ int GameFunctions::luaGameGetOfflinePlayer(lua_State* L) {
 
 int GameFunctions::luaGameGetNormalizedPlayerName(lua_State* L) {
 	// Game.getNormalizedPlayerName(name[, isNewName = false])
-	const auto name = Lua::getString(L, 1);
-	const auto isNewName = Lua::getBoolean(L, 2, false);
-	const auto &player = g_game().getPlayerByName(name, true, isNewName);
-	if (player) {
+	// Scripts pass text typed by players (!transfer, bank NPCs, the store name change). Resolve it
+	// with a name lookup: loading the offline character cost a full player load per message, and
+	// an unknown name logged an error with the typed text. `isNewName` only silenced that log.
+	auto name = Lua::getString(L, 1);
+	if (name.empty() || name.size() > NETWORKMESSAGE_PLAYERNAME_MAXLENGTH) {
+		lua_pushnil(L);
+		return 1;
+	}
+
+	if (const auto &player = g_game().getPlayerByName(name)) {
 		Lua::pushString(L, player->getName());
+	} else if (g_playerRepository().formatPlayerName(name)) {
+		Lua::pushString(L, name);
 	} else {
 		lua_pushnil(L);
 	}

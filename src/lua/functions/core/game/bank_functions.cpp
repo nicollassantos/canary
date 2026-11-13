@@ -86,13 +86,20 @@ int BankFunctions::luaBankTransfer(lua_State* L) {
 		Lua::reportErrorFunc("Bank is nullptr");
 		return 1;
 	}
+	const uint64_t amount = Lua::getNumber<uint64_t>(L, 3);
+	// A destination given by name may be an offline character, loaded whole from the database:
+	// refuse a transfer that cannot succeed before resolving it (players reach this through
+	// !transfer and the bank NPCs with any name they type).
+	if (amount == 0 || !source->hasBalance(amount)) {
+		Lua::pushBoolean(L, false);
+		return 1;
+	}
 	const auto &destination = getBank(L, 2);
 	if (destination == nullptr) {
 		g_logger().debug("BankFunctions::luaBankTransfer: destination is null");
 		Lua::reportErrorFunc("Bank is nullptr");
 		return 1;
 	}
-	const uint64_t amount = Lua::getNumber<uint64_t>(L, 3);
 	Lua::pushBoolean(L, source->transferTo(destination, amount));
 	return 1;
 }
@@ -104,12 +111,17 @@ int BankFunctions::luaBankTransferToGuild(lua_State* L) {
 		Lua::reportErrorFunc("Source is nullptr");
 		return 1;
 	}
+	const uint64_t amount = Lua::getNumber<uint64_t>(L, 3);
+	// Same as Bank.transfer: the guild named by the player may be loaded from the database.
+	if (amount == 0 || !source->hasBalance(amount)) {
+		Lua::pushBoolean(L, false);
+		return 1;
+	}
 	const auto &destination = getBank(L, 2, true /* isGuild */);
 	if (destination == nullptr) {
 		Lua::reportErrorFunc("Destination is nullptr");
 		return 1;
 	}
-	const uint64_t amount = Lua::getNumber<uint64_t>(L, 3);
 	Lua::pushBoolean(L, source->transferTo(destination, amount));
 	return 1;
 }

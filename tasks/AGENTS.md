@@ -137,6 +137,10 @@ base. Cada regra vem de um defeito explorável por pacote forjado (tabela de cor
   (de preferência checado no C++ antes do evento).
 - Moeda e quantidade do pacote: no mínimo 1 e dentro do limite antes de query ou mutação.
 - Strings do pacote: limitar o tamanho antes de query, laço ou resposta.
+- Nome digitado pelo jogador: `Game.getNormalizedPlayerName` (consulta leve); nunca
+  `Game.getOfflinePlayer`, `Bank.transfer`/`Bank.transferToGuild` ou outra API que aceite nome
+  offline antes das checagens baratas (saldo, quantidade, dono). Talkactions de jogador já têm 1 s
+  de intervalo (`TalkActionCooldown`), mas um caminho caro por mensagem continua caro.
 - Validação: `luajit -bl <arquivo>` e `luac5.4 -p <arquivo>`, mais um harness com stubs como
   `tools/lua/store_parsers_check.lua` (rodar também contra o arquivo do upstream: lá tem que falhar).
 
@@ -350,6 +354,8 @@ desfazer; se o upstream mexer nessas linhas, reaplique):
 | `game.cpp` `cacheQueryHighscore` (hoje em `highscore_repository_db.cpp`) e `processHighscoreResults` (hoje em `highscore_service.cpp`) | `highscore_cache::prune` antes de inserir (expiradas saem; no teto, o cache é limpo) + métrica `highscore_cache_evictions` | as chaves vêm do cliente; no upstream os caches crescem sem fim |
 | `game.cpp` `playerHighscores` (hoje em `highscore_service.cpp`) | página 0 em `HIGHSCORE_GETENTRIES` é recusada antes da query; página fresca no cache de resultado sai sem query; intervalo de 1s por player; teto de 8 queries em andamento no servidor (contador liberado no topo de `processHighscoreResults`, mesmo se o player saiu); métricas `highscore_requests_total{type}`, `highscore_served_from_cache`, `highscore_requests_rejected{reason}` | `(page - 1)` dava underflow e rodava o ranking inteiro; toda query de highscore ocupa a única conexão do `Database` (com mutex) e atrasa saves, e bots com vários personagens podiam saturá-la |
 | `src/server/network/protocol/protocolgame.cpp` `ProtocolGame::onRecvFirstMessage` | o bloco da sessão existente (`getPlayerByName`/`getDeadPlayer` → "already logged in", versão de client diferente, `foundPlayer->client->disconnectClient(...)`) foi movido **inteiro** para depois do `gameWorldAuthentication`, logo antes do `dispatchProtocolTask(login)` | **derrubar qualquer jogador sem a senha** (igual no upstream desde `c07696b2c`): o bloco rodava antes do challenge, do ban de IP e da senha, então o nome do personagem e um bloco RSA (chave pública) bastavam para derrubar o client da vítima em loop (o personagem fica no mundo; em open-pvp morre sem curar) e ler a versão do client dela. Reproduzido e provado com sockets reais (`tools/smoke/login_takeover_check.py`): antes, uma conexão com conta inexistente derrubava a vítima; depois, a vítima fica e o relogin do dono continua substituindo a conexão antiga |
+| `src/lua/functions/core/game/game_functions.cpp` `luaGameGetNormalizedPlayerName` | nome vazio ou acima de 30 → `nil`; online pelo mapa de nomes; offline por `g_playerRepository().formatPlayerName` (um `SELECT name`); `isNewName` ignorado (só silenciava o log) | usava `getPlayerByName(nome, true)`: personagem offline carregado inteiro a cada `!transfer`/NPC do banco, e nome inexistente logava `error` com o texto digitado (teste `PlayerNameLookupFunctionsTest`) |
+| `src/lua/functions/core/game/bank_functions.cpp` `luaBankTransfer`, `luaBankTransferToGuild` | `amount == 0` ou saldo insuficiente da origem → `false` **antes** de resolver o destino | o destino por nome passa por `Lua::getPlayer(L, arg, true)`/`getGuild(..., true)` e carregava o personagem offline mesmo quando a transferência não podia acontecer (`!transfer Nome,1` sem dinheiro = 2 loads por mensagem) |
 
 **Banco de dados:** índice novo **nunca** vai em migration numerada (`data-*/migrations/N.lua`) nem
 no `schema.sql`. O upstream numera as migrations, então um número nosso colidiria com o próximo
