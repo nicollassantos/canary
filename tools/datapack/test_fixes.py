@@ -274,6 +274,38 @@ class GapEvidenceTest(unittest.TestCase):
         self.assertIsNone(fixes.gap_evidence(self.finding(1080, 25, 1, 4053, [["8.6", 19837, 0]])))
 
 
+class OldStatisticsTest(unittest.TestCase):
+    def finding(self, kind, item, wiki, rarity, ours=None):
+        base = {"kind": kind, "subject": item, "wiki_chance": wiki, "times": 40, "kills": 20000, "current_rarity": rarity, "max_amount": 1}
+        if kind == "loot_chance":
+            base.update({"datapack_chance": ours, "entries": 1, "other_versions": []})
+        return base
+
+    def test_old_rate_inside_the_current_rarity_is_applied_and_evidence_does_not_leak(self):
+        report = {"monsters": [{"name": "Old Beast", "file": "old.lua", "race_id": 2, "loot_block": {"version": "8.6", "kills": 20000}, "findings": [
+            self.finding("loot_chance", "beast fang", 3000, "semi-rare", ours=20000),   # wiki 3% fits semi-rare, datapack 20% does not
+            self.finding("loot_chance", "beast hide", 3000, "uncommon", ours=6000),     # datapack 6% already fits uncommon
+            self.finding("loot_missing", "rare gem", 700, "rare"),                     # 0.7% fits rare
+            self.finding("loot_missing", "magic dust", 700, "very rare"),              # 0.7% does not fit very rare
+        ]}]}
+        planned, review = fixes.plan(report, {"rare gem": {9003}, "magic dust": {9005}}, set())
+        self.assertEqual({("chance", "beast fang"), ("add_loot", "rare gem")}, {(f["kind"], f["item"]) for f in planned})
+        self.assertTrue(all("rarity" in f["source"]["evidence"] for f in planned))
+        reasons = {r["item"]: r["reason"] for r in review}
+        self.assertIn("already fits", reasons["beast hide"])
+        self.assertIn("old statistics", reasons["magic dust"])
+
+    def test_gap_evidence_stays_on_its_own_fix(self):
+        report = {"monsters": [{"name": "New Beast", "file": "new.lua", "race_id": 3, "loot_block": {"version": "13.2", "kills": 20000}, "findings": [
+            {"kind": "loot_chance", "subject": "beast fang", "datapack_chance": 100, "wiki_chance": 9000, "times": 1800, "kills": 20000, "entries": 1, "other_versions": []},
+            {"kind": "loot_chance", "subject": "beast hide", "datapack_chance": 2000, "wiki_chance": 3000, "times": 600, "kills": 20000, "entries": 1, "other_versions": []},
+        ]}]}
+        planned, _ = fixes.plan(report, {}, set())
+        sources = {f["item"]: f["source"] for f in planned}
+        self.assertEqual("single large sample", sources["beast fang"]["evidence"])
+        self.assertNotIn("evidence", sources["beast hide"])
+
+
 class ReviewedTest(unittest.TestCase):
     def test_reviewed_stat_bypasses_the_factor_rule(self):
         report = {"monsters": [{"name": "Shock Head", "file": "shock.lua", "race_id": 5, "wiki_race_id": 5.0, "revid": 1,

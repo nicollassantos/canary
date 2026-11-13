@@ -36,6 +36,34 @@ MAX_CHANCE_FACTOR = 5
 CONFIRM_FACTOR = 2
 LARGE_SAMPLE = 30
 LARGE_KILLS = 1000
+# Rarity classes of the wiki's current loot table (Template:Loot Item), as fractions; a rate within
+# RARITY_TOLERANCE of a bound still counts as inside (the wiki rounds at the edges).
+RARITY_RANGES = {"always": (1.0, 1.0), "common": (0.25, 1.0), "uncommon": (0.05, 0.25), "semi-rare": (0.01, 0.05),
+                 "rare": (0.005, 0.01), "very rare": (0.0, 0.005)}
+RARITY_TOLERANCE = 1.25
+
+
+def in_rarity(rate, rarity):
+    bounds = RARITY_RANGES.get(rarity or "")
+    if bounds is None:
+        return None
+    low, high = bounds
+    return low / RARITY_TOLERANCE <= rate <= min(1.0, high * RARITY_TOLERANCE)
+
+
+def old_statistics_evidence(finding, ours=None):
+    """For a finding from statistics older than MIN_ADD_VERSION: the current loot table's rarity is an
+    independent, current check. True when the old rate fits it and the datapack chance (if any)
+    does not; False when the datapack already fits; None when nothing can be said."""
+    rarity = finding.get("current_rarity")
+    wiki_fits = in_rarity(finding["wiki_chance"] / 100000, rarity)
+    if wiki_fits is None:
+        return None
+    if ours is not None and in_rarity(ours / 100000, rarity):
+        return False
+    return bool(wiki_fits) or None
+
+
 # Hit points, experience and armor change only within this factor (variants and quest copies show
 # larger gaps).
 STAT_FACTOR = 2
@@ -257,38 +285,50 @@ def plan(report, by_name, stackable, kinds=("max_count", "add_loot", "chance", "
             elif finding["kind"] == "loot_chance" and "chance" in kinds:
                 major = int((re.findall(r"\d+", str(source.get("version") or "")) or [0])[0])
                 ours, wiki = finding["datapack_chance"], max(1, int(finding["wiki_chance"]))
-                reason = None
+                reason, evidence = None, []
                 if major < MIN_ADD_VERSION:
-                    reason = f"old statistics (version {source.get('version')})"
-                elif item in CURRENCY:
+                    verdict = old_statistics_evidence(finding, ours)
+                    if verdict is True:
+                        evidence.append(f"old statistics within the current rarity ({finding.get('current_rarity')})")
+                    elif verdict is False:
+                        reason = f"old statistics (version {source.get('version')}); the datapack already fits the current rarity"
+                    else:
+                        reason = f"old statistics (version {source.get('version')})"
+                if not reason and item in CURRENCY:
                     reason = "currency: compare with the existing coin entries"
-                elif finding.get("entries", 1) != 1:
+                if not reason and finding.get("entries", 1) != 1:
                     reason = f"{finding.get('entries')} entries share the item; split by hand"
-                elif not (1 / MAX_CHANCE_FACTOR <= ours / wiki <= MAX_CHANCE_FACTOR):
-                    evidence = gap_evidence(finding)
-                    if evidence:
-                        source = {**source, "evidence": evidence}
+                if not reason and not (1 / MAX_CHANCE_FACTOR <= ours / wiki <= MAX_CHANCE_FACTOR):
+                    gap = gap_evidence(finding)
+                    if gap:
+                        evidence.append(gap)
                     else:
                         reason = f"gap from {ours} to {wiki} is too large to trust and not confirmed by another version"
                 if reason:
                     review.append({"monster": monster["name"], "item": item, "reason": reason})
                 else:
+                    fix_source = {**source, "times": finding["times"], "kills": finding["kills"]}
+                    if evidence:
+                        fix_source["evidence"] = "; ".join(evidence)
                     fixes.append({"kind": "chance", "file": monster["file"], "monster": monster["name"], "item": item, "chance": wiki, "from": ours,
-                                  "source": {**source, "times": finding["times"], "kills": finding["kills"]}})
+                                  "source": fix_source})
             elif finding["kind"] == "loot_missing" and "add_loot" in kinds:
                 major = int((re.findall(r"\d+", str(source.get("version") or "")) or [0])[0])
                 if item in CURRENCY:
                     review.append({"monster": monster["name"], "item": item, "reason": "currency: compare with the existing coin entries"})
                     continue
+                fix_source = {**source, "times": finding["times"]}
                 if major < MIN_ADD_VERSION:
-                    review.append({"monster": monster["name"], "item": item, "reason": f"old statistics (version {source.get('version')})"})
-                    continue
+                    if old_statistics_evidence(finding) is not True:
+                        review.append({"monster": monster["name"], "item": item, "reason": f"old statistics (version {source.get('version')})"})
+                        continue
+                    fix_source["evidence"] = f"old statistics within the current rarity ({finding.get('current_rarity')})"
                 item_id, how = resolve_item(item, by_name, flags or {})
                 if item_id is None:
                     review.append({"monster": monster["name"], "item": item, "reason": how, "ids": ids})
                     continue
                 fix = {"kind": "add_loot", "file": monster["file"], "monster": monster["name"], "item": item, "id": item_id,
-                       "chance": max(1, int(finding["wiki_chance"])), "source": {**source, "times": finding["times"]}}
+                       "chance": max(1, int(finding["wiki_chance"])), "source": fix_source}
                 if how != "name":
                     # The server resolves names to the first id, so an ambiguous or suffixed name is written by id.
                     fix["by_id"] = True

@@ -116,6 +116,14 @@ class ParsingTest(unittest.TestCase):
         self.assertGreater(high, 9 / 16846)
 
 
+class CurrentLootTest(unittest.TestCase):
+    def test_current_loot_table_rarities(self):
+        text = "| loot = {{Loot Table\n |{{Loot Item|1-105|Gold Coin|common}}\n |{{Loot Item|Steel Shield|uncommon}}\n" \
+               " |{{Loot Item|Dragon Trophy|very rare}}\n |{{Loot Item|Odd Item|rare?}}\n |{{Loot Item|Plain Item}}\n}}"
+        self.assertEqual({"gold coin": "common", "steel shield": "uncommon", "dragon trophy": "very rare", "odd item": None, "plain item": None},
+                         wiki_check.parse_current_loot(text))
+
+
 class DatapackLootTest(unittest.TestCase):
     def test_duplicate_entries_combine_like_the_server_rolls(self):
         loot = wiki_check.datapack_loot([{"name": "gold coin", "chance": 50000, "maxCount": 50}, {"id": 3031, "chance": 50000, "maxCount": 30}], BY_ID)

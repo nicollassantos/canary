@@ -123,6 +123,29 @@ def datapack_race(monster):
     return monster.get("raceId") or monster.get("bossRaceId")
 
 
+RARITIES = ("always", "common", "uncommon", "semi-rare", "rare", "very rare", "extremely rare")
+
+
+def parse_current_loot(text):
+    """Item -> rarity from the {{Loot Item}} entries of a creature page (the current loot table).
+    No rarity, or one the wiki marks as uncertain ("rare?"), gives None."""
+    items = {}
+    for match in re.finditer(r"\{\{Loot Item\|([^{}]*)\}\}", text or ""):
+        name, rarity = None, None
+        for part in (p.strip() for p in match.group(1).split("|")):
+            low = part.lower()
+            if not part or re.fullmatch(r"[\d\s\-?+]+", part) or "=" in part:
+                continue
+            if low in RARITIES or low.rstrip("?") in RARITIES:
+                rarity = low
+                continue
+            if name is None:
+                name = low
+        if name:
+            items[name] = rarity if rarity and not rarity.endswith("?") else None
+    return items
+
+
 def version_key(version):
     return tuple(int(part) for part in re.findall(r"\d+", version or ""))
 
@@ -264,6 +287,7 @@ def compare(monster, infobox, blocks, by_name, by_id, checked=None):
         return findings, None
 
     ours = datapack_loot(monster.get("loot"), by_id)
+    current = parse_current_loot((infobox or {}).get("__text__", "")) if infobox else {}
     kills = block["kills"]
     for name, (times, _, high) in block["items"].items():
         if times > kills:
@@ -276,7 +300,7 @@ def compare(monster, infobox, blocks, by_name, by_id, checked=None):
         if name not in ours:
             if times >= MIN_TIMES_MISSING and strong:
                 add("loot_missing", name, wiki_chance=round(observed * MAX_CHANCE), times=times, kills=kills,
-                    max_amount=high, resolves_to=sorted(resolved))
+                    max_amount=high, resolves_to=sorted(resolved), current_rarity=current.get(name))
             continue
         probability, max_count, entries = ours[name]
         if strong and not (low_p <= probability <= high_p):
@@ -285,7 +309,7 @@ def compare(monster, infobox, blocks, by_name, by_id, checked=None):
                       if b is not block and b["kills"] >= MIN_KILLS]
             add("loot_chance", name, datapack_chance=round(probability * MAX_CHANCE), wiki_chance=round(observed * MAX_CHANCE),
                 wiki_low=round(low_p * MAX_CHANCE), wiki_high=round(high_p * MAX_CHANCE), times=times, kills=kills, entries=entries,
-                other_versions=others)
+                other_versions=others, current_rarity=current.get(name))
         if high > max_count:
             add("loot_count", name, datapack_max=max_count, wiki_observed_max=high)
     if strong:
@@ -397,6 +421,7 @@ def command_report(args):
             report["not_on_wiki"].append(monster["name"])
             continue
         infobox = parse_infobox(page["text"])
+        infobox["__text__"] = page["text"]
         blocks = parse_loot_statistics(loot_page.get("text", ""))
         if not blocks and monster.get("loot"):
             report["no_loot_statistics"].append(monster["name"])
