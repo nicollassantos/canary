@@ -720,7 +720,9 @@ void ProtocolGame::parsePacket(NetworkMessage &msg) {
 
 	uint8_t recvbyte = msg.getByte();
 	// Latency per opcode and a rate-limited warning when one packet blocks the dispatcher.
-	const packet_watch::Scope packetWatch(recvbyte, player, getIP());
+	// A livestream viewer's `player` is the caster: measure the viewer as nobody, so its packets
+	// do not spend the caster's log budget or carry the caster's name.
+	const packet_watch::Scope packetWatch(recvbyte, m_isLivestreamViewer ? nullptr : player, getIP());
 
 	// Silence ping/pong: 0x1D = pingBack, 0x1E = ping [TRACKS CLIENT BYTES]
 	if (recvbyte != 0x1D && recvbyte != 0x1E) {

@@ -11,6 +11,7 @@
 
 #include "lib/logging/logger.hpp"
 #include "lib/metrics/metrics.hpp"
+#include "utils/tools.hpp"
 
 namespace log_budget {
 
@@ -18,42 +19,62 @@ namespace log_budget {
 		thread_local PacketScope::Context* current = nullptr;
 	} // namespace
 
+	void Budget::prune(Clock::time_point now) {
+		for (auto it = players.begin(); it != players.end();) {
+			const auto &state = it->second;
+			const bool windowOver = now - state.windowStart >= PlayerWindow;
+			if (windowOver && state.pendingLines == 0) {
+				it = players.erase(it);
+			} else {
+				++it;
+			}
+		}
+	}
+
 	bool Budget::admit(uint32_t playerId, uint32_t linesInPacket, Clock::time_point now) {
 		if (linesInPacket >= LinesPerPacket) {
 			return false;
 		}
 
 		std::scoped_lock lock(mutex);
-		if (windows.size() >= PruneThreshold) {
-			for (auto it = windows.begin(); it != windows.end();) {
-				if (now - it->second.start >= PlayerWindow) {
-					it = windows.erase(it);
-				} else {
-					++it;
-				}
-			}
+		if (players.size() >= PruneThreshold) {
+			prune(now);
 		}
 
-		auto &window = windows[playerId];
-		if (window.lines == 0 || now - window.start >= PlayerWindow) {
-			window.start = now;
-			window.lines = 0;
+		auto &state = players[playerId];
+		if (state.lines == 0 || now - state.windowStart >= PlayerWindow) {
+			state.windowStart = now;
+			state.lines = 0;
 		}
-		if (window.lines >= LinesPerPlayerPerWindow) {
+		if (state.lines >= LinesPerPlayerPerWindow) {
 			return false;
 		}
-		++window.lines;
+		++state.lines;
 		return true;
 	}
 
-	std::optional<uint64_t> Budget::suppressed(uint64_t count, Clock::time_point now) {
-		std::scoped_lock lock(mutex);
-		pendingSuppressed += count;
-		if (pendingSuppressed == 0 || (nextSummaryAt && now < *nextSummaryAt)) {
+	std::optional<SuppressedReport> Budget::suppressed(uint32_t playerId, uint8_t opcode, uint32_t count, Clock::time_point now) {
+		if (count == 0) {
 			return std::nullopt;
 		}
-		nextSummaryAt = now + SummaryInterval;
-		return std::exchange(pendingSuppressed, 0);
+
+		std::scoped_lock lock(mutex);
+		auto &state = players[playerId];
+		state.pendingLines += count;
+		state.pendingOpcodes.set(opcode);
+		if (state.lastReportAt && now - *state.lastReportAt < PlayerWindow) {
+			return std::nullopt;
+		}
+
+		state.lastReportAt = now;
+		SuppressedReport report { .lines = std::exchange(state.pendingLines, 0) };
+		for (size_t code = 0; code < state.pendingOpcodes.size(); ++code) {
+			if (state.pendingOpcodes.test(code)) {
+				report.opcodes.push_back(static_cast<uint8_t>(code));
+			}
+		}
+		state.pendingOpcodes.reset();
+		return report;
 	}
 
 	Budget &Budget::global() {
@@ -61,11 +82,15 @@ namespace log_budget {
 		return budget;
 	}
 
-	PacketScope::PacketScope(uint32_t playerId, uint8_t opcode, std::string_view playerName) :
+	PacketScope::PacketScope(uint32_t playerId, uint8_t opcode, std::string_view playerName, uint32_t ip, bool limited) :
 		context { .playerId = playerId, .opcode = opcode },
 		playerName(playerName),
-		previous(current) {
-		current = &context;
+		ip(ip),
+		previous(current),
+		open(limited) {
+		if (open) {
+			current = &context;
+		}
 	}
 
 	PacketScope::~PacketScope() {
@@ -84,13 +109,20 @@ namespace log_budget {
 		}
 
 		g_metrics().addCounter("packet_log_lines_suppressed", context.suppressed, { { "opcode", fmt::format("0x{:02X}", context.opcode) } });
-		if (const auto toReport = Budget::global().suppressed(context.suppressed, Clock::now())) {
-			// Written after the scope is closed, so the budget does not apply to the summary.
-			g_logger().warn(
-				"[PacketWatch] suppressed {} log lines written while handling client packets (limit {} per packet, {} per player per {} s); last from packet 0x{:02X} of player '{}'",
-				*toReport, LinesPerPacket, LinesPerPlayerPerWindow, PlayerWindow.count(), context.opcode, playerName
-			);
+		const auto report = Budget::global().suppressed(context.playerId, context.opcode, context.suppressed, Clock::now());
+		if (!report) {
+			return;
 		}
+
+		std::string opcodes;
+		for (const auto code : report->opcodes) {
+			opcodes += fmt::format("{}0x{:02X}", opcodes.empty() ? "" : " ", code);
+		}
+		// Written after the scope is closed, so the budget does not apply to the report.
+		g_logger().warn(
+			"[PacketWatch] cut {} log lines from player '{}' (IP {}), packets {} (limit {} per packet, {} per player per {} s)",
+			report->lines, playerName, convertIPToString(ip), opcodes, LinesPerPacket, LinesPerPlayerPerWindow, PlayerWindow.count()
+		);
 	}
 
 	bool admit() {

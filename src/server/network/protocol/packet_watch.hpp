@@ -30,7 +30,7 @@ class Player;
 /// SlowThreshold or more is logged with opcode, player, IP and duration, at most once per
 /// WarningInterval (later ones are counted and reported with the next warning), so a flood
 /// cannot flood the log too. While the packet is handled, its log lines are limited by
-/// log_budget (a few per packet and per player).
+/// log_budget (a few per packet and per player; staff are not limited).
 namespace packet_watch {
 
 	inline constexpr std::chrono::milliseconds SlowThreshold { 50 };

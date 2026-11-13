@@ -866,13 +866,14 @@ bool LootService::normalizeQuickLootList(QuickLootFilter_t filter, std::vector<u
 }
 
 void LootService::playerSetManagedContainer(uint32_t playerId, ObjectCategory_t category, const Position &pos, uint16_t itemId, uint8_t stackPos, bool isLootContainer) {
-	if (!isManagedContainerCategory(category)) {
-		g_metrics().addCounter("quickloot_requests_rejected", 1, { { "reason", "invalid_category" } });
+	const auto &player = game_.getPlayerByID(playerId);
+	if (!player || pos.x != 0xffff) {
 		return;
 	}
 
-	const auto &player = game_.getPlayerByID(playerId);
-	if (!player || pos.x != 0xffff) {
+	if (!isManagedContainerCategory(category)) {
+		g_metrics().addCounter("quickloot_requests_rejected", 1, { { "reason", "invalid_category" } });
+		g_logger().warn("[LootService] {} sent loot container category {}; refused", player->getName(), static_cast<int>(category));
 		return;
 	}
 
@@ -916,13 +917,14 @@ void LootService::playerSetManagedContainer(uint32_t playerId, ObjectCategory_t 
 }
 
 void LootService::playerClearManagedContainer(uint32_t playerId, ObjectCategory_t category, bool isLootContainer) {
-	if (!isManagedContainerCategory(category)) {
-		g_metrics().addCounter("quickloot_requests_rejected", 1, { { "reason", "invalid_category" } });
+	const auto &player = game_.getPlayerByID(playerId);
+	if (!player) {
 		return;
 	}
 
-	const auto &player = game_.getPlayerByID(playerId);
-	if (!player) {
+	if (!isManagedContainerCategory(category)) {
+		g_metrics().addCounter("quickloot_requests_rejected", 1, { { "reason", "invalid_category" } });
+		g_logger().warn("[LootService] {} sent loot container category {}; refused", player->getName(), static_cast<int>(category));
 		return;
 	}
 
@@ -938,13 +940,14 @@ void LootService::playerClearManagedContainer(uint32_t playerId, ObjectCategory_
 }
 
 void LootService::playerOpenManagedContainer(uint32_t playerId, ObjectCategory_t category, bool isLootContainer) {
-	if (!isManagedContainerCategory(category)) {
-		g_metrics().addCounter("quickloot_requests_rejected", 1, { { "reason", "invalid_category" } });
+	const auto &player = game_.getPlayerByID(playerId);
+	if (!player) {
 		return;
 	}
 
-	const auto &player = game_.getPlayerByID(playerId);
-	if (!player) {
+	if (!isManagedContainerCategory(category)) {
+		g_metrics().addCounter("quickloot_requests_rejected", 1, { { "reason", "invalid_category" } });
+		g_logger().warn("[LootService] {} sent loot container category {}; refused", player->getName(), static_cast<int>(category));
 		return;
 	}
 
@@ -974,6 +977,7 @@ void LootService::playerQuickLootBlackWhitelist(uint32_t playerId, QuickLootFilt
 	auto normalized = itemIds;
 	if (!normalizeQuickLootList(filter, normalized)) {
 		g_metrics().addCounter("quickloot_requests_rejected", 1, { { "reason", "invalid_list" } });
+		g_logger().warn("[LootService] {} sent a quick-loot list of {} items with filter {} (limit {}); refused", player->getName(), itemIds.size(), static_cast<int>(filter), MaxQuickLootListSize);
 		return;
 	}
 

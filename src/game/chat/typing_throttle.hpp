@@ -34,6 +34,11 @@ public:
 		}
 
 		auto &state = states[playerId];
+		// A "typing" left by a player who logged out (same id after relog) or went quiet expires,
+		// so the next start is not mistaken for a repeat.
+		if (state.typing && nowMs - state.lastStartAt >= StaleAfterMs) {
+			state.typing = false;
+		}
 		if (typing == state.typing) {
 			return false;
 		}

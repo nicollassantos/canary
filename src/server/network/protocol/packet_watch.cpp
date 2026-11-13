@@ -68,7 +68,8 @@ namespace packet_watch {
 		ip(ip),
 		start(std::chrono::steady_clock::now()),
 		latency(opcodeLabels()[opcode]),
-		logBudget(player ? player->getID() : 0, opcode, this->playerName) { }
+		// Staff are not limited: a /reload with broken scripts must show every line.
+		logBudget(player ? player->getID() : 0, opcode, this->playerName, ip, player && !(player->getGroup() && player->isAccessPlayer())) { }
 
 	Scope::~Scope() {
 		// The slow-packet warning is already rate limited; write it outside the packet's log budget.

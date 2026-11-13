@@ -38,6 +38,13 @@ TEST(TypingThrottleTest, AFloodBroadcastsAtMostTwicePerSecond) {
 	EXPECT_EQ(2, broadcasts);
 }
 
+TEST(TypingThrottleTest, AStaleTypingStateDoesNotHideTheNextStart) {
+	TypingThrottle throttle;
+	EXPECT_TRUE(throttle.shouldBroadcast(4, true, 1'000)); // then the player logged out typing
+	EXPECT_FALSE(throttle.shouldBroadcast(4, true, 1'000 + TypingThrottle::StaleAfterMs - 1));
+	EXPECT_TRUE(throttle.shouldBroadcast(4, true, 1'000 + TypingThrottle::StaleAfterMs));
+}
+
 TEST(TypingThrottleTest, AFirstStopIsNotBroadcast) {
 	TypingThrottle throttle;
 	EXPECT_FALSE(throttle.shouldBroadcast(3, false, 1'000));
