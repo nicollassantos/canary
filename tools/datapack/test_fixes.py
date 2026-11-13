@@ -3,6 +3,7 @@
 
     python3 -I tools/datapack/test_fixes.py
 """
+import json
 import os
 import sys
 import tempfile
@@ -131,10 +132,25 @@ class PlanTest(unittest.TestCase):
         planned, _ = fixes.plan(self.REPORT, self.BY_NAME, stackable={3031, 9001})
         self.assertEqual(40, next(f for f in planned if f["kind"] == "max_count")["from"])
 
-    def test_bosses_are_left_for_review(self):
+    def test_a_chance_fix_replaces_the_raw_value_written_in_the_file(self):
+        # The comparison caps the probability at 100%; `from` must be what the file holds (13600000).
+        report = {"monsters": [{"name": "Sure Boss", "file": "sure.lua", "race_id": 7, "wiki_race_id": 7.0, "revid": 1,
+                                "loot_block": {"version": "14.0", "kills": 10000},
+                                "findings": [{"kind": "loot_chance", "subject": "beast hide", "datapack_chance": 100000, "datapack_raw_chance": 13600000,
+                                              "wiki_chance": 85000, "wiki_low": 84000, "wiki_high": 86000, "times": 8500, "kills": 10000,
+                                              "entries": 1, "other_versions": [], "current_rarity": None}]}]}
+        planned, _ = fixes.plan(report, {"beast hide": {9001}}, stackable=set())
+        self.assertEqual([("chance", 85000, 13600000)], [(f["kind"], f["chance"], f["from"]) for f in planned])
+
+    def test_reward_bosses_follow_the_wiki_except_missing_items(self):
+        # User's decision (2026-11-13): the wiki's per-player rate is the base chance of a reward
+        # chest; a missing item stays for review because it may be a top-contributor item.
+        normal, _ = fixes.plan(self.REPORT, self.BY_NAME, stackable={3031, 9001})
         planned, review = fixes.plan(self.REPORT, self.BY_NAME, stackable={3031, 9001}, bosses={"Sample Beast"})
-        self.assertEqual([], planned)
-        self.assertTrue(all("reward chest" in r["reason"] for r in review))
+        self.assertEqual([f for f in normal if f["kind"] != "add_loot"], planned)
+        missing = [f["subject"] for m in self.REPORT["monsters"] for f in m["findings"] if f["kind"] == "loot_missing"]
+        self.assertTrue(any(f["kind"] == "add_loot" for f in normal))
+        self.assertEqual(missing, [r["item"] for r in review if r["reason"] == fixes.REWARD_MISSING])
 
     def test_reward_boss_attributes_follow_the_normal_rules(self):
         report = {"monsters": [{"name": "Chest Boss", "file": "boss.lua", "race_id": 7, "wiki_race_id": 7.0, "revid": 1, "findings": [
@@ -421,8 +437,8 @@ class ValidateTest(unittest.TestCase):
         self.assertIn("no race id", self.check(add("rare gem", 10), race=None, wiki_race=34))
         self.assertIn("differs", self.check(add("rare gem", 10), race=35, wiki_race=34))
 
-    def test_reward_chest_monsters_keep_their_loot_but_not_their_attributes_out(self):
-        self.assertIn("reward chest", self.check(add("rare gem", 10), race=34, wiki_race=34, reward=True))
+    def test_reward_chest_monsters_keep_missing_items_but_not_their_attributes_out(self):
+        self.assertEqual(fixes.REWARD_MISSING, self.check(add("rare gem", 10), race=34, wiki_race=34, reward=True))
         element = {"kind": "element", "item": "COMBAT_DROWNDAMAGE", "percent": 0}
         self.assertIsNone(self.check(element, race=34, wiki_race=34, reward=True, uncertain=set()))
 
@@ -499,13 +515,22 @@ class RemoveLootTest(unittest.TestCase):
         self.assertEqual([], planned)
         self.assertIn("no current loot table", review[0]["reason"])
 
-    def test_reward_chest_and_unconfirmed_identity_stay_out(self):
+    def test_unconfirmed_identity_stays_out_and_reward_chests_keep_unique_entries(self):
         report = {"monsters": [{"name": "Sample Beast", "file": "beast.lua", "race_id": None, "loot_block": {"version": "14.0", "kills": 10000},
                                 "findings": [absent("beast hide")]}]}
         self.assertEqual([], fixes.plan(report, {}, set(), kinds=("remove_loot",))[0])
-        self.assertEqual([], fixes.plan({"monsters": [{**report["monsters"][0], "race_id": 900}]}, {}, set(), kinds=("remove_loot",),
-                                        bosses={"Sample Beast"})[0])
-        self.assertIn("reward chest", fixes.validate(removal("beast hide", []), {"race": 900, "reward": True}, {}))
+        planned = fixes.plan({"monsters": [{**report["monsters"][0], "race_id": 900}]}, {}, set(), kinds=("remove_loot",), bosses={"Sample Beast"})[0]
+        self.assertEqual(["beast hide"], [f["item"] for f in planned])
+
+        common = [{"name": "beast hide", "chance": 500}]
+        unique = [{"name": "beast hide", "chance": 500, "unique": True}]
+        by_name = {"beast hide": {9001}}
+        self.assertIsNone(fixes.validate(removal("beast hide", []), {"race": 900, "reward": True, "loot": common}, {}, by_name))
+        self.assertEqual(fixes.REWARD_UNIQUE, fixes.validate(removal("beast hide", []), {"race": 900, "reward": True, "loot": unique}, {}, by_name))
+        # Only the top contributor rolls a unique entry, so its chance stays as upstream has it too.
+        chance = {"kind": "chance", "item": "beast hide", "chance": 900, "from": 500}
+        self.assertEqual(fixes.REWARD_UNIQUE, fixes.validate(chance, {"race": 900, "reward": True, "loot": unique}, {}, by_name))
+        self.assertIsNone(fixes.validate(chance, {"race": 900, "reward": True, "loot": common}, {}, by_name))
 
     def test_entries_are_removed_once_and_comments_go_with_them(self):
         fix = removal("beast fang", [[20000, 1, 1]])

@@ -349,9 +349,12 @@ def compare(monster, infobox, blocks, by_name, by_id, checked=None):
             # Other version blocks are independent samples: they let a large gap be confirmed.
             others = [[b["version"], b["kills"], b["items"].get(name, (0, 1, 1))[0]] for b in blocks
                       if b is not block and b["kills"] >= MIN_KILLS]
+            # The raw value of a single entry is what `apply` must find in the file: the probability is
+            # capped at 100%, and some files write far more than MAX_CHANCE for a sure drop.
+            raw = {"datapack_raw_chance": datapack_entries(monster.get("loot"), by_id, key)[0][0]} if entries == 1 else {}
             add("loot_chance", key, datapack_chance=round(probability * MAX_CHANCE), wiki_chance=round(observed * MAX_CHANCE),
                 wiki_low=round(low_p * MAX_CHANCE), wiki_high=round(high_p * MAX_CHANCE), times=times, kills=kills, entries=entries,
-                other_versions=others, current_rarity=current.get(name), **named)
+                other_versions=others, current_rarity=current.get(name), **raw, **named)
         if high > max_count:
             add("loot_count", key, datapack_max=max_count, wiki_observed_max=high, **named)
         elif strong and high < max_count and entries == 1 and key not in COINS and block["totals"].get(name, 0) <= times * high:
@@ -597,9 +600,9 @@ def command_plan(args):
     flags = fixes_module.load_flags(os.path.join(ROOT, args.appearances))
     stackable = {item_id for item_id, item_flags in flags.items() if "cumulative" in item_flags}
     # Reward-chest monsters roll their table once per participant with a contribution factor
-    # (data/scripts/systems/reward_chest.lua: 2x for a solo kill), so their datapack chances are
-    # base values the wiki's per-player rates cannot check. Bosses that leave loot in the corpse
-    # roll like any creature and follow the normal rules.
+    # (data/scripts/systems/reward_chest.lua: 2x solo, about 1 for ~4 equal contributors). The user
+    # chose (2026-11-13) to take the wiki's per-player rate as the base chance; fixes.plan and
+    # fixes.validate still keep `unique` entries and leave missing items for review.
     bosses = {m["name"] for m in monsters if m.get("rewardBoss")}
     element_types = {key: combat for combat, key in ELEMENTS.items()}
     reviewed_path = os.path.join(ROOT, "tools/datapack/reviewed.json")

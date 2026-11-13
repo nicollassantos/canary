@@ -176,6 +176,16 @@ class CompareTest(unittest.TestCase):
         findings, _ = wiki_check.compare(monster(loot=loot), self.infobox, self.blocks, BY_NAME, BY_ID)
         self.assertIn(("loot_chance", "beast hide"), kinds(findings))
 
+    def test_a_sure_drop_written_above_the_maximum_keeps_its_raw_chance(self):
+        # Some files write far more than 100000 for a sure drop (The Curse Spreads bosses: 13600000);
+        # `apply` must find that raw value, while the comparison uses the capped probability.
+        loot = monster()["loot"]
+        loot[2] = {"name": "beast hide", "chance": 13600000}
+        findings, _ = wiki_check.compare(monster(loot=loot), self.infobox, self.blocks, BY_NAME, BY_ID)
+        finding = next(f for f in findings if f["kind"] == "loot_chance" and f["subject"] == "beast hide")
+        self.assertEqual(100000, finding["datapack_chance"])
+        self.assertEqual(13600000, finding["datapack_raw_chance"])
+
     def test_max_count_below_the_observed_amount_is_flagged(self):
         loot = monster()["loot"]
         loot[0] = {"name": "gold coin", "chance": 90000, "maxCount": 40}

@@ -231,6 +231,28 @@ def listed_elsewhere(fix, loot, by_name):
     return None
 
 
+REWARD_UNIQUE = "reward chest: unique item (only the top contributor rolls it)"
+REWARD_MISSING = "reward chest: a missing item may be unique (top contributor only); add by hand"
+
+
+def unique_entry_problem(key, loot, by_name):
+    """For a reward-chest monster: REWARD_UNIQUE when the datapack entry for `key` is marked
+    `unique`, else None. Only the top contributor rolls such an entry (data/libs/functions/monster.lua,
+    getBossReward), so the wiki's per-player rate of that item depends on the group size and does
+    not describe its base chance."""
+    wanted = entry_ids(key, by_name)
+    for entry in loot or []:
+        if not isinstance(entry, dict) or not entry.get("unique"):
+            continue
+        if entry.get("id") is not None:
+            ids = {int(entry["id"])}
+        else:
+            ids = by_name.get(str(entry.get("name", "")).strip().lower(), set())
+        if ids & wanted or str(entry.get("name", "")).strip().lower() == key:
+            return REWARD_UNIQUE
+    return None
+
+
 def statistics_major(source):
     """Major client version of the wiki block a fix came from (0 when unknown)."""
     return int((re.findall(r"\d+", str((source or {}).get("version") or "")) or [0])[0])
@@ -248,8 +270,14 @@ def validate(fix, info, element_keys, by_name=None):
         return f"old statistics (version {(fix.get('source') or {}).get('version')}): amounts may have changed since"
     if info is None:
         return None
-    if info.get("reward") and fix["kind"] in LOOT_KINDS:
-        return "reward chest: chances are base values scaled per participant"
+    if info.get("reward") and fix["kind"] == "add_loot":
+        return REWARD_MISSING
+    if info.get("reward") and fix["kind"] in LOOT_KINDS and fix["kind"] != "coins":
+        # The user's decision (2026-11-13): the wiki's per-player rate is the base chance (the chest
+        # factor is about 1 for ~4 equal contributors). Unique entries keep the upstream value.
+        problem = unique_entry_problem(fix["item"], info.get("loot"), by_name or {})
+        if problem:
+            return problem
     if fix["kind"] == "add_loot" and by_name is not None:
         other = listed_elsewhere(fix, info.get("loot"), by_name)
         if other:
@@ -289,10 +317,11 @@ def plan(report, by_name, stackable, kinds=("max_count", "add_loot", "chance", "
                     "loot_datapack_only": "remove_loot"}
     """Fixes for the chosen kinds plus the findings left for manual review, with the reason.
 
-    Loot of reward-chest monsters (`bosses`, flagged rewardBoss) is always left for review: each
-    participant rolls the table with a contribution factor (2x for a solo kill), so the wiki's
-    per-player amounts and rates do not describe one roll of the datapack table. Their stats,
-    elements and immunities follow the normal rules.
+    Reward-chest monsters (`bosses`, flagged rewardBoss): each participant rolls the table with a
+    contribution factor (2x solo, about 1 for ~4 equal contributors). By the user's decision
+    (2026-11-13) the wiki's per-player rate is taken as the base chance, so their loot follows the
+    normal rules, except: a missing item is left for review (it may be a top-contributor `unique`
+    item), and `validate` keeps `unique` entries as upstream has them.
     """
     fixes, review = [], []
     for monster in report["monsters"]:
@@ -308,9 +337,10 @@ def plan(report, by_name, stackable, kinds=("max_count", "add_loot", "chance", "
                 review.append({"monster": monster["name"], "item": item, "reason": f"kept by review: {kept[decision_key]}"})
                 continue
             ids = sorted(by_name.get(item, set()))
-            if finding["kind"] in LOOT_FINDINGS and reward_chest:
-                # Only the loot depends on the reward chest; stats, elements and immunities do not.
-                review.append({"monster": monster["name"], "item": item, "reason": "reward chest: chances are base values scaled per participant"})
+            if finding["kind"] == "loot_missing" and reward_chest:
+                # Adding it as a common entry would give every participant a roll of what may be a
+                # top-contributor item.
+                review.append({"monster": monster["name"], "item": item, "reason": REWARD_MISSING})
                 continue
             if finding["kind"] in LOOT_FINDINGS and loot_identity:
                 review.append({"monster": monster["name"], "item": item, "reason": loot_identity})
@@ -399,8 +429,8 @@ def plan(report, by_name, stackable, kinds=("max_count", "add_loot", "chance", "
                         fix_source["wiki_name"] = finding["wiki_name"]
                     if evidence:
                         fix_source["evidence"] = "; ".join(evidence)
-                    fixes.append({"kind": "chance", "file": monster["file"], "monster": monster["name"], "item": item, "chance": wiki, "from": ours,
-                                  "source": fix_source})
+                    fixes.append({"kind": "chance", "file": monster["file"], "monster": monster["name"], "item": item, "chance": wiki,
+                                  "from": finding.get("datapack_raw_chance", ours), "source": fix_source})
             elif finding["kind"] == "loot_missing" and "add_loot" in kinds:
                 major = int((re.findall(r"\d+", str(source.get("version") or "")) or [0])[0])
                 if item in CURRENCY:
