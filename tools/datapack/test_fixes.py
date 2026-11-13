@@ -654,5 +654,104 @@ class StackableTest(unittest.TestCase):
             os.unlink(handle.name)
 
 
+
+class WikiPageResolveTest(unittest.TestCase):
+    def test_an_ambiguous_name_takes_the_single_id_of_its_wiki_page(self):
+        by_name = {"dragon trophy": {2681, 2682}, "die": {5792, 5793}}
+        wiki = {"dragon trophy": [44158], "die": [5792, 5793]}
+        self.assertEqual((44158, "wiki item page"), fixes.resolve_item("dragon trophy", by_name, {}, wiki))
+        self.assertIsNone(fixes.resolve_item("die", by_name, {}, wiki)[0])
+        self.assertIsNone(fixes.resolve_item("dragon trophy", by_name, {})[0])
+
+
+class ExactAddTest(unittest.TestCase):
+    # War Golem: the wiki's red crystal pedestal is 9063; the file already has another colour (9065).
+    PEDESTALS = MONSTER.replace('\t{ name = "beast hide", chance = 500 },', '\t{ id = 9065, chance = 25 }, -- crystal pedestal')
+    IDS = {**BY_ID, 9063: "crystal pedestal", 9065: "crystal pedestal"}
+
+    def fix(self, exact):
+        fix = {"kind": "add_loot", "file": "beast.lua", "item": "crystal pedestal (red)", "id": 9063, "chance": 1061, "by_id": True}
+        return {**fix, "exact": True} if exact else fix
+
+    def test_an_exact_id_from_the_wiki_page_is_added_next_to_another_colour(self):
+        text, outcomes = fixes.apply_to_text(self.PEDESTALS, [self.fix(exact=True)], self.IDS)
+        self.assertEqual(["applied"], outcomes)
+        self.assertIn("{ id = 9063, chance = 1061 }", text)
+
+    def test_a_rate_paired_with_another_colour_is_dropped(self):
+        # An older round paired the red pedestal's row with the 9065 entry through the bare name.
+        fix = {"kind": "chance", "item": "crystal pedestal", "chance": 1080, "from": 25, "source": {"wiki_name": "crystal pedestal (red)"}}
+        by_name = {"crystal pedestal": {9063, 9064, 9065, 9066}, "crystal pedestal (red)": {9063}}
+        info = {"race": 7, "wiki_race": 7, "loot": [{"id": 9065, "chance": 25}]}
+        self.assertIn("another item (9063)", fixes.validate(fix, info, {}, by_name))
+        info_red = {"race": 7, "wiki_race": 7, "loot": [{"id": 9063, "chance": 25}]}
+        self.assertIsNone(fixes.validate(fix, info_red, {}, by_name))
+
+    def test_a_chance_fix_finds_its_own_entry_after_another_colour_is_added(self):
+        both = self.PEDESTALS.replace("\t{ id = 9065, chance = 25 }, -- crystal pedestal", "\t{ id = 9063, chance = 1061 }, -- crystal pedestal\n\t{ id = 9065, chance = 1080 }, -- crystal pedestal")
+        fix = {"kind": "chance", "item": "crystal pedestal", "chance": 25, "from": 1080}
+        text, outcomes = fixes.apply_to_text(both, [fix], self.IDS)
+        self.assertEqual(["applied"], outcomes)
+        self.assertIn("{ id = 9065, chance = 25 }", text)
+        self.assertIn("{ id = 9063, chance = 1061 }", text)
+        self.assertEqual(["already"], fixes.apply_to_text(text, [fix], self.IDS)[1])
+
+    def test_without_the_page_any_colour_counts_as_listed(self):
+        self.assertIn("listed as another entry", fixes.apply_to_text(self.PEDESTALS, [self.fix(exact=False)], self.IDS)[1][0])
+
+
+SHARED = MONSTER.replace('\t{ name = "beast hide", chance = 500 },', '\t{ name = "beast hide", chance = 10000 },\n\t{ name = "beast hide", chance = 1420, maxCount = 2 },')
+
+
+class ChanceSplitTest(unittest.TestCase):
+    # Fire Devil shape: two entries of one item, one per amount (10000 and 1420), wiki rate 1442.
+
+    def shown(self, chances):
+        miss = 1.0
+        for chance in chances:
+            miss *= 1 - min(1.0, chance / fixes.MAX_CHANCE)
+        return 1 - miss
+
+    def test_entries_are_scaled_by_one_factor_to_the_wiki_rate(self):
+        split = fixes.split_chances([10000, 1420], 1442)
+        self.assertAlmostEqual(1442 / fixes.MAX_CHANCE, self.shown(split), places=4)
+        self.assertAlmostEqual(10000 / 1420, split[0] / split[1], delta=0.2)
+
+    def test_a_sure_drop_becomes_one_full_entry(self):
+        self.assertEqual([100000, 94340], fixes.split_chances([100000, 94340], 100000))
+
+    def test_nothing_to_split(self):
+        self.assertIsNone(fixes.split_chances([500], 1000))
+        self.assertIsNone(fixes.split_chances([0, 500], 1000))
+
+    def test_plan_turns_shared_entries_into_a_split(self):
+        report = {"monsters": [{"name": "Sample Beast", "file": "beast.lua", "race_id": 7, "wiki_race_id": 7.0, "revid": 1,
+                                "loot_block": {"version": "14.0", "kills": 18584},
+                                "findings": [{"kind": "loot_chance", "subject": "beast hide", "datapack_chance": 11278, "wiki_chance": 1442,
+                                              "wiki_low": 1200, "wiki_high": 1700, "times": 268, "kills": 18584, "entries": 2,
+                                              "datapack_raw_chances": [10000, 1420], "other_versions": [], "current_rarity": None}]}]}
+        planned, review = fixes.plan(report, {"beast hide": {9002}}, stackable=set(), kinds=("chance", "chance_split"))
+        self.assertEqual([], review)
+        self.assertEqual(["chance_split"], [f["kind"] for f in planned])
+        self.assertEqual([10000, 1420], planned[0]["from"])
+        planned, review = fixes.plan(report, {"beast hide": {9002}}, stackable=set(), kinds=("chance",))
+        self.assertEqual([], planned)
+        self.assertIn("split by hand", review[0]["reason"])
+
+    def test_apply_writes_every_entry_in_order_once(self):
+        fix = {"kind": "chance_split", "file": "beast.lua", "item": "beast hide", "chances": [1278, 182], "from": [10000, 1420]}
+        text, outcomes = fixes.apply_to_text(SHARED, [fix], BY_ID)
+        self.assertEqual(["applied"], outcomes)
+        self.assertIn('{ name = "beast hide", chance = 1278 },', text)
+        self.assertIn('{ name = "beast hide", chance = 182, maxCount = 2 },', text)
+        self.assertEqual(["already"], fixes.apply_to_text(text, [fix], BY_ID)[1])
+
+    def test_apply_leaves_entries_upstream_changed(self):
+        fix = {"kind": "chance_split", "file": "beast.lua", "item": "beast hide", "chances": [1278, 182], "from": [9000, 1420]}
+        text, outcomes = fixes.apply_to_text(SHARED, [fix], BY_ID)
+        self.assertEqual(SHARED, text)
+        self.assertIn("changed upstream", outcomes[0])
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -293,5 +293,28 @@ class FetchTest(unittest.TestCase):
             self.assertEqual(2, len(calls))  # cached, no new request
 
 
+
+class WikiItemIdsTest(unittest.TestCase):
+    def test_item_ids_come_from_the_item_page(self):
+        self.assertEqual([5792, 5793], wiki_check.parse_item_ids("{{Infobox Object\n| name = Die\n| itemid = 5792, 5793\n}}"))
+        self.assertEqual([], wiki_check.parse_item_ids("{{Infobox Object\n| name = Crown\n}}"))
+
+    def test_titles_try_every_word_capitalised(self):
+        self.assertEqual(["Parchment (rewritable)", "Parchment (Rewritable)"], wiki_check.item_page_titles("parchment (rewritable)"))
+        self.assertIn("The True Book of Death", wiki_check.item_page_titles("the true book of death"))
+        self.assertEqual(["Die"], wiki_check.item_page_titles("die"))
+
+    def test_wiki_ids_fill_only_names_items_xml_does_not_have(self):
+        by_name = {"gold coin": {3031}, "giant shimmering pearl": {281, 282}, "dragon trophy": {2681, 2682}}
+        merged = wiki_check.with_wiki_item_ids(by_name, {"gold coin": [9999], "giant shimmering pearl (green)": [281],
+                                                         "dragon trophy": [44158], "bulltaur horn": [44736]})
+        self.assertEqual({3031}, merged["gold coin"])
+        self.assertEqual({281}, merged["giant shimmering pearl (green)"])
+        self.assertEqual({44736}, merged["bulltaur horn"])
+        # A name items.xml has stays as the server resolves it, even when ambiguous: datapack entries
+        # such as `{ id = 28568 } -- inkwell` must still pair with the wiki's "inkwell (black)".
+        self.assertEqual({2681, 2682}, merged["dragon trophy"])
+
+
 if __name__ == "__main__":
     unittest.main()

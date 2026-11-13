@@ -5,6 +5,7 @@ Only `apply` edits the datapack, and only from the manifest. Steps (each can run
 
     python3 -I tools/datapack/wiki_check.py extract   # luajit extractor -> monsters.jsonl
     python3 -I tools/datapack/wiki_check.py fetch     # TibiaWiki pages -> cache (about 1 request/s)
+    python3 -I tools/datapack/wiki_check.py item-ids  # wiki item pages -> tools/datapack/wiki_item_ids.json
     python3 -I tools/datapack/wiki_check.py report    # -> report.json and report.md
     python3 -I tools/datapack/wiki_check.py plan      # reviewed kinds -> tools/datapack/fixes.json
     python3 -I tools/datapack/wiki_check.py apply     # fixes.json -> monster files (idempotent)
@@ -68,6 +69,49 @@ ELEMENTS = {
 
 
 # --- items.xml -----------------------------------------------------------------------------
+
+WIKI_ITEM_IDS = "tools/datapack/wiki_item_ids.json"
+
+
+def parse_item_ids(text):
+    """Item ids of a TibiaWiki item page (`| itemid = 5792, 5793`), or []."""
+    match = re.search(r"\|\s*itemid\s*=\s*([^\n|}]*)", text or "")
+    return sorted({int(number) for number in re.findall(r"\d+", match.group(1))}) if match else []
+
+
+def item_page_titles(name):
+    """Page titles to try for a loot name: first letter up, then every word up ("(rewritable)" too)."""
+    def up(word):
+        return "(" + word[1:2].upper() + word[2:] if word.startswith("(") else word[:1].upper() + word[1:]
+
+    words = name.split(" ")
+    first = name[:1].upper() + name[1:]
+    every = " ".join(up(w) for w in words)
+    # Page titles keep short words lower case after the first: "The True Book of Death".
+    small = {"a", "an", "and", "in", "of", "on", "the", "to", "with"}
+    titled = " ".join(up(w) if i == 0 or w not in small else w for i, w in enumerate(words))
+    return list(dict.fromkeys([first, every, titled]))
+
+
+def load_wiki_item_ids(path):
+    """wiki loot name -> item ids read from its item page (committed in WIKI_ITEM_IDS)."""
+    if not os.path.exists(path):
+        return {}
+    with open(path, encoding="utf-8") as handle:
+        return {name: list(ids) for name, ids in json.load(handle)["items"].items()}
+
+
+def with_wiki_item_ids(by_name, wiki_ids):
+    """by_name plus the wiki pages' ids for loot names items.xml does not have: new items without a
+    name (bulltaur horn is 44736) and the wiki's suffixed variants (giant shimmering pearl (green) is
+    281). Names items.xml has are left alone even when ambiguous: datapack entries use them, and the
+    server resolves such a name to any of its ids (fixes.resolve_item uses the page for additions)."""
+    merged = dict(by_name)
+    for name, ids in wiki_ids.items():
+        if ids and name not in by_name:
+            merged[name] = set(ids)
+    return merged
+
 
 def load_items(path):
     """Return (name -> set of ids, id -> name) from items.xml, names lowercased like the server.
@@ -351,7 +395,8 @@ def compare(monster, infobox, blocks, by_name, by_id, checked=None):
                       if b is not block and b["kills"] >= MIN_KILLS]
             # The raw value of a single entry is what `apply` must find in the file: the probability is
             # capped at 100%, and some files write far more than MAX_CHANCE for a sure drop.
-            raw = {"datapack_raw_chance": datapack_entries(monster.get("loot"), by_id, key)[0][0]} if entries == 1 else {}
+            raw_entries = datapack_entries(monster.get("loot"), by_id, key)
+            raw = {"datapack_raw_chance": raw_entries[0][0]} if entries == 1 else {"datapack_raw_chances": [e[0] for e in raw_entries]}
             add("loot_chance", key, datapack_chance=round(probability * MAX_CHANCE), wiki_chance=round(observed * MAX_CHANCE),
                 wiki_low=round(low_p * MAX_CHANCE), wiki_high=round(high_p * MAX_CHANCE), times=times, kills=kills, entries=entries,
                 other_versions=others, current_rarity=current.get(name), **raw, **named)
@@ -517,6 +562,7 @@ def command_fetch(args):
 def command_report(args):
     monsters = load_monsters(args.out)
     by_name, by_id = load_items(os.path.join(ROOT, args.items))
+    by_name = with_wiki_item_ids(by_name, load_wiki_item_ids(os.path.join(ROOT, WIKI_ITEM_IDS)))
     cache = os.path.join(args.out, "cache")
     report = {"monsters": [], "not_on_wiki": [], "no_loot_statistics": [], "systematic": {}}
     checked = {}
@@ -597,6 +643,8 @@ def command_plan(args):
         report = json.load(handle)
     monsters = load_monsters(args.out)
     by_name, _ = load_items(os.path.join(ROOT, args.items))
+    wiki_ids = load_wiki_item_ids(os.path.join(ROOT, WIKI_ITEM_IDS))
+    by_name = with_wiki_item_ids(by_name, wiki_ids)
     flags = fixes_module.load_flags(os.path.join(ROOT, args.appearances))
     stackable = {item_id for item_id, item_flags in flags.items() if "cumulative" in item_flags}
     # Reward-chest monsters roll their table once per participant with a contribution factor
@@ -611,7 +659,7 @@ def command_plan(args):
         with open(reviewed_path, encoding="utf-8") as handle:
             reviewed = json.load(handle)["decisions"]
     fixes, review = fixes_module.plan(report, by_name, stackable, kinds=tuple(args.kinds.split(",")), bosses=bosses, element_types=element_types,
-                                      reviewed=reviewed, flags=flags)
+                                      reviewed=reviewed, flags=flags, wiki_ids=wiki_ids)
     manifest_path = os.path.join(ROOT, args.manifest)
     previous = []
     if os.path.exists(manifest_path):
@@ -653,6 +701,34 @@ def command_plan(args):
     return 0
 
 
+def command_item_ids(args):
+    """Loot names items.xml cannot pin down -> ids from their wiki item pages (WIKI_ITEM_IDS)."""
+    monsters = load_monsters(args.out)
+    by_name, _ = load_items(os.path.join(ROOT, args.items))
+    cache = os.path.join(args.out, "cache")
+    names = set()
+    for monster in monsters:
+        loot_page = read_cached(os.path.join(cache, "loot"), f"Loot Statistics:{monster['name']}") or {}
+        for block in parse_loot_statistics(loot_page.get("text", "")):
+            names.update(name for name in block["items"] if len(by_name.get(name, ())) != 1)
+    titles = {name: item_page_titles(name) for name in sorted(names)}
+    item_cache = os.path.join(cache, "item")
+    fetch_pages(sorted({title for variants in titles.values() for title in variants}), item_cache)
+    found = {}
+    for name, variants in titles.items():
+        for title in variants:
+            ids = parse_item_ids((read_cached(item_cache, title) or {}).get("text"))
+            if ids:
+                found[name] = ids
+                break
+    note = ("TibiaWiki item ids (the `itemid` of each item page, CC BY-SA facts) for loot names items.xml cannot pin "
+            "down. Regenerate with `wiki_check.py item-ids`.")
+    with open(os.path.join(ROOT, WIKI_ITEM_IDS), "w", encoding="utf-8") as handle:
+        json.dump({"note": note, "items": found}, handle, indent=1, ensure_ascii=False)
+        handle.write("\n")
+    print(f"{len(found)} of {len(names)} names resolved -> {WIKI_ITEM_IDS}")
+
+
 def command_apply(args):
     with open(os.path.join(ROOT, args.manifest), encoding="utf-8") as handle:
         manifest = json.load(handle)
@@ -666,17 +742,18 @@ def command_apply(args):
 
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("command", choices=["extract", "fetch", "report", "plan", "apply"])
+    parser.add_argument("command", choices=["extract", "fetch", "item-ids", "report", "plan", "apply"])
     parser.add_argument("--out", default=os.path.join(ROOT, "build", "datapack-wiki"))
     parser.add_argument("--monsters", default="data-otservbr-global/monster")
     parser.add_argument("--items", default="data/items/items.xml")
     parser.add_argument("--appearances", default="data/items/appearances.dat")
     parser.add_argument("--manifest", default="tools/datapack/fixes.json")
-    parser.add_argument("--kinds", default="max_count,add_loot,chance,stat,element,immunity,coins,remove_loot", help="plan: comma-separated kinds")
+    parser.add_argument("--kinds", default="max_count,add_loot,chance,chance_split,stat,element,immunity,coins,remove_loot", help="plan: comma-separated kinds")
     parser.add_argument("--dry-run", action="store_true", help="apply: report what would change")
     parser.add_argument("--root", help="apply: tree holding the monster files (default: this repository)")
     args = parser.parse_args(argv)
-    commands = {"extract": command_extract, "fetch": command_fetch, "report": command_report, "plan": command_plan, "apply": command_apply}
+    commands = {"extract": command_extract, "fetch": command_fetch, "item-ids": command_item_ids, "report": command_report, "plan": command_plan,
+                "apply": command_apply}
     return commands[args.command](args)
 
 

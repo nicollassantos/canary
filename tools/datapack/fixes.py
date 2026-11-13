@@ -34,6 +34,7 @@ MAX_COUNT_FLOOR = 20
 MIN_ADD_VERSION = 12
 # A chance is only changed within this factor of the wiki rate; beyond it the gap is more likely a
 # different loot semantic (or a page error) than drift.
+MAX_CHANCE = 100000
 MAX_CHANCE_FACTOR = 5
 # A chance beyond MAX_CHANCE_FACTOR is still corrected when the evidence is independent of a single
 # page block: another version block agrees with the wiki rate (within CONFIRM_FACTOR) and none agrees
@@ -158,16 +159,20 @@ def entry_ids(key, by_name):
     return set(by_name.get(key, set()))
 
 
-def resolve_item(name, by_name, flags):
+def resolve_item(name, by_name, flags, wiki_ids=None):
     """(item id, how) for a wiki item name, or (None, reason).
 
-    An exact name with one id wins. Otherwise (several ids, or a wiki suffix such as "(item)" or
+    An exact name with one id wins. A name items.xml gives several ids takes the one id of its wiki
+    item page (wiki_item_ids.json). Otherwise (several ids, or a wiki suffix such as "(item)" or
     "(green)" that items.xml lacks) the candidates are narrowed to items one can pick up and trade
     on the market, the kind a monster drops; exactly one must remain.
     """
     ids = sorted(by_name.get(name, set()))
     if len(ids) == 1:
         return ids[0], "name"
+    page_ids = (wiki_ids or {}).get(name) or []
+    if len(ids) > 1 and len(page_ids) == 1:
+        return page_ids[0], "wiki item page"
     if not ids:
         ids = sorted(candidate_ids(name, by_name))
         if not ids:
@@ -180,7 +185,7 @@ def resolve_item(name, by_name, flags):
 
 # --- plan: report -> manifest ----------------------------------------------------------------
 
-LOOT_KINDS = ("max_count", "add_loot", "chance", "coins", "remove_loot")
+LOOT_KINDS = ("max_count", "add_loot", "chance", "chance_split", "coins", "remove_loot")
 LOOT_FINDINGS = ("loot_count", "loot_count_high", "loot_chance", "loot_missing", "coins", "loot_datapack_only")
 COIN_NAMES = ("gold coin", "platinum coin", "crystal coin")
 STAT_KEYS = {"experience": "exp", "maxHealth": "hp", "armor": "armor", "mitigation": "mitigation"}
@@ -202,7 +207,10 @@ def identity_problem(race, wiki_race):
 
 
 def add_ids(fix, by_name):
-    """Item ids an add_loot fix stands for: its id and every id its wiki name can mean."""
+    """Item ids an add_loot fix stands for: its id and every id its wiki name can mean, or only its id
+    when that id came from the wiki item page (`exact`)."""
+    if fix.get("exact") and fix.get("id") is not None:
+        return {fix["id"]}
     return candidate_ids(fix["item"], by_name) | ({fix["id"]} if fix.get("id") is not None else set())
 
 
@@ -253,6 +261,37 @@ def unique_entry_problem(key, loot, by_name):
     return None
 
 
+def paired_with_another_item(fix, loot, by_name):
+    """For a fix taken from a wiki row with another name (`source.wiki_name`): the reason when that row
+    is known to be another item than the datapack entries it was paired with, else None.
+
+    A suffixed wiki name used to stand for every id of the bare name ("crystal pedestal (red)" for
+    all four colours); its item page gives the one id (9063), and an entry of another colour (9065)
+    must not take the red pedestal's rate."""
+    wiki_name = (fix.get("source") or {}).get("wiki_name")
+    if fix["kind"] not in ("chance", "chance_split", "max_count") or not wiki_name or "(" not in wiki_name:
+        return None
+    wiki_ids = by_name.get(wiki_name)
+    if not wiki_ids:
+        return None
+    entry_ids_found = set()
+    for entry in loot or []:
+        if not isinstance(entry, dict):
+            continue
+        if entry.get("id") is not None:
+            ids = {int(entry["id"])}
+            name = None
+        else:
+            name = str(entry.get("name", "")).strip().lower()
+            ids = by_name.get(name, set())
+        key_ids = entry_ids(fix["item"], by_name)
+        if name == fix["item"] or ids & key_ids:
+            entry_ids_found |= ids
+    if entry_ids_found and not (entry_ids_found & set(wiki_ids)):
+        return f"the wiki row {wiki_name} is another item ({', '.join(map(str, sorted(wiki_ids)))})"
+    return None
+
+
 def statistics_major(source):
     """Major client version of the wiki block a fix came from (0 when unknown)."""
     return int((re.findall(r"\d+", str((source or {}).get("version") or "")) or [0])[0])
@@ -272,6 +311,9 @@ def validate(fix, info, element_keys, by_name=None):
         return None
     if info.get("reward") and fix["kind"] == "add_loot":
         return REWARD_MISSING
+    other_item = paired_with_another_item(fix, info.get("loot"), by_name or {})
+    if other_item:
+        return other_item
     if info.get("reward") and fix["kind"] in LOOT_KINDS and fix["kind"] != "coins":
         # The user's decision (2026-11-13): the wiki's per-player rate is the base chance (the chest
         # factor is about 1 for ~4 equal contributors). Unique entries keep the upstream value.
@@ -292,6 +334,30 @@ def validate(fix, info, element_keys, by_name=None):
         return "the wiki marks this value as uncertain"
     return None
 
+def split_chances(chances, wiki):
+    """Scale entry chances by one factor so that the item shows up with probability `wiki` (out of
+    MAX_CHANCE); entries roll independently: P = 1 - prod(1 - p_i). None when it cannot be done."""
+    if len(chances) < 2 or any(c <= 0 for c in chances) or not 0 < wiki <= MAX_CHANCE:
+        return None
+    target = wiki / MAX_CHANCE
+
+    def shown(factor):
+        miss = 1.0
+        for chance in chances:
+            miss *= 1 - min(1.0, chance * factor / MAX_CHANCE)
+        return 1 - miss
+
+    if target >= 1:
+        factor = MAX_CHANCE / max(chances)
+    else:
+        low, high = 0.0, MAX_CHANCE / max(chances)
+        for _ in range(100):
+            middle = (low + high) / 2
+            low, high = (middle, high) if shown(middle) < target else (low, middle)
+        factor = (low + high) / 2
+    return [max(1, min(MAX_CHANCE, round(chance * factor))) for chance in chances]
+
+
 def gap_evidence(finding):
     """Why a chance gap beyond MAX_CHANCE_FACTOR can be trusted, or None."""
     ours, wiki = finding["datapack_chance"] / 100000, max(1, finding["wiki_chance"]) / 100000
@@ -307,7 +373,7 @@ def gap_evidence(finding):
 
 
 def plan(report, by_name, stackable, kinds=("max_count", "add_loot", "chance", "stat", "element", "immunity"), bosses=frozenset(), element_types=None,
-         reviewed=(), flags=None):
+         reviewed=(), flags=None, wiki_ids=None):
     """`reviewed` holds case-by-case decisions (tools/datapack/reviewed.json): `keep` sends a finding
     to review with its note; `apply` is recorded for the history of a decision. Identity and
     certainty still apply (validate)."""
@@ -415,8 +481,11 @@ def plan(report, by_name, stackable, kinds=("max_count", "add_loot", "chance", "
                         reason = f"old statistics (version {source.get('version')})"
                 if not reason and item in CURRENCY:
                     reason = "currency: compare with the existing coin entries"
+                split = None
                 if not reason and finding.get("entries", 1) != 1:
-                    reason = f"{finding.get('entries')} entries share the item; split by hand"
+                    split = split_chances(finding.get("datapack_raw_chances") or [], wiki)
+                    if split is None or "chance_split" not in kinds:
+                        reason = f"{finding.get('entries')} entries share the item; split by hand"
                 if not reason and not (1 / MAX_CHANCE_FACTOR <= ours / wiki <= MAX_CHANCE_FACTOR):
                     # The finding is already outside a wide binomial interval; with the wiki as the
                     # source of truth a large gap is applied, noting any independent confirmation.
@@ -429,8 +498,14 @@ def plan(report, by_name, stackable, kinds=("max_count", "add_loot", "chance", "
                         fix_source["wiki_name"] = finding["wiki_name"]
                     if evidence:
                         fix_source["evidence"] = "; ".join(evidence)
-                    fixes.append({"kind": "chance", "file": monster["file"], "monster": monster["name"], "item": item, "chance": wiki,
-                                  "from": finding.get("datapack_raw_chance", ours), "source": fix_source})
+                    if split is not None:
+                        # Several entries of one item (often one per amount): every chance is scaled by the
+                        # same factor, so the item shows up at the wiki's rate and the entries keep their shape.
+                        fixes.append({"kind": "chance_split", "file": monster["file"], "monster": monster["name"], "item": item,
+                                      "chances": split, "from": finding["datapack_raw_chances"], "source": fix_source})
+                    else:
+                        fixes.append({"kind": "chance", "file": monster["file"], "monster": monster["name"], "item": item, "chance": wiki,
+                                      "from": finding.get("datapack_raw_chance", ours), "source": fix_source})
             elif finding["kind"] == "loot_missing" and "add_loot" in kinds:
                 major = int((re.findall(r"\d+", str(source.get("version") or "")) or [0])[0])
                 if item in CURRENCY:
@@ -448,7 +523,7 @@ def plan(report, by_name, stackable, kinds=("max_count", "add_loot", "chance", "
                         review.append({"monster": monster["name"], "item": item, "reason": f"old statistics (version {source.get('version')})"})
                         continue
                     fix_source["evidence"] = f"old statistics within the current rarity ({finding.get('current_rarity')})"
-                item_id, how = resolve_item(item, by_name, flags or {})
+                item_id, how = resolve_item(item, by_name, flags or {}, wiki_ids)
                 if item_id is None:
                     review.append({"monster": monster["name"], "item": item, "reason": how, "ids": ids})
                     continue
@@ -457,6 +532,11 @@ def plan(report, by_name, stackable, kinds=("max_count", "add_loot", "chance", "
                 if how != "name":
                     # The server resolves names to the first id, so an ambiguous or suffixed name is written by id.
                     fix["by_id"] = True
+                if item in (wiki_ids or {}):
+                    # The id is the wiki item page's own (giant shimmering pearl (green) is 281, not 282):
+                    # only that id can already be listed.
+                    fix["by_id"] = True
+                    fix["exact"] = True
                 if item_id in stackable and finding["max_amount"] > 1:
                     fix["maxCount"] = finding["max_amount"]
                 fixes.append(fix)
@@ -711,6 +791,11 @@ def apply_to_text(text, fixes, by_id, by_name=None):
             lines[index] = f"{match.group('indent')}{{{body}}}{match.group('tail')}"
             outcomes.append("applied")
         elif fix["kind"] == "chance":
+            if len(matching) > 1:
+                # Another entry of the same name came later (an exact-id addition of another colour):
+                # the fix's own entry is the one still holding its `from` or already at its value.
+                own = [(i, m) for i, m in matching if entry_number(m.group("body"), "chance") in (fix.get("from"), fix["chance"])]
+                matching = own if len(own) == 1 else matching
             if len(matching) != 1:
                 outcomes.append("item not in loot" if not matching else "several entries")
                 continue
@@ -725,6 +810,18 @@ def apply_to_text(text, fixes, by_id, by_name=None):
                 continue
             body = re.sub(r"\bchance\s*=\s*\d+", f"chance = {fix['chance']}", body, count=1)
             lines[index] = f"{match.group('indent')}{{{body}}}{match.group('tail')}"
+            outcomes.append("applied")
+        elif fix["kind"] == "chance_split":
+            current = [entry_number(m.group("body"), "chance") or 0 for _, m in matching]
+            if current == list(fix["chances"]):
+                outcomes.append("already")
+                continue
+            if current != list(fix["from"]):
+                outcomes.append(f"changed upstream (chances {current})")
+                continue
+            for (index, match), chance in zip(matching, fix["chances"]):
+                body = re.sub(r"\bchance\s*=\s*\d+", f"chance = {chance}", match.group("body"), count=1)
+                lines[index] = f"{match.group('indent')}{{{body}}}{match.group('tail')}"
             outcomes.append("applied")
         elif fix["kind"] == "add_loot":
             if fix.get("by_id"):
