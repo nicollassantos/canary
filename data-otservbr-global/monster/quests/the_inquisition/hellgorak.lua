@@ -79,6 +79,7 @@ monster.voices = {
 
 monster.loot = {
 	{ id = 3031, chance = 100000, maxCount = 200 }, -- gold coin
+	{ name = "demonic essence", chance = 100000 },
 	{ id = 8899, chance = 49920 }, -- slightly rusted legs
 	{ id = 7643, chance = 41750, maxCount = 2 }, -- ultimate health potion
 	{ id = 8073, chance = 31010 }, -- spellbook of warding
@@ -120,7 +121,7 @@ monster.loot = {
 	{ id = 3364, chance = 450 }, -- golden legs
 	{ id = 8051, chance = 450 }, -- voltage armor
 	{ id = 8090, chance = 300 }, -- spellbook of dark mysteries
-	{ id = 3019, chance = 150 }, -- demonbone amulet
+	{ id = 3019, chance = 700 }, -- demonbone amulet
 	{ id = 3303, chance = 100 }, -- great axe
 }
 

@@ -80,7 +80,7 @@ monster.voices = {
 
 monster.loot = {
 	{ id = 2950, chance = 7000 }, -- lute
-	{ id = 2953, chance = 1500 }, -- panpipes
+	{ id = 2953, chance = 364 }, -- panpipes
 	{ id = 3007, chance = 1500 }, -- crystal ring
 	{ name = "ancient tiara", chance = 300 },
 	{ name = "white pearl", chance = 7000 },

@@ -88,6 +88,7 @@ monster.loot = {
 	{ name = "great health potion", chance = 11840 },
 	{ name = "small ruby", chance = 3690, maxCount = 2 },
 	{ name = "small topaz", chance = 3170, maxCount = 2 },
+	{ name = "gold ingot", chance = 1002 },
 	{ name = "yellow gem", chance = 280 },
 	{ name = "platinum coin", chance = 65250, maxCount = 3 },
 	{ name = "plate shield", chance = 20710 },
@@ -100,6 +101,7 @@ monster.loot = {
 	{ id = 3098, chance = 3190 }, -- ring of healing
 	{ name = "mino lance", chance = 1810 },
 	{ name = "warrior helmet", chance = 570 },
+	{ id = 7401, chance = 187 }, -- minotaur trophy
 	{ id = 3039, chance = 170 }, -- red gem
 	{ name = "meat", chance = 8020 },
 	{ name = "minotaur leather", chance = 11530 },

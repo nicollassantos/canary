@@ -83,6 +83,7 @@ monster.loot = {
 	{ name = "gold coin", chance = 50000, maxCount = 50 },
 	{ id = 3456, chance = 5280 }, -- pick
 	{ name = "worm", chance = 4580, maxCount = 5 },
+	{ id = 3097, chance = 2425 }, -- dwarven ring
 	{ name = "iron ore", chance = 1750 },
 	{ name = "spiked squelcher", chance = 540 },
 	{ name = "terra amulet", chance = 2360 },

@@ -78,8 +78,19 @@ monster.voices = {
 monster.loot = {
 	{ id = 3031, chance = 59640, maxCount = 200 }, -- gold coin
 	{ id = 11472, chance = 8330, maxCount = 2 }, -- minotaur horn
+	{ name = "small amethyst", chance = 5153 },
 	{ id = 11482, chance = 5040 }, -- piece of warrior armor
+	{ name = "small ruby", chance = 4697 },
 	{ id = 5878, chance = 1000 }, -- minotaur leather
+	{ name = "mooh'tah plate", chance = 906 },
+	{ name = "blue piece of cloth", chance = 868 },
+	{ name = "guardian shield", chance = 756 },
+	{ id = 3039, chance = 731 }, -- red gem
+	{ name = "red piece of cloth", chance = 606 },
+	{ name = "knight axe", chance = 575 },
+	{ name = "warrior helmet", chance = 537 },
+	{ name = "titan axe", chance = 219 },
+	{ name = "blue gem", chance = 162 },
 	{ id = 7401, chance = 90 }, -- minotaur trophy
 }
 

@@ -102,6 +102,7 @@ monster.loot = {
 	{ name = "devil helmet", chance = 910 },
 	{ name = "crusader helmet", chance = 740 },
 	{ name = "crown shield", chance = 740 },
+	{ name = "crown armor", chance = 283 },
 	{ name = "demon shield", chance = 170 },
 	{ name = "fire mushroom", chance = 20600, maxCount = 6 },
 	{ id = 5906, chance = 1000 }, -- demon dust
@@ -110,7 +111,7 @@ monster.loot = {
 	{ name = "great mana potion", chance = 18000, maxCount = 2 },
 	{ name = "ultimate health potion", chance = 20500, maxCount = 3 },
 	{ name = "small topaz", chance = 9300, maxCount = 5 },
-	{ name = "cluster of solace", chance = 4550 },
+	{ name = "cluster of solace", chance = 465 },
 }
 
 monster.attacks = {

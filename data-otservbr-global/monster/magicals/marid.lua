@@ -94,7 +94,7 @@ monster.loot = {
 	{ name = "gold coin", chance = 60000, maxCount = 30 },
 	{ name = "blue gem", chance = 110 },
 	{ name = "hailstorm rod", chance = 770 },
-	{ id = 2948, chance = 5000 }, -- wooden flute
+	{ id = 2948, chance = 331 }, -- wooden flute
 	{ name = "heavy machete", chance = 4530 },
 	{ name = "mystic turban", chance = 290 },
 	{ name = "blueberry", chance = 65000, maxCount = 29 },

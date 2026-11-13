@@ -97,7 +97,7 @@ monster.loot = {
 	{ name = "terra legs", chance = 4520 },
 	{ name = "jade hat", chance = 1010 },
 	{ name = "zaoan armor", chance = 1010 },
-	{ name = "guardian boots", chance = 1010 },
+	{ name = "guardian boots", chance = 214 },
 	{ name = "drakinata", chance = 1010 },
 	{ name = "spellweaver's robe", chance = 500 },
 	{ name = "zaoan shoes", chance = 980 },

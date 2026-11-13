@@ -83,21 +83,21 @@ monster.loot = {
 	{ name = "gold coin", chance = 30000, maxCount = 166 },
 	{ name = "butterfly ring", chance = 492 },
 	{ name = "wooden spellbook", chance = 92 },
-	{ name = "dream blossom staff", chance = 92 },
-	{ id = 3046, chance = 492 }, -- magic light wand
-	{ name = "green mushroom", chance = 492 },
-	{ name = "small enchanted amethyst", chance = 492, maxCount = 2 },
+	{ name = "dream blossom staff", chance = 559 },
+	{ id = 3046, chance = 4436 }, -- magic light wand
+	{ name = "green mushroom", chance = 1701 },
+	{ name = "small enchanted amethyst", chance = 2061, maxCount = 2 },
 	{ name = "small topaz", chance = 592, maxCount = 2 },
-	{ name = "rainbow quartz", chance = 719, maxCount = 3 },
-	{ name = "colourful snail shell", chance = 719 },
-	{ name = "star herb", chance = 719 },
+	{ name = "rainbow quartz", chance = 2986, maxCount = 3 },
+	{ name = "colourful snail shell", chance = 9763 },
+	{ name = "star herb", chance = 4927 },
 	{ name = "leaf star", chance = 10000, maxCount = 5 },
-	{ name = "red rose", chance = 30100 },
-	{ name = "strong mana potion", chance = 6800 },
+	{ name = "red rose", chance = 3146 },
+	{ name = "strong mana potion", chance = 891 },
 	{ name = "wild flowers", chance = 5155 },
-	{ name = "great mana potion", chance = 591 },
+	{ name = "great mana potion", chance = 3266 },
 	{ name = "dandelion seeds", chance = 5800 },
-	{ name = "fresh fruit", chance = 3400, maxCount = 2 },
+	{ name = "fresh fruit", chance = 10054, maxCount = 2 },
 }
 
 monster.attacks = {

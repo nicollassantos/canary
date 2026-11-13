@@ -96,7 +96,7 @@ monster.loot = {
 	{ name = "assassin dagger", chance = 1622 },
 	{ name = "ornate crossbow", chance = 946 },
 	{ name = "emerald bangle", chance = 811 },
-	{ name = "wood cape", chance = 405 },
+	{ name = "wood cape", chance = 1051 },
 	{ name = "elvish bow", chance = 270 },
 }
 

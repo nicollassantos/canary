@@ -96,7 +96,7 @@ monster.loot = {
 	{ id = 815, chance = 670 }, -- glacier amulet
 	{ id = 823, chance = 3680 }, -- glacier kilt
 	{ id = 819, chance = 3010 }, -- glacier shoes
-	{ id = 16096, chance = 670 }, -- wand of defiance
+	{ id = 16096, chance = 227 }, -- wand of defiance
 	{ id = 8093, chance = 670 }, -- wand of draconia
 }
 

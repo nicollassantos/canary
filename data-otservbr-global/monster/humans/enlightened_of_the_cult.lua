@@ -89,6 +89,7 @@ monster.voices = {
 
 monster.loot = {
 	{ id = 2828, chance = 910 }, -- book
+	{ id = 401, chance = 799 }, -- book
 	{ name = "piggy bank", chance = 130 },
 	{ name = "small sapphire", chance = 550 },
 	{ name = "gold coin", chance = 64550, maxCount = 92 },
@@ -97,6 +98,7 @@ monster.loot = {
 	{ name = "wand of inferno", chance = 180 },
 	{ name = "protection amulet", chance = 790 },
 	{ name = "skull staff", chance = 350 },
+	{ name = "mysterious voodoo skull", chance = 78 },
 	{ name = "blue robe", chance = 40 },
 	{ name = "jewelled backpack", chance = 100 },
 	{ name = "pirate voodoo doll", chance = 430 },

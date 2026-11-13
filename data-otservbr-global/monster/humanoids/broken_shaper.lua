@@ -86,11 +86,16 @@ monster.loot = {
 	{ id = 24386, chance = 13000 }, -- rhino horn carving
 	{ id = 24390, chance = 4000 }, -- ancient coin
 	{ id = 3147, chance = 15000 }, -- blank rune
-	{ id = 3577, chance = 50320, maxCount = 2 }, -- meat
+	{ id = 3577, chance = 9629, maxCount = 2 }, -- meat
 	{ id = 5021, chance = 5000, maxCount = 3 }, -- orichalcum pearl
+	{ name = "rusted armor", chance = 2898 },
+	{ name = "coral brooch", chance = 1562 },
+	{ name = "white piece of cloth", chance = 1002 },
 	{ id = 5912, chance = 1000, maxCount = 2 }, -- blue piece of cloth
 	{ id = 5913, chance = 5000, maxCount = 2 }, -- brown piece of cloth
 	{ id = 5914, chance = 2000, maxCount = 2 }, -- yellow piece of cloth
+	{ name = "green piece of cloth", chance = 676 },
+	{ name = "red piece of cloth", chance = 534 },
 	{ id = 3079, chance = 230 }, -- boots of haste
 	{ id = 239, chance = 7000 }, -- great health potion
 	{ id = 3284, chance = 1000 }, -- ice rapier

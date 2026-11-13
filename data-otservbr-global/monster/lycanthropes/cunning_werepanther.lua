@@ -82,14 +82,14 @@ monster.loot = {
 	{ name = "werepanther claw", chance = 12780 },
 	{ name = "golden sickle", chance = 5120 },
 	{ name = "meat", chance = 5500, maxCount = 2 },
-	{ name = "small topaz", chance = 7120, maxCount = 4 },
+	{ name = "small topaz", chance = 5243, maxCount = 4 },
 	{ name = "moonlight crystals", chance = 2550 },
 	{ id = 3037, chance = 5130 }, -- yellow gem
-	{ name = "lightning headband", chance = 7200 },
+	{ name = "lightning headband", chance = 974 },
 	{ name = "ripper lance", chance = 850 },
-	{ name = "gemmed figurine", chance = 1770 },
+	{ name = "gemmed figurine", chance = 599 },
 	{ id = 816, chance = 4710 }, -- lightning pendant
-	{ name = "fur armor", chance = 2620 },
+	{ name = "fur armor", chance = 813 },
 	{ id = 43917, chance = 600 }, -- werepanther trophy
 }
 

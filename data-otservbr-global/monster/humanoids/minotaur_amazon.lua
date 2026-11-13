@@ -82,11 +82,11 @@ monster.loot = {
 	{ id = 3582, chance = 60780 }, -- ham
 	{ id = 3577, chance = 4920 }, -- meat
 	{ id = 3035, chance = 62080, maxCount = 3 }, -- platinum coin
-	{ id = 9058, chance = 290 }, -- gold ingot
+	{ id = 9058, chance = 658 }, -- gold ingot
 	{ id = 5878, chance = 17950 }, -- minotaur leather
 	{ id = 239, chance = 7670 }, -- great health potion
 	{ id = 238, chance = 7380 }, -- great mana potion
-	{ id = 11472, chance = 6800, maxCount = 2 }, -- minotaur horn
+	{ id = 11472, chance = 5057, maxCount = 2 }, -- minotaur horn
 	{ id = 3098, chance = 3040 }, -- ring of healing
 	{ id = 3030, chance = 5500, maxCount = 2 }, -- small ruby
 	{ id = 9057, chance = 900, maxCount = 2 }, -- small topaz
@@ -100,6 +100,7 @@ monster.loot = {
 	{ id = 3037, chance = 870 }, -- yellow gem
 	{ id = 3369, chance = 1160 }, -- warrior helmet
 	{ id = 7443, chance = 720 }, -- bullseye potion
+	{ id = 7401, chance = 290 }, -- minotaur trophy
 }
 
 monster.attacks = {

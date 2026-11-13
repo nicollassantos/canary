@@ -81,14 +81,14 @@ monster.loot = {
 	{ name = "platinum coin", chance = 5000, maxCount = 25 },
 	{ name = "drill bolt", chance = 900, maxCount = 5 },
 	{ name = "broodrider saddle", chance = 1000 },
-	{ name = "mummified demon finger", chance = 155 },
-	{ name = "blue crystal splinter", chance = 300 },
+	{ name = "mummified demon finger", chance = 1017 },
+	{ name = "blue crystal splinter", chance = 5220 },
 	{ name = "onyx chip", chance = 1500, maxCount = 3 },
 	{ name = "magma legs", chance = 800 },
 	{ name = "arbalest", chance = 300 },
 	{ name = "power bolt", chance = 1000, maxCount = 5 },
-	{ name = "demonic core essence", chance = 100 },
-	{ name = "demonic matter", chance = 4761 },
+	{ name = "demonic core essence", chance = 2666 },
+	{ name = "demonic matter", chance = 457 },
 }
 
 monster.attacks = {

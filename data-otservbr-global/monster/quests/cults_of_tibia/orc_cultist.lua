@@ -85,6 +85,7 @@ monster.loot = {
 	{ name = "orc tusk", chance = 8260, maxCount = 2 },
 	{ name = "green piece of cloth", chance = 4960 },
 	{ name = "brown crystal splinter", chance = 4960, maxCount = 2 },
+	{ name = "berserk potion", chance = 841 },
 }
 
 monster.attacks = {

@@ -79,6 +79,7 @@ monster.loot = {
 	{ name = "nettle spit", chance = 9620 },
 	{ name = "sling herb", chance = 5680, maxCount = 2 },
 	{ name = "nettle blossom", chance = 970 },
+	{ name = "grave flower", chance = 950 },
 }
 
 monster.attacks = {

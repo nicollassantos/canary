@@ -82,13 +82,13 @@ monster.loot = {
 	{ name = "platinum coin", chance = 5000, maxCount = 24 },
 	{ name = "spiked squelcher", chance = 1500 },
 	{ id = 3053, chance = 800 }, -- time ring
-	{ id = 3040, chance = 4761 }, -- gold nugget
+	{ id = 3040, chance = 461 }, -- gold nugget
 	{ name = "small sapphire", chance = 1500, maxCount = 3 },
-	{ name = "demonic core essence", chance = 100 },
-	{ name = "demonic matter", chance = 4761 },
+	{ name = "demonic core essence", chance = 2570 },
+	{ name = "demonic matter", chance = 464 },
 	{ id = 3093, chance = 1000 }, -- club ring
 	{ name = "gorger antlers", chance = 1000 },
-	{ name = "mummified demon finger", chance = 155 },
+	{ name = "mummified demon finger", chance = 971 },
 }
 
 monster.attacks = {

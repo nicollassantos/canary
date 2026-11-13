@@ -87,6 +87,7 @@ monster.loot = {
 	{ id = 5878, chance = 4640 }, -- minotaur leather
 	{ id = 11472, chance = 2940, maxCount = 2 }, -- minotaur horn
 	{ id = 3033, chance = 2500, maxCount = 2 }, -- small amethyst
+	{ name = "small sapphire", chance = 2440, maxCount = 2 },
 	{ id = 3032, chance = 2370, maxCount = 2 }, -- small emerald
 	{ id = 3030, chance = 2200, maxCount = 2 }, -- small ruby
 	{ id = 9057, chance = 2460, maxCount = 2 }, -- small topaz

@@ -81,6 +81,8 @@ monster.loot = {
 	{ id = 3031, chance = 100000, maxCount = 100 }, -- gold coin
 	{ id = 3035, chance = 20000 }, -- platinum coin
 	{ id = 23502, chance = 6000 }, -- sparkion claw
+	{ name = "cyan crystal fragment", chance = 5672 },
+	{ name = "small sapphire", chance = 5269, maxCount = 2 },
 	{ id = 23545, chance = 4900 }, -- energy drink
 	{ id = 7642, chance = 4800 }, -- great spirit potion
 	{ id = 238, chance = 4400 }, -- great mana potion
@@ -88,9 +90,10 @@ monster.loot = {
 	{ id = 23535, chance = 4200 }, -- energy bar
 	{ id = 23503, chance = 4000 }, -- sparkion tail
 	{ id = 23504, chance = 4000 }, -- sparkion legs
-	{ id = 23505, chance = 3500 }, -- sparkion stings
-	{ id = 16124, chance = 2600 }, -- blue crystal splinter
+	{ id = 23505, chance = 6923 }, -- sparkion stings
+	{ id = 16124, chance = 8417 }, -- blue crystal splinter
 	{ id = 16119, chance = 2100 }, -- blue crystal shard
+	{ name = "wand of cosmic energy", chance = 498 },
 }
 
 monster.attacks = {

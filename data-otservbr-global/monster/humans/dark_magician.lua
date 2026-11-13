@@ -84,6 +84,8 @@ monster.loot = {
 	{ name = "strong mana potion", chance = 2860 },
 	{ name = "health potion", chance = 12000 },
 	{ name = "mana potion", chance = 11900 },
+	{ name = "small enchanted amethyst", chance = 520 },
+	{ name = "necrotic rod", chance = 289 },
 	{ name = "reins", chance = 20 },
 }
 

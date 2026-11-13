@@ -81,12 +81,14 @@ monster.voices = {
 monster.loot = {
 	{ id = 3031, chance = 92000, maxCount = 130 }, -- gold coin
 	{ id = 3577, chance = 6200 }, -- meat
+	{ name = "small stone", chance = 4984, maxCount = 5 },
 	{ id = 3030, chance = 4200, maxCount = 2 }, -- small ruby
 	{ id = 3026, chance = 6200, maxCount = 3 }, -- white pearl
 	{ id = 11447, chance = 6200 }, -- battle stone
 	{ id = 3598, chance = 6200, maxCount = 7 }, -- cookie
 	{ id = 22188, chance = 5200 }, -- ogre ear stud
-	{ id = 22189, chance = 1200 }, -- ogre nose ring
+	{ id = 3093, chance = 2346 }, -- club ring
+	{ id = 22189, chance = 14660 }, -- ogre nose ring
 	{ id = 22193, chance = 3200, maxCount = 2 }, -- onyx chip
 	{ id = 22194, chance = 3200, maxCount = 3 }, -- opal
 	{ id = 3050, chance = 2200 }, -- power ring
@@ -97,6 +99,7 @@ monster.loot = {
 	{ id = 3465, chance = 500 }, -- pot
 	{ name = "rusted helmet", chance = 220 },
 	{ id = 22192, chance = 300 }, -- shamanic mask
+	{ name = "ancient stone", chance = 198 },
 }
 
 monster.attacks = {

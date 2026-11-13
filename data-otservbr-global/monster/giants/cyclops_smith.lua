@@ -90,7 +90,7 @@ monster.loot = {
 	{ name = "meat", chance = 49950 },
 	{ id = 7398, chance = 140 }, -- cyclops trophy
 	{ name = "spiked squelcher", chance = 150 },
-	{ name = "strong health potion", chance = 390 },
+	{ name = "strong health potion", chance = 529 },
 	{ name = "cyclops toe", chance = 10280 },
 }
 

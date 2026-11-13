@@ -101,8 +101,8 @@ monster.loot = {
 	{ id = 8074, chance = 420 }, -- spellbook of mind control
 	{ id = 3403, chance = 3380 }, -- tribal mask
 	{ id = 3037, chance = 1820 }, -- yellow gem
-	{ id = 3067, chance = 19520 }, -- hailstorm rod
-	{ id = 8083, chance = 19520 }, -- northwind rod
+	{ id = 3067, chance = 1187 }, -- hailstorm rod
+	{ id = 8083, chance = 3188 }, -- northwind rod
 }
 
 monster.attacks = {

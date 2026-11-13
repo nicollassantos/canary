@@ -94,6 +94,7 @@ monster.loot = {
 	{ name = "shamanic hood", chance = 6860 },
 	{ name = "orc leather", chance = 4300 },
 	{ id = 23986, chance = 1000 }, -- heavy old tome
+	{ id = 401, chance = 436 }, -- book
 }
 
 monster.attacks = {

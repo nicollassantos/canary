@@ -85,7 +85,10 @@ monster.loot = {
 	{ id = 3031, chance = 75410, maxCount = 70 }, -- gold coin
 	{ id = 3592, chance = 15400 }, -- grapes
 	{ id = 239, chance = 12340, maxCount = 2 }, -- great health potion
+	{ name = "cultish robe", chance = 5542 },
 	{ id = 3577, chance = 5000 }, -- meat
+	{ name = "small amethyst", chance = 2560 },
+	{ name = "small emerald", chance = 2454 },
 	{ id = 3349, chance = 830 }, -- crossbow
 	{ id = 3563, chance = 760 }, -- green tunic
 	{ id = 3048, chance = 700, maxCount = 2 }, -- might ring

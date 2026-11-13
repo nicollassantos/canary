@@ -89,25 +89,26 @@ monster.voices = {
 
 monster.loot = {
 	{ id = 3031, chance = 92000, maxCount = 130 }, -- gold coin
+	{ name = "onyx chip", chance = 1384, maxCount = 2 },
 	{ id = 22194, chance = 1200, maxCount = 3 }, -- opal
 	{ id = 22185, chance = 6200, maxCount = 2 }, -- prickly pear
 	{ id = 3030, chance = 2200, maxCount = 2 }, -- small ruby
 	{ id = 3027, chance = 1200, maxCount = 2 }, -- black pearl
 	{ id = 17831, chance = 3200 }, -- bone fetish
-	{ id = 11452, chance = 1200 }, -- broken shamanic staff
+	{ id = 11452, chance = 7663 }, -- broken shamanic staff
 	{ id = 3069, chance = 800 }, -- necrotic rod
-	{ id = 22188, chance = 3200 }, -- ogre ear stud
-	{ id = 22189, chance = 2200 }, -- ogre nose ring
-	{ id = 22184, chance = 1200 }, -- shamanic talisman
+	{ id = 22188, chance = 14012 }, -- ogre ear stud
+	{ id = 22189, chance = 9915 }, -- ogre nose ring
+	{ id = 22184, chance = 10474 }, -- shamanic talisman
 	{ id = 3114, chance = 1200 }, -- skull
-	{ id = 22191, chance = 1200 }, -- skull fetish
-	{ id = 237, chance = 1000, maxCount = 3 }, -- strong mana potion
-	{ id = 3072, chance = 600 }, -- wand of decay
-	{ id = 2901, chance = 500 }, -- waterskin
-	{ id = 22183, chance = 300 }, -- ogre scepta
-	{ id = 22192, chance = 300 }, -- shamanic mask
+	{ id = 22191, chance = 11061 }, -- skull fetish
+	{ id = 237, chance = 14390, maxCount = 3 }, -- strong mana potion
+	{ id = 3072, chance = 1692 }, -- wand of decay
+	{ id = 2901, chance = 2056 }, -- waterskin
+	{ id = 22183, chance = 531 }, -- ogre scepta
+	{ id = 22192, chance = 727 }, -- shamanic mask
 	{ id = 3002, chance = 100 }, -- voodoo doll
-	{ id = 2965, chance = 100, maxCount = 2 }, -- didgeridoo
+	{ id = 2965, chance = 461, maxCount = 2 }, -- didgeridoo
 }
 
 monster.attacks = {

@@ -82,9 +82,9 @@ monster.loot = {
 	{ name = "small ruby", chance = 7100, maxCount = 5 },
 	{ name = "gold coin", chance = 91300, maxCount = 100 },
 	{ name = "platinum coin", chance = 10000, maxCount = 20 },
-	{ name = "lizard leather", chance = 220 },
+	{ name = "lizard leather", chance = 935 },
 	{ name = "lizard scale", chance = 650 },
-	{ name = "strong health potion", chance = 2550 },
+	{ name = "strong health potion", chance = 10111 },
 	{ name = "great health potion", chance = 2900 },
 }
 

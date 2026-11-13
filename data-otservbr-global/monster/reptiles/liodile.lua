@@ -80,6 +80,7 @@ monster.loot = {
 	{ name = "green crystal shard", chance = 5360 },
 	{ name = "liodile fang", chance = 4030, maxCount = 3 },
 	{ name = "yellow gem", chance = 3720 },
+	{ name = "great spirit potion", chance = 2673 },
 	{ name = "assassin dagger", chance = 2600 },
 	{ name = "terra legs", chance = 2420 },
 	{ name = "springsprout rod", chance = 1610 },

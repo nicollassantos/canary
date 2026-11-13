@@ -88,7 +88,7 @@ monster.loot = {
 	{ name = "war hammer", chance = 5050 },
 	{ name = "warrior helmet", chance = 580 },
 	{ name = "guardian shield", chance = 2300 },
-	{ name = "tower shield", chance = 190 },
+	{ name = "tower shield", chance = 513 },
 	{ name = "ancient shield", chance = 3690 },
 	{ name = "brown mushroom", chance = 15150, maxCount = 2 },
 	{ name = "iron ore", chance = 11070 },
@@ -99,7 +99,7 @@ monster.loot = {
 	{ name = "great mana potion", chance = 6660, maxCount = 2 },
 	{ name = "great health potion", chance = 7960 },
 	{ name = "shiny stone", chance = 4660 },
-	{ id = 12600, chance = 780 }, -- coal
+	{ id = 12600, chance = 1245 }, -- coal
 	{ name = "green crystal shard", chance = 1750 },
 	{ name = "green crystal splinter", chance = 3110 },
 	{ name = "brown crystal splinter", chance = 5630, maxCount = 2 },

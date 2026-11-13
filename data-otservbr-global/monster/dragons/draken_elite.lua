@@ -85,7 +85,7 @@ monster.loot = {
 	{ name = "draken sulphur", chance = 6480 },
 	{ name = "draken wristbands", chance = 6480 },
 	{ name = "small diamond", chance = 1850, maxCount = 4 },
-	{ name = "zaoan legs", chance = 1850 },
+	{ name = "zaoan legs", chance = 858 },
 	{ name = "magic sulphur", chance = 1850 },
 	{ name = "draken boots", chance = 930 },
 	{ name = "assassin dagger", chance = 930 },

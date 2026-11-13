@@ -77,6 +77,13 @@ monster.voices = {
 
 monster.loot = {
 	{ name = "gold coin", chance = 50000, maxCount = 163 },
+	{ name = "tooth file", chance = 10305 },
+	{ name = "strong mana potion", chance = 9924 },
+	{ name = "small ruby", chance = 9160, maxCount = 3 },
+	{ name = "strong health potion", chance = 8779 },
+	{ name = "vampire teeth", chance = 7634 },
+	{ name = "blood preservation", chance = 5344 },
+	{ name = "bat wing", chance = 4198 },
 }
 
 monster.attacks = {

@@ -86,7 +86,7 @@ monster.loot = {
 	{ name = "zaoan shoes", chance = 2610 },
 	{ name = "tower shield", chance = 2310 },
 	{ name = "small ruby", chance = 1810, maxCount = 5 },
-	{ name = "zaoan legs", chance = 1300 },
+	{ name = "zaoan legs", chance = 943 },
 	{ name = "zaoan armor", chance = 600 },
 	{ name = "drakinata", chance = 600 },
 	{ name = "ring of the sky", chance = 220 },

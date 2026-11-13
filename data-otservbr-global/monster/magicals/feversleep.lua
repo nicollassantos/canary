@@ -77,6 +77,7 @@ monster.voices = {
 
 monster.loot = {
 	{ name = "gold coin", chance = 100000, maxCount = 100 },
+	{ name = "small ruby", chance = 12551, maxCount = 3 },
 	{ name = "small emerald", chance = 11000, maxCount = 3 },
 	{ name = "small amethyst", chance = 12000, maxCount = 3 },
 	{ name = "platinum coin", chance = 100000, maxCount = 9 },
@@ -89,6 +90,7 @@ monster.loot = {
 	{ name = "cyan crystal fragment", chance = 18000 },
 	{ name = "trapped bad dream monster", chance = 17000 },
 	{ name = "bowl of terror sweat", chance = 14000 },
+	{ name = "cluster of solace", chance = 740 },
 }
 
 monster.attacks = {

@@ -93,7 +93,7 @@ monster.loot = {
 	{ name = "wand of cosmic energy", chance = 1778 },
 	{ name = "underworld rod", chance = 1333 },
 	{ name = "knight legs", chance = 1111 },
-	{ name = "wand of starstorm", chance = 667 },
+	{ name = "wand of starstorm", chance = 1368 },
 }
 
 monster.attacks = {

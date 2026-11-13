@@ -94,6 +94,7 @@ monster.loot = {
 	{ name = "ruby necklace", chance = 1810 },
 	{ name = "gold-brocaded cloth", chance = 1340 },
 	{ name = "drill bolt", chance = 1270, maxCount = 10 },
+	{ name = "ceremonial brush", chance = 577 },
 	{ id = 3040, chance = 320 }, -- gold nugget
 	{ name = "ornate crossbow", chance = 140 },
 }

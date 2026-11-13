@@ -88,7 +88,9 @@ monster.loot = {
 	{ name = "mysterious fetish", chance = 8910 },
 	{ name = "shamanic hood", chance = 14360 },
 	{ name = "broken shamanic staff", chance = 5940 },
-	{ name = "heavy old tome", chance = 99 },
+	{ name = "berserk potion", chance = 997 },
+	{ name = "wand of decay", chance = 858 },
+	{ name = "heavy old tome", chance = 1735 },
 }
 
 monster.attacks = {

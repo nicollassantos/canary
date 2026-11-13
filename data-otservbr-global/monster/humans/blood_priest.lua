@@ -94,6 +94,7 @@ monster.loot = {
 	{ name = "blood tincture in a vial", chance = 14460 },
 	{ name = "incantation notes", chance = 14660 },
 	{ name = "pieces of magic chalk", chance = 7770 },
+	{ name = "noble axe", chance = 74 },
 }
 
 monster.attacks = {

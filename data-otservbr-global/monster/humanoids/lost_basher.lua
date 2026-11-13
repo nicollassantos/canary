@@ -77,12 +77,17 @@ monster.voices = {
 }
 
 monster.loot = {
+	{ name = "wimp tooth chain", chance = 12119 },
+	{ name = "red hair dye", chance = 11843 },
+	{ name = "bone fetish", chance = 7539 },
 	{ name = "piggy bank", chance = 4450 },
 	{ name = "gold coin", chance = 60000, maxCount = 100 },
 	{ name = "platinum coin", chance = 70000, maxCount = 2 },
+	{ id = 3097, chance = 2421 }, -- dwarven ring
+	{ name = "knight axe", chance = 915 },
 	{ name = "fire axe", chance = 310 },
 	{ name = "war axe", chance = 120 },
-	{ name = "knight legs", chance = 310 },
+	{ name = "knight legs", chance = 572 },
 	{ name = "black shield", chance = 3710 },
 	{ name = "brown mushroom", chance = 15170, maxCount = 2 },
 	{ name = "iron ore", chance = 5280 },
@@ -96,9 +101,9 @@ monster.loot = {
 	{ name = "blue crystal shard", chance = 840 },
 	{ name = "lost basher's spike", chance = 17260 },
 	{ name = "lost basher's spike", chance = 14380 },
-	{ name = "bloody dwarven beard", chance = 1730 },
+	{ name = "bloody dwarven beard", chance = 17365 },
 	{ name = "pair of iron fists", chance = 1410 },
-	{ name = "buckle", chance = 10930 },
+	{ name = "buckle", chance = 1110 },
 	{ name = "bonecarving knife", chance = 7320 },
 	{ name = "basalt fetish", chance = 8800 },
 	{ name = "basalt figurine", chance = 9470 },

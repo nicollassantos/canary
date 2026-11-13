@@ -86,9 +86,12 @@ monster.loot = {
 	{ id = 3592, chance = 15400 }, -- grapes
 	{ id = 239, chance = 12340, maxCount = 2 }, -- great health potion
 	{ id = 3577, chance = 5000 }, -- meat
+	{ name = "cultish robe", chance = 4246 },
+	{ name = "small amethyst", chance = 2497 },
+	{ name = "small emerald", chance = 2442 },
 	{ id = 3349, chance = 830 }, -- crossbow
 	{ id = 3563, chance = 760 }, -- green tunic
-	{ id = 3048, chance = 700, maxCount = 2 }, -- might ring
+	{ id = 3048, chance = 207, maxCount = 2 }, -- might ring
 	{ id = 3003, chance = 1000 }, -- rope
 	{ id = 3572, chance = 1000 }, -- scarf
 	{ id = 2815, chance = 830 }, -- scroll
@@ -98,6 +101,7 @@ monster.loot = {
 	{ id = 3415, chance = 330 }, -- guardian shield
 	{ id = 3371, chance = 230 }, -- knight legs
 	{ id = 3369, chance = 200 }, -- warrior helmet
+	{ name = "piggy bank", chance = 66 },
 }
 
 monster.attacks = {

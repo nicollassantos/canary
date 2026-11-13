@@ -93,6 +93,21 @@
    "from": 5720
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/amphibics/salamander.lua",
+   "monster": "Salamander",
+   "item": "insectoid eggs",
+   "id": 17457,
+   "chance": 34558,
+   "source": {
+    "version": "9.8",
+    "kills": 222738,
+    "loot_revid": 1210614,
+    "times": 76974,
+    "evidence": "old statistics within the current rarity (common)"
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/aquatics/crustacea_gigantica.lua",
    "monster": "Crustacea Gigantica",
@@ -1209,6 +1224,22 @@
    "from": 100
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/constructs/enraged_crystal_golem.lua",
+   "monster": "Enraged Crystal Golem",
+   "item": "crystalline arrow",
+   "id": 15793,
+   "chance": 5067,
+   "source": {
+    "version": "9.6",
+    "kills": 16321,
+    "loot_revid": 1209918,
+    "times": 827,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   },
+   "maxCount": 5
+  },
+  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/constructs/enraged_crystal_golem.lua",
    "monster": "Enraged Crystal Golem",
@@ -1614,6 +1645,51 @@
    "from": -100
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/constructs/iron_servant.lua",
+   "monster": "Iron Servant",
+   "item": "health potion",
+   "id": 266,
+   "chance": 1992,
+   "source": {
+    "version": "9.1",
+    "kills": 90170,
+    "loot_revid": 1105642,
+    "times": 1796,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/constructs/iron_servant.lua",
+   "monster": "Iron Servant",
+   "item": "heavily rusted armor",
+   "chance": 512,
+   "from": 200,
+   "source": {
+    "version": "9.1",
+    "kills": 90170,
+    "loot_revid": 1105642,
+    "times": 462,
+    "evidence": "old statistics within the current rarity (rare)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/constructs/iron_servant_replica.lua",
+   "monster": "Iron Servant Replica",
+   "item": "heavily rusted armor",
+   "id": 8894,
+   "chance": 539,
+   "source": {
+    "version": "8.6",
+    "kills": 12238,
+    "loot_revid": 1213512,
+    "times": 66,
+    "evidence": "old statistics within the current rarity (rare)"
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/constructs/iron_servant_replica.lua",
    "monster": "Iron Servant Replica",
@@ -1949,6 +2025,21 @@
    "from": 2100
   },
   {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/constructs/sandstone_scorpion.lua",
+   "monster": "Sandstone Scorpion",
+   "item": "small emerald",
+   "chance": 10126,
+   "from": 1100,
+   "source": {
+    "version": "9.1",
+    "kills": 11752,
+    "loot_revid": 1202059,
+    "times": 1190,
+    "evidence": "old statistics within the current rarity (uncommon); single large sample"
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/constructs/sandstone_scorpion.lua",
    "monster": "Sandstone Scorpion",
@@ -2006,6 +2097,97 @@
     "revid": 1191632
    },
    "from": 2900
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/constructs/walker.lua",
+   "monster": "Walker",
+   "item": "crystal mace",
+   "id": 3333,
+   "chance": 620,
+   "source": {
+    "version": "10.5",
+    "kills": 3389,
+    "loot_revid": 1210060,
+    "times": 21,
+    "evidence": "old statistics within the current rarity (rare)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/constructs/walker.lua",
+   "monster": "Walker",
+   "item": "small amethyst",
+   "id": 3033,
+   "chance": 5075,
+   "source": {
+    "version": "10.5",
+    "kills": 3389,
+    "loot_revid": 1210060,
+    "times": 172,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   },
+   "maxCount": 3
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/constructs/walker.lua",
+   "monster": "Walker",
+   "item": "great health potion",
+   "chance": 7731,
+   "from": 3230,
+   "source": {
+    "version": "10.5",
+    "kills": 3389,
+    "loot_revid": 1210060,
+    "times": 262,
+    "evidence": "old statistics within the current rarity (uncommon)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/constructs/walker.lua",
+   "monster": "Walker",
+   "item": "great spirit potion",
+   "chance": 7200,
+   "from": 3230,
+   "source": {
+    "version": "10.5",
+    "kills": 3389,
+    "loot_revid": 1210060,
+    "times": 244,
+    "evidence": "old statistics within the current rarity (uncommon)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/constructs/walker.lua",
+   "monster": "Walker",
+   "item": "metal toe",
+   "chance": 20744,
+   "from": 3548,
+   "source": {
+    "version": "10.5",
+    "kills": 3389,
+    "loot_revid": 1210060,
+    "times": 703,
+    "evidence": "old statistics within the current rarity (uncommon); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/constructs/walker.lua",
+   "monster": "Walker",
+   "item": "small emerald",
+   "chance": 4338,
+   "from": 6450,
+   "source": {
+    "version": "10.5",
+    "kills": 3389,
+    "loot_revid": 1210060,
+    "times": 147,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   }
   },
   {
    "kind": "max_count",
@@ -2112,6 +2294,36 @@
     "loot_revid": 1210067
    },
    "from": 100
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/constructs/worker_golem.lua",
+   "monster": "Worker Golem",
+   "item": "rusted armor",
+   "chance": 1543,
+   "from": 200,
+   "source": {
+    "version": "9.1",
+    "kills": 22943,
+    "loot_revid": 1210069,
+    "times": 354,
+    "evidence": "old statistics within the current rarity (semi-rare); confirmed by another version"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/constructs/worker_golem.lua",
+   "monster": "Worker Golem",
+   "item": "rusted legs",
+   "chance": 889,
+   "from": 50,
+   "source": {
+    "version": "9.1",
+    "kills": 22943,
+    "loot_revid": 1210069,
+    "times": 204,
+    "evidence": "old statistics within the current rarity (rare); confirmed by another version"
+   }
   },
   {
    "kind": "max_count",
@@ -2426,6 +2638,66 @@
     "loot_revid": 1212913,
     "evidence": "confirmed by another version",
     "times": 114
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/demons/broodrider_inferniarch.lua",
+   "monster": "Broodrider Inferniarch",
+   "item": "blue crystal splinter",
+   "chance": 5220,
+   "from": 300,
+   "source": {
+    "version": "8.6",
+    "kills": 43541,
+    "loot_revid": 1212914,
+    "times": 2273,
+    "evidence": "old statistics within the current rarity (uncommon); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/demons/broodrider_inferniarch.lua",
+   "monster": "Broodrider Inferniarch",
+   "item": "demonic core essence",
+   "chance": 2666,
+   "from": 100,
+   "source": {
+    "version": "8.6",
+    "kills": 43541,
+    "loot_revid": 1212914,
+    "times": 1161,
+    "evidence": "old statistics within the current rarity (semi-rare); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/demons/broodrider_inferniarch.lua",
+   "monster": "Broodrider Inferniarch",
+   "item": "demonic matter",
+   "chance": 457,
+   "from": 4761,
+   "source": {
+    "version": "8.6",
+    "kills": 43541,
+    "loot_revid": 1212914,
+    "times": 199,
+    "evidence": "old statistics within the current rarity (rare); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/demons/broodrider_inferniarch.lua",
+   "monster": "Broodrider Inferniarch",
+   "item": "mummified demon finger",
+   "chance": 1017,
+   "from": 155,
+   "source": {
+    "version": "8.6",
+    "kills": 43541,
+    "loot_revid": 1212914,
+    "times": 443,
+    "evidence": "old statistics within the current rarity (rare); single large sample"
    }
   },
   {
@@ -2744,6 +3016,36 @@
    "from": 7470
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/demons/demon_outcast.lua",
+   "monster": "Demon Outcast",
+   "item": "crown armor",
+   "id": 3381,
+   "chance": 283,
+   "source": {
+    "version": "10.3",
+    "kills": 34226,
+    "loot_revid": 1201758,
+    "times": 97,
+    "evidence": "old statistics within the current rarity (very rare)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/demons/demon_outcast.lua",
+   "monster": "Demon Outcast",
+   "item": "cluster of solace",
+   "chance": 465,
+   "from": 4550,
+   "source": {
+    "version": "10.3",
+    "kills": 34226,
+    "loot_revid": 1201758,
+    "times": 159,
+    "evidence": "old statistics within the current rarity (rare); single large sample"
+   }
+  },
+  {
    "kind": "chance",
    "file": "data-otservbr-global/monster/demons/destroyer.lua",
    "monster": "Destroyer",
@@ -2771,6 +3073,66 @@
    "from": 100
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/demons/floating_savant.lua",
+   "monster": "Floating Savant",
+   "item": "book of necromantic rituals",
+   "id": 10320,
+   "chance": 19823,
+   "source": {
+    "version": "8.6",
+    "kills": 7022,
+    "loot_revid": 1209672,
+    "times": 1392,
+    "evidence": "old statistics within the current rarity (uncommon)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/demons/floating_savant.lua",
+   "monster": "Floating Savant",
+   "item": "pick",
+   "chance": 5212,
+   "from": 10000,
+   "source": {
+    "version": "8.6",
+    "kills": 7022,
+    "loot_revid": 1209672,
+    "times": 366,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/demons/floating_savant.lua",
+   "monster": "Floating Savant",
+   "item": "red gem",
+   "chance": 71347,
+   "from": 10000,
+   "source": {
+    "version": "8.6",
+    "kills": 7022,
+    "loot_revid": 1209672,
+    "times": 5010,
+    "evidence": "old statistics within the current rarity (common); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/demons/floating_savant.lua",
+   "monster": "Floating Savant",
+   "item": "red piece of cloth",
+   "chance": 30291,
+   "from": 10000,
+   "source": {
+    "version": "8.6",
+    "kills": 7022,
+    "loot_revid": 1209672,
+    "times": 2127,
+    "evidence": "old statistics within the current rarity (common)"
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/demons/floating_savant.lua",
    "monster": "Floating Savant",
@@ -2795,6 +3157,36 @@
     "loot_revid": 1209672
    },
    "from": 5
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/demons/frost_flower_asura.lua",
+   "monster": "Frost Flower Asura",
+   "item": "hailstorm rod",
+   "chance": 1187,
+   "from": 19520,
+   "source": {
+    "version": "8.6",
+    "kills": 4298,
+    "loot_revid": 1212411,
+    "times": 51,
+    "evidence": "old statistics within the current rarity (semi-rare); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/demons/frost_flower_asura.lua",
+   "monster": "Frost Flower Asura",
+   "item": "northwind rod",
+   "chance": 3188,
+   "from": 19520,
+   "source": {
+    "version": "8.6",
+    "kills": 4298,
+    "loot_revid": 1212411,
+    "times": 137,
+    "evidence": "old statistics within the current rarity (semi-rare); single large sample"
+   }
   },
   {
    "kind": "max_count",
@@ -2965,6 +3357,66 @@
     "revid": 1191655
    },
    "from": 3600
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/demons/gorger_inferniarch.lua",
+   "monster": "Gorger Inferniarch",
+   "item": "demonic core essence",
+   "chance": 2570,
+   "from": 100,
+   "source": {
+    "version": "8.6",
+    "kills": 38605,
+    "loot_revid": 1212976,
+    "times": 992,
+    "evidence": "old statistics within the current rarity (semi-rare); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/demons/gorger_inferniarch.lua",
+   "monster": "Gorger Inferniarch",
+   "item": "demonic matter",
+   "chance": 464,
+   "from": 4761,
+   "source": {
+    "version": "8.6",
+    "kills": 38605,
+    "loot_revid": 1212976,
+    "times": 179,
+    "evidence": "old statistics within the current rarity (rare); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/demons/gorger_inferniarch.lua",
+   "monster": "Gorger Inferniarch",
+   "item": "gold nugget",
+   "chance": 461,
+   "from": 4761,
+   "source": {
+    "version": "8.6",
+    "kills": 38605,
+    "loot_revid": 1212976,
+    "times": 178,
+    "evidence": "old statistics within the current rarity (very rare); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/demons/gorger_inferniarch.lua",
+   "monster": "Gorger Inferniarch",
+   "item": "mummified demon finger",
+   "chance": 971,
+   "from": 155,
+   "source": {
+    "version": "8.6",
+    "kills": 38605,
+    "loot_revid": 1212976,
+    "times": 375,
+    "evidence": "old statistics within the current rarity (rare); single large sample"
+   }
   },
   {
    "kind": "chance",
@@ -4886,6 +5338,66 @@
   },
   {
    "kind": "chance",
+   "file": "data-otservbr-global/monster/demons/sineater_inferniarch.lua",
+   "monster": "Sineater Inferniarch",
+   "item": "demonic core essence",
+   "chance": 2570,
+   "from": 100,
+   "source": {
+    "version": "8.6",
+    "kills": 40156,
+    "loot_revid": 1213042,
+    "times": 1032,
+    "evidence": "old statistics within the current rarity (semi-rare); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/demons/sineater_inferniarch.lua",
+   "monster": "Sineater Inferniarch",
+   "item": "demonic matter",
+   "chance": 540,
+   "from": 4761,
+   "source": {
+    "version": "8.6",
+    "kills": 40156,
+    "loot_revid": 1213042,
+    "times": 217,
+    "evidence": "old statistics within the current rarity (rare); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/demons/sineater_inferniarch.lua",
+   "monster": "Sineater Inferniarch",
+   "item": "great mana potion",
+   "chance": 6577,
+   "from": 2846,
+   "source": {
+    "version": "8.6",
+    "kills": 40156,
+    "loot_revid": 1213042,
+    "times": 2641,
+    "evidence": "old statistics within the current rarity (uncommon)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/demons/sineater_inferniarch.lua",
+   "monster": "Sineater Inferniarch",
+   "item": "mummified demon finger",
+   "chance": 1038,
+   "from": 155,
+   "source": {
+    "version": "8.6",
+    "kills": 40156,
+    "loot_revid": 1213042,
+    "times": 417,
+    "evidence": "old statistics within the current rarity (rare); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
    "file": "data-otservbr-global/monster/demons/spellreaper_inferniarch.lua",
    "monster": "Spellreaper Inferniarch",
    "item": "black pearl",
@@ -5849,6 +6361,22 @@
    "from": 50
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/dragons/dragon_lord.lua",
+   "monster": "Dragon Lord",
+   "item": "book (gemmed)",
+   "id": 401,
+   "chance": 9043,
+   "source": {
+    "version": "8.6",
+    "kills": 51080,
+    "loot_revid": 1212944,
+    "times": 4619,
+    "evidence": "old statistics within the current rarity (uncommon)"
+   },
+   "by_id": true
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/dragons/dragon_lord.lua",
    "monster": "Dragon Lord",
@@ -5899,6 +6427,21 @@
    "from": 100
   },
   {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/dragons/draken_elite.lua",
+   "monster": "Draken Elite",
+   "item": "zaoan legs",
+   "chance": 858,
+   "from": 1850,
+   "source": {
+    "version": "8.6",
+    "kills": 31933,
+    "loot_revid": 1201202,
+    "times": 274,
+    "evidence": "old statistics within the current rarity (rare)"
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/dragons/draken_elite.lua",
    "monster": "Draken Elite",
@@ -5925,6 +6468,51 @@
    "from": 2
   },
   {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/dragons/draken_spellweaver.lua",
+   "monster": "Draken Spellweaver",
+   "item": "focus cape",
+   "chance": 1479,
+   "from": 740,
+   "source": {
+    "version": "9.5",
+    "kills": 236116,
+    "loot_revid": 1212720,
+    "times": 3491,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/dragons/draken_spellweaver.lua",
+   "monster": "Draken Spellweaver",
+   "item": "green gem",
+   "chance": 1002,
+   "from": 1290,
+   "source": {
+    "version": "9.5",
+    "kills": 236116,
+    "loot_revid": 1212720,
+    "times": 2366,
+    "evidence": "old statistics within the current rarity (rare)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/dragons/draken_spellweaver.lua",
+   "monster": "Draken Spellweaver",
+   "item": "zaoan robe",
+   "chance": 796,
+   "from": 370,
+   "source": {
+    "version": "9.5",
+    "kills": 236116,
+    "loot_revid": 1212720,
+    "times": 1880,
+    "evidence": "old statistics within the current rarity (rare)"
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/dragons/draken_spellweaver.lua",
    "monster": "Draken Spellweaver",
@@ -5936,6 +6524,21 @@
     "loot_revid": 1212720
    },
    "from": 195
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/dragons/draken_warmaster.lua",
+   "monster": "Draken Warmaster",
+   "item": "zaoan legs",
+   "chance": 943,
+   "from": 1300,
+   "source": {
+    "version": "8.6",
+    "kills": 333499,
+    "loot_revid": 1212721,
+    "times": 3145,
+    "evidence": "old statistics within the current rarity (rare)"
+   }
   },
   {
    "kind": "max_count",
@@ -6033,6 +6636,37 @@
    "from": 1
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/dragons/frost_dragon.lua",
+   "monster": "Frost Dragon",
+   "item": "book (gemmed)",
+   "id": 401,
+   "chance": 8782,
+   "source": {
+    "version": "8.6",
+    "kills": 45820,
+    "loot_revid": 1211704,
+    "times": 4024,
+    "evidence": "old statistics within the current rarity (uncommon)"
+   },
+   "by_id": true
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/dragons/frost_dragon.lua",
+   "monster": "Frost Dragon",
+   "item": "strange helmet",
+   "chance": 465,
+   "from": 890,
+   "source": {
+    "version": "8.6",
+    "kills": 45820,
+    "loot_revid": 1211704,
+    "times": 213,
+    "evidence": "old statistics within the current rarity (very rare)"
+   }
+  },
+  {
    "kind": "element",
    "file": "data-otservbr-global/monster/dragons/frost_dragon.lua",
    "monster": "Frost Dragon",
@@ -6070,6 +6704,21 @@
    "from": 207
   },
   {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/dragons/frost_dragon_hatchling.lua",
+   "monster": "Frost Dragon Hatchling",
+   "item": "frosty heart",
+   "chance": 5031,
+   "from": 8570,
+   "source": {
+    "version": "8.6",
+    "kills": 33074,
+    "loot_revid": 1210488,
+    "times": 1664,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   }
+  },
+  {
    "kind": "element",
    "file": "data-otservbr-global/monster/dragons/frost_dragon_hatchling.lua",
    "monster": "Frost Dragon Hatchling",
@@ -6092,6 +6741,21 @@
     "loot_revid": 1210488
    },
    "from": 47
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/dragons/ghastly_dragon.lua",
+   "monster": "Ghastly Dragon",
+   "item": "guardian boots",
+   "chance": 214,
+   "from": 1010,
+   "source": {
+    "version": "9.5",
+    "kills": 23322,
+    "loot_revid": 1169901,
+    "times": 50,
+    "evidence": "old statistics within the current rarity (very rare)"
+   }
   },
   {
    "kind": "max_count",
@@ -6337,6 +7001,66 @@
    "from": 212
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/dragons/mega_dragon.lua",
+   "monster": "Mega Dragon",
+   "item": "ultimate health potion",
+   "id": 7643,
+   "chance": 5948,
+   "source": {
+    "version": "8.6",
+    "kills": 3749,
+    "loot_revid": 1201051,
+    "times": 223,
+    "evidence": "old statistics within the current rarity (uncommon)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/dragons/mega_dragon.lua",
+   "monster": "Mega Dragon",
+   "item": "ultimate mana potion",
+   "id": 23373,
+   "chance": 4321,
+   "source": {
+    "version": "8.6",
+    "kills": 3749,
+    "loot_revid": 1201051,
+    "times": 162,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/dragons/mega_dragon.lua",
+   "monster": "Mega Dragon",
+   "item": "blue gem",
+   "chance": 3921,
+   "from": 6790,
+   "source": {
+    "version": "8.6",
+    "kills": 3749,
+    "loot_revid": 1201051,
+    "times": 147,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/dragons/mega_dragon.lua",
+   "monster": "Mega Dragon",
+   "item": "red gem",
+   "chance": 5201,
+   "from": 10090,
+   "source": {
+    "version": "8.6",
+    "kills": 3749,
+    "loot_revid": 1201051,
+    "times": 195,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   }
+  },
+  {
    "kind": "element",
    "file": "data-otservbr-global/monster/dragons/mega_dragon.lua",
    "monster": "Mega Dragon",
@@ -6440,6 +7164,66 @@
     "revid": 1191706
    },
    "from": 5810
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/dragons/wyrm.lua",
+   "monster": "Wyrm",
+   "item": "composite hornbow",
+   "chance": 103,
+   "from": 950,
+   "source": {
+    "version": "8.6",
+    "kills": 78867,
+    "loot_revid": 1213452,
+    "times": 81,
+    "evidence": "old statistics within the current rarity (very rare); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/dragons/wyrm.lua",
+   "monster": "Wyrm",
+   "item": "small diamond",
+   "chance": 913,
+   "from": 1420,
+   "source": {
+    "version": "8.6",
+    "kills": 78867,
+    "loot_revid": 1213452,
+    "times": 720,
+    "evidence": "old statistics within the current rarity (rare)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/dragons/wyrm.lua",
+   "monster": "Wyrm",
+   "item": "wand of draconia",
+   "chance": 1022,
+   "from": 1420,
+   "source": {
+    "version": "8.6",
+    "kills": 78867,
+    "loot_revid": 1213452,
+    "times": 806,
+    "evidence": "old statistics within the current rarity (rare)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/dragons/wyrm.lua",
+   "monster": "Wyrm",
+   "item": "wand of starstorm",
+   "chance": 446,
+   "from": 1420,
+   "source": {
+    "version": "8.6",
+    "kills": 78867,
+    "loot_revid": 1213452,
+    "times": 352,
+    "evidence": "old statistics within the current rarity (very rare)"
+   }
   },
   {
    "kind": "max_count",
@@ -6563,6 +7347,21 @@
     "loot_revid": 1212120
    },
    "from": 100
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/elementals/earth_elemental.lua",
+   "monster": "Earth Elemental",
+   "item": "heavily rusted armor",
+   "chance": 5151,
+   "from": 350,
+   "source": {
+    "version": "9.1",
+    "kills": 96637,
+    "loot_revid": 1210472,
+    "times": 4978,
+    "evidence": "old statistics within the current rarity (semi-rare); confirmed by another version"
+   }
   },
   {
    "kind": "max_count",
@@ -7374,6 +8173,412 @@
   },
   {
    "kind": "add_loot",
+   "file": "data-otservbr-global/monster/event_creatures/grynch_clan_goblin.lua",
+   "monster": "Grynch Clan Goblin",
+   "item": "bottle",
+   "id": 2875,
+   "chance": 520,
+   "source": {
+    "version": "8.6",
+    "kills": 35611,
+    "loot_revid": 1169935,
+    "times": 185,
+    "evidence": "old statistics within the current rarity (rare)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/event_creatures/grynch_clan_goblin.lua",
+   "monster": "Grynch Clan Goblin",
+   "item": "broom",
+   "id": 3454,
+   "chance": 416,
+   "source": {
+    "version": "8.6",
+    "kills": 35611,
+    "loot_revid": 1169935,
+    "times": 148,
+    "evidence": "old statistics within the current rarity (very rare)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/event_creatures/grynch_clan_goblin.lua",
+   "monster": "Grynch Clan Goblin",
+   "item": "cream cake",
+   "id": 6393,
+   "chance": 104,
+   "source": {
+    "version": "8.6",
+    "kills": 35611,
+    "loot_revid": 1169935,
+    "times": 37,
+    "evidence": "old statistics within the current rarity (very rare)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/event_creatures/grynch_clan_goblin.lua",
+   "monster": "Grynch Clan Goblin",
+   "item": "rope",
+   "id": 3003,
+   "chance": 76,
+   "source": {
+    "version": "8.6",
+    "kills": 35611,
+    "loot_revid": 1169935,
+    "times": 27,
+    "evidence": "old statistics within the current rarity (very rare)"
+   },
+   "by_id": true
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/event_creatures/grynch_clan_goblin.lua",
+   "monster": "Grynch Clan Goblin",
+   "item": "small white pillow",
+   "id": 2392,
+   "chance": 70,
+   "source": {
+    "version": "8.6",
+    "kills": 35611,
+    "loot_revid": 1169935,
+    "times": 25,
+    "evidence": "old statistics within the current rarity (very rare)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/event_creatures/grynch_clan_goblin.lua",
+   "monster": "Grynch Clan Goblin",
+   "item": "snowman package",
+   "id": 10207,
+   "chance": 960,
+   "source": {
+    "version": "8.6",
+    "kills": 35611,
+    "loot_revid": 1169935,
+    "times": 342,
+    "evidence": "old statistics within the current rarity (rare)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/event_creatures/grynch_clan_goblin.lua",
+   "monster": "Grynch Clan Goblin",
+   "item": "watch",
+   "id": 2906,
+   "chance": 121,
+   "source": {
+    "version": "8.6",
+    "kills": 35611,
+    "loot_revid": 1169935,
+    "times": 43,
+    "evidence": "old statistics within the current rarity (very rare)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/event_creatures/grynch_clan_goblin.lua",
+   "monster": "Grynch Clan Goblin",
+   "item": "bat wing",
+   "chance": 618,
+   "from": 4000,
+   "source": {
+    "version": "8.6",
+    "kills": 35611,
+    "loot_revid": 1169935,
+    "times": 220,
+    "evidence": "old statistics within the current rarity (rare); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/event_creatures/grynch_clan_goblin.lua",
+   "monster": "Grynch Clan Goblin",
+   "item": "blank rune",
+   "chance": 110,
+   "from": 5000,
+   "source": {
+    "version": "8.6",
+    "kills": 35611,
+    "loot_revid": 1169935,
+    "times": 39,
+    "evidence": "old statistics within the current rarity (very rare); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/event_creatures/grynch_clan_goblin.lua",
+   "monster": "Grynch Clan Goblin",
+   "item": "candy cane",
+   "chance": 988,
+   "from": 5000,
+   "source": {
+    "version": "8.6",
+    "kills": 35611,
+    "loot_revid": 1169935,
+    "times": 352,
+    "evidence": "old statistics within the current rarity (rare); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/event_creatures/grynch_clan_goblin.lua",
+   "monster": "Grynch Clan Goblin",
+   "item": "cherry",
+   "chance": 306,
+   "from": 7000,
+   "source": {
+    "version": "8.6",
+    "kills": 35611,
+    "loot_revid": 1169935,
+    "times": 109,
+    "evidence": "old statistics within the current rarity (very rare); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/event_creatures/grynch_clan_goblin.lua",
+   "monster": "Grynch Clan Goblin",
+   "item": "chicken feather",
+   "chance": 424,
+   "from": 4000,
+   "source": {
+    "version": "8.6",
+    "kills": 35611,
+    "loot_revid": 1169935,
+    "times": 151,
+    "evidence": "old statistics within the current rarity (very rare); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/event_creatures/grynch_clan_goblin.lua",
+   "monster": "Grynch Clan Goblin",
+   "item": "christmas present bag",
+   "chance": 30168,
+   "from": 7000,
+   "source": {
+    "version": "8.6",
+    "kills": 35611,
+    "loot_revid": 1169935,
+    "times": 10743,
+    "evidence": "old statistics within the current rarity (common)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/event_creatures/grynch_clan_goblin.lua",
+   "monster": "Grynch Clan Goblin",
+   "item": "die",
+   "chance": 124,
+   "from": 1000,
+   "source": {
+    "version": "8.6",
+    "kills": 35611,
+    "loot_revid": 1169935,
+    "times": 44,
+    "evidence": "old statistics within the current rarity (very rare); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/event_creatures/grynch_clan_goblin.lua",
+   "monster": "Grynch Clan Goblin",
+   "item": "egg",
+   "chance": 1045,
+   "from": 5000,
+   "source": {
+    "version": "8.6",
+    "kills": 35611,
+    "loot_revid": 1169935,
+    "times": 372,
+    "evidence": "old statistics within the current rarity (rare)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/event_creatures/grynch_clan_goblin.lua",
+   "monster": "Grynch Clan Goblin",
+   "item": "explorer brooch",
+   "chance": 505,
+   "from": 4000,
+   "source": {
+    "version": "8.6",
+    "kills": 35611,
+    "loot_revid": 1169935,
+    "times": 180,
+    "evidence": "old statistics within the current rarity (rare); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/event_creatures/grynch_clan_goblin.lua",
+   "monster": "Grynch Clan Goblin",
+   "item": "gingerbreadman",
+   "chance": 432,
+   "from": 4000,
+   "source": {
+    "version": "8.6",
+    "kills": 35611,
+    "loot_revid": 1169935,
+    "times": 154,
+    "evidence": "old statistics within the current rarity (very rare); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/event_creatures/grynch_clan_goblin.lua",
+   "monster": "Grynch Clan Goblin",
+   "item": "honeycomb",
+   "chance": 359,
+   "from": 4000,
+   "source": {
+    "version": "8.6",
+    "kills": 35611,
+    "loot_revid": 1169935,
+    "times": 128,
+    "evidence": "old statistics within the current rarity (very rare); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/event_creatures/grynch_clan_goblin.lua",
+   "monster": "Grynch Clan Goblin",
+   "item": "lump of cake dough",
+   "chance": 4903,
+   "from": 7000,
+   "source": {
+    "version": "8.6",
+    "kills": 35611,
+    "loot_revid": 1169935,
+    "times": 1746,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/event_creatures/grynch_clan_goblin.lua",
+   "monster": "Grynch Clan Goblin",
+   "item": "lute",
+   "chance": 98,
+   "from": 5000,
+   "source": {
+    "version": "8.6",
+    "kills": 35611,
+    "loot_revid": 1169935,
+    "times": 35,
+    "evidence": "old statistics within the current rarity (very rare); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/event_creatures/grynch_clan_goblin.lua",
+   "monster": "Grynch Clan Goblin",
+   "item": "magic light wand",
+   "chance": 115,
+   "from": 4000,
+   "source": {
+    "version": "8.6",
+    "kills": 35611,
+    "loot_revid": 1169935,
+    "times": 41,
+    "evidence": "old statistics within the current rarity (very rare); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/event_creatures/grynch_clan_goblin.lua",
+   "monster": "Grynch Clan Goblin",
+   "item": "orange",
+   "chance": 5139,
+   "from": 7000,
+   "source": {
+    "version": "8.6",
+    "kills": 35611,
+    "loot_revid": 1169935,
+    "times": 1830,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/event_creatures/grynch_clan_goblin.lua",
+   "monster": "Grynch Clan Goblin",
+   "item": "peanut",
+   "chance": 924,
+   "from": 3500,
+   "source": {
+    "version": "8.6",
+    "kills": 35611,
+    "loot_revid": 1169935,
+    "times": 329,
+    "evidence": "old statistics within the current rarity (rare)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/event_creatures/grynch_clan_goblin.lua",
+   "monster": "Grynch Clan Goblin",
+   "item": "piggy bank",
+   "chance": 95,
+   "from": 1000,
+   "source": {
+    "version": "8.6",
+    "kills": 35611,
+    "loot_revid": 1169935,
+    "times": 34,
+    "evidence": "old statistics within the current rarity (very rare); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/event_creatures/grynch_clan_goblin.lua",
+   "monster": "Grynch Clan Goblin",
+   "item": "red apple",
+   "chance": 9927,
+   "from": 700,
+   "source": {
+    "version": "8.6",
+    "kills": 35611,
+    "loot_revid": 1169935,
+    "times": 3535,
+    "evidence": "old statistics within the current rarity (uncommon); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/event_creatures/grynch_clan_goblin.lua",
+   "monster": "Grynch Clan Goblin",
+   "item": "scarf",
+   "chance": 755,
+   "from": 4000,
+   "source": {
+    "version": "8.6",
+    "kills": 35611,
+    "loot_revid": 1169935,
+    "times": 269,
+    "evidence": "old statistics within the current rarity (rare); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/event_creatures/grynch_clan_goblin.lua",
+   "monster": "Grynch Clan Goblin",
+   "item": "valentine's cake",
+   "chance": 98,
+   "from": 1500,
+   "source": {
+    "version": "8.6",
+    "kills": 35611,
+    "loot_revid": 1169935,
+    "times": 35,
+    "evidence": "old statistics within the current rarity (very rare); single large sample"
+   }
+  },
+  {
+   "kind": "add_loot",
    "file": "data-otservbr-global/monster/extra_dimensional/breach_brood.lua",
    "monster": "Breach Brood",
    "item": "blue gem",
@@ -7802,6 +9007,97 @@
    "from": 100
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/extra_dimensional/instable_sparkion.lua",
+   "monster": "Instable Sparkion",
+   "item": "cyan crystal fragment",
+   "id": 16125,
+   "chance": 5672,
+   "source": {
+    "version": "11.41",
+    "kills": 9433,
+    "loot_revid": 1207097,
+    "times": 535,
+    "evidence": "old statistics within the current rarity (uncommon)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/extra_dimensional/instable_sparkion.lua",
+   "monster": "Instable Sparkion",
+   "item": "small sapphire",
+   "id": 3029,
+   "chance": 5269,
+   "source": {
+    "version": "11.41",
+    "kills": 9433,
+    "loot_revid": 1207097,
+    "times": 497,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   },
+   "maxCount": 2
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/extra_dimensional/instable_sparkion.lua",
+   "monster": "Instable Sparkion",
+   "item": "wand of cosmic energy",
+   "id": 3073,
+   "chance": 498,
+   "source": {
+    "version": "11.41",
+    "kills": 9433,
+    "loot_revid": 1207097,
+    "times": 47,
+    "evidence": "old statistics within the current rarity (rare)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/extra_dimensional/instable_sparkion.lua",
+   "monster": "Instable Sparkion",
+   "item": "blue crystal splinter",
+   "chance": 8417,
+   "from": 2600,
+   "source": {
+    "version": "11.41",
+    "kills": 9433,
+    "loot_revid": 1207097,
+    "times": 794,
+    "evidence": "old statistics within the current rarity (uncommon)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/extra_dimensional/instable_sparkion.lua",
+   "monster": "Instable Sparkion",
+   "item": "sparkion stings",
+   "chance": 6923,
+   "from": 3500,
+   "source": {
+    "version": "11.41",
+    "kills": 9433,
+    "loot_revid": 1207097,
+    "times": 653,
+    "evidence": "old statistics within the current rarity (uncommon)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/extra_dimensional/mitmah_scout.lua",
+   "monster": "Mitmah Scout",
+   "item": "ceremonial brush",
+   "id": 44433,
+   "chance": 577,
+   "source": {
+    "version": "8.6",
+    "kills": 10918,
+    "loot_revid": 1210219,
+    "times": 63,
+    "evidence": "old statistics within the current rarity (rare)"
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/extra_dimensional/mitmah_scout.lua",
    "monster": "Mitmah Scout",
@@ -8121,6 +9417,66 @@
     "times": 2751
    },
    "from": 9100
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/extra_dimensional/stabilizing_dread_intruder.lua",
+   "monster": "Stabilizing Dread Intruder",
+   "item": "violet gem",
+   "id": 3036,
+   "chance": 199,
+   "source": {
+    "version": "8.6",
+    "kills": 6526,
+    "loot_revid": 1212393,
+    "times": 13,
+    "evidence": "old statistics within the current rarity (very rare)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/extra_dimensional/stabilizing_dread_intruder.lua",
+   "monster": "Stabilizing Dread Intruder",
+   "item": "cyan crystal fragment",
+   "chance": 5317,
+   "from": 3300,
+   "source": {
+    "version": "8.6",
+    "kills": 6526,
+    "loot_revid": 1212393,
+    "times": 347,
+    "evidence": "old statistics within the current rarity (uncommon)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/extra_dimensional/stabilizing_reality_reaver.lua",
+   "monster": "Stabilizing Reality Reaver",
+   "item": "focus cape",
+   "id": 8043,
+   "chance": 124,
+   "source": {
+    "version": "8.6",
+    "kills": 6440,
+    "loot_revid": 1212394,
+    "times": 8,
+    "evidence": "old statistics within the current rarity (very rare)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/extra_dimensional/stabilizing_reality_reaver.lua",
+   "monster": "Stabilizing Reality Reaver",
+   "item": "lightning headband",
+   "id": 828,
+   "chance": 140,
+   "source": {
+    "version": "8.6",
+    "kills": 6440,
+    "loot_revid": 1212394,
+    "times": 9,
+    "evidence": "old statistics within the current rarity (very rare)"
+   }
   },
   {
    "kind": "chance",
@@ -8525,6 +9881,144 @@
    "from": 4
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/fey/dryad.lua",
+   "monster": "Dryad",
+   "item": "carrot on a stick",
+   "id": 12311,
+   "chance": 190,
+   "source": {
+    "version": "8.6",
+    "kills": 30570,
+    "loot_revid": 1201207,
+    "times": 58,
+    "evidence": "old statistics within the current rarity (very rare)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/fey/dryad.lua",
+   "monster": "Dryad",
+   "item": "coconut shoes",
+   "id": 9017,
+   "chance": 1106,
+   "source": {
+    "version": "8.6",
+    "kills": 30570,
+    "loot_revid": 1201207,
+    "times": 338,
+    "evidence": "old statistics within the current rarity (rare)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/fey/dryad.lua",
+   "monster": "Dryad",
+   "item": "flower dress",
+   "id": 9015,
+   "chance": 1030,
+   "source": {
+    "version": "8.6",
+    "kills": 30570,
+    "loot_revid": 1201207,
+    "times": 315,
+    "evidence": "old statistics within the current rarity (rare)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/fey/dryad.lua",
+   "monster": "Dryad",
+   "item": "flower wreath",
+   "id": 9013,
+   "chance": 1060,
+   "source": {
+    "version": "8.6",
+    "kills": 30570,
+    "loot_revid": 1201207,
+    "times": 324,
+    "evidence": "old statistics within the current rarity (rare)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/fey/dryad.lua",
+   "monster": "Dryad",
+   "item": "leaf legs",
+   "id": 9014,
+   "chance": 1089,
+   "source": {
+    "version": "8.6",
+    "kills": 30570,
+    "loot_revid": 1201207,
+    "times": 333,
+    "evidence": "old statistics within the current rarity (rare)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/fey/dryad.lua",
+   "monster": "Dryad",
+   "item": "orange mushroom",
+   "id": 3726,
+   "chance": 828,
+   "source": {
+    "version": "8.6",
+    "kills": 30570,
+    "loot_revid": 1201207,
+    "times": 253,
+    "evidence": "old statistics within the current rarity (rare)"
+   },
+   "maxCount": 2
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/fey/dryad.lua",
+   "monster": "Dryad",
+   "item": "seeds",
+   "id": 647,
+   "chance": 5002,
+   "source": {
+    "version": "8.6",
+    "kills": 30570,
+    "loot_revid": 1201207,
+    "times": 1529,
+    "evidence": "old statistics within the current rarity (uncommon)"
+   },
+   "maxCount": 2
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/fey/dryad.lua",
+   "monster": "Dryad",
+   "item": "small amethyst",
+   "id": 3033,
+   "chance": 95,
+   "source": {
+    "version": "8.6",
+    "kills": 30570,
+    "loot_revid": 1201207,
+    "times": 29,
+    "evidence": "old statistics within the current rarity (very rare)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/fey/dryad.lua",
+   "monster": "Dryad",
+   "item": "white mushroom",
+   "id": 3723,
+   "chance": 55175,
+   "source": {
+    "version": "8.6",
+    "kills": 30570,
+    "loot_revid": 1201207,
+    "times": 16867,
+    "evidence": "old statistics within the current rarity (common)"
+   },
+   "maxCount": 2
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/fey/dryad.lua",
    "monster": "Dryad",
@@ -8536,6 +10030,141 @@
     "loot_revid": 1201207
    },
    "from": 20
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/fey/faun.lua",
+   "monster": "Faun",
+   "item": "cookie",
+   "chance": 6144,
+   "from": 55000,
+   "source": {
+    "version": "8.6",
+    "kills": 14095,
+    "loot_revid": 1213368,
+    "times": 866,
+    "evidence": "old statistics within the current rarity (uncommon); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/fey/faun.lua",
+   "monster": "Faun",
+   "item": "fresh fruit",
+   "chance": 9805,
+   "from": 3400,
+   "source": {
+    "version": "8.6",
+    "kills": 14095,
+    "loot_revid": 1213368,
+    "times": 1382,
+    "evidence": "old statistics within the current rarity (uncommon)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/fey/faun.lua",
+   "monster": "Faun",
+   "item": "grapes",
+   "chance": 5066,
+   "from": 30100,
+   "source": {
+    "version": "8.6",
+    "kills": 14095,
+    "loot_revid": 1213368,
+    "times": 714,
+    "evidence": "old statistics within the current rarity (semi-rare); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/fey/faun.lua",
+   "monster": "Faun",
+   "item": "great health potion",
+   "chance": 3285,
+   "from": 6400,
+   "source": {
+    "version": "8.6",
+    "kills": 14095,
+    "loot_revid": 1213368,
+    "times": 463,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/fey/faun.lua",
+   "monster": "Faun",
+   "item": "panpipes",
+   "chance": 5293,
+   "from": 172,
+   "source": {
+    "version": "8.6",
+    "kills": 14095,
+    "loot_revid": 1213368,
+    "times": 746,
+    "evidence": "old statistics within the current rarity (semi-rare); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/fey/faun.lua",
+   "monster": "Faun",
+   "item": "shimmering beetles",
+   "chance": 9926,
+   "from": 492,
+   "source": {
+    "version": "8.6",
+    "kills": 14095,
+    "loot_revid": 1213368,
+    "times": 1399,
+    "evidence": "old statistics within the current rarity (uncommon); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/fey/faun.lua",
+   "monster": "Faun",
+   "item": "small enchanted sapphire",
+   "chance": 2568,
+   "from": 492,
+   "source": {
+    "version": "8.6",
+    "kills": 14095,
+    "loot_revid": 1213368,
+    "times": 362,
+    "evidence": "old statistics within the current rarity (semi-rare); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/fey/faun.lua",
+   "monster": "Faun",
+   "item": "small stone",
+   "chance": 5186,
+   "from": 492,
+   "source": {
+    "version": "8.6",
+    "kills": 14095,
+    "loot_revid": 1213368,
+    "times": 731,
+    "evidence": "old statistics within the current rarity (semi-rare); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/fey/faun.lua",
+   "monster": "Faun",
+   "item": "wood cape",
+   "chance": 2277,
+   "from": 492,
+   "source": {
+    "version": "8.6",
+    "kills": 14095,
+    "loot_revid": 1213368,
+    "times": 321,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   }
   },
   {
    "kind": "max_count",
@@ -8641,6 +10270,171 @@
    "from": 20
   },
   {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/fey/pixie.lua",
+   "monster": "Pixie",
+   "item": "colourful snail shell",
+   "chance": 9763,
+   "from": 719,
+   "source": {
+    "version": "8.6",
+    "kills": 17516,
+    "loot_revid": 1213370,
+    "times": 1710,
+    "evidence": "old statistics within the current rarity (uncommon); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/fey/pixie.lua",
+   "monster": "Pixie",
+   "item": "dream blossom staff",
+   "chance": 559,
+   "from": 92,
+   "source": {
+    "version": "8.6",
+    "kills": 17516,
+    "loot_revid": 1213370,
+    "times": 98,
+    "evidence": "old statistics within the current rarity (rare); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/fey/pixie.lua",
+   "monster": "Pixie",
+   "item": "fresh fruit",
+   "chance": 10054,
+   "from": 3400,
+   "source": {
+    "version": "8.6",
+    "kills": 17516,
+    "loot_revid": 1213370,
+    "times": 1761,
+    "evidence": "old statistics within the current rarity (uncommon)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/fey/pixie.lua",
+   "monster": "Pixie",
+   "item": "great mana potion",
+   "chance": 3266,
+   "from": 591,
+   "source": {
+    "version": "8.6",
+    "kills": 17516,
+    "loot_revid": 1213370,
+    "times": 572,
+    "evidence": "old statistics within the current rarity (semi-rare); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/fey/pixie.lua",
+   "monster": "Pixie",
+   "item": "green mushroom",
+   "chance": 1701,
+   "from": 492,
+   "source": {
+    "version": "8.6",
+    "kills": 17516,
+    "loot_revid": 1213370,
+    "times": 298,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/fey/pixie.lua",
+   "monster": "Pixie",
+   "item": "magic light wand",
+   "chance": 4436,
+   "from": 492,
+   "source": {
+    "version": "8.6",
+    "kills": 17516,
+    "loot_revid": 1213370,
+    "times": 777,
+    "evidence": "old statistics within the current rarity (semi-rare); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/fey/pixie.lua",
+   "monster": "Pixie",
+   "item": "rainbow quartz",
+   "chance": 2986,
+   "from": 719,
+   "source": {
+    "version": "8.6",
+    "kills": 17516,
+    "loot_revid": 1213370,
+    "times": 523,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/fey/pixie.lua",
+   "monster": "Pixie",
+   "item": "red rose",
+   "chance": 3146,
+   "from": 30100,
+   "source": {
+    "version": "8.6",
+    "kills": 17516,
+    "loot_revid": 1213370,
+    "times": 551,
+    "evidence": "old statistics within the current rarity (semi-rare); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/fey/pixie.lua",
+   "monster": "Pixie",
+   "item": "small enchanted amethyst",
+   "chance": 2061,
+   "from": 492,
+   "source": {
+    "version": "8.6",
+    "kills": 17516,
+    "loot_revid": 1213370,
+    "times": 361,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/fey/pixie.lua",
+   "monster": "Pixie",
+   "item": "star herb",
+   "chance": 4927,
+   "from": 719,
+   "source": {
+    "version": "8.6",
+    "kills": 17516,
+    "loot_revid": 1213370,
+    "times": 863,
+    "evidence": "old statistics within the current rarity (semi-rare); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/fey/pixie.lua",
+   "monster": "Pixie",
+   "item": "strong mana potion",
+   "chance": 891,
+   "from": 6800,
+   "source": {
+    "version": "8.6",
+    "kills": 17516,
+    "loot_revid": 1213370,
+    "times": 156,
+    "evidence": "old statistics within the current rarity (rare); single large sample"
+   }
+  },
+  {
    "kind": "immunity",
    "file": "data-otservbr-global/monster/fey/pixie.lua",
    "monster": "Pixie",
@@ -8674,6 +10468,127 @@
     "revid": 1191750
    },
    "from": 50
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/fey/pooka.lua",
+   "monster": "Pooka",
+   "item": "cookie",
+   "id": 3598,
+   "chance": 3838,
+   "source": {
+    "version": "8.6",
+    "kills": 8441,
+    "loot_revid": 1213371,
+    "times": 324,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   },
+   "maxCount": 5
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/fey/pooka.lua",
+   "monster": "Pooka",
+   "item": "carrot",
+   "chance": 19855,
+   "from": 55000,
+   "source": {
+    "version": "8.6",
+    "kills": 8441,
+    "loot_revid": 1213371,
+    "times": 1676,
+    "evidence": "old statistics within the current rarity (uncommon)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/fey/pooka.lua",
+   "monster": "Pooka",
+   "item": "dream blossom staff",
+   "chance": 438,
+   "from": 20,
+   "source": {
+    "version": "8.6",
+    "kills": 8441,
+    "loot_revid": 1213371,
+    "times": 37,
+    "evidence": "old statistics within the current rarity (rare); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/fey/pooka.lua",
+   "monster": "Pooka",
+   "item": "fern",
+   "chance": 2784,
+   "from": 30100,
+   "source": {
+    "version": "8.6",
+    "kills": 8441,
+    "loot_revid": 1213371,
+    "times": 235,
+    "evidence": "old statistics within the current rarity (semi-rare); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/fey/pooka.lua",
+   "monster": "Pooka",
+   "item": "orange mushroom",
+   "chance": 2689,
+   "from": 10000,
+   "source": {
+    "version": "8.6",
+    "kills": 8441,
+    "loot_revid": 1213371,
+    "times": 227,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/fey/pooka.lua",
+   "monster": "Pooka",
+   "item": "shimmering beetles",
+   "chance": 10520,
+   "from": 591,
+   "source": {
+    "version": "8.6",
+    "kills": 8441,
+    "loot_revid": 1213371,
+    "times": 888,
+    "evidence": "old statistics within the current rarity (uncommon); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/fey/pooka.lua",
+   "monster": "Pooka",
+   "item": "small stone",
+   "chance": 4928,
+   "from": 200,
+   "source": {
+    "version": "8.6",
+    "kills": 8441,
+    "loot_revid": 1213371,
+    "times": 416,
+    "evidence": "old statistics within the current rarity (semi-rare); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/fey/pooka.lua",
+   "monster": "Pooka",
+   "item": "strong health potion",
+   "chance": 12463,
+   "from": 719,
+   "source": {
+    "version": "8.6",
+    "kills": 8441,
+    "loot_revid": 1213371,
+    "times": 1052,
+    "evidence": "old statistics within the current rarity (uncommon); single large sample"
+   }
   },
   {
    "kind": "max_count",
@@ -8735,6 +10650,201 @@
     "revid": 1191758
    },
    "from": false
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/fey/swan_maiden.lua",
+   "monster": "Swan Maiden",
+   "item": "boots of haste",
+   "chance": 847,
+   "from": 50,
+   "source": {
+    "version": "8.6",
+    "kills": 12509,
+    "loot_revid": 1213372,
+    "times": 106,
+    "evidence": "old statistics within the current rarity (rare); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/fey/swan_maiden.lua",
+   "monster": "Swan Maiden",
+   "item": "butterfly ring",
+   "chance": 735,
+   "from": 100,
+   "source": {
+    "version": "8.6",
+    "kills": 12509,
+    "loot_revid": 1213372,
+    "times": 92,
+    "evidence": "old statistics within the current rarity (rare); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/fey/swan_maiden.lua",
+   "monster": "Swan Maiden",
+   "item": "clerical mace",
+   "chance": 975,
+   "from": 5155,
+   "source": {
+    "version": "8.6",
+    "kills": 12509,
+    "loot_revid": 1213372,
+    "times": 122,
+    "evidence": "old statistics within the current rarity (rare); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/fey/swan_maiden.lua",
+   "monster": "Swan Maiden",
+   "item": "diamond sceptre",
+   "chance": 376,
+   "from": 3400,
+   "source": {
+    "version": "8.6",
+    "kills": 12509,
+    "loot_revid": 1213372,
+    "times": 47,
+    "evidence": "old statistics within the current rarity (very rare); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/fey/swan_maiden.lua",
+   "monster": "Swan Maiden",
+   "item": "flower wreath",
+   "chance": 416,
+   "from": 3400,
+   "source": {
+    "version": "8.6",
+    "kills": 12509,
+    "loot_revid": 1213372,
+    "times": 52,
+    "evidence": "old statistics within the current rarity (rare); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/fey/swan_maiden.lua",
+   "monster": "Swan Maiden",
+   "item": "great mana potion",
+   "chance": 3158,
+   "from": 591,
+   "source": {
+    "version": "8.6",
+    "kills": 12509,
+    "loot_revid": 1213372,
+    "times": 395,
+    "evidence": "old statistics within the current rarity (semi-rare); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/fey/swan_maiden.lua",
+   "monster": "Swan Maiden",
+   "item": "green mushroom",
+   "chance": 1351,
+   "from": 492,
+   "source": {
+    "version": "8.6",
+    "kills": 12509,
+    "loot_revid": 1213372,
+    "times": 169,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/fey/swan_maiden.lua",
+   "monster": "Swan Maiden",
+   "item": "opal",
+   "chance": 1863,
+   "from": 492,
+   "source": {
+    "version": "8.6",
+    "kills": 12509,
+    "loot_revid": 1213372,
+    "times": 233,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/fey/swan_maiden.lua",
+   "monster": "Swan Maiden",
+   "item": "small enchanted emerald",
+   "chance": 2630,
+   "from": 492,
+   "source": {
+    "version": "8.6",
+    "kills": 12509,
+    "loot_revid": 1213372,
+    "times": 329,
+    "evidence": "old statistics within the current rarity (semi-rare); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/fey/swan_maiden.lua",
+   "monster": "Swan Maiden",
+   "item": "strong mana potion",
+   "chance": 831,
+   "from": 6800,
+   "source": {
+    "version": "8.6",
+    "kills": 12509,
+    "loot_revid": 1213372,
+    "times": 104,
+    "evidence": "old statistics within the current rarity (rare); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/fey/swan_maiden.lua",
+   "monster": "Swan Maiden",
+   "item": "summer dress",
+   "chance": 464,
+   "from": 3400,
+   "source": {
+    "version": "8.6",
+    "kills": 12509,
+    "loot_revid": 1213372,
+    "times": 58,
+    "evidence": "old statistics within the current rarity (rare); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/fey/swan_maiden.lua",
+   "monster": "Swan Maiden",
+   "item": "white pearl",
+   "chance": 2015,
+   "from": 492,
+   "source": {
+    "version": "8.6",
+    "kills": 12509,
+    "loot_revid": 1213372,
+    "times": 252,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/fey/swan_maiden.lua",
+   "monster": "Swan Maiden",
+   "item": "wild flowers",
+   "chance": 20058,
+   "from": 3400,
+   "source": {
+    "version": "8.6",
+    "kills": 12509,
+    "loot_revid": 1213372,
+    "times": 2509,
+    "evidence": "old statistics within the current rarity (uncommon); single large sample"
+   }
   },
   {
    "kind": "add_loot",
@@ -8867,6 +10977,21 @@
    "from": 100
   },
   {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/giants/cyclops_smith.lua",
+   "monster": "Cyclops Smith",
+   "item": "strong health potion",
+   "chance": 529,
+   "from": 390,
+   "source": {
+    "version": "8.6",
+    "kills": 34395,
+    "loot_revid": 1212933,
+    "times": 182,
+    "evidence": "old statistics within the current rarity (rare)"
+   }
+  },
+  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/giants/frost_giantess.lua",
    "monster": "Frost Giantess",
@@ -8931,6 +11056,68 @@
     "revid": 1197350
    },
    "from": 12690
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/giants/ogre_brute.lua",
+   "monster": "Ogre Brute",
+   "item": "ancient stone",
+   "id": 9632,
+   "chance": 198,
+   "source": {
+    "version": "8.6",
+    "kills": 11637,
+    "loot_revid": 1208333,
+    "times": 23,
+    "evidence": "old statistics within the current rarity (very rare)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/giants/ogre_brute.lua",
+   "monster": "Ogre Brute",
+   "item": "club ring",
+   "id": 3093,
+   "chance": 2346,
+   "source": {
+    "version": "8.6",
+    "kills": 11637,
+    "loot_revid": 1208333,
+    "times": 273,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   },
+   "by_id": true
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/giants/ogre_brute.lua",
+   "monster": "Ogre Brute",
+   "item": "small stone",
+   "id": 1781,
+   "chance": 4984,
+   "source": {
+    "version": "8.6",
+    "kills": 11637,
+    "loot_revid": 1208333,
+    "times": 580,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   },
+   "maxCount": 5
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/giants/ogre_brute.lua",
+   "monster": "Ogre Brute",
+   "item": "ogre nose ring",
+   "chance": 14660,
+   "from": 1200,
+   "source": {
+    "version": "8.6",
+    "kills": 11637,
+    "loot_revid": 1208333,
+    "times": 1706,
+    "evidence": "old statistics within the current rarity (uncommon); single large sample"
+   }
   },
   {
    "kind": "max_count",
@@ -9477,6 +11664,126 @@
    "from": 4550
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/giants/ogre_savage.lua",
+   "monster": "Ogre Savage",
+   "item": "ogre choppa",
+   "id": 22172,
+   "chance": 1027,
+   "source": {
+    "version": "8.6",
+    "kills": 6328,
+    "loot_revid": 1208331,
+    "times": 65,
+    "evidence": "old statistics within the current rarity (rare)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/giants/ogre_savage.lua",
+   "monster": "Ogre Savage",
+   "item": "cookie",
+   "chance": 8233,
+   "from": 2200,
+   "source": {
+    "version": "8.6",
+    "kills": 6328,
+    "loot_revid": 1208331,
+    "times": 521,
+    "evidence": "old statistics within the current rarity (uncommon)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/giants/ogre_savage.lua",
+   "monster": "Ogre Savage",
+   "item": "mysterious fetish",
+   "chance": 6495,
+   "from": 2200,
+   "source": {
+    "version": "8.6",
+    "kills": 6328,
+    "loot_revid": 1208331,
+    "times": 411,
+    "evidence": "old statistics within the current rarity (uncommon)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/giants/ogre_savage.lua",
+   "monster": "Ogre Savage",
+   "item": "ogre ear stud",
+   "chance": 19390,
+   "from": 1200,
+   "source": {
+    "version": "8.6",
+    "kills": 6328,
+    "loot_revid": 1208331,
+    "times": 1227,
+    "evidence": "old statistics within the current rarity (uncommon); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/giants/ogre_savage.lua",
+   "monster": "Ogre Savage",
+   "item": "ogre nose ring",
+   "chance": 17968,
+   "from": 1200,
+   "source": {
+    "version": "8.6",
+    "kills": 6328,
+    "loot_revid": 1208331,
+    "times": 1137,
+    "evidence": "old statistics within the current rarity (uncommon); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/giants/ogre_savage.lua",
+   "monster": "Ogre Savage",
+   "item": "skull fetish",
+   "chance": 9640,
+   "from": 1200,
+   "source": {
+    "version": "8.6",
+    "kills": 6328,
+    "loot_revid": 1208331,
+    "times": 610,
+    "evidence": "old statistics within the current rarity (uncommon); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/giants/ogre_savage.lua",
+   "monster": "Ogre Savage",
+   "item": "strong health potion",
+   "chance": 15028,
+   "from": 2200,
+   "source": {
+    "version": "8.6",
+    "kills": 6328,
+    "loot_revid": 1208331,
+    "times": 951,
+    "evidence": "old statistics within the current rarity (uncommon); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/giants/ogre_savage.lua",
+   "monster": "Ogre Savage",
+   "item": "war hammer",
+   "chance": 1438,
+   "from": 600,
+   "source": {
+    "version": "8.6",
+    "kills": 6328,
+    "loot_revid": 1208331,
+    "times": 91,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/giants/ogre_savage.lua",
    "monster": "Ogre Savage",
@@ -9503,6 +11810,307 @@
    "from": 2
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/giants/ogre_shaman.lua",
+   "monster": "Ogre Shaman",
+   "item": "onyx chip",
+   "id": 22193,
+   "chance": 1384,
+   "source": {
+    "version": "8.6",
+    "kills": 7151,
+    "loot_revid": 1208332,
+    "times": 99,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   },
+   "maxCount": 2
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/giants/ogre_shaman.lua",
+   "monster": "Ogre Shaman",
+   "item": "broken shamanic staff",
+   "chance": 7663,
+   "from": 1200,
+   "source": {
+    "version": "8.6",
+    "kills": 7151,
+    "loot_revid": 1208332,
+    "times": 548,
+    "evidence": "old statistics within the current rarity (uncommon); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/giants/ogre_shaman.lua",
+   "monster": "Ogre Shaman",
+   "item": "didgeridoo",
+   "chance": 461,
+   "from": 100,
+   "source": {
+    "version": "8.6",
+    "kills": 7151,
+    "loot_revid": 1208332,
+    "times": 33,
+    "evidence": "old statistics within the current rarity (rare)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/giants/ogre_shaman.lua",
+   "monster": "Ogre Shaman",
+   "item": "ogre ear stud",
+   "chance": 14012,
+   "from": 3200,
+   "source": {
+    "version": "8.6",
+    "kills": 7151,
+    "loot_revid": 1208332,
+    "times": 1002,
+    "evidence": "old statistics within the current rarity (uncommon)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/giants/ogre_shaman.lua",
+   "monster": "Ogre Shaman",
+   "item": "ogre nose ring",
+   "chance": 9915,
+   "from": 2200,
+   "source": {
+    "version": "8.6",
+    "kills": 7151,
+    "loot_revid": 1208332,
+    "times": 709,
+    "evidence": "old statistics within the current rarity (uncommon)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/giants/ogre_shaman.lua",
+   "monster": "Ogre Shaman",
+   "item": "ogre scepta",
+   "chance": 531,
+   "from": 300,
+   "source": {
+    "version": "8.6",
+    "kills": 7151,
+    "loot_revid": 1208332,
+    "times": 38,
+    "evidence": "old statistics within the current rarity (rare)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/giants/ogre_shaman.lua",
+   "monster": "Ogre Shaman",
+   "item": "shamanic mask",
+   "chance": 727,
+   "from": 300,
+   "source": {
+    "version": "8.6",
+    "kills": 7151,
+    "loot_revid": 1208332,
+    "times": 52,
+    "evidence": "old statistics within the current rarity (rare)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/giants/ogre_shaman.lua",
+   "monster": "Ogre Shaman",
+   "item": "shamanic talisman",
+   "chance": 10474,
+   "from": 1200,
+   "source": {
+    "version": "8.6",
+    "kills": 7151,
+    "loot_revid": 1208332,
+    "times": 749,
+    "evidence": "old statistics within the current rarity (uncommon); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/giants/ogre_shaman.lua",
+   "monster": "Ogre Shaman",
+   "item": "skull fetish",
+   "chance": 11061,
+   "from": 1200,
+   "source": {
+    "version": "8.6",
+    "kills": 7151,
+    "loot_revid": 1208332,
+    "times": 791,
+    "evidence": "old statistics within the current rarity (uncommon); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/giants/ogre_shaman.lua",
+   "monster": "Ogre Shaman",
+   "item": "strong mana potion",
+   "chance": 14390,
+   "from": 1000,
+   "source": {
+    "version": "8.6",
+    "kills": 7151,
+    "loot_revid": 1208332,
+    "times": 1029,
+    "evidence": "old statistics within the current rarity (uncommon); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/giants/ogre_shaman.lua",
+   "monster": "Ogre Shaman",
+   "item": "wand of decay",
+   "chance": 1692,
+   "from": 600,
+   "source": {
+    "version": "8.6",
+    "kills": 7151,
+    "loot_revid": 1208332,
+    "times": 121,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/giants/ogre_shaman.lua",
+   "monster": "Ogre Shaman",
+   "item": "waterskin",
+   "chance": 2056,
+   "from": 500,
+   "source": {
+    "version": "8.6",
+    "kills": 7151,
+    "loot_revid": 1208332,
+    "times": 147,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/giants/orclops_doomhauler.lua",
+   "monster": "Orclops Doomhauler",
+   "item": "black pearl",
+   "chance": 3157,
+   "from": 12750,
+   "source": {
+    "version": "8.6",
+    "kills": 12132,
+    "loot_revid": 1211728,
+    "times": 383,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/giants/orclops_doomhauler.lua",
+   "monster": "Orclops Doomhauler",
+   "item": "brown crystal splinter",
+   "chance": 2407,
+   "from": 9700,
+   "source": {
+    "version": "8.6",
+    "kills": 12132,
+    "loot_revid": 1211728,
+    "times": 292,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/giants/orclops_doomhauler.lua",
+   "monster": "Orclops Doomhauler",
+   "item": "bug meat",
+   "chance": 20120,
+   "from": 1800,
+   "source": {
+    "version": "8.6",
+    "kills": 12132,
+    "loot_revid": 1211728,
+    "times": 2441,
+    "evidence": "old statistics within the current rarity (uncommon); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/giants/orclops_doomhauler.lua",
+   "monster": "Orclops Doomhauler",
+   "item": "orcish axe",
+   "chance": 8028,
+   "from": 50320,
+   "source": {
+    "version": "8.6",
+    "kills": 12132,
+    "loot_revid": 1211728,
+    "times": 974,
+    "evidence": "old statistics within the current rarity (uncommon); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/giants/orclops_doomhauler.lua",
+   "monster": "Orclops Doomhauler",
+   "item": "pair of iron fists",
+   "chance": 1418,
+   "from": 15290,
+   "source": {
+    "version": "8.6",
+    "kills": 12132,
+    "loot_revid": 1211728,
+    "times": 172,
+    "evidence": "old statistics within the current rarity (semi-rare); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/giants/orclops_doomhauler.lua",
+   "monster": "Orclops Doomhauler",
+   "item": "red mushroom",
+   "chance": 8160,
+   "from": 50320,
+   "source": {
+    "version": "8.6",
+    "kills": 12132,
+    "loot_revid": 1211728,
+    "times": 990,
+    "evidence": "old statistics within the current rarity (uncommon); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/giants/orclops_doomhauler.lua",
+   "monster": "Orclops Doomhauler",
+   "item": "small topaz",
+   "chance": 3107,
+   "from": 8870,
+   "source": {
+    "version": "8.6",
+    "kills": 12132,
+    "loot_revid": 1211728,
+    "times": 377,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/giants/orclops_doomhauler.lua",
+   "monster": "Orclops Doomhauler",
+   "item": "strong health potion",
+   "chance": 16658,
+   "from": 50320,
+   "source": {
+    "version": "8.6",
+    "kills": 12132,
+    "loot_revid": 1211728,
+    "times": 2021,
+    "evidence": "old statistics within the current rarity (uncommon)"
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/giants/orclops_doomhauler.lua",
    "monster": "Orclops Doomhauler",
@@ -9514,6 +12122,111 @@
     "loot_revid": 1211728
    },
    "from": 1
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/giants/orclops_ravager.lua",
+   "monster": "Orclops Ravager",
+   "item": "beetle carapace",
+   "chance": 18363,
+   "from": 1800,
+   "source": {
+    "version": "8.6",
+    "kills": 10799,
+    "loot_revid": 1211729,
+    "times": 1983,
+    "evidence": "old statistics within the current rarity (uncommon); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/giants/orclops_ravager.lua",
+   "monster": "Orclops Ravager",
+   "item": "brown crystal splinter",
+   "chance": 2639,
+   "from": 15290,
+   "source": {
+    "version": "8.6",
+    "kills": 10799,
+    "loot_revid": 1211729,
+    "times": 285,
+    "evidence": "old statistics within the current rarity (semi-rare); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/giants/orclops_ravager.lua",
+   "monster": "Orclops Ravager",
+   "item": "mysterious fetish",
+   "chance": 6371,
+   "from": 50320,
+   "source": {
+    "version": "8.6",
+    "kills": 10799,
+    "loot_revid": 1211729,
+    "times": 688,
+    "evidence": "old statistics within the current rarity (uncommon); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/giants/orclops_ravager.lua",
+   "monster": "Orclops Ravager",
+   "item": "onion",
+   "chance": 3084,
+   "from": 8870,
+   "source": {
+    "version": "8.6",
+    "kills": 10799,
+    "loot_revid": 1211729,
+    "times": 333,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/giants/orclops_ravager.lua",
+   "monster": "Orclops Ravager",
+   "item": "red mushroom",
+   "chance": 7973,
+   "from": 50320,
+   "source": {
+    "version": "8.6",
+    "kills": 10799,
+    "loot_revid": 1211729,
+    "times": 861,
+    "evidence": "old statistics within the current rarity (uncommon); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/giants/orclops_ravager.lua",
+   "monster": "Orclops Ravager",
+   "item": "small topaz",
+   "chance": 3741,
+   "from": 9700,
+   "source": {
+    "version": "8.6",
+    "kills": 10799,
+    "loot_revid": 1211729,
+    "times": 404,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/giants/orclops_ravager.lua",
+   "monster": "Orclops Ravager",
+   "item": "strong health potion",
+   "chance": 16261,
+   "from": 50320,
+   "source": {
+    "version": "8.6",
+    "kills": 10799,
+    "loot_revid": 1211729,
+    "times": 1756,
+    "evidence": "old statistics within the current rarity (uncommon)"
+   }
   },
   {
    "kind": "max_count",
@@ -9555,6 +12268,96 @@
    "from": 1
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/humanoids/broken_shaper.lua",
+   "monster": "Broken Shaper",
+   "item": "coral brooch",
+   "id": 24391,
+   "chance": 1562,
+   "source": {
+    "version": "8.6",
+    "kills": 11974,
+    "loot_revid": 1212860,
+    "times": 187,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/humanoids/broken_shaper.lua",
+   "monster": "Broken Shaper",
+   "item": "green piece of cloth",
+   "id": 5910,
+   "chance": 676,
+   "source": {
+    "version": "8.6",
+    "kills": 11974,
+    "loot_revid": 1212860,
+    "times": 81,
+    "evidence": "old statistics within the current rarity (rare)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/humanoids/broken_shaper.lua",
+   "monster": "Broken Shaper",
+   "item": "red piece of cloth",
+   "id": 5911,
+   "chance": 534,
+   "source": {
+    "version": "8.6",
+    "kills": 11974,
+    "loot_revid": 1212860,
+    "times": 64,
+    "evidence": "old statistics within the current rarity (rare)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/humanoids/broken_shaper.lua",
+   "monster": "Broken Shaper",
+   "item": "rusted armor",
+   "id": 8895,
+   "chance": 2898,
+   "source": {
+    "version": "8.6",
+    "kills": 11974,
+    "loot_revid": 1212860,
+    "times": 347,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/humanoids/broken_shaper.lua",
+   "monster": "Broken Shaper",
+   "item": "white piece of cloth",
+   "id": 5909,
+   "chance": 1002,
+   "source": {
+    "version": "8.6",
+    "kills": 11974,
+    "loot_revid": 1212860,
+    "times": 120,
+    "evidence": "old statistics within the current rarity (rare)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/humanoids/broken_shaper.lua",
+   "monster": "Broken Shaper",
+   "item": "meat",
+   "chance": 9629,
+   "from": 50320,
+   "source": {
+    "version": "8.6",
+    "kills": 11974,
+    "loot_revid": 1212860,
+    "times": 1153,
+    "evidence": "old statistics within the current rarity (uncommon); single large sample"
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/humanoids/broken_shaper.lua",
    "monster": "Broken Shaper",
@@ -9579,6 +12382,21 @@
     "loot_revid": 1212860
    },
    "from": 2
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/humanoids/chakoya_tribewarden.lua",
+   "monster": "Chakoya Tribewarden",
+   "item": "fireproof horn",
+   "chance": 504,
+   "from": 350,
+   "source": {
+    "version": "10.37",
+    "kills": 17667,
+    "loot_revid": 1212922,
+    "times": 89,
+    "evidence": "old statistics within the current rarity (rare)"
+   }
   },
   {
    "kind": "add_loot",
@@ -9610,6 +12428,21 @@
     "times": 2483
    },
    "by_id": true
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/humanoids/dwarf.lua",
+   "monster": "Dwarf",
+   "item": "iron ore",
+   "chance": 86,
+   "from": 700,
+   "source": {
+    "version": "8.6",
+    "kills": 46646,
+    "loot_revid": 1212948,
+    "times": 40,
+    "evidence": "old statistics within the current rarity (very rare); single large sample"
+   }
   },
   {
    "kind": "max_count",
@@ -9754,6 +12587,36 @@
    }
   },
   {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/humanoids/enslaved_dwarf.lua",
+   "monster": "Enslaved Dwarf",
+   "item": "coal",
+   "chance": 1245,
+   "from": 780,
+   "source": {
+    "version": "9.6",
+    "kills": 4096,
+    "loot_revid": 1212408,
+    "times": 51,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/humanoids/enslaved_dwarf.lua",
+   "monster": "Enslaved Dwarf",
+   "item": "tower shield",
+   "chance": 513,
+   "from": 190,
+   "source": {
+    "version": "9.6",
+    "kills": 4096,
+    "loot_revid": 1212408,
+    "times": 21,
+    "evidence": "old statistics within the current rarity (rare)"
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/humanoids/enslaved_dwarf.lua",
    "monster": "Enslaved Dwarf",
@@ -9765,6 +12628,36 @@
     "loot_revid": 1212408
    },
    "from": 99
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/humanoids/execowtioner.lua",
+   "monster": "Execowtioner",
+   "item": "minotaur horn",
+   "chance": 4926,
+   "from": 6580,
+   "source": {
+    "version": "10.5",
+    "kills": 8932,
+    "loot_revid": 1209921,
+    "times": 440,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/humanoids/execowtioner.lua",
+   "monster": "Execowtioner",
+   "item": "titan axe",
+   "chance": 649,
+   "from": 390,
+   "source": {
+    "version": "10.5",
+    "kills": 8932,
+    "loot_revid": 1209921,
+    "times": 58,
+    "evidence": "old statistics within the current rarity (rare)"
+   }
   },
   {
    "kind": "max_count",
@@ -9954,6 +12847,142 @@
    "from": 1
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/humanoids/lost_basher.lua",
+   "monster": "Lost Basher",
+   "item": "bone fetish",
+   "id": 17831,
+   "chance": 7539,
+   "source": {
+    "version": "9.8",
+    "kills": 14869,
+    "loot_revid": 1210549,
+    "times": 1121,
+    "evidence": "old statistics within the current rarity (uncommon)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/humanoids/lost_basher.lua",
+   "monster": "Lost Basher",
+   "item": "dwarven ring",
+   "id": 3097,
+   "chance": 2421,
+   "source": {
+    "version": "9.8",
+    "kills": 14869,
+    "loot_revid": 1210549,
+    "times": 360,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   },
+   "by_id": true
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/humanoids/lost_basher.lua",
+   "monster": "Lost Basher",
+   "item": "knight axe",
+   "id": 3318,
+   "chance": 915,
+   "source": {
+    "version": "9.8",
+    "kills": 14869,
+    "loot_revid": 1210549,
+    "times": 136,
+    "evidence": "old statistics within the current rarity (rare)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/humanoids/lost_basher.lua",
+   "monster": "Lost Basher",
+   "item": "red hair dye",
+   "id": 17855,
+   "chance": 11843,
+   "source": {
+    "version": "9.8",
+    "kills": 14869,
+    "loot_revid": 1210549,
+    "times": 1761,
+    "evidence": "old statistics within the current rarity (uncommon)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/humanoids/lost_basher.lua",
+   "monster": "Lost Basher",
+   "item": "wimp tooth chain",
+   "id": 17847,
+   "chance": 12119,
+   "source": {
+    "version": "9.8",
+    "kills": 14869,
+    "loot_revid": 1210549,
+    "times": 1802,
+    "evidence": "old statistics within the current rarity (uncommon)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/humanoids/lost_basher.lua",
+   "monster": "Lost Basher",
+   "item": "bloody dwarven beard",
+   "chance": 17365,
+   "from": 1730,
+   "source": {
+    "version": "9.8",
+    "kills": 14869,
+    "loot_revid": 1210549,
+    "times": 2582,
+    "evidence": "old statistics within the current rarity (uncommon); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/humanoids/lost_basher.lua",
+   "monster": "Lost Basher",
+   "item": "buckle",
+   "chance": 1110,
+   "from": 10930,
+   "source": {
+    "version": "9.8",
+    "kills": 14869,
+    "loot_revid": 1210549,
+    "times": 165,
+    "evidence": "old statistics within the current rarity (rare); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/humanoids/lost_basher.lua",
+   "monster": "Lost Basher",
+   "item": "knight legs",
+   "chance": 572,
+   "from": 310,
+   "source": {
+    "version": "9.8",
+    "kills": 14869,
+    "loot_revid": 1210549,
+    "times": 85,
+    "evidence": "old statistics within the current rarity (rare)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/humanoids/lost_berserker.lua",
+   "monster": "Lost Berserker",
+   "item": "fire axe",
+   "chance": 558,
+   "from": 380,
+   "source": {
+    "version": "9.6",
+    "kills": 18629,
+    "loot_revid": 1212122,
+    "times": 104,
+    "evidence": "old statistics within the current rarity (rare)"
+   }
+  },
+  {
    "kind": "element",
    "file": "data-otservbr-global/monster/humanoids/lost_berserker.lua",
    "monster": "Lost Berserker",
@@ -9989,6 +13018,36 @@
    "from": 100
   },
   {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/humanoids/lost_exile.lua",
+   "monster": "Lost Exile",
+   "item": "buckle",
+   "chance": 844,
+   "from": 1900,
+   "source": {
+    "version": "8.6",
+    "kills": 2607,
+    "loot_revid": 1189206,
+    "times": 22,
+    "evidence": "old statistics within the current rarity (rare)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/humanoids/lost_exile.lua",
+   "monster": "Lost Exile",
+   "item": "terra boots",
+   "chance": 729,
+   "from": 240,
+   "source": {
+    "version": "8.6",
+    "kills": 2607,
+    "loot_revid": 1189206,
+    "times": 19,
+    "evidence": "old statistics within the current rarity (rare)"
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/humanoids/lost_exile.lua",
    "monster": "Lost Exile",
@@ -10010,6 +13069,37 @@
    "from": 20,
    "source": {
     "revid": 1191925
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/humanoids/lost_husher.lua",
+   "monster": "Lost Husher",
+   "item": "dwarven ring",
+   "id": 3097,
+   "chance": 2688,
+   "source": {
+    "version": "9.8",
+    "kills": 13057,
+    "loot_revid": 1212424,
+    "times": 351,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   },
+   "by_id": true
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/humanoids/lost_husher.lua",
+   "monster": "Lost Husher",
+   "item": "knight axe",
+   "id": 3318,
+   "chance": 797,
+   "source": {
+    "version": "9.8",
+    "kills": 13057,
+    "loot_revid": 1212424,
+    "times": 104,
+    "evidence": "old statistics within the current rarity (rare)"
    }
   },
   {
@@ -10046,6 +13136,66 @@
    "from": 1100
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/humanoids/lost_thrower.lua",
+   "monster": "Lost Thrower",
+   "item": "bloody dwarven beard",
+   "id": 17827,
+   "chance": 11813,
+   "source": {
+    "version": "9.8",
+    "kills": 15093,
+    "loot_revid": 1209720,
+    "times": 1783,
+    "evidence": "old statistics within the current rarity (uncommon)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/humanoids/lost_thrower.lua",
+   "monster": "Lost Thrower",
+   "item": "red hair dye",
+   "id": 17855,
+   "chance": 12304,
+   "source": {
+    "version": "9.8",
+    "kills": 15093,
+    "loot_revid": 1209720,
+    "times": 1857,
+    "evidence": "old statistics within the current rarity (uncommon)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/humanoids/lost_thrower.lua",
+   "monster": "Lost Thrower",
+   "item": "broken throwing axe",
+   "chance": 15073,
+   "from": 1390,
+   "source": {
+    "version": "9.8",
+    "kills": 15093,
+    "loot_revid": 1209720,
+    "times": 2275,
+    "evidence": "old statistics within the current rarity (uncommon); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/humanoids/lost_thrower.lua",
+   "monster": "Lost Thrower",
+   "item": "helmet of the lost",
+   "chance": 1597,
+   "from": 13560,
+   "source": {
+    "version": "9.8",
+    "kills": 15093,
+    "loot_revid": 1209720,
+    "times": 241,
+    "evidence": "old statistics within the current rarity (semi-rare); single large sample"
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/humanoids/lost_thrower.lua",
    "monster": "Lost Thrower",
@@ -10057,6 +13207,52 @@
     "loot_revid": 1209720
    },
    "from": 100
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/humanoids/minotaur_amazon.lua",
+   "monster": "Minotaur Amazon",
+   "item": "minotaur trophy",
+   "id": 7401,
+   "chance": 290,
+   "source": {
+    "version": "10.5",
+    "kills": 10342,
+    "loot_revid": 1209722,
+    "times": 30,
+    "evidence": "old statistics within the current rarity (very rare)"
+   },
+   "by_id": true
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/humanoids/minotaur_amazon.lua",
+   "monster": "Minotaur Amazon",
+   "item": "gold ingot",
+   "chance": 658,
+   "from": 290,
+   "source": {
+    "version": "10.5",
+    "kills": 10342,
+    "loot_revid": 1209722,
+    "times": 68,
+    "evidence": "old statistics within the current rarity (rare)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/humanoids/minotaur_amazon.lua",
+   "monster": "Minotaur Amazon",
+   "item": "minotaur horn",
+   "chance": 5057,
+   "from": 6800,
+   "source": {
+    "version": "10.5",
+    "kills": 10342,
+    "loot_revid": 1209722,
+    "times": 523,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   }
   },
   {
    "kind": "max_count",
@@ -10072,6 +13268,37 @@
    "from": 196
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/humanoids/minotaur_cult_follower.lua",
+   "monster": "Minotaur Cult Follower",
+   "item": "gold ingot",
+   "id": 9058,
+   "chance": 1002,
+   "source": {
+    "version": "8.6",
+    "kills": 13370,
+    "loot_revid": 1212179,
+    "times": 134,
+    "evidence": "old statistics within the current rarity (rare)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/humanoids/minotaur_cult_follower.lua",
+   "monster": "Minotaur Cult Follower",
+   "item": "minotaur trophy",
+   "id": 7401,
+   "chance": 187,
+   "source": {
+    "version": "8.6",
+    "kills": 13370,
+    "loot_revid": 1212179,
+    "times": 25,
+    "evidence": "old statistics within the current rarity (very rare)"
+   },
+   "by_id": true
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/humanoids/minotaur_cult_follower.lua",
    "monster": "Minotaur Cult Follower",
@@ -10085,6 +13312,37 @@
    "from": 150
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/humanoids/minotaur_cult_prophet.lua",
+   "monster": "Minotaur Cult Prophet",
+   "item": "minotaur trophy",
+   "id": 7401,
+   "chance": 506,
+   "source": {
+    "version": "8.6",
+    "kills": 6328,
+    "loot_revid": 1212180,
+    "times": 32,
+    "evidence": "old statistics within the current rarity (rare)"
+   },
+   "by_id": true
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/humanoids/minotaur_cult_zealot.lua",
+   "monster": "Minotaur Cult Zealot",
+   "item": "yellow gem",
+   "chance": 509,
+   "from": 220,
+   "source": {
+    "version": "8.6",
+    "kills": 5108,
+    "loot_revid": 1212181,
+    "times": 26,
+    "evidence": "old statistics within the current rarity (rare)"
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/humanoids/minotaur_hunter.lua",
    "monster": "Minotaur Hunter",
@@ -10096,6 +13354,172 @@
     "loot_revid": 1209988
    },
    "from": 199
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/humanoids/minotaur_invader.lua",
+   "monster": "Minotaur Invader",
+   "item": "blue gem",
+   "id": 3041,
+   "chance": 162,
+   "source": {
+    "version": "10.7",
+    "kills": 16009,
+    "loot_revid": 1209724,
+    "times": 26,
+    "evidence": "old statistics within the current rarity (very rare)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/humanoids/minotaur_invader.lua",
+   "monster": "Minotaur Invader",
+   "item": "blue piece of cloth",
+   "id": 5912,
+   "chance": 868,
+   "source": {
+    "version": "10.7",
+    "kills": 16009,
+    "loot_revid": 1209724,
+    "times": 139,
+    "evidence": "old statistics within the current rarity (rare)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/humanoids/minotaur_invader.lua",
+   "monster": "Minotaur Invader",
+   "item": "guardian shield",
+   "id": 3415,
+   "chance": 756,
+   "source": {
+    "version": "10.7",
+    "kills": 16009,
+    "loot_revid": 1209724,
+    "times": 121,
+    "evidence": "old statistics within the current rarity (rare)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/humanoids/minotaur_invader.lua",
+   "monster": "Minotaur Invader",
+   "item": "knight axe",
+   "id": 3318,
+   "chance": 575,
+   "source": {
+    "version": "10.7",
+    "kills": 16009,
+    "loot_revid": 1209724,
+    "times": 92,
+    "evidence": "old statistics within the current rarity (rare)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/humanoids/minotaur_invader.lua",
+   "monster": "Minotaur Invader",
+   "item": "mooh'tah plate",
+   "id": 21166,
+   "chance": 906,
+   "source": {
+    "version": "10.7",
+    "kills": 16009,
+    "loot_revid": 1209724,
+    "times": 145,
+    "evidence": "old statistics within the current rarity (rare)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/humanoids/minotaur_invader.lua",
+   "monster": "Minotaur Invader",
+   "item": "red gem",
+   "id": 3039,
+   "chance": 731,
+   "source": {
+    "version": "10.7",
+    "kills": 16009,
+    "loot_revid": 1209724,
+    "times": 117,
+    "evidence": "old statistics within the current rarity (rare)"
+   },
+   "by_id": true
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/humanoids/minotaur_invader.lua",
+   "monster": "Minotaur Invader",
+   "item": "red piece of cloth",
+   "id": 5911,
+   "chance": 606,
+   "source": {
+    "version": "10.7",
+    "kills": 16009,
+    "loot_revid": 1209724,
+    "times": 97,
+    "evidence": "old statistics within the current rarity (rare)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/humanoids/minotaur_invader.lua",
+   "monster": "Minotaur Invader",
+   "item": "small amethyst",
+   "id": 3033,
+   "chance": 5153,
+   "source": {
+    "version": "10.7",
+    "kills": 16009,
+    "loot_revid": 1209724,
+    "times": 825,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/humanoids/minotaur_invader.lua",
+   "monster": "Minotaur Invader",
+   "item": "small ruby",
+   "id": 3030,
+   "chance": 4697,
+   "source": {
+    "version": "10.7",
+    "kills": 16009,
+    "loot_revid": 1209724,
+    "times": 752,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/humanoids/minotaur_invader.lua",
+   "monster": "Minotaur Invader",
+   "item": "titan axe",
+   "id": 7413,
+   "chance": 219,
+   "source": {
+    "version": "10.7",
+    "kills": 16009,
+    "loot_revid": 1209724,
+    "times": 35,
+    "evidence": "old statistics within the current rarity (very rare)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/humanoids/minotaur_invader.lua",
+   "monster": "Minotaur Invader",
+   "item": "warrior helmet",
+   "id": 3369,
+   "chance": 537,
+   "source": {
+    "version": "10.7",
+    "kills": 16009,
+    "loot_revid": 1209724,
+    "times": 86,
+    "evidence": "old statistics within the current rarity (rare)"
+   }
   },
   {
    "kind": "max_count",
@@ -10122,6 +13546,66 @@
    "from": 1600
   },
   {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/humanoids/mooh'tah_warrior.lua",
+   "monster": "Mooh'Tah Warrior",
+   "item": "mooh'tah plate",
+   "chance": 1010,
+   "from": 1380,
+   "source": {
+    "version": "10.5",
+    "kills": 144328,
+    "loot_revid": 1209731,
+    "times": 1458,
+    "evidence": "old statistics within the current rarity (rare)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/humanoids/mooh'tah_warrior.lua",
+   "monster": "Mooh'Tah Warrior",
+   "item": "small emerald",
+   "chance": 5178,
+   "from": 6320,
+   "source": {
+    "version": "10.5",
+    "kills": 144328,
+    "loot_revid": 1209731,
+    "times": 7473,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/humanoids/mooh'tah_warrior.lua",
+   "monster": "Mooh'Tah Warrior",
+   "item": "small ruby",
+   "chance": 5043,
+   "from": 7710,
+   "source": {
+    "version": "10.5",
+    "kills": 144328,
+    "loot_revid": 1209731,
+    "times": 7278,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/humanoids/mooh'tah_warrior.lua",
+   "monster": "Mooh'Tah Warrior",
+   "item": "sword ring",
+   "chance": 1066,
+   "from": 1580,
+   "source": {
+    "version": "10.5",
+    "kills": 144328,
+    "loot_revid": 1209731,
+    "times": 1538,
+    "evidence": "old statistics within the current rarity (rare)"
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/humanoids/mooh'tah_warrior.lua",
    "monster": "Mooh'Tah Warrior",
@@ -10133,6 +13617,52 @@
     "loot_revid": 1209731
    },
    "from": 119
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/humanoids/moohtant.lua",
+   "monster": "Moohtant",
+   "item": "red gem",
+   "id": 3039,
+   "chance": 844,
+   "source": {
+    "version": "10.5",
+    "kills": 9712,
+    "loot_revid": 1209732,
+    "times": 82,
+    "evidence": "old statistics within the current rarity (rare)"
+   },
+   "by_id": true
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/humanoids/moohtant.lua",
+   "monster": "Moohtant",
+   "item": "giant pacifier",
+   "chance": 11017,
+   "from": 1770,
+   "source": {
+    "version": "10.5",
+    "kills": 9712,
+    "loot_revid": 1209732,
+    "times": 1070,
+    "evidence": "old statistics within the current rarity (uncommon); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/humanoids/moohtant.lua",
+   "monster": "Moohtant",
+   "item": "moohtant horn",
+   "chance": 15393,
+   "from": 2740,
+   "source": {
+    "version": "10.5",
+    "kills": 9712,
+    "loot_revid": 1209732,
+    "times": 1495,
+    "evidence": "old statistics within the current rarity (uncommon); single large sample"
+   }
   },
   {
    "kind": "max_count",
@@ -10173,6 +13703,52 @@
   },
   {
    "kind": "chance",
+   "file": "data-otservbr-global/monster/humanoids/orc_leader.lua",
+   "monster": "Orc Leader",
+   "item": "plate shield",
+   "chance": 10077,
+   "from": 1650,
+   "source": {
+    "version": "8.6",
+    "kills": 41837,
+    "loot_revid": 1213014,
+    "times": 4216,
+    "evidence": "old statistics within the current rarity (uncommon); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/humanoids/orc_rider.lua",
+   "monster": "Orc Rider",
+   "item": "battle shield",
+   "chance": 1022,
+   "from": 9900,
+   "source": {
+    "version": "8.6",
+    "kills": 22214,
+    "loot_revid": 1210577,
+    "times": 227,
+    "evidence": "old statistics within the current rarity (rare); single large sample"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/humanoids/orc_shaman.lua",
+   "monster": "Orc Shaman",
+   "item": "book (grey)",
+   "id": 401,
+   "chance": 436,
+   "source": {
+    "version": "11.02",
+    "kills": 16733,
+    "loot_revid": 1213015,
+    "times": 73,
+    "evidence": "old statistics within the current rarity (very rare)"
+   },
+   "by_id": true
+  },
+  {
+   "kind": "chance",
    "file": "data-otservbr-global/monster/humanoids/orc_warrior.lua",
    "monster": "Orc Warrior",
    "item": "heavy old tome",
@@ -10198,6 +13774,111 @@
     "times": 78
    },
    "from": 950
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/humanoids/pirat_cutthroat.lua",
+   "monster": "Pirat Cutthroat",
+   "item": "crowbar",
+   "chance": 4690,
+   "from": 7810,
+   "source": {
+    "version": "8.6",
+    "kills": 17059,
+    "loot_revid": 1204544,
+    "times": 800,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/humanoids/pirat_cutthroat.lua",
+   "monster": "Pirat Cutthroat",
+   "item": "focus cape",
+   "chance": 1958,
+   "from": 8250,
+   "source": {
+    "version": "8.6",
+    "kills": 17059,
+    "loot_revid": 1204544,
+    "times": 334,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/humanoids/pirat_cutthroat.lua",
+   "monster": "Pirat Cutthroat",
+   "item": "great health potion",
+   "chance": 20271,
+   "from": 44810,
+   "source": {
+    "version": "8.6",
+    "kills": 17059,
+    "loot_revid": 1204544,
+    "times": 3458,
+    "evidence": "old statistics within the current rarity (uncommon)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/humanoids/pirat_cutthroat.lua",
+   "monster": "Pirat Cutthroat",
+   "item": "knight armor",
+   "chance": 3078,
+   "from": 9550,
+   "source": {
+    "version": "8.6",
+    "kills": 17059,
+    "loot_revid": 1204544,
+    "times": 525,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/humanoids/pirat_scoundrel.lua",
+   "monster": "Pirat Scoundrel",
+   "item": "great mana potion",
+   "chance": 10724,
+   "from": 44810,
+   "source": {
+    "version": "8.6",
+    "kills": 9073,
+    "loot_revid": 1204546,
+    "times": 973,
+    "evidence": "old statistics within the current rarity (uncommon)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/humanoids/pirat_scoundrel.lua",
+   "monster": "Pirat Scoundrel",
+   "item": "springsprout rod",
+   "chance": 3902,
+   "from": 9550,
+   "source": {
+    "version": "8.6",
+    "kills": 9073,
+    "loot_revid": 1204546,
+    "times": 354,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/humanoids/shaper_matriarch.lua",
+   "monster": "Shaper Matriarch",
+   "item": "rusted helmet",
+   "id": 8907,
+   "chance": 4422,
+   "source": {
+    "version": "8.6",
+    "kills": 7983,
+    "loot_revid": 1212865,
+    "times": 353,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   }
   },
   {
    "kind": "add_loot",
@@ -10366,6 +14047,67 @@
    "from": 155
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/humanoids/twisted_shaper.lua",
+   "monster": "Twisted Shaper",
+   "item": "gemmed figurine",
+   "id": 24392,
+   "chance": 962,
+   "source": {
+    "version": "8.6",
+    "kills": 10295,
+    "loot_revid": 1212866,
+    "times": 99,
+    "evidence": "old statistics within the current rarity (rare)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/humanoids/twisted_shaper.lua",
+   "monster": "Twisted Shaper",
+   "item": "piece of marble rock",
+   "id": 10426,
+   "chance": 49,
+   "source": {
+    "version": "8.6",
+    "kills": 10295,
+    "loot_revid": 1212866,
+    "times": 5,
+    "evidence": "old statistics within the current rarity (very rare)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/humanoids/twisted_shaper.lua",
+   "monster": "Twisted Shaper",
+   "item": "piggy bank",
+   "id": 2995,
+   "chance": 194,
+   "source": {
+    "version": "8.6",
+    "kills": 10295,
+    "loot_revid": 1212866,
+    "times": 20,
+    "evidence": "old statistics within the current rarity (very rare)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/humanoids/twisted_shaper.lua",
+   "monster": "Twisted Shaper",
+   "item": "vortex bolt",
+   "id": 14252,
+   "chance": 4964,
+   "source": {
+    "version": "8.6",
+    "kills": 10295,
+    "loot_revid": 1212866,
+    "times": 511,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   },
+   "maxCount": 4
+  },
+  {
    "kind": "immunity",
    "file": "data-otservbr-global/monster/humanoids/twisted_shaper.lua",
    "monster": "Twisted Shaper",
@@ -10423,6 +14165,101 @@
     "revid": 1191912
    },
    "from": 25
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/humanoids/worm_priestess.lua",
+   "monster": "Worm Priestess",
+   "item": "small sapphire",
+   "id": 3029,
+   "chance": 2440,
+   "source": {
+    "version": "10.5",
+    "kills": 81800,
+    "loot_revid": 1210070,
+    "times": 1996,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   },
+   "maxCount": 2
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/humans/acolyte_of_the_cult.lua",
+   "monster": "Acolyte of the Cult",
+   "item": "book (orange)",
+   "id": 401,
+   "chance": 732,
+   "source": {
+    "version": "8.6",
+    "kills": 43577,
+    "loot_revid": 1211699,
+    "times": 319,
+    "evidence": "old statistics within the current rarity (rare)"
+   },
+   "by_id": true
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/humans/adept_of_the_cult.lua",
+   "monster": "Adept of the Cult",
+   "item": "book (orange)",
+   "id": 401,
+   "chance": 839,
+   "source": {
+    "version": "8.6",
+    "kills": 38024,
+    "loot_revid": 1211700,
+    "times": 319,
+    "evidence": "old statistics within the current rarity (rare)"
+   },
+   "by_id": true
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/humans/adept_of_the_cult.lua",
+   "monster": "Adept of the Cult",
+   "item": "clerical mace",
+   "chance": 1052,
+   "from": 1260,
+   "source": {
+    "version": "8.6",
+    "kills": 38024,
+    "loot_revid": 1211700,
+    "times": 400,
+    "evidence": "old statistics within the current rarity (rare)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/humans/assassin.lua",
+   "monster": "Assassin",
+   "item": "throwing star",
+   "id": 3287,
+   "chance": 7130,
+   "source": {
+    "version": "8.6",
+    "kills": 26450,
+    "loot_revid": 1212361,
+    "times": 1886,
+    "evidence": "old statistics within the current rarity (uncommon)"
+   },
+   "maxCount": 14
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/humans/barbarian_brutetamer.lua",
+   "monster": "Barbarian Brutetamer",
+   "item": "book (grey)",
+   "id": 401,
+   "chance": 4666,
+   "source": {
+    "version": "8.6",
+    "kills": 16931,
+    "loot_revid": 1210287,
+    "times": 790,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   },
+   "by_id": true
   },
   {
    "kind": "add_loot",
@@ -10674,6 +14511,21 @@
     "loot_revid": 1213436
    },
    "from": 130
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/humans/blood_priest.lua",
+   "monster": "Blood Priest",
+   "item": "noble axe",
+   "id": 7456,
+   "chance": 74,
+   "source": {
+    "version": "10.1",
+    "kills": 6757,
+    "loot_revid": 1210760,
+    "times": 5,
+    "evidence": "old statistics within the current rarity (very rare)"
+   }
   },
   {
    "kind": "immunity",
@@ -11287,6 +15139,67 @@
    "from": 19
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/humans/dark_magician.lua",
+   "monster": "Dark Magician",
+   "item": "necrotic rod",
+   "id": 3069,
+   "chance": 289,
+   "source": {
+    "version": "8.6",
+    "kills": 92372,
+    "loot_revid": 1212844,
+    "times": 267,
+    "evidence": "old statistics within the current rarity (very rare)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/humans/dark_magician.lua",
+   "monster": "Dark Magician",
+   "item": "small enchanted amethyst",
+   "id": 678,
+   "chance": 520,
+   "source": {
+    "version": "8.6",
+    "kills": 92372,
+    "loot_revid": 1212844,
+    "times": 480,
+    "evidence": "old statistics within the current rarity (rare)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/humans/enlightened_of_the_cult.lua",
+   "monster": "Enlightened of the Cult",
+   "item": "book (orange)",
+   "id": 401,
+   "chance": 799,
+   "source": {
+    "version": "8.6",
+    "kills": 27032,
+    "loot_revid": 1209917,
+    "times": 216,
+    "evidence": "old statistics within the current rarity (rare)"
+   },
+   "by_id": true
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/humans/enlightened_of_the_cult.lua",
+   "monster": "Enlightened of the Cult",
+   "item": "mysterious voodoo skull",
+   "id": 5668,
+   "chance": 78,
+   "source": {
+    "version": "8.6",
+    "kills": 27032,
+    "loot_revid": 1209917,
+    "times": 21,
+    "evidence": "old statistics within the current rarity (very rare)"
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/humans/enlightened_of_the_cult.lua",
    "monster": "Enlightened of the Cult",
@@ -11298,6 +15211,36 @@
     "loot_revid": 1209917
    },
    "from": 70
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/humans/gang_member.lua",
+   "monster": "Gang Member",
+   "item": "brown bread",
+   "id": 3602,
+   "chance": 5443,
+   "source": {
+    "version": "8.6",
+    "kills": 5861,
+    "loot_revid": 1212413,
+    "times": 319,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/humans/gang_member.lua",
+   "monster": "Gang Member",
+   "item": "mace",
+   "id": 3286,
+   "chance": 9674,
+   "source": {
+    "version": "8.6",
+    "kills": 5861,
+    "loot_revid": 1212413,
+    "times": 567,
+    "evidence": "old statistics within the current rarity (uncommon)"
+   }
   },
   {
    "kind": "max_count",
@@ -11354,6 +15297,21 @@
    "from": 3460
   },
   {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/humans/infernalist.lua",
+   "monster": "Infernalist",
+   "item": "great health potion",
+   "chance": 19192,
+   "from": 1900,
+   "source": {
+    "version": "8.6",
+    "kills": 5445,
+    "loot_revid": 1209952,
+    "times": 1045,
+    "evidence": "old statistics within the current rarity (uncommon); single large sample"
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/humans/infernalist.lua",
    "monster": "Infernalist",
@@ -11365,6 +15323,36 @@
     "loot_revid": 1209952
    },
    "from": 100
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/humans/mad_scientist.lua",
+   "monster": "Mad Scientist",
+   "item": "cream cake",
+   "id": 6393,
+   "chance": 808,
+   "source": {
+    "version": "8.6",
+    "kills": 34405,
+    "loot_revid": 1212850,
+    "times": 278,
+    "evidence": "old statistics within the current rarity (rare)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/humans/mad_scientist.lua",
+   "monster": "Mad Scientist",
+   "item": "powder herb",
+   "id": 3739,
+   "chance": 6025,
+   "source": {
+    "version": "8.6",
+    "kills": 34405,
+    "loot_revid": 1212850,
+    "times": 2073,
+    "evidence": "old statistics within the current rarity (uncommon)"
+   }
   },
   {
    "kind": "max_count",
@@ -11380,6 +15368,21 @@
    "from": 65
   },
   {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/humans/mutated_human.lua",
+   "monster": "Mutated Human",
+   "item": "heavily rusted armor",
+   "chance": 2010,
+   "from": 190,
+   "source": {
+    "version": "8.6",
+    "kills": 109421,
+    "loot_revid": 1211579,
+    "times": 2199,
+    "evidence": "old statistics within the current rarity (semi-rare); single large sample"
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/humans/mutated_human.lua",
    "monster": "Mutated Human",
@@ -11393,6 +15396,38 @@
    "from": 80
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/humans/novice_of_the_cult.lua",
+   "monster": "Novice of the Cult",
+   "item": "book (orange)",
+   "id": 401,
+   "chance": 755,
+   "source": {
+    "version": "8.6",
+    "kills": 23188,
+    "loot_revid": 1210570,
+    "times": 175,
+    "evidence": "old statistics within the current rarity (rare)"
+   },
+   "by_id": true
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/humans/pirate_buccaneer.lua",
+   "monster": "Pirate Buccaneer",
+   "item": "treasure map (pirate)",
+   "id": 5706,
+   "chance": 1019,
+   "source": {
+    "version": "8.6",
+    "kills": 26003,
+    "loot_revid": 1213022,
+    "times": 265,
+    "evidence": "old statistics within the current rarity (rare)"
+   },
+   "by_id": true
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/humans/pirate_buccaneer.lua",
    "monster": "Pirate Buccaneer",
@@ -11404,6 +15439,38 @@
     "loot_revid": 1213022
    },
    "from": 59
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/humans/pirate_cutthroat.lua",
+   "monster": "Pirate Cutthroat",
+   "item": "treasure map (pirate)",
+   "id": 5706,
+   "chance": 1093,
+   "source": {
+    "version": "8.6",
+    "kills": 50795,
+    "loot_revid": 1213023,
+    "times": 555,
+    "evidence": "old statistics within the current rarity (rare)"
+   },
+   "by_id": true
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/humans/pirate_marauder.lua",
+   "monster": "Pirate Marauder",
+   "item": "treasure map (pirate)",
+   "id": 5706,
+   "chance": 955,
+   "source": {
+    "version": "8.6",
+    "kills": 81169,
+    "loot_revid": 1213025,
+    "times": 775,
+    "evidence": "old statistics within the current rarity (rare)"
+   },
+   "by_id": true
   },
   {
    "kind": "max_count",
@@ -11486,6 +15553,22 @@
     "loot_revid": 1210015
    },
    "from": 1
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/humans/priestess.lua",
+   "monster": "Priestess",
+   "item": "book (orange)",
+   "id": 401,
+   "chance": 951,
+   "source": {
+    "version": "8.6",
+    "kills": 23130,
+    "loot_revid": 1213029,
+    "times": 220,
+    "evidence": "old statistics within the current rarity (rare)"
+   },
+   "by_id": true
   },
   {
    "kind": "add_loot",
@@ -11585,6 +15668,186 @@
    "from": 2
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/humans/renegade_knight.lua",
+   "monster": "Renegade Knight",
+   "item": "piggy bank",
+   "id": 2995,
+   "chance": 113,
+   "source": {
+    "version": "10.8",
+    "kills": 21189,
+    "loot_revid": 1212864,
+    "times": 24,
+    "evidence": "old statistics within the current rarity (very rare)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/humans/renegade_knight.lua",
+   "monster": "Renegade Knight",
+   "item": "red piece of cloth",
+   "id": 5911,
+   "chance": 1784,
+   "source": {
+    "version": "10.8",
+    "kills": 21189,
+    "loot_revid": 1212864,
+    "times": 378,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/humans/renegade_knight.lua",
+   "monster": "Renegade Knight",
+   "item": "small ruby",
+   "id": 3030,
+   "chance": 3691,
+   "source": {
+    "version": "10.8",
+    "kills": 21189,
+    "loot_revid": 1212864,
+    "times": 782,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/humans/renegade_knight.lua",
+   "monster": "Renegade Knight",
+   "item": "two handed sword",
+   "id": 3265,
+   "chance": 5121,
+   "source": {
+    "version": "10.8",
+    "kills": 21189,
+    "loot_revid": 1212864,
+    "times": 1085,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/humans/renegade_knight.lua",
+   "monster": "Renegade Knight",
+   "item": "war hammer",
+   "id": 3279,
+   "chance": 991,
+   "source": {
+    "version": "10.8",
+    "kills": 21189,
+    "loot_revid": 1212864,
+    "times": 210,
+    "evidence": "old statistics within the current rarity (rare)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/humans/renegade_knight.lua",
+   "monster": "Renegade Knight",
+   "item": "crown armor",
+   "chance": 661,
+   "from": 210,
+   "source": {
+    "version": "10.8",
+    "kills": 21189,
+    "loot_revid": 1212864,
+    "times": 140,
+    "evidence": "old statistics within the current rarity (rare)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/humans/renegade_knight.lua",
+   "monster": "Renegade Knight",
+   "item": "crown helmet",
+   "chance": 562,
+   "from": 310,
+   "source": {
+    "version": "10.8",
+    "kills": 21189,
+    "loot_revid": 1212864,
+    "times": 119,
+    "evidence": "old statistics within the current rarity (rare)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/humans/renegade_knight.lua",
+   "monster": "Renegade Knight",
+   "item": "crown legs",
+   "chance": 585,
+   "from": 110,
+   "source": {
+    "version": "10.8",
+    "kills": 21189,
+    "loot_revid": 1212864,
+    "times": 124,
+    "evidence": "old statistics within the current rarity (rare); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/humans/renegade_knight.lua",
+   "monster": "Renegade Knight",
+   "item": "fire sword",
+   "chance": 529,
+   "from": 310,
+   "source": {
+    "version": "10.8",
+    "kills": 21189,
+    "loot_revid": 1212864,
+    "times": 112,
+    "evidence": "old statistics within the current rarity (rare)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/humans/renegade_knight.lua",
+   "monster": "Renegade Knight",
+   "item": "great health potion",
+   "chance": 7051,
+   "from": 1210,
+   "source": {
+    "version": "10.8",
+    "kills": 21189,
+    "loot_revid": 1212864,
+    "times": 1494,
+    "evidence": "old statistics within the current rarity (uncommon); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/humans/renegade_knight.lua",
+   "monster": "Renegade Knight",
+   "item": "meat",
+   "chance": 9307,
+   "from": 1210,
+   "source": {
+    "version": "10.8",
+    "kills": 21189,
+    "loot_revid": 1212864,
+    "times": 1972,
+    "evidence": "old statistics within the current rarity (uncommon); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/humans/renegade_knight.lua",
+   "monster": "Renegade Knight",
+   "item": "scroll of heroic deeds",
+   "chance": 6060,
+   "from": 910,
+   "source": {
+    "version": "10.8",
+    "kills": 21189,
+    "loot_revid": 1212864,
+    "times": 1284,
+    "evidence": "old statistics within the current rarity (uncommon); single large sample"
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/humans/renegade_knight.lua",
    "monster": "Renegade Knight",
@@ -11622,6 +15885,21 @@
    "from": 64
   },
   {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/humans/usurper_archer.lua",
+   "monster": "Usurper Archer",
+   "item": "wood cape",
+   "chance": 1051,
+   "from": 405,
+   "source": {
+    "version": "8.6",
+    "kills": 7135,
+    "loot_revid": 1211409,
+    "times": 75,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   }
+  },
+  {
    "kind": "add_loot",
    "file": "data-otservbr-global/monster/humans/usurper_knight.lua",
    "monster": "Usurper Knight",
@@ -11648,6 +15926,126 @@
    "from": 35
   },
   {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/humans/usurper_warlock.lua",
+   "monster": "Usurper Warlock",
+   "item": "wand of starstorm",
+   "chance": 1368,
+   "from": 667,
+   "source": {
+    "version": "8.6",
+    "kills": 4753,
+    "loot_revid": 1211411,
+    "times": 65,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/humans/vicious_squire.lua",
+   "monster": "Vicious Squire",
+   "item": "piggy bank",
+   "id": 2995,
+   "chance": 47,
+   "source": {
+    "version": "10.8",
+    "kills": 40190,
+    "loot_revid": 1212868,
+    "times": 19,
+    "evidence": "old statistics within the current rarity (very rare)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/humans/vicious_squire.lua",
+   "monster": "Vicious Squire",
+   "item": "small amethyst",
+   "id": 3033,
+   "chance": 2570,
+   "source": {
+    "version": "10.8",
+    "kills": 40190,
+    "loot_revid": 1212868,
+    "times": 1033,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/humans/vicious_squire.lua",
+   "monster": "Vicious Squire",
+   "item": "small emerald",
+   "id": 3032,
+   "chance": 2414,
+   "source": {
+    "version": "10.8",
+    "kills": 40190,
+    "loot_revid": 1212868,
+    "times": 970,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/humans/vicious_squire.lua",
+   "monster": "Vicious Squire",
+   "item": "bolt",
+   "chance": 20052,
+   "from": 90450,
+   "source": {
+    "version": "10.8",
+    "kills": 40190,
+    "loot_revid": 1212868,
+    "times": 8059,
+    "evidence": "old statistics within the current rarity (uncommon)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/humans/vicious_squire.lua",
+   "monster": "Vicious Squire",
+   "item": "crossbow",
+   "chance": 12948,
+   "from": 830,
+   "source": {
+    "version": "10.8",
+    "kills": 40190,
+    "loot_revid": 1212868,
+    "times": 5204,
+    "evidence": "old statistics within the current rarity (uncommon); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/humans/vicious_squire.lua",
+   "monster": "Vicious Squire",
+   "item": "might ring",
+   "chance": 440,
+   "from": 700,
+   "source": {
+    "version": "10.8",
+    "kills": 40190,
+    "loot_revid": 1212868,
+    "times": 177,
+    "evidence": "old statistics within the current rarity (very rare)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/humans/vicious_squire.lua",
+   "monster": "Vicious Squire",
+   "item": "war hammer",
+   "chance": 724,
+   "from": 130,
+   "source": {
+    "version": "10.8",
+    "kills": 40190,
+    "loot_revid": 1212868,
+    "times": 291,
+    "evidence": "old statistics within the current rarity (rare); single large sample"
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/humans/vicious_squire.lua",
    "monster": "Vicious Squire",
@@ -11659,6 +16057,231 @@
     "loot_revid": 1212868
    },
    "from": 30
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/humans/vile_grandmaster.lua",
+   "monster": "Vile Grandmaster",
+   "item": "piggy bank",
+   "id": 2995,
+   "chance": 156,
+   "source": {
+    "version": "10.8",
+    "kills": 10233,
+    "loot_revid": 1212869,
+    "times": 16,
+    "evidence": "old statistics within the current rarity (very rare)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/humans/vile_grandmaster.lua",
+   "monster": "Vile Grandmaster",
+   "item": "crown armor",
+   "chance": 1143,
+   "from": 310,
+   "source": {
+    "version": "10.8",
+    "kills": 10233,
+    "loot_revid": 1212869,
+    "times": 117,
+    "evidence": "old statistics within the current rarity (rare)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/humans/vile_grandmaster.lua",
+   "monster": "Vile Grandmaster",
+   "item": "crown helmet",
+   "chance": 645,
+   "from": 310,
+   "source": {
+    "version": "10.8",
+    "kills": 10233,
+    "loot_revid": 1212869,
+    "times": 66,
+    "evidence": "old statistics within the current rarity (rare)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/humans/vile_grandmaster.lua",
+   "monster": "Vile Grandmaster",
+   "item": "crown legs",
+   "chance": 772,
+   "from": 110,
+   "source": {
+    "version": "10.8",
+    "kills": 10233,
+    "loot_revid": 1212869,
+    "times": 79,
+    "evidence": "old statistics within the current rarity (rare); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/humans/vile_grandmaster.lua",
+   "monster": "Vile Grandmaster",
+   "item": "fire sword",
+   "chance": 821,
+   "from": 210,
+   "source": {
+    "version": "10.8",
+    "kills": 10233,
+    "loot_revid": 1212869,
+    "times": 84,
+    "evidence": "old statistics within the current rarity (rare)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/humans/vile_grandmaster.lua",
+   "monster": "Vile Grandmaster",
+   "item": "great health potion",
+   "chance": 7163,
+   "from": 1210,
+   "source": {
+    "version": "10.8",
+    "kills": 10233,
+    "loot_revid": 1212869,
+    "times": 733,
+    "evidence": "old statistics within the current rarity (uncommon); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/humans/vile_grandmaster.lua",
+   "monster": "Vile Grandmaster",
+   "item": "meat",
+   "chance": 9538,
+   "from": 1210,
+   "source": {
+    "version": "10.8",
+    "kills": 10233,
+    "loot_revid": 1212869,
+    "times": 976,
+    "evidence": "old statistics within the current rarity (uncommon); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/humans/vile_grandmaster.lua",
+   "monster": "Vile Grandmaster",
+   "item": "red piece of cloth",
+   "chance": 2111,
+   "from": 210,
+   "source": {
+    "version": "10.8",
+    "kills": 10233,
+    "loot_revid": 1212869,
+    "times": 216,
+    "evidence": "old statistics within the current rarity (semi-rare); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/humans/vile_grandmaster.lua",
+   "monster": "Vile Grandmaster",
+   "item": "scroll of heroic deeds",
+   "chance": 7955,
+   "from": 910,
+   "source": {
+    "version": "10.8",
+    "kills": 10233,
+    "loot_revid": 1212869,
+    "times": 814,
+    "evidence": "old statistics within the current rarity (uncommon); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/humans/vile_grandmaster.lua",
+   "monster": "Vile Grandmaster",
+   "item": "war hammer",
+   "chance": 2091,
+   "from": 210,
+   "source": {
+    "version": "10.8",
+    "kills": 10233,
+    "loot_revid": 1212869,
+    "times": 214,
+    "evidence": "old statistics within the current rarity (semi-rare); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/humans/vile_grandmaster.lua",
+   "monster": "Vile Grandmaster",
+   "item": "wedding ring",
+   "chance": 5003,
+   "from": 510,
+   "source": {
+    "version": "10.8",
+    "kills": 10233,
+    "loot_revid": 1212869,
+    "times": 512,
+    "evidence": "old statistics within the current rarity (semi-rare); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/lycanthropes/cunning_werepanther.lua",
+   "monster": "Cunning Werepanther",
+   "item": "fur armor",
+   "chance": 813,
+   "from": 2620,
+   "source": {
+    "version": "8.6",
+    "kills": 9346,
+    "loot_revid": 1209881,
+    "times": 76,
+    "evidence": "old statistics within the current rarity (rare)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/lycanthropes/cunning_werepanther.lua",
+   "monster": "Cunning Werepanther",
+   "item": "gemmed figurine",
+   "chance": 599,
+   "from": 1770,
+   "source": {
+    "version": "8.6",
+    "kills": 9346,
+    "loot_revid": 1209881,
+    "times": 56,
+    "evidence": "old statistics within the current rarity (rare)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/lycanthropes/cunning_werepanther.lua",
+   "monster": "Cunning Werepanther",
+   "item": "lightning headband",
+   "chance": 974,
+   "from": 7200,
+   "source": {
+    "version": "8.6",
+    "kills": 9346,
+    "loot_revid": 1209881,
+    "times": 91,
+    "evidence": "old statistics within the current rarity (semi-rare); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/lycanthropes/cunning_werepanther.lua",
+   "monster": "Cunning Werepanther",
+   "item": "small topaz",
+   "chance": 5243,
+   "from": 7120,
+   "source": {
+    "version": "8.6",
+    "kills": 9346,
+    "loot_revid": 1209881,
+    "times": 490,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   }
   },
   {
    "kind": "add_loot",
@@ -12328,6 +16951,36 @@
     "loot_revid": 1212564
    },
    "from": 1
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/lycanthropes/werecrocodile.lua",
+   "monster": "Werecrocodile",
+   "item": "golden sun coin",
+   "chance": 798,
+   "from": 1770,
+   "source": {
+    "version": "8.6",
+    "kills": 3257,
+    "loot_revid": 1210667,
+    "times": 26,
+    "evidence": "old statistics within the current rarity (rare)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/lycanthropes/werecrocodile.lua",
+   "monster": "Werecrocodile",
+   "item": "moonlight crystals",
+   "chance": 4912,
+   "from": 3000,
+   "source": {
+    "version": "8.6",
+    "kills": 3257,
+    "loot_revid": 1210667,
+    "times": 160,
+    "evidence": "old statistics within the current rarity (uncommon)"
+   }
   },
   {
    "kind": "add_loot",
@@ -13246,6 +17899,81 @@
    "from": 2
   },
   {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/lycanthropes/werepanther.lua",
+   "monster": "Werepanther",
+   "item": "fur armor",
+   "chance": 834,
+   "from": 2620,
+   "source": {
+    "version": "8.6",
+    "kills": 5515,
+    "loot_revid": 1210668,
+    "times": 46,
+    "evidence": "old statistics within the current rarity (rare)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/lycanthropes/werepanther.lua",
+   "monster": "Werepanther",
+   "item": "gemmed figurine",
+   "chance": 780,
+   "from": 1770,
+   "source": {
+    "version": "8.6",
+    "kills": 5515,
+    "loot_revid": 1210668,
+    "times": 43,
+    "evidence": "old statistics within the current rarity (rare)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/lycanthropes/werepanther.lua",
+   "monster": "Werepanther",
+   "item": "magma amulet",
+   "chance": 707,
+   "from": 2770,
+   "source": {
+    "version": "8.6",
+    "kills": 5515,
+    "loot_revid": 1210668,
+    "times": 39,
+    "evidence": "old statistics within the current rarity (rare)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/lycanthropes/werepanther.lua",
+   "monster": "Werepanther",
+   "item": "small ruby",
+   "chance": 3971,
+   "from": 8470,
+   "source": {
+    "version": "8.6",
+    "kills": 5515,
+    "loot_revid": 1210668,
+    "times": 219,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/lycanthropes/werepanther.lua",
+   "monster": "Werepanther",
+   "item": "werepanther trophy",
+   "chance": 181,
+   "from": 650,
+   "source": {
+    "version": "8.6",
+    "kills": 5515,
+    "loot_revid": 1210668,
+    "times": 10,
+    "evidence": "old statistics within the current rarity (very rare)"
+   }
+  },
+  {
    "kind": "add_loot",
    "file": "data-otservbr-global/monster/lycanthropes/werewolf.lua",
    "monster": "Werewolf",
@@ -14038,6 +18766,22 @@
    "from": 2950
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/magicals/blue_djinn.lua",
+   "monster": "Blue Djinn",
+   "item": "book (blue)",
+   "id": 401,
+   "chance": 2431,
+   "source": {
+    "version": "8.6",
+    "kills": 27602,
+    "loot_revid": 1202572,
+    "times": 671,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   },
+   "by_id": true
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/magicals/blue_djinn.lua",
    "monster": "Blue Djinn",
@@ -14049,6 +18793,21 @@
     "loot_revid": 1202572
    },
    "from": 70
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/bog_raider.lua",
+   "monster": "Bog Raider",
+   "item": "plate legs",
+   "chance": 2026,
+   "from": 200,
+   "source": {
+    "version": "8.6",
+    "kills": 37715,
+    "loot_revid": 1209851,
+    "times": 764,
+    "evidence": "old statistics within the current rarity (semi-rare); single large sample"
+   }
   },
   {
    "kind": "add_loot",
@@ -14651,6 +19410,22 @@
     "loot_revid": 1210426
    },
    "from": 4
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/magicals/candy_horror.lua",
+   "monster": "Candy Horror",
+   "item": "red gem",
+   "id": 3039,
+   "chance": 5179,
+   "source": {
+    "version": "8.6",
+    "kills": 14269,
+    "loot_revid": 1212364,
+    "times": 739,
+    "evidence": "old statistics within the current rarity (uncommon)"
+   },
+   "by_id": true
   },
   {
    "kind": "max_count",
@@ -15270,6 +20045,21 @@
    "from": 100
   },
   {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/efreet.lua",
+   "monster": "Efreet",
+   "item": "strong mana potion",
+   "chance": 8791,
+   "from": 3500,
+   "source": {
+    "version": "8.54",
+    "kills": 182,
+    "loot_revid": 1212950,
+    "times": 16,
+    "evidence": "old statistics within the current rarity (uncommon)"
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/magicals/efreet.lua",
    "monster": "Efreet",
@@ -15790,6 +20580,37 @@
    "from": 8800
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/magicals/feversleep.lua",
+   "monster": "Feversleep",
+   "item": "cluster of solace",
+   "id": 20062,
+   "chance": 740,
+   "source": {
+    "version": "10.3",
+    "kills": 3649,
+    "loot_revid": 1212496,
+    "times": 27,
+    "evidence": "old statistics within the current rarity (rare)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/magicals/feversleep.lua",
+   "monster": "Feversleep",
+   "item": "small ruby",
+   "id": 3030,
+   "chance": 12551,
+   "source": {
+    "version": "10.3",
+    "kills": 3649,
+    "loot_revid": 1212496,
+    "times": 458,
+    "evidence": "old statistics within the current rarity (uncommon)"
+   },
+   "maxCount": 3
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/magicals/feversleep.lua",
    "monster": "Feversleep",
@@ -16194,6 +21015,37 @@
    "from": 3200
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/magicals/gargoyle.lua",
+   "monster": "Gargoyle",
+   "item": "small stone",
+   "id": 1781,
+   "chance": 15040,
+   "source": {
+    "version": "9.86",
+    "kills": 35265,
+    "loot_revid": 1213460,
+    "times": 5304,
+    "evidence": "old statistics within the current rarity (uncommon)"
+   },
+   "maxCount": 10
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/gargoyle.lua",
+   "monster": "Gargoyle",
+   "item": "wolf tooth chain",
+   "chance": 1078,
+   "from": 1480,
+   "source": {
+    "version": "9.86",
+    "kills": 35265,
+    "loot_revid": 1213460,
+    "times": 380,
+    "evidence": "old statistics within the current rarity (rare)"
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/magicals/gazer.lua",
    "monster": "Gazer",
@@ -16205,6 +21057,22 @@
     "loot_revid": 1212973
    },
    "from": 16
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/magicals/green_djinn.lua",
+   "monster": "Green Djinn",
+   "item": "book (green)",
+   "id": 401,
+   "chance": 3500,
+   "source": {
+    "version": "8.54",
+    "kills": 400,
+    "loot_revid": 1212977,
+    "times": 14,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   },
+   "by_id": true
   },
   {
    "kind": "max_count",
@@ -17321,6 +22189,21 @@
    "from": 5100
   },
   {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/marid.lua",
+   "monster": "Marid",
+   "item": "wooden flute",
+   "chance": 331,
+   "from": 5000,
+   "source": {
+    "version": "8.6",
+    "kills": 10876,
+    "loot_revid": 1209977,
+    "times": 36,
+    "evidence": "old statistics within the current rarity (very rare); single large sample"
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/magicals/marid.lua",
    "monster": "Marid",
@@ -17360,6 +22243,38 @@
     "loot_revid": 1194538
    },
    "from": 57
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/magicals/nibblemaw.lua",
+   "monster": "Nibblemaw",
+   "item": "onyx chip",
+   "id": 22193,
+   "chance": 6789,
+   "source": {
+    "version": "8.6",
+    "kills": 19442,
+    "loot_revid": 1212379,
+    "times": 1320,
+    "evidence": "old statistics within the current rarity (uncommon)"
+   },
+   "maxCount": 3
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/magicals/nibblemaw.lua",
+   "monster": "Nibblemaw",
+   "item": "strong health potion",
+   "id": 236,
+   "chance": 34971,
+   "source": {
+    "version": "8.6",
+    "kills": 19442,
+    "loot_revid": 1212379,
+    "times": 6799,
+    "evidence": "old statistics within the current rarity (common)"
+   },
+   "maxCount": 2
   },
   {
    "kind": "element",
@@ -18084,6 +22999,36 @@
    "from": 30,
    "source": {
     "revid": 1192017
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/sight_of_surrender.lua",
+   "monster": "Sight of Surrender",
+   "item": "cluster of solace",
+   "chance": 2888,
+   "from": 11800,
+   "source": {
+    "version": "10.3",
+    "kills": 4744,
+    "loot_revid": 1213419,
+    "times": 137,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/magicals/sight_of_surrender.lua",
+   "monster": "Sight of Surrender",
+   "item": "might ring",
+   "chance": 5101,
+   "from": 8000,
+   "source": {
+    "version": "10.3",
+    "kills": 4744,
+    "loot_revid": 1213419,
+    "times": 242,
+    "evidence": "old statistics within the current rarity (semi-rare)"
    }
   },
   {
@@ -19104,6 +24049,66 @@
    }
   },
   {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/mammals/clomp.lua",
+   "monster": "Clomp",
+   "item": "furry club",
+   "chance": 422,
+   "from": 200,
+   "source": {
+    "version": "8.6",
+    "kills": 10659,
+    "loot_revid": 1208328,
+    "times": 45,
+    "evidence": "old statistics within the current rarity (rare)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/mammals/clomp.lua",
+   "monster": "Clomp",
+   "item": "hardened bone",
+   "chance": 7787,
+   "from": 1200,
+   "source": {
+    "version": "8.6",
+    "kills": 10659,
+    "loot_revid": 1208328,
+    "times": 830,
+    "evidence": "old statistics within the current rarity (uncommon); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/mammals/clomp.lua",
+   "monster": "Clomp",
+   "item": "raw meat",
+   "chance": 18135,
+   "from": 2200,
+   "source": {
+    "version": "8.6",
+    "kills": 10659,
+    "loot_revid": 1208328,
+    "times": 1933,
+    "evidence": "old statistics within the current rarity (uncommon); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/mammals/clomp.lua",
+   "monster": "Clomp",
+   "item": "thick fur",
+   "chance": 7102,
+   "from": 900,
+   "source": {
+    "version": "8.6",
+    "kills": 10659,
+    "loot_revid": 1208328,
+    "times": 757,
+    "evidence": "old statistics within the current rarity (uncommon); single large sample"
+   }
+  },
+  {
    "kind": "immunity",
    "file": "data-otservbr-global/monster/mammals/crystal_wolf.lua",
    "monster": "Crystal Wolf",
@@ -19264,6 +24269,21 @@
     "revid": 1192209
    },
    "from": true
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/mammals/gloom_wolf.lua",
+   "monster": "Gloom Wolf",
+   "item": "wolf tooth chain",
+   "chance": 6938,
+   "from": 2000,
+   "source": {
+    "version": "10.8",
+    "kills": 7942,
+    "loot_revid": 1211873,
+    "times": 551,
+    "evidence": "old statistics within the current rarity (uncommon)"
+   }
   },
   {
    "kind": "add_loot",
@@ -19503,6 +24523,81 @@
    "from": 114
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/mammals/stone_rhino.lua",
+   "monster": "Stone Rhino",
+   "item": "tusk shield",
+   "id": 3443,
+   "chance": 1561,
+   "source": {
+    "version": "8.6",
+    "kills": 2434,
+    "loot_revid": 1202097,
+    "times": 38,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/mammals/stone_rhino.lua",
+   "monster": "Stone Rhino",
+   "item": "hardened bone",
+   "chance": 9532,
+   "from": 50320,
+   "source": {
+    "version": "8.6",
+    "kills": 2434,
+    "loot_revid": 1202097,
+    "times": 232,
+    "evidence": "old statistics within the current rarity (uncommon); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/mammals/stone_rhino.lua",
+   "monster": "Stone Rhino",
+   "item": "raw meat",
+   "chance": 17584,
+   "from": 50320,
+   "source": {
+    "version": "8.6",
+    "kills": 2434,
+    "loot_revid": 1202097,
+    "times": 428,
+    "evidence": "old statistics within the current rarity (uncommon)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/mammals/stone_rhino.lua",
+   "monster": "Stone Rhino",
+   "item": "rhino hide",
+   "chance": 8915,
+   "from": 50320,
+   "source": {
+    "version": "8.6",
+    "kills": 2434,
+    "loot_revid": 1202097,
+    "times": 217,
+    "evidence": "old statistics within the current rarity (uncommon); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/mammals/stone_rhino.lua",
+   "monster": "Stone Rhino",
+   "item": "rhino horn",
+   "chance": 4601,
+   "from": 50320,
+   "source": {
+    "version": "8.6",
+    "kills": 2434,
+    "loot_revid": 1202097,
+    "times": 112,
+    "evidence": "old statistics within the current rarity (semi-rare); single large sample"
+   }
+  },
+  {
    "kind": "immunity",
    "file": "data-otservbr-global/monster/mammals/thornfire_wolf.lua",
    "monster": "Thornfire Wolf",
@@ -19552,6 +24647,37 @@
    "from": 100
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/mammals/war_wolf.lua",
+   "monster": "War Wolf",
+   "item": "wolf trophy",
+   "id": 7394,
+   "chance": 61,
+   "source": {
+    "version": "8.6",
+    "kills": 18018,
+    "loot_revid": 1213065,
+    "times": 11,
+    "evidence": "old statistics within the current rarity (very rare)"
+   },
+   "by_id": true
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/mammals/white_lion.lua",
+   "monster": "White Lion",
+   "item": "yellow gem",
+   "id": 3037,
+   "chance": 2682,
+   "source": {
+    "version": "8.6",
+    "kills": 10178,
+    "loot_revid": 1213069,
+    "times": 273,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/mammals/white_tiger.lua",
    "monster": "White Tiger",
@@ -19584,6 +24710,21 @@
    "from": 10,
    "source": {
     "revid": 1192089
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/mammals/yeti.lua",
+   "monster": "Yeti",
+   "item": "ham",
+   "chance": 37607,
+   "from": 10000,
+   "source": {
+    "version": "8.6",
+    "kills": 117,
+    "loot_revid": 1194540,
+    "times": 44,
+    "evidence": "old statistics within the current rarity (common)"
    }
   },
   {
@@ -19892,6 +25033,112 @@
    "from": 197
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/plants/omnivora.lua",
+   "monster": "Omnivora",
+   "item": "death ring",
+   "id": 6299,
+   "chance": 169,
+   "source": {
+    "version": "10.8",
+    "kills": 5905,
+    "loot_revid": 1213461,
+    "times": 10,
+    "evidence": "old statistics within the current rarity (very rare)"
+   },
+   "by_id": true
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/plants/omnivora.lua",
+   "monster": "Omnivora",
+   "item": "blue crystal splinter",
+   "chance": 593,
+   "from": 2000,
+   "source": {
+    "version": "10.8",
+    "kills": 5905,
+    "loot_revid": 1213461,
+    "times": 35,
+    "evidence": "old statistics within the current rarity (rare)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/plants/omnivora.lua",
+   "monster": "Omnivora",
+   "item": "brown crystal splinter",
+   "chance": 728,
+   "from": 2000,
+   "source": {
+    "version": "10.8",
+    "kills": 5905,
+    "loot_revid": 1213461,
+    "times": 43,
+    "evidence": "old statistics within the current rarity (rare)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/plants/omnivora.lua",
+   "monster": "Omnivora",
+   "item": "green crystal splinter",
+   "chance": 627,
+   "from": 2210,
+   "source": {
+    "version": "10.8",
+    "kills": 5905,
+    "loot_revid": 1213461,
+    "times": 37,
+    "evidence": "old statistics within the current rarity (rare)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/plants/omnivora.lua",
+   "monster": "Omnivora",
+   "item": "ham",
+   "chance": 9856,
+   "from": 1200,
+   "source": {
+    "version": "10.8",
+    "kills": 5905,
+    "loot_revid": 1213461,
+    "times": 582,
+    "evidence": "old statistics within the current rarity (uncommon); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/plants/omnivora.lua",
+   "monster": "Omnivora",
+   "item": "terra amulet",
+   "chance": 322,
+   "from": 700,
+   "source": {
+    "version": "10.8",
+    "kills": 5905,
+    "loot_revid": 1213461,
+    "times": 19,
+    "evidence": "old statistics within the current rarity (very rare)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/plants/omnivora.lua",
+   "monster": "Omnivora",
+   "item": "white mushroom",
+   "chance": 9721,
+   "from": 1900,
+   "source": {
+    "version": "10.8",
+    "kills": 5905,
+    "loot_revid": 1213461,
+    "times": 574,
+    "evidence": "old statistics within the current rarity (uncommon); single large sample"
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/plants/omnivora.lua",
    "monster": "Omnivora",
@@ -20003,6 +25250,21 @@
    "from": 9200
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/plants/spit_nettle.lua",
+   "monster": "Spit Nettle",
+   "item": "grave flower",
+   "id": 3661,
+   "chance": 950,
+   "source": {
+    "version": "8.6",
+    "kills": 9155,
+    "loot_revid": 1211302,
+    "times": 87,
+    "evidence": "old statistics within the current rarity (rare)"
+   }
+  },
+  {
    "kind": "element",
    "file": "data-otservbr-global/monster/plants/stalking_stalk.lua",
    "monster": "Stalking Stalk",
@@ -20058,6 +25320,21 @@
     "revid": 1206015
    },
    "from": 20
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/quests/ancient_tombs/ashmunrah.lua",
+   "monster": "Ashmunrah",
+   "item": "silver brooch",
+   "chance": 4323,
+   "from": 7000,
+   "source": {
+    "version": "8.6",
+    "kills": 1781,
+    "loot_revid": 1201469,
+    "times": 77,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   }
   },
   {
    "kind": "max_count",
@@ -20196,6 +25473,21 @@
     "loot_revid": 1206865
    },
    "from": 4
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/quests/ancient_tombs/mahrdis.lua",
+   "monster": "Mahrdis",
+   "item": "red gem",
+   "chance": 666,
+   "from": 1500,
+   "source": {
+    "version": "8.6",
+    "kills": 3605,
+    "loot_revid": 1184351,
+    "times": 24,
+    "evidence": "old statistics within the current rarity (rare)"
+   }
   },
   {
    "kind": "element",
@@ -20474,6 +25766,21 @@
    }
   },
   {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/quests/ancient_tombs/rahemos.lua",
+   "monster": "Rahemos",
+   "item": "ring of healing",
+   "chance": 4133,
+   "from": 7000,
+   "source": {
+    "version": "8.6",
+    "kills": 1863,
+    "loot_revid": 1184352,
+    "times": 77,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   }
+  },
+  {
    "kind": "element",
    "file": "data-otservbr-global/monster/quests/ancient_tombs/rahemos.lua",
    "monster": "Rahemos",
@@ -20599,6 +25906,21 @@
    "from": 80
   },
   {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/quests/ancient_tombs/vashresamun.lua",
+   "monster": "Vashresamun",
+   "item": "panpipes",
+   "chance": 364,
+   "from": 1500,
+   "source": {
+    "version": "8.6",
+    "kills": 1373,
+    "loot_revid": 1178897,
+    "times": 5,
+    "evidence": "old statistics within the current rarity (very rare)"
+   }
+  },
+  {
    "kind": "element",
    "file": "data-otservbr-global/monster/quests/ancient_tombs/vashresamun.lua",
    "monster": "Vashresamun",
@@ -20629,6 +25951,51 @@
    "from": 0,
    "source": {
     "revid": 1181451
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/quests/cults_of_tibia/barkless_devotee.lua",
+   "monster": "Barkless Devotee",
+   "item": "bed of nails",
+   "chance": 975,
+   "from": 1540,
+   "source": {
+    "version": "8.6",
+    "kills": 12918,
+    "loot_revid": 1212904,
+    "times": 126,
+    "evidence": "old statistics within the current rarity (rare)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/cults_of_tibia/barkless_fanatic.lua",
+   "monster": "Barkless Fanatic",
+   "item": "torn shirt",
+   "id": 25744,
+   "chance": 988,
+   "source": {
+    "version": "8.6",
+    "kills": 9720,
+    "loot_revid": 1210416,
+    "times": 96,
+    "evidence": "old statistics within the current rarity (rare)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/quests/cults_of_tibia/barkless_fanatic.lua",
+   "monster": "Barkless Fanatic",
+   "item": "tiger eye",
+   "chance": 4866,
+   "from": 6920,
+   "source": {
+    "version": "8.6",
+    "kills": 9720,
+    "loot_revid": 1210416,
+    "times": 473,
+    "evidence": "old statistics within the current rarity (semi-rare)"
    }
   },
   {
@@ -20700,6 +26067,81 @@
    "from": 35
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/cults_of_tibia/cult_believer.lua",
+   "monster": "Cult Believer",
+   "item": "cultish robe",
+   "id": 9639,
+   "chance": 4246,
+   "source": {
+    "version": "8.6",
+    "kills": 19782,
+    "loot_revid": 1207322,
+    "times": 840,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/cults_of_tibia/cult_believer.lua",
+   "monster": "Cult Believer",
+   "item": "piggy bank",
+   "id": 2995,
+   "chance": 66,
+   "source": {
+    "version": "8.6",
+    "kills": 19782,
+    "loot_revid": 1207322,
+    "times": 13,
+    "evidence": "old statistics within the current rarity (very rare)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/cults_of_tibia/cult_believer.lua",
+   "monster": "Cult Believer",
+   "item": "small amethyst",
+   "id": 3033,
+   "chance": 2497,
+   "source": {
+    "version": "8.6",
+    "kills": 19782,
+    "loot_revid": 1207322,
+    "times": 494,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/cults_of_tibia/cult_believer.lua",
+   "monster": "Cult Believer",
+   "item": "small emerald",
+   "id": 3032,
+   "chance": 2442,
+   "source": {
+    "version": "8.6",
+    "kills": 19782,
+    "loot_revid": 1207322,
+    "times": 483,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/quests/cults_of_tibia/cult_believer.lua",
+   "monster": "Cult Believer",
+   "item": "might ring",
+   "chance": 207,
+   "from": 700,
+   "source": {
+    "version": "8.6",
+    "kills": 19782,
+    "loot_revid": 1207322,
+    "times": 41,
+    "evidence": "old statistics within the current rarity (very rare)"
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/quests/cults_of_tibia/cult_believer.lua",
    "monster": "Cult Believer",
@@ -20713,6 +26155,66 @@
    "from": 30
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/cults_of_tibia/cult_enforcer.lua",
+   "monster": "Cult Enforcer",
+   "item": "cultish robe",
+   "id": 9639,
+   "chance": 5038,
+   "source": {
+    "version": "8.6",
+    "kills": 6312,
+    "loot_revid": 1212932,
+    "times": 318,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/cults_of_tibia/cult_enforcer.lua",
+   "monster": "Cult Enforcer",
+   "item": "small amethyst",
+   "id": 3033,
+   "chance": 2281,
+   "source": {
+    "version": "8.6",
+    "kills": 6312,
+    "loot_revid": 1212932,
+    "times": 144,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/cults_of_tibia/cult_enforcer.lua",
+   "monster": "Cult Enforcer",
+   "item": "small emerald",
+   "id": 3032,
+   "chance": 2646,
+   "source": {
+    "version": "8.6",
+    "kills": 6312,
+    "loot_revid": 1212932,
+    "times": 167,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/quests/cults_of_tibia/cult_enforcer.lua",
+   "monster": "Cult Enforcer",
+   "item": "war hammer",
+   "chance": 729,
+   "from": 130,
+   "source": {
+    "version": "8.6",
+    "kills": 6312,
+    "loot_revid": 1212932,
+    "times": 46,
+    "evidence": "old statistics within the current rarity (rare); single large sample"
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/quests/cults_of_tibia/cult_enforcer.lua",
    "monster": "Cult Enforcer",
@@ -20724,6 +26226,51 @@
     "loot_revid": 1212932
    },
    "from": 30
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/cults_of_tibia/cult_scholar.lua",
+   "monster": "Cult Scholar",
+   "item": "cultish robe",
+   "id": 9639,
+   "chance": 5542,
+   "source": {
+    "version": "8.6",
+    "kills": 3789,
+    "loot_revid": 1207324,
+    "times": 210,
+    "evidence": "old statistics within the current rarity (uncommon)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/cults_of_tibia/cult_scholar.lua",
+   "monster": "Cult Scholar",
+   "item": "small amethyst",
+   "id": 3033,
+   "chance": 2560,
+   "source": {
+    "version": "8.6",
+    "kills": 3789,
+    "loot_revid": 1207324,
+    "times": 97,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/cults_of_tibia/cult_scholar.lua",
+   "monster": "Cult Scholar",
+   "item": "small emerald",
+   "id": 3032,
+   "chance": 2454,
+   "source": {
+    "version": "8.6",
+    "kills": 3789,
+    "loot_revid": 1207324,
+    "times": 93,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   }
   },
   {
    "kind": "max_count",
@@ -20776,6 +26323,36 @@
     "revid": 1191914
    },
    "from": 1200
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/cults_of_tibia/misguided_thief.lua",
+   "monster": "Misguided Thief",
+   "item": "gold ring",
+   "id": 3063,
+   "chance": 478,
+   "source": {
+    "version": "8.6",
+    "kills": 3978,
+    "loot_revid": 1206059,
+    "times": 19,
+    "evidence": "old statistics within the current rarity (rare)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/cults_of_tibia/misguided_thief.lua",
+   "monster": "Misguided Thief",
+   "item": "stone skin amulet",
+   "id": 3081,
+   "chance": 855,
+   "source": {
+    "version": "8.6",
+    "kills": 3978,
+    "loot_revid": 1206059,
+    "times": 34,
+    "evidence": "old statistics within the current rarity (rare)"
+   }
   },
   {
    "kind": "element",
@@ -20855,6 +26432,36 @@
    "from": 1200
   },
   {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/quests/cults_of_tibia/orc_cult_inquisitor.lua",
+   "monster": "Orc Cult Inquisitor",
+   "item": "black pearl",
+   "chance": 6151,
+   "from": 510,
+   "source": {
+    "version": "8.6",
+    "kills": 10340,
+    "loot_revid": 1211893,
+    "times": 636,
+    "evidence": "old statistics within the current rarity (uncommon); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/quests/cults_of_tibia/orc_cult_inquisitor.lua",
+   "monster": "Orc Cult Inquisitor",
+   "item": "orcish axe",
+   "chance": 8240,
+   "from": 850,
+   "source": {
+    "version": "8.6",
+    "kills": 10340,
+    "loot_revid": 1211893,
+    "times": 852,
+    "evidence": "old statistics within the current rarity (uncommon); single large sample"
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/quests/cults_of_tibia/orc_cult_inquisitor.lua",
    "monster": "Orc Cult Inquisitor",
@@ -20868,6 +26475,21 @@
    "from": 221
   },
   {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/quests/cults_of_tibia/orc_cult_minion.lua",
+   "monster": "Orc Cult Minion",
+   "item": "small topaz",
+   "chance": 13721,
+   "from": 1238,
+   "source": {
+    "version": "8.6",
+    "kills": 9671,
+    "loot_revid": 1211894,
+    "times": 1327,
+    "evidence": "old statistics within the current rarity (uncommon); single large sample"
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/quests/cults_of_tibia/orc_cult_minion.lua",
    "monster": "Orc Cult Minion",
@@ -20879,6 +26501,51 @@
     "loot_revid": 1211894
    },
    "from": 166
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/cults_of_tibia/orc_cult_priest.lua",
+   "monster": "Orc Cult Priest",
+   "item": "berserk potion",
+   "id": 7439,
+   "chance": 997,
+   "source": {
+    "version": "8.6",
+    "kills": 5014,
+    "loot_revid": 1211895,
+    "times": 50,
+    "evidence": "old statistics within the current rarity (rare)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/cults_of_tibia/orc_cult_priest.lua",
+   "monster": "Orc Cult Priest",
+   "item": "wand of decay",
+   "id": 3072,
+   "chance": 858,
+   "source": {
+    "version": "8.6",
+    "kills": 5014,
+    "loot_revid": 1211895,
+    "times": 43,
+    "evidence": "old statistics within the current rarity (rare)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/quests/cults_of_tibia/orc_cult_priest.lua",
+   "monster": "Orc Cult Priest",
+   "item": "heavy old tome",
+   "chance": 1735,
+   "from": 99,
+   "source": {
+    "version": "8.6",
+    "kills": 5014,
+    "loot_revid": 1211895,
+    "times": 87,
+    "evidence": "old statistics within the current rarity (semi-rare); single large sample"
+   }
   },
   {
    "kind": "max_count",
@@ -20905,6 +26572,21 @@
     "loot_revid": 1211895
    },
    "from": 176
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/cults_of_tibia/orc_cultist.lua",
+   "monster": "Orc Cultist",
+   "item": "berserk potion",
+   "id": 7439,
+   "chance": 841,
+   "source": {
+    "version": "8.6",
+    "kills": 4873,
+    "loot_revid": 1211896,
+    "times": 41,
+    "evidence": "old statistics within the current rarity (rare)"
+   }
   },
   {
    "kind": "max_count",
@@ -25272,6 +30954,113 @@
    "from": 3
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/the_first_dragon/haunted_dragon.lua",
+   "monster": "Haunted Dragon",
+   "item": "ancient coin",
+   "id": 24390,
+   "chance": 30113,
+   "source": {
+    "version": "8.6",
+    "kills": 3882,
+    "loot_revid": 1157877,
+    "times": 1169,
+    "evidence": "old statistics within the current rarity (common)"
+   },
+   "maxCount": 2
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/the_first_dragon/haunted_dragon.lua",
+   "monster": "Haunted Dragon",
+   "item": "dark armor",
+   "id": 3383,
+   "chance": 4276,
+   "source": {
+    "version": "8.6",
+    "kills": 3882,
+    "loot_revid": 1157877,
+    "times": 166,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/the_first_dragon/haunted_dragon.lua",
+   "monster": "Haunted Dragon",
+   "item": "dark shield",
+   "id": 3421,
+   "chance": 4534,
+   "source": {
+    "version": "8.6",
+    "kills": 3882,
+    "loot_revid": 1157877,
+    "times": 176,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/the_first_dragon/haunted_dragon.lua",
+   "monster": "Haunted Dragon",
+   "item": "dragon necklace",
+   "id": 3085,
+   "chance": 6929,
+   "source": {
+    "version": "8.6",
+    "kills": 3882,
+    "loot_revid": 1157877,
+    "times": 269,
+    "evidence": "old statistics within the current rarity (uncommon)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/the_first_dragon/haunted_dragon.lua",
+   "monster": "Haunted Dragon",
+   "item": "mind stone",
+   "id": 3062,
+   "chance": 8140,
+   "source": {
+    "version": "8.6",
+    "kills": 3882,
+    "loot_revid": 1157877,
+    "times": 316,
+    "evidence": "old statistics within the current rarity (uncommon)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/the_first_dragon/haunted_dragon.lua",
+   "monster": "Haunted Dragon",
+   "item": "red gem",
+   "id": 3039,
+   "chance": 5023,
+   "source": {
+    "version": "8.6",
+    "kills": 3882,
+    "loot_revid": 1157877,
+    "times": 195,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   },
+   "by_id": true
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/quests/the_first_dragon/haunted_dragon.lua",
+   "monster": "Haunted Dragon",
+   "item": "gold ingot",
+   "chance": 3478,
+   "from": 570,
+   "source": {
+    "version": "8.6",
+    "kills": 3882,
+    "loot_revid": 1157877,
+    "times": 135,
+    "evidence": "old statistics within the current rarity (semi-rare); single large sample"
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/quests/the_first_dragon/haunted_dragon.lua",
    "monster": "Haunted Dragon",
@@ -25309,6 +31098,126 @@
     "loot_revid": 1157877
    },
    "from": 1
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/quests/the_first_dragon/ice_dragon.lua",
+   "monster": "Ice Dragon",
+   "item": "energy ring",
+   "chance": 4536,
+   "from": 49900,
+   "source": {
+    "version": "8.6",
+    "kills": 2910,
+    "loot_revid": 1169961,
+    "times": 132,
+    "evidence": "old statistics within the current rarity (semi-rare); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/quests/the_first_dragon/ice_dragon.lua",
+   "monster": "Ice Dragon",
+   "item": "glacier mask",
+   "chance": 1065,
+   "from": 11900,
+   "source": {
+    "version": "8.6",
+    "kills": 2910,
+    "loot_revid": 1169961,
+    "times": 31,
+    "evidence": "old statistics within the current rarity (semi-rare); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/quests/the_first_dragon/ice_dragon.lua",
+   "monster": "Ice Dragon",
+   "item": "golden mug",
+   "chance": 3058,
+   "from": 21700,
+   "source": {
+    "version": "8.6",
+    "kills": 2910,
+    "loot_revid": 1169961,
+    "times": 89,
+    "evidence": "old statistics within the current rarity (semi-rare); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/quests/the_first_dragon/ice_dragon.lua",
+   "monster": "Ice Dragon",
+   "item": "great mana potion",
+   "chance": 3643,
+   "from": 40200,
+   "source": {
+    "version": "8.6",
+    "kills": 2910,
+    "loot_revid": 1169961,
+    "times": 106,
+    "evidence": "old statistics within the current rarity (semi-rare); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/quests/the_first_dragon/ice_dragon.lua",
+   "monster": "Ice Dragon",
+   "item": "hailstorm rod",
+   "chance": 2199,
+   "from": 21700,
+   "source": {
+    "version": "8.6",
+    "kills": 2910,
+    "loot_revid": 1169961,
+    "times": 64,
+    "evidence": "old statistics within the current rarity (semi-rare); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/quests/the_first_dragon/ice_dragon.lua",
+   "monster": "Ice Dragon",
+   "item": "ice cube",
+   "chance": 4261,
+   "from": 43400,
+   "source": {
+    "version": "8.6",
+    "kills": 2910,
+    "loot_revid": 1169961,
+    "times": 124,
+    "evidence": "old statistics within the current rarity (semi-rare); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/quests/the_first_dragon/ice_dragon.lua",
+   "monster": "Ice Dragon",
+   "item": "shiver arrow",
+   "chance": 8144,
+   "from": 78200,
+   "source": {
+    "version": "8.6",
+    "kills": 2910,
+    "loot_revid": 1169961,
+    "times": 237,
+    "evidence": "old statistics within the current rarity (uncommon); single large sample"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/quests/the_first_dragon/ice_dragon.lua",
+   "monster": "Ice Dragon",
+   "item": "small sapphire",
+   "chance": 4158,
+   "from": 52100,
+   "source": {
+    "version": "8.6",
+    "kills": 2910,
+    "loot_revid": 1169961,
+    "times": 121,
+    "evidence": "old statistics within the current rarity (semi-rare); single large sample"
+   }
   },
   {
    "kind": "max_count",
@@ -25457,6 +31366,36 @@
     "loot_revid": 1188982
    },
    "from": 13
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/the_inquisition/hellgorak.lua",
+   "monster": "Hellgorak",
+   "item": "demonic essence",
+   "id": 6499,
+   "chance": 100000,
+   "source": {
+    "version": "8.6",
+    "kills": 2001,
+    "loot_revid": 1188984,
+    "times": 2001,
+    "evidence": "old statistics within the current rarity (always)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/quests/the_inquisition/hellgorak.lua",
+   "monster": "Hellgorak",
+   "item": "demonbone amulet",
+   "chance": 700,
+   "from": 150,
+   "source": {
+    "version": "8.6",
+    "kills": 2001,
+    "loot_revid": 1188984,
+    "times": 14,
+    "evidence": "old statistics within the current rarity (rare)"
+   }
   },
   {
    "kind": "max_count",
@@ -25629,6 +31568,322 @@
     "loot_revid": 1188997
    },
    "from": 194
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/the_percht_queens_island/percht.lua",
+   "monster": "Percht",
+   "item": "blue fireworks powder",
+   "id": 30191,
+   "chance": 3157,
+   "source": {
+    "version": "8.6",
+    "kills": 20780,
+    "loot_revid": 1170126,
+    "times": 656,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/the_percht_queens_island/percht.lua",
+   "monster": "Percht",
+   "item": "grainy fireworks powder",
+   "id": 30271,
+   "chance": 5828,
+   "source": {
+    "version": "8.6",
+    "kills": 20780,
+    "loot_revid": 1170126,
+    "times": 1211,
+    "evidence": "old statistics within the current rarity (uncommon)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/the_percht_queens_island/percht.lua",
+   "monster": "Percht",
+   "item": "green fireworks powder",
+   "id": 30190,
+   "chance": 2936,
+   "source": {
+    "version": "8.6",
+    "kills": 20780,
+    "loot_revid": 1170126,
+    "times": 610,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/the_percht_queens_island/percht.lua",
+   "monster": "Percht",
+   "item": "orange fireworks powder",
+   "id": 30268,
+   "chance": 1973,
+   "source": {
+    "version": "8.6",
+    "kills": 20780,
+    "loot_revid": 1170126,
+    "times": 410,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/the_percht_queens_island/percht.lua",
+   "monster": "Percht",
+   "item": "purple fireworks powder",
+   "id": 30269,
+   "chance": 2084,
+   "source": {
+    "version": "8.6",
+    "kills": 20780,
+    "loot_revid": 1170126,
+    "times": 433,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/the_percht_queens_island/percht.lua",
+   "monster": "Percht",
+   "item": "red fireworks powder",
+   "id": 30188,
+   "chance": 1925,
+   "source": {
+    "version": "8.6",
+    "kills": 20780,
+    "loot_revid": 1170126,
+    "times": 400,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/the_percht_queens_island/percht.lua",
+   "monster": "Percht",
+   "item": "turquoise fireworks powder",
+   "id": 30270,
+   "chance": 2007,
+   "source": {
+    "version": "8.6",
+    "kills": 20780,
+    "loot_revid": 1170126,
+    "times": 417,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/the_percht_queens_island/percht.lua",
+   "monster": "Percht",
+   "item": "versicolour fireworks powder",
+   "id": 30187,
+   "chance": 3999,
+   "source": {
+    "version": "8.6",
+    "kills": 20780,
+    "loot_revid": 1170126,
+    "times": 831,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/the_percht_queens_island/percht.lua",
+   "monster": "Percht",
+   "item": "yellow fireworks powder",
+   "id": 30189,
+   "chance": 1829,
+   "source": {
+    "version": "8.6",
+    "kills": 20780,
+    "loot_revid": 1170126,
+    "times": 380,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/the_percht_queens_island/schiach.lua",
+   "monster": "Schiach",
+   "item": "blue fireworks powder",
+   "id": 30191,
+   "chance": 3526,
+   "source": {
+    "version": "8.6",
+    "kills": 19028,
+    "loot_revid": 1170192,
+    "times": 671,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/the_percht_queens_island/schiach.lua",
+   "monster": "Schiach",
+   "item": "fireworks capsule",
+   "id": 30208,
+   "chance": 13727,
+   "source": {
+    "version": "8.6",
+    "kills": 19028,
+    "loot_revid": 1170192,
+    "times": 2612,
+    "evidence": "old statistics within the current rarity (uncommon)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/the_percht_queens_island/schiach.lua",
+   "monster": "Schiach",
+   "item": "glacial rod",
+   "id": 16118,
+   "chance": 526,
+   "source": {
+    "version": "8.6",
+    "kills": 19028,
+    "loot_revid": 1170192,
+    "times": 100,
+    "evidence": "old statistics within the current rarity (rare)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/the_percht_queens_island/schiach.lua",
+   "monster": "Schiach",
+   "item": "grainy fireworks powder",
+   "id": 30271,
+   "chance": 8177,
+   "source": {
+    "version": "8.6",
+    "kills": 19028,
+    "loot_revid": 1170192,
+    "times": 1556,
+    "evidence": "old statistics within the current rarity (uncommon)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/the_percht_queens_island/schiach.lua",
+   "monster": "Schiach",
+   "item": "green fireworks powder",
+   "id": 30190,
+   "chance": 2549,
+   "source": {
+    "version": "8.6",
+    "kills": 19028,
+    "loot_revid": 1170192,
+    "times": 485,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/the_percht_queens_island/schiach.lua",
+   "monster": "Schiach",
+   "item": "orange fireworks powder",
+   "id": 30268,
+   "chance": 2291,
+   "source": {
+    "version": "8.6",
+    "kills": 19028,
+    "loot_revid": 1170192,
+    "times": 436,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/the_percht_queens_island/schiach.lua",
+   "monster": "Schiach",
+   "item": "purple fireworks powder",
+   "id": 30269,
+   "chance": 2439,
+   "source": {
+    "version": "8.6",
+    "kills": 19028,
+    "loot_revid": 1170192,
+    "times": 464,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/the_percht_queens_island/schiach.lua",
+   "monster": "Schiach",
+   "item": "rainbow quartz",
+   "id": 25737,
+   "chance": 4236,
+   "source": {
+    "version": "8.6",
+    "kills": 19028,
+    "loot_revid": 1170192,
+    "times": 806,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   },
+   "maxCount": 2
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/the_percht_queens_island/schiach.lua",
+   "monster": "Schiach",
+   "item": "red fireworks powder",
+   "id": 30188,
+   "chance": 1997,
+   "source": {
+    "version": "8.6",
+    "kills": 19028,
+    "loot_revid": 1170192,
+    "times": 380,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/the_percht_queens_island/schiach.lua",
+   "monster": "Schiach",
+   "item": "turquoise fireworks powder",
+   "id": 30270,
+   "chance": 3516,
+   "source": {
+    "version": "8.6",
+    "kills": 19028,
+    "loot_revid": 1170192,
+    "times": 669,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/the_percht_queens_island/schiach.lua",
+   "monster": "Schiach",
+   "item": "versicolour fireworks powder",
+   "id": 30187,
+   "chance": 4819,
+   "source": {
+    "version": "8.6",
+    "kills": 19028,
+    "loot_revid": 1170192,
+    "times": 917,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/the_percht_queens_island/schiach.lua",
+   "monster": "Schiach",
+   "item": "yellow fireworks powder",
+   "id": 30189,
+   "chance": 2449,
+   "source": {
+    "version": "8.6",
+    "kills": 19028,
+    "loot_revid": 1170192,
+    "times": 466,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   }
   },
   {
    "kind": "element",
@@ -26016,6 +32271,21 @@
    "from": 1
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/reptiles/liodile.lua",
+   "monster": "Liodile",
+   "item": "great spirit potion",
+   "id": 7642,
+   "chance": 2673,
+   "source": {
+    "version": "8.6",
+    "kills": 20200,
+    "loot_revid": 1212041,
+    "times": 540,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   }
+  },
+  {
    "kind": "element",
    "file": "data-otservbr-global/monster/reptiles/liodile.lua",
    "monster": "Liodile",
@@ -26174,6 +32444,36 @@
     "loot_revid": 1212727
    },
    "from": 19
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/reptiles/lizard_noble.lua",
+   "monster": "Lizard Noble",
+   "item": "lizard leather",
+   "chance": 935,
+   "from": 220,
+   "source": {
+    "version": "8.6",
+    "kills": 1711,
+    "loot_revid": 1201300,
+    "times": 16,
+    "evidence": "old statistics within the current rarity (rare)"
+   }
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/reptiles/lizard_noble.lua",
+   "monster": "Lizard Noble",
+   "item": "strong health potion",
+   "chance": 10111,
+   "from": 2550,
+   "source": {
+    "version": "8.6",
+    "kills": 1711,
+    "loot_revid": 1201300,
+    "times": 173,
+    "evidence": "old statistics within the current rarity (uncommon)"
+   }
   },
   {
    "kind": "stat",
@@ -26403,6 +32703,21 @@
    "from": 4
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/reptiles/sea_serpent.lua",
+   "monster": "Sea Serpent",
+   "item": "leviathan's amulet",
+   "id": 9303,
+   "chance": 113,
+   "source": {
+    "version": "9.5",
+    "kills": 46774,
+    "loot_revid": 1208132,
+    "times": 53,
+    "evidence": "old statistics within the current rarity (very rare)"
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/reptiles/sea_serpent.lua",
    "monster": "Sea Serpent",
@@ -26414,6 +32729,21 @@
     "loot_revid": 1208132
    },
    "from": 100
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/reptiles/seacrest_serpent.lua",
+   "monster": "Seacrest Serpent",
+   "item": "wand of defiance",
+   "chance": 227,
+   "from": 670,
+   "source": {
+    "version": "10.7",
+    "kills": 7490,
+    "loot_revid": 1201102,
+    "times": 17,
+    "evidence": "old statistics within the current rarity (very rare)"
+   }
   },
   {
    "kind": "element",
@@ -26451,6 +32781,21 @@
    "from": 17
   },
   {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/reptiles/serpent_spawn.lua",
+   "monster": "Serpent Spawn",
+   "item": "energy ring",
+   "chance": 5940,
+   "from": 590,
+   "source": {
+    "version": "8.6",
+    "kills": 65523,
+    "loot_revid": 1212390,
+    "times": 3892,
+    "evidence": "old statistics within the current rarity (uncommon); single large sample"
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/reptiles/serpent_spawn.lua",
    "monster": "Serpent Spawn",
@@ -26462,6 +32807,21 @@
     "loot_revid": 1212390
    },
    "from": 239
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/reptiles/stonerefiner.lua",
+   "monster": "Stonerefiner",
+   "item": "rat cheese",
+   "id": 17821,
+   "chance": 10293,
+   "source": {
+    "version": "8.6",
+    "kills": 15516,
+    "loot_revid": 1202098,
+    "times": 1597,
+    "evidence": "old statistics within the current rarity (uncommon)"
+   }
   },
   {
    "kind": "immunity",
@@ -26486,6 +32846,21 @@
     "loot_revid": 1209778
    },
    "from": 48
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/reptiles/tortoise.lua",
+   "monster": "Tortoise",
+   "item": "turtle shell",
+   "chance": 776,
+   "from": 1300,
+   "source": {
+    "version": "9.86",
+    "kills": 38770,
+    "loot_revid": 1209781,
+    "times": 301,
+    "evidence": "old statistics within the current rarity (rare)"
+   }
   },
   {
    "kind": "add_loot",
@@ -26798,6 +33173,21 @@
     "loot_revid": 1211307
    },
    "from": 100
+  },
+  {
+   "kind": "chance",
+   "file": "data-otservbr-global/monster/slimes/defiler.lua",
+   "monster": "Defiler",
+   "item": "blue gem",
+   "chance": 834,
+   "from": 300,
+   "source": {
+    "version": "9.5",
+    "kills": 6353,
+    "loot_revid": 1210460,
+    "times": 53,
+    "evidence": "old statistics within the current rarity (rare)"
+   }
   },
   {
    "kind": "max_count",
@@ -30818,6 +37208,112 @@
    }
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/undeads/vicious_manbat.lua",
+   "monster": "Vicious Manbat",
+   "item": "bat wing",
+   "id": 5894,
+   "chance": 4198,
+   "source": {
+    "version": "10.1",
+    "kills": 262,
+    "loot_revid": 1170302,
+    "times": 11,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/undeads/vicious_manbat.lua",
+   "monster": "Vicious Manbat",
+   "item": "blood preservation",
+   "id": 11449,
+   "chance": 5344,
+   "source": {
+    "version": "10.1",
+    "kills": 262,
+    "loot_revid": 1170302,
+    "times": 14,
+    "evidence": "old statistics within the current rarity (uncommon)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/undeads/vicious_manbat.lua",
+   "monster": "Vicious Manbat",
+   "item": "small ruby",
+   "id": 3030,
+   "chance": 9160,
+   "source": {
+    "version": "10.1",
+    "kills": 262,
+    "loot_revid": 1170302,
+    "times": 24,
+    "evidence": "old statistics within the current rarity (uncommon)"
+   },
+   "maxCount": 3
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/undeads/vicious_manbat.lua",
+   "monster": "Vicious Manbat",
+   "item": "strong health potion",
+   "id": 236,
+   "chance": 8779,
+   "source": {
+    "version": "10.1",
+    "kills": 262,
+    "loot_revid": 1170302,
+    "times": 23,
+    "evidence": "old statistics within the current rarity (uncommon)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/undeads/vicious_manbat.lua",
+   "monster": "Vicious Manbat",
+   "item": "strong mana potion",
+   "id": 237,
+   "chance": 9924,
+   "source": {
+    "version": "10.1",
+    "kills": 262,
+    "loot_revid": 1170302,
+    "times": 26,
+    "evidence": "old statistics within the current rarity (uncommon)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/undeads/vicious_manbat.lua",
+   "monster": "Vicious Manbat",
+   "item": "tooth file",
+   "id": 18924,
+   "chance": 10305,
+   "source": {
+    "version": "10.1",
+    "kills": 262,
+    "loot_revid": 1170302,
+    "times": 27,
+    "evidence": "old statistics within the current rarity (uncommon)"
+   }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/undeads/vicious_manbat.lua",
+   "monster": "Vicious Manbat",
+   "item": "vampire teeth",
+   "id": 9685,
+   "chance": 7634,
+   "source": {
+    "version": "10.1",
+    "kills": 262,
+    "loot_revid": 1170302,
+    "times": 20,
+    "evidence": "old statistics within the current rarity (uncommon)"
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/undeads/vicious_manbat.lua",
    "monster": "Vicious Manbat",
@@ -31112,6 +37608,22 @@
     "revid": 1192331
    },
    "from": false
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/vermins/drillworm.lua",
+   "monster": "Drillworm",
+   "item": "dwarven ring",
+   "id": 3097,
+   "chance": 2425,
+   "source": {
+    "version": "9.8",
+    "kills": 76317,
+    "loot_revid": 1212947,
+    "times": 1851,
+    "evidence": "old statistics within the current rarity (semi-rare)"
+   },
+   "by_id": true
   },
   {
    "kind": "max_count",

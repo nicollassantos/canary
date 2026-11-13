@@ -92,7 +92,8 @@ monster.loot = {
 	{ id = 3029, chance = 4400, maxCount = 2 }, -- small sapphire
 	{ id = 16120, chance = 4200 }, -- violet crystal shard
 	{ id = 3030, chance = 3400, maxCount = 2 }, -- small ruby
-	{ id = 16125, chance = 3300 }, -- cyan crystal fragment
+	{ id = 16125, chance = 5317 }, -- cyan crystal fragment
+	{ name = "violet gem", chance = 199 },
 }
 
 monster.attacks = {

@@ -84,15 +84,19 @@ monster.loot = {
 	{ id = 24383, chance = 20000, maxCount = 2 }, -- cave turnip
 	{ id = 5021, chance = 5000, maxCount = 5 }, -- orichalcum pearl
 	{ id = 3030, chance = 5600, maxCount = 5 }, -- small ruby
+	{ name = "vortex bolt", chance = 4964, maxCount = 4 },
 	{ id = 22193, chance = 4900 }, -- onyx chip
 	{ id = 24387, chance = 14580 }, -- tarnished rhino figurine
 	{ id = 239, chance = 7300 }, -- great health potion
 	{ id = 3051, chance = 7660 }, -- energy ring
 	{ id = 3073, chance = 3810 }, -- wand of cosmic energy
+	{ name = "gemmed figurine", chance = 962 },
 	{ id = 3055, chance = 370 }, -- platinum amulet
 	{ id = 24384, chance = 17000 }, -- ancient belt buckle
 	{ id = 24385, chance = 20000 }, -- cracked alabaster vase
 	{ id = 24390, chance = 4000 }, -- ancient coin
+	{ name = "piggy bank", chance = 194 },
+	{ name = "piece of marble rock", chance = 49 },
 }
 
 monster.attacks = {

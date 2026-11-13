@@ -100,7 +100,7 @@ monster.loot = {
 	{ name = "pear", chance = 9390, maxCount = 5 },
 	{ name = "green piece of cloth", chance = 3000 },
 	{ name = "royal spear", chance = 15570, maxCount = 3 },
-	{ name = "strong mana potion", chance = 3500 },
+	{ name = "strong mana potion", chance = 8791 },
 	{ name = "magma monocle", chance = 360 },
 	{ name = "jewelled belt", chance = 8540 },
 	{ name = "noble turban", chance = 1130 },

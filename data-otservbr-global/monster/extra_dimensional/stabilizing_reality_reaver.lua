@@ -93,6 +93,8 @@ monster.loot = {
 	{ id = 16119, chance = 1900 }, -- blue crystal shard
 	{ id = 3039, chance = 1500 }, -- red gem
 	{ id = 8092, chance = 1100 }, -- wand of starstorm
+	{ name = "lightning headband", chance = 140 },
+	{ name = "focus cape", chance = 124 },
 }
 
 monster.attacks = {
