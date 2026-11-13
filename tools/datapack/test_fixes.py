@@ -581,6 +581,14 @@ class LowerMaxCountTest(unittest.TestCase):
         self.assertIn("amounts may have changed", self.plan(version="8.6")[1][0]["reason"])
         self.assertIn("below the datapack minCount", self.plan(datapack_min=4)[1][0]["reason"])
 
+    def test_raises_from_old_statistics_leave_the_plan_and_the_manifest(self):
+        planned, review = self.plan(version="8.6", kind="loot_count", datapack_max=2, wiki_observed_max=4)
+        self.assertEqual([], planned)
+        self.assertIn("amounts may have changed", review[0]["reason"])
+        old = {**max_count("beast fang", 4), "from": 2, "source": {"version": "9.1"}}
+        self.assertIn("old statistics (version 9.1)", fixes.validate(old, None, {}))
+        self.assertIsNone(fixes.validate({**old, "source": {"version": "12.40"}}, None, {}))
+
     def test_lowering_is_exact_and_idempotent(self):
         text = MONSTER.replace("{ id = 9001, chance = 20000 }, -- beast fang", "{ id = 9001, chance = 20000, maxCount = 5 }, -- beast fang")
         fix = {**max_count("beast fang", 3), "from": 5}

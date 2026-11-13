@@ -7,8 +7,9 @@ on top of upstream's version ("take theirs, re-apply"). Applying twice changes n
 
 Kinds handled (chosen by the user, batch by batch):
 - max_count: set a stackable item's maxCount (the server ignores it for the rest) to the largest
-  amount the wiki observed: raised when the wiki saw more; lowered when no drop in a sample from
-  MIN_ADD_VERSION on went above it and the datapack range would have shown more (single entry only);
+  amount the wiki observed, from statistics of MIN_ADD_VERSION on only (amounts follow the current
+  game): raised when the wiki saw more; lowered when no drop went above it and the datapack range
+  would have shown more (single entry only);
 - add_loot: add an item the wiki drops and the datapack lacks, when its name resolves to exactly
   one item;
 - chance: set an item's chance to the wiki rate when the datapack falls outside the binomial
@@ -230,6 +231,11 @@ def listed_elsewhere(fix, loot, by_name):
     return None
 
 
+def statistics_major(source):
+    """Major client version of the wiki block a fix came from (0 when unknown)."""
+    return int((re.findall(r"\d+", str((source or {}).get("version") or "")) or [0])[0])
+
+
 def validate(fix, info, element_keys, by_name=None):
     """Re-check a manifest fix with the current rules; returns the reason it no longer holds, or None.
 
@@ -237,6 +243,9 @@ def validate(fix, info, element_keys, by_name=None):
     keys whose value the wiki marks with ? or ~) and loot (the datapack entries). Unknown monsters
     are kept.
     """
+    if fix["kind"] == "max_count" and statistics_major(fix.get("source")) < MIN_ADD_VERSION:
+        # Amounts follow the current game: an old sample says nothing about today's stack sizes.
+        return f"old statistics (version {(fix.get('source') or {}).get('version')}): amounts may have changed since"
     if info is None:
         return None
     if info.get("reward") and fix["kind"] in LOOT_KINDS:
@@ -317,7 +326,9 @@ def plan(report, by_name, stackable, kinds=("max_count", "add_loot", "chance", "
                 continue
             if finding["kind"] == "loot_count" and "max_count" in kinds:
                 old, new = finding["datapack_max"], finding["wiki_observed_max"]
-                if not ids or not all(i in stackable for i in ids):
+                if statistics_major(source) < MIN_ADD_VERSION:
+                    review.append({"monster": monster["name"], "item": item, "reason": f"old statistics (version {source.get('version')}): amounts may have changed since", "wiki": new})
+                elif not ids or not all(i in stackable for i in ids):
                     review.append({"monster": monster["name"], "item": item, "reason": "not stackable; maxCount has no effect", "wiki": new})
                 elif new > max(old * MAX_COUNT_GROWTH, MAX_COUNT_FLOOR):
                     review.append({"monster": monster["name"], "item": item, "reason": f"jump from {old} to {new} is too large to trust", "wiki": new})
