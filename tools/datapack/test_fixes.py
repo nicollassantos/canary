@@ -374,7 +374,32 @@ class CoinsTest(unittest.TestCase):
         self.assertTrue(outcomes[0].startswith("changed upstream"))
 
 
+class SupersedeTest(unittest.TestCase):
+    def test_coins_fix_supersedes_other_coin_fixes_of_the_monster(self):
+        batch = [{**max_count("gold coin", 104), "monster": "Dragon"}, {**max_count("dragon ham", 3), "monster": "Dragon"},
+                 {"kind": "coins", "file": "beast.lua", "monster": "Dragon", "item": "money", "entries": [], "from": []},
+                 {**max_count("gold coin", 60), "monster": "Wolf"}]
+        batch[0]["from"] = 102
+        batch[2]["from"] = [["gold coin", 89920, 1, 104]]
+        kept, dropped = fixes.supersede_coins(batch, previous_keys={("beast.lua", "max_count", "gold coin")})
+        self.assertEqual([("Dragon", "gold coin")], [(f["monster"], f["item"]) for f in dropped])
+        self.assertEqual(3, len(kept))
+        # The coins fix now expects upstream's line, not the raised maxCount.
+        self.assertEqual([["gold coin", 89920, 1, 102]], next(f for f in kept if f["kind"] == "coins")["from"])
+
+
 class MergeTest(unittest.TestCase):
+    def test_replanned_fix_keeps_the_first_from(self):
+        earlier = [{**max_count("gold coin", 60), "from": 40}]
+        later = [{**max_count("gold coin", 70), "from": 60}]  # planned again after apply: reads our 60
+        self.assertEqual([(70, 40)], [(f["maxCount"], f["from"]) for f in fixes.merge_fixes(earlier, later)])
+
+    def test_coins_fix_already_in_the_manifest_keeps_its_from(self):
+        coins = {"kind": "coins", "file": "beast.lua", "monster": "Dragon", "item": "money", "entries": [], "from": [["gold coin", 1, 1, 100]]}
+        raise_now = {**max_count("gold coin", 100), "monster": "Dragon", "from": 99}
+        kept, _ = fixes.supersede_coins([coins, raise_now], previous_keys={("beast.lua", "coins", "money")})
+        self.assertEqual([["gold coin", 1, 1, 100]], kept[0]["from"])
+
     def test_earlier_fixes_are_kept_and_same_key_is_replaced(self):
         earlier = [max_count("gold coin", 60), add("rare gem", 1200)]
         later = [add("rare gem", 1500), add("magic dust", 50)]

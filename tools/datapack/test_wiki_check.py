@@ -128,13 +128,27 @@ class MoneyTest(unittest.TestCase):
     def test_money_per_kill_uses_value_chance_and_mean_amount(self):
         self.assertAlmostEqual(0.5 * 50.5 + 0.1 * 2 * 100, wiki_check.money_per_kill([("gold coin", 50000, 1, 100), ("platinum coin", 10000, 1, 3)]))
 
-    def test_different_money_is_reported_as_a_coins_finding(self):
-        blocks = [{"version": "14.0", "kills": 10000, "items": {"gold coin": (9900, 1, 120), "platinum coin": (7667, 1, 3)}}]
+    def test_different_money_is_reported_with_ranges_from_the_recorded_totals(self):
+        # 9900 gold drops totalling 396000 (mean 40 per drop) and 7667 platinum drops totalling 11500 (mean 1.5).
+        blocks = [{"version": "14.0", "kills": 10000, "items": {"gold coin": (9900, 1, 120), "platinum coin": (7667, 1, 3)},
+                   "totals": {"gold coin": 396000, "platinum coin": 11500}}]
         rich = monster(loot=[{"name": "gold coin", "chance": 50000, "maxCount": 205}])
         findings, _ = wiki_check.compare(rich, {}, blocks, BY_NAME, BY_ID)
         coins = [f for f in findings if f["kind"] == "coins"]
         self.assertEqual(1, len(coins))
-        self.assertEqual([["gold coin", 99000, 1, 120], ["platinum coin", 76670, 1, 3]], coins[0]["wiki"])
+        self.assertEqual([["gold coin", 99000, 1, 79], ["platinum coin", 76670, 1, 2]], coins[0]["wiki"])
+        self.assertEqual(round(396000 / 10000 + 11500 / 10000 * 100), coins[0]["wiki_money"])
+        written = wiki_check.money_per_kill([tuple(c) for c in coins[0]["wiki"]])
+        self.assertLess(abs(written - coins[0]["wiki_money"]) / coins[0]["wiki_money"], 0.05)
+
+    def test_small_samples_do_not_judge_money(self):
+        blocks = [{"version": "14.0", "kills": 300, "items": {"gold coin": (290, 1, 120)}, "totals": {"gold coin": 11600}}]
+        findings, _ = wiki_check.compare(monster(loot=[{"name": "gold coin", "chance": 50000, "maxCount": 205}]), {}, blocks, BY_NAME, BY_ID)
+        self.assertFalse([f for f in findings if f["kind"] == "coins"])
+
+    def test_totals_are_parsed(self):
+        blocks = wiki_check.parse_loot_statistics(LOOT_STATISTICS)
+        self.assertEqual(270000, next(b for b in blocks if b["version"] == "12.40")["totals"]["gold coin"])
 
 
 class DatapackLootTest(unittest.TestCase):

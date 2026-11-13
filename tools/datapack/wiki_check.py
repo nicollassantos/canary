@@ -152,7 +152,7 @@ def parse_loot_statistics(text):
     """Every {{Loot2}} block: version, kills and item -> (times, min amount, max amount)."""
     blocks = []
     for body in re.findall(r"\{\{Loot2(.*?)\}\}", text, flags=re.S):
-        block = {"version": None, "kills": 0, "items": {}}
+        block = {"version": None, "kills": 0, "items": {}, "totals": {}}
         for raw in body.split("\n"):
             line = raw.strip()
             if not line.startswith("|"):
@@ -183,6 +183,8 @@ def parse_loot_statistics(text):
                 if numbers:
                     low, high = min(numbers), max(numbers)
             times = int(parse_number(values["times"]) or 0)
+            total = int(parse_number(values["total"]) or 0) if values.get("total") else times * (low + high) // 2
+            block["totals"][name.lower()] = block["totals"].get(name.lower(), 0) + total
             previous = block["items"].get(name.lower())
             if previous:
                 times += previous[0]
@@ -218,6 +220,18 @@ def wilson(times, kills, z=Z):
 COINS = {"gold coin": 1, "platinum coin": 100, "crystal coin": 10000}
 # Money per kill within this share of the wiki's counts as the same.
 MONEY_TOLERANCE = 0.10
+# Money is compared only on samples this large: per-kill money is noisy (a few big drops move it).
+MIN_COIN_KILLS = 1000
+
+
+def coin_range(mean, low, high):
+    """A uniform [min, max] count range with the wiki's mean amount per drop: the server draws counts
+    uniformly, while real drops skew low, so the observed range alone overstates the money."""
+    if mean <= 0:
+        return low, high
+    if mean <= (1 + high) / 2:
+        return 1, max(1, round(2 * mean - 1))
+    return max(1, min(high, round(2 * mean - high))), high
 
 
 def datapack_coins(loot, by_id):
@@ -334,11 +348,14 @@ def compare(monster, infobox, blocks, by_name, by_id, checked=None):
                 other_versions=others, current_rarity=current.get(name))
         if high > max_count:
             add("loot_count", name, datapack_max=max_count, wiki_observed_max=high)
-    wiki_coins = [(name, round(times / kills * MAX_CHANCE), low, high) for name, (times, low, high) in block["items"].items()
-                  if name in COINS and kills]
-    if strong and wiki_coins:
+    totals = block.get("totals", {})
+    wiki_coins = [(name, round(times / kills * MAX_CHANCE)) + coin_range(totals.get(name, 0) / times, low, high)
+                  for name, (times, low, high) in block["items"].items() if name in COINS and kills and times]
+    if strong and wiki_coins and kills >= MIN_COIN_KILLS:
         mine = datapack_coins(monster.get("loot"), by_id)
-        ours_money, wiki_money = money_per_kill(mine), money_per_kill(wiki_coins)
+        # The wiki's money is what it recorded (total / kills); the entries written must reproduce it.
+        wiki_money = sum(totals.get(name, 0) / kills * COINS[name] for name, *_ in wiki_coins)
+        ours_money = money_per_kill(mine)
         if {c[0] for c in mine} != {c[0] for c in wiki_coins} or abs(ours_money - wiki_money) > MONEY_TOLERANCE * wiki_money:
             add("coins", "money", datapack_money=round(ours_money), wiki_money=round(wiki_money), datapack=[list(c) for c in mine],
                 wiki=[list(c) for c in sorted(wiki_coins, key=lambda c: -c[1])], kills=kills)
@@ -538,16 +555,20 @@ def command_plan(args):
     fixes, review = fixes_module.plan(report, by_name, stackable, kinds=tuple(args.kinds.split(",")), bosses=bosses, element_types=element_types,
                                       reviewed=reviewed, flags=flags)
     manifest_path = os.path.join(ROOT, args.manifest)
+    previous = []
     if os.path.exists(manifest_path):
         with open(manifest_path, encoding="utf-8") as handle:
-            fixes = fixes_module.merge_fixes(json.load(handle).get("fixes", []), fixes)
+            previous = json.load(handle).get("fixes", [])
+        fixes = fixes_module.merge_fixes(previous, fixes)
+    previous_keys = {(f["file"], f["kind"], f["item"]) for f in previous}
     # Every fix, old or new, is re-checked with the current rules; the ones that no longer hold
     # leave the manifest and their files must be restored before re-applying it.
+    fixes, superseded = fixes_module.supersede_coins(fixes, {(f["file"], f["kind"], f["item"]) for f in previous})
     info = monster_info(monsters, os.path.join(args.out, "cache", "creature"))
     for decision in reviewed:
         if decision.get("decision") == "apply" and decision["monster"] in info:
             info[decision["monster"]].setdefault("approved", {})[(decision["kind"], decision["item"])] = True
-    kept, dropped = [], []
+    kept, dropped = [], list(superseded)
     for fix in fixes:
         reason = fixes_module.validate(fix, info.get(fix.get("monster")), {combat: key for combat, key in ELEMENTS.items()})
         if reason:
@@ -565,7 +586,8 @@ def command_plan(args):
     for fix in kept:
         kinds[fix["kind"]] = kinds.get(fix["kind"], 0) + 1
     print(f"{len(kept)} fixes {kinds}, {len(review)} left for review -> {args.manifest}, {os.path.join(args.out, 'review.json')}")
-    for path in sorted({fix["file"] for fix in dropped}):
+    # Only fixes from the previous manifest may already be in the files.
+    for path in sorted({fix["file"] for fix in dropped if (fix["file"], fix["kind"], fix["item"]) in previous_keys}):
         print(f"  dropped fixes for {path}: restore it and re-run apply")
     return 0
 
@@ -576,7 +598,7 @@ def command_apply(args):
     with open(os.path.join(ROOT, args.manifest), encoding="utf-8") as handle:
         manifest = json.load(handle)
     _, by_id = load_items(os.path.join(ROOT, args.items))
-    summary, failures = fixes_module.apply_manifest(manifest, ROOT, by_id, write=not args.dry_run)
+    summary, failures = fixes_module.apply_manifest(manifest, args.root or ROOT, by_id, write=not args.dry_run)
     print(("dry run: " if args.dry_run else "") + ", ".join(f"{k}: {v}" for k, v in sorted(summary.items())))
     for failure in failures[:20]:
         print(f"  {failure['file']}: {failure['kind']} {failure['item']} -> {failure['outcome']}")
@@ -593,6 +615,7 @@ def main(argv=None):
     parser.add_argument("--manifest", default="tools/datapack/fixes.json")
     parser.add_argument("--kinds", default="max_count,add_loot,chance,stat,element,immunity,coins", help="plan: comma-separated kinds")
     parser.add_argument("--dry-run", action="store_true", help="apply: report what would change")
+    parser.add_argument("--root", help="apply: tree holding the monster files (default: this repository)")
     args = parser.parse_args(argv)
     commands = {"extract": command_extract, "fetch": command_fetch, "report": command_report, "plan": command_plan, "apply": command_apply}
     return commands[args.command](args)

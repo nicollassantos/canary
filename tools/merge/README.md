@@ -98,6 +98,16 @@ still holds that `from`; when upstream changed it to something else it prints
 `changed upstream (...)`, exits 1 and leaves the file alone, so the conflict is decided by hand.
 Then run the smoke boot (no loot warnings, no Lua errors).
 
+To prove the manifest still re-applies from upstream's side, apply it to a copy of the monster files
+at a base commit and compare with the branch (expect no conflicts; at most a different order of loot
+lines, which does not matter because every entry rolls on its own):
+
+```sh
+T=$(mktemp -d) && git archive <base> data-otservbr-global/monster | tar -x -C "$T"
+python3 -I tools/datapack/wiki_check.py apply --root "$T"
+diff -rq "$T/data-otservbr-global/monster" data-otservbr-global/monster
+```
+
 ## Gotchas from Phase 17
 
 - After a merge, check the `CMakeCache.txt` of `build/<preset>` for `find_*` results that point

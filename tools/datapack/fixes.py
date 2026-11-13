@@ -160,6 +160,7 @@ def resolve_item(name, by_name, flags):
 # --- plan: report -> manifest ----------------------------------------------------------------
 
 LOOT_KINDS = ("max_count", "add_loot", "chance", "coins")
+COIN_NAMES = ("gold coin", "platinum coin", "crystal coin")
 STAT_KEYS = {"experience": "exp", "maxHealth": "hp", "armor": "armor", "mitigation": "mitigation"}
 IMMUNITY_KEYS = {"paralyze": "paraimmune", "invisible": "senseinvis"}
 
@@ -444,9 +445,6 @@ def apply_attribute(text, fix):
     return text[:start] + body + text[end:], "applied"
 
 
-COIN_NAMES = ("gold coin", "platinum coin", "crystal coin")
-
-
 def coin_line(indent, name, chance, low, high):
     counts = (f", minCount = {low}" if low > 1 else "") + (f", maxCount = {high}" if high > 1 else "")
     return f'{indent}{{ name = "{name}", chance = {chance}{counts} }},'
@@ -591,12 +589,43 @@ def apply_manifest(manifest, root, by_id, write=True):
     return summary, failures
 
 
+def supersede_coins(fixes, previous_keys=frozenset()):
+    """A coins fix rewrites every coin entry of its monster, so other fixes on coin items of that
+    monster (a raised maxCount, a chance) are superseded and leave the manifest.
+
+    A new coins fix read the file after earlier fixes; when such an earlier, applied maxCount raise is
+    superseded, the coins fix's `from` gets the upstream value back. A coins fix already in the
+    manifest (`previous_keys`) keeps its `from`, and a raise planned only now was never applied."""
+    key = lambda fix: (fix["file"], fix["kind"], fix["item"])
+    rewritten = {fix["monster"]: fix for fix in fixes if fix["kind"] == "coins"}
+    kept, dropped = [], []
+    for fix in fixes:
+        if fix["kind"] != "coins" and fix.get("monster") in rewritten and fix["item"] in COIN_NAMES:
+            dropped.append({**fix, "dropped": "superseded by the coins fix of the same monster"})
+            coins = rewritten[fix["monster"]]
+            if fix["kind"] == "max_count" and key(fix) in previous_keys and key(coins) not in previous_keys:
+                # The coins fix read the file after this raise; its `from` must be upstream's lines.
+                for entry in coins["from"]:
+                    if entry[0] == fix["item"] and entry[3] == fix["maxCount"]:
+                        entry[3] = fix["from"]
+                        break
+        else:
+            kept.append(fix)
+    return kept, dropped
+
+
 def merge_fixes(existing, new):
     """The manifest accumulates: applied fixes disappear from later reports, so a new plan keeps
     every earlier fix and only replaces one for the same file, kind and item."""
     key = lambda fix: (fix["file"], fix["kind"], fix["item"])
     merged = {key(fix): fix for fix in existing}
-    merged.update({key(fix): fix for fix in new})
+    for fix in new:
+        earlier = merged.get(key(fix))
+        if earlier is not None and "from" in earlier:
+            # A fix planned again after apply reads our own value; `from` stays the upstream value
+            # the first plan saw, so the manifest still re-applies on top of upstream's file.
+            fix = {**fix, "from": earlier["from"]}
+        merged[key(fix)] = fix
     return sorted(merged.values(), key=lambda f: (f["file"], f["kind"], f["item"]))
 
 
