@@ -848,7 +848,29 @@ void LootService::playerLootNearby(uint32_t playerId) {
 	sendNearbyQuickLootSummary(player, anyCorpseFound, corpsesLooted);
 }
 
+bool LootService::isManagedContainerCategory(ObjectCategory_t category) {
+	return magic_enum::enum_contains(category);
+}
+
+bool LootService::normalizeQuickLootList(QuickLootFilter_t filter, std::vector<uint16_t> &itemIds) {
+	if (filter != QUICKLOOTFILTER_SKIPPEDLOOT && filter != QUICKLOOTFILTER_ACCEPTEDLOOT) {
+		return false;
+	}
+	if (itemIds.size() > MaxQuickLootListSize) {
+		return false;
+	}
+	std::ranges::sort(itemIds);
+	const auto duplicates = std::ranges::unique(itemIds);
+	itemIds.erase(duplicates.begin(), duplicates.end());
+	return true;
+}
+
 void LootService::playerSetManagedContainer(uint32_t playerId, ObjectCategory_t category, const Position &pos, uint16_t itemId, uint8_t stackPos, bool isLootContainer) {
+	if (!isManagedContainerCategory(category)) {
+		g_metrics().addCounter("quickloot_requests_rejected", 1, { { "reason", "invalid_category" } });
+		return;
+	}
+
 	const auto &player = game_.getPlayerByID(playerId);
 	if (!player || pos.x != 0xffff) {
 		return;
@@ -894,6 +916,11 @@ void LootService::playerSetManagedContainer(uint32_t playerId, ObjectCategory_t 
 }
 
 void LootService::playerClearManagedContainer(uint32_t playerId, ObjectCategory_t category, bool isLootContainer) {
+	if (!isManagedContainerCategory(category)) {
+		g_metrics().addCounter("quickloot_requests_rejected", 1, { { "reason", "invalid_category" } });
+		return;
+	}
+
 	const auto &player = game_.getPlayerByID(playerId);
 	if (!player) {
 		return;
@@ -911,6 +938,11 @@ void LootService::playerClearManagedContainer(uint32_t playerId, ObjectCategory_
 }
 
 void LootService::playerOpenManagedContainer(uint32_t playerId, ObjectCategory_t category, bool isLootContainer) {
+	if (!isManagedContainerCategory(category)) {
+		g_metrics().addCounter("quickloot_requests_rejected", 1, { { "reason", "invalid_category" } });
+		return;
+	}
+
 	const auto &player = game_.getPlayerByID(playerId);
 	if (!player) {
 		return;
@@ -939,8 +971,14 @@ void LootService::playerQuickLootBlackWhitelist(uint32_t playerId, QuickLootFilt
 		return;
 	}
 
+	auto normalized = itemIds;
+	if (!normalizeQuickLootList(filter, normalized)) {
+		g_metrics().addCounter("quickloot_requests_rejected", 1, { { "reason", "invalid_list" } });
+		return;
+	}
+
 	player->quickLootFilter = filter;
-	player->quickLootListItemIds = itemIds;
+	player->quickLootListItemIds = std::move(normalized);
 }
 
 /*******************************************************************************

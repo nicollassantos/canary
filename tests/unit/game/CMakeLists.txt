@@ -32,6 +32,7 @@ target_sources(
             rule_violation_report_test.cpp
             highscore_requests_test.cpp
             outfit_throttle_test.cpp
+            hostile_client_rules_test.cpp
             items_price_test.cpp
             house_list_update_test.cpp
             movement_service_test.cpp

@@ -13,6 +13,8 @@
 #include <memory>
 #include <string>
 
+#include "game/chat/typing_throttle.hpp"
+
 class Game;
 class IConfigManager;
 class Creature;
@@ -43,8 +45,10 @@ public:
 	bool playerYell(const std::shared_ptr<Player> &player, const std::string &text);
 	bool playerSpeakTo(const std::shared_ptr<Player> &player, SpeakClasses type, const std::string &receiver, const std::string &text);
 	void playerSpeakToNpc(const std::shared_ptr<Player> &player, const std::string &text);
+	void playerSetTyping(uint32_t playerId, uint8_t typing);
 
 private:
 	Game &game_;
 	IConfigManager &config_;
+	TypingThrottle typingThrottle;
 };

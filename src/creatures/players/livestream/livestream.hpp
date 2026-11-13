@@ -9,6 +9,8 @@
 
 #pragma once
 
+#include <optional>
+#include <string>
 #include <string_view>
 
 #include "server/network/protocol/protocolgame.hpp"
@@ -20,6 +22,7 @@ struct LivestreamViewerInfo {
 	std::string name;
 	uint32_t id = 0;
 	uint32_t ip = 0;
+	int64_t lastRenameAt = 0;
 };
 
 struct LivestreamState {
@@ -35,6 +38,13 @@ struct LivestreamState {
 class LivestreamManager {
 public:
 	[[nodiscard]] static LivestreamManager &getInstance();
+
+	static constexpr int64_t ViewerRenameIntervalMs = 10'000;
+
+	/// Why a viewer's `/name newName` is refused, or nothing when it may proceed. Every rename is
+	/// announced to the whole session: it had no interval, and a viewer could take the caster's name
+	/// or the name of an online player. `lastRenameAt` is 0 before the first rename.
+	[[nodiscard]] static std::optional<std::string> viewerRenameRefusal(const std::string &newName, const std::string &casterName, bool isOnlinePlayerName, int64_t lastRenameAt, int64_t nowMs);
 
 	[[nodiscard]] bool isBroadcasting(const std::shared_ptr<Player> &caster) const;
 	[[nodiscard]] bool isViewer(const ProtocolGame_ptr &client) const;

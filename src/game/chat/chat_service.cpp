@@ -20,6 +20,7 @@
 #include "lua/creature/actions.hpp"
 #include "lua/creature/talkaction.hpp"
 #include "lua/global/globalevent.hpp"
+#include "lib/metrics/metrics.hpp"
 #include "map/spectators.hpp"
 #include "server/network/protocol/protocolgame.hpp"
 #include "utils/tools.hpp"
@@ -361,4 +362,24 @@ void ChatService::playerSpeakToNpc(const std::shared_ptr<Player> &player, const 
 	}
 
 	player->updateUIExhausted();
+}
+
+void ChatService::playerSetTyping(uint32_t playerId, uint8_t typing) {
+	const auto &player = game_.getPlayerByID(playerId);
+	if (!player) {
+		return;
+	}
+
+	// Each update went to every spectator on all floors with no interval.
+	const bool isTyping = typing != 0;
+	if (!typingThrottle.shouldBroadcast(playerId, isTyping, OTSYS_TIME())) {
+		g_metrics().addCounter("typing_updates_dropped", 1, {});
+		return;
+	}
+
+	for (const auto &spectator : Spectators().find<Player>(player->getPosition(), true)) {
+		if (const auto &tmpPlayer = spectator->getPlayer()) {
+			tmpPlayer->sendPlayerTyping(player, isTyping ? 1 : 0);
+		}
+	}
 }

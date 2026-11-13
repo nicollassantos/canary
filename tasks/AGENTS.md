@@ -131,6 +131,8 @@ base. Cada regra vem de um defeito explorável por pacote forjado (tabela de cor
 - Log de recusa: uma linha por pacote, nunca uma por elemento de uma lista do pacote (some a
   contagem e logue uma vez). O `log_budget` corta o excesso dentro de um pacote, mas o que é
   cortado some do log.
+- Uma lista do pacote (contagem + itens): recusar contagem maior que os bytes restantes e acima do
+  teto do recurso antes de reservar ou percorrer.
 
 **Lua (datapack):**
 - Texto do cliente nunca é padrão Lua (segundo argumento de `string.match`/`find`/`gmatch`/`gsub`):
@@ -144,6 +146,8 @@ base. Cada regra vem de um defeito explorável por pacote forjado (tabela de cor
   `Game.getOfflinePlayer`, `Bank.transfer`/`Bank.transferToGuild` ou outra API que aceite nome
   offline antes das checagens baratas (saldo, quantidade, dono). Talkactions de jogador já têm 1 s
   de intervalo (`TalkActionCooldown`), mas um caminho caro por mensagem continua caro.
+- Janela modal que entrega algo uma vez: conferir a condição (storage, saldo, item) de novo no
+  callback da escolha. Cada envio da janela tem um id novo, e o cliente pode responder todas.
 - Validação: `luajit -bl <arquivo>` e `luac5.4 -p <arquivo>`, mais um harness com stubs como
   `tools/lua/store_parsers_check.lua` (rodar também contra o arquivo do upstream: lá tem que falhar).
 
@@ -361,6 +365,10 @@ desfazer; se o upstream mexer nessas linhas, reaplique):
 | `src/lua/functions/core/game/bank_functions.cpp` `luaBankTransfer`, `luaBankTransferToGuild` | `amount == 0` ou saldo insuficiente da origem → `false` **antes** de resolver o destino | o destino por nome passa por `Lua::getPlayer(L, arg, true)`/`getGuild(..., true)` e carregava o personagem offline mesmo quando a transferência não podia acontecer (`!transfer Nome,1` sem dinheiro = 2 loads por mensagem) |
 | `src/lua/creature/talkaction.cpp` `TalkActions::checkWord` | antes do `executeSay`: `TalkActionCooldown::global().admit(*player, OTSYS_TIME())` (`src/lua/creature/talkaction_cooldown.cpp`): 1 talkaction por segundo por player, staff (`isAccessPlayer`) sem limite; recusa consome a palavra, manda "exhausted" e conta `talkaction_requests_throttled` (valor escolhido pelo usuário) | talkactions rodam antes do mute e não tinham intervalo: um client rodava uma por pacote (`!transfer`, `!livestream` grava no banco, `!online` percorre todos) |
 | `src/lib/logging/log_with_spd_log.cpp` `info`/`warn`/`error`/`critical` | `if (!log_budget::admit()) return;` (+ include); orçamento em `src/lib/logging/log_budget.cpp`, aberto pelo `packet_watch::Scope` (membro `logBudget`, fechado antes do aviso de pacote lento): 3 linhas por pacote e 20 por player por minuto; excedente em `packet_log_lines_suppressed{opcode}` e num aviso-resumo a cada 5 s (valores escolhidos pelo usuário) | o log é síncrono no dispatcher; `0x03` da proficiência gerava até 255 `error` por pacote, e nome inexistente em várias rotas gerava `error` com texto do atacante: disco cheio e loop do jogo lento. Linhas fora de um pacote (tarefas agendadas, boot) não são limitadas |
+| `data/scripts/talkactions/player/reward.lua` | o storage `PlayerWeaponReward` é conferido de novo no callback da escolha | cada `!reward` abria outra janela com id novo e responder todas entregava uma arma de exercício (64400 cargas) por janela (`toggleReceiveReward`, desligado por padrão). Harness `tools/lua/reward_check.lua` (o upstream entrega 2) |
+| `protocolgame.cpp` `parseQuickLootBlackWhitelist`; `LootService::playerSetManagedContainer`/`Clear`/`Open`/`playerQuickLootBlackWhitelist` (`loot_service.cpp`, já da branch) | contagem da lista maior que os bytes restantes é recusada no parse; o service recusa categoria fora do enum (`isManagedContainerCategory`) e lista acima de 1000 ou filtro desconhecido (`normalizeQuickLootList`, que também ordena e tira duplicados); métrica `quickloot_requests_rejected{reason}` | categoria do pacote virava `1 << category` (UB a partir de 32) e chave do mapa; a lista aceitava até 65535 entradas (leitura além do fim devolve 0) e é percorrida a cada item saqueado |
+| `game.cpp` `Game::playerSetTyping` | corpo movido para `ChatService::playerSetTyping` (`chat_service.cpp`, mesmo nome: o `moved_merge.py` casa); só transmite mudança de estado, "começou a digitar" no máximo 1 vez/s, "parou" sempre passa depois de "começou" (`src/game/chat/typing_throttle.hpp`); métrica `typing_updates_dropped` (valor escolhido pelo usuário) | `0x38` era transmitido a todos os espectadores de todos os andares sem intervalo (mesma classe do `0xD3`) |
+| `src/creatures/players/livestream/livestream.cpp/.hpp` `LivestreamManager::changeViewerName` | `viewerRenameRefusal` (estático): 1 rename a cada 10 s por espectador (`LivestreamViewerInfo::lastRenameAt`) e nome igual ao do caster ou de player online recusado (valor escolhido pelo usuário) | o `/name` não tinha intervalo e cada rename é anunciado à sessão inteira; o espectador podia assumir o nome do caster ou de outro player no canal |
 
 **Banco de dados:** índice novo **nunca** vai em migration numerada (`data-*/migrations/N.lua`) nem
 no `schema.sql`. O upstream numera as migrations, então um número nosso colidiria com o próximo
@@ -513,6 +521,13 @@ Medir e conter o que o cliente (ou um bot) consegue fazer o servidor gastar. Fei
   (`canAddImbuement`), tier do forge (`tiers.contains`), perks de proficiência, aceite no mercado
   (`isUIExhausted(1000)` e troca real), info de personagem da Cyclopedia (só o próprio),
   `playerDebugAssert` (sem chamador), `follow` (pathfinding assíncrono).
+
+- **Segunda rodada (23.5, 2026-11-13):** corrigidos o **derrube de qualquer jogador sem a senha**
+  no login (sessão existente tratada antes da autenticação; igual no upstream; provado com sockets
+  reais em `tools/smoke/login_takeover_check.py`), loads de personagem offline pelo `!transfer`,
+  talkactions sem intervalo, log sem limite por pacote (`log_budget`), `!reward` repetível,
+  categoria e lista do quick loot, "digitando" sem intervalo e `/name` do livestream. Detalhes na
+  tabela do §5b e no `todo.md` (23.5); falta ler `ProtocolStatus`, `data/modules` e alguns handlers.
 
 Pendente (ordem sugerida):
 0. **Antes de produção:** uma sessão com client real no build de métricas (login, relog, andar,

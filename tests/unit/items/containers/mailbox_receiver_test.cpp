@@ -13,6 +13,7 @@
 #include "creatures/players/player.hpp"
 #include "items/containers/mailbox/mailbox.hpp"
 #include "lib/logging/in_memory_logger.hpp"
+#include "test_items.hpp"
 
 namespace {
 
@@ -24,6 +25,8 @@ namespace {
 	class MailboxReceiverTest : public ::testing::Test {
 	protected:
 		void SetUp() override {
+			// Player() creates its inbox from the item catalog; alone, this suite crashed.
+			TestItems::init();
 			previousContainer = DI::getTestContainer();
 			InMemoryLogger::install(injector);
 			InMemoryPlayerRepository::install(injector);

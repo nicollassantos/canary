@@ -24,6 +24,13 @@ local function sendExerciseRewardModal(player)
 					return true
 				end
 
+				-- Checked again here: each !reward opens another window, and answering every one of
+				-- them delivered one weapon per window.
+				if player:getStorageValue(config.storage) > 0 then
+					player:sendTextMessage(MESSAGE_LOOK, "You already received your exercise weapon reward!")
+					return true
+				end
+
 				local inbox = player:getStoreInbox()
 				local inboxItems = inbox:getItems()
 				if inbox and #inboxItems < inbox:getMaxCapacity() and player:getFreeCapacity() >= iType:getWeight() then

@@ -1695,6 +1695,10 @@ void ProtocolGame::parseQuickLootBlackWhitelist(NetworkMessage &msg) {
 	std::vector<uint16_t> listedItems;
 
 	auto size = msg.get<uint16_t>();
+	// A count beyond the bytes sent made the reads past the end return zeros (up to 65535 entries).
+	if (static_cast<size_t>(size) * sizeof(uint16_t) > getUnreadBytes(msg)) {
+		return;
+	}
 	listedItems.reserve(size);
 
 	for (int i = 0; i < size; i++) {

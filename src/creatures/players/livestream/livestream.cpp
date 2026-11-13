@@ -16,6 +16,7 @@
 #include "database/databasemanager.hpp"
 #include "database/databasetasks.hpp"
 #include "enums/player_icons.hpp"
+#include "game/game.hpp"
 #include "kv/kv.hpp"
 #include "server/network/message/networkmessage.hpp"
 #include "utils/tools.hpp"
@@ -657,6 +658,17 @@ std::string LivestreamManager::normalizeViewerName(const std::string &name) {
 	return asLowerCaseString(name);
 }
 
+std::optional<std::string> LivestreamManager::viewerRenameRefusal(const std::string &newName, const std::string &casterName, bool isOnlinePlayerName, int64_t lastRenameAt, int64_t nowMs) {
+	if (lastRenameAt != 0 && nowMs - lastRenameAt < ViewerRenameIntervalMs) {
+		const auto waitSeconds = (lastRenameAt + ViewerRenameIntervalMs - nowMs + 999) / 1000;
+		return fmt::format("You can change your name again in {} seconds.", waitSeconds);
+	}
+	if (normalizeViewerName(newName) == normalizeViewerName(casterName) || isOnlinePlayerName) {
+		return std::string("This name belongs to a player.");
+	}
+	return std::nullopt;
+}
+
 void LivestreamManager::disconnectViewers(Session &session, bool clearMutes) {
 	for (const auto &[viewer, _] : session.viewers) {
 		if (viewer) {
@@ -771,6 +783,14 @@ void LivestreamManager::changeViewerName(const ProtocolGame_ptr &client, Session
 		return;
 	}
 
+	const auto now = OTSYS_TIME();
+	const auto caster = session.caster.lock();
+	const auto refusal = viewerRenameRefusal(newName, caster ? caster->getName() : std::string(), g_game().getPlayerByName(newName) != nullptr, viewer.lastRenameAt, now);
+	if (refusal) {
+		client->sendTextMessage(TextMessage(MESSAGE_FAILURE, *refusal));
+		return;
+	}
+
 	const auto normalizedName = normalizeViewerName(newName);
 	if (session.bans.contains(normalizedName)) {
 		client->sendTextMessage(TextMessage(MESSAGE_FAILURE, "This name is banned from this livestream."));
@@ -792,6 +812,7 @@ void LivestreamManager::changeViewerName(const ProtocolGame_ptr &client, Session
 	}
 
 	viewer.name = newName;
+	viewer.lastRenameAt = now;
 	client->sendTextMessage(TextMessage(MESSAGE_STATUS, fmt::format("Name changed to '{}'.", newName)));
 }
 

@@ -59,6 +59,18 @@ public:
 
 	std::shared_ptr<Container> findManagedContainer(const std::shared_ptr<Player> &player, bool &fallbackConsumed, ObjectCategory_t category, bool isLootContainer);
 
+	static constexpr size_t MaxQuickLootListSize = 1000;
+
+	/// The category byte of a loot-container packet is cast without a check. Only enum values may
+	/// name a managed container: they are all below 32, the width of the container's category bit
+	/// mask (`1 << category` with a larger value is undefined behaviour).
+	[[nodiscard]] static bool isManagedContainerCategory(ObjectCategory_t category);
+
+	/// Sorts and de-duplicates a quick-loot list sent by the client. False (the list is refused)
+	/// for an unknown filter or a list longer than MaxQuickLootListSize: the list is searched for
+	/// every looted item, and a forged count reached 65535 entries.
+	[[nodiscard]] static bool normalizeQuickLootList(QuickLootFilter_t filter, std::vector<uint16_t> &itemIds);
+
 private:
 	std::shared_ptr<Container> findNextAvailableContainer(ContainerIterator &containerIterator, std::shared_ptr<Container> &lootContainer, std::shared_ptr<Container> &lastSubContainer);
 	bool handleFallbackLogic(const std::shared_ptr<Player> &player, std::shared_ptr<Container> &lootContainer, ContainerIterator &containerIterator, const bool &fallbackConsumed);

@@ -3661,15 +3661,7 @@ void Game::updateCreatureShader(const std::shared_ptr<Creature> &creature) {
 }
 
 void Game::playerSetTyping(uint32_t playerId, uint8_t typing) {
-	const auto &player = getPlayerByID(playerId);
-	if (!player) {
-		return;
-	}
-	for (const auto &spectator : Spectators().find<Player>(player->getPosition(), true)) {
-		if (const auto &tmpPlayer = spectator->getPlayer()) {
-			tmpPlayer->sendPlayerTyping(player, typing);
-		}
-	}
+	m_chatService->playerSetTyping(playerId, typing);
 }
 
 void Game::refreshItem(const std::shared_ptr<Item> &item) {
