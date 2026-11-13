@@ -680,6 +680,270 @@
    "from": 23
   },
   {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/bosses/brain_head.lua",
+   "monster": "Brain Head",
+   "item": "COMBAT_ENERGYDAMAGE",
+   "percent": 1100,
+   "from": 0,
+   "source": {
+    "revid": 1140869
+   }
+  },
+  {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/bosses/brain_head.lua",
+   "monster": "Brain Head",
+   "item": "COMBAT_FIREDAMAGE",
+   "percent": 70,
+   "from": 0,
+   "source": {
+    "revid": 1140869
+   }
+  },
+  {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/bosses/chagorz.lua",
+   "monster": "Chagorz",
+   "item": "COMBAT_EARTHDAMAGE",
+   "percent": 0,
+   "from": 15,
+   "source": {
+    "revid": 1213414
+   }
+  },
+  {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/bosses/chagorz.lua",
+   "monster": "Chagorz",
+   "item": "COMBAT_ENERGYDAMAGE",
+   "percent": 35,
+   "from": 15,
+   "source": {
+    "revid": 1213414
+   }
+  },
+  {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/bosses/chagorz.lua",
+   "monster": "Chagorz",
+   "item": "COMBAT_FIREDAMAGE",
+   "percent": -5,
+   "from": 15,
+   "source": {
+    "revid": 1213414
+   }
+  },
+  {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/bosses/chagorz.lua",
+   "monster": "Chagorz",
+   "item": "COMBAT_ICEDAMAGE",
+   "percent": 10,
+   "from": 15,
+   "source": {
+    "revid": 1213414
+   }
+  },
+  {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/bosses/ekatrix.lua",
+   "monster": "Ekatrix",
+   "item": "COMBAT_HOLYDAMAGE",
+   "percent": -5,
+   "from": 0,
+   "source": {
+    "revid": 1187610
+   }
+  },
+  {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/bosses/ekatrix.lua",
+   "monster": "Ekatrix",
+   "item": "COMBAT_PHYSICALDAMAGE",
+   "percent": -5,
+   "from": 0,
+   "source": {
+    "revid": 1187610
+   }
+  },
+  {
+   "kind": "immunity",
+   "file": "data-otservbr-global/monster/bosses/groam.lua",
+   "monster": "Groam",
+   "item": "paralyze",
+   "condition": false,
+   "from": true,
+   "source": {
+    "revid": 1116377
+   }
+  },
+  {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/bosses/guard_captain_quaid.lua",
+   "monster": "Guard Captain Quaid",
+   "item": "COMBAT_EARTHDAMAGE",
+   "percent": 50,
+   "from": 40,
+   "source": {
+    "revid": 1206560
+   }
+  },
+  {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/bosses/guard_captain_quaid.lua",
+   "monster": "Guard Captain Quaid",
+   "item": "COMBAT_PHYSICALDAMAGE",
+   "percent": 20,
+   "from": 15,
+   "source": {
+    "revid": 1206560
+   }
+  },
+  {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/bosses/ichgahal.lua",
+   "monster": "Ichgahal",
+   "item": "COMBAT_EARTHDAMAGE",
+   "percent": 30,
+   "from": 15,
+   "source": {
+    "revid": 1213541
+   }
+  },
+  {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/bosses/ichgahal.lua",
+   "monster": "Ichgahal",
+   "item": "COMBAT_ENERGYDAMAGE",
+   "percent": -5,
+   "from": 15,
+   "source": {
+    "revid": 1213541
+   }
+  },
+  {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/bosses/ichgahal.lua",
+   "monster": "Ichgahal",
+   "item": "COMBAT_FIREDAMAGE",
+   "percent": 5,
+   "from": 15,
+   "source": {
+    "revid": 1213541
+   }
+  },
+  {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/bosses/ichgahal.lua",
+   "monster": "Ichgahal",
+   "item": "COMBAT_ICEDAMAGE",
+   "percent": -5,
+   "from": 15,
+   "source": {
+    "revid": 1213541
+   }
+  },
+  {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/bosses/lisa.lua",
+   "monster": "Lisa",
+   "item": "COMBAT_ENERGYDAMAGE",
+   "percent": 15,
+   "from": 10,
+   "source": {
+    "revid": 1107900
+   }
+  },
+  {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/bosses/lisa.lua",
+   "monster": "Lisa",
+   "item": "COMBAT_FIREDAMAGE",
+   "percent": -3,
+   "from": -5,
+   "source": {
+    "revid": 1107900
+   }
+  },
+  {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/bosses/mitmah_vanguard.lua",
+   "monster": "Mitmah Vanguard",
+   "item": "COMBAT_EARTHDAMAGE",
+   "percent": -10,
+   "from": 100,
+   "source": {
+    "revid": 1209510
+   }
+  },
+  {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/bosses/mitmah_vanguard.lua",
+   "monster": "Mitmah Vanguard",
+   "item": "COMBAT_ENERGYDAMAGE",
+   "percent": -10,
+   "from": -5,
+   "source": {
+    "revid": 1209510
+   }
+  },
+  {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/bosses/mitmah_vanguard.lua",
+   "monster": "Mitmah Vanguard",
+   "item": "COMBAT_FIREDAMAGE",
+   "percent": 25,
+   "from": 30,
+   "source": {
+    "revid": 1209510
+   }
+  },
+  {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/bosses/mitmah_vanguard.lua",
+   "monster": "Mitmah Vanguard",
+   "item": "COMBAT_ICEDAMAGE",
+   "percent": 15,
+   "from": 0,
+   "source": {
+    "revid": 1209510
+   }
+  },
+  {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/bosses/raxias.lua",
+   "monster": "Raxias",
+   "item": "COMBAT_ENERGYDAMAGE",
+   "percent": -10,
+   "from": 0,
+   "source": {
+    "revid": 1181404
+   }
+  },
+  {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/bosses/raxias.lua",
+   "monster": "Raxias",
+   "item": "COMBAT_FIREDAMAGE",
+   "percent": -5,
+   "from": 0,
+   "source": {
+    "revid": 1181404
+   }
+  },
+  {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/bosses/raxias.lua",
+   "monster": "Raxias",
+   "item": "COMBAT_ICEDAMAGE",
+   "percent": 0,
+   "from": -1,
+   "source": {
+    "revid": 1181404
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/bosses/robby_the_reckless.lua",
    "monster": "Robby the Reckless",
@@ -691,6 +955,94 @@
     "loot_revid": 924902
    },
    "from": 85
+  },
+  {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/bosses/sugar_mommy.lua",
+   "monster": "Sugar Mommy",
+   "item": "COMBAT_DEATHDAMAGE",
+   "percent": 40,
+   "from": 0,
+   "source": {
+    "revid": 1208265
+   }
+  },
+  {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/bosses/sugar_mommy.lua",
+   "monster": "Sugar Mommy",
+   "item": "COMBAT_EARTHDAMAGE",
+   "percent": -10,
+   "from": -5,
+   "source": {
+    "revid": 1208265
+   }
+  },
+  {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/bosses/sugar_mommy.lua",
+   "monster": "Sugar Mommy",
+   "item": "COMBAT_ENERGYDAMAGE",
+   "percent": 25,
+   "from": 10,
+   "source": {
+    "revid": 1208265
+   }
+  },
+  {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/bosses/sugar_mommy.lua",
+   "monster": "Sugar Mommy",
+   "item": "COMBAT_HOLYDAMAGE",
+   "percent": 10,
+   "from": 0,
+   "source": {
+    "revid": 1208265
+   }
+  },
+  {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/bosses/sugar_mommy.lua",
+   "monster": "Sugar Mommy",
+   "item": "COMBAT_ICEDAMAGE",
+   "percent": 10,
+   "from": 15,
+   "source": {
+    "revid": 1208265
+   }
+  },
+  {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/bosses/sugar_mommy.lua",
+   "monster": "Sugar Mommy",
+   "item": "COMBAT_PHYSICALDAMAGE",
+   "percent": 10,
+   "from": 0,
+   "source": {
+    "revid": 1208265
+   }
+  },
+  {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/bosses/the_brainstealer.lua",
+   "monster": "The Brainstealer",
+   "item": "COMBAT_ENERGYDAMAGE",
+   "percent": 0,
+   "from": 3,
+   "source": {
+    "revid": 1140933
+   }
+  },
+  {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/bosses/the_brainstealer.lua",
+   "monster": "The Brainstealer",
+   "item": "COMBAT_FIREDAMAGE",
+   "percent": 0,
+   "from": 5,
+   "source": {
+    "revid": 1140933
+   }
   },
   {
    "kind": "max_count",
@@ -19716,17 +20068,6 @@
    "from": 90
   },
   {
-   "kind": "stat",
-   "file": "data-otservbr-global/monster/quests/ancient_tombs/rahemos.lua",
-   "monster": "Rahemos",
-   "item": "armor",
-   "value": 40,
-   "from": 30,
-   "source": {
-    "revid": 1181600
-   }
-  },
-  {
    "kind": "element",
    "file": "data-otservbr-global/monster/quests/ancient_tombs/thalas.lua",
    "monster": "Thalas",
@@ -19806,17 +20147,6 @@
    "from": 80
   },
   {
-   "kind": "stat",
-   "file": "data-otservbr-global/monster/quests/ancient_tombs/thalas.lua",
-   "monster": "Thalas",
-   "item": "armor",
-   "value": 40,
-   "from": 20,
-   "source": {
-    "revid": 1181599
-   }
-  },
-  {
    "kind": "element",
    "file": "data-otservbr-global/monster/quests/ancient_tombs/vashresamun.lua",
    "monster": "Vashresamun",
@@ -19845,17 +20175,6 @@
    "item": "COMBAT_LIFEDRAIN",
    "percent": 100,
    "from": 0,
-   "source": {
-    "revid": 1181451
-   }
-  },
-  {
-   "kind": "stat",
-   "file": "data-otservbr-global/monster/quests/ancient_tombs/vashresamun.lua",
-   "monster": "Vashresamun",
-   "item": "armor",
-   "value": 40,
-   "from": 20,
    "source": {
     "revid": 1181451
    }
@@ -20163,6 +20482,72 @@
   },
   {
    "kind": "element",
+   "file": "data-otservbr-global/monster/quests/dangerous_depth/bosses/the_count_of_the_core.lua",
+   "monster": "The Count of the Core",
+   "item": "COMBAT_FIREDAMAGE",
+   "percent": 175,
+   "from": 25,
+   "source": {
+    "revid": 1103760
+   }
+  },
+  {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/quests/feaster_of_souls/irgix_the_flimsy.lua",
+   "monster": "Irgix The Flimsy",
+   "item": "COMBAT_EARTHDAMAGE",
+   "percent": 0,
+   "from": 80,
+   "source": {
+    "revid": 1140895
+   }
+  },
+  {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/quests/feaster_of_souls/irgix_the_flimsy.lua",
+   "monster": "Irgix The Flimsy",
+   "item": "COMBAT_FIREDAMAGE",
+   "percent": 0,
+   "from": 50,
+   "source": {
+    "revid": 1140895
+   }
+  },
+  {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/quests/feaster_of_souls/irgix_the_flimsy.lua",
+   "monster": "Irgix The Flimsy",
+   "item": "COMBAT_ICEDAMAGE",
+   "percent": -10,
+   "from": 50,
+   "source": {
+    "revid": 1140895
+   }
+  },
+  {
+   "kind": "immunity",
+   "file": "data-otservbr-global/monster/quests/feaster_of_souls/irgix_the_flimsy.lua",
+   "monster": "Irgix The Flimsy",
+   "item": "paralyze",
+   "condition": true,
+   "from": false,
+   "source": {
+    "revid": 1140895
+   }
+  },
+  {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/quests/feaster_of_souls/the_fear_feaster.lua",
+   "monster": "The Fear Feaster",
+   "item": "COMBAT_DEATHDAMAGE",
+   "percent": 200,
+   "from": 100,
+   "source": {
+    "revid": 1140938
+   }
+  },
+  {
+   "kind": "element",
    "file": "data-otservbr-global/monster/quests/ferumbras_ascension/bosses/mazoran.lua",
    "monster": "Mazoran",
    "item": "COMBAT_ENERGYDAMAGE",
@@ -20288,6 +20673,17 @@
     "loot_revid": 1185890
    },
    "from": 5
+  },
+  {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/quests/ferumbras_ascension/bosses/ragiaz.lua",
+   "monster": "Ragiaz",
+   "item": "COMBAT_EARTHDAMAGE",
+   "percent": 20,
+   "from": 90,
+   "source": {
+    "revid": 1178432
+   }
   },
   {
    "kind": "add_loot",
@@ -20483,6 +20879,215 @@
   },
   {
    "kind": "element",
+   "file": "data-otservbr-global/monster/quests/forgotten_knowledge/bosses/lady_tenebris.lua",
+   "monster": "Lady Tenebris",
+   "item": "COMBAT_EARTHDAMAGE",
+   "percent": 15,
+   "from": 20,
+   "source": {
+    "revid": 1208280
+   }
+  },
+  {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/quests/forgotten_knowledge/bosses/lady_tenebris.lua",
+   "monster": "Lady Tenebris",
+   "item": "COMBAT_PHYSICALDAMAGE",
+   "percent": 5,
+   "from": 0,
+   "source": {
+    "revid": 1208280
+   }
+  },
+  {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/quests/forgotten_knowledge/bosses/lloyd.lua",
+   "monster": "Lloyd",
+   "item": "COMBAT_DEATHDAMAGE",
+   "percent": 60,
+   "from": 50,
+   "source": {
+    "revid": 1186449
+   }
+  },
+  {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/quests/forgotten_knowledge/bosses/lloyd.lua",
+   "monster": "Lloyd",
+   "item": "COMBAT_EARTHDAMAGE",
+   "percent": 5,
+   "from": 0,
+   "source": {
+    "revid": 1186449
+   }
+  },
+  {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/quests/forgotten_knowledge/bosses/lloyd.lua",
+   "monster": "Lloyd",
+   "item": "COMBAT_ICEDAMAGE",
+   "percent": 15,
+   "from": 0,
+   "source": {
+    "revid": 1186449
+   }
+  },
+  {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/quests/forgotten_knowledge/bosses/lloyd.lua",
+   "monster": "Lloyd",
+   "item": "COMBAT_PHYSICALDAMAGE",
+   "percent": 10,
+   "from": 0,
+   "source": {
+    "revid": 1186449
+   }
+  },
+  {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/quests/forgotten_knowledge/bosses/the_enraged_thorn_knight.lua",
+   "monster": "The Enraged Thorn Knight",
+   "item": "COMBAT_DEATHDAMAGE",
+   "percent": 1100,
+   "from": -100,
+   "source": {
+    "revid": 1140936
+   }
+  },
+  {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/quests/forgotten_knowledge/bosses/the_last_lore_keeper.lua",
+   "monster": "The Last Lore Keeper",
+   "item": "COMBAT_DEATHDAMAGE",
+   "percent": 60,
+   "from": 20,
+   "source": {
+    "revid": 1135993
+   }
+  },
+  {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/quests/forgotten_knowledge/bosses/the_last_lore_keeper.lua",
+   "monster": "The Last Lore Keeper",
+   "item": "COMBAT_ENERGYDAMAGE",
+   "percent": 15,
+   "from": 20,
+   "source": {
+    "revid": 1135993
+   }
+  },
+  {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/quests/forgotten_knowledge/bosses/the_last_lore_keeper.lua",
+   "monster": "The Last Lore Keeper",
+   "item": "COMBAT_FIREDAMAGE",
+   "percent": 15,
+   "from": 20,
+   "source": {
+    "revid": 1135993
+   }
+  },
+  {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/quests/forgotten_knowledge/bosses/the_last_lore_keeper.lua",
+   "monster": "The Last Lore Keeper",
+   "item": "COMBAT_HOLYDAMAGE",
+   "percent": 0,
+   "from": 20,
+   "source": {
+    "revid": 1135993
+   }
+  },
+  {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/quests/forgotten_knowledge/bosses/the_last_lore_keeper.lua",
+   "monster": "The Last Lore Keeper",
+   "item": "COMBAT_ICEDAMAGE",
+   "percent": 35,
+   "from": 20,
+   "source": {
+    "revid": 1135993
+   }
+  },
+  {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/quests/forgotten_knowledge/bosses/the_last_lore_keeper.lua",
+   "monster": "The Last Lore Keeper",
+   "item": "COMBAT_PHYSICALDAMAGE",
+   "percent": 25,
+   "from": 20,
+   "source": {
+    "revid": 1135993
+   }
+  },
+  {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/quests/grave_danger/bosses/duke_krule.lua",
+   "monster": "Duke Krule",
+   "item": "COMBAT_DEATHDAMAGE",
+   "percent": 160,
+   "from": 40,
+   "source": {
+    "revid": 1140878
+   }
+  },
+  {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/quests/grave_danger/bosses/earl_osam.lua",
+   "monster": "Earl Osam",
+   "item": "COMBAT_DEATHDAMAGE",
+   "percent": 300,
+   "from": 100,
+   "source": {
+    "revid": 1140879
+   }
+  },
+  {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/quests/grave_danger/bosses/earl_osam.lua",
+   "monster": "Earl Osam",
+   "item": "COMBAT_ICEDAMAGE",
+   "percent": 150,
+   "from": 50,
+   "source": {
+    "revid": 1140879
+   }
+  },
+  {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/quests/grave_danger/bosses/lord_azaram.lua",
+   "monster": "Lord Azaram",
+   "item": "COMBAT_EARTHDAMAGE",
+   "percent": 360,
+   "from": 100,
+   "source": {
+    "revid": 1181365
+   }
+  },
+  {
+   "kind": "immunity",
+   "file": "data-otservbr-global/monster/quests/grave_danger/bosses/scarlett_etzel.lua",
+   "monster": "Scarlett Etzel",
+   "item": "paralyze",
+   "condition": false,
+   "from": true,
+   "source": {
+    "revid": 1154642
+   }
+  },
+  {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/quests/grave_danger/bosses/sir_baeloc.lua",
+   "monster": "Sir Baeloc",
+   "item": "COMBAT_DEATHDAMAGE",
+   "percent": 200,
+   "from": 0,
+   "source": {
+    "revid": 1181368
+   }
+  },
+  {
+   "kind": "element",
    "file": "data-otservbr-global/monster/quests/grave_danger/bosses/sir_nictros.lua",
    "monster": "Sir Nictros",
    "item": "COMBAT_DEATHDAMAGE",
@@ -20490,6 +21095,149 @@
    "from": 100,
    "source": {
     "revid": 1181369
+   }
+  },
+  {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/quests/hero_of_rathleton/professor_maxxen.lua",
+   "monster": "Professor Maxxen",
+   "item": "COMBAT_DEATHDAMAGE",
+   "percent": 15,
+   "from": 0,
+   "source": {
+    "revid": 1152342
+   }
+  },
+  {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/quests/hero_of_rathleton/professor_maxxen.lua",
+   "monster": "Professor Maxxen",
+   "item": "COMBAT_EARTHDAMAGE",
+   "percent": 50,
+   "from": 0,
+   "source": {
+    "revid": 1152342
+   }
+  },
+  {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/quests/hero_of_rathleton/professor_maxxen.lua",
+   "monster": "Professor Maxxen",
+   "item": "COMBAT_FIREDAMAGE",
+   "percent": 35,
+   "from": 0,
+   "source": {
+    "revid": 1152342
+   }
+  },
+  {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/quests/hero_of_rathleton/professor_maxxen.lua",
+   "monster": "Professor Maxxen",
+   "item": "COMBAT_HOLYDAMAGE",
+   "percent": 40,
+   "from": 0,
+   "source": {
+    "revid": 1152342
+   }
+  },
+  {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/quests/hero_of_rathleton/professor_maxxen.lua",
+   "monster": "Professor Maxxen",
+   "item": "COMBAT_ICEDAMAGE",
+   "percent": 5,
+   "from": 0,
+   "source": {
+    "revid": 1152342
+   }
+  },
+  {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/quests/hero_of_rathleton/professor_maxxen.lua",
+   "monster": "Professor Maxxen",
+   "item": "COMBAT_PHYSICALDAMAGE",
+   "percent": 5,
+   "from": 0,
+   "source": {
+    "revid": 1152342
+   }
+  },
+  {
+   "kind": "immunity",
+   "file": "data-otservbr-global/monster/quests/hero_of_rathleton/professor_maxxen.lua",
+   "monster": "Professor Maxxen",
+   "item": "invisible",
+   "condition": true,
+   "from": false,
+   "source": {
+    "revid": 1152342
+   }
+  },
+  {
+   "kind": "immunity",
+   "file": "data-otservbr-global/monster/quests/hero_of_rathleton/professor_maxxen.lua",
+   "monster": "Professor Maxxen",
+   "item": "paralyze",
+   "condition": true,
+   "from": false,
+   "source": {
+    "revid": 1152342
+   }
+  },
+  {
+   "kind": "immunity",
+   "file": "data-otservbr-global/monster/quests/isle_of_evil/mephiles.lua",
+   "monster": "Mephiles",
+   "item": "paralyze",
+   "condition": false,
+   "from": true,
+   "source": {
+    "revid": 1068594
+   }
+  },
+  {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/quests/kilmaresh/bragrumol.lua",
+   "monster": "Bragrumol",
+   "item": "COMBAT_FIREDAMAGE",
+   "percent": 70,
+   "from": 30,
+   "source": {
+    "revid": 1119930
+   }
+  },
+  {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/quests/kilmaresh/xogixath.lua",
+   "monster": "Xogixath",
+   "item": "COMBAT_FIREDAMAGE",
+   "percent": 50,
+   "from": 0,
+   "source": {
+    "revid": 1116555
+   }
+  },
+  {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/quests/kilmaresh/xogixath.lua",
+   "monster": "Xogixath",
+   "item": "COMBAT_ICEDAMAGE",
+   "percent": -15,
+   "from": -10,
+   "source": {
+    "revid": 1116555
+   }
+  },
+  {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/quests/marapur/timira_the_many-headed.lua",
+   "monster": "Timira the Many-Headed",
+   "item": "COMBAT_ICEDAMAGE",
+   "percent": -10,
+   "from": 10,
+   "source": {
+    "revid": 1206529
    }
   },
   {
@@ -22307,6 +23055,50 @@
    "from": -10
   },
   {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/quests/soul_war/dreadful_disruptor.lua",
+   "monster": "Dreadful Disruptor",
+   "item": "COMBAT_DEATHDAMAGE",
+   "percent": 15,
+   "from": -5,
+   "source": {
+    "revid": 1055702
+   }
+  },
+  {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/quests/soul_war/dreadful_disruptor.lua",
+   "monster": "Dreadful Disruptor",
+   "item": "COMBAT_EARTHDAMAGE",
+   "percent": 10,
+   "from": -5,
+   "source": {
+    "revid": 1055702
+   }
+  },
+  {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/quests/soul_war/dreadful_disruptor.lua",
+   "monster": "Dreadful Disruptor",
+   "item": "COMBAT_FIREDAMAGE",
+   "percent": 25,
+   "from": 10,
+   "source": {
+    "revid": 1055702
+   }
+  },
+  {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/quests/soul_war/dreadful_disruptor.lua",
+   "monster": "Dreadful Disruptor",
+   "item": "COMBAT_PHYSICALDAMAGE",
+   "percent": 10,
+   "from": -5,
+   "source": {
+    "revid": 1055702
+   }
+  },
+  {
    "kind": "chance",
    "file": "data-otservbr-global/monster/quests/soul_war/normal_monsters/bony_sea_devil.lua",
    "monster": "Bony Sea Devil",
@@ -23504,6 +24296,28 @@
   },
   {
    "kind": "element",
+   "file": "data-otservbr-global/monster/quests/the_curse_spreads/black_vixen.lua",
+   "monster": "Black Vixen",
+   "item": "COMBAT_ENERGYDAMAGE",
+   "percent": 20,
+   "from": 50,
+   "source": {
+    "revid": 1181544
+   }
+  },
+  {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/quests/the_curse_spreads/black_vixen.lua",
+   "monster": "Black Vixen",
+   "item": "COMBAT_FIREDAMAGE",
+   "percent": -5,
+   "from": 50,
+   "source": {
+    "revid": 1181544
+   }
+  },
+  {
+   "kind": "element",
    "file": "data-otservbr-global/monster/quests/the_curse_spreads/feroxa.lua",
    "monster": "Feroxa",
    "item": "COMBAT_EARTHDAMAGE",
@@ -23544,6 +24358,50 @@
    "from": 30,
    "source": {
     "revid": 988016
+   }
+  },
+  {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/quests/the_dream_courts/bosses/alptramun.lua",
+   "monster": "Alptramun",
+   "item": "COMBAT_DEATHDAMAGE",
+   "percent": 200,
+   "from": 100,
+   "source": {
+    "revid": 1116547
+   }
+  },
+  {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/quests/the_dream_courts/bosses/faceless_bane.lua",
+   "monster": "Faceless Bane",
+   "item": "COMBAT_PHYSICALDAMAGE",
+   "percent": 30,
+   "from": 50,
+   "source": {
+    "revid": 1213390
+   }
+  },
+  {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/quests/the_dream_courts/bosses/malofur_mangrinder.lua",
+   "monster": "Malofur Mangrinder",
+   "item": "COMBAT_FIREDAMAGE",
+   "percent": 200,
+   "from": 100,
+   "source": {
+    "revid": 1129099
+   }
+  },
+  {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/quests/the_dream_courts/bosses/maxxenius.lua",
+   "monster": "Maxxenius",
+   "item": "COMBAT_ENERGYDAMAGE",
+   "percent": 700,
+   "from": 600,
+   "source": {
+    "revid": 1116545
    }
   },
   {
@@ -24096,6 +24954,72 @@
    "from": 194
   },
   {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/quests/the_percht_queens_island/the_percht_queen.lua",
+   "monster": "The Percht Queen",
+   "item": "COMBAT_ICEDAMAGE",
+   "percent": 200,
+   "from": 0,
+   "source": {
+    "revid": 1116552
+   }
+  },
+  {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/quests/the_secret_library/bosses/brokul.lua",
+   "monster": "Brokul",
+   "item": "COMBAT_DEATHDAMAGE",
+   "percent": 15,
+   "from": 0,
+   "source": {
+    "revid": 1208471
+   }
+  },
+  {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/quests/the_secret_library/bosses/brokul.lua",
+   "monster": "Brokul",
+   "item": "COMBAT_PHYSICALDAMAGE",
+   "percent": -5,
+   "from": 0,
+   "source": {
+    "revid": 1208471
+   }
+  },
+  {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/quests/the_secret_library/bosses/ghulosh.lua",
+   "monster": "Ghulosh",
+   "item": "COMBAT_FIREDAMAGE",
+   "percent": 200,
+   "from": 0,
+   "source": {
+    "revid": 1140884
+   }
+  },
+  {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/quests/the_secret_library/bosses/gorzindel.lua",
+   "monster": "Gorzindel",
+   "item": "COMBAT_FIREDAMAGE",
+   "percent": 200,
+   "from": 0,
+   "source": {
+    "revid": 1175294
+   }
+  },
+  {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/quests/the_secret_library/bosses/mazzinor.lua",
+   "monster": "Mazzinor",
+   "item": "COMBAT_FIREDAMAGE",
+   "percent": 200,
+   "from": 0,
+   "source": {
+    "revid": 1140906
+   }
+  },
+  {
    "kind": "max_count",
    "file": "data-otservbr-global/monster/raids/draptor.lua",
    "monster": "Draptor",
@@ -24107,6 +25031,17 @@
     "loot_revid": 1100125
    },
    "from": 90
+  },
+  {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/raids/ferumbras.lua",
+   "monster": "Ferumbras",
+   "item": "COMBAT_PHYSICALDAMAGE",
+   "percent": 5,
+   "from": 10,
+   "source": {
+    "revid": 1181227
+   }
   },
   {
    "kind": "element",
@@ -24128,6 +25063,39 @@
    "from": -5,
    "source": {
     "revid": 1165513
+   }
+  },
+  {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/raids/mawhawk.lua",
+   "monster": "Mawhawk",
+   "item": "COMBAT_DEATHDAMAGE",
+   "percent": 25,
+   "from": 0,
+   "source": {
+    "revid": 1036064
+   }
+  },
+  {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/raids/mawhawk.lua",
+   "monster": "Mawhawk",
+   "item": "COMBAT_ENERGYDAMAGE",
+   "percent": 20,
+   "from": 0,
+   "source": {
+    "revid": 1036064
+   }
+  },
+  {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/raids/mawhawk.lua",
+   "monster": "Mawhawk",
+   "item": "COMBAT_PHYSICALDAMAGE",
+   "percent": 10,
+   "from": 0,
+   "source": {
+    "revid": 1036064
    }
   },
   {
@@ -25540,6 +26508,39 @@
     "loot_revid": 1210523
    },
    "from": 4
+  },
+  {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/undeads/ahau.lua",
+   "monster": "Ahau",
+   "item": "COMBAT_ENERGYDAMAGE",
+   "percent": 0,
+   "from": 5,
+   "source": {
+    "revid": 1205501
+   }
+  },
+  {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/undeads/ahau.lua",
+   "monster": "Ahau",
+   "item": "COMBAT_FIREDAMAGE",
+   "percent": 0,
+   "from": 5,
+   "source": {
+    "revid": 1205501
+   }
+  },
+  {
+   "kind": "element",
+   "file": "data-otservbr-global/monster/undeads/ahau.lua",
+   "monster": "Ahau",
+   "item": "COMBAT_ICEDAMAGE",
+   "percent": -10,
+   "from": 0,
+   "source": {
+    "revid": 1205501
+   }
   },
   {
    "kind": "immunity",
