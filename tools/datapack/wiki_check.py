@@ -44,9 +44,7 @@ MAX_CHANCE = 100000
 # largest samples) describe loot that has changed since, and the binomial interval already widens
 # for small samples.
 MIN_KILLS = 100
-# A stat that disagrees on more than this share of the comparable monsters is a unit or formula
-# question (mitigation: datapack ~0.63 x wiki), reported once instead of per monster.
-SYSTEMATIC_SHARE = 0.5
+
 # Two-sided z for the Wilson interval; wide on purpose, the report covers ~20k items.
 Z = 3.29
 # A wiki item missing from the datapack is reported once it dropped at least this often.
@@ -263,7 +261,7 @@ def compare(monster, infobox, blocks, by_name, by_id, checked=None):
                 mark(field)
                 if float(ours) != wiki_value:
                     add("stat", field, datapack=ours, wiki=wiki_value)
-        wiki_mitigation = parse_number(infobox.get("mitigation"))
+        wiki_mitigation = certain_number(infobox.get("mitigation"))
         if wiki_mitigation is not None and monster.get("mitigation") is not None:
             mark("mitigation")
             if abs(float(monster["mitigation"]) - wiki_mitigation) > 0.005:
@@ -430,7 +428,6 @@ def command_report(args):
             report["monsters"].append({"name": monster["name"], "file": os.path.relpath(monster["file"], ROOT) if os.path.isabs(monster["file"]) else monster["file"],
                                        "revid": page.get("revid"), "loot_revid": loot_page.get("revid"), "loot_block": used, "findings": findings,
                                        "race_id": datapack_race(monster), "wiki_race_id": parse_number(infobox.get("race_id"))})
-    move_systematic(report, checked)
     totals = {}
     for entry in report["monsters"]:
         for finding in entry["findings"]:
@@ -446,25 +443,6 @@ def command_report(args):
     for key, value in sorted(totals.items(), key=lambda kv: -kv[1]):
         print(f"  {key}: {value}")
     return 0
-
-
-def move_systematic(report, checked):
-    """Stats that disagree on most comparable monsters leave the per-monster lists."""
-    mismatches = {}
-    for entry in report["monsters"]:
-        for finding in entry["findings"]:
-            if finding["kind"] == "stat":
-                mismatches.setdefault(finding["subject"], []).append(finding)
-    for subject, found in mismatches.items():
-        if checked.get(subject) and len(found) / checked[subject] > SYSTEMATIC_SHARE:
-            ratios = sorted(f["datapack"] / f["wiki"] for f in found if f["wiki"])
-            report["systematic"][subject] = {
-                "mismatches": len(found), "compared": checked[subject],
-                "median_ratio_datapack_over_wiki": round(ratios[len(ratios) // 2], 3) if ratios else None,
-            }
-            for entry in report["monsters"]:
-                entry["findings"] = [f for f in entry["findings"] if not (f["kind"] == "stat" and f["subject"] == subject)]
-    report["monsters"] = [entry for entry in report["monsters"] if entry["findings"]]
 
 
 def render_markdown(report, total):
@@ -500,7 +478,6 @@ def monster_info(monsters, cache_dir):
             "race": datapack_race(monster),
             "wiki_race": parse_number(infobox.get("race_id")),
             "reward": bool(monster.get("rewardBoss")),
-            "boss": bool(monster.get("rewardBoss") or monster.get("bosstiary")),
             "uncertain": {k for k in keys if any(mark in infobox.get(k, "") for mark in "?~")},
         }
     return info
@@ -526,9 +503,8 @@ def command_plan(args):
     if os.path.exists(reviewed_path):
         with open(reviewed_path, encoding="utf-8") as handle:
             reviewed = json.load(handle)["decisions"]
-    boss_names = {m["name"] for m in monsters if m.get("rewardBoss") or m.get("bosstiary")}
     fixes, review = fixes_module.plan(report, by_name, stackable, kinds=tuple(args.kinds.split(",")), bosses=bosses, element_types=element_types,
-                                      reviewed=reviewed, boss_names=boss_names, flags=flags)
+                                      reviewed=reviewed, flags=flags)
     manifest_path = os.path.join(ROOT, args.manifest)
     if os.path.exists(manifest_path):
         with open(manifest_path, encoding="utf-8") as handle:

@@ -180,20 +180,6 @@ class CompareTest(unittest.TestCase):
         self.assertFalse({k for k, _ in kinds(findings)} & {"loot_chance", "loot_missing", "loot_datapack_only"})
 
 
-class SystematicTest(unittest.TestCase):
-    def test_stat_wrong_on_most_monsters_becomes_one_systematic_entry(self):
-        report = {"monsters": [
-            {"name": "A", "findings": [{"kind": "stat", "subject": "mitigation", "datapack": 0.63, "wiki": 1.0}]},
-            {"name": "B", "findings": [{"kind": "stat", "subject": "mitigation", "datapack": 1.26, "wiki": 2.0},
-                                       {"kind": "stat", "subject": "armor", "datapack": 5, "wiki": 6}]},
-        ], "systematic": {}}
-        wiki_check.move_systematic(report, {"mitigation": 3, "armor": 3})
-        self.assertEqual(2, report["systematic"]["mitigation"]["mismatches"])
-        self.assertEqual(0.63, report["systematic"]["mitigation"]["median_ratio_datapack_over_wiki"])
-        self.assertEqual(["B"], [m["name"] for m in report["monsters"]])  # armor stays per monster
-        self.assertEqual("armor", report["monsters"][0]["findings"][0]["subject"])
-
-
 class FetchTest(unittest.TestCase):
     def test_redirects_missing_and_continue_are_mapped_to_requested_titles(self):
         responses = [

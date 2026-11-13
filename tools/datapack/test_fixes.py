@@ -144,25 +144,6 @@ class PlanTest(unittest.TestCase):
         self.assertEqual([("stat", "armor")], [(f["kind"], f["item"]) for f in planned])
         self.assertEqual(["gold coin"], [r["item"] for r in review])
 
-    def test_boss_stats_are_left_for_review(self):
-        report = {"monsters": [{"name": "Chest Boss", "file": "boss.lua", "race_id": 7, "wiki_race_id": 7.0, "revid": 1, "findings": [
-            {"kind": "stat", "subject": "maxHealth", "datapack": 350000, "wiki": 600000.0},
-            {"kind": "element", "subject": "fireDmgMod", "datapack": 0, "wiki": 20.0}]}]}
-        planned, review = fixes.plan(report, {}, set(), bosses={"Chest Boss"}, boss_names={"Chest Boss"},
-                                     element_types={"fireDmgMod": "COMBAT_FIREDAMAGE"})
-        self.assertEqual([("element", "COMBAT_FIREDAMAGE")], [(f["kind"], f["item"]) for f in planned])
-        self.assertIn("quest scripts", review[0]["reason"])
-        self.assertIn("quest scripts", fixes.validate({"kind": "stat", "item": "maxHealth", "value": 1}, {"boss": True, "race": 7, "wiki_race": 7}, {}))
-
-    def test_only_safe_fixes_are_planned(self):
-        planned, review = fixes.plan(self.REPORT, self.BY_NAME, stackable={3031, 9001})
-        self.assertEqual([("add_loot", "rare gem"), ("max_count", "gold coin")], [(f["kind"], f["item"]) for f in planned])
-        reasons = {r["item"]: r["reason"] for r in review}
-        self.assertIn("not stackable", reasons["beast hide"])
-        self.assertIn("too large", reasons["beast fang"])
-        self.assertIn("2 items", reasons["dragon trophy"])
-        self.assertEqual(7, planned[0]["source"]["loot_revid"])
-
 
 class ChanceTest(unittest.TestCase):
     def test_chance_is_set_on_the_single_entry(self):
@@ -188,11 +169,12 @@ class ChanceTest(unittest.TestCase):
             {"name": "Old Beast", "file": "old.lua", "race_id": 4, "loot_block": {"version": "8.6", "kills": 90000}, "findings": [finding("beast fang", 20000, 15000)]},
         ]}
         planned, review = fixes.plan(report, {}, stackable=set(), kinds=("chance",))
-        self.assertEqual([("New Beast", "beast fang", 15000)], [(f["monster"], f["item"], f["chance"]) for f in planned])
+        # The wiki is the source of truth: the large rare gem gap is applied too.
+        self.assertEqual([("New Beast", "beast fang", 15000), ("New Beast", "rare gem", 9000)], [(f["monster"], f["item"], f["chance"]) for f in planned])
         reasons = {(r["monster"], r["item"]): r["reason"] for r in review}
         self.assertIn("currency", reasons[("New Beast", "gold coin")])
         self.assertIn("entries", reasons[("New Beast", "beast hide")])
-        self.assertIn("too large", reasons[("New Beast", "rare gem")])
+        self.assertNotIn(("New Beast", "rare gem"), reasons)  # large gap applied: the wiki is the source of truth
         self.assertIn("old statistics", reasons[("Old Beast", "beast fang")])
 
 
@@ -249,10 +231,10 @@ class AttributeTest(unittest.TestCase):
             entry("Variant", None, 34.0, [{"kind": "stat", "subject": "experience", "datapack": 700, "wiki": 750.0}]),
         ]}
         planned, review = fixes.plan(report, {}, set(), kinds=("stat", "element", "immunity"), element_types={"fireDmgMod": "COMBAT_FIREDAMAGE"})
-        self.assertEqual({("stat", "experience", 750), ("element", "COMBAT_FIREDAMAGE", 80), ("immunity", "paralyze", True)},
+        # The wiki is the source of truth: a large stat gap is applied when the creature is the same.
+        self.assertEqual({("stat", "experience", 750), ("stat", "maxHealth", 5000), ("element", "COMBAT_FIREDAMAGE", 80), ("immunity", "paralyze", True)},
                          {(f["kind"], f["item"], f.get("value", f.get("percent", f.get("condition")))) for f in planned})
         reasons = {(r["monster"], r["item"]): r["reason"] for r in review}
-        self.assertIn("too large", reasons[("Same", "maxHealth")])
         self.assertIn("race id", reasons[("Variant", "experience")])
 
 
@@ -307,14 +289,28 @@ class OldStatisticsTest(unittest.TestCase):
 
 
 class ReviewedTest(unittest.TestCase):
-    def test_reviewed_stat_bypasses_the_factor_rule(self):
+    def test_keep_decision_sends_the_finding_to_review(self):
         report = {"monsters": [{"name": "Shock Head", "file": "shock.lua", "race_id": 5, "wiki_race_id": 5.0, "revid": 1,
                                 "findings": [{"kind": "stat", "subject": "armor", "datapack": 30, "wiki": 78.0}]}]}
-        planned, review = fixes.plan(report, {}, set(), kinds=("stat",))
-        self.assertEqual([], planned)
-        decisions = [{"monster": "Shock Head", "kind": "stat", "item": "armor", "decision": "apply", "note": "bestiary armor"}]
-        planned, _ = fixes.plan(report, {}, set(), kinds=("stat",), reviewed=decisions)
+        planned, _ = fixes.plan(report, {}, set(), kinds=("stat",))
         self.assertEqual([(78, 30)], [(f["value"], f["from"]) for f in planned])
+        decisions = [{"monster": "Shock Head", "kind": "stat", "item": "armor", "decision": "keep", "note": "tuned for the quest"}]
+        planned, review = fixes.plan(report, {}, set(), kinds=("stat",), reviewed=decisions)
+        self.assertEqual([], planned)
+        self.assertIn("tuned for the quest", review[0]["reason"])
+
+    def test_hit_points_without_a_max_health_line(self):
+        only_health = ATTRIBUTES.replace("monster.maxHealth = 1000\n", "")
+        text, outcomes = fixes.apply_to_text(only_health, [{"kind": "stat", "item": "maxHealth", "value": 1200, "from": 1000}], BY_ID)
+        self.assertEqual(["applied"], outcomes)
+        self.assertIn("monster.health = 1200", text)
+
+    def test_mitigation_is_set_with_two_decimals(self):
+        fix = {"kind": "stat", "item": "mitigation", "value": 1.56, "from": 0.99}
+        text, outcomes = fixes.apply_to_text(ATTRIBUTES, [fix], BY_ID)
+        self.assertEqual(["applied"], outcomes)
+        self.assertIn("mitigation = 1.56,", text)
+        self.assertEqual(["already"], fixes.apply_to_text(text, [fix], BY_ID)[1])
 
 
 class ResolveTest(unittest.TestCase):

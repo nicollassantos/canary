@@ -12,10 +12,11 @@ Kinds handled (chosen by the user, batch by batch):
   one item;
 - chance: set an item's chance to the wiki rate when the datapack falls outside the binomial
   interval (single entry only, recent statistics, no money, within MAX_CHANCE_FACTOR);
-- stat (experience, maxHealth, armor), element (damage modifier) and immunity (paralyze,
-  invisible): only when the datapack raceId equals the wiki race_id, so a quest variant that
-  shares a name with another creature is never touched; stats also need a ratio within
-  STAT_FACTOR and neither side at 0.
+- stat (experience, maxHealth, armor, mitigation), element (damage modifier) and immunity
+  (paralyze, invisible): only when the datapack race id equals the wiki race_id, so a quest variant
+  that shares a name with another creature is never touched, and only from values the wiki does
+  not mark as uncertain. The wiki is the source of truth for the values themselves (the game was
+  rebalanced many times), bosses included.
 """
 import json
 import os
@@ -64,9 +65,6 @@ def old_statistics_evidence(finding, ours=None):
     return bool(wiki_fits) or None
 
 
-# Hit points, experience and armor change only within this factor (variants and quest copies show
-# larger gaps).
-STAT_FACTOR = 2
 # Money is never added: the datapack pays high gold amounts as several gold coin entries where the
 # wiki records platinum coins, so adding coins would raise a monster's money drop.
 CURRENCY = frozenset({"gold coin", "platinum coin", "crystal coin"})
@@ -162,7 +160,7 @@ def resolve_item(name, by_name, flags):
 # --- plan: report -> manifest ----------------------------------------------------------------
 
 LOOT_KINDS = ("max_count", "add_loot", "chance")
-STAT_KEYS = {"experience": "exp", "maxHealth": "hp", "armor": "armor"}
+STAT_KEYS = {"experience": "exp", "maxHealth": "hp", "armor": "armor", "mitigation": "mitigation"}
 IMMUNITY_KEYS = {"paralyze": "paraimmune", "invisible": "senseinvis"}
 
 
@@ -188,8 +186,6 @@ def validate(fix, info, element_keys):
     """
     if info is None:
         return None
-    if info.get("boss") and fix["kind"] == "stat" and not info.get("approved", {}).get((fix["kind"], fix["item"])):
-        return BOSS_STAT_REASON
     if info.get("reward") and fix["kind"] in LOOT_KINDS:
         return "reward chest: chances are base values scaled per participant"
     if fix["kind"] in LOOT_KINDS:
@@ -216,14 +212,14 @@ def gap_evidence(finding):
     return None
 
 
-BOSS_STAT_REASON = "boss hit points, experience and armor can be tied to quest scripts and balance; review by hand"
-
-
 def plan(report, by_name, stackable, kinds=("max_count", "add_loot", "chance", "stat", "element", "immunity"), bosses=frozenset(), element_types=None,
-         reviewed=(), boss_names=frozenset(), flags=None):
-    """`reviewed` holds case-by-case decisions (tools/datapack/reviewed.json): stat findings to apply
-    despite the STAT_FACTOR rule, each with a note. Identity and certainty still apply (validate)."""
+         reviewed=(), flags=None):
+    """`reviewed` holds case-by-case decisions (tools/datapack/reviewed.json): `keep` sends a finding
+    to review with its note; `apply` is recorded for the history of a decision. Identity and
+    certainty still apply (validate)."""
     approved = {(d["monster"], d["kind"], d["item"]) for d in reviewed if d.get("decision") == "apply"}
+    kept = {(d["monster"], d["kind"], d["item"]): d.get("note", "") for d in reviewed if d.get("decision") == "keep"}
+    finding_kind = {"loot_count": "max_count", "loot_missing": "add_loot", "loot_chance": "chance"}
     """Fixes for the chosen kinds plus the findings left for manual review, with the reason.
 
     Loot of reward-chest monsters (`bosses`, flagged rewardBoss) is always left for review: each
@@ -240,6 +236,10 @@ def plan(report, by_name, stackable, kinds=("max_count", "add_loot", "chance", "
         loot_identity = identity_problem(monster.get("race_id"), monster.get("wiki_race_id"))
         for finding in monster["findings"]:
             item = finding["subject"]
+            decision_key = (monster["name"], finding_kind.get(finding["kind"], finding["kind"]), item)
+            if decision_key in kept:
+                review.append({"monster": monster["name"], "item": item, "reason": f"kept by review: {kept[decision_key]}"})
+                continue
             ids = sorted(by_name.get(item, set()))
             if finding["kind"] in ("loot_count", "loot_chance", "loot_missing") and reward_chest:
                 # Only the loot depends on the reward chest; stats, elements and immunities do not.
@@ -262,16 +262,12 @@ def plan(report, by_name, stackable, kinds=("max_count", "add_loot", "chance", "
                     review.append({"monster": monster["name"], "item": finding["subject"], "reason": "race id missing or different from the wiki"})
                     continue
                 if finding["kind"] == "stat":
+                    # The wiki is the source of truth for creature stats (the game was rebalanced many
+                    # times); identity and certainty are the only gates.
                     ours, wiki = float(finding["datapack"]), float(finding["wiki"])
-                    manual = (monster["name"], "stat", finding["subject"]) in approved
-                    if monster["name"] in boss_names and not manual:
-                        review.append({"monster": monster["name"], "item": finding["subject"], "reason": BOSS_STAT_REASON})
-                        continue
-                    if not manual and (ours <= 0 or wiki <= 0 or not (1 / STAT_FACTOR <= ours / wiki <= STAT_FACTOR)):
-                        review.append({"monster": monster["name"], "item": finding["subject"], "reason": f"stat gap from {ours:g} to {wiki:g} is too large to trust"})
-                        continue
-                    fixes.append({"kind": "stat", "file": monster["file"], "monster": monster["name"], "item": finding["subject"], "value": int(round(wiki)),
-                                  "from": int(round(ours)), "source": page})
+                    as_stat = (lambda v: round(v, 2)) if finding["subject"] == "mitigation" else (lambda v: int(round(v)))
+                    fixes.append({"kind": "stat", "file": monster["file"], "monster": monster["name"], "item": finding["subject"], "value": as_stat(wiki),
+                                  "from": as_stat(ours), "source": page})
                 elif finding["kind"] == "element":
                     combat = (element_types or {}).get(finding["subject"])
                     if not combat:
@@ -299,11 +295,9 @@ def plan(report, by_name, stackable, kinds=("max_count", "add_loot", "chance", "
                 if not reason and finding.get("entries", 1) != 1:
                     reason = f"{finding.get('entries')} entries share the item; split by hand"
                 if not reason and not (1 / MAX_CHANCE_FACTOR <= ours / wiki <= MAX_CHANCE_FACTOR):
-                    gap = gap_evidence(finding)
-                    if gap:
-                        evidence.append(gap)
-                    else:
-                        reason = f"gap from {ours} to {wiki} is too large to trust and not confirmed by another version"
+                    # The finding is already outside a wide binomial interval; with the wiki as the
+                    # source of truth a large gap is applied, noting any independent confirmation.
+                    evidence.append(gap_evidence(finding) or f"large gap ({ours} -> {wiki}), wiki is the source of truth")
                 if reason:
                     review.append({"monster": monster["name"], "item": item, "reason": reason})
                 else:
@@ -393,6 +387,8 @@ def attribute_target(fix):
     if fix["kind"] == "stat":
         if fix["item"] == "armor":
             return "defenses", [r"^(\s*armor\s*=\s*)(\d+)"], fix["value"]
+        if fix["item"] == "mitigation":
+            return "defenses", [r"^(\s*mitigation\s*=\s*)(\d+(?:\.\d+)?)"], fix["value"]
         return None, STAT_LINES.get(fix["item"], []), fix["value"]
     if fix["kind"] == "element":
         return "elements", [rf"(\{{\s*type\s*=\s*{re.escape(fix['item'])}\s*,\s*percent\s*=\s*)(-?\d+)"], fix["percent"]
@@ -414,16 +410,25 @@ def apply_attribute(text, fix):
         start, end = span
     body = text[start:end]
     flags = re.M if fix["kind"] == "stat" else 0
+    if fix["item"] == "maxHealth":
+        # monster.health is required; a few files have no monster.maxHealth line (the server then
+        # uses health as the maximum), so that one is optional.
+        patterns = [p for p in patterns if re.search(p, body, flags)] if re.search(patterns[0], body, flags) else patterns
     matches = [re.search(pattern, body, flags) for pattern in patterns]
     if not all(matches):
         return text, f"{fix['item']} not listed"
-    as_value = (lambda raw: raw == "true") if fix["kind"] == "immunity" else int
+    if fix["kind"] == "immunity":
+        as_value = lambda raw: raw == "true"
+    elif fix["item"] == "mitigation":
+        as_value = lambda raw: round(float(raw), 2)
+    else:
+        as_value = int
     current = as_value(matches[-1].group(2))
     if current == wanted:
         return text, "already"
     if "from" in fix and current != fix["from"]:
         return text, f"changed upstream ({fix['item']} {matches[-1].group(2)})"
-    rendered = ("true" if wanted else "false") if fix["kind"] == "immunity" else str(wanted)
+    rendered = ("true" if wanted else "false") if fix["kind"] == "immunity" else (f"{wanted:.2f}" if fix["item"] == "mitigation" else str(wanted))
     for pattern in patterns:
         match = re.search(pattern, body, flags)
         body = body[:match.start(2)] + rendered + body[match.end(2):]
