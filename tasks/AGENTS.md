@@ -286,7 +286,8 @@ monstro: pegue a versão do upstream (`git checkout --theirs -- <arquivo>`) e ro
 `python3 -I tools/datapack/wiki_check.py apply`, que reaplica só o que ainda falta. Cada fix guarda o
 valor que substitui (`from`): o `apply` só troca um valor enquanto o arquivo ainda tem esse `from`;
 se o upstream mudou o valor para outra coisa, ele **reporta** `changed upstream (...)`, sai com código
-1 e não sobrescreve (decida à mão e ajuste o manifesto). Nunca baixa um `maxCount`; item que o
+1 e não sobrescreve (decida à mão e ajuste o manifesto). Aumento de `maxCount` não desfaz um valor
+maior do upstream; redução (`maxCount` abaixo do `from`) é exata e só com entrada única; item que o
 upstream já adicionou fica como está (também com outra grafia ou outro id: o `apply` reporta
 `listed as another entry`); `remove_loot` só apaga as entradas de uma linha iguais ao `from` (sumida
 = `already`; entrada em várias linhas = conflito); rodar duas vezes não muda nada. Depois, smoke boot. Para provar
@@ -615,15 +616,26 @@ Resultado atual: ver a última linha de validação no `todo.md` (CHECKPOINT 23)
   tabela atual, 23 recentes; nenhuma sem tabela atual). Conferência: a página do Rotworm diz que o
   Legion Helmet saiu do loot no Christmas Update 2009, e o datapack ainda tinha 1,89%. Ficaram fora
   207: baú 141, sem race id 36, listado na tabela atual 9, id sem nome 9, antiga sem tabela 8, moeda
-  3, nome do wiki sem resolução 1. Manifesto: 3745. "Nunca registrado" vale para o bloco usado e a tabela
+  3, nome do wiki sem resolução 1. Manifesto: 3745 (depois 3916, ver redução de `maxCount`). "Nunca registrado" vale para o bloco usado e a tabela
   atual: 4 dos 78 aparecem em blocos antigos pequenos (ex.: Cobra Assassin ring of red plasma, 18 em 474 kills
   na 12.20, 0 em 43916 na 12.65). Varredura de obtenção: todos os 78 continuam vindo de outro monstro ou de
   NPC (eternal flames do Fire Overlord, reinvigorating seeds do Orclops Ravager, witchesbroom 3211 na loja
   da Nelliem); nenhum passo de quest ficou sem fonte.
+- **Redução de `maxCount` (decisão do usuário, 2026-11-13: "sim"; alvo é o Tibia atual):** o servidor
+  sorteia a quantidade uniforme em `[minCount, maxCount]`; se nenhuma das `n` quedas do bloco passou de `m`,
+  a chance disso com o datapack é `((m − min + 1)/(max − min + 1))^n`. Abaixo de e^−7 (o mesmo limiar da
+  remoção), o `maxCount` vira `m`. Só empilhável, entrada única, sem moeda, estatística 12+ (a raridade
+  atual não fala de quantidade), `m` ≥ `minCount`, e linha do wiki coerente: 14 linhas sem `amount:` tinham
+  `total` maior que vezes × 1 (o wiki viu pilhas sem registrar a faixa) e ficam de fora. 171 reduções
+  (ex.: Icecold Book com 7 itens de até 8 para 1, em milhares de quedas). Manifesto: 3916.
+- **Versão das estatísticas (decisão do usuário, 2026-11-13: "15+ quando existir"):** o bloco mais novo
+  com ≥ 100 kills manda (já era a regra); 23 monstros têm bloco 15+ menor (quase todos bosses, 1–90 kills)
+  e usam o bloco maior anterior. O resto segue as regras de antes (12+, ou antiga confirmada pela
+  tabela atual). A versão efetiva pelo `implemented` não foi adotada.
 - **Rótulo de versão do `Loot2`:** o bloco "8.6" aparece em criaturas que não existiam na 8.6 (Candy
   Horror 13.40, Weretiger 13.20, Cult Believer 11.40); o rótulo parece ser o padrão do coletor antigo. Os
   portões de "estatística antiga" usam o rótulo, então são conservadores demais para essas criaturas
-  (24.7k, decisão pendente).
+  (24.7k: não adotado).
 - **Controle negativo do smoke:** um item de loot inexistente injetado no Dragon gera
   `[LootFunctions::luaLootSetIdFromName] - Unknown loot item` e `could not be loaded`; o grep do
   smoke pega os dois.
