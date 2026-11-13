@@ -79,6 +79,7 @@ monster.loot = {
 	{ name = "war hammer", chance = 5000 },
 	{ name = "ham", chance = 5500, maxCount = 2 },
 	{ name = "moonlight crystals", chance = 4599 },
+	{ id = 50150, chance = 1387 }, -- ring of orange plasma
 	{ name = "violet gem", chance = 1370 },
 	{ name = "green crystal shard", chance = 2800 },
 	{ name = "ornate crossbow", chance = 680 },

@@ -85,6 +85,7 @@ monster.loot = {
 	{ id = 3313, chance = 4761 }, -- obsidian lance
 	{ id = 268, chance = 4761 }, -- mana potion
 	{ id = 7449, chance = 8553 }, -- crystal sword
+	{ id = 3051, chance = 2411 }, -- energy ring
 	{ name = "might ring", chance = 864 },
 	{ name = "spellbook of warding", chance = 500 },
 	{ name = "wand of cosmic energy", chance = 500 },

@@ -86,6 +86,7 @@ monster.loot = {
 	{ name = "platinum coin", chance = 100000, maxCount = 9 },
 	{ name = "blue piece of cloth", chance = 4052 },
 	{ name = "fish fin", chance = 2384 },
+	{ id = 50152, chance = 2026 }, -- collar of orange plasma
 	{ name = "blue robe", chance = 1907 },
 	{ name = "cluster of solace", chance = 1073 },
 	{ name = "giant sword", chance = 1907 },

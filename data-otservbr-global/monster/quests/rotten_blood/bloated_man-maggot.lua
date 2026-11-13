@@ -77,6 +77,7 @@ monster.loot = {
 	{ name = "organic acid", chance = 25859, maxCount = 1 },
 	{ name = "might ring", chance = 10020, maxCount = 1 },
 	{ name = "small emerald", chance = 9133, maxCount = 5 },
+	{ id = 3052, chance = 5425 }, -- life ring
 	{ name = "rotten roots", chance = 3978, maxCount = 1 },
 	{ name = "bloated maggot", chance = 3797, maxCount = 1 },
 	{ name = "terra rod", chance = 8078, maxCount = 1 },

@@ -87,6 +87,7 @@ monster.loot = {
 	{ name = "blue gem", chance = 5240 },
 	{ id = 23533, chance = 2429 }, -- ring of red plasma
 	{ name = "wand of voodoo", chance = 2256 },
+	{ id = 50150, chance = 2256 }, -- ring of orange plasma
 	{ id = 23531, chance = 1677 }, -- ring of green plasma
 	{ id = 23529, chance = 3060 }, -- ring of blue plasma
 	{ name = "violet gem", chance = 2620 },

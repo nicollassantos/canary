@@ -2442,6 +2442,21 @@
    "from": 100
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/demons/dawnfire_asura.lua",
+   "monster": "Dawnfire Asura",
+   "item": "red gem",
+   "id": 3039,
+   "chance": 820,
+   "source": {
+    "version": "12.31",
+    "kills": 14265,
+    "loot_revid": 1212375,
+    "times": 117
+   },
+   "by_id": true
+  },
+  {
    "kind": "chance",
    "file": "data-otservbr-global/monster/demons/dawnfire_asura.lua",
    "monster": "Dawnfire Asura",
@@ -5606,6 +5621,21 @@
    "kind": "add_loot",
    "file": "data-otservbr-global/monster/dragons/dragolisk.lua",
    "monster": "Dragolisk",
+   "item": "red gem",
+   "id": 3039,
+   "chance": 7790,
+   "source": {
+    "version": "14.11.0fbf6c",
+    "kills": 2285,
+    "loot_revid": 1204384,
+    "times": 178
+   },
+   "by_id": true
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/dragons/dragolisk.lua",
+   "monster": "Dragolisk",
    "item": "ultimate health potion",
    "id": 7643,
    "chance": 2057,
@@ -6575,6 +6605,21 @@
    "from": 100
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/elementals/foam_stalker.lua",
+   "monster": "Foam Stalker",
+   "item": "collar of orange plasma",
+   "id": 50152,
+   "chance": 1086,
+   "source": {
+    "version": "15.00.249ccc",
+    "kills": 829,
+    "loot_revid": 1201813,
+    "times": 9
+   },
+   "by_id": true
+  },
+  {
    "kind": "chance",
    "file": "data-otservbr-global/monster/elementals/foam_stalker.lua",
    "monster": "Foam Stalker",
@@ -6642,6 +6687,21 @@
     "revid": 1191724
    },
    "from": 3120
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/elementals/high_voltage_elemental.lua",
+   "monster": "High Voltage Elemental",
+   "item": "energy ring",
+   "id": 3051,
+   "chance": 2411,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 2198,
+    "loot_revid": 1204460,
+    "times": 53
+   },
+   "by_id": true
   },
   {
    "kind": "add_loot",
@@ -7330,6 +7390,36 @@
    "kind": "add_loot",
    "file": "data-otservbr-global/monster/extra_dimensional/breach_brood.lua",
    "monster": "Breach Brood",
+   "item": "collar of green plasma",
+   "id": 23543,
+   "chance": 153,
+   "source": {
+    "version": "15.00.249ccc",
+    "kills": 29494,
+    "loot_revid": 1212340,
+    "times": 45
+   },
+   "by_id": true
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/extra_dimensional/breach_brood.lua",
+   "monster": "Breach Brood",
+   "item": "collar of orange plasma",
+   "id": 50152,
+   "chance": 115,
+   "source": {
+    "version": "15.00.249ccc",
+    "kills": 29494,
+    "loot_revid": 1212340,
+    "times": 34
+   },
+   "by_id": true
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/extra_dimensional/breach_brood.lua",
+   "monster": "Breach Brood",
    "item": "lightning legs",
    "id": 822,
    "chance": 105,
@@ -7339,6 +7429,66 @@
     "loot_revid": 1212340,
     "times": 31
    }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/extra_dimensional/breach_brood.lua",
+   "monster": "Breach Brood",
+   "item": "ring of blue plasma",
+   "id": 23529,
+   "chance": 264,
+   "source": {
+    "version": "15.00.249ccc",
+    "kills": 29494,
+    "loot_revid": 1212340,
+    "times": 78
+   },
+   "by_id": true
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/extra_dimensional/breach_brood.lua",
+   "monster": "Breach Brood",
+   "item": "ring of green plasma",
+   "id": 23531,
+   "chance": 295,
+   "source": {
+    "version": "15.00.249ccc",
+    "kills": 29494,
+    "loot_revid": 1212340,
+    "times": 87
+   },
+   "by_id": true
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/extra_dimensional/breach_brood.lua",
+   "monster": "Breach Brood",
+   "item": "ring of orange plasma",
+   "id": 50150,
+   "chance": 251,
+   "source": {
+    "version": "15.00.249ccc",
+    "kills": 29494,
+    "loot_revid": 1212340,
+    "times": 74
+   },
+   "by_id": true
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/extra_dimensional/breach_brood.lua",
+   "monster": "Breach Brood",
+   "item": "ring of red plasma",
+   "id": 23533,
+   "chance": 241,
+   "source": {
+    "version": "15.00.249ccc",
+    "kills": 29494,
+    "loot_revid": 1212340,
+    "times": 71
+   },
+   "by_id": true
   },
   {
    "kind": "chance",
@@ -7437,6 +7587,66 @@
     "times": 5319
    },
    "from": 15000
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/extra_dimensional/dread_intruder.lua",
+   "monster": "Dread Intruder",
+   "item": "collar of orange plasma",
+   "id": 50152,
+   "chance": 187,
+   "source": {
+    "version": "15.00.249ccc",
+    "kills": 26765,
+    "loot_revid": 1212341,
+    "times": 50
+   },
+   "by_id": true
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/extra_dimensional/dread_intruder.lua",
+   "monster": "Dread Intruder",
+   "item": "collar of red plasma",
+   "id": 23544,
+   "chance": 191,
+   "source": {
+    "version": "15.00.249ccc",
+    "kills": 26765,
+    "loot_revid": 1212341,
+    "times": 51
+   },
+   "by_id": true
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/extra_dimensional/dread_intruder.lua",
+   "monster": "Dread Intruder",
+   "item": "ring of green plasma",
+   "id": 23531,
+   "chance": 280,
+   "source": {
+    "version": "15.00.249ccc",
+    "kills": 26765,
+    "loot_revid": 1212341,
+    "times": 75
+   },
+   "by_id": true
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/extra_dimensional/dread_intruder.lua",
+   "monster": "Dread Intruder",
+   "item": "ring of orange plasma",
+   "id": 50150,
+   "chance": 291,
+   "source": {
+    "version": "15.00.249ccc",
+    "kills": 26765,
+    "loot_revid": 1212341,
+    "times": 78
+   },
+   "by_id": true
   },
   {
    "kind": "chance",
@@ -7619,6 +7829,36 @@
    "kind": "add_loot",
    "file": "data-otservbr-global/monster/extra_dimensional/reality_reaver.lua",
    "monster": "Reality Reaver",
+   "item": "collar of blue plasma",
+   "id": 23542,
+   "chance": 235,
+   "source": {
+    "version": "15.00.249ccc",
+    "kills": 29845,
+    "loot_revid": 1212342,
+    "times": 70
+   },
+   "by_id": true
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/extra_dimensional/reality_reaver.lua",
+   "monster": "Reality Reaver",
+   "item": "collar of orange plasma",
+   "id": 50152,
+   "chance": 275,
+   "source": {
+    "version": "15.00.249ccc",
+    "kills": 29845,
+    "loot_revid": 1212342,
+    "times": 82
+   },
+   "by_id": true
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/extra_dimensional/reality_reaver.lua",
+   "monster": "Reality Reaver",
    "item": "focus cape",
    "id": 8043,
    "chance": 392,
@@ -7628,6 +7868,36 @@
     "loot_revid": 1212342,
     "times": 117
    }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/extra_dimensional/reality_reaver.lua",
+   "monster": "Reality Reaver",
+   "item": "ring of orange plasma",
+   "id": 50150,
+   "chance": 268,
+   "source": {
+    "version": "15.00.249ccc",
+    "kills": 29845,
+    "loot_revid": 1212342,
+    "times": 80
+   },
+   "by_id": true
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/extra_dimensional/reality_reaver.lua",
+   "monster": "Reality Reaver",
+   "item": "ring of red plasma",
+   "id": 23533,
+   "chance": 308,
+   "source": {
+    "version": "15.00.249ccc",
+    "kills": 29845,
+    "loot_revid": 1212342,
+    "times": 92
+   },
+   "by_id": true
   },
   {
    "kind": "add_loot",
@@ -7765,6 +8035,36 @@
     "loot_revid": 1212342
    },
    "from": 1
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/extra_dimensional/sparkion.lua",
+   "monster": "Sparkion",
+   "item": "collar of orange plasma",
+   "id": 50152,
+   "chance": 131,
+   "source": {
+    "version": "15.00.249ccc",
+    "kills": 28152,
+    "loot_revid": 1212229,
+    "times": 37
+   },
+   "by_id": true
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/extra_dimensional/sparkion.lua",
+   "monster": "Sparkion",
+   "item": "ring of orange plasma",
+   "id": 50150,
+   "chance": 263,
+   "source": {
+    "version": "15.00.249ccc",
+    "kills": 28152,
+    "loot_revid": 1212229,
+    "times": 74
+   },
+   "by_id": true
   },
   {
    "kind": "chance",
@@ -8900,6 +9200,21 @@
    "kind": "add_loot",
    "file": "data-otservbr-global/monster/giants/ogre_ruffian.lua",
    "monster": "Ogre Ruffian",
+   "item": "red gem",
+   "id": 3039,
+   "chance": 2368,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 929,
+    "loot_revid": 1210572,
+    "times": 22
+   },
+   "by_id": true
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/giants/ogre_ruffian.lua",
+   "monster": "Ogre Ruffian",
    "item": "small emerald",
    "id": 3032,
    "chance": 5490,
@@ -9264,6 +9579,37 @@
     "loot_revid": 1212860
    },
    "from": 2
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/humanoids/crazed_winter_rearguard.lua",
+   "monster": "Crazed Winter Rearguard",
+   "item": "ice flower (item)",
+   "id": 30058,
+   "chance": 8723,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 15809,
+    "loot_revid": 1211333,
+    "times": 1379
+   },
+   "by_id": true,
+   "maxCount": 2
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/humanoids/crazed_winter_vanguard.lua",
+   "monster": "Crazed Winter Vanguard",
+   "item": "ice flower (item)",
+   "id": 30058,
+   "chance": 13230,
+   "source": {
+    "version": "12.31.9530",
+    "kills": 18768,
+    "loot_revid": 1211667,
+    "times": 2483
+   },
+   "by_id": true
   },
   {
    "kind": "max_count",
@@ -9854,6 +10200,22 @@
    "from": 950
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/humanoids/soul-broken_harbinger.lua",
+   "monster": "Soul-Broken Harbinger",
+   "item": "ice flower (item)",
+   "id": 30058,
+   "chance": 14979,
+   "source": {
+    "version": "12.00",
+    "kills": 9927,
+    "loot_revid": 1211396,
+    "times": 1487
+   },
+   "by_id": true,
+   "maxCount": 3
+  },
+  {
    "kind": "chance",
    "file": "data-otservbr-global/monster/humanoids/soul-broken_harbinger.lua",
    "monster": "Soul-Broken Harbinger",
@@ -10061,6 +10423,21 @@
     "revid": 1191912
    },
    "from": 25
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/humans/barbarian_skullhunter.lua",
+   "monster": "Barbarian Skullhunter",
+   "item": "ring of orange plasma",
+   "id": 50150,
+   "chance": 1360,
+   "source": {
+    "version": "15.00.249ccc",
+    "kills": 4560,
+    "loot_revid": 1210289,
+    "times": 62
+   },
+   "by_id": true
   },
   {
    "kind": "chance",
@@ -11245,6 +11622,21 @@
    "from": 64
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/humans/usurper_knight.lua",
+   "monster": "Usurper Knight",
+   "item": "collar of orange plasma",
+   "id": 50152,
+   "chance": 964,
+   "source": {
+    "version": "15.00.249ccc",
+    "kills": 1660,
+    "loot_revid": 1211410,
+    "times": 16
+   },
+   "by_id": true
+  },
+  {
    "kind": "element",
    "file": "data-otservbr-global/monster/humans/usurper_knight.lua",
    "monster": "Usurper Knight",
@@ -11267,6 +11659,21 @@
     "loot_revid": 1212868
    },
    "from": 30
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/lycanthropes/feral_werecrocodile.lua",
+   "monster": "Feral Werecrocodile",
+   "item": "ring of orange plasma",
+   "id": 50150,
+   "chance": 1387,
+   "source": {
+    "version": "15.00.249ccc",
+    "kills": 1370,
+    "loot_revid": 1210481,
+    "times": 19
+   },
+   "by_id": true
   },
   {
    "kind": "chance",
@@ -12880,6 +13287,21 @@
     "times": 282
    },
    "from": 1900
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/lycanthropes/white_weretiger.lua",
+   "monster": "White Weretiger",
+   "item": "ring of orange plasma",
+   "id": 50150,
+   "chance": 1404,
+   "source": {
+    "version": "15.00.249ccc",
+    "kills": 1211,
+    "loot_revid": 1209806,
+    "times": 17
+   },
+   "by_id": true
   },
   {
    "kind": "chance",
@@ -18241,6 +18663,21 @@
    "kind": "add_loot",
    "file": "data-otservbr-global/monster/magicals/terrorsleep.lua",
    "monster": "Terrorsleep",
+   "item": "collar of orange plasma",
+   "id": 50152,
+   "chance": 2026,
+   "source": {
+    "version": "15.00.249ccc",
+    "kills": 839,
+    "loot_revid": 1212497,
+    "times": 17
+   },
+   "by_id": true
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/magicals/terrorsleep.lua",
+   "monster": "Terrorsleep",
    "item": "fish fin",
    "id": 5895,
    "chance": 2384,
@@ -18827,6 +19264,21 @@
     "revid": 1192209
    },
    "from": true
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/mammals/gore_horn.lua",
+   "monster": "Gore Horn",
+   "item": "gore horn (item)",
+   "id": 39377,
+   "chance": 41176,
+   "source": {
+    "version": "14.00.7103e2",
+    "kills": 340,
+    "loot_revid": 1204443,
+    "times": 140
+   },
+   "by_id": true
   },
   {
    "kind": "element",
@@ -21258,6 +21710,21 @@
    "kind": "add_loot",
    "file": "data-otservbr-global/monster/quests/rotten_blood/bloated_man-maggot.lua",
    "monster": "Bloated Man-Maggot",
+   "item": "life ring",
+   "id": 3052,
+   "chance": 5425,
+   "source": {
+    "version": "15.32.87b266",
+    "kills": 553,
+    "loot_revid": 1206607,
+    "times": 30
+   },
+   "by_id": true
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/rotten_blood/bloated_man-maggot.lua",
+   "monster": "Bloated Man-Maggot",
    "item": "small topaz",
    "id": 9057,
    "chance": 5787,
@@ -21366,6 +21833,36 @@
     "revid": 1211442
    },
    "from": false
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/rotten_blood/converter.lua",
+   "monster": "Converter",
+   "item": "darklight core (object)",
+   "id": 43853,
+   "chance": 7793,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 1373,
+    "loot_revid": 1198885,
+    "times": 107
+   },
+   "by_id": true
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/rotten_blood/converter.lua",
+   "monster": "Converter",
+   "item": "darklight matter (object)",
+   "id": 43851,
+   "chance": 2840,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 1373,
+    "loot_revid": 1198885,
+    "times": 39
+   },
+   "by_id": true
   },
   {
    "kind": "add_loot",
@@ -21483,6 +21980,21 @@
    "kind": "add_loot",
    "file": "data-otservbr-global/monster/quests/rotten_blood/darklight_construct.lua",
    "monster": "Darklight Construct",
+   "item": "darklight core (object)",
+   "id": 43853,
+   "chance": 7600,
+   "source": {
+    "version": "13.22.14242",
+    "kills": 829,
+    "loot_revid": 1198886,
+    "times": 63
+   },
+   "by_id": true
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/rotten_blood/darklight_construct.lua",
+   "monster": "Darklight Construct",
    "item": "green gem",
    "id": 3038,
    "chance": 603,
@@ -21567,6 +22079,21 @@
    "kind": "add_loot",
    "file": "data-otservbr-global/monster/quests/rotten_blood/darklight_emitter.lua",
    "monster": "Darklight Emitter",
+   "item": "darklight core (object)",
+   "id": 43853,
+   "chance": 6313,
+   "source": {
+    "version": "13.22.14242",
+    "kills": 1584,
+    "loot_revid": 1198887,
+    "times": 100
+   },
+   "by_id": true
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/rotten_blood/darklight_emitter.lua",
+   "monster": "Darklight Emitter",
    "item": "green gem",
    "id": 3038,
    "chance": 505,
@@ -21618,6 +22145,36 @@
     "times": 209
    },
    "from": 5784
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/rotten_blood/darklight_matter.lua",
+   "monster": "Darklight Matter",
+   "item": "darklight core (object)",
+   "id": 43853,
+   "chance": 8048,
+   "source": {
+    "version": "14.00.7103e2",
+    "kills": 7182,
+    "loot_revid": 1197278,
+    "times": 578
+   },
+   "by_id": true
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/rotten_blood/darklight_matter.lua",
+   "monster": "Darklight Matter",
+   "item": "darklight matter (object)",
+   "id": 43851,
+   "chance": 4135,
+   "source": {
+    "version": "14.00.7103e2",
+    "kills": 7182,
+    "loot_revid": 1197278,
+    "times": 297
+   },
+   "by_id": true
   },
   {
    "kind": "chance",
@@ -21725,6 +22282,21 @@
    }
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/rotten_blood/darklight_source.lua",
+   "monster": "Darklight Source",
+   "item": "darklight core (object)",
+   "id": 43853,
+   "chance": 7230,
+   "source": {
+    "version": "14.00.7103e2",
+    "kills": 4495,
+    "loot_revid": 1197279,
+    "times": 325
+   },
+   "by_id": true
+  },
+  {
    "kind": "chance",
    "file": "data-otservbr-global/monster/quests/rotten_blood/darklight_source.lua",
    "monster": "Darklight Source",
@@ -21818,6 +22390,21 @@
     "revid": 1211449
    },
    "from": -15
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/rotten_blood/darklight_striker.lua",
+   "monster": "Darklight Striker",
+   "item": "darklight core (object)",
+   "id": 43853,
+   "chance": 7726,
+   "source": {
+    "version": "14.00.7103e2",
+    "kills": 8348,
+    "loot_revid": 1197280,
+    "times": 645
+   },
+   "by_id": true
   },
   {
    "kind": "add_loot",
@@ -22514,6 +23101,21 @@
    "kind": "add_loot",
    "file": "data-otservbr-global/monster/quests/rotten_blood/sopping_carcass.lua",
    "monster": "Sopping Carcass",
+   "item": "red gem",
+   "id": 3039,
+   "chance": 4734,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 338,
+    "loot_revid": 1195225,
+    "times": 16
+   },
+   "by_id": true
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/rotten_blood/sopping_carcass.lua",
+   "monster": "Sopping Carcass",
    "item": "ripper lance",
    "id": 3346,
    "chance": 2071,
@@ -22736,6 +23338,21 @@
    "from": 3
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/rotten_blood/walking_pillar.lua",
+   "monster": "Walking Pillar",
+   "item": "darklight core (object)",
+   "id": 43853,
+   "chance": 6743,
+   "source": {
+    "version": "14.00.7103e2",
+    "kills": 5561,
+    "loot_revid": 1196726,
+    "times": 375
+   },
+   "by_id": true
+  },
+  {
    "kind": "chance",
    "file": "data-otservbr-global/monster/quests/rotten_blood/walking_pillar.lua",
    "monster": "Walking Pillar",
@@ -22877,6 +23494,21 @@
     "times": 887
    },
    "from": 5354
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/rotten_blood/wandering_pillar.lua",
+   "monster": "Wandering Pillar",
+   "item": "darklight core (object)",
+   "id": 43853,
+   "chance": 6903,
+   "source": {
+    "version": "13.22.14242",
+    "kills": 1159,
+    "loot_revid": 1198897,
+    "times": 80
+   },
+   "by_id": true
   },
   {
    "kind": "chance",
@@ -23099,6 +23731,21 @@
    }
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/soul_war/normal_monsters/bony_sea_devil.lua",
+   "monster": "Bony Sea Devil",
+   "item": "rod (creature product)",
+   "id": 33929,
+   "chance": 4283,
+   "source": {
+    "version": "15.32.fc9100",
+    "kills": 537,
+    "loot_revid": 1199845,
+    "times": 23
+   },
+   "by_id": true
+  },
+  {
    "kind": "chance",
    "file": "data-otservbr-global/monster/quests/soul_war/normal_monsters/bony_sea_devil.lua",
    "monster": "Bony Sea Devil",
@@ -23256,6 +23903,21 @@
     "revid": 1192237
    },
    "from": 19360
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/soul_war/normal_monsters/distorted_phantom.lua",
+   "monster": "Distorted Phantom",
+   "item": "ring of orange plasma",
+   "id": 50150,
+   "chance": 1503,
+   "source": {
+    "version": "15.00.249ccc",
+    "kills": 3128,
+    "loot_revid": 1212308,
+    "times": 47
+   },
+   "by_id": true
   },
   {
    "kind": "add_loot",
@@ -24117,6 +24779,21 @@
     "revid": 1191646
    },
    "from": 17860
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/quests/soul_war/normal_monsters/sorcerer's_apparition.lua",
+   "monster": "Sorcerer's Apparition",
+   "item": "ring of orange plasma",
+   "id": 50150,
+   "chance": 2256,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 1729,
+    "loot_revid": 1212313,
+    "times": 39
+   },
+   "by_id": true
   },
   {
    "kind": "chance",
@@ -25394,6 +26071,21 @@
    "from": 6860
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/reptiles/lizard_chosen.lua",
+   "monster": "Lizard Chosen",
+   "item": "collar of orange plasma",
+   "id": 50152,
+   "chance": 553,
+   "source": {
+    "version": "15.00.249ccc",
+    "kills": 5608,
+    "loot_revid": 1212689,
+    "times": 31
+   },
+   "by_id": true
+  },
+  {
    "kind": "chance",
    "file": "data-otservbr-global/monster/reptiles/lizard_chosen.lua",
    "monster": "Lizard Chosen",
@@ -25794,6 +26486,21 @@
     "loot_revid": 1209778
    },
    "from": 48
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/reptiles/two-headed_turtle.lua",
+   "monster": "Two-Headed Turtle",
+   "item": "turtle shell",
+   "id": 5899,
+   "chance": 195,
+   "source": {
+    "version": "13.22.14242",
+    "kills": 3071,
+    "loot_revid": 1198329,
+    "times": 6
+   },
+   "by_id": true
   },
   {
    "kind": "chance",
@@ -27722,6 +28429,21 @@
    "from": 5
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/undeads/flimsy_lost_soul.lua",
+   "monster": "Flimsy Lost Soul",
+   "item": "lost soul (item)",
+   "id": 32227,
+   "chance": 29995,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 5471,
+    "loot_revid": 1208098,
+    "times": 1641
+   },
+   "by_id": true
+  },
+  {
    "kind": "chance",
    "file": "data-otservbr-global/monster/undeads/flimsy_lost_soul.lua",
    "monster": "Flimsy Lost Soul",
@@ -27775,6 +28497,21 @@
     "loot_revid": 1208098
    },
    "from": 2
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/undeads/freakish_lost_soul.lua",
+   "monster": "Freakish Lost Soul",
+   "item": "lost soul (item)",
+   "id": 32227,
+   "chance": 43355,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 2295,
+    "loot_revid": 1208099,
+    "times": 995
+   },
+   "by_id": true
   },
   {
    "kind": "add_loot",
@@ -28055,6 +28792,21 @@
    "from": 1
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/undeads/ghost.lua",
+   "monster": "Ghost",
+   "item": "book (orange)",
+   "id": 401,
+   "chance": 1325,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 4228,
+    "loot_revid": 1213440,
+    "times": 56
+   },
+   "by_id": true
+  },
+  {
    "kind": "chance",
    "file": "data-otservbr-global/monster/undeads/ghoul.lua",
    "monster": "Ghoul",
@@ -28203,6 +28955,21 @@
     "loot_revid": 1212347,
     "times": 6
    }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/undeads/hand_of_cursed_fate.lua",
+   "monster": "Hand of Cursed Fate",
+   "item": "book (orange)",
+   "id": 401,
+   "chance": 1320,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 606,
+    "loot_revid": 1212347,
+    "times": 8
+   },
+   "by_id": true
   },
   {
    "kind": "chance",
@@ -28446,6 +29213,21 @@
    "kind": "add_loot",
    "file": "data-otservbr-global/monster/undeads/iks_pututu.lua",
    "monster": "Iks Pututu",
+   "item": "ring of orange plasma",
+   "id": 50150,
+   "chance": 996,
+   "source": {
+    "version": "15.00.249ccc",
+    "kills": 4518,
+    "loot_revid": 1212772,
+    "times": 45
+   },
+   "by_id": true
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/undeads/iks_pututu.lua",
+   "monster": "Iks Pututu",
    "item": "ritual tooth",
    "id": 40528,
    "chance": 1151,
@@ -28643,6 +29425,21 @@
     "times": 11
    },
    "from": 2780
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/undeads/mean_lost_soul.lua",
+   "monster": "Mean Lost Soul",
+   "item": "lost soul (item)",
+   "id": 32227,
+   "chance": 34253,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 3118,
+    "loot_revid": 1208101,
+    "times": 1068
+   },
+   "by_id": true
   },
   {
    "kind": "chance",
@@ -29162,6 +29959,21 @@
    }
   },
   {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/undeads/skeleton_elite_warrior.lua",
+   "monster": "Skeleton Elite Warrior",
+   "item": "sword",
+   "id": 3264,
+   "chance": 1912,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 1883,
+    "loot_revid": 1212611,
+    "times": 36
+   },
+   "by_id": true
+  },
+  {
    "kind": "chance",
    "file": "data-otservbr-global/monster/undeads/skeleton_elite_warrior.lua",
    "monster": "Skeleton Elite Warrior",
@@ -29283,6 +30095,21 @@
     "loot_revid": 1212349
    },
    "from": 100
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/undeads/tarnished_spirit.lua",
+   "monster": "Tarnished Spirit",
+   "item": "book (orange)",
+   "id": 401,
+   "chance": 1187,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 674,
+    "loot_revid": 1213450,
+    "times": 8
+   },
+   "by_id": true
   },
   {
    "kind": "add_loot",
@@ -30016,6 +30843,21 @@
     "loot_revid": 1213451,
     "times": 20
    }
+  },
+  {
+   "kind": "add_loot",
+   "file": "data-otservbr-global/monster/undeads/zombie.lua",
+   "monster": "Zombie",
+   "item": "life ring",
+   "id": 3052,
+   "chance": 950,
+   "source": {
+    "version": "14.12.5229e4",
+    "kills": 5577,
+    "loot_revid": 1213453,
+    "times": 53
+   },
+   "by_id": true
   },
   {
    "kind": "add_loot",

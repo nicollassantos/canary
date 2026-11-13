@@ -85,6 +85,7 @@ monster.loot = {
 	{ name = "small emerald", chance = 5490 },
 	{ name = "yellow gem", chance = 2691 },
 	{ name = "onyx chip", chance = 2583 },
+	{ id = 3039, chance = 2368 }, -- red gem
 	{ name = "pair of iron fists", chance = 2160 },
 	{ name = "meat", chance = 15070, maxCount = 5 },
 	{ name = "diamond sceptre", chance = 5760 },

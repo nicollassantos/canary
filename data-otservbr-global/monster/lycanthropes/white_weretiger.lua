@@ -81,6 +81,7 @@ monster.loot = {
 	{ name = "moonlight crystals", chance = 13377 },
 	{ name = "white gem", chance = 1650 },
 	{ name = "silver moon coin", chance = 2000 },
+	{ id = 50150, chance = 1404 }, -- ring of orange plasma
 	{ name = "blue robe", chance = 1160 },
 	{ name = "moon pin", chance = 660 },
 	{ name = "crystal mace", chance = 500 },

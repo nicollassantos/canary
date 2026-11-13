@@ -86,6 +86,7 @@ monster.loot = {
 	{ id = 3565, chance = 1015 }, -- "cape"
 	{ id = 10422, chance = 657 }, -- "clay lump"
 	{ name = "white gem", chance = 418 },
+	{ id = 5899, chance = 195 }, -- turtle shell
 }
 
 monster.attacks = {

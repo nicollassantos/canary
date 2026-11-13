@@ -75,6 +75,7 @@ monster.loot = {
 	{ name = "decayed finger bone", chance = 8580 },
 	{ name = "rotten roots", chance = 5325 },
 	{ name = "yellow gem", chance = 5325 },
+	{ id = 3039, chance = 4734 }, -- red gem
 	{ name = "ultimate mana potion", chance = 4142, maxCount = 3 },
 	{ name = "underworld rod", chance = 2959 },
 	{ name = "skull helmet", chance = 2367 },

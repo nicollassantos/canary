@@ -90,6 +90,7 @@ monster.loot = {
 	{ name = "great mana potion", chance = 4680 },
 	{ name = "blue gem", chance = 4171 },
 	{ name = "green gem", chance = 2238 },
+	{ id = 50152, chance = 964 }, -- collar of orange plasma
 	{ name = "magma legs", chance = 610 },
 }
 

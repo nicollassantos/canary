@@ -95,12 +95,14 @@ monster.loot = {
 	{ id = 16119, chance = 4200 }, -- blue crystal shard
 	{ id = 3041, chance = 1000 }, -- blue gem
 	{ id = 3073, chance = 920 }, -- wand of cosmic energy
+	{ id = 50150, chance = 263 }, -- ring of orange plasma
 	{ id = 23531, chance = 234 }, -- ring of green plasma
 	{ id = 23533, chance = 220 }, -- ring of red plasma
 	{ id = 23529, chance = 240 }, -- ring of blue plasma
 	{ id = 23543, chance = 240 }, -- collar of green plasma
 	{ id = 23542, chance = 240 }, -- collar of blue plasma
 	{ id = 23544, chance = 200 }, -- collar of red plasma
+	{ id = 50152, chance = 131 }, -- collar of orange plasma
 }
 
 monster.attacks = {

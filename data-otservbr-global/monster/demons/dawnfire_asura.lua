@@ -88,6 +88,7 @@ monster.loot = {
 	{ id = 3032, chance = 3530, maxCount = 2 }, -- small emerald
 	{ id = 3030, chance = 5760, maxCount = 3 }, -- small ruby
 	{ id = 9057, chance = 2840, maxCount = 2 }, -- small topaz
+	{ id = 3039, chance = 820 }, -- red gem
 	{ id = 3041, chance = 220 }, -- blue gem
 	{ id = 6299, chance = 340 }, -- death ring
 	{ id = 6499, chance = 10660 }, -- demonic essence

@@ -86,6 +86,7 @@ monster.loot = {
 	{ name = "lizard scale", chance = 980, maxCount = 3 },
 	{ name = "great health potion", chance = 6723, maxCount = 3 },
 	{ name = "zaoan armor", chance = 980 },
+	{ id = 50152, chance = 553 }, -- collar of orange plasma
 	{ name = "zaoan helmet", chance = 140 },
 	{ name = "zaoan shoes", chance = 810 },
 	{ name = "zaoan legs", chance = 940 },

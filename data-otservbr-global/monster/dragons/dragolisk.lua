@@ -79,6 +79,7 @@ monster.loot = {
 	{ name = "Platinum Coin", chance = 52610, minCount = 1, maxCount = 46 },
 	{ name = "Dragolisk Poison Gland", chance = 12600 },
 	{ name = "Nimmersatt's Seal", chance = 8320 },
+	{ id = 3039, chance = 7790 }, -- red gem
 	{ id = 282, chance = 7580 },
 	{ name = "Dragolisk Eye", chance = 5510 },
 	{ name = "Green Gem", chance = 4376 },

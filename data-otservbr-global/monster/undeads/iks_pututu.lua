@@ -86,6 +86,7 @@ monster.loot = {
 	{ name = "rotten feather", chance = 1284 },
 	{ name = "ritual tooth", chance = 1151 },
 	{ name = "gold ingot", chance = 1439 },
+	{ id = 50150, chance = 996 }, -- ring of orange plasma
 	{ name = "stone skin amulet", chance = 775 },
 	{ name = "broken iks headpiece", chance = 70 },
 }
