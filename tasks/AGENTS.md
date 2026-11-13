@@ -678,6 +678,17 @@ Resultado atual: ver a última linha de validação no `todo.md` (CHECKPOINT 23)
   Horror 13.40, Weretiger 13.20, Cult Believer 11.40); o rótulo parece ser o padrão do coletor antigo. Os
   portões de "estatística antiga" usam o rótulo, então são conservadores demais para essas criaturas
   (24.7k: não adotado).
+- **Baú de recompensa segue o wiki (decisão do usuário, 2026-11-13):** cada participante rola a tabela com
+  `chance × fator` (`reward_chest.lua`: `f·(1+f)^(contribuição/esperada)`, `f = 1/participantes^(1/3)`; 2,0 solo,
+  ≈ 1,0 com 4 jogadores iguais, ≈ 0,68 com 10). A taxa por jogador do wiki vira a chance base (grupo típico de ~4).
+  Exceções: entradas `unique` (só o maior contribuidor rola, `getBossReward`) ficam como no upstream (`REWARD_UNIQUE`),
+  e item que falta no baú fica para revisão (`REWARD_MISSING`: pode ser `unique`). Entraram 1056 fixes em 107 bosses:
+  375 chances (227 subiram, 148 desceram), 644 `maxCount` (596/48), 37 remoções (todos os itens seguem obtíveis em
+  outra fonte). Os bosses de The Curse Spreads e a Percht Queen escreviam `chance = 13600000` (drop garantido acima de
+  100%): o comparador limita a probabilidade a 100%, então o `plan` grava como `from` a chance crua da entrada
+  (`datapack_raw_chance`); sem isso o `apply` acusava conflito. 48 drops garantidos viraram a taxa do wiki.
+  Estatística antiga sem confirmação e identidade não confirmada ficam como no upstream (decisão do usuário).
+  Manifesto: 4739.
 - **Controle negativo do smoke:** um item de loot inexistente injetado no Dragon gera
   `[LootFunctions::luaLootSetIdFromName] - Unknown loot item` e `could not be loaded`; o grep do
   smoke pega os dois.

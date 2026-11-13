@@ -99,8 +99,9 @@ still holds that `from`; when upstream changed it to something else it prints
 A `max_count` fix that lowers (its `maxCount` below `from`) is exact and needs a single entry. A `remove_loot` fix deletes an item's one-line entries only while they equal its `from`; an item
 upstream already dropped is `already`, and an entry upstream spread over several lines is reported.
 An `add_loot` whose item upstream now lists under another spelling or id is reported as
-`listed as another entry (...)` instead of adding it twice. Then run the smoke boot (no loot
-warnings, no Lua errors).
+`listed as another entry (...)` instead of adding it twice. A chance fix's `from` is the raw value
+of the entry (some boss files write `chance = 13600000` for a sure drop). Reward-chest bosses follow the
+manifest too, except their `unique` entries. Then run the smoke boot (no loot warnings, no Lua errors).
 
 To prove the manifest still re-applies from upstream's side, apply it to a copy of the monster files
 at a base commit and compare with the branch (expect no conflicts; at most a different order of loot
