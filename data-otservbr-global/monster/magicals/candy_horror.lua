@@ -85,8 +85,8 @@ monster.loot = {
 	{ name = "platinum coin", chance = 82000, maxCount = 6 },
 	{ id = 281, chance = 6510 }, -- giant shimmering pearl (green)
 	{ id = 3039, chance = 5179 }, -- red gem
-	{ id = 3591, chance = 1400, maxCount = 4 }, -- stawberries
-	{ id = 48250, chance = 440, maxCount = 48 }, -- dark chocolate coin
+	{ id = 3591, chance = 1400, maxCount = 2 }, -- stawberries
+	{ id = 48250, chance = 440, maxCount = 11 }, -- dark chocolate coin
 	{ id = 48116, chance = 2490, maxCount = 2 }, -- gummy rotworm
 	{ id = 3036, chance = 1550 }, -- violet gem
 	{ id = 48252, chance = 1250 }, -- brigadeiro

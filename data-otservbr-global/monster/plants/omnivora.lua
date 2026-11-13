@@ -83,7 +83,7 @@ monster.loot = {
 	{ id = 16123, chance = 728 }, -- brown crystal splinter
 	{ id = 16122, chance = 627 }, -- green crystal splinter
 	{ id = 3582, chance = 9856 }, -- ham
-	{ id = 3723, chance = 9721, maxCount = 3 }, -- white mushroom
+	{ id = 3723, chance = 9721 }, -- white mushroom
 	{ id = 3052, chance = 950 }, -- life ring
 	{ id = 3297, chance = 780 }, -- serpent sword
 	{ id = 814, chance = 322 }, -- terra amulet

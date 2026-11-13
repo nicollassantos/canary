@@ -94,7 +94,7 @@ monster.loot = {
 	{ id = 3026, chance = 13920, maxCount = 25 }, -- white pearl
 	{ id = 7456, chance = 12860 }, -- noble axe
 	{ id = 3028, chance = 12860, maxCount = 25 }, -- small diamond
-	{ id = 3030, chance = 13010, maxCount = 25 }, -- small ruby
+	{ id = 3030, chance = 13010, maxCount = 5 }, -- small ruby
 	{ id = 3008, chance = 12710 }, -- crystal necklace
 	{ id = 3033, chance = 12410, maxCount = 25 }, -- small amethyst
 	{ id = 3016, chance = 11800 }, -- ruby necklace

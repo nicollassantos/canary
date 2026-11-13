@@ -80,7 +80,7 @@ monster.voices = {
 
 monster.loot = {
 	{ id = 3147, chance = 13600, maxCount = 2 }, -- blank rune
-	{ id = 3031, chance = 99500, maxCount = 200 }, -- gold coin
+	{ id = 3031, chance = 99500, maxCount = 199 }, -- gold coin
 	{ id = 3347, chance = 14880, maxCount = 5 }, -- hunting spear
 	{ id = 3035, chance = 33890, maxCount = 3 }, -- platinum coin
 	{ id = 7378, chance = 11410, maxCount = 5 }, -- royal spear

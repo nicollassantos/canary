@@ -46,19 +46,6 @@
    }
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/amphibics/filth_toad.lua",
-   "monster": "Filth Toad",
-   "item": "gold coin",
-   "maxCount": 24,
-   "source": {
-    "version": "9.1",
-    "kills": 1649,
-    "loot_revid": 1212960
-   },
-   "from": 21
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/amphibics/filth_toad.lua",
    "monster": "Filth Toad",
@@ -317,19 +304,6 @@
    }
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/aquatics/crustacea_gigantica.lua",
-   "monster": "Crustacea Gigantica",
-   "item": "gold coin",
-   "maxCount": 191,
-   "source": {
-    "version": "8.6",
-    "kills": 113,
-    "loot_revid": 1112525
-   },
-   "from": 100
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/aquatics/crustacea_gigantica.lua",
    "monster": "Crustacea Gigantica",
@@ -527,19 +501,6 @@
    "from": true
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/aquatics/deepling_brawler.lua",
-   "monster": "Deepling Brawler",
-   "item": "gold coin",
-   "maxCount": 45,
-   "source": {
-    "version": "8.6",
-    "kills": 1610,
-    "loot_revid": 1207005
-   },
-   "from": 44
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/aquatics/deepling_brawler.lua",
    "monster": "Deepling Brawler",
@@ -551,19 +512,6 @@
    }
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/aquatics/deepling_elite.lua",
-   "monster": "Deepling Elite",
-   "item": "gold coin",
-   "maxCount": 189,
-   "source": {
-    "version": "8.6",
-    "kills": 2342,
-    "loot_revid": 1210452
-   },
-   "from": 100
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/aquatics/deepling_elite.lua",
    "monster": "Deepling Elite",
@@ -573,19 +521,6 @@
    "source": {
     "revid": 1191586
    }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/aquatics/deepling_guard.lua",
-   "monster": "Deepling Guard",
-   "item": "gold coin",
-   "maxCount": 180,
-   "source": {
-    "version": "9.4",
-    "kills": 59934,
-    "loot_revid": 1210453
-   },
-   "from": 90
   },
   {
    "kind": "stat",
@@ -632,19 +567,6 @@
    }
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/aquatics/deepling_tyrant.lua",
-   "monster": "Deepling Tyrant",
-   "item": "gold coin",
-   "maxCount": 200,
-   "source": {
-    "version": "8.6",
-    "kills": 4013,
-    "loot_revid": 1210457
-   },
-   "from": 100
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/aquatics/deepling_tyrant.lua",
    "monster": "Deepling Tyrant",
@@ -654,19 +576,6 @@
    "source": {
     "revid": 1191585
    }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/aquatics/deepling_warrior.lua",
-   "monster": "Deepling Warrior",
-   "item": "gold coin",
-   "maxCount": 180,
-   "source": {
-    "version": "9.4",
-    "kills": 64897,
-    "loot_revid": 1211430
-   },
-   "from": 100
   },
   {
    "kind": "stat",
@@ -713,19 +622,6 @@
    }
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/aquatics/manta_ray.lua",
-   "monster": "Manta Ray",
-   "item": "gold coin",
-   "maxCount": 40,
-   "source": {
-    "version": "9.4",
-    "kills": 3978,
-    "loot_revid": 1210551
-   },
-   "from": 39
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/aquatics/manta_ray.lua",
    "monster": "Manta Ray",
@@ -759,19 +655,6 @@
    }
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/aquatics/quara_hydromancer.lua",
-   "monster": "Quara Hydromancer",
-   "item": "gold coin",
-   "maxCount": 110,
-   "source": {
-    "version": "9.5",
-    "kills": 15286,
-    "loot_revid": 1207189
-   },
-   "from": 60
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/aquatics/quara_hydromancer.lua",
    "monster": "Quara Hydromancer",
@@ -781,19 +664,6 @@
    "source": {
     "revid": 1191567
    }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/aquatics/quara_hydromancer_scout.lua",
-   "monster": "Quara Hydromancer Scout",
-   "item": "gold coin",
-   "maxCount": 140,
-   "source": {
-    "version": "9.86",
-    "kills": 24503,
-    "loot_revid": 1211520
-   },
-   "from": 90
   },
   {
    "kind": "stat",
@@ -851,19 +721,6 @@
    }
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/aquatics/quara_mantassin.lua",
-   "monster": "Quara Mantassin",
-   "item": "gold coin",
-   "maxCount": 130,
-   "source": {
-    "version": "9.5",
-    "kills": 18086,
-    "loot_revid": 1207192
-   },
-   "from": 100
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/aquatics/quara_mantassin.lua",
    "monster": "Quara Mantassin",
@@ -886,19 +743,6 @@
    }
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/aquatics/quara_pincher.lua",
-   "monster": "Quara Pincher",
-   "item": "gold coin",
-   "maxCount": 150,
-   "source": {
-    "version": "9.5",
-    "kills": 22903,
-    "loot_revid": 1207194
-   },
-   "from": 100
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/aquatics/quara_pincher.lua",
    "monster": "Quara Pincher",
@@ -908,32 +752,6 @@
    "source": {
     "revid": 1191569
    }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/aquatics/quara_pincher_scout.lua",
-   "monster": "Quara Pincher Scout",
-   "item": "gold coin",
-   "maxCount": 129,
-   "source": {
-    "version": "9.86",
-    "kills": 52216,
-    "loot_revid": 1211522
-   },
-   "from": 100
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/aquatics/quara_pincher_scout.lua",
-   "monster": "Quara Pincher Scout",
-   "item": "small ruby",
-   "maxCount": 2,
-   "source": {
-    "version": "9.86",
-    "kills": 52216,
-    "loot_revid": 1211522
-   },
-   "from": 1
   },
   {
    "kind": "stat",
@@ -980,19 +798,6 @@
    }
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/aquatics/quara_predator.lua",
-   "monster": "Quara Predator",
-   "item": "gold coin",
-   "maxCount": 154,
-   "source": {
-    "version": "8.6",
-    "kills": 29665,
-    "loot_revid": 1206275
-   },
-   "from": 100
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/aquatics/quara_predator.lua",
    "monster": "Quara Predator",
@@ -1002,19 +807,6 @@
    "source": {
     "revid": 1191561
    }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/aquatics/quara_predator_scout.lua",
-   "monster": "Quara Predator Scout",
-   "item": "gold coin",
-   "maxCount": 132,
-   "source": {
-    "version": "9.86",
-    "kills": 63153,
-    "loot_revid": 1211523
-   },
-   "from": 72
   },
   {
    "kind": "stat",
@@ -1160,19 +952,6 @@
    }
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/aquatics/shark.lua",
-   "monster": "Shark",
-   "item": "gold coin",
-   "maxCount": 138,
-   "source": {
-    "version": "9.4",
-    "kills": 12303,
-    "loot_revid": 1213039
-   },
-   "from": 100
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/aquatics/shark.lua",
    "monster": "Shark",
@@ -1261,19 +1040,6 @@
    "from": true
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/birds/demon_parrot.lua",
-   "monster": "Demon Parrot",
-   "item": "gold coin",
-   "maxCount": 100,
-   "source": {
-    "version": "8.6",
-    "kills": 1843,
-    "loot_revid": 1207426
-   },
-   "from": 99
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/birds/demon_parrot.lua",
    "monster": "Demon Parrot",
@@ -1358,19 +1124,6 @@
    }
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/birds/jungle_moa.lua",
-   "monster": "Jungle Moa",
-   "item": "gold coin",
-   "maxCount": 248,
-   "source": {
-    "version": "8.6",
-    "kills": 5295,
-    "loot_revid": 1212992
-   },
-   "from": 227
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/birds/jungle_moa.lua",
    "monster": "Jungle Moa",
@@ -1380,19 +1133,6 @@
    "source": {
     "revid": 1191613
    }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/birds/marsh_stalker.lua",
-   "monster": "Marsh Stalker",
-   "item": "gold coin",
-   "maxCount": 25,
-   "source": {
-    "version": "9.8",
-    "kills": 37766,
-    "loot_revid": 1213001
-   },
-   "from": 23
   },
   {
    "kind": "stat",
@@ -1846,19 +1586,6 @@
    }
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/bosses/robby_the_reckless.lua",
-   "monster": "Robby the Reckless",
-   "item": "platinum coin",
-   "maxCount": 100,
-   "source": {
-    "version": "8.6",
-    "kills": 16,
-    "loot_revid": 924902
-   },
-   "from": 85
-  },
-  {
    "kind": "element",
    "file": "data-otservbr-global/monster/bosses/sugar_mommy.lua",
    "monster": "Sugar Mommy",
@@ -2131,19 +1858,6 @@
    }
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/constructs/clay_guardian.lua",
-   "monster": "Clay Guardian",
-   "item": "gold coin",
-   "maxCount": 164,
-   "source": {
-    "version": "9.1",
-    "kills": 14203,
-    "loot_revid": 1213459
-   },
-   "from": 100
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/constructs/clay_guardian.lua",
    "monster": "Clay Guardian",
@@ -2177,19 +1891,6 @@
    }
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/constructs/damaged_worker_golem.lua",
-   "monster": "Damaged Worker Golem",
-   "item": "gold coin",
-   "maxCount": 89,
-   "source": {
-    "version": "8.6",
-    "kills": 6654,
-    "loot_revid": 1208422
-   },
-   "from": 88
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/constructs/damaged_worker_golem.lua",
    "monster": "Damaged Worker Golem",
@@ -2199,19 +1900,6 @@
    "source": {
     "revid": 1191621
    }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/constructs/diamond_servant.lua",
-   "monster": "Diamond Servant",
-   "item": "gold coin",
-   "maxCount": 180,
-   "source": {
-    "version": "9.1",
-    "kills": 26589,
-    "loot_revid": 1105566
-   },
-   "from": 100
   },
   {
    "kind": "stat",
@@ -2668,32 +2356,6 @@
    "from": -5
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/constructs/goggle_cake.lua",
-   "monster": "Goggle Cake",
-   "item": "milk chocolate coin",
-   "maxCount": 19,
-   "source": {
-    "version": "8.6",
-    "kills": 6817,
-    "loot_revid": 1212418
-   },
-   "from": 15
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/constructs/goggle_cake.lua",
-   "monster": "Goggle Cake",
-   "item": "platinum coin",
-   "maxCount": 17,
-   "source": {
-    "version": "8.6",
-    "kills": 6817,
-    "loot_revid": 1212418
-   },
-   "from": 10
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/constructs/goggle_cake.lua",
    "monster": "Goggle Cake",
@@ -2703,19 +2365,6 @@
    "source": {
     "revid": 1191650
    }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/constructs/golden_servant.lua",
-   "monster": "Golden Servant",
-   "item": "gold coin",
-   "maxCount": 140,
-   "source": {
-    "version": "9.1",
-    "kills": 75602,
-    "loot_revid": 1211877
-   },
-   "from": 100
   },
   {
    "kind": "stat",
@@ -2738,19 +2387,6 @@
    "source": {
     "revid": 1191644
    }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/constructs/ice_golem.lua",
-   "monster": "Ice Golem",
-   "item": "gold coin",
-   "maxCount": 120,
-   "source": {
-    "version": "9.86",
-    "kills": 66598,
-    "loot_revid": 1211706
-   },
-   "from": 111
   },
   {
    "kind": "stat",
@@ -2842,19 +2478,6 @@
    }
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/constructs/iron_servant_replica.lua",
-   "monster": "Iron Servant Replica",
-   "item": "gold coin",
-   "maxCount": 172,
-   "source": {
-    "version": "8.6",
-    "kills": 12238,
-    "loot_revid": 1213512
-   },
-   "from": 130
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/constructs/iron_servant_replica.lua",
    "monster": "Iron Servant Replica",
@@ -2866,19 +2489,6 @@
    }
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/constructs/lava_golem.lua",
-   "monster": "Lava Golem",
-   "item": "gold coin",
-   "maxCount": 200,
-   "source": {
-    "version": "9.6",
-    "kills": 8405,
-    "loot_revid": 1209706
-   },
-   "from": 199
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/constructs/lava_golem.lua",
    "monster": "Lava Golem",
@@ -2888,19 +2498,6 @@
    "source": {
     "revid": 1191635
    }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/constructs/magma_crawler.lua",
-   "monster": "Magma Crawler",
-   "item": "gold coin",
-   "maxCount": 200,
-   "source": {
-    "version": "9.6",
-    "kills": 14077,
-    "loot_revid": 1209974
-   },
-   "from": 100
   },
   {
    "kind": "stat",
@@ -3130,19 +2727,6 @@
    }
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/constructs/orewalker.lua",
-   "monster": "Orewalker",
-   "item": "gold coin",
-   "maxCount": 199,
-   "source": {
-    "version": "9.6",
-    "kills": 9295,
-    "loot_revid": 1212123
-   },
-   "from": 100
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/constructs/orewalker.lua",
    "monster": "Orewalker",
@@ -3245,19 +2829,6 @@
     "times": 1190,
     "evidence": "old statistics within the current rarity (uncommon); single large sample"
    }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/constructs/sandstone_scorpion.lua",
-   "monster": "Sandstone Scorpion",
-   "item": "gold coin",
-   "maxCount": 129,
-   "source": {
-    "version": "9.1",
-    "kills": 11752,
-    "loot_revid": 1202059
-   },
-   "from": 128
   },
   {
    "kind": "stat",
@@ -3441,32 +3012,6 @@
    }
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/constructs/walker.lua",
-   "monster": "Walker",
-   "item": "small emerald",
-   "maxCount": 3,
-   "source": {
-    "version": "10.5",
-    "kills": 3389,
-    "loot_revid": 1210060
-   },
-   "from": 2
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/constructs/walker.lua",
-   "monster": "Walker",
-   "item": "small topaz",
-   "maxCount": 6,
-   "source": {
-    "version": "10.5",
-    "kills": 3389,
-    "loot_revid": 1210060
-   },
-   "from": 3
-  },
-  {
    "kind": "remove_loot",
    "file": "data-otservbr-global/monster/constructs/walker.lua",
    "monster": "Walker",
@@ -3613,19 +3158,6 @@
    }
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/constructs/weeper.lua",
-   "monster": "Weeper",
-   "item": "gold coin",
-   "maxCount": 199,
-   "source": {
-    "version": "9.6",
-    "kills": 11162,
-    "loot_revid": 1210067
-   },
-   "from": 100
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/constructs/weeper.lua",
    "monster": "Weeper",
@@ -3682,19 +3214,6 @@
    }
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/constructs/worker_golem.lua",
-   "monster": "Worker Golem",
-   "item": "gold coin",
-   "maxCount": 139,
-   "source": {
-    "version": "9.1",
-    "kills": 22943,
-    "loot_revid": 1210069
-   },
-   "from": 100
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/constructs/worker_golem.lua",
    "monster": "Worker Golem",
@@ -3745,19 +3264,6 @@
    }
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/demons/askarak_lord.lua",
-   "monster": "Askarak Lord",
-   "item": "gold coin",
-   "maxCount": 190,
-   "source": {
-    "version": "9.1",
-    "kills": 2870,
-    "loot_revid": 1196712
-   },
-   "from": 100
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/demons/askarak_lord.lua",
    "monster": "Askarak Lord",
@@ -3767,19 +3273,6 @@
    "source": {
     "revid": 1191667
    }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/demons/askarak_prince.lua",
-   "monster": "Askarak Prince",
-   "item": "gold coin",
-   "maxCount": 186,
-   "source": {
-    "version": "9.1",
-    "kills": 1878,
-    "loot_revid": 1002900
-   },
-   "from": 100
   },
   {
    "kind": "stat",
@@ -4634,19 +4127,6 @@
    }
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/demons/diabolic_imp.lua",
-   "monster": "Diabolic Imp",
-   "item": "gold coin",
-   "maxCount": 200,
-   "source": {
-    "version": "8.6",
-    "kills": 8218,
-    "loot_revid": 1212940
-   },
-   "from": 100
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/demons/diabolic_imp.lua",
    "monster": "Diabolic Imp",
@@ -4755,32 +4235,6 @@
    }
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/demons/floating_savant.lua",
-   "monster": "Floating Savant",
-   "item": "red crystal fragment",
-   "maxCount": 8,
-   "source": {
-    "version": "8.6",
-    "kills": 7022,
-    "loot_revid": 1209672
-   },
-   "from": 2
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/demons/floating_savant.lua",
-   "monster": "Floating Savant",
-   "item": "small enchanted ruby",
-   "maxCount": 14,
-   "source": {
-    "version": "8.6",
-    "kills": 7022,
-    "loot_revid": 1209672
-   },
-   "from": 5
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/demons/floating_savant.lua",
    "monster": "Floating Savant",
@@ -4820,84 +4274,6 @@
     "times": 137,
     "evidence": "old statistics within the current rarity (semi-rare); single large sample"
    }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/demons/frost_flower_asura.lua",
-   "monster": "Frost Flower Asura",
-   "item": "black pearl",
-   "maxCount": 2,
-   "source": {
-    "version": "8.6",
-    "kills": 4298,
-    "loot_revid": 1212411
-   },
-   "from": 1
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/demons/frost_flower_asura.lua",
-   "monster": "Frost Flower Asura",
-   "item": "small diamond",
-   "maxCount": 3,
-   "source": {
-    "version": "8.6",
-    "kills": 4298,
-    "loot_revid": 1212411
-   },
-   "from": 1
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/demons/frost_flower_asura.lua",
-   "monster": "Frost Flower Asura",
-   "item": "small emerald",
-   "maxCount": 2,
-   "source": {
-    "version": "8.6",
-    "kills": 4298,
-    "loot_revid": 1212411
-   },
-   "from": 1
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/demons/frost_flower_asura.lua",
-   "monster": "Frost Flower Asura",
-   "item": "small ruby",
-   "maxCount": 2,
-   "source": {
-    "version": "8.6",
-    "kills": 4298,
-    "loot_revid": 1212411
-   },
-   "from": 1
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/demons/frost_flower_asura.lua",
-   "monster": "Frost Flower Asura",
-   "item": "small topaz",
-   "maxCount": 2,
-   "source": {
-    "version": "8.6",
-    "kills": 4298,
-    "loot_revid": 1212411
-   },
-   "from": 1
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/demons/frost_flower_asura.lua",
-   "monster": "Frost Flower Asura",
-   "item": "white pearl",
-   "maxCount": 2,
-   "source": {
-    "version": "8.6",
-    "kills": 4298,
-    "loot_revid": 1212411
-   },
-   "from": 1
   },
   {
    "kind": "stat",
@@ -7769,19 +7145,6 @@
    }
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/demons/shaburak_demon.lua",
-   "monster": "Shaburak Demon",
-   "item": "gold coin",
-   "maxCount": 255,
-   "source": {
-    "version": "9.1",
-    "kills": 22442,
-    "loot_revid": 1149257
-   },
-   "from": 100
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/demons/shaburak_demon.lua",
    "monster": "Shaburak Demon",
@@ -7804,19 +7167,6 @@
    }
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/demons/shaburak_lord.lua",
-   "monster": "Shaburak Lord",
-   "item": "gold coin",
-   "maxCount": 178,
-   "source": {
-    "version": "9.1",
-    "kills": 3857,
-    "loot_revid": 1093041
-   },
-   "from": 100
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/demons/shaburak_lord.lua",
    "monster": "Shaburak Lord",
@@ -7837,19 +7187,6 @@
    "source": {
     "revid": 1191664
    }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/demons/shaburak_prince.lua",
-   "monster": "Shaburak Prince",
-   "item": "gold coin",
-   "maxCount": 178,
-   "source": {
-    "version": "9.1",
-    "kills": 2673,
-    "loot_revid": 1093042
-   },
-   "from": 100
   },
   {
    "kind": "stat",
@@ -9259,19 +8596,6 @@
    }
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/dragons/dragon_hatchling.lua",
-   "monster": "Dragon Hatchling",
-   "item": "gold coin",
-   "maxCount": 55,
-   "source": {
-    "version": "8.6",
-    "kills": 17186,
-    "loot_revid": 1212943
-   },
-   "from": 50
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/dragons/dragon_hatchling.lua",
    "monster": "Dragon Hatchling",
@@ -9281,19 +8605,6 @@
    "source": {
     "revid": 1195798
    }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/dragons/dragon_lord.lua",
-   "monster": "Dragon Lord",
-   "item": "gold coin",
-   "maxCount": 246,
-   "source": {
-    "version": "8.6",
-    "kills": 51080,
-    "loot_revid": 1212944
-   },
-   "from": 237
   },
   {
    "kind": "stat",
@@ -9307,19 +8618,6 @@
    }
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/dragons/dragon_lord_hatchling.lua",
-   "monster": "Dragon Lord Hatchling",
-   "item": "gold coin",
-   "maxCount": 170,
-   "source": {
-    "version": "8.6",
-    "kills": 9850,
-    "loot_revid": 1212945
-   },
-   "from": 121
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/dragons/dragon_lord_hatchling.lua",
    "monster": "Dragon Lord Hatchling",
@@ -9329,19 +8627,6 @@
     "revid": 1191694
    },
    "from": 20
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/dragons/draken_abomination.lua",
-   "monster": "Draken Abomination",
-   "item": "gold coin",
-   "maxCount": 199,
-   "source": {
-    "version": "9.1",
-    "kills": 36963,
-    "loot_revid": 1201201
-   },
-   "from": 100
   },
   {
    "kind": "stat",
@@ -9368,32 +8653,6 @@
     "times": 274,
     "evidence": "old statistics within the current rarity (rare)"
    }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/dragons/draken_elite.lua",
-   "monster": "Draken Elite",
-   "item": "gold coin",
-   "maxCount": 200,
-   "source": {
-    "version": "8.6",
-    "kills": 31933,
-    "loot_revid": 1201202
-   },
-   "from": 187
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/dragons/draken_elite.lua",
-   "monster": "Draken Elite",
-   "item": "small diamond",
-   "maxCount": 4,
-   "source": {
-    "version": "8.6",
-    "kills": 31933,
-    "loot_revid": 1201202
-   },
-   "from": 2
   },
   {
    "kind": "stat",
@@ -9452,19 +8711,6 @@
    }
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/dragons/draken_spellweaver.lua",
-   "monster": "Draken Spellweaver",
-   "item": "gold coin",
-   "maxCount": 200,
-   "source": {
-    "version": "9.5",
-    "kills": 236116,
-    "loot_revid": 1212720
-   },
-   "from": 195
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/dragons/draken_spellweaver.lua",
    "monster": "Draken Spellweaver",
@@ -9489,19 +8735,6 @@
     "times": 3145,
     "evidence": "old statistics within the current rarity (rare)"
    }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/dragons/draken_warmaster.lua",
-   "monster": "Draken Warmaster",
-   "item": "gold coin",
-   "maxCount": 200,
-   "source": {
-    "version": "8.6",
-    "kills": 333499,
-    "loot_revid": 1212721
-   },
-   "from": 197
   },
   {
    "kind": "chance",
@@ -9651,32 +8884,6 @@
    "from": 100
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/dragons/frost_dragon.lua",
-   "monster": "Frost Dragon",
-   "item": "dragon ham",
-   "maxCount": 3,
-   "source": {
-    "version": "8.6",
-    "kills": 45820,
-    "loot_revid": 1211704
-   },
-   "from": 2
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/dragons/frost_dragon.lua",
-   "monster": "Frost Dragon",
-   "item": "gold coin",
-   "maxCount": 243,
-   "source": {
-    "version": "8.6",
-    "kills": 45820,
-    "loot_revid": 1211704
-   },
-   "from": 207
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/dragons/frost_dragon.lua",
    "monster": "Frost Dragon",
@@ -9714,19 +8921,6 @@
    "from": 100
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/dragons/frost_dragon_hatchling.lua",
-   "monster": "Frost Dragon Hatchling",
-   "item": "gold coin",
-   "maxCount": 55,
-   "source": {
-    "version": "8.6",
-    "kills": 33074,
-    "loot_revid": 1210488
-   },
-   "from": 47
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/dragons/frost_dragon_hatchling.lua",
    "monster": "Frost Dragon Hatchling",
@@ -9751,110 +8945,6 @@
     "times": 50,
     "evidence": "old statistics within the current rarity (very rare)"
    }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/dragons/ghastly_dragon.lua",
-   "monster": "Ghastly Dragon",
-   "item": "gold coin",
-   "maxCount": 379,
-   "source": {
-    "version": "9.5",
-    "kills": 23322,
-    "loot_revid": 1169901
-   },
-   "from": 238
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/dragons/ghastly_dragon.lua",
-   "monster": "Ghastly Dragon",
-   "item": "great mana potion",
-   "maxCount": 3,
-   "source": {
-    "version": "9.5",
-    "kills": 23322,
-    "loot_revid": 1169901
-   },
-   "from": 2
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/dragons/ghastly_dragon.lua",
-   "monster": "Ghastly Dragon",
-   "item": "great spirit potion",
-   "maxCount": 3,
-   "source": {
-    "version": "9.5",
-    "kills": 23322,
-    "loot_revid": 1169901
-   },
-   "from": 2
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/dragons/ghastly_dragon.lua",
-   "monster": "Ghastly Dragon",
-   "item": "platinum coin",
-   "maxCount": 4,
-   "source": {
-    "version": "9.5",
-    "kills": 23322,
-    "loot_revid": 1169901
-   },
-   "from": 2
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/dragons/ghastly_dragon.lua",
-   "monster": "Ghastly Dragon",
-   "item": "small emerald",
-   "maxCount": 7,
-   "source": {
-    "version": "9.5",
-    "kills": 23322,
-    "loot_revid": 1169901
-   },
-   "from": 5
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/dragons/ghastly_dragon.lua",
-   "monster": "Ghastly Dragon",
-   "item": "soul orb",
-   "maxCount": 2,
-   "source": {
-    "version": "9.5",
-    "kills": 23322,
-    "loot_revid": 1169901
-   },
-   "from": 1
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/dragons/ghastly_dragon.lua",
-   "monster": "Ghastly Dragon",
-   "item": "ultimate health potion",
-   "maxCount": 2,
-   "source": {
-    "version": "9.5",
-    "kills": 23322,
-    "loot_revid": 1169901
-   },
-   "from": 1
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/dragons/ghastly_dragon.lua",
-   "monster": "Ghastly Dragon",
-   "item": "undead heart",
-   "maxCount": 2,
-   "source": {
-    "version": "9.5",
-    "kills": 23322,
-    "loot_revid": 1169901
-   },
-   "from": 1
   },
   {
    "kind": "stat",
@@ -10322,32 +9412,6 @@
    }
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/dragons/wyrm.lua",
-   "monster": "Wyrm",
-   "item": "dragon ham",
-   "maxCount": 3,
-   "source": {
-    "version": "8.6",
-    "kills": 78867,
-    "loot_revid": 1213452
-   },
-   "from": 1
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/dragons/wyrm.lua",
-   "monster": "Wyrm",
-   "item": "gold coin",
-   "maxCount": 232,
-   "source": {
-    "version": "8.6",
-    "kills": 78867,
-    "loot_revid": 1213452
-   },
-   "from": 192
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/dragons/wyrm.lua",
    "monster": "Wyrm",
@@ -10491,19 +9555,6 @@
     "times": 4978,
     "evidence": "old statistics within the current rarity (semi-rare); confirmed by another version"
    }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/elementals/earth_elemental.lua",
-   "monster": "Earth Elemental",
-   "item": "gold coin",
-   "maxCount": 130,
-   "source": {
-    "version": "9.1",
-    "kills": 96637,
-    "loot_revid": 1210472
-   },
-   "from": 100
   },
   {
    "kind": "stat",
@@ -12778,19 +11829,6 @@
    }
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/extra_dimensional/mitmah_scout.lua",
-   "monster": "Mitmah Scout",
-   "item": "broken mitmah necklace",
-   "maxCount": 2,
-   "source": {
-    "version": "8.6",
-    "kills": 10918,
-    "loot_revid": 1210219
-   },
-   "from": 1
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/extra_dimensional/mitmah_scout.lua",
    "monster": "Mitmah Scout",
@@ -13921,19 +12959,6 @@
    "maxCount": 2
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/fey/dryad.lua",
-   "monster": "Dryad",
-   "item": "gold coin",
-   "maxCount": 30,
-   "source": {
-    "version": "8.6",
-    "kills": 30570,
-    "loot_revid": 1201207
-   },
-   "from": 20
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/fey/dryad.lua",
    "monster": "Dryad",
@@ -14078,32 +13103,6 @@
     "times": 321,
     "evidence": "old statistics within the current rarity (semi-rare)"
    }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/fey/faun.lua",
-   "monster": "Faun",
-   "item": "gold coin",
-   "maxCount": 191,
-   "source": {
-    "version": "8.6",
-    "kills": 14095,
-    "loot_revid": 1213368
-   },
-   "from": 136
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/fey/faun.lua",
-   "monster": "Faun",
-   "item": "small stone",
-   "maxCount": 5,
-   "source": {
-    "version": "8.6",
-    "kills": 14095,
-    "loot_revid": 1213368
-   },
-   "from": 3
   },
   {
    "kind": "stat",
@@ -14392,19 +13391,6 @@
    "from": false
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/fey/pixie.lua",
-   "monster": "Pixie",
-   "item": "gold coin",
-   "maxCount": 166,
-   "source": {
-    "version": "8.6",
-    "kills": 17516,
-    "loot_revid": 1213370
-   },
-   "from": 90
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/fey/pixie.lua",
    "monster": "Pixie",
@@ -14535,45 +13521,6 @@
     "times": 1052,
     "evidence": "old statistics within the current rarity (uncommon); single large sample"
    }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/fey/pooka.lua",
-   "monster": "Pooka",
-   "item": "gold coin",
-   "maxCount": 135,
-   "source": {
-    "version": "8.6",
-    "kills": 8441,
-    "loot_revid": 1213371
-   },
-   "from": 100
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/fey/pooka.lua",
-   "monster": "Pooka",
-   "item": "opal",
-   "maxCount": 2,
-   "source": {
-    "version": "8.6",
-    "kills": 8441,
-    "loot_revid": 1213371
-   },
-   "from": 1
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/fey/pooka.lua",
-   "monster": "Pooka",
-   "item": "rainbow quartz",
-   "maxCount": 2,
-   "source": {
-    "version": "8.6",
-    "kills": 8441,
-    "loot_revid": 1213371
-   },
-   "from": 1
   },
   {
    "kind": "stat",
@@ -15245,19 +14192,6 @@
     "times": 1706,
     "evidence": "old statistics within the current rarity (uncommon); single large sample"
    }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/giants/ogre_brute.lua",
-   "monster": "Ogre Brute",
-   "item": "small ruby",
-   "maxCount": 2,
-   "source": {
-    "version": "8.6",
-    "kills": 11637,
-    "loot_revid": 1208333
-   },
-   "from": 1
   },
   {
    "kind": "stat",
@@ -16060,32 +14994,6 @@
    }
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/giants/ogre_savage.lua",
-   "monster": "Ogre Savage",
-   "item": "gold coin",
-   "maxCount": 154,
-   "source": {
-    "version": "8.6",
-    "kills": 6328,
-    "loot_revid": 1208331
-   },
-   "from": 130
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/giants/ogre_savage.lua",
-   "monster": "Ogre Savage",
-   "item": "small ruby",
-   "maxCount": 3,
-   "source": {
-    "version": "8.6",
-    "kills": 6328,
-    "loot_revid": 1208331
-   },
-   "from": 2
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/giants/ogre_savage.lua",
    "monster": "Ogre Savage",
@@ -16409,19 +15317,6 @@
    }
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/giants/orclops_doomhauler.lua",
-   "monster": "Orclops Doomhauler",
-   "item": "brown crystal splinter",
-   "maxCount": 2,
-   "source": {
-    "version": "8.6",
-    "kills": 12132,
-    "loot_revid": 1211728
-   },
-   "from": 1
-  },
-  {
    "kind": "remove_loot",
    "file": "data-otservbr-global/monster/giants/orclops_doomhauler.lua",
    "monster": "Orclops Doomhauler",
@@ -16558,45 +15453,6 @@
    }
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/giants/orclops_ravager.lua",
-   "monster": "Orclops Ravager",
-   "item": "onion",
-   "maxCount": 2,
-   "source": {
-    "version": "8.6",
-    "kills": 10799,
-    "loot_revid": 1211729
-   },
-   "from": 1
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/giants/orclops_ravager.lua",
-   "monster": "Orclops Ravager",
-   "item": "small ruby",
-   "maxCount": 3,
-   "source": {
-    "version": "8.6",
-    "kills": 10799,
-    "loot_revid": 1211729
-   },
-   "from": 2
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/giants/orclops_ravager.lua",
-   "monster": "Orclops Ravager",
-   "item": "small topaz",
-   "maxCount": 2,
-   "source": {
-    "version": "8.6",
-    "kills": 10799,
-    "loot_revid": 1211729
-   },
-   "from": 1
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/giants/orclops_ravager.lua",
    "monster": "Orclops Ravager",
@@ -16696,32 +15552,6 @@
     "times": 1153,
     "evidence": "old statistics within the current rarity (uncommon); single large sample"
    }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/humanoids/broken_shaper.lua",
-   "monster": "Broken Shaper",
-   "item": "gold coin",
-   "maxCount": 175,
-   "source": {
-    "version": "8.6",
-    "kills": 11974,
-    "loot_revid": 1212860
-   },
-   "from": 165
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/humanoids/broken_shaper.lua",
-   "monster": "Broken Shaper",
-   "item": "orichalcum pearl",
-   "maxCount": 3,
-   "source": {
-    "version": "8.6",
-    "kills": 11974,
-    "loot_revid": 1212860
-   },
-   "from": 2
   },
   {
    "kind": "stat",
@@ -16994,19 +15824,6 @@
    }
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/humanoids/dwarf_geomancer.lua",
-   "monster": "Dwarf Geomancer",
-   "item": "gold coin",
-   "maxCount": 45,
-   "source": {
-    "version": "8.6",
-    "kills": 4946,
-    "loot_revid": 1210129
-   },
-   "from": 35
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/humanoids/dwarf_geomancer.lua",
    "monster": "Dwarf Geomancer",
@@ -17051,19 +15868,6 @@
    }
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/humanoids/dworc_fleshhunter.lua",
-   "monster": "Dworc Fleshhunter",
-   "item": "gold coin",
-   "maxCount": 17,
-   "source": {
-    "version": "8.6",
-    "kills": 106590,
-    "loot_revid": 1212406
-   },
-   "from": 13
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/humanoids/dworc_fleshhunter.lua",
    "monster": "Dworc Fleshhunter",
@@ -17106,19 +15910,6 @@
    "source": {
     "revid": 1191866
    }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/humanoids/elf_arcanist.lua",
-   "monster": "Elf Arcanist",
-   "item": "gold coin",
-   "maxCount": 49,
-   "source": {
-    "version": "8.6",
-    "kills": 33888,
-    "loot_revid": 1212955
-   },
-   "from": 47
   },
   {
    "kind": "stat",
@@ -17185,32 +15976,6 @@
     "revid": 1191892
    },
    "from": false
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/humanoids/elf_overseer.lua",
-   "monster": "Elf Overseer",
-   "item": "bread",
-   "maxCount": 3,
-   "source": {
-    "version": "9.1",
-    "kills": 41,
-    "loot_revid": 1112530
-   },
-   "from": 1
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/humanoids/elf_overseer.lua",
-   "monster": "Elf Overseer",
-   "item": "gold coin",
-   "maxCount": 50,
-   "source": {
-    "version": "9.1",
-    "kills": 41,
-    "loot_revid": 1112530
-   },
-   "from": 47
   },
   {
    "kind": "stat",
@@ -17287,19 +16052,6 @@
    }
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/humanoids/enslaved_dwarf.lua",
-   "monster": "Enslaved Dwarf",
-   "item": "gold coin",
-   "maxCount": 149,
-   "source": {
-    "version": "9.6",
-    "kills": 4096,
-    "loot_revid": 1212408
-   },
-   "from": 99
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/humanoids/enslaved_dwarf.lua",
    "monster": "Enslaved Dwarf",
@@ -17339,19 +16091,6 @@
     "times": 58,
     "evidence": "old statistics within the current rarity (rare)"
    }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/humanoids/execowtioner.lua",
-   "monster": "Execowtioner",
-   "item": "gold coin",
-   "maxCount": 200,
-   "source": {
-    "version": "10.5",
-    "kills": 8932,
-    "loot_revid": 1209921
-   },
-   "from": 198
   },
   {
    "kind": "stat",
@@ -17396,19 +16135,6 @@
     "revid": 1191888
    },
    "from": true
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/humanoids/furious_troll.lua",
-   "monster": "Furious Troll",
-   "item": "gold coin",
-   "maxCount": 148,
-   "source": {
-    "version": "8.6",
-    "kills": 2988,
-    "loot_revid": 1212971
-   },
-   "from": 146
   },
   {
    "kind": "stat",
@@ -17836,19 +16562,6 @@
    "from": false
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/humanoids/lost_berserker.lua",
-   "monster": "Lost Berserker",
-   "item": "gold coin",
-   "maxCount": 200,
-   "source": {
-    "version": "9.6",
-    "kills": 18629,
-    "loot_revid": 1212122
-   },
-   "from": 100
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/humanoids/lost_berserker.lua",
    "monster": "Lost Berserker",
@@ -17888,19 +16601,6 @@
     "times": 19,
     "evidence": "old statistics within the current rarity (rare)"
    }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/humanoids/lost_exile.lua",
-   "monster": "Lost Exile",
-   "item": "strong health potion",
-   "maxCount": 3,
-   "source": {
-    "version": "8.6",
-    "kills": 2607,
-    "loot_revid": 1189206
-   },
-   "from": 2
   },
   {
    "kind": "stat",
@@ -18049,19 +16749,6 @@
    }
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/humanoids/lost_thrower.lua",
-   "monster": "Lost Thrower",
-   "item": "gold coin",
-   "maxCount": 140,
-   "source": {
-    "version": "9.8",
-    "kills": 15093,
-    "loot_revid": 1209720
-   },
-   "from": 100
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/humanoids/lost_thrower.lua",
    "monster": "Lost Thrower",
@@ -18130,19 +16817,6 @@
    }
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/humanoids/minotaur_amazon.lua",
-   "monster": "Minotaur Amazon",
-   "item": "gold coin",
-   "maxCount": 200,
-   "source": {
-    "version": "10.5",
-    "kills": 10342,
-    "loot_revid": 1209722
-   },
-   "from": 196
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/humanoids/minotaur_amazon.lua",
    "monster": "Minotaur Amazon",
@@ -18194,19 +16868,6 @@
     "evidence": "old statistics within the current rarity (very rare)"
    },
    "by_id": true
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/humanoids/minotaur_cult_follower.lua",
-   "monster": "Minotaur Cult Follower",
-   "item": "gold coin",
-   "maxCount": 155,
-   "source": {
-    "version": "8.6",
-    "kills": 13370,
-    "loot_revid": 1212179
-   },
-   "from": 150
   },
   {
    "kind": "stat",
@@ -18317,19 +16978,6 @@
    "source": {
     "revid": 1191861
    }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/humanoids/minotaur_hunter.lua",
-   "monster": "Minotaur Hunter",
-   "item": "gold coin",
-   "maxCount": 200,
-   "source": {
-    "version": "10.5",
-    "kills": 72670,
-    "loot_revid": 1209988
-   },
-   "from": 199
   },
   {
    "kind": "stat",
@@ -18509,19 +17157,6 @@
    }
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/humanoids/minotaur_invader.lua",
-   "monster": "Minotaur Invader",
-   "item": "gold coin",
-   "maxCount": 200,
-   "source": {
-    "version": "10.7",
-    "kills": 16009,
-    "loot_revid": 1209724
-   },
-   "from": 160
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/humanoids/minotaur_invader.lua",
    "monster": "Minotaur Invader",
@@ -18615,19 +17250,6 @@
    }
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/humanoids/mooh'tah_warrior.lua",
-   "monster": "Mooh'Tah Warrior",
-   "item": "gold coin",
-   "maxCount": 120,
-   "source": {
-    "version": "10.5",
-    "kills": 144328,
-    "loot_revid": 1209731
-   },
-   "from": 119
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/humanoids/mooh'tah_warrior.lua",
    "monster": "Mooh'Tah Warrior",
@@ -18685,19 +17307,6 @@
    }
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/humanoids/moohtant.lua",
-   "monster": "Moohtant",
-   "item": "gold coin",
-   "maxCount": 200,
-   "source": {
-    "version": "10.5",
-    "kills": 9712,
-    "loot_revid": 1209732
-   },
-   "from": 195
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/humanoids/moohtant.lua",
    "monster": "Moohtant",
@@ -18718,19 +17327,6 @@
    "source": {
     "revid": 1191855
    }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/humanoids/orc_berserker.lua",
-   "monster": "Orc Berserker",
-   "item": "gold coin",
-   "maxCount": 25,
-   "source": {
-    "version": "10.8",
-    "kills": 37648,
-    "loot_revid": 1213468
-   },
-   "from": 12
   },
   {
    "kind": "stat",
@@ -19251,19 +17847,6 @@
    "from": true
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/humanoids/troll_legionnaire.lua",
-   "monster": "Troll Legionnaire",
-   "item": "gold coin",
-   "maxCount": 156,
-   "source": {
-    "version": "8.6",
-    "kills": 3595,
-    "loot_revid": 1213056
-   },
-   "from": 155
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/humanoids/troll_legionnaire.lua",
    "monster": "Troll Legionnaire",
@@ -19356,32 +17939,6 @@
     "revid": 1191912
    },
    "from": false
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/humanoids/twisted_shaper.lua",
-   "monster": "Twisted Shaper",
-   "item": "brown mushroom",
-   "maxCount": 3,
-   "source": {
-    "version": "8.6",
-    "kills": 10295,
-    "loot_revid": 1212866
-   },
-   "from": 2
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/humanoids/twisted_shaper.lua",
-   "monster": "Twisted Shaper",
-   "item": "orichalcum pearl",
-   "maxCount": 5,
-   "source": {
-    "version": "8.6",
-    "kills": 10295,
-    "loot_revid": 1212866
-   },
-   "from": 2
   },
   {
    "kind": "stat",
@@ -19841,19 +18398,6 @@
    "from": false
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/humans/blood_hand.lua",
-   "monster": "Blood Hand",
-   "item": "gold coin",
-   "maxCount": 135,
-   "source": {
-    "version": "10.1",
-    "kills": 7078,
-    "loot_revid": 1213436
-   },
-   "from": 130
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/humans/blood_hand.lua",
    "monster": "Blood Hand",
@@ -19889,19 +18433,6 @@
     "revid": 1191821
    },
    "from": false
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/humans/blood_priest.lua",
-   "monster": "Blood Priest",
-   "item": "gold coin",
-   "maxCount": 180,
-   "source": {
-    "version": "10.1",
-    "kills": 6757,
-    "loot_revid": 1210760
-   },
-   "from": 100
   },
   {
    "kind": "stat",
@@ -20802,19 +19333,6 @@
    }
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/humans/enlightened_of_the_cult.lua",
-   "monster": "Enlightened of the Cult",
-   "item": "gold coin",
-   "maxCount": 92,
-   "source": {
-    "version": "8.6",
-    "kills": 27032,
-    "loot_revid": 1209917
-   },
-   "from": 70
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/humans/enlightened_of_the_cult.lua",
    "monster": "Enlightened of the Cult",
@@ -20889,19 +19407,6 @@
    }
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/humans/glooth_bandit.lua",
-   "monster": "Glooth Bandit",
-   "item": "great mana potion",
-   "maxCount": 2,
-   "source": {
-    "version": "10.7",
-    "kills": 251526,
-    "loot_revid": 1213375
-   },
-   "from": 1
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/humans/glooth_bandit.lua",
    "monster": "Glooth Bandit",
@@ -20911,19 +19416,6 @@
    "source": {
     "revid": 1191823
    }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/humans/glooth_brigand.lua",
-   "monster": "Glooth Brigand",
-   "item": "glooth bag",
-   "maxCount": 2,
-   "source": {
-    "version": "10.7",
-    "kills": 252140,
-    "loot_revid": 1213376
-   },
-   "from": 1
   },
   {
    "kind": "stat",
@@ -21050,19 +19542,6 @@
    }
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/humans/infernalist.lua",
-   "monster": "Infernalist",
-   "item": "gold coin",
-   "maxCount": 151,
-   "source": {
-    "version": "8.6",
-    "kills": 5445,
-    "loot_revid": 1209952
-   },
-   "from": 100
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/humans/infernalist.lua",
    "monster": "Infernalist",
@@ -21104,19 +19583,6 @@
    }
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/humans/mad_scientist.lua",
-   "monster": "Mad Scientist",
-   "item": "gold coin",
-   "maxCount": 115,
-   "source": {
-    "version": "8.6",
-    "kills": 34405,
-    "loot_revid": 1212850
-   },
-   "from": 65
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/humans/mad_scientist.lua",
    "monster": "Mad Scientist",
@@ -21141,19 +19607,6 @@
     "times": 2199,
     "evidence": "old statistics within the current rarity (semi-rare); single large sample"
    }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/humans/mutated_human.lua",
-   "monster": "Mutated Human",
-   "item": "gold coin",
-   "maxCount": 130,
-   "source": {
-    "version": "8.6",
-    "kills": 109421,
-    "loot_revid": 1211579
-   },
-   "from": 80
   },
   {
    "kind": "stat",
@@ -21187,19 +19640,6 @@
    "source": {
     "revid": 1192292
    }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/humans/pirate_buccaneer.lua",
-   "monster": "Pirate Buccaneer",
-   "item": "gold coin",
-   "maxCount": 60,
-   "source": {
-    "version": "8.6",
-    "kills": 26003,
-    "loot_revid": 1213022
-   },
-   "from": 59
   },
   {
    "kind": "stat",
@@ -21244,19 +19684,6 @@
    "source": {
     "revid": 1191794
    }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/humans/poacher.lua",
-   "monster": "Poacher",
-   "item": "arrow",
-   "maxCount": 18,
-   "source": {
-    "version": "8.6",
-    "kills": 15967,
-    "loot_revid": 1212577
-   },
-   "from": 17
   },
   {
    "kind": "stat",
@@ -21713,19 +20140,6 @@
    }
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/humans/renegade_knight.lua",
-   "monster": "Renegade Knight",
-   "item": "gold coin",
-   "maxCount": 100,
-   "source": {
-    "version": "10.8",
-    "kills": 21189,
-    "loot_revid": 1212864
-   },
-   "from": 30
-  },
-  {
    "kind": "remove_loot",
    "file": "data-otservbr-global/monster/humans/renegade_knight.lua",
    "monster": "Renegade Knight",
@@ -21906,19 +20320,6 @@
     "revid": 1191820
    },
    "from": false
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/humans/shadow_pupil.lua",
-   "monster": "Shadow Pupil",
-   "item": "gold coin",
-   "maxCount": 65,
-   "source": {
-    "version": "10.1",
-    "kills": 6572,
-    "loot_revid": 1213447
-   },
-   "from": 64
   },
   {
    "kind": "stat",
@@ -22146,19 +20547,6 @@
     "times": 291,
     "evidence": "old statistics within the current rarity (rare); single large sample"
    }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/humans/vicious_squire.lua",
-   "monster": "Vicious Squire",
-   "item": "gold coin",
-   "maxCount": 70,
-   "source": {
-    "version": "10.8",
-    "kills": 40190,
-    "loot_revid": 1212868
-   },
-   "from": 30
   },
   {
    "kind": "remove_loot",
@@ -26107,19 +24495,6 @@
    }
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/magicals/blue_djinn.lua",
-   "monster": "Blue Djinn",
-   "item": "gold coin",
-   "maxCount": 115,
-   "source": {
-    "version": "8.6",
-    "kills": 27602,
-    "loot_revid": 1202572
-   },
-   "from": 70
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/magicals/blue_djinn.lua",
    "monster": "Blue Djinn",
@@ -27107,32 +25482,6 @@
    "by_id": true
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/magicals/candy_horror.lua",
-   "monster": "Candy Horror",
-   "item": "dark chocolate coin",
-   "maxCount": 48,
-   "source": {
-    "version": "8.6",
-    "kills": 14269,
-    "loot_revid": 1212364
-   },
-   "from": 11
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/magicals/candy_horror.lua",
-   "monster": "Candy Horror",
-   "item": "strawberry",
-   "maxCount": 4,
-   "source": {
-    "version": "8.6",
-    "kills": 14269,
-    "loot_revid": 1212364
-   },
-   "from": 2
-  },
-  {
    "kind": "remove_loot",
    "file": "data-otservbr-global/monster/magicals/candy_horror.lua",
    "monster": "Candy Horror",
@@ -27898,19 +26247,6 @@
    }
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/magicals/dragonling.lua",
-   "monster": "Dragonling",
-   "item": "gold coin",
-   "maxCount": 249,
-   "source": {
-    "version": "9.6",
-    "kills": 3156,
-    "loot_revid": 1212946
-   },
-   "from": 100
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/magicals/dragonling.lua",
    "monster": "Dragonling",
@@ -27937,32 +26273,6 @@
    }
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/magicals/efreet.lua",
-   "monster": "Efreet",
-   "item": "gold coin",
-   "maxCount": 120,
-   "source": {
-    "version": "8.54",
-    "kills": 182,
-    "loot_revid": 1212950
-   },
-   "from": 75
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/magicals/efreet.lua",
-   "monster": "Efreet",
-   "item": "small emerald",
-   "maxCount": 2,
-   "source": {
-    "version": "8.54",
-    "kills": 182,
-    "loot_revid": 1212950
-   },
-   "from": 1
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/magicals/efreet.lua",
    "monster": "Efreet",
@@ -27972,19 +26282,6 @@
    "source": {
     "revid": 1191999
    }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/magicals/elder_bonelord.lua",
-   "monster": "Elder Bonelord",
-   "item": "gold coin",
-   "maxCount": 90,
-   "source": {
-    "version": "10.8",
-    "kills": 47287,
-    "loot_revid": 1212951
-   },
-   "from": 86
   },
   {
    "kind": "stat",
@@ -28674,32 +26971,6 @@
    "maxCount": 3
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/magicals/feversleep.lua",
-   "monster": "Feversleep",
-   "item": "small emerald",
-   "maxCount": 3,
-   "source": {
-    "version": "10.3",
-    "kills": 3649,
-    "loot_revid": 1212496
-   },
-   "from": 2
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/magicals/feversleep.lua",
-   "monster": "Feversleep",
-   "item": "small topaz",
-   "maxCount": 3,
-   "source": {
-    "version": "10.3",
-    "kills": 3649,
-    "loot_revid": 1212496
-   },
-   "from": 2
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/magicals/feversleep.lua",
    "monster": "Feversleep",
@@ -28720,19 +26991,6 @@
    "source": {
     "revid": 1191946
    }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/magicals/forest_fury.lua",
-   "monster": "Forest Fury",
-   "item": "gold coin",
-   "maxCount": 55,
-   "source": {
-    "version": "10.1",
-    "kills": 45914,
-    "loot_revid": 1212964
-   },
-   "from": 53
   },
   {
    "kind": "stat",
@@ -29205,19 +27463,6 @@
    }
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/magicals/gazer.lua",
-   "monster": "Gazer",
-   "item": "gold coin",
-   "maxCount": 24,
-   "source": {
-    "version": "8.6",
-    "kills": 5058,
-    "loot_revid": 1212973
-   },
-   "from": 16
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/magicals/gazer.lua",
    "monster": "Gazer",
@@ -29313,19 +27558,6 @@
    "source": {
     "revid": 1192041
    }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/magicals/green_djinn.lua",
-   "monster": "Green Djinn",
-   "item": "gold coin",
-   "maxCount": 109,
-   "source": {
-    "version": "8.54",
-    "kills": 400,
-    "loot_revid": 1212977
-   },
-   "from": 70
   },
   {
    "kind": "stat",
@@ -30862,19 +29094,6 @@
    }
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/magicals/marid.lua",
-   "monster": "Marid",
-   "item": "gold coin",
-   "maxCount": 130,
-   "source": {
-    "version": "8.6",
-    "kills": 10876,
-    "loot_revid": 1209977
-   },
-   "from": 70
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/magicals/marid.lua",
    "monster": "Marid",
@@ -30921,19 +29140,6 @@
    "source": {
     "revid": 1192031
    }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/magicals/midnight_panther.lua",
-   "monster": "Midnight Panther",
-   "item": "gold coin",
-   "maxCount": 86,
-   "source": {
-    "version": "8.6",
-    "kills": 37,
-    "loot_revid": 1194538
-   },
-   "from": 57
   },
   {
    "kind": "stat",
@@ -30999,32 +29205,6 @@
     "revid": 1192047
    },
    "from": -5
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/magicals/nibblemaw.lua",
-   "monster": "Nibblemaw",
-   "item": "gold coin",
-   "maxCount": 180,
-   "source": {
-    "version": "8.6",
-    "kills": 19442,
-    "loot_revid": 1212379
-   },
-   "from": 100
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/magicals/nibblemaw.lua",
-   "monster": "Nibblemaw",
-   "item": "platinum coin",
-   "maxCount": 10,
-   "source": {
-    "version": "8.6",
-    "kills": 19442,
-    "loot_revid": 1212379
-   },
-   "from": 6
   },
   {
    "kind": "stat",
@@ -31140,19 +29320,6 @@
    }
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/magicals/nightmare_scion.lua",
-   "monster": "Nightmare Scion",
-   "item": "gold coin",
-   "maxCount": 155,
-   "source": {
-    "version": "8.6",
-    "kills": 23862,
-    "loot_revid": 1211885
-   },
-   "from": 100
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/magicals/nightmare_scion.lua",
    "monster": "Nightmare Scion",
@@ -31164,19 +29331,6 @@
    }
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/magicals/nightstalker.lua",
-   "monster": "Nightstalker",
-   "item": "gold coin",
-   "maxCount": 110,
-   "source": {
-    "version": "8.6",
-    "kills": 25069,
-    "loot_revid": 1211886
-   },
-   "from": 100
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/magicals/nightstalker.lua",
    "monster": "Nightstalker",
@@ -31186,19 +29340,6 @@
    "source": {
     "revid": 1192007
    }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/magicals/phantasm.lua",
-   "monster": "Phantasm",
-   "item": "gold coin",
-   "maxCount": 246,
-   "source": {
-    "version": "9.86",
-    "kills": 5964,
-    "loot_revid": 1204541
-   },
-   "from": 100
   },
   {
    "kind": "stat",
@@ -31894,19 +30035,6 @@
    }
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/magicals/rorc.lua",
-   "monster": "Rorc",
-   "item": "gold coin",
-   "maxCount": 35,
-   "source": {
-    "version": "10.1",
-    "kills": 77543,
-    "loot_revid": 1210610
-   },
-   "from": 25
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/magicals/rorc.lua",
    "monster": "Rorc",
@@ -31957,32 +30085,6 @@
     "times": 242,
     "evidence": "old statistics within the current rarity (semi-rare)"
    }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/magicals/sight_of_surrender.lua",
-   "monster": "Sight of Surrender",
-   "item": "cluster of solace",
-   "maxCount": 2,
-   "source": {
-    "version": "10.3",
-    "kills": 4744,
-    "loot_revid": 1213419
-   },
-   "from": 1
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/magicals/sight_of_surrender.lua",
-   "monster": "Sight of Surrender",
-   "item": "platinum coin",
-   "maxCount": 20,
-   "source": {
-    "version": "10.3",
-    "kills": 4744,
-    "loot_revid": 1213419
-   },
-   "from": 15
   },
   {
    "kind": "stat",
@@ -33423,19 +31525,6 @@
    "from": true
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/mammals/crystal_wolf.lua",
-   "monster": "Crystal Wolf",
-   "item": "gold coin",
-   "maxCount": 67,
-   "source": {
-    "version": "9.1",
-    "kills": 68,
-    "loot_revid": 1130124
-   },
-   "from": 52
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/mammals/crystal_wolf.lua",
    "monster": "Crystal Wolf",
@@ -33853,19 +31942,6 @@
    }
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/mammals/killer_rabbit.lua",
-   "monster": "Killer Rabbit",
-   "item": "gold coin",
-   "maxCount": 108,
-   "source": {
-    "version": "8.6",
-    "kills": 2808,
-    "loot_revid": 1210528
-   },
-   "from": 90
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/mammals/killer_rabbit.lua",
    "monster": "Killer Rabbit",
@@ -34020,32 +32096,6 @@
    }
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/mammals/mutated_tiger.lua",
-   "monster": "Mutated Tiger",
-   "item": "gold coin",
-   "maxCount": 176,
-   "source": {
-    "version": "9.5",
-    "kills": 26597,
-    "loot_revid": 1212694
-   },
-   "from": 100
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/mammals/mutated_tiger.lua",
-   "monster": "Mutated Tiger",
-   "item": "strong health potion",
-   "maxCount": 2,
-   "source": {
-    "version": "9.5",
-    "kills": 26597,
-    "loot_revid": 1212694
-   },
-   "from": 1
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/mammals/mutated_tiger.lua",
    "monster": "Mutated Tiger",
@@ -34155,19 +32205,6 @@
    }
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/mammals/noble_lion.lua",
-   "monster": "Noble Lion",
-   "item": "gold coin",
-   "maxCount": 74,
-   "source": {
-    "version": "10.7",
-    "kills": 3781,
-    "loot_revid": 1212759
-   },
-   "from": 68
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/mammals/noble_lion.lua",
    "monster": "Noble Lion",
@@ -34254,19 +32291,6 @@
    "source": {
     "revid": 1192053
    }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/mammals/roaring_lion.lua",
-   "monster": "Roaring Lion",
-   "item": "gold coin",
-   "maxCount": 115,
-   "source": {
-    "version": "10.7",
-    "kills": 30875,
-    "loot_revid": 1212761
-   },
-   "from": 114
   },
   {
    "kind": "stat",
@@ -34501,19 +32525,6 @@
    }
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/mammals/vulcongra.lua",
-   "monster": "Vulcongra",
-   "item": "gold coin",
-   "maxCount": 107,
-   "source": {
-    "version": "9.6",
-    "kills": 11483,
-    "loot_revid": 1210058
-   },
-   "from": 100
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/mammals/vulcongra.lua",
    "monster": "Vulcongra",
@@ -34598,19 +32609,6 @@
    "source": {
     "revid": 1192303
    }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/mammals/white_tiger.lua",
-   "monster": "White Tiger",
-   "item": "striped fur",
-   "maxCount": 3,
-   "source": {
-    "version": "8.6",
-    "kills": 3196,
-    "loot_revid": 1210670
-   },
-   "from": 1
   },
   {
    "kind": "stat",
@@ -35034,19 +33032,6 @@
    }
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/plants/hideous_fungus.lua",
-   "monster": "Hideous Fungus",
-   "item": "gold coin",
-   "maxCount": 200,
-   "source": {
-    "version": "9.6",
-    "kills": 19413,
-    "loot_revid": 1211438
-   },
-   "from": 197
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/plants/hideous_fungus.lua",
    "monster": "Hideous Fungus",
@@ -35184,19 +33169,6 @@
     "times": 574,
     "evidence": "old statistics within the current rarity (uncommon); single large sample"
    }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/plants/omnivora.lua",
-   "monster": "Omnivora",
-   "item": "white mushroom",
-   "maxCount": 3,
-   "source": {
-    "version": "10.8",
-    "kills": 5905,
-    "loot_revid": 1213461
-   },
-   "from": 1
   },
   {
    "kind": "stat",
@@ -35505,19 +33477,6 @@
    }
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/ancient_tombs/ashmunrah.lua",
-   "monster": "Ashmunrah",
-   "item": "gold coin",
-   "maxCount": 304,
-   "source": {
-    "version": "8.6",
-    "kills": 1781,
-    "loot_revid": 1201469
-   },
-   "from": 80
-  },
-  {
    "kind": "element",
    "file": "data-otservbr-global/monster/quests/ancient_tombs/dipthrah.lua",
    "monster": "Dipthrah",
@@ -35584,19 +33543,6 @@
    }
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/ancient_tombs/dipthrah.lua",
-   "monster": "Dipthrah",
-   "item": "gold coin",
-   "maxCount": 226,
-   "source": {
-    "version": "8.6",
-    "kills": 2310,
-    "loot_revid": 1175052
-   },
-   "from": 80
-  },
-  {
    "kind": "element",
    "file": "data-otservbr-global/monster/quests/ancient_tombs/horestis.lua",
    "monster": "Horestis",
@@ -35628,19 +33574,6 @@
    "source": {
     "revid": 1181381
    }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/ancient_tombs/horestis.lua",
-   "monster": "Horestis",
-   "item": "great health potion",
-   "maxCount": 5,
-   "source": {
-    "version": "9.1",
-    "kills": 51,
-    "loot_revid": 1206865
-   },
-   "from": 4
   },
   {
    "kind": "chance",
@@ -35724,19 +33657,6 @@
    }
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/ancient_tombs/mahrdis.lua",
-   "monster": "Mahrdis",
-   "item": "gold coin",
-   "maxCount": 230,
-   "source": {
-    "version": "8.6",
-    "kills": 3605,
-    "loot_revid": 1184351
-   },
-   "from": 80
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/quests/ancient_tombs/mahrdis.lua",
    "monster": "Mahrdis",
@@ -35790,19 +33710,6 @@
    "source": {
     "revid": 1181619
    }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/ancient_tombs/morguthis.lua",
-   "monster": "Morguthis",
-   "item": "gold coin",
-   "maxCount": 221,
-   "source": {
-    "version": "8.6",
-    "kills": 754,
-    "loot_revid": 1178906
-   },
-   "from": 80
   },
   {
    "kind": "stat",
@@ -35871,58 +33778,6 @@
    }
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/ancient_tombs/omruc.lua",
-   "monster": "Omruc",
-   "item": "arrow",
-   "maxCount": 25,
-   "source": {
-    "version": "8.6",
-    "kills": 175,
-    "loot_revid": 1201484
-   },
-   "from": 21
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/ancient_tombs/omruc.lua",
-   "monster": "Omruc",
-   "item": "gold coin",
-   "maxCount": 211,
-   "source": {
-    "version": "8.6",
-    "kills": 175,
-    "loot_revid": 1201484
-   },
-   "from": 90
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/ancient_tombs/omruc.lua",
-   "monster": "Omruc",
-   "item": "onyx arrow",
-   "maxCount": 6,
-   "source": {
-    "version": "8.6",
-    "kills": 175,
-    "loot_revid": 1201484
-   },
-   "from": 2
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/ancient_tombs/omruc.lua",
-   "monster": "Omruc",
-   "item": "power bolt",
-   "maxCount": 5,
-   "source": {
-    "version": "8.6",
-    "kills": 175,
-    "loot_revid": 1201484
-   },
-   "from": 3
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/quests/ancient_tombs/omruc.lua",
    "monster": "Omruc",
@@ -35980,19 +33835,6 @@
    "source": {
     "revid": 1181600
    }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/ancient_tombs/rahemos.lua",
-   "monster": "Rahemos",
-   "item": "gold coin",
-   "maxCount": 242,
-   "source": {
-    "version": "8.6",
-    "kills": 1863,
-    "loot_revid": 1184352
-   },
-   "from": 90
   },
   {
    "kind": "stat",
@@ -36100,19 +33942,6 @@
    "source": {
     "revid": 1181599
    }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/ancient_tombs/thalas.lua",
-   "monster": "Thalas",
-   "item": "gold coin",
-   "maxCount": 238,
-   "source": {
-    "version": "8.6",
-    "kills": 800,
-    "loot_revid": 1183314
-   },
-   "from": 80
   },
   {
    "kind": "stat",
@@ -36296,19 +34125,6 @@
    "from": 1
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/cults_of_tibia/barkless_fanatic.lua",
-   "monster": "Barkless Fanatic",
-   "item": "gold coin",
-   "maxCount": 200,
-   "source": {
-    "version": "8.6",
-    "kills": 9720,
-    "loot_revid": 1210416
-   },
-   "from": 199
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/quests/cults_of_tibia/barkless_fanatic.lua",
    "monster": "Barkless Fanatic",
@@ -36415,19 +34231,6 @@
     "times": 41,
     "evidence": "old statistics within the current rarity (very rare)"
    }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/cults_of_tibia/cult_believer.lua",
-   "monster": "Cult Believer",
-   "item": "gold coin",
-   "maxCount": 70,
-   "source": {
-    "version": "8.6",
-    "kills": 19782,
-    "loot_revid": 1207322
-   },
-   "from": 30
   },
   {
    "kind": "remove_loot",
@@ -36721,19 +34524,6 @@
    }
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/cults_of_tibia/cult_enforcer.lua",
-   "monster": "Cult Enforcer",
-   "item": "gold coin",
-   "maxCount": 70,
-   "source": {
-    "version": "8.6",
-    "kills": 6312,
-    "loot_revid": 1212932
-   },
-   "from": 30
-  },
-  {
    "kind": "remove_loot",
    "file": "data-otservbr-global/monster/quests/cults_of_tibia/cult_enforcer.lua",
    "monster": "Cult Enforcer",
@@ -36908,19 +34698,6 @@
     "times": 93,
     "evidence": "old statistics within the current rarity (semi-rare)"
    }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/cults_of_tibia/cult_scholar.lua",
-   "monster": "Cult Scholar",
-   "item": "gold coin",
-   "maxCount": 70,
-   "source": {
-    "version": "8.6",
-    "kills": 3789,
-    "loot_revid": 1207324
-   },
-   "from": 30
   },
   {
    "kind": "remove_loot",
@@ -37134,19 +34911,6 @@
    }
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/cults_of_tibia/goldhanded_cultist.lua",
-   "monster": "Goldhanded Cultist",
-   "item": "gold coin",
-   "maxCount": 250,
-   "source": {
-    "version": "8.6",
-    "kills": 1450,
-    "loot_revid": 1210506
-   },
-   "from": 235
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/quests/cults_of_tibia/goldhanded_cultist.lua",
    "monster": "Goldhanded Cultist",
@@ -37343,19 +35107,6 @@
    }
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/cults_of_tibia/orc_cult_inquisitor.lua",
-   "monster": "Orc Cult Inquisitor",
-   "item": "gold coin",
-   "maxCount": 230,
-   "source": {
-    "version": "8.6",
-    "kills": 10340,
-    "loot_revid": 1211893
-   },
-   "from": 221
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/quests/cults_of_tibia/orc_cult_inquisitor.lua",
    "monster": "Orc Cult Inquisitor",
@@ -37380,19 +35131,6 @@
     "times": 1327,
     "evidence": "old statistics within the current rarity (uncommon); single large sample"
    }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/cults_of_tibia/orc_cult_minion.lua",
-   "monster": "Orc Cult Minion",
-   "item": "gold coin",
-   "maxCount": 195,
-   "source": {
-    "version": "8.6",
-    "kills": 9671,
-    "loot_revid": 1211894
-   },
-   "from": 166
   },
   {
    "kind": "stat",
@@ -37451,32 +35189,6 @@
    }
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/cults_of_tibia/orc_cult_priest.lua",
-   "monster": "Orc Cult Priest",
-   "item": "black pearl",
-   "maxCount": 2,
-   "source": {
-    "version": "8.6",
-    "kills": 5014,
-    "loot_revid": 1211895
-   },
-   "from": 1
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/cults_of_tibia/orc_cult_priest.lua",
-   "monster": "Orc Cult Priest",
-   "item": "gold coin",
-   "maxCount": 185,
-   "source": {
-    "version": "8.6",
-    "kills": 5014,
-    "loot_revid": 1211895
-   },
-   "from": 176
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/quests/cults_of_tibia/orc_cult_priest.lua",
    "monster": "Orc Cult Priest",
@@ -37501,32 +35213,6 @@
     "times": 41,
     "evidence": "old statistics within the current rarity (rare)"
    }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/cults_of_tibia/orc_cultist.lua",
-   "monster": "Orc Cultist",
-   "item": "brown crystal splinter",
-   "maxCount": 2,
-   "source": {
-    "version": "8.6",
-    "kills": 4873,
-    "loot_revid": 1211896
-   },
-   "from": 1
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/cults_of_tibia/orc_cultist.lua",
-   "monster": "Orc Cultist",
-   "item": "gold coin",
-   "maxCount": 217,
-   "source": {
-    "version": "8.6",
-    "kills": 4873,
-    "loot_revid": 1211896
-   },
-   "from": 166
   },
   {
    "kind": "stat",
@@ -43117,71 +40803,6 @@
    }
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/the_first_dragon/bosses/kalyassa.lua",
-   "monster": "Kalyassa",
-   "item": "dragon ham",
-   "maxCount": 10,
-   "source": {
-    "version": "8.6",
-    "kills": 396,
-    "loot_revid": 1170407
-   },
-   "from": 9
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/the_first_dragon/bosses/kalyassa.lua",
-   "monster": "Kalyassa",
-   "item": "great health potion",
-   "maxCount": 2,
-   "source": {
-    "version": "8.6",
-    "kills": 396,
-    "loot_revid": 1170407
-   },
-   "from": 1
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/the_first_dragon/bosses/kalyassa.lua",
-   "monster": "Kalyassa",
-   "item": "great mana potion",
-   "maxCount": 2,
-   "source": {
-    "version": "8.6",
-    "kills": 396,
-    "loot_revid": 1170407
-   },
-   "from": 1
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/the_first_dragon/bosses/kalyassa.lua",
-   "monster": "Kalyassa",
-   "item": "platinum coin",
-   "maxCount": 10,
-   "source": {
-    "version": "8.6",
-    "kills": 396,
-    "loot_revid": 1170407
-   },
-   "from": 9
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/the_first_dragon/bosses/kalyassa.lua",
-   "monster": "Kalyassa",
-   "item": "power bolt",
-   "maxCount": 10,
-   "source": {
-    "version": "8.6",
-    "kills": 396,
-    "loot_revid": 1170407
-   },
-   "from": 1
-  },
-  {
    "kind": "element",
    "file": "data-otservbr-global/monster/quests/the_first_dragon/bosses/zorvorax.lua",
    "monster": "Zorvorax",
@@ -43213,32 +40834,6 @@
    "source": {
     "revid": 1088633
    }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/the_first_dragon/bosses/zorvorax.lua",
-   "monster": "Zorvorax",
-   "item": "gold coin",
-   "maxCount": 100,
-   "source": {
-    "version": "8.6",
-    "kills": 378,
-    "loot_revid": 1170516
-   },
-   "from": 24
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/the_first_dragon/bosses/zorvorax.lua",
-   "monster": "Zorvorax",
-   "item": "great health potion",
-   "maxCount": 5,
-   "source": {
-    "version": "8.6",
-    "kills": 378,
-    "loot_revid": 1170516
-   },
-   "from": 3
   },
   {
    "kind": "add_loot",
@@ -43346,45 +40941,6 @@
     "times": 135,
     "evidence": "old statistics within the current rarity (semi-rare); single large sample"
    }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/the_first_dragon/haunted_dragon.lua",
-   "monster": "Haunted Dragon",
-   "item": "gold coin",
-   "maxCount": 189,
-   "source": {
-    "version": "8.6",
-    "kills": 3882,
-    "loot_revid": 1157877
-   },
-   "from": 100
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/the_first_dragon/haunted_dragon.lua",
-   "monster": "Haunted Dragon",
-   "item": "great health potion",
-   "maxCount": 2,
-   "source": {
-    "version": "8.6",
-    "kills": 3882,
-    "loot_revid": 1157877
-   },
-   "from": 1
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/the_first_dragon/haunted_dragon.lua",
-   "monster": "Haunted Dragon",
-   "item": "great mana potion",
-   "maxCount": 2,
-   "source": {
-    "version": "8.6",
-    "kills": 3882,
-    "loot_revid": 1157877
-   },
-   "from": 1
   },
   {
    "kind": "stat",
@@ -43518,19 +41074,6 @@
    }
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/the_first_dragon/ice_dragon.lua",
-   "monster": "Ice Dragon",
-   "item": "gold coin",
-   "maxCount": 219,
-   "source": {
-    "version": "8.6",
-    "kills": 2910,
-    "loot_revid": 1169961
-   },
-   "from": 216
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/quests/the_first_dragon/ice_dragon.lua",
    "monster": "Ice Dragon",
@@ -43540,45 +41083,6 @@
     "revid": 1191703
    },
    "from": 22
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/the_inquisition/annihilon.lua",
-   "monster": "Annihilon",
-   "item": "flaming arrow",
-   "maxCount": 100,
-   "source": {
-    "version": "8.6",
-    "kills": 375,
-    "loot_revid": 1188977
-   },
-   "from": 46
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/the_inquisition/annihilon.lua",
-   "monster": "Annihilon",
-   "item": "infernal bolt",
-   "maxCount": 50,
-   "source": {
-    "version": "8.6",
-    "kills": 375,
-    "loot_revid": 1188977
-   },
-   "from": 46
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/the_inquisition/annihilon.lua",
-   "monster": "Annihilon",
-   "item": "power bolt",
-   "maxCount": 99,
-   "source": {
-    "version": "8.6",
-    "kills": 375,
-    "loot_revid": 1188977
-   },
-   "from": 94
   },
   {
    "kind": "element",
@@ -43614,58 +41118,6 @@
    }
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/the_inquisition/golgordan.lua",
-   "monster": "Golgordan",
-   "item": "black pearl",
-   "maxCount": 15,
-   "source": {
-    "version": "8.6",
-    "kills": 337,
-    "loot_revid": 1188982
-   },
-   "from": 13
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/the_inquisition/golgordan.lua",
-   "monster": "Golgordan",
-   "item": "great health potion",
-   "maxCount": 2,
-   "source": {
-    "version": "8.6",
-    "kills": 337,
-    "loot_revid": 1188982
-   },
-   "from": 1
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/the_inquisition/golgordan.lua",
-   "monster": "Golgordan",
-   "item": "small amethyst",
-   "maxCount": 20,
-   "source": {
-    "version": "8.6",
-    "kills": 337,
-    "loot_revid": 1188982
-   },
-   "from": 12
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/the_inquisition/golgordan.lua",
-   "monster": "Golgordan",
-   "item": "white pearl",
-   "maxCount": 15,
-   "source": {
-    "version": "8.6",
-    "kills": 337,
-    "loot_revid": 1188982
-   },
-   "from": 13
-  },
-  {
    "kind": "add_loot",
    "file": "data-otservbr-global/monster/quests/the_inquisition/hellgorak.lua",
    "monster": "Hellgorak",
@@ -43694,19 +41146,6 @@
     "times": 14,
     "evidence": "old statistics within the current rarity (rare)"
    }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/the_inquisition/hellgorak.lua",
-   "monster": "Hellgorak",
-   "item": "small ruby",
-   "maxCount": 25,
-   "source": {
-    "version": "8.6",
-    "kills": 2001,
-    "loot_revid": 1188984
-   },
-   "from": 5
   },
   {
    "kind": "element",
@@ -43753,58 +41192,6 @@
    }
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/the_inquisition/latrivan.lua",
-   "monster": "Latrivan",
-   "item": "black pearl",
-   "maxCount": 15,
-   "source": {
-    "version": "8.6",
-    "kills": 340,
-    "loot_revid": 1188987
-   },
-   "from": 13
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/the_inquisition/latrivan.lua",
-   "monster": "Latrivan",
-   "item": "great health potion",
-   "maxCount": 2,
-   "source": {
-    "version": "8.6",
-    "kills": 340,
-    "loot_revid": 1188987
-   },
-   "from": 1
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/the_inquisition/latrivan.lua",
-   "monster": "Latrivan",
-   "item": "small amethyst",
-   "maxCount": 19,
-   "source": {
-    "version": "8.6",
-    "kills": 340,
-    "loot_revid": 1188987
-   },
-   "from": 12
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/the_inquisition/latrivan.lua",
-   "monster": "Latrivan",
-   "item": "white pearl",
-   "maxCount": 15,
-   "source": {
-    "version": "8.6",
-    "kills": 340,
-    "loot_revid": 1188987
-   },
-   "from": 13
-  },
-  {
    "kind": "element",
    "file": "data-otservbr-global/monster/quests/the_inquisition/madareth.lua",
    "monster": "Madareth",
@@ -43814,45 +41201,6 @@
    "source": {
     "revid": 1179228
    }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/the_inquisition/madareth.lua",
-   "monster": "Madareth",
-   "item": "platinum coin",
-   "maxCount": 30,
-   "source": {
-    "version": "8.6",
-    "kills": 173,
-    "loot_revid": 1188988
-   },
-   "from": 26
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/the_inquisition/ushuriel.lua",
-   "monster": "Ushuriel",
-   "item": "gold coin",
-   "maxCount": 192,
-   "source": {
-    "version": "8.6",
-    "kills": 638,
-    "loot_revid": 1188993
-   },
-   "from": 190
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/the_inquisition/ushuriel.lua",
-   "monster": "Ushuriel",
-   "item": "platinum coin",
-   "maxCount": 30,
-   "source": {
-    "version": "8.6",
-    "kills": 638,
-    "loot_revid": 1188993
-   },
-   "from": 26
   },
   {
    "kind": "remove_loot",
@@ -43873,19 +41221,6 @@
     "expected_drops": 127.6,
     "evidence": "no drop in 638 kills (about 128 expected, version 8.6); the current loot table lacks it"
    }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/quests/the_inquisition/zugurosh.lua",
-   "monster": "Zugurosh",
-   "item": "gold coin",
-   "maxCount": 195,
-   "source": {
-    "version": "8.6",
-    "kills": 1489,
-    "loot_revid": 1188997
-   },
-   "from": 194
   },
   {
    "kind": "stat",
@@ -44395,19 +41730,6 @@
    }
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/raids/draptor.lua",
-   "monster": "Draptor",
-   "item": "gold coin",
-   "maxCount": 214,
-   "source": {
-    "version": "8.6",
-    "kills": 280,
-    "loot_revid": 1100125
-   },
-   "from": 90
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/raids/draptor.lua",
    "monster": "Draptor",
@@ -44765,32 +42087,6 @@
    }
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/reptiles/killer_caiman.lua",
-   "monster": "Killer Caiman",
-   "item": "gold coin",
-   "maxCount": 180,
-   "source": {
-    "version": "9.5",
-    "kills": 43320,
-    "loot_revid": 1213531
-   },
-   "from": 100
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/reptiles/killer_caiman.lua",
-   "monster": "Killer Caiman",
-   "item": "piece of crocodile leather",
-   "maxCount": 2,
-   "source": {
-    "version": "9.5",
-    "kills": 43320,
-    "loot_revid": 1213531
-   },
-   "from": 1
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/reptiles/killer_caiman.lua",
    "monster": "Killer Caiman",
@@ -44991,19 +42287,6 @@
    }
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/reptiles/lizard_dragon_priest.lua",
-   "monster": "Lizard Dragon Priest",
-   "item": "gold coin",
-   "maxCount": 190,
-   "source": {
-    "version": "8.6",
-    "kills": 57244,
-    "loot_revid": 1212724
-   },
-   "from": 100
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/reptiles/lizard_dragon_priest.lua",
    "monster": "Lizard Dragon Priest",
@@ -45015,19 +42298,6 @@
    }
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/reptiles/lizard_high_guard.lua",
-   "monster": "Lizard High Guard",
-   "item": "gold coin",
-   "maxCount": 281,
-   "source": {
-    "version": "8.6",
-    "kills": 218678,
-    "loot_revid": 1213532
-   },
-   "from": 100
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/reptiles/lizard_high_guard.lua",
    "monster": "Lizard High Guard",
@@ -45037,19 +42307,6 @@
    "source": {
     "revid": 1192306
    }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/reptiles/lizard_legionnaire.lua",
-   "monster": "Lizard Legionnaire",
-   "item": "gold coin",
-   "maxCount": 165,
-   "source": {
-    "version": "8.6",
-    "kills": 111388,
-    "loot_revid": 1213533
-   },
-   "from": 100
   },
   {
    "kind": "stat",
@@ -45076,19 +42333,6 @@
     "times": 16,
     "evidence": "old statistics within the current rarity (rare); large gap (220 -> 1239), wiki is the source of truth"
    }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/reptiles/lizard_magistratus.lua",
-   "monster": "Lizard Magistratus",
-   "item": "platinum coin",
-   "maxCount": 20,
-   "source": {
-    "version": "8.6",
-    "kills": 1291,
-    "loot_revid": 1212727
-   },
-   "from": 19
   },
   {
    "kind": "stat",
@@ -45196,19 +42440,6 @@
    "source": {
     "revid": 1192133
    }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/reptiles/lizard_zaogun.lua",
-   "monster": "Lizard Zaogun",
-   "item": "gold coin",
-   "maxCount": 268,
-   "source": {
-    "version": "9.5",
-    "kills": 23083,
-    "loot_revid": 1212728
-   },
-   "from": 100
   },
   {
    "kind": "stat",
@@ -45634,19 +42865,6 @@
    }
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/reptiles/sea_serpent.lua",
-   "monster": "Sea Serpent",
-   "item": "gold coin",
-   "maxCount": 236,
-   "source": {
-    "version": "9.5",
-    "kills": 46774,
-    "loot_revid": 1208132
-   },
-   "from": 100
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/reptiles/sea_serpent.lua",
    "monster": "Sea Serpent",
@@ -45695,19 +42913,6 @@
    "from": 10
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/reptiles/seacrest_serpent.lua",
-   "monster": "Seacrest Serpent",
-   "item": "shiver arrow",
-   "maxCount": 19,
-   "source": {
-    "version": "10.7",
-    "kills": 7490,
-    "loot_revid": 1201102
-   },
-   "from": 17
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/reptiles/seacrest_serpent.lua",
    "monster": "Seacrest Serpent",
@@ -45732,19 +42937,6 @@
     "times": 3892,
     "evidence": "old statistics within the current rarity (uncommon); single large sample"
    }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/reptiles/serpent_spawn.lua",
-   "monster": "Serpent Spawn",
-   "item": "gold coin",
-   "maxCount": 245,
-   "source": {
-    "version": "8.6",
-    "kills": 65523,
-    "loot_revid": 1212390
-   },
-   "from": 239
   },
   {
    "kind": "stat",
@@ -45804,19 +42996,6 @@
     "revid": 1192152
    },
    "from": true
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/reptiles/thornback_tortoise.lua",
-   "monster": "Thornback Tortoise",
-   "item": "gold coin",
-   "maxCount": 50,
-   "source": {
-    "version": "9.86",
-    "kills": 14650,
-    "loot_revid": 1209778
-   },
-   "from": 48
   },
   {
    "kind": "stat",
@@ -46289,19 +43468,6 @@
     "times": 53,
     "evidence": "old statistics within the current rarity (rare)"
    }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/slimes/defiler.lua",
-   "monster": "Defiler",
-   "item": "gold coin",
-   "maxCount": 272,
-   "source": {
-    "version": "9.5",
-    "kills": 6353,
-    "loot_revid": 1210460
-   },
-   "from": 100
   },
   {
    "kind": "stat",
@@ -51033,19 +48199,6 @@
    }
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/undeads/undead_cavebear.lua",
-   "monster": "Undead Cavebear",
-   "item": "gold coin",
-   "maxCount": 89,
-   "source": {
-    "version": "8.6",
-    "kills": 194,
-    "loot_revid": 1184453
-   },
-   "from": 80
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/undeads/undead_cavebear.lua",
    "monster": "Undead Cavebear",
@@ -52104,19 +49257,6 @@
    }
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/undeads/vicious_manbat.lua",
-   "monster": "Vicious Manbat",
-   "item": "gold coin",
-   "maxCount": 163,
-   "source": {
-    "version": "10.1",
-    "kills": 262,
-    "loot_revid": 1170302
-   },
-   "from": 100
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/undeads/vicious_manbat.lua",
    "monster": "Vicious Manbat",
@@ -52703,19 +49843,6 @@
    }
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/vermins/crawler.lua",
-   "monster": "Crawler",
-   "item": "gold coin",
-   "maxCount": 190,
-   "source": {
-    "version": "9.4",
-    "kills": 53068,
-    "loot_revid": 1212584
-   },
-   "from": 100
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/vermins/crawler.lua",
    "monster": "Crawler",
@@ -52931,19 +50058,6 @@
    "by_id": true
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/vermins/drillworm.lua",
-   "monster": "Drillworm",
-   "item": "gold coin",
-   "maxCount": 150,
-   "source": {
-    "version": "9.8",
-    "kills": 76317,
-    "loot_revid": 1212947
-   },
-   "from": 100
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/vermins/drillworm.lua",
    "monster": "Drillworm",
@@ -52964,19 +50078,6 @@
    "source": {
     "revid": 1192329
    }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/vermins/exotic_cave_spider.lua",
-   "monster": "Exotic Cave Spider",
-   "item": "poison arrow",
-   "maxCount": 15,
-   "source": {
-    "version": "8.6",
-    "kills": 7263,
-    "loot_revid": 1204408
-   },
-   "from": 1
   },
   {
    "kind": "chance",
@@ -53108,19 +50209,6 @@
    }
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/vermins/giant_spider.lua",
-   "monster": "Giant Spider",
-   "item": "gold coin",
-   "maxCount": 198,
-   "source": {
-    "version": "9.5",
-    "kills": 104524,
-    "loot_revid": 1212846
-   },
-   "from": 195
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/vermins/giant_spider.lua",
    "monster": "Giant Spider",
@@ -53165,19 +50253,6 @@
    }
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/vermins/hive_overseer.lua",
-   "monster": "Hive Overseer",
-   "item": "gold coin",
-   "maxCount": 199,
-   "source": {
-    "version": "8.6",
-    "kills": 4480,
-    "loot_revid": 1210116
-   },
-   "from": 100
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/vermins/hive_overseer.lua",
    "monster": "Hive Overseer",
@@ -53220,19 +50295,6 @@
    "source": {
     "revid": 1192324
    }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/vermins/kollos.lua",
-   "monster": "Kollos",
-   "item": "gold coin",
-   "maxCount": 200,
-   "source": {
-    "version": "9.4",
-    "kills": 24360,
-    "loot_revid": 1210118
-   },
-   "from": 100
   },
   {
    "kind": "stat",
@@ -53288,19 +50350,6 @@
    "source": {
     "revid": 1192317
    }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/vermins/lancer_beetle.lua",
-   "monster": "Lancer Beetle",
-   "item": "gold coin",
-   "maxCount": 130,
-   "source": {
-    "version": "8.6",
-    "kills": 32741,
-    "loot_revid": 1209434
-   },
-   "from": 79
   },
   {
    "kind": "stat",
@@ -53686,19 +50735,6 @@
    "from": true
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/vermins/sacred_spider.lua",
-   "monster": "Sacred Spider",
-   "item": "gold coin",
-   "maxCount": 119,
-   "source": {
-    "version": "9.1",
-    "kills": 8772,
-    "loot_revid": 1204959
-   },
-   "from": 100
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/vermins/sacred_spider.lua",
    "monster": "Sacred Spider",
@@ -53765,19 +50801,6 @@
    }
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/vermins/spidris.lua",
-   "monster": "Spidris",
-   "item": "gold coin",
-   "maxCount": 200,
-   "source": {
-    "version": "9.4",
-    "kills": 25845,
-    "loot_revid": 1210119
-   },
-   "from": 100
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/vermins/spidris.lua",
    "monster": "Spidris",
@@ -53789,19 +50812,6 @@
    }
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/vermins/spidris_elite.lua",
-   "monster": "Spidris Elite",
-   "item": "gold coin",
-   "maxCount": 200,
-   "source": {
-    "version": "9.4",
-    "kills": 5843,
-    "loot_revid": 1210120
-   },
-   "from": 100
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/vermins/spidris_elite.lua",
    "monster": "Spidris Elite",
@@ -53811,19 +50821,6 @@
    "source": {
     "revid": 1192325
    }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/vermins/spitter.lua",
-   "monster": "Spitter",
-   "item": "gold coin",
-   "maxCount": 190,
-   "source": {
-    "version": "9.4",
-    "kills": 48438,
-    "loot_revid": 1210121
-   },
-   "from": 100
   },
   {
    "kind": "stat",
@@ -54764,19 +51761,6 @@
    "from": 0
   },
   {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/vermins/wailing_widow.lua",
-   "monster": "Wailing Widow",
-   "item": "gold coin",
-   "maxCount": 140,
-   "source": {
-    "version": "9.5",
-    "kills": 14421,
-    "loot_revid": 1209439
-   },
-   "from": 100
-  },
-  {
    "kind": "stat",
    "file": "data-otservbr-global/monster/vermins/wailing_widow.lua",
    "monster": "Wailing Widow",
@@ -54797,19 +51781,6 @@
    "source": {
     "revid": 1192274
    }
-  },
-  {
-   "kind": "max_count",
-   "file": "data-otservbr-global/monster/vermins/waspoid.lua",
-   "monster": "Waspoid",
-   "item": "gold coin",
-   "maxCount": 135,
-   "source": {
-    "version": "10.8",
-    "kills": 22080,
-    "loot_revid": 1212587
-   },
-   "from": 100
   },
   {
    "kind": "stat",

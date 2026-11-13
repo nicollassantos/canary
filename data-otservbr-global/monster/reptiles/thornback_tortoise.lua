@@ -75,7 +75,7 @@ monster.voices = {
 monster.loot = {
 	{ name = "white pearl", chance = 1600 },
 	{ name = "black pearl", chance = 800 },
-	{ name = "gold coin", chance = 89500, maxCount = 50 },
+	{ name = "gold coin", chance = 89500, maxCount = 48 },
 	{ name = "war hammer", chance = 260 },
 	{ id = 3578, chance = 10800, maxCount = 2 }, -- fish
 	{ name = "white mushroom", chance = 1200 },

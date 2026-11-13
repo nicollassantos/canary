@@ -83,15 +83,15 @@ monster.loot = {
 	{ name = "carrot on a stick", chance = 20 },
 	{ name = "dream blossom staff", chance = 438 },
 	{ name = "small stone", chance = 4928, maxCount = 5 },
-	{ name = "gold coin", chance = 30000, maxCount = 135 },
+	{ name = "gold coin", chance = 30000, maxCount = 100 },
 	{ id = 3049, chance = 492 }, -- stealth ring
 	{ id = 3595, chance = 19855, maxCount = 3 }, -- carrot
 	{ name = "strong health potion", chance = 12463 },
 	{ name = "orange mushroom", chance = 2689 },
 	{ name = "fern", chance = 2784 },
-	{ name = "opal", chance = 5155, maxCount = 2 },
+	{ name = "opal", chance = 5155 },
 	{ name = "shimmering beetles", chance = 10520 },
-	{ name = "rainbow quartz", chance = 5800, maxCount = 2 },
+	{ name = "rainbow quartz", chance = 5800 },
 	{ name = "small enchanted ruby", chance = 3400, maxCount = 2 },
 }
 

@@ -83,7 +83,7 @@ monster.voices = {
 monster.loot = {
 	{ name = "piggy bank", chance = 1030 },
 	{ name = "small ruby", chance = 4761, maxCount = 5 },
-	{ name = "gold coin", chance = 50000, maxCount = 255 },
+	{ name = "gold coin", chance = 50000, maxCount = 100 },
 	{ name = "gold coin", chance = 50000, maxCount = 100 },
 	{ name = "gold coin", chance = 50000, maxCount = 50 },
 	{ id = 3051, chance = 1052 }, -- energy ring

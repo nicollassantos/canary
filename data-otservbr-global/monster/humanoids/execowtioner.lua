@@ -80,7 +80,7 @@ monster.voices = {
 }
 
 monster.loot = {
-	{ id = 3031, chance = 100000, maxCount = 200 }, -- gold coin
+	{ id = 3031, chance = 100000, maxCount = 198 }, -- gold coin
 	{ id = 3035, chance = 67610, maxCount = 3 }, -- platinum coin
 	{ id = 9058, chance = 390 }, -- gold ingot
 	{ id = 5911, chance = 3230 }, -- red piece of cloth

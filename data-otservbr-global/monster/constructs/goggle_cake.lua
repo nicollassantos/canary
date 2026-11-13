@@ -80,7 +80,7 @@ monster.voices = {
 
 monster.loot = {
 	{ name = "gold coin", chance = 100000, maxCount = 100 },
-	{ name = "platinum coin", chance = 80540, maxCount = 17 },
+	{ name = "platinum coin", chance = 80540, maxCount = 10 },
 	{ name = "small enchanted sapphire", chance = 6730, maxCount = 5 },
 	{ name = "combat knife", chance = 5710 },
 	{ name = "great mana potion", chance = 5690 },
@@ -92,7 +92,7 @@ monster.loot = {
 	{ name = "churro heart", chance = 1520 },
 	{ name = "glacier amulet", chance = 1020 },
 	{ id = 3606, chance = 1000 }, -- egg
-	{ name = "milk chocolate coin", chance = 780, maxCount = 19 },
+	{ name = "milk chocolate coin", chance = 780, maxCount = 15 },
 	{ name = "flour", chance = 690 },
 	{ name = "cookie", chance = 520, maxCount = 2 },
 	{ name = "glacier robe", chance = 500 },

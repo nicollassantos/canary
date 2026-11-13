@@ -90,7 +90,7 @@ monster.loot = {
 	{ id = 2659, chance = 2560 }, -- blue tapestry
 	{ name = "small oil lamp", chance = 110 },
 	{ name = "small sapphire", chance = 6200 },
-	{ name = "gold coin", chance = 60000, maxCount = 130 },
+	{ name = "gold coin", chance = 60000, maxCount = 70 },
 	{ name = "gold coin", chance = 60000, maxCount = 30 },
 	{ name = "blue gem", chance = 110 },
 	{ name = "hailstorm rod", chance = 770 },

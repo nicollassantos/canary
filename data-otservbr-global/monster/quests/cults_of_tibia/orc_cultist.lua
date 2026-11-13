@@ -76,7 +76,7 @@ monster.voices = {
 }
 
 monster.loot = {
-	{ name = "gold coin", chance = 100000, maxCount = 217 },
+	{ name = "gold coin", chance = 100000, maxCount = 166 },
 	{ name = "strong health potion", chance = 19830 },
 	{ name = "small topaz", chance = 6002, maxCount = 3 },
 	{ name = "orcish axe", chance = 9005 },
@@ -84,7 +84,7 @@ monster.loot = {
 	{ name = "ham", chance = 7020, maxCount = 3 },
 	{ name = "orc tusk", chance = 8260, maxCount = 2 },
 	{ name = "green piece of cloth", chance = 4960 },
-	{ name = "brown crystal splinter", chance = 4960, maxCount = 2 },
+	{ name = "brown crystal splinter", chance = 4960 },
 	{ name = "berserk potion", chance = 841 },
 }
 

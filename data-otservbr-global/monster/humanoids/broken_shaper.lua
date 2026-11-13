@@ -78,7 +78,7 @@ monster.voices = {
 }
 
 monster.loot = {
-	{ id = 3031, chance = 100320, maxCount = 175 }, -- gold coin
+	{ id = 3031, chance = 100320, maxCount = 165 }, -- gold coin
 	{ id = 3035, chance = 70320, maxCount = 2 }, -- platinum coin
 	{ id = 24383, chance = 20000, maxCount = 2 }, -- cave turnip
 	{ id = 24384, chance = 17000 }, -- ancient belt buckle
@@ -87,7 +87,7 @@ monster.loot = {
 	{ id = 24390, chance = 4000 }, -- ancient coin
 	{ id = 3147, chance = 15000 }, -- blank rune
 	{ id = 3577, chance = 9629, maxCount = 2 }, -- meat
-	{ id = 5021, chance = 5000, maxCount = 3 }, -- orichalcum pearl
+	{ id = 5021, chance = 5000, maxCount = 2 }, -- orichalcum pearl
 	{ name = "rusted armor", chance = 2898 },
 	{ name = "coral brooch", chance = 1562 },
 	{ name = "white piece of cloth", chance = 1002 },

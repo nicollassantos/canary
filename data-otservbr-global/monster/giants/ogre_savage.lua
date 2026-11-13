@@ -79,13 +79,13 @@ monster.voices = {
 }
 
 monster.loot = {
-	{ id = 3031, chance = 92000, maxCount = 154 }, -- gold coin
+	{ id = 3031, chance = 92000, maxCount = 130 }, -- gold coin
 	{ id = 22193, chance = 3200, maxCount = 2 }, -- onyx chip
 	{ id = 22194, chance = 3200, maxCount = 3 }, -- opal
 	{ id = 3598, chance = 8233, maxCount = 7 }, -- cookie
 	{ id = 8016, chance = 1200, maxCount = 2 }, -- jalapeno pepper
 	{ id = 9057, chance = 1200, maxCount = 2 }, -- small topaz
-	{ id = 3030, chance = 1200, maxCount = 3 }, -- small ruby
+	{ id = 3030, chance = 1200, maxCount = 2 }, -- small ruby
 	{ id = 7439, chance = 1200 }, -- berserk potion
 	{ id = 3078, chance = 6495 }, -- mysterious fetish
 	{ id = 22188, chance = 19390 }, -- ogre ear stud

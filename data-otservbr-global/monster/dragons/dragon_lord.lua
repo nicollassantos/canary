@@ -88,7 +88,7 @@ monster.voices = {
 }
 
 monster.loot = {
-	{ name = "gold coin", chance = 95300, maxCount = 246 },
+	{ name = "gold coin", chance = 95300, maxCount = 237 },
 	{ name = "dragon ham", chance = 79790, maxCount = 2 },
 	{ name = "green mushroom", chance = 12030 },
 	{ id = 2842, chance = 9590 }, -- gemmed book

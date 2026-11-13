@@ -78,7 +78,7 @@ monster.voices = {
 monster.loot = {
 	{ id = 7368, chance = 3040, maxCount = 5 }, -- assassin star
 	{ id = 21204, chance = 19830 }, -- cowbell
-	{ id = 3031, chance = 100000, maxCount = 200 }, -- gold coin
+	{ id = 3031, chance = 100000, maxCount = 196 }, -- gold coin
 	{ id = 3582, chance = 60780 }, -- ham
 	{ id = 3577, chance = 4920 }, -- meat
 	{ id = 3035, chance = 62080, maxCount = 3 }, -- platinum coin

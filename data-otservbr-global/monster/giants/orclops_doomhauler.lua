@@ -93,7 +93,7 @@ monster.loot = {
 	{ id = 7452, chance = 1940 }, -- spiked squelcher
 	{ id = 8015, chance = 1000, maxCount = 2 }, -- onion
 	{ id = 9057, chance = 3107, maxCount = 3 }, -- small topaz
-	{ id = 16123, chance = 2407, maxCount = 2 }, -- brown crystal splinter
+	{ id = 16123, chance = 2407 }, -- brown crystal splinter
 	{ id = 17828, chance = 1418, maxCount = 3 }, -- pair of iron fists
 	{ id = 2966, chance = 910 }, -- war drum
 	{ id = 7439, chance = 910 }, -- berserk potion

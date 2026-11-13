@@ -83,8 +83,8 @@ monster.voices = {
 
 monster.loot = {
 	{ name = "book of necromantic rituals", chance = 19823 },
-	{ name = "small enchanted ruby", chance = 10000, maxCount = 14 },
-	{ name = "red crystal fragment", chance = 10000, maxCount = 8 },
+	{ name = "small enchanted ruby", chance = 10000, maxCount = 5 },
+	{ name = "red crystal fragment", chance = 10000, maxCount = 2 },
 	{ id = 3039, chance = 71347, maxCount = 3 }, -- red gem
 	{ name = "red piece of cloth", chance = 30291, maxCount = 3 },
 	{ name = "flask of demonic blood", chance = 12000, maxCount = 5 },

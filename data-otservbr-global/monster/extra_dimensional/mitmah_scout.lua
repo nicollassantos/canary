@@ -81,7 +81,7 @@ monster.voices = {
 
 monster.loot = {
 	{ name = "platinum coin", chance = 100000, maxCount = 10 },
-	{ name = "broken mitmah necklace", chance = 17180, maxCount = 2 },
+	{ name = "broken mitmah necklace", chance = 17180 },
 	{ name = "brown crystal splinter", chance = 7620 },
 	{ id = 281, chance = 7400 }, -- giant shimmering pearl
 	{ name = "green crystal splinter", chance = 6890 },

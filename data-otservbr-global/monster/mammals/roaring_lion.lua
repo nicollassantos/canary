@@ -75,7 +75,7 @@ monster.voices = {
 }
 
 monster.loot = {
-	{ id = 3031, chance = 100000, maxCount = 115 }, -- gold coin
+	{ id = 3031, chance = 100000, maxCount = 114 }, -- gold coin
 	{ id = 3577, chance = 25000 }, -- meat
 	{ id = 3582, chance = 25000 }, -- ham
 	{ id = 9691, chance = 16666 }, -- lion's mane
