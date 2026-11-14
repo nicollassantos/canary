@@ -549,8 +549,9 @@ Pendente (ordem sugerida):
 3. A* antes do intervalo de ação em "usar item (com)": medir com `[PacketWatch]` em produção
    antes de mudar, porque altera o tempo de reação do jogo.
 5. Teste manual dos highscores no cliente.
-6. Medir o custo do `packet_watch::Scope` por pacote no build de métricas (copia o nome do player
-   e registra um histograma em todo pacote).
+6. ~~Custo do `packet_watch::Scope`~~: medido em 2026-11-14 com o SDK do build de métricas
+   (`tools/bench/packet_scope_bench.cpp`): 330–390 ns por pacote (nome copiado, 3 leituras de relógio, mapa de
+   atributos, `Record` no histograma). 1000 jogadores a 25 pacotes/s ≈ 9 ms por segundo (< 1% de um núcleo): sem mudança.
 8. ~~Ofertas só para preços~~: feito (`loadBestOfferPrices`: `MAX`/`MIN(price)` agrupado por item e tier no banco, sem
    subconsulta do nome do dono; IT `BestOfferPricesAreGroupedPerItemAndTier`).
 9. ~~Mailbox~~: feito só a checagem leve de existência (escolha do usuário: opção 1, sem limite
