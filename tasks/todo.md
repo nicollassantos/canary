@@ -386,6 +386,11 @@
   - #4057 **confirmada no mapa**: a porta (32767,31525,9) é 5124 (trancada) sem aid nem uid, então nenhuma chave abre; as paredes de Tyrsung/Kilmaresh são edição de mapa: pendente de decisão
   - #3438: os soquetes do Lion's Rock são **chão** (21441/21442/21440/21437) e recebem os uids 25006–25009 pelo `TileUnique` (o `getItemTypeCount` conta o chão); conferir no smoke
   - porta do Oasis e teleports do Forgotten Knowledge já têm o aid no mapa; baús 6117/6121 não têm uid no mapa (base da 25.8)
-- [ ] **25.11** — verificação: campo/bomba, aljava, hazard, `/n`
+- [x] **25.11** — verificação no smoke (boot com data-otservbr-global e o mapa do checkout principal, sonda Lua temporária, banco descartável):
+  - #2553/#3549 hazard: **não reproduz** no boot: os 734 monstros da zona `hazard.gnomprona-gardens` têm `hazard()` e o evento `PrimalHazardDeath`; pods/patriarca dependem de chance em jogo
+  - #3059 `/n`: `Game.createNpc` funciona em tile vazio e ocupado; só nome desconhecido devolve nil, e o script diz "not enough room" (mensagem enganosa, comando de GM; não alterado)
+  - #3438 Lion's Rock: soquetes com uids 25006–25009 no boot (**não reproduz** a parte de configuração)
+  - 25.8 conferida em jogo: baús com uid 6260/6261, Combat Knife com 6117
+  - #3584/#3426 (campo/bomba) e #3745 (aljava): o teste unitário não consegue rodar `combatChangeHealth` (nota do `combat_service_test.cpp`); ficam para a sessão com client
 - [ ] **25.12** — #3374 medir e limitar o saque
 - [ ] **CHECKPOINT 25**

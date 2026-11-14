@@ -207,6 +207,9 @@ base. Cada regra vem de um defeito explorável por pacote forjado (tabela de cor
 - `cfg()` do injector é protegido. Para perguntar se há binding, use `DI::isBound`/`isBound<T>()`.
 - `Modules`/`metrics::Metrics` resolvem por binding implícito. Binding explícito esbarra em
   ciclo de include (os headers incluem `container.hpp`).
+- Log em teste: `InjectionFixture::logger()` **não** é o `InMemoryLogger` que o `g_logger()` usa (instâncias
+  diferentes). Para afirmar sobre o log, use `dynamic_cast<InMemoryLogger &>(g_logger())` e prove com um
+  controle (um teste que gera o log e o vê).
 - Testes: guarde `DI::getTestContainer()`, instale o seu com `DI::setTestContainer(...)` e, na
   desmontagem, **restaure o anterior antes de destruir o injector**. Destruir o injector ainda
   instalado já causou segfault. Funcionam dois formatos: injector por teste
@@ -693,7 +696,9 @@ Resultado atual: ver a última linha de validação no `todo.md` (CHECKPOINT 23)
 ## 7. Smoke test do servidor (banco descartável)
 
 1. Copiar `config.lua` para o scratchpad trocando `mysqlDatabase` para `"canary_smoke_<fase>"` e
-   as portas para 17171/17172 (para não colidir com outro servidor).
+   as portas para 17171/17172 (para não colidir com outro servidor). Para o smoke de login 8.60, fixe
+   **as duas** portas legadas (`legacy860GameProtocolPort` e `legacy1100GameProtocolPort`): com uma delas
+   em 0, as duas caem na mesma porta e o login 8.60 é fechado sem log (comportamento de conexão do 11.00).
 2. Senha em arquivo `600`; `MYSQL_PWD` via env; nunca ecoar a senha.
 3. `docker exec -e MYSQL_PWD mysql mysql -uroot -e "CREATE DATABASE canary_smoke_<fase>;"` e
    importar `schema.sql`.
