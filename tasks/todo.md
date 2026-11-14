@@ -353,7 +353,7 @@
 ## Adiado em 2026-11-13 (pedido do usuário: "salve essas pendências para depois")
 
 - **Datapack (24.7f):** recontar os grupos depois da 24.7m (os 233 aumentos de `maxCount` desfeitos entram em "estatística antiga"); depois baú de recompensa (converter a chance do wiki para a chance base por participante), sem identidade, estatística antiga sem confirmação + dinheiro antigo, grupos pequenos
-- **Phase 23:** itens 0 (sessão com client real no build de métricas: bloqueia produção), 2, 3 e 5 do §6d do `tasks/AGENTS.md` (o 8 foi feito em 2026-11-14: `loadBestOfferPrices`; o 6 foi medido: 330–390 ns por pacote, sem mudança)
+- **Phase 23:** itens 0 (sessão com client real no build de métricas: bloqueia produção), 3 e 5 do §6d do `tasks/AGENTS.md` (o 8 foi feito em 2026-11-14: `loadBestOfferPrices`; o 6 foi medido: 330–390 ns por pacote, sem mudança; o 2 virou pool de conexões assíncronas + retry de deadlock)
 - **Produção (com o usuário):** hotfix do store em Lua = `git diff 89799b1b2^ 89799b1b2 -- data/libs/gamestore/parsers.lua` (aplica no `parsers.lua` do upstream); `metricsPrometheusAddress = "127.0.0.1:9464"` ou firewall
 - **Upstream:** último merge com base `666a60f6f` (2026-11-05); `git fetch` e conferir commits novos antes do próximo merge
 
