@@ -320,7 +320,7 @@
   - Sobras: módulos Lua por recvbyte (`data/modules`) e SQL em Lua (o grep só pegou concatenações numéricas; não verificado). `ProtocolStatus` lido: intervalo por IP (`statusTimeout`), localhost e o IP configurado isentos
   - Commits intermediários (`7fce8c9f2`, `35791bb1f`, `7b7835968`, `e56d5ace7`) não foram compilados isolados; o build e os testes valem para a ponta
   - Validação: ut 1017/1017, it 91/91, preset de métricas ok, `syntax_check` 0 erros, smoke do login com boot completo (online em 6 s, exit 0, sem erro de Lua), banco descartável apagado
-- [ ] **CHECKPOINT 23** — parada em ponto estável em 2026-11-12, retomada na 23.5 em 2026-11-13 (pendências em `tasks/AGENTS.md` §6d); 1017/1017 + 91/91, preset de métricas ok
+- [ ] **CHECKPOINT 23** — parada em ponto estável em 2026-11-12, retomada na 23.5 em 2026-11-13 (pendências em `tasks/AGENTS.md` §6d); 1024/1024 + 95/95, preset de métricas ok
 
 ## Phase 24 — datapack a partir do TibiaWiki (aberta em 2026-11-12; plano em `tasks/plan.md`)
 
