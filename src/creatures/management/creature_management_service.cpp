@@ -8,6 +8,7 @@
 #include "creatures/players/player.hpp"
 #include "enums/account_errors.hpp"
 #include "game/game.hpp"
+#include "game/zones/zone.hpp"
 #include "io/iologindata.hpp"
 #include "lib/metrics/metrics.hpp"
 #include "map/spectators.hpp"
@@ -239,7 +240,17 @@ bool CreatureManagementService::internalPlaceCreature(const std::shared_ptr<Crea
 		game_.addCreatureCheck(creature);
 		creature->onPlacedCreature();
 	}
-	game_.afterCreatureZoneChange(creature, {}, toZones);
+	// A player is placed only when it logs in, and its own client learns about it in placeCreature
+	// (sendCreatureAppear). It joins its zones now, but the zone callbacks wait until then: one that
+	// changes the player (speed, outfit) earlier sends the client a packet about a creature it does not
+	// know, and the client closes (issue #3513).
+	if (creature->getPlayer()) {
+		for (const auto &zone : toZones) {
+			zone->creatureAdded(creature);
+		}
+	} else {
+		game_.afterCreatureZoneChange(creature, {}, toZones);
+	}
 	return true;
 }
 
@@ -267,6 +278,12 @@ bool CreatureManagementService::placeCreature(const std::shared_ptr<Creature> &c
 		parent->postAddNotification(creature, nullptr, 0);
 	}
 	creature->onPlacedCreature();
+	// Zone callbacks deferred by internalPlaceCreature (re-adding to a zone is a no-op).
+	if (creature->getPlayer() && !creature->isRemoved()) {
+		if (const auto &tile = creature->getTile()) {
+			game_.afterCreatureZoneChange(creature, {}, tile->getZones());
+		}
+	}
 	return true;
 }
 

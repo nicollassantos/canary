@@ -378,7 +378,7 @@
 - [x] **25.4** — #4125 reset de charm (ação 3) sem leitura além do pacote; 3 testes `CharmRuneParseTest` (controle de que o log é visto, reset, atribuição lê os campos); controle negativo: sem a correção o teste do reset falha. Achado: no teste, o `InjectionFixture::logger()` não é o `InMemoryLogger` que o `g_logger()` usa (instâncias diferentes); use `dynamic_cast<InMemoryLogger &>(g_logger())`
 - [x] **25.5** — #3478 freequests: harness `tools/lua/freequests_check.lua` roda o freequests num player falso e confere cada storage contra o catálogo do questlog; achou 5 (os 2 relatados + Factions sem início e Grave Danger 14 numa missão 1..2, o `46851` citado no relato); upstream falha 5, branch passa
 - [x] **25.6** — #3453 porta do Oasis: storage 12107 para quem acha a cenoura; `[12107]` duplicada unificada com `itemId` por posição no `loadLuaMapAction`; harness `tools/lua/oasis_door_check.lua` (branch passa, upstream falha 4: alavancas sem aid pela tabela e player devolvido; o `.otbm` atual já dá o aid às alavancas, então em jogo o defeito real era só o storage)
-- [ ] **25.7** — #3513 callbacks de zona depois da entrada do player
+- [x] **25.7** — #3513: no login do player, a entrada nas zonas continua imediata e só os callbacks de zona esperam o `sendCreatureAppear` (fim do `placeCreature`); monstro/NPC sem mudança. Sem teste dedicado; ut 1020/1020, it 90/90; smoke de login no CHECKPOINT
 - [ ] **25.8** — chaves duplicadas no startup + check
 - [ ] **25.9** — #3742 saldo do store; #2083 preços aos online
 - [ ] **25.10** — varredura do mapa (#4091, #4057, #3438)
