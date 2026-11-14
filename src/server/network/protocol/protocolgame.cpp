@@ -2732,6 +2732,13 @@ void ProtocolGame::parseSendBuyCharmRune(NetworkMessage &msg) {
 	}
 
 	uint8_t action = msg.getByte();
+	// Resetting every charm (action 3) sends only the action byte; reading the other fields logged
+	// "Not enough data" on each reset (issue #4125).
+	if (action == 3) {
+		g_iobestiary().sendBuyCharmRune(player, action, CHARM_NONE, 0);
+		return;
+	}
+
 	auto charmId = static_cast<charmRune_t>(msg.getByte());
 	uint16_t raceId = msg.get<uint16_t>();
 	g_iobestiary().sendBuyCharmRune(player, action, charmId, raceId);

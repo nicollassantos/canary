@@ -628,6 +628,7 @@ private:
 	friend class PlayerStashComponent;
 	friend class SkillAdvanceGameEventTest;
 	friend class LoginErrorPacketTest;
+	friend class CharmRuneParseTest;
 	friend class PlayerWheel;
 	friend class PlayerVIP;
 	friend class PlayerAttachedEffects;

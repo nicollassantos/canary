@@ -17,6 +17,7 @@
 #include "server/network/protocol/protocol_profile.hpp"
 #include "server/network/protocol/protocol_session_hint.hpp"
 #include "server/network/protocol/transport_codec.hpp"
+
 #include "server/network/message/networkmessage.hpp"
 #include "server/network/message/outputmessage.hpp"
 #include "utils/tools.hpp"
@@ -232,6 +233,88 @@ TEST_F(LoginErrorPacketTest, OldProtocolProfilesGetOnlyTheText) {
 		EXPECT_EQ("Banned.", msg.getString());
 		EXPECT_EQ(0U, msg.getUnreadBytes());
 	}
+}
+
+// Issue #4125: resetting all charms (action 3) sends only the action byte.
+class CharmRuneParseTest : public ::testing::Test {
+protected:
+	void SetUp() override {
+		previousInjector = DI::getTestContainer();
+		injection = std::make_unique<InjectionFixture>();
+		auto &items = Item::items.getItems();
+		originalItemCount = items.size();
+		if (items.empty()) {
+			// The player constructor creates an inbox and needs a fallback item type.
+			items.emplace_back();
+		}
+		protocol = std::make_shared<ProtocolGame>(nullptr);
+		player = std::make_shared<Player>(protocol);
+		player->setGroup(std::make_shared<Group>());
+		protocol->player = player;
+		protocol->oldProtocol = false;
+		logs().reset();
+	}
+
+	void TearDown() override {
+		protocol->player.reset();
+		player.reset();
+		protocol.reset();
+		Item::items.getItems().resize(originalItemCount);
+		const bool previousShutdown = LuaEnvironment::shuttingDown;
+		LuaEnvironment::shuttingDown = true;
+		DI::setTestContainer(previousInjector);
+		injection.reset();
+		LuaEnvironment::shuttingDown = previousShutdown;
+	}
+
+	std::size_t parse(std::initializer_list<uint8_t> bytes) const {
+		NetworkMessage msg;
+		for (const auto byte : bytes) {
+			msg.addByte(byte);
+		}
+		msg.setBufferPosition(NetworkMessage::INITIAL_BUFFER_POSITION);
+		protocol->parseSendBuyCharmRune(msg);
+		return msg.getUnreadBytes();
+	}
+
+	// g_logger() resolves the test container's InMemoryLogger; InjectionFixture::logger() is another instance.
+	static InMemoryLogger &logs() {
+		return dynamic_cast<InMemoryLogger &>(g_logger());
+	}
+
+	[[nodiscard]] static bool loggedReadPastTheEnd() {
+		for (const auto &[level, message] : logs().logs) {
+			if (message.find("Not enough data") != std::string::npos) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	std::shared_ptr<ProtocolGame> protocol;
+	std::shared_ptr<Player> player;
+
+private:
+	di::extension::injector<>* previousInjector = nullptr;
+	std::unique_ptr<InjectionFixture> injection;
+	std::size_t originalItemCount = 0;
+};
+
+TEST_F(CharmRuneParseTest, FixtureSeesAReadPastTheEnd) {
+	NetworkMessage msg;
+	msg.setBufferPosition(NetworkMessage::INITIAL_BUFFER_POSITION);
+	msg.getByte();
+	EXPECT_TRUE(loggedReadPastTheEnd());
+}
+
+TEST_F(CharmRuneParseTest, ResetAllSendsOnlyTheActionByte) {
+	EXPECT_EQ(0U, parse({ 3 }));
+	EXPECT_FALSE(loggedReadPastTheEnd());
+}
+
+TEST_F(CharmRuneParseTest, AssigningACreatureStillReadsCharmAndRace) {
+	EXPECT_EQ(0U, parse({ 1, 0, 0x34, 0x12 }));
+	EXPECT_FALSE(loggedReadPastTheEnd());
 }
 
 TEST(ProtocolProfileRegistryTest, Version860ProfilesAreDifferentProfiles) {
