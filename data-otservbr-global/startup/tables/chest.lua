@@ -1178,8 +1178,8 @@ ChestUnique = {
 		reward = { { 3358, 1 } }, -- Chain Armor
 		questName = "bearChest3",
 	},
-	-- Captain Iglues Treasure Quest
-	[6117] = {
+	-- Captain Iglues Treasure Quest (6117 is the Combat Knife chest)
+	[6260] = {
 		useKV = true,
 		itemId = 2472,
 		itemPos = { x = 32039, y = 32121, z = 13 },
@@ -1221,7 +1221,8 @@ ChestUnique = {
 		reward = { { 3483, 1 } }, -- fishing rod
 		questName = "minohell1",
 	},
-	[6121] = {
+	-- 6121 is the next chest (carlin sword)
+	[6261] = {
 		useKV = true,
 		itemId = 2473,
 		itemPos = { x = 32127, y = 32065, z = 12 },
