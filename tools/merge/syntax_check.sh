@@ -9,7 +9,10 @@ set -euo pipefail
 build_dir=$1
 shift
 root=$(git rev-parse --show-toplevel)
-command=$(cd "$build_dir" && ninja -t commands canary_core | grep -m1 'Unity/unity_.*_cxx\.cxx')
+# Read the whole list first: with pipefail, `grep -m1` closing the pipe made ninja die of SIGPIPE
+# and the script exit 141 without checking anything.
+commands=$(cd "$build_dir" && ninja -t commands canary_core)
+command=$(grep -m1 'Unity/unity_.*_cxx\.cxx' <<<"$commands")
 compiler=${command%% *}
 flags=$(sed -E 's| -o [^ ]+||; s| -c [^ ]+||; s| -MD||; s| -MT [^ ]+||; s| -MF [^ ]+||' <<<"${command#* }")
 
