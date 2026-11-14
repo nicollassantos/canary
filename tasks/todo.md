@@ -357,6 +357,13 @@
 - **Produção (com o usuário):** hotfix do store em Lua = `git diff 89799b1b2^ 89799b1b2 -- data/libs/gamestore/parsers.lua` (aplica no `parsers.lua` do upstream); `metricsPrometheusAddress = "127.0.0.1:9464"` ou firewall
 - **Upstream:** último merge com base `666a60f6f` (2026-11-05); `git fetch` e conferir commits novos antes do próximo merge
 
+## Phase 25 — massa de teste e swarm de bots (aberta em 2026-11-14; plano em `tasks/plan.md`)
+
+- [ ] **25.1** — Cliente 15.25 em Python (login moderno, framing, XTEA, keepalive)
+- [ ] **25.2** — Gerador da massa (200 personagens: níveis, vocações, templos e áreas de caça)
+- [ ] **25.3** — Swarm (perfis, ritmo, IPs 127.0.0.x, relatório, scrape do `/metrics`)
+- [ ] **25.4** — Rodada de carga no build de métricas e relatório
+
 ### Achados do bot de ataque (`/home/nicollas/teste/proxy-bot`, lido sem executar) — próximas tasks da 23
 - **Stresser**: 1024 goroutines numa conexão; modos `pathfinder` (usar item com moeda → posição distante fixa, força pathfinding), `outfit` (`0xD2` + `0xD3` em laço; resposta grande para pedido pequeno), `walk`/`leftright`, `follow` (seguir/cancelar alternado).
 - **Leitor lento** ("server throttling" do bot): lê a saída do servidor devagar. `Connection::messageQueue` **não tem teto** e o timeout de escrita (30s) vale por escrita, então um gotejamento nunca estoura → fila e memória crescem. Corrigir: teto por conexão (bytes/mensagens) + desconexão + métrica.

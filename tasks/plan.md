@@ -602,3 +602,26 @@ Pedido do usuário (2026-11-12): depois do hardening, vasculhar o TibiaWiki em b
 - **24.2** — Revisão do relatório pelo usuário. Nada é removido automaticamente (drops de evento, quest e do fork são legítimos); o wiki é editável por qualquer um, então revids fixos e limites para saltos grandes.
 - **24.3** — Decidir com o usuário a estratégia de merge antes do primeiro lote (o upstream reescreve esses blocos de loot): de preferência um `--apply` idempotente que reaplica as correções sobre a versão do upstream. Registrar no §5b.
 - **24.4** — Lotes pequenos de correção, com carga do datapack e smoke a cada lote.
+
+## Phase 25 (aberta em 2026-11-14): massa de teste e swarm de bots
+
+Pedido do usuário: várias contas e personagens em níveis e lugares diferentes, e um swarm de bots, para testar o
+servidor antes da sessão com client real (pendências 0, 3 e 5 do §6d). Decisões: 200 personagens (50 contas × 4),
+100 bots online; níveis 8–600 com mais gente em 8–150, vocações variadas, metade em templos e metade em áreas de
+caça compatíveis com o nível; protocolo 15.25 já nesta fase.
+
+- **Só ambiente descartável:** a massa vai para um banco `canary_loadtest_*` (nunca o banco do usuário), o servidor
+  roda com config copiada para o scratchpad; o swarm só conecta em endereços de loopback (127.0.0.0/8) e cada
+  grupo de bots sai de um `127.0.0.x` diferente, para respeitar os limites por IP em vez de afrouxá-los. Nada do
+  repo `proxy-bot` é usado.
+- **25.1** — Cliente 15.25 em Python (só biblioteca padrão): desafio moderno, primeira mensagem com RSA (sessão
+  `conta\nsenha` com `authType = "password"`), framing moderno (blocos de 8, sequência, padding, XTEA), keepalive
+  `0x1E`; a saída do servidor é só drenada (sem parsear o mapa). Provado com um bot logando e ficando online.
+- **25.2** — Gerador da massa (`tools/loadtest/seed.py`): contas, personagens com nível/HP/mana/cap/skills coerentes,
+  saldo, corda no slot de munição (para o "usar item com" a distância), posições dos templos (lidas do `.otbm`) e de
+  centros de spawn (`otservbr-monster.xml`) compatíveis com o nível.
+- **25.3** — Swarm (`tools/loadtest/swarm.py`): perfis (caçador com magias de área, andarilho, falador, comerciante
+  de banco/talkaction, quem relogga, A* do "usar item com" a distância, pacotes do protocolo atual: digitando,
+  quick loot, proficiência, highscores), ritmo humano, relatório e scrape do `/metrics`.
+- **25.4** — Rodada de carga no build de métricas com banco descartável; relatório (latência por pacote, pacotes
+  lentos, `query_latency`, pool de conexões, custo do A*).
