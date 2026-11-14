@@ -381,7 +381,11 @@
 - [x] **25.7** — #3513: no login do player, a entrada nas zonas continua imediata e só os callbacks de zona esperam o `sendCreatureAppear` (fim do `placeCreature`); monstro/NPC sem mudança. Sem teste dedicado; ut 1020/1020, it 90/90; smoke de login no CHECKPOINT
 - [x] **25.8** — chaves repetidas: `tools/datapack/duplicate_keys_check.py` (ignora comentários, strings e `t[1] = x`; 5 testes) acha 17 no upstream e 0 na branch em 3023 arquivos Lua. Perdas reais: baús do Captain Iglue's Treasure e do Minotaur Hell sem unique id (novos `[6260]`/`[6261]`, livres no mapa); teleports do Forgotten Knowledge e porta do Oasis já têm o aid no `.otbm` (só consistência)
 - [ ] **25.9** — #3742 saldo do store; #2083 preços aos online
-- [ ] **25.10** — varredura do mapa (#4091, #4057, #3438)
+- [x] **25.10** — varredura do `otservbr.otbm` do checkout principal (só leitura; 5.879.425 itens, 2632 com aid/uid; script no scratchpad, não versionado):
+  - #4091 **confirmada no mapa**: os baús da Inquisition são 9 (uids 1300–1308, de x=32314 a 32330, y=32245, z=9); não há baú nem uid 1309. Corrigir exige pôr um baú no mapa (ou criar no boot) numa posição que não conferimos com o jogo oficial: pendente de decisão
+  - #4057 **confirmada no mapa**: a porta (32767,31525,9) é 5124 (trancada) sem aid nem uid, então nenhuma chave abre; as paredes de Tyrsung/Kilmaresh são edição de mapa: pendente de decisão
+  - #3438: os soquetes do Lion's Rock são **chão** (21441/21442/21440/21437) e recebem os uids 25006–25009 pelo `TileUnique` (o `getItemTypeCount` conta o chão); conferir no smoke
+  - porta do Oasis e teleports do Forgotten Knowledge já têm o aid no mapa; baús 6117/6121 não têm uid no mapa (base da 25.8)
 - [ ] **25.11** — verificação: campo/bomba, aljava, hazard, `/n`
 - [ ] **25.12** — #3374 medir e limitar o saque
 - [ ] **CHECKPOINT 25**
