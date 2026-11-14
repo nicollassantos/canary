@@ -61,6 +61,29 @@ namespace {
 		);
 	}
 
+	std::string bestOfferPricesQuery(MarketAction_t action) {
+		return fmt::format(
+			"SELECT `itemtype`, `tier`, {}(`price`) AS `price` FROM `market_offers` WHERE `sale` = {} GROUP BY `itemtype`, `tier`",
+			action == MARKETACTION_BUY ? "MAX" : "MIN", action
+		);
+	}
+
+	MarketOfferList readBestOfferPrices(const DBResult_ptr &result, int32_t maxTier) {
+		MarketOfferList offerList;
+		if (!result) {
+			return offerList;
+		}
+
+		do {
+			MarketOffer offer;
+			offer.itemId = result->getNumber<uint16_t>("itemtype");
+			offer.price = result->getNumber<uint64_t>("price");
+			offer.tier = getTierFromDatabaseTable(result->getString("tier"), maxTier);
+			offerList.push_back(offer);
+		} while (result->next());
+		return offerList;
+	}
+
 	MarketOfferList readActiveOffers(const DBResult_ptr &result, int32_t marketOfferDuration, int32_t maxTier) {
 		MarketOfferList offerList;
 		if (!result) {
@@ -124,13 +147,16 @@ MarketOfferList MarketRepositoryDB::getActiveOffers(MarketAction_t action) {
 	return readActiveOffers(db_.storeQuery(activeOffersQuery(action)), config_.getNumber(MARKET_OFFER_DURATION), config_.getNumber(FORGE_MAX_ITEM_TIER));
 }
 
-void MarketRepositoryDB::loadActiveOffers(MarketAction_t action, std::function<void(MarketOfferList)> onLoaded) {
+void MarketRepositoryDB::loadBestOfferPrices(MarketAction_t action, std::function<void(MarketOfferList)> onLoaded) {
 	// The callback outlives this call; it captures values only.
-	const int32_t marketOfferDuration = config_.getNumber(MARKET_OFFER_DURATION);
 	const int32_t maxTier = config_.getNumber(FORGE_MAX_ITEM_TIER);
-	g_databaseTasks().store(activeOffersQuery(action), [marketOfferDuration, maxTier, onLoaded = std::move(onLoaded)](const DBResult_ptr &result, bool) {
-		onLoaded(readActiveOffers(result, marketOfferDuration, maxTier));
+	g_databaseTasks().store(bestOfferPricesQuery(action), [maxTier, onLoaded = std::move(onLoaded)](const DBResult_ptr &result, bool) {
+		onLoaded(readBestOfferPrices(result, maxTier));
 	});
+}
+
+MarketOfferList MarketRepositoryDB::getBestOfferPrices(MarketAction_t action) {
+	return readBestOfferPrices(db_.storeQuery(bestOfferPricesQuery(action)), config_.getNumber(FORGE_MAX_ITEM_TIER));
 }
 
 MarketOfferList MarketRepositoryDB::getActiveOffers(MarketAction_t action, uint16_t itemId, uint8_t tier) {

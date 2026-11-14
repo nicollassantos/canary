@@ -226,8 +226,26 @@ public:
 		saleStatistics = std::move(sale);
 	}
 
-	void loadActiveOffers(MarketAction_t action, std::function<void(MarketOfferList)> onLoaded) override {
-		onLoaded(getActiveOffers(action));
+	void loadBestOfferPrices(MarketAction_t action, std::function<void(MarketOfferList)> onLoaded) override {
+		std::map<std::pair<uint16_t, uint8_t>, uint64_t> best;
+		for (const auto &offer : getActiveOffers(action)) {
+			const auto key = std::make_pair(offer.itemId, offer.tier);
+			const auto it = best.find(key);
+			if (it == best.end()) {
+				best.emplace(key, offer.price);
+			} else {
+				it->second = action == MARKETACTION_BUY ? std::max(it->second, offer.price) : std::min(it->second, offer.price);
+			}
+		}
+		MarketOfferList grouped;
+		for (const auto &[key, price] : best) {
+			MarketOffer offer;
+			offer.itemId = key.first;
+			offer.tier = key.second;
+			offer.price = price;
+			grouped.push_back(offer);
+		}
+		onLoaded(grouped);
 	}
 
 	StatisticsMap getPurchaseStatistics() const override {

@@ -322,7 +322,7 @@ o lado do upstream: `git archive <base> data-otservbr-global/monster` numa pasta
 | `game.cpp` `Game::updatePlayersOnline` | `CyclopediaService::updatePlayersOnline` (monta a lista de GUIDs) e `PlayerRepositoryDB::updateOnlinePlayers` (SQL) | manual: corpo dividido (README, "split between a service and an adapter") |
 | `game.cpp` highscores: `generateHighscoreQuery`, `generateVocationConditionHighscore`, `cacheQueryHighscore`, `generateHighscoreOrGetCachedQueryFor*`, `queryCache` | `src/io/highscore_repository_db.cpp` (`HighscoreRepositoryDB`, mesmos nomes) | `moved_merge.py` casa por nome (adapter no comando do `game.cpp`); `QueryHighscoreCacheEntry`/`queryCache` e os delegates privados saíram do `game.hpp` |
 | `game.cpp` `Game::playerHighscores` e `Game::processHighscoreResults` | `HighscoreService` (pedido, task assíncrona, cache de resultado, envio) e `HighscoreRepositoryDB` (query, parse) | manual: corpo dividido (README) |
-| `game.cpp` `Game::loadItemsPrice` | `Game::loadItemsPrice` (encadeia `loadStatistics` → `setStatistics` → `loadActiveOffers`, fora do loop do jogo) e `Game::rebuildItemsPrice` (laços de média e máximo); SQL em `MarketRepositoryDB` | manual: corpo dividido (README); `game.hpp` ganhou `rebuildItemsPrice` e o include de `io/market_repository.hpp` |
+| `game.cpp` `Game::loadItemsPrice` | `Game::loadItemsPrice` (encadeia `loadStatistics` → `setStatistics` → `loadBestOfferPrices`, fora do loop do jogo; o banco devolve só o melhor preço por item e tier) e `Game::rebuildItemsPrice` (laços de média e máximo); SQL em `MarketRepositoryDB` | manual: corpo dividido (README); `game.hpp` ganhou `rebuildItemsPrice` e o include de `io/market_repository.hpp` |
 | `src/canary_server.cpp`: parsing de `worldType` | `src/game/world_type_config.cpp` (`world_type_config::parse`) | se o upstream mudar nomes de world type, atualizar o parse e `world_type_config_test.cpp`; manter `"open-pvp"` |
 | `src/creatures/players/components/pvp/expert_pvp.cpp` | mesmo arquivo, com `g_game()`/config → `world()` (`ExpertPvpWorld`) | merge normal; manter `world().` nas linhas tocadas |
 
@@ -551,8 +551,8 @@ Pendente (ordem sugerida):
 5. Teste manual dos highscores no cliente.
 6. Medir o custo do `packet_watch::Scope` por pacote no build de métricas (copia o nome do player
    e registra um histograma em todo pacote).
-8. A consulta de ofertas usada só para preços (`loadActiveOffers`) ainda traz o nome do dono por
-   subconsulta; `rebuildItemsPrice` só precisa de item, tier e preço.
+8. ~~Ofertas só para preços~~: feito (`loadBestOfferPrices`: `MAX`/`MIN(price)` agrupado por item e tier no banco, sem
+   subconsulta do nome do dono; IT `BestOfferPricesAreGroupedPerItemAndTier`).
 9. ~~Mailbox~~: feito só a checagem leve de existência (escolha do usuário: opção 1, sem limite
    por remetente). Entrega a offline existente ainda custa load + save síncrono; se o
    `[PacketWatch]` mostrar abuso em produção, reavaliar o limite.

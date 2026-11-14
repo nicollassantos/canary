@@ -626,7 +626,7 @@ void Game::loadItemsPrice() {
 		if (loaded) {
 			g_marketRepository().setStatistics(std::move(purchase), std::move(sale));
 		}
-		g_marketRepository().loadActiveOffers(MARKETACTION_BUY, [](MarketOfferList buyOffers) {
+		g_marketRepository().loadBestOfferPrices(MARKETACTION_BUY, [](MarketOfferList buyOffers) {
 			g_game().rebuildItemsPrice(g_marketRepository().getPurchaseStatistics(), buyOffers);
 		});
 	});

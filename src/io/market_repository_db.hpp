@@ -45,7 +45,9 @@ public:
 	void updateStatistics() override;
 	void loadStatistics(std::function<void(bool loaded, StatisticsMap purchase, StatisticsMap sale)> onLoaded) override;
 	void setStatistics(StatisticsMap purchase, StatisticsMap sale) override;
-	void loadActiveOffers(MarketAction_t action, std::function<void(MarketOfferList)> onLoaded) override;
+	void loadBestOfferPrices(MarketAction_t action, std::function<void(MarketOfferList)> onLoaded) override;
+	/// Synchronous form of loadBestOfferPrices (same query and parsing), for the integration test.
+	[[nodiscard]] MarketOfferList getBestOfferPrices(MarketAction_t action);
 	[[nodiscard]] StatisticsMap getPurchaseStatistics() const override;
 	[[nodiscard]] StatisticsMap getSaleStatistics() const override;
 	[[nodiscard]] StatisticsSnapshot getStatistics(uint16_t itemId, uint8_t tier) const override;
