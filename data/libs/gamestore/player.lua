@@ -200,10 +200,14 @@ local function canRemoveCoins(self, coins)
 	return self:getTibiaCoins() >= coins
 end
 
+-- The balance goes to the client after the coins leave: sending it first showed the old balance.
 local function removeCoinsBalance(self, coins)
 	if self:canRemoveCoins(coins) then
-		sendStoreBalanceUpdating(self:getId(), true)
-		return self:removeTibiaCoins(coins) == true
+		local removed = self:removeTibiaCoins(coins) == true
+		if removed then
+			sendStoreBalanceUpdating(self:getId(), true)
+		end
+		return removed
 	end
 
 	return false
@@ -223,8 +227,11 @@ end
 
 local function removeTransferableCoinsBalance(self, coins)
 	if self:canRemoveTransferableCoins(coins) then
-		sendStoreBalanceUpdating(self:getId(), true)
-		return self:removeTransferableCoins(coins) == true
+		local removed = self:removeTransferableCoins(coins) == true
+		if removed then
+			sendStoreBalanceUpdating(self:getId(), true)
+		end
+		return removed
 	end
 
 	return false

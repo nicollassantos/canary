@@ -75,6 +75,20 @@ TEST_F(ItemsPriceTest, LowerBuyOfferKeepsTheAverage) {
 	EXPECT_EQ(150U, game.getItemsPrice().at(100).at(0));
 }
 
+// Online players get the list again only when a price changed (issue #2083).
+TEST_F(ItemsPriceTest, RebuildReportsWhetherAPriceChanged) {
+	IMarketRepository::StatisticsMap purchase;
+	purchase[63001][0] = accepted(2, 300);
+
+	EXPECT_TRUE(game.rebuildItemsPrice(purchase, {}));
+	EXPECT_FALSE(game.rebuildItemsPrice(purchase, {}));
+
+	purchase[63001][0] = accepted(3, 300);
+	EXPECT_TRUE(game.rebuildItemsPrice(purchase, {}));
+	EXPECT_TRUE(game.rebuildItemsPrice(purchase, { buyOffer(63002, 10) }));
+	EXPECT_FALSE(game.rebuildItemsPrice(purchase, { buyOffer(63002, 10) }));
+}
+
 // The refresh reads both inputs through the repository port (asynchronously in production).
 TEST_F(ItemsPriceTest, RefreshUsesTheRepositoryStatisticsAndOffers) {
 	auto &market = dynamic_cast<InMemoryMarketRepository &>(IMarketRepository::getInstance());

@@ -565,7 +565,8 @@ public:
 
 	void loadItemsPrice();
 	/// Average price of accepted purchases per item/tier, raised to the best active buy offer.
-	void rebuildItemsPrice(const IMarketRepository::StatisticsMap &purchaseStatistics, const MarketOfferList &buyOffers);
+	/// Returns whether any price changed.
+	bool rebuildItemsPrice(const IMarketRepository::StatisticsMap &purchaseStatistics, const MarketOfferList &buyOffers);
 
 	void loadMotdNum();
 	void saveMotdNum() const;

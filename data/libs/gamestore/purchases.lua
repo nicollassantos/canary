@@ -4,7 +4,6 @@ local purchases = {}
 
 local sendStorePurchaseSuccessful = senders.sendStorePurchaseSuccessful
 local sendRequestPurchaseData = senders.sendRequestPurchaseData
-local sendUpdatedStoreBalances = senders.sendUpdatedStoreBalances
 
 local function processItemPurchase(player, offerId, offerCount, movable, setOwner)
 	local canReceive, errorMsg = player:canReceiveStoreItems(offerId, offerCount)
@@ -350,7 +349,6 @@ local function HandleHirelingNameChange(playerId, offer, newHirelingName)
 			lamp:setAttribute(ITEM_ATTRIBUTE_DESCRIPTION, "This mysterious lamp summons your very own personal hireling.\nThis item cannot be traded.\nThis magic lamp is the home of " .. hireling:getName() .. ".")
 		end
 		logger.debug("{} has been renamed to {}", oldName, hireling.name)
-		sendUpdatedStoreBalances(playerIdInFunction)
 	end
 
 	player:sendHirelingSelectionModal("Choose a Hireling", "Select a hireling below", functionCallback, { offer = offer, newHirelingName = newHirelingName })
@@ -422,7 +420,6 @@ local function HandleHirelingSexChange(playerId, offer)
 		hireling.looktype = lookType
 
 		logger.debug("{} sex was changed to {}", hireling:getName(), sexString)
-		sendUpdatedStoreBalances(playerIdInFunction)
 	end
 
 	player:sendHirelingSelectionModal("Choose a Hireling", "Select a hireling below", functionCallback, { offer = offer })

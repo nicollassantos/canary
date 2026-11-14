@@ -627,12 +627,21 @@ void Game::loadItemsPrice() {
 			g_marketRepository().setStatistics(std::move(purchase), std::move(sale));
 		}
 		g_marketRepository().loadActiveOffers(MARKETACTION_BUY, [](MarketOfferList buyOffers) {
-			g_game().rebuildItemsPrice(g_marketRepository().getPurchaseStatistics(), buyOffers);
+			if (!g_game().rebuildItemsPrice(g_marketRepository().getPurchaseStatistics(), buyOffers)) {
+				return;
+			}
+			// The client keeps the price list it got at login (Cyclopedia item value); online players
+			// only see a refresh when it is sent again (issue #2083).
+			for (const auto &[_, player] : g_game().getPlayers()) {
+				player->sendItemsPrice();
+			}
 		});
 	});
 }
 
-void Game::rebuildItemsPrice(const IMarketRepository::StatisticsMap &stats, const MarketOfferList &offers) {
+bool Game::rebuildItemsPrice(const IMarketRepository::StatisticsMap &stats, const MarketOfferList &offers) {
+	const auto previous = itemsPriceMap;
+
 	// Update purchased offers (market_history)
 	for (const auto &[itemId, itemStats] : stats) {
 		std::map<uint8_t, uint64_t> tierToPrice;
@@ -647,6 +656,7 @@ void Game::rebuildItemsPrice(const IMarketRepository::StatisticsMap &stats, cons
 	for (const auto &offer : offers) {
 		itemsPriceMap[offer.itemId][offer.tier] = std::max(itemsPriceMap[offer.itemId][offer.tier], offer.price);
 	}
+	return itemsPriceMap != previous;
 }
 
 void Game::loadMainMap(const std::string &filename) {

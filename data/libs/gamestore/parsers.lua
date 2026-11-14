@@ -8,7 +8,6 @@ local sendShowStoreOffers = senders.sendShowStoreOffers
 local sendShowStoreOffersOnOldProtocol = senders.sendShowStoreOffersOnOldProtocol
 local sendStoreError = senders.sendStoreError
 local sendStorePurchaseSuccessful = senders.sendStorePurchaseSuccessful
-local sendUpdatedStoreBalances = senders.sendUpdatedStoreBalances
 local sendStoreTransactionHistory = senders.sendStoreTransactionHistory
 local sendHomePage = senders.sendHomePage
 
@@ -413,8 +412,8 @@ local function parseBuyStoreOffer(playerId, msg)
 			return player:showInfoModal("Error", "Purchase transaction error")
 		end
 
+		-- makeCoinTransaction already sent the new balance.
 		local message = string.format("You have purchased %s for %d coins.", offer.name, offerPrice)
-		sendUpdatedStoreBalances(playerId)
 		return addPlayerEvent(sendStorePurchaseSuccessful, 650, playerId, message)
 	end
 
