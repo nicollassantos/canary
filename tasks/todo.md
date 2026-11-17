@@ -378,7 +378,7 @@
 - [x] **25.4** — #4125 reset de charm (ação 3) sem leitura além do pacote; 3 testes `CharmRuneParseTest` (controle de que o log é visto, reset, atribuição lê os campos); controle negativo: sem a correção o teste do reset falha. Achado: no teste, o `InjectionFixture::logger()` não é o `InMemoryLogger` que o `g_logger()` usa (instâncias diferentes); use `dynamic_cast<InMemoryLogger &>(g_logger())`
 - [x] **25.5** — #3478 freequests: harness `tools/lua/freequests_check.lua` roda o freequests num player falso e confere cada storage contra o catálogo do questlog; achou 5 (os 2 relatados + Factions sem início e Grave Danger 14 numa missão 1..2, o `46851` citado no relato); upstream falha 5, branch passa
 - [x] **25.6** — #3453 porta do Oasis: storage 12107 para quem acha a cenoura; `[12107]` duplicada unificada com `itemId` por posição no `loadLuaMapAction`; harness `tools/lua/oasis_door_check.lua` (branch passa, upstream falha 4: alavancas sem aid pela tabela e player devolvido; o `.otbm` atual já dá o aid às alavancas, então em jogo o defeito real era só o storage)
-- [x] **25.7** — #3513: no login do player, a entrada nas zonas continua imediata e só os callbacks de zona esperam o `sendCreatureAppear` (fim do `placeCreature`); monstro/NPC sem mudança. Sem teste dedicado; ut 1020/1020, it 90/90; smoke de login no CHECKPOINT
+- [x] **25.7** — #3513: no login do player, a entrada nas zonas continua imediata e só os callbacks de zona esperam o `sendCreatureAppear` (logo depois do laço de espectadores, antes do `onPlacedCreature`, para os scripts de login verem a mesma ordem de antes; a 1ª versão os rodava depois dos scripts de login, corrigido na revisão); monstro/NPC sem mudança. Sem teste unitário; smoke de login no CHECKPOINT
 - [x] **25.8** — chaves repetidas: `tools/datapack/duplicate_keys_check.py` (ignora comentários, strings e `t[1] = x`; 5 testes) acha 17 no upstream e 0 na branch em 3023 arquivos Lua. Perdas reais: baús do Captain Iglue's Treasure e do Minotaur Hell sem unique id (novos `[6260]`/`[6261]`, livres no mapa); teleports do Forgotten Knowledge e porta do Oasis já têm o aid no `.otbm` (só consistência)
 - [x] **25.9** — #3742: saldo do store enviado uma vez, depois de tirar as coins (harness `tools/lua/store_balance_check.lua`; upstream falha 2). #2083: preços reenviados aos online quando o recálculo muda algo (teste `RebuildReportsWhetherAPriceChanged`); a cor no client não foi conferida. ut 1021/1021, it 90/90
 - [x] **25.10** — varredura do `otservbr.otbm` do checkout principal (só leitura; 5.879.425 itens, 2632 com aid/uid; script no scratchpad, não versionado):
@@ -392,5 +392,12 @@
   - #3438 Lion's Rock: soquetes com uids 25006–25009 no boot (**não reproduz** a parte de configuração)
   - 25.8 conferida em jogo: baús com uid 6260/6261, Combat Knife com 6117
   - #3584/#3426 (campo/bomba) e #3745 (aljava): o teste unitário não consegue rodar `combatChangeHealth` (nota do `combat_service_test.cpp`); ficam para a sessão com client
-- [ ] **25.12** — #3374 medir e limitar o saque
+- [ ] **25.12** — #3374 medir e limitar o saque. Medição (teste temporário, não versionado: `game.addMoney(container, 4294967295)` — o maior `!withdraw` aceito pelo `isValidMoney` — num container com N espaços; release com DEBUG_LOG):
+  | espaços | pilhas criadas | entregue | tempo |
+  |---|---|---|---|
+  | 20 | 20 | 20.000.000 | 0,04 ms |
+  | 500 | 500 | 500.000.000 | 2,3 ms |
+  | 2000 | 2000 | 2.000.000.000 | 34 ms |
+  | 5000 | 4297 | 4.294.967.295 | 154 ms |
+  Custo quadrático no número de pilhas (cada pilha procura onde empilhar). Num player real o teto é a capacidade e os espaços dos containers; o que não cabe volta ao banco (upstream #3692). Falta o valor do teto (usuário)
 - [ ] **CHECKPOINT 25**

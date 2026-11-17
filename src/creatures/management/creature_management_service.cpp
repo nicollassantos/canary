@@ -269,6 +269,15 @@ bool CreatureManagementService::placeCreature(const std::shared_ptr<Creature> &c
 		spectator->onCreatureAppear(creature, true);
 	}
 
+	// Zone callbacks deferred by internalPlaceCreature: the player's client knows it now. They run
+	// before onPlacedCreature (login scripts), as before, so a script that moves the player sees the
+	// zones in the same order (re-adding to a zone is a no-op).
+	if (creature->getPlayer()) {
+		if (const auto &tile = creature->getTile()) {
+			game_.afterCreatureZoneChange(creature, {}, tile->getZones());
+		}
+	}
+
 	if (hasPlayerSpectators || (creature->getMonsterRaw() && config_.getBoolean(MONSTER_PERF_TEST_FORCE_ACTIVE))) {
 		game_.addCreatureCheck(creature);
 	}
@@ -278,12 +287,6 @@ bool CreatureManagementService::placeCreature(const std::shared_ptr<Creature> &c
 		parent->postAddNotification(creature, nullptr, 0);
 	}
 	creature->onPlacedCreature();
-	// Zone callbacks deferred by internalPlaceCreature (re-adding to a zone is a no-op).
-	if (creature->getPlayer() && !creature->isRemoved()) {
-		if (const auto &tile = creature->getTile()) {
-			game_.afterCreatureZoneChange(creature, {}, tile->getZones());
-		}
-	}
 	return true;
 }
 
