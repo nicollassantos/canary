@@ -627,7 +627,7 @@ void Game::loadItemsPrice() {
 		if (loaded) {
 			g_marketRepository().setStatistics(std::move(purchase), std::move(sale));
 		}
-		g_marketRepository().loadActiveOffers(MARKETACTION_BUY, [](MarketOfferList buyOffers) {
+		g_marketRepository().loadBestOfferPrices(MARKETACTION_BUY, [](MarketOfferList buyOffers) {
 			if (!g_game().rebuildItemsPrice(g_marketRepository().getPurchaseStatistics(), buyOffers)) {
 				return;
 			}
@@ -2701,6 +2701,14 @@ void Game::playerReportRuleViolationReport(uint32_t playerId, const std::string 
 
 void Game::playerReportBug(uint32_t playerId, const std::string &message, const Position &position, uint8_t category) {
 	m_interactionService->playerReportBug(playerId, message, position, category);
+}
+
+bool Game::admitExivaRestrictionsEdit(const std::shared_ptr<Player> &player) {
+	return m_interactionService->admitExivaRestrictionsEdit(player);
+}
+
+bool Game::admitProficiencyListing(const std::shared_ptr<Player> &player) {
+	return m_interactionService->admitProficiencyListing(player);
 }
 
 void Game::playerDebugAssert(uint32_t playerId, const std::string &assertLine, const std::string &date, const std::string &description, const std::string &comment) {

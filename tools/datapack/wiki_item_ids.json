@@ -1,0 +1,779 @@
+{
+ "note": "TibiaWiki item ids (the `itemid` of each item page, CC BY-SA facts) for loot names items.xml cannot pin down. Regenerate with `wiki_check.py item-ids`.",
+ "items": {
+  "abridged promotion scroll": [
+   43946
+  ],
+  "amber (item)": [
+   32626
+  ],
+  "amphora": [
+   2893
+  ],
+  "ancient amulet": [
+   3025
+  ],
+  "antlers": [
+   10297
+  ],
+  "arcane staff": [
+   3341
+  ],
+  "astral glyph": [
+   24976
+  ],
+  "astral source": [
+   24975
+  ],
+  "axe ring": [
+   3092
+  ],
+  "badger fur": [
+   10299
+  ],
+  "bakragore's amalgamation": [
+   43968
+  ],
+  "basalt core": [
+   43859
+  ],
+  "basalt crumbs": [
+   43858
+  ],
+  "basic promotion scroll": [
+   43947
+  ],
+  "bat decoration": [
+   6491
+  ],
+  "behemoth trophy": [
+   7396
+  ],
+  "black skull": [
+   9056
+  ],
+  "bloated maggot": [
+   43856
+  ],
+  "blood of the mountain (item)": [
+   25361
+  ],
+  "blooded worm": [
+   43857
+  ],
+  "blue ectoplasm": [
+   30203
+  ],
+  "blue tapestry": [
+   2659
+  ],
+  "bone": [
+   3115
+  ],
+  "book (blue)": [
+   2829,
+   2844
+  ],
+  "book (gemmed)": [
+   2842
+  ],
+  "book (green)": [
+   2831,
+   2846
+  ],
+  "book (grey)": [
+   2824,
+   2839
+  ],
+  "book (orange)": [
+   2828,
+   2843
+  ],
+  "boots of homecoming": [
+   22773
+  ],
+  "bowl": [
+   2902
+  ],
+  "broken flask": [
+   2894
+  ],
+  "broken mitmah chestplate": [
+   44727
+  ],
+  "bulltaur armor scrap": [
+   44738
+  ],
+  "bulltaur hoof": [
+   44737
+  ],
+  "bulltaur horn": [
+   44736
+  ],
+  "burst arrow": [
+   3449
+  ],
+  "candy floss (large)": [
+   37531
+  ],
+  "carrot": [
+   3595
+  ],
+  "chagorz igneous obsidian": [
+   43966
+  ],
+  "charged arcanomancer sigil": [
+   39183,
+   39184
+  ],
+  "chitinous mouth (count of the core)": [
+   27626
+  ],
+  "closed trap": [
+   3481
+  ],
+  "club ring": [
+   3093
+  ],
+  "coal": [
+   12600
+  ],
+  "collar of blue plasma": [
+   23526,
+   23542
+  ],
+  "collar of green plasma": [
+   23543
+  ],
+  "collar of orange plasma": [
+   50152
+  ],
+  "collar of red plasma": [
+   23544
+  ],
+  "cornucopia": [
+   3103
+  ],
+  "crimson sword": [
+   7385
+  ],
+  "crown (plant)": [
+   33935
+  ],
+  "crystal ball": [
+   3076
+  ],
+  "crystal pedestal (cyan)": [
+   9065
+  ],
+  "crystal pedestal (red)": [
+   9063
+  ],
+  "crystal ring": [
+   3007
+  ],
+  "crystallised blood": [
+   44752
+  ],
+  "cyclops trophy": [
+   7398
+  ],
+  "damselfly eye": [
+   17463
+  ],
+  "damselfly wing": [
+   17458
+  ],
+  "dark bell": [
+   30325
+  ],
+  "dark bell (silver)": [
+   32596
+  ],
+  "darklight core (object)": [
+   43853
+  ],
+  "darklight figurine": [
+   43961
+  ],
+  "darklight geode": [
+   43900
+  ],
+  "darklight matter (object)": [
+   43851
+  ],
+  "darklight obsidian axe": [
+   43781
+  ],
+  "death ring": [
+   6299
+  ],
+  "deer trophy": [
+   7397
+  ],
+  "demon dust": [
+   5906
+  ],
+  "demon skull": [
+   50061
+  ],
+  "demon trophy": [
+   7393
+  ],
+  "demonic core essence": [
+   49909
+  ],
+  "demonic matter": [
+   49894
+  ],
+  "depth galea": [
+   13995,
+   14258
+  ],
+  "die": [
+   5792,
+   5793,
+   5794,
+   5795,
+   5796,
+   5797
+  ],
+  "doll": [
+   2991
+  ],
+  "dracoyle statue": [
+   9035,
+   9040
+  ],
+  "dragon claw": [
+   5919
+  ],
+  "dragon trophy": [
+   44158
+  ],
+  "dung ball": [
+   14225
+  ],
+  "dung ball (quest)": [
+   14753
+  ],
+  "dwarven ring": [
+   3097
+  ],
+  "egg": [
+   3606
+  ],
+  "egg with dream essence": [
+   30005
+  ],
+  "enchanted blister ring": [
+   31557,
+   31616
+  ],
+  "enchanted merudri brooch": [
+   50154
+  ],
+  "enchanted sleep shawl": [
+   30342,
+   30343
+  ],
+  "enchanted theurgic amulet": [
+   30402,
+   30403
+  ],
+  "encrypted notes": [
+   44739
+  ],
+  "energy ring": [
+   3051
+  ],
+  "energy vein": [
+   23508
+  ],
+  "ferumbras' amulet": [
+   22767
+  ],
+  "ferumbras' mana keg": [
+   22769
+  ],
+  "ferumbras' staff (blunt)": [
+   22764
+  ],
+  "fish": [
+   3578
+  ],
+  "fish tail": [
+   5951
+  ],
+  "flower bouquet": [
+   649
+  ],
+  "flower bowl": [
+   2983
+  ],
+  "fly agaric (item)": [
+   30321
+  ],
+  "frozen claw": [
+   30279
+  ],
+  "giant shimmering pearl": [
+   281,
+   282
+  ],
+  "giant shimmering pearl (brown)": [
+   282
+  ],
+  "giant shimmering pearl (green)": [
+   281
+  ],
+  "gold nugget": [
+   3040
+  ],
+  "golden idol of tukh": [
+   29299,
+   30206
+  ],
+  "gold coin": [
+   3031
+  ],
+  "gore horn (item)": [
+   39377
+  ],
+  "grappling hook": [
+   35588
+  ],
+  "green ectoplasm": [
+   30204
+  ],
+  "green tapestry": [
+   2647
+  ],
+  "hand": [
+   33936
+  ],
+  "head (brachiodemon)": [
+   33937
+  ],
+  "head (many faces)": [
+   33932
+  ],
+  "heart of the mountain (item)": [
+   25360
+  ],
+  "heaven blossom": [
+   5921
+  ],
+  "heavy crystal fragment": [
+   27509,
+   27713
+  ],
+  "hieroglyph banner": [
+   12482
+  ],
+  "horn (ring)": [
+   19359
+  ],
+  "ice cube": [
+   7441
+  ],
+  "ice flower (item)": [
+   30058
+  ],
+  "ichgahal's fungal infestation": [
+   43964
+  ],
+  "icicle (percht)": [
+   30277
+  ],
+  "idol of the forge": [
+   44742
+  ],
+  "inkwell": [
+   3509
+  ],
+  "inkwell (black)": [
+   28568
+  ],
+  "insectoid egg": [
+   17457
+  ],
+  "jewel case": [
+   6104
+  ],
+  "lamp": [
+   2914,
+   2915,
+   2916
+  ],
+  "lichen gobbler": [
+   43782
+  ],
+  "life ring": [
+   3052
+  ],
+  "lightest missile rune": [
+   21352
+  ],
+  "lion trophy": [
+   7400
+  ],
+  "lost soul (item)": [
+   32227
+  ],
+  "lute": [
+   2950
+  ],
+  "lyre": [
+   2949
+  ],
+  "magic light wand": [
+   3046
+  ],
+  "matcha turtle": [
+   48239
+  ],
+  "minotaur trophy": [
+   7401
+  ],
+  "mirror": [
+   3463
+  ],
+  "moldy cheese": [
+   3120
+  ],
+  "mummified demon finger": [
+   49908
+  ],
+  "murcion's mycelium": [
+   43965
+  ],
+  "music sheet (first verse)": [
+   6087
+  ],
+  "music sheet (fourth verse)": [
+   6090
+  ],
+  "music sheet (second verse)": [
+   6088
+  ],
+  "music sheet (third verse)": [
+   6089
+  ],
+  "old parchment": [
+   4831
+  ],
+  "orc trophy": [
+   7395
+  ],
+  "organic acid": [
+   43778
+  ],
+  "ornate tome": [
+   28572
+  ],
+  "parchment (rewritable)": [
+   2814
+  ],
+  "part of a rune (five)": [
+   24958
+  ],
+  "part of a rune (four)": [
+   24957
+  ],
+  "part of a rune (one)": [
+   24954
+  ],
+  "part of a rune (six)": [
+   24959
+  ],
+  "part of a rune (three)": [
+   24956
+  ],
+  "part of a rune (two)": [
+   24955
+  ],
+  "pharaoh banner": [
+   12483
+  ],
+  "pick": [
+   3456
+  ],
+  "picture (landscape)": [
+   2639
+  ],
+  "power ring": [
+   3050
+  ],
+  "pumpkinhead": [
+   2977
+  ],
+  "putrefactive figurine": [
+   43962
+  ],
+  "rainbow waffles": [
+   48248
+  ],
+  "red ectoplasm": [
+   30205
+  ],
+  "red gem": [
+   3039
+  ],
+  "rhino hide": [
+   24388
+  ],
+  "rift lamp": [
+   22734
+  ],
+  "rift tapestry": [
+   22731
+  ],
+  "ring of blue plasma": [
+   23529,
+   23530
+  ],
+  "ring of green plasma": [
+   23531,
+   23532
+  ],
+  "ring of healing": [
+   3098
+  ],
+  "ring of orange plasma": [
+   50150
+  ],
+  "ring of red plasma": [
+   23533,
+   23534
+  ],
+  "ring of secret thoughts": [
+   31263
+  ],
+  "ring of healing": [
+   3098
+  ],
+  "rod (creature product)": [
+   33929
+  ],
+  "rolling pin": [
+   3473
+  ],
+  "rope": [
+   3003
+  ],
+  "rose milk cake": [
+   48238
+  ],
+  "sai": [
+   50183
+  ],
+  "saw": [
+   3461
+  ],
+  "scimitar": [
+   3307
+  ],
+  "scroll": [
+   2815
+  ],
+  "scroll of ascension": [
+   22771
+  ],
+  "sea serpent trophy": [
+   9613
+  ],
+  "shovel": [
+   3457
+  ],
+  "silver goblet": [
+   5806
+  ],
+  "simple arrow": [
+   21470
+  ],
+  "skull (item)": [
+   3114
+  ],
+  "skull candle": [
+   5812,
+   5813
+  ],
+  "some leaves": [
+   3129
+  ],
+  "spellbook": [
+   3059
+  ],
+  "spiritual horseshoe": [
+   44048
+  ],
+  "splintered mitmah gem": [
+   44728
+  ],
+  "staff": [
+   3289
+  ],
+  "staff piece": [
+   44741
+  ],
+  "stealth ring": [
+   3049
+  ],
+  "strange substance": [
+   44740
+  ],
+  "strong health potion": [
+   236
+  ],
+  "strong health potion": [
+   236
+  ],
+  "sword": [
+   3264
+  ],
+  "sword ring": [
+   3091
+  ],
+  "tattered piece of paper": [
+   48278
+  ],
+  "the calamity": [
+   8104
+  ],
+  "the cube": [
+   27511
+  ],
+  "the devileye": [
+   8024
+  ],
+  "the essence of chagorz": [
+   43504
+  ],
+  "the essence of ichgahal": [
+   43502
+  ],
+  "the essence of vemiath": [
+   43503
+  ],
+  "the handmaiden's protector": [
+   6539
+  ],
+  "the imperor's trident": [
+   6534
+  ],
+  "the ironworker": [
+   8025
+  ],
+  "the lethal lissy's shirt": [
+   6100
+  ],
+  "the plasmother's remains": [
+   6535
+  ],
+  "the ring of the count": [
+   7924
+  ],
+  "the stomper": [
+   8101
+  ],
+  "the true book of death": [
+   28702
+  ],
+  "the vampire count's medal": [
+   18936
+  ],
+  "tiara of power": [
+   23474,
+   23475
+  ],
+  "time ring": [
+   3053
+  ],
+  "torch": [
+   2920
+  ],
+  "torn book": [
+   3121
+  ],
+  "toy spider": [
+   8178,
+   8179
+  ],
+  "transcendence potion": [
+   49271
+  ],
+  "treasure map": [
+   5090
+  ],
+  "treasure map (pirate)": [
+   5706
+  ],
+  "trophy of feroxa": [
+   22104
+  ],
+  "turtle shell": [
+   5899
+  ],
+  "twigs": [
+   3130
+  ],
+  "unstable darklight matter": [
+   43779
+  ],
+  "velvet tapestry": [
+   8923
+  ],
+  "vemiath's infused basalt": [
+   43967
+  ],
+  "very noble-looking watch": [
+   6091
+  ],
+  "void boots": [
+   23476,
+   23477
+  ],
+  "voodoo doll": [
+   3002
+  ],
+  "watermelon tourmaline (pear)": [
+   33780
+  ],
+  "werebadger trophy": [
+   22101
+  ],
+  "werebear trophy": [
+   22103
+  ],
+  "wereboar trophy": [
+   22102
+  ],
+  "werefox trophy": [
+   27706
+  ],
+  "wolf tooth chain": [
+   3012
+  ],
+  "wolf trophy": [
+   7394
+  ],
+  "wood": [
+   5901
+  ],
+  "wooden flute": [
+   2948
+  ],
+  "wooden trash": [
+   3135,
+   3136,
+   3137,
+   3138,
+   3139,
+   3140
+  ],
+  "yellow darklight matter": [
+   43780
+  ]
+ }
+}

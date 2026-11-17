@@ -96,6 +96,7 @@ monster.loot = {
 	{ id = 238, chance = 8860 }, -- great mana potion
 	{ name = "war crystal", chance = 8200 },
 	{ id = 5880, chance = 1920 }, -- iron ore
+	{ id = 9063, chance = 1061 }, -- crystal pedestal
 	{ id = 7439, chance = 900 }, -- berserk potion
 	{ id = 3326, chance = 6400 }, -- epee
 	{ id = 8895, chance = 3504 }, -- rusted armor

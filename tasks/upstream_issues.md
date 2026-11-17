@@ -27,7 +27,7 @@ Níveis de prova:
 
 ## B. Parciais ou dependentes do mapa (4)
 
-- **3374** saque gigante (medido na 25.12: até ~154 ms; sem teto por decisão do usuário): o upstream #3692 tirou a queda no chão e devolve o que não coube, mas o mantenedor diz que a issue só fecha com teto no saque. O resíduo (até milhares de inserções de stack no dispatcher para player com muita capacidade) **não foi medido**. É exatamente o modelo de ameaça do fork.
+- **3374** saque gigante (medido na 26.12: até ~154 ms; sem teto por decisão do usuário): o upstream #3692 tirou a queda no chão e devolve o que não coube, mas o mantenedor diz que a issue só fecha com teto no saque. O resíduo (até milhares de inserções de stack no dispatcher para player com muita capacidade) **não foi medido**. É exatamente o modelo de ameaça do fork.
 - **3458** soulpit com summon: `blockFamiliars` (desde 2025-01-28) já barra summon de player na colocação e no movimento (o master é definido antes do `placeCreature`). Sobra o caminho de convencer um monstro da onda. Decidível com teste.
 - **4091** recompensa de monk na Inquisition: falta no script e no mapa (varredura do `.otbm`: só os 9 baús 1300–1308 em y=32245). Precisa de um baú novo no mapa (só registrada: edição no RME, decisão do usuário).
 - **4057** santuários do Way of the Monk: o `shrines.lua` já tem os andares certos; no `.otbm`, a porta (32767,31525,9) é 5124 sem aid nem uid (confirmado). Paredes de Tyrsung/Kilmaresh: edição de mapa.
@@ -77,6 +77,6 @@ Níveis de prova:
 
 ## Plano
 
-Tasks 25.1–25.12 em `tasks/plan.md` (Phase 25). Fora: grupo F (precisa de client) e conteúdo/feature.
+Tasks 26.1–26.12 em `tasks/plan.md` (Phase 26; aberta como 25 e renumerada no merge com a solid). Fora: grupo F (precisa de client) e conteúdo/feature.
 A worktree saiu do HEAD commitado; as mudanças não commitadas do checkout principal (entre elas
 `protocolgame.cpp`) não estão nela e precisam ser conciliadas ao juntar as branches.

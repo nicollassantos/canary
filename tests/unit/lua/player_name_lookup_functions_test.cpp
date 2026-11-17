@@ -10,6 +10,8 @@
 #include <gtest/gtest.h>
 
 #include "creatures/in_memory_player_repository.hpp"
+#include "creatures/players/grouping/guild.hpp"
+#include "io/in_memory_guild_repository.hpp"
 #include "creatures/players/player.hpp"
 #include "lib/logging/in_memory_logger.hpp"
 #include "lua/functions/core/game/bank_functions.hpp"
@@ -32,9 +34,13 @@ namespace {
 			previousContainer = DI::getTestContainer();
 			InMemoryLogger::install(injector);
 			InMemoryPlayerRepository::install(injector);
+			InMemoryGuildRepository::install(injector);
 			DI::setTestContainer(&injector);
 			repository = &dynamic_cast<InMemoryPlayerRepository &>(IPlayerRepository::getInstance());
 			repository->reset();
+			guilds = &dynamic_cast<InMemoryGuildRepository &>(IGuildRepository::getInstance());
+			guilds->reset();
+			guilds->addGuild(std::make_shared<Guild>(71, "Red Rose"));
 
 			uint32_t guid = 61;
 			for (const auto* name : { SourceName, TargetName }) {
@@ -85,6 +91,7 @@ namespace {
 
 		std::unique_ptr<lua_State, decltype(&lua_close)> L { luaL_newstate(), &lua_close };
 		InMemoryPlayerRepository* repository = nullptr;
+		InMemoryGuildRepository* guilds = nullptr;
 		di::extension::injector<> injector {};
 		di::extension::injector<>* previousContainer = nullptr;
 	};
@@ -127,4 +134,14 @@ TEST_F(PlayerNameLookupFunctionsTest, TransferOfNothingDoesNotLoadTheDestination
 	EXPECT_FALSE(lua_toboolean(L.get(), -1));
 
 	EXPECT_EQ(1U, repository->playerLoads);
+}
+
+// The bank NPCs pass the typed guild name: it loaded the guild (name, balance, ranks) per message.
+TEST_F(PlayerNameLookupFunctionsTest, NormalizedGuildNameDoesNotLoadTheGuild) {
+	ASSERT_EQ(LUA_TSTRING, call("Game", "getNormalizedGuildName", "red rose"));
+	EXPECT_STREQ("Red Rose", lua_tostring(L.get(), -1));
+	EXPECT_EQ(LUA_TNIL, call("Game", "getNormalizedGuildName", "No Such Guild"));
+	EXPECT_EQ(LUA_TNIL, call("Game", "getNormalizedGuildName", ""));
+
+	EXPECT_EQ(0U, guilds->guildLoads);
 }

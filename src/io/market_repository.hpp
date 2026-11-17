@@ -75,8 +75,10 @@ public:
 	/// then, as updateStatistics does. onLoaded must not capture state that can die first.
 	virtual void loadStatistics(std::function<void(bool loaded, StatisticsMap purchase, StatisticsMap sale)> onLoaded) = 0;
 	virtual void setStatistics(StatisticsMap purchase, StatisticsMap sale) = 0;
-	/// Loads every active offer of one side off the game thread; onLoaded runs on the dispatcher.
-	virtual void loadActiveOffers(MarketAction_t action, std::function<void(MarketOfferList)> onLoaded) = 0;
+	/// Loads the best active price of one side per item and tier (highest buy offer, lowest sell offer)
+	/// off the game thread; onLoaded runs on the dispatcher. Only itemId, tier and price are set: the
+	/// item prices need nothing else, so the database groups the rows and skips the owner name.
+	virtual void loadBestOfferPrices(MarketAction_t action, std::function<void(MarketOfferList)> onLoaded) = 0;
 	[[nodiscard]] virtual StatisticsMap getPurchaseStatistics() const = 0;
 	[[nodiscard]] virtual StatisticsMap getSaleStatistics() const = 0;
 	[[nodiscard]] virtual StatisticsSnapshot getStatistics(uint16_t itemId, uint8_t tier) const = 0;

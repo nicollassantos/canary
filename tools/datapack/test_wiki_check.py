@@ -176,6 +176,16 @@ class CompareTest(unittest.TestCase):
         findings, _ = wiki_check.compare(monster(loot=loot), self.infobox, self.blocks, BY_NAME, BY_ID)
         self.assertIn(("loot_chance", "beast hide"), kinds(findings))
 
+    def test_a_sure_drop_written_above_the_maximum_keeps_its_raw_chance(self):
+        # Some files write far more than 100000 for a sure drop (The Curse Spreads bosses: 13600000);
+        # `apply` must find that raw value, while the comparison uses the capped probability.
+        loot = monster()["loot"]
+        loot[2] = {"name": "beast hide", "chance": 13600000}
+        findings, _ = wiki_check.compare(monster(loot=loot), self.infobox, self.blocks, BY_NAME, BY_ID)
+        finding = next(f for f in findings if f["kind"] == "loot_chance" and f["subject"] == "beast hide")
+        self.assertEqual(100000, finding["datapack_chance"])
+        self.assertEqual(13600000, finding["datapack_raw_chance"])
+
     def test_max_count_below_the_observed_amount_is_flagged(self):
         loot = monster()["loot"]
         loot[0] = {"name": "gold coin", "chance": 90000, "maxCount": 40}
@@ -281,6 +291,29 @@ class FetchTest(unittest.TestCase):
             self.assertIn("rvcontinue=x", calls[1])
             wiki_check.fetch_pages(["sample beast"], cache, opener=opener, sleep=lambda _: None)
             self.assertEqual(2, len(calls))  # cached, no new request
+
+
+
+class WikiItemIdsTest(unittest.TestCase):
+    def test_item_ids_come_from_the_item_page(self):
+        self.assertEqual([5792, 5793], wiki_check.parse_item_ids("{{Infobox Object\n| name = Die\n| itemid = 5792, 5793\n}}"))
+        self.assertEqual([], wiki_check.parse_item_ids("{{Infobox Object\n| name = Crown\n}}"))
+
+    def test_titles_try_every_word_capitalised(self):
+        self.assertEqual(["Parchment (rewritable)", "Parchment (Rewritable)"], wiki_check.item_page_titles("parchment (rewritable)"))
+        self.assertIn("The True Book of Death", wiki_check.item_page_titles("the true book of death"))
+        self.assertEqual(["Die"], wiki_check.item_page_titles("die"))
+
+    def test_wiki_ids_fill_only_names_items_xml_does_not_have(self):
+        by_name = {"gold coin": {3031}, "giant shimmering pearl": {281, 282}, "dragon trophy": {2681, 2682}}
+        merged = wiki_check.with_wiki_item_ids(by_name, {"gold coin": [9999], "giant shimmering pearl (green)": [281],
+                                                         "dragon trophy": [44158], "bulltaur horn": [44736]})
+        self.assertEqual({3031}, merged["gold coin"])
+        self.assertEqual({281}, merged["giant shimmering pearl (green)"])
+        self.assertEqual({44736}, merged["bulltaur horn"])
+        # A name items.xml has stays as the server resolves it, even when ambiguous: datapack entries
+        # such as `{ id = 28568 } -- inkwell` must still pair with the wiki's "inkwell (black)".
+        self.assertEqual({2681, 2682}, merged["dragon trophy"])
 
 
 if __name__ == "__main__":

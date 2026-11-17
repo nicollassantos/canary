@@ -79,7 +79,7 @@ monster.voices = {
 
 monster.loot = {
 	{ name = "poisoned fang", chance = 15779 },
-	{ id = 21178, chance = 2010 }, -- glooth club
+	{ id = 21178, chance = 641 }, -- glooth club
 	{ id = 9640, chance = 4672 }, -- poisonous slime
 	{ id = 21146, chance = 3517 }, -- glooth steak
 	{ id = 3031, chance = 100000, maxCount = 150 }, -- gold coin
@@ -88,7 +88,7 @@ monster.loot = {
 	{ id = 7366, chance = 7873, maxCount = 5 }, -- viper star
 	{ id = 21183, chance = 686 }, -- glooth amulet
 	{ id = 21179, chance = 708 }, -- glooth blade
-	{ id = 21178, chance = 210 }, -- glooth club
+	{ id = 21178, chance = 67 }, -- glooth club
 	{ id = 21180, chance = 664 }, -- glooth axe
 	{ id = 21158, chance = 1013 }, -- glooth spear
 	{ name = "stone skin amulet", chance = 98 },

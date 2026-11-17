@@ -316,7 +316,7 @@ upstream já adicionou fica como está (também com outra grafia ou outro id: o 
 = `already`; entrada em várias linhas = conflito); rodar duas vezes não muda nada. Depois, smoke boot. Para provar
 o lado do upstream: `git archive <base> data-otservbr-global/monster` numa pasta temporária,
 `wiki_check.py apply --root <pasta>` e `diff -rq` contra a branch (em 2026-11-13, com base
-`997af9180`: 0 conflitos; 2 arquivos só com linhas de loot em outra ordem).
+`997af9180`: 0 conflitos; 4 arquivos só com linhas de loot em outra ordem).
 
 | Upstream (como vem no `main`) | Onde está na branch | O que fazer no merge |
 |---|---|---|
@@ -330,7 +330,7 @@ o lado do upstream: `git archive <base> data-otservbr-global/monster` numa pasta
 | `game.cpp` `Game::updatePlayersOnline` | `CyclopediaService::updatePlayersOnline` (monta a lista de GUIDs) e `PlayerRepositoryDB::updateOnlinePlayers` (SQL) | manual: corpo dividido (README, "split between a service and an adapter") |
 | `game.cpp` highscores: `generateHighscoreQuery`, `generateVocationConditionHighscore`, `cacheQueryHighscore`, `generateHighscoreOrGetCachedQueryFor*`, `queryCache` | `src/io/highscore_repository_db.cpp` (`HighscoreRepositoryDB`, mesmos nomes) | `moved_merge.py` casa por nome (adapter no comando do `game.cpp`); `QueryHighscoreCacheEntry`/`queryCache` e os delegates privados saíram do `game.hpp` |
 | `game.cpp` `Game::playerHighscores` e `Game::processHighscoreResults` | `HighscoreService` (pedido, task assíncrona, cache de resultado, envio) e `HighscoreRepositoryDB` (query, parse) | manual: corpo dividido (README) |
-| `game.cpp` `Game::loadItemsPrice` | `Game::loadItemsPrice` (encadeia `loadStatistics` → `setStatistics` → `loadActiveOffers`, fora do loop do jogo) e `Game::rebuildItemsPrice` (laços de média e máximo); SQL em `MarketRepositoryDB` | manual: corpo dividido (README); `game.hpp` ganhou `rebuildItemsPrice` e o include de `io/market_repository.hpp` |
+| `game.cpp` `Game::loadItemsPrice` | `Game::loadItemsPrice` (encadeia `loadStatistics` → `setStatistics` → `loadBestOfferPrices`, fora do loop do jogo; o banco devolve só o melhor preço por item e tier) e `Game::rebuildItemsPrice` (laços de média e máximo); SQL em `MarketRepositoryDB` | manual: corpo dividido (README); `game.hpp` ganhou `rebuildItemsPrice` e o include de `io/market_repository.hpp` |
 | `src/canary_server.cpp`: parsing de `worldType` | `src/game/world_type_config.cpp` (`world_type_config::parse`) | se o upstream mudar nomes de world type, atualizar o parse e `world_type_config_test.cpp`; manter `"open-pvp"` |
 | `src/creatures/players/components/pvp/expert_pvp.cpp` | mesmo arquivo, com `g_game()`/config → `world()` (`ExpertPvpWorld`) | merge normal; manter `world().` nas linhas tocadas |
 
@@ -365,18 +365,25 @@ desfazer; se o upstream mexer nessas linhas, reaplique):
 | `src/items/containers/mailbox/mailbox.cpp/.hpp` (`sendItem`) | destinatário resolvido por `Mailbox::resolveReceiver`: nome vazio ou acima de 30 recusado; online primeiro; offline só depois de `getGuidByName` (um `SELECT id`) achar o nome, e aí o load completo de antes. Sem limite de taxa (escolha do usuário) | a etiqueta é texto do jogador: nome que não existe fazia load completo e logava `error` com o texto a cada item empurrado na caixa (~5/s por player). Entrega a offline existente continua com load + save síncrono (mesma classe da cama; limite por remetente recusado pelo usuário) (teste `mailbox_receiver_test.cpp`) |
 | `src/canary_server.cpp` `initializeDatabase` | `schema_hardening::ensureIndexes(...)` logo depois de `DatabaseManager::updateDatabase()` | índices da branch sem migration numerada: `src/database/schema_hardening.cpp` só adiciona índices `solid_*` que faltam (sem conflito com as migrations do upstream, sem editar `schema.sql`, nunca remove). Primeiro: `solid_market_history_stats` |
 | `game.cpp` `Game::playerRequestOutfit` (hoje em `outfit_service.cpp`) e `OutfitService::playerChangeOutfit(uint32_t, ...)` | intervalo por player: janela de outfit 1 vez/s, troca 1 vez a cada 500 ms (`RequestCooldown`, `src/utils/request_cooldown.hpp`); métrica `outfit_requests_throttled{request}`. O overload com `Player` (chamadas internas) não é limitado | `shine`/`ddos` do bot: `0xD2` monta a janela inteira e `0xD3` é transmitido a todos os espectadores |
-| `src/server/network/protocol/protocolgame.cpp` `ProtocolGame::parsePacket` | `const packet_watch::Scope packetWatch(recvbyte, player, getIP());` logo após ler o opcode (+ include) | latência por opcode e aviso de pacote lento com player/IP (`src/server/network/protocol/packet_watch.cpp`) |
+| `src/server/network/protocol/protocolgame.cpp` `ProtocolGame::parsePacket` | `const packet_watch::Scope packetWatch(recvbyte, m_isLivestreamViewer ? nullptr : player, getIP());` logo após ler o opcode (+ include); o espectador de livestream é medido como ninguém (o `player` dele é o caster) | latência por opcode e aviso de pacote lento com player/IP (`src/server/network/protocol/packet_watch.cpp`) |
 | `game.cpp` `cacheQueryHighscore` (hoje em `highscore_repository_db.cpp`) e `processHighscoreResults` (hoje em `highscore_service.cpp`) | `highscore_cache::prune` antes de inserir (expiradas saem; no teto, o cache é limpo) + métrica `highscore_cache_evictions` | as chaves vêm do cliente; no upstream os caches crescem sem fim |
 | `game.cpp` `playerHighscores` (hoje em `highscore_service.cpp`) | página 0 em `HIGHSCORE_GETENTRIES` é recusada antes da query; página fresca no cache de resultado sai sem query; intervalo de 1s por player; teto de 8 queries em andamento no servidor (contador liberado no topo de `processHighscoreResults`, mesmo se o player saiu); métricas `highscore_requests_total{type}`, `highscore_served_from_cache`, `highscore_requests_rejected{reason}` | `(page - 1)` dava underflow e rodava o ranking inteiro; toda query de highscore ocupa a única conexão do `Database` (com mutex) e atrasa saves, e bots com vários personagens podiam saturá-la |
 | `src/server/network/protocol/protocolgame.cpp` `ProtocolGame::onRecvFirstMessage` | o bloco da sessão existente (`getPlayerByName`/`getDeadPlayer` → "already logged in", versão de client diferente, `foundPlayer->client->disconnectClient(...)`) foi movido **inteiro** para depois do `gameWorldAuthentication`, logo antes do `dispatchProtocolTask(login)` | **derrubar qualquer jogador sem a senha** (igual no upstream desde `c07696b2c`): o bloco rodava antes do challenge, do ban de IP e da senha, então o nome do personagem e um bloco RSA (chave pública) bastavam para derrubar o client da vítima em loop (o personagem fica no mundo; em open-pvp morre sem curar) e ler a versão do client dela. Reproduzido e provado com sockets reais (`tools/smoke/login_takeover_check.py`): antes, uma conexão com conta inexistente derrubava a vítima; depois, a vítima fica e o relogin do dono continua substituindo a conexão antiga |
 | `src/lua/functions/core/game/game_functions.cpp` `luaGameGetNormalizedPlayerName` | nome vazio ou acima de 30 → `nil`; online pelo mapa de nomes; offline por `g_playerRepository().formatPlayerName` (um `SELECT name`); `isNewName` ignorado (só silenciava o log) | usava `getPlayerByName(nome, true)`: personagem offline carregado inteiro a cada `!transfer`/NPC do banco, e nome inexistente logava `error` com o texto digitado (teste `PlayerNameLookupFunctionsTest`) |
 | `src/lua/functions/core/game/bank_functions.cpp` `luaBankTransfer`, `luaBankTransferToGuild` | `amount == 0` ou saldo insuficiente da origem → `false` **antes** de resolver o destino | o destino por nome passa por `Lua::getPlayer(L, arg, true)`/`getGuild(..., true)` e carregava o personagem offline mesmo quando a transferência não podia acontecer (`!transfer Nome,1` sem dinheiro = 2 loads por mensagem) |
 | `src/lua/creature/talkaction.cpp` `TalkActions::checkWord` | antes do `executeSay`: `TalkActionCooldown::global().admit(*player, OTSYS_TIME())` (`src/lua/creature/talkaction_cooldown.cpp`): 1 talkaction por segundo por player, staff (`isAccessPlayer`) sem limite; recusa consome a palavra, manda "exhausted" e conta `talkaction_requests_throttled` (valor escolhido pelo usuário) | talkactions rodam antes do mute e não tinham intervalo: um client rodava uma por pacote (`!transfer`, `!livestream` grava no banco, `!online` percorre todos) |
-| `src/lib/logging/log_with_spd_log.cpp` `info`/`warn`/`error`/`critical` | `if (!log_budget::admit()) return;` (+ include); orçamento em `src/lib/logging/log_budget.cpp`, aberto pelo `packet_watch::Scope` (membro `logBudget`, fechado antes do aviso de pacote lento): 3 linhas por pacote e 20 por player por minuto; excedente em `packet_log_lines_suppressed{opcode}` e num aviso-resumo a cada 5 s (valores escolhidos pelo usuário) | o log é síncrono no dispatcher; `0x03` da proficiência gerava até 255 `error` por pacote, e nome inexistente em várias rotas gerava `error` com texto do atacante: disco cheio e loop do jogo lento. Linhas fora de um pacote (tarefas agendadas, boot) não são limitadas |
+| `src/lib/logging/log_with_spd_log.cpp` `info`/`warn`/`error`/`critical` | `if (!log_budget::admit()) return;` (+ include); orçamento em `src/lib/logging/log_budget.cpp`, aberto pelo `packet_watch::Scope` (membro `logBudget`, fechado antes do aviso de pacote lento): 3 linhas por pacote e 20 por player por minuto, staff sem limite (valores escolhidos pelo usuário); o que é cortado conta em `packet_log_lines_suppressed{opcode}` e cada player cortado é nomeado (IP, opcodes, contagem) num aviso no máximo 1 vez por minuto, para que encher o orçamento com ruído não esconda o autor (achado da revisão de segurança); o estado por player é podado quando fica uma janela quieto (mesmo com linhas pendentes) e a poda só roda de novo quando o mapa dobra | o log é síncrono no dispatcher; `0x03` da proficiência gerava até 255 `error` por pacote, e nome inexistente em várias rotas gerava `error` com texto do atacante: disco cheio e loop do jogo lento. Linhas fora de um pacote (tarefas agendadas, boot) não são limitadas |
 | `data/scripts/talkactions/player/reward.lua` | o storage `PlayerWeaponReward` é conferido de novo no callback da escolha | cada `!reward` abria outra janela com id novo e responder todas entregava uma arma de exercício (64400 cargas) por janela (`toggleReceiveReward`, desligado por padrão). Harness `tools/lua/reward_check.lua` (o upstream entrega 2) |
-| `protocolgame.cpp` `parseQuickLootBlackWhitelist`; `LootService::playerSetManagedContainer`/`Clear`/`Open`/`playerQuickLootBlackWhitelist` (`loot_service.cpp`, já da branch) | contagem da lista maior que os bytes restantes é recusada no parse; o service recusa categoria fora do enum (`isManagedContainerCategory`) e lista acima de 1000 ou filtro desconhecido (`normalizeQuickLootList`, que também ordena e tira duplicados); métrica `quickloot_requests_rejected{reason}` | categoria do pacote virava `1 << category` (UB a partir de 32) e chave do mapa; a lista aceitava até 65535 entradas (leitura além do fim devolve 0) e é percorrida a cada item saqueado |
-| `game.cpp` `Game::playerSetTyping` | corpo movido para `ChatService::playerSetTyping` (`chat_service.cpp`, mesmo nome: o `moved_merge.py` casa); só transmite mudança de estado, "começou a digitar" no máximo 1 vez/s, "parou" sempre passa depois de "começou" (`src/game/chat/typing_throttle.hpp`); métrica `typing_updates_dropped` (valor escolhido pelo usuário) | `0x38` era transmitido a todos os espectadores de todos os andares sem intervalo (mesma classe do `0xD3`) |
+| `protocolgame.cpp` `parseQuickLootBlackWhitelist`; `LootService::playerSetManagedContainer`/`Clear`/`Open`/`playerQuickLootBlackWhitelist` (`loot_service.cpp`, já da branch) | contagem da lista maior que os bytes restantes é recusada no parse; o service recusa categoria fora do enum (`isManagedContainerCategory`) e lista acima de 1000 ou filtro desconhecido (`normalizeQuickLootList`, que também ordena e tira duplicados); métrica `quickloot_requests_rejected{reason}` e aviso com o player (limitado pelo `log_budget`) | categoria do pacote virava `1 << category` (UB a partir de 32) e chave do mapa; a lista aceitava até 65535 entradas (leitura além do fim devolve 0) e é percorrida a cada item saqueado |
+| `game.cpp` `Game::playerSetTyping` | corpo movido para `ChatService::playerSetTyping` (`chat_service.cpp`, mesmo nome: o `moved_merge.py` casa); só transmite mudança de estado, "começou a digitar" no máximo 1 vez/s, "parou" sempre passa depois de "começou", e um "digitando" parado há 60 s expira (relog com o mesmo id) (`src/game/chat/typing_throttle.hpp`); métrica `typing_updates_dropped` (valor escolhido pelo usuário) | `0x38` era transmitido a todos os espectadores de todos os andares sem intervalo (mesma classe do `0xD3`) |
 | `src/creatures/players/livestream/livestream.cpp/.hpp` `LivestreamManager::changeViewerName` | `viewerRenameRefusal` (estático): 1 rename a cada 10 s por espectador (`LivestreamViewerInfo::lastRenameAt`) e nome igual ao do caster ou de player online recusado (valor escolhido pelo usuário) | o `/name` não tinha intervalo e cada rename é anunciado à sessão inteira; o espectador podia assumir o nome do caster ou de outro player no canal |
+| `src/database/databasetasks.cpp/.hpp` (`execute`, `store`; novos `startConnectionPool`, `shutdown`, `withConnection`) | as consultas assíncronas rodam numa conexão emprestada de um `ConnectionPool<Database>` (`src/database/connection_pool.hpp`, modelo do HikariCP: empresta e devolve por consulta, espera máxima de 5 s, conexão ociosa há 30 s é validada com `ping`, vida máxima de 30 min, conexão perdida reaberta no próximo empréstimo); sem pool ou com a espera esgotada, usam a conexão do jogo como antes. Métricas `database_task_connections_replaced{reason,opened}` e `database_task_connection_waits_exhausted` | dividiam a única conexão (com mutex) com o loop do jogo: enquanto uma consulta de fundo rodava (estatísticas do mercado ~100 ms, highscores, `db.asyncQuery`), toda consulta síncrona esperava. Só comandos independentes passam pelo pool (sem transação, sem `getLastInsertId`) |
+| `src/database/database.cpp/.hpp` | `ping()`; o último erro do MySQL por thread (`lastErrorOnThisThread`, gravado em `retryQuery` e `storeQuery`); `DBTransaction::executeWithinTransaction*` rodam a transação mais uma vez quando ela foi vítima de deadlock (1213), por `retryOnceOnDeadlock`; métrica `database_transaction_deadlocks` | com conexões paralelas, uma transação (save de player, casas, kv) pode ser a vítima que o InnoDB desfaz; os callbacks regravam tudo a partir da memória, então rodar de novo é seguro. O lado síncrono **mantém** o retry do upstream (fica preso até o MySQL voltar): falhar rápido faria saves falharem com o banco fora e arriscaria perder itens |
+| `src/canary_server.cpp` (`initializeDatabase`, `shutdown`) | `g_databaseTasks().startConnectionPool(databaseTaskConnections)` depois do `schema_hardening`; `g_databaseTasks().shutdown()` depois do `g_threadPool().shutdown()` | as conexões do pool fecham num ponto controlado, sem depender da ordem de destruição estática |
+| `src/config/config_enums.hpp`, `configmanager.cpp`, `config.lua.dist` | `DATABASE_TASK_CONNECTIONS` / `databaseTaskConnections` (padrão 2; 0 mantém tudo na conexão do jogo) | escolha do agente com aval do usuário ("faça o que achar melhor") |
+| `protocolgame.cpp` `parseExivaRestrictions`, `parseWeaponProficiency` (ação `0x01`); `game.hpp/.cpp` (delegates `admitExivaRestrictionsEdit`/`admitProficiencyListing`) | antes do trabalho: `g_game().admitExivaRestrictionsEdit(player)` (1 edição a cada 2 s) e `g_game().admitProficiencyListing(player)` (1 vez por segundo), em `PlayerInteractionService` (`RequestCooldown`); recusa manda "exhausted" e conta `client_requests_throttled{request}` (valores escolhidos pelo usuário) | exiva (só no-pvp): até 4 × `maxExivaWhitelist` `SELECT` síncronos por pacote; proficiência `0x01`: uma janela por arma treinada por pacote; nenhum dos dois tinha intervalo |
+| `protocolgame.cpp` `parsePartyAnalyzerAction` | contagem de preços maior que os bytes restantes é recusada | o laço lia além do fim até 65535 vezes por pacote |
+| `src/lua/functions/core/game/game_functions.cpp` `luaGameGetNormalizedGuildName`; porta `IGuildRepository::formatGuildName` (`guild_repository_db.cpp`, fake em `tests/fixture/io/in_memory_guild_repository.hpp`) | nome por uma consulta (`SELECT name ... LIMIT 1`), sem carregar a guild | os NPCs do banco passam o nome digitado: cada mensagem carregava a guild (nome, saldo, ranks) |
 | `src/utils/tools.cpp` `formatDate`/`formatDateShort`/`formatDateTime` (issue upstream #4154) | porta idêntica do PR upstream #4179: formata `std::tm` local (`toLocalTime`), sem `time_point` | o fmt 12 imprimia o `time_point` em UTC e com nanossegundos (`22:13:20.000000000`); quando o #4179 entrar no upstream, o merge é limpo (teste `DateFormattingTest`) |
 | `player.cpp` `addSkillAdvance`/`addManaSpent`/`addOfflineTrainingTries` (hoje em `player_experience_component.cpp`/`player_training_component.cpp`), `Player::sendSkillAdvance`, `ProtocolGame::sendSkillAdvance` (em `protocolgame_send.cpp`) (issue upstream #4114) | porta do PR upstream #4181: o aviso de avanço manda o id do evento `0x75/0x05` (`getSkillAdvanceEventId`: magia 1, espada 2, clava 3, machado 4, punho 5, distância 6, escudo 7, pesca 8) em vez do `getCipbiaSkill` | o client mostrava escudo como distância e espada como pesca. Quando o #4181 entrar no upstream, o `moved_merge.py` traz as 4 trocas de `player.cpp` para os components (já feitas: aceitar a nossa) (teste `SkillAdvanceGameEventTest`) |
 | `src/server/network/protocol/protocolgame.cpp` `disconnectClient` e a recusa de senha em `onRecvFirstMessage` (issue upstream #4153) | as duas montagens do `0x14` passam por `ProtocolGame::addLoginError` (declarado no `protocolgame.hpp`), que acrescenta o byte de motivo `0x00` quando `!oldProtocol && version >= 1523` | o client oficial 15.23+ lê esse byte; sem ele o pacote dá erro de parse e o client fecha em vez de mostrar "already logged in", ban ou senha errada. Se o upstream mexer nessas linhas, manter a chamada ao helper (teste `LoginErrorPacketTest`) |
@@ -555,15 +562,22 @@ Pendente (ordem sugerida):
    Os testes da auditoria de pacotes cobrem as recusas; os caminhos legítimos precisam desta
    sessão: lance válido em casa à venda, transferência pelo dono (e o aceite), upgrade de grade de
    gema no wheel, atribuir charm desbloqueado, prey pela lista completa, report de violação e
-   busca/transferência de coins no store.
-2. Segunda conexão MySQL para `DatabaseTasks`.
+   busca/transferência de coins no store. Da 23.5: "digitando" (só mudanças são transmitidas agora;
+   conferir se o client reenvia `0x38` para manter o indicador e o que vê quem chega no meio),
+   lista do quick loot real (teto de 1000; acima disso é recusada inteira), categorias de container
+   de loot que o client manda (nunca fora do enum), 1 talkaction por segundo no jogo normal, e o
+   login com o client 15.25 (o smoke cobriu o 8.60; mesma função, layout de session key).
+2. ~~Conexões próprias para `DatabaseTasks`~~: feito em 2026-11-14 (pool no modelo do HikariCP só para as consultas
+   assíncronas, `databaseTaskConnections = 2`, e retry de transação vítima de deadlock; tabela do §5b). O lado
+   síncrono continua com uma conexão e o retry do upstream.
 3. A* antes do intervalo de ação em "usar item (com)": medir com `[PacketWatch]` em produção
    antes de mudar, porque altera o tempo de reação do jogo.
 5. Teste manual dos highscores no cliente.
-6. Medir o custo do `packet_watch::Scope` por pacote no build de métricas (copia o nome do player
-   e registra um histograma em todo pacote).
-8. A consulta de ofertas usada só para preços (`loadActiveOffers`) ainda traz o nome do dono por
-   subconsulta; `rebuildItemsPrice` só precisa de item, tier e preço.
+6. ~~Custo do `packet_watch::Scope`~~: medido em 2026-11-14 com o SDK do build de métricas
+   (`tools/bench/packet_scope_bench.cpp`): 330–390 ns por pacote (nome copiado, 3 leituras de relógio, mapa de
+   atributos, `Record` no histograma). 1000 jogadores a 25 pacotes/s ≈ 9 ms por segundo (< 1% de um núcleo): sem mudança.
+8. ~~Ofertas só para preços~~: feito (`loadBestOfferPrices`: `MAX`/`MIN(price)` agrupado por item e tier no banco, sem
+   subconsulta do nome do dono; IT `BestOfferPricesAreGroupedPerItemAndTier`).
 9. ~~Mailbox~~: feito só a checagem leve de existência (escolha do usuário: opção 1, sem limite
    por remetente). Entrega a offline existente ainda custa load + save síncrono; se o
    `[PacketWatch]` mostrar abuso em produção, reavaliar o limite.
@@ -689,26 +703,64 @@ Resultado atual: ver a última linha de validação no `todo.md` (CHECKPOINT 23)
   Horror 13.40, Weretiger 13.20, Cult Believer 11.40); o rótulo parece ser o padrão do coletor antigo. Os
   portões de "estatística antiga" usam o rótulo, então são conservadores demais para essas criaturas
   (24.7k: não adotado).
+- **Baú de recompensa segue o wiki (decisão do usuário, 2026-11-13):** cada participante rola a tabela com
+  `chance × fator` (`reward_chest.lua`: `f·(1+f)^(contribuição/esperada)`, `f = 1/participantes^(1/3)`; 2,0 solo,
+  ≈ 1,0 com 4 jogadores iguais, ≈ 0,68 com 10). A taxa por jogador do wiki vira a chance base (grupo típico de ~4).
+  Exceções: entradas `unique` (só o maior contribuidor rola, `getBossReward`) ficam como no upstream (`REWARD_UNIQUE`),
+  e item que falta no baú fica para revisão (`REWARD_MISSING`: pode ser `unique`). Entraram 1056 fixes em 107 bosses:
+  375 chances (227 subiram, 148 desceram), 644 `maxCount` (596/48), 37 remoções (todos os itens seguem obtíveis em
+  outra fonte). Os bosses de The Curse Spreads e a Percht Queen escreviam `chance = 13600000` (drop garantido acima de
+  100%): o comparador limita a probabilidade a 100%, então o `plan` grava como `from` a chance crua da entrada
+  (`datapack_raw_chance`); sem isso o `apply` acusava conflito. 48 drops garantidos viraram a taxa do wiki.
+  Estatística antiga sem confirmação e identidade não confirmada ficam como no upstream (decisão do usuário).
+  Manifesto: 4739.
+- **Grupos pequenos (24.7o):** `tools/datapack/wiki_item_ids.json` guarda o `itemid` da página de item do wiki
+  (`wiki_check.py item-ids`, 247 de 281 nomes) para nomes de loot que o `items.xml` não fixa. Ele entra só para nomes
+  que o `items.xml` **não tem** (itens novos sem nome, como bulltaur horn = 44736, e variantes com sufixo, como giant
+  shimmering pearl (green) = 281); nome que o `items.xml` tem, mesmo ambíguo, continua como o servidor o resolve (o
+  datapack usa esses nomes; sobrescrever quebrou o par `{ id = 28568 } -- inkwell` ↔ "inkwell (black)" na primeira
+  tentativa) e a página só escolhe o id de uma **adição** quando dá um id só. Adição com id da página é `exact`: o
+  `apply` só recusa se aquele id já estiver listado (o pedestal vermelho 9063 entra ao lado do 9065 de outra cor).
+  `validate` derruba fix tirado de linha do wiki com sufixo que a página diz ser outro item (a The Scourge of Oblivion
+  tinha a taxa da pérola marrom na entrada verde; arquivo restaurado). Item em 2+ entradas vira `chance_split`: todas
+  as chances escaladas pelo mesmo fator até a probabilidade combinada bater com o wiki (mantém a forma das entradas).
+  Fix de chance de entrada única acha a própria entrada pelo valor quando outra do mesmo nome aparece depois.
+  Resultado: 18 splits, 10 adições por id (dragon trophy 44158, sai 50183, lichen gobbler 43782, pérolas, frasco,
+  pedestal, pergaminho), 3 remoções liberadas (as linhas do wiki que bloqueavam são outros itens) e 1 chance; ficaram
+  `die` e `wooden trash` (a página lista vários ids equivalentes) e a coroa da Percht Queen (página sem `itemid`).
+  Manifesto: 4770; lado do upstream: 0 conflitos, 4 arquivos só com outra ordem de linhas.
 - **Controle negativo do smoke:** um item de loot inexistente injetado no Dragon gera
   `[LootFunctions::luaLootSetIdFromName] - Unknown loot item` e `could not be loaded`; o grep do
   smoke pega os dois.
 
-## 6f. Phase 25 (concluída): issues abertas do upstream
+## 6f. Phase 25: massa de teste e swarm de bots
+
+- `tools/loadtest/seed.py` cria/restaura as contas `@loadtest.invalid` no banco do `config.lua` (decisão do usuário:
+  o banco normal pode receber a massa). Bots (`lt_bot_*`, personagens `Swarm …`) e manuais (`lt_manual_*`,
+  `Tester …`) ficam em contas separadas: o swarm só usa os bots. Rode com o servidor sem personagens de teste online
+  (o logout salva por cima). Logins em `build/loadtest/characters.json`.
+- `tools/loadtest/swarm.py` sobe N clientes 15.25 (`tibia_client.py`) a partir de 127.0.0.2+, respeitando os limites
+  por IP; precisa do build de métricas com `metricsEnablePrometheus = true` para o relatório.
+- Achados da primeira rodada (KV sem cache negativo, login caro por títulos, logout síncrono, buckets do exportador)
+  estão no `todo.md` (25.4); viraram pendências de C++ para quando o usuário liberar.
+
+## 6g. Phase 26 (concluída): issues abertas do upstream
 
 - Worktree `/home/nicollas/lundaria/canary-upstream-issues`, branch `nicollassantos/upstream-issues`
   (saiu do `7e517fb00`; as mudanças não commitadas do checkout principal não estão nela). Triagem das
-  58 issues e níveis de prova em `tasks/upstream_issues.md`; tasks e resultados no `todo.md` (Phase 25).
+  58 issues e níveis de prova em `tasks/upstream_issues.md`; tasks e resultados no `todo.md` (Phase 26; aberta como 25 e renumerada no merge com a `solid`, que já tinha a Phase 25 de load test).
 - Corrigidas: #4154 (porta do PR #4179), #4114 (porta do PR #4181), #4153, #4125, #3478, #3453, #3513,
   #3742, #2083, mais chaves repetidas nas tabelas de startup (baús do Captain Iglue's Treasure e do
   Minotaur Hell sem unique id). Linhas no §5b.
 - Ferramentas novas: `tools/lua/freequests_check.lua`, `tools/lua/oasis_door_check.lua`,
   `tools/lua/store_balance_check.lua`, `tools/datapack/duplicate_keys_check.py` (+ testes).
-- Decisões do usuário (2026-11-17): `!withdraw`/banco sem teto (#3374; medição no `todo.md` 25.12,
+- Decisões do usuário (2026-11-17): `!withdraw`/banco sem teto (#3374; medição no `todo.md` 26.12,
   até ~154 ms para o maior saque num container com espaço); #4091 e #4057 só registradas (edição do
   `.otbm` no RME).
 - Falta: sessão com client real (cor do preço na Cyclopedia, #4153 com o client 15.25, campo/bomba,
-  aljava) e conciliar o `protocolgame.cpp` com as mudanças não commitadas do checkout principal ao juntar
-  esta branch na `nicollassantos/solid`.
+  aljava).
+- Merge na `nicollassantos/solid` (2026-11-17): conflito em `Game::loadItemsPrice` resolvido juntando a
+  consulta `loadBestOfferPrices` da solid com o reenvio em lotes da #2083.
 
 ## 7. Smoke test do servidor (banco descartável)
 

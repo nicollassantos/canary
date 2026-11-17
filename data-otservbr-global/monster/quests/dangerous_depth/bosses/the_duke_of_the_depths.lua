@@ -74,17 +74,17 @@ monster.voices = {
 }
 
 monster.loot = {
-	{ name = "platinum coin", chance = 100000, maxCount = 63 },
-	{ name = "mastermind potion", chance = 100000 },
+	{ name = "platinum coin", chance = 100000, maxCount = 88 },
+	{ name = "mastermind potion", chance = 100000, maxCount = 3 },
 	{ name = "stone skin amulet", chance = 100000 },
 	{ id = 27713, chance = 100000 }, -- heavy crystal fragment
 	{ name = "wand of inferno", chance = 75000 },
-	{ name = "great mana potion", chance = 64580, maxCount = 18 },
-	{ name = "blue crystal shard", chance = 60420 },
+	{ name = "great mana potion", chance = 64580, maxCount = 31 },
+	{ name = "blue crystal shard", chance = 60420, maxCount = 7 },
 	{ name = "fire axe", chance = 58330 },
-	{ name = "ultimate health potion", chance = 52080, maxCount = 18 },
-	{ name = "fire sword", chance = 52080 },
-	{ name = "great spirit potion", chance = 45830, maxCount = 18 },
+	{ name = "ultimate health potion", chance = 52080, maxCount = 27 },
+	{ name = "fire sword", chance = 67308 },
+	{ name = "great spirit potion", chance = 45830, maxCount = 29 },
 	{ name = "luminous orb", chance = 37500 },
 	{ name = "damaged worm head", chance = 27080 },
 	{ name = "small amethyst", chance = 25000 },
@@ -96,15 +96,15 @@ monster.loot = {
 	{ name = "giant tentacle", chance = 16670 },
 	{ name = "yellow gem", chance = 16670 },
 	{ name = "blue gem", chance = 16670 },
-	{ name = "small ruby", chance = 14580 },
+	{ name = "small ruby", chance = 14580, maxCount = 19 },
 	{ id = 281, chance = 14580 }, -- giant shimmering pearl
 	{ name = "magic sulphur", chance = 14580 },
-	{ name = "huge chunk of crude iron", chance = 12500 },
-	{ id = 3039, chance = 12500 }, -- red gem
+	{ name = "huge chunk of crude iron", chance = 12500, maxCount = 3 },
+	{ id = 3039, chance = 23077 }, -- red gem
 	{ name = "small topaz", chance = 10420 },
-	{ name = "small emerald", chance = 10420 },
+	{ name = "small emerald", chance = 19231 },
 	{ name = "muck rod", chance = 10420 },
-	{ name = "gold token", chance = 10420 },
+	{ name = "gold token", chance = 25000 },
 	{ name = "crystal coin", chance = 6250 },
 	{ name = "gnome shield", chance = 4170 },
 	{ name = "crystalline armor", chance = 4170 },

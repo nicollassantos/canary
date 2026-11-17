@@ -59,14 +59,14 @@ monster.light = {
 monster.loot = {
 	{ name = "platinum coin", chance = 100000, maxcount = 30 },
 	{ id = 3039, chance = 35542, maxCount = 2 }, -- red gem
-	{ name = "ultimate health potion", chance = 27000, maxcount = 7 },
-	{ name = "ultimate mana potion", chance = 24300, maxcount = 5 },
-	{ name = "ultimate spirit potion", chance = 25750, maxcount = 4 },
-	{ name = "mastermind potion", chance = 23200, maxcount = 3 },
+	{ name = "ultimate health potion", chance = 27000, maxCount = 8, maxcount = 7 },
+	{ name = "ultimate mana potion", chance = 24300, maxCount = 7, maxcount = 5 },
+	{ name = "ultimate spirit potion", chance = 25750, maxCount = 6, maxcount = 4 },
+	{ name = "mastermind potion", chance = 23200, maxCount = 3, maxcount = 3 },
 	{ id = 49271, chance = 23200, maxcount = 3 }, -- transcendence potion
-	{ name = "berserk potion", chance = 24800, maxcount = 3 },
-	{ name = "bullseye potion", chance = 23500, maxcount = 3 },
-	{ name = "yellow gem", chance = 26200, maxcount = 5 },
+	{ name = "berserk potion", chance = 24800, maxCount = 3, maxcount = 3 },
+	{ name = "bullseye potion", chance = 23500, maxCount = 2, maxcount = 3 },
+	{ name = "yellow gem", chance = 26200, maxCount = 5, maxcount = 5 },
 	{ name = "blue gem", chance = 25100 },
 	{ name = "green gem", chance = 24600 },
 	{ name = "violet gem", chance = 25350 },

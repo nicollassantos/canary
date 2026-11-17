@@ -85,7 +85,7 @@ monster.loot = {
 	{ name = "small amethyst", chance = 100000, maxCount = 3 },
 	{ name = "knight armor", chance = 3100 },
 	{ name = "golden armor", chance = 2200 },
-	{ name = "patch of fine cloth", chance = 1800, maxCount = 3 },
+	{ name = "patch of fine cloth", chance = 1800, maxCount = 1 },
 	{ name = "violet gem", chance = 1800 },
 	{ name = "titan axe", chance = 1600 },
 	{ name = "war axe", chance = 1400 },

@@ -95,6 +95,35 @@ namespace it_market_repo_db {
 		})();
 	}
 
+	// The item prices need only the best price per item and tier: the database groups the rows.
+	TEST(MarketRepositoryDBTest, BestOfferPricesAreGroupedPerItemAndTier) {
+		auto &db = g_database();
+		databaseTest(db, [&db] {
+			const auto owner = createOwner(db);
+			const auto itemId = uniqueItemId();
+			MarketRepositoryDB repository(db, marketConfig());
+			for (const uint64_t price : { 10, 30, 20 }) {
+				repository.createOffer(owner.id, MARKETACTION_BUY, itemId, 1, price, 0, false);
+				repository.createOffer(owner.id, MARKETACTION_SELL, itemId, 1, price, 0, false);
+			}
+			repository.createOffer(owner.id, MARKETACTION_BUY, itemId, 1, 99, 1, false);
+
+			std::map<std::pair<uint16_t, uint8_t>, uint64_t> buy;
+			for (const auto &offer : repository.getBestOfferPrices(MARKETACTION_BUY)) {
+				buy[{ offer.itemId, offer.tier }] = offer.price;
+			}
+			EXPECT_EQ(30U, (buy[{ itemId, 0 }]));
+			EXPECT_EQ(99U, (buy[{ itemId, 1 }]));
+
+			std::map<std::pair<uint16_t, uint8_t>, uint64_t> sell;
+			for (const auto &offer : repository.getBestOfferPrices(MARKETACTION_SELL)) {
+				sell[{ offer.itemId, offer.tier }] = offer.price;
+			}
+			EXPECT_EQ(10U, (sell[{ itemId, 0 }]));
+			EXPECT_EQ(0U, sell.count({ itemId, 1 }));
+		})();
+	}
+
 	TEST(MarketRepositoryDBTest, AnonymousOfferHidesOwnerName) {
 		auto &db = g_database();
 		databaseTest(db, [&db] {

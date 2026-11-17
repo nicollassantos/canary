@@ -76,16 +76,16 @@ monster.summon = {
 monster.voices = {}
 
 monster.loot = {
-	{ name = "crystal coin", chance = 12317, maxCount = 91 },
+	{ name = "crystal coin", chance = 12317, maxCount = 136 },
 	{ id = 3039, chance = 10896, maxCount = 2 }, -- red gem
-	{ name = "amber with a bug", chance = 14590, maxCount = 1 },
+	{ name = "amber with a bug", chance = 14590, maxCount = 3 },
 	{ name = "amber with a dragonfly", chance = 5405, maxCount = 1 },
 	{ name = "bullseye potion", chance = 10821, maxCount = 44 },
 	{ name = "green gem", chance = 7763, maxCount = 4 },
-	{ name = "mastermind potion", chance = 9534, maxCount = 15 },
-	{ name = "supreme health potion", chance = 6212, maxCount = 102 },
+	{ name = "mastermind potion", chance = 9534, maxCount = 46 },
+	{ name = "supreme health potion", chance = 6212, maxCount = 195 },
 	{ name = "ultimate mana potion", chance = 8785, maxCount = 29 },
-	{ name = "ultimate spirit potion", chance = 8783, maxCount = 161 },
+	{ name = "ultimate spirit potion", chance = 8783, maxCount = 188 },
 }
 
 monster.attacks = {

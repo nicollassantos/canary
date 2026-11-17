@@ -70,16 +70,16 @@ monster.voices = {
 }
 
 monster.loot = {
-	{ name = "gold coin", chance = 100000, maxCount = 100 },
-	{ name = "platinum coin", chance = 100000, maxCount = 10 },
-	{ name = "orcish axe", chance = 32910 },
+	{ name = "gold coin", chance = 100000, maxCount = 198 },
+	{ name = "platinum coin", chance = 100000, maxCount = 19 },
+	{ name = "orcish axe", chance = 22271 },
 	{ name = "two handed sword", chance = 24680 },
-	{ name = "throwing star", chance = 19600, maxCount = 18 },
-	{ name = "mana potion", chance = 15200, maxCount = 3 },
+	{ name = "throwing star", chance = 19600, maxCount = 35 },
+	{ name = "mana potion", chance = 15200, maxCount = 5 },
 	{ name = "dark armor", chance = 14000 },
-	{ name = "health potion", chance = 12000, maxCount = 3 },
-	{ id = 3578, chance = 10300, maxCount = 1 }, -- fish
-	{ name = "meat", chance = 10300 },
+	{ name = "health potion", chance = 12000, maxCount = 5 },
+	{ id = 3578, chance = 19651, maxCount = 1 }, -- fish
+	{ name = "meat", chance = 10300, maxCount = 3 },
 	{ name = "plate legs", chance = 8100 },
 	{ id = 3049, chance = 6960 }, -- stealth ring
 	{ name = "magma amulet", chance = 5700 },

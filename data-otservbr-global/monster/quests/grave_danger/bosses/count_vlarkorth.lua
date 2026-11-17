@@ -77,28 +77,27 @@ monster.voices = {
 }
 
 monster.loot = {
-	{ name = "platinum coin", minCount = 1, maxCount = 5, chance = 100000 },
-	{ name = "crystal coin", minCount = 0, maxCount = 2, chance = 50000 },
-	{ name = "supreme health potion", minCount = 0, maxCount = 6, chance = 35000 },
-	{ name = "ultimate mana potion", minCount = 0, maxCount = 20, chance = 32000 },
-	{ name = "ultimate spirit potion", minCount = 0, maxCount = 20, chance = 32000 },
-	{ name = "bullseye potion", minCount = 0, maxCount = 10, chance = 12000 },
-	{ name = "mastermind potion", minCount = 0, maxCount = 10, chance = 12000 },
-	{ id = 49271, minCount = 0, maxCount = 10, chance = 12000 }, -- transcendence potion
-	{ name = "silver token", minCount = 0, maxCount = 2, chance = 8000 },
-	{ name = "blue gem", chance = 9000 },
-	{ id = 23542, chance = 5200 }, -- collar of blue plasma
+	{ name = "platinum coin", minCount = 1, maxCount = 9, chance = 100000 },
+	{ name = "crystal coin", minCount = 0, maxCount = 3, chance = 50000 },
+	{ name = "supreme health potion", minCount = 0, maxCount = 30, chance = 60550 },
+	{ name = "ultimate mana potion", minCount = 0, maxCount = 32, chance = 56881 },
+	{ name = "ultimate spirit potion", minCount = 0, maxCount = 34, chance = 52294 },
+	{ name = "bullseye potion", minCount = 0, maxCount = 19, chance = 12000 },
+	{ name = "mastermind potion", minCount = 0, maxCount = 19, chance = 25688 },
+	{ name = "silver token", minCount = 0, maxCount = 3, chance = 100000 },
+	{ name = "blue gem", chance = 9000, maxCount = 2 },
+	{ id = 23542, chance = 12844 }, -- collar of blue plasma
 	{ id = 23544, chance = 5200 }, -- collar of red plasma
 	{ name = "blue gem", chance = 8500 },
-	{ name = "gold ingot", minCount = 0, maxCount = 1, chance = 10000 },
-	{ name = "green gem", chance = 8200 },
+	{ name = "gold ingot", minCount = 0, maxCount = 1, chance = 20183 },
+	{ name = "green gem", chance = 21101, maxCount = 2 },
 	{ name = "magic sulphur", chance = 6500 },
-	{ id = 3039, chance = 8000 }, -- red gem
+	{ id = 3039, chance = 41284 }, -- red gem
 	{ id = 23529, chance = 5000 }, -- ring of blue plasma
 	{ id = 23533, chance = 5000 }, -- ring of red plasma
 	{ id = 23531, chance = 5000 }, -- ring of green plasma
-	{ name = "skull staff", chance = 7000 },
-	{ name = "yellow gem", chance = 8500 },
+	{ name = "skull staff", chance = 16514 },
+	{ name = "yellow gem", chance = 30275, maxCount = 2 },
 	{ name = "young lich worm", chance = 5500 },
 	{ name = "bear skin", chance = 1600 },
 	{ name = "embrace of nature", chance = 1100 },

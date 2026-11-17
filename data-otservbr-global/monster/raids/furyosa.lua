@@ -81,8 +81,8 @@ monster.voices = {
 }
 
 monster.loot = {
-	{ id = 3031, chance = 100000, maxCount = 200 }, -- gold coin
-	{ id = 8016, chance = 100000, maxCount = 5 }, -- jalapeno pepper
+	{ id = 3031, chance = 100000, maxCount = 311 }, -- gold coin
+	{ id = 8016, chance = 100000, maxCount = 8 }, -- jalapeno pepper
 	{ id = 19083, chance = 45000 }, -- silver raid token
 	{ id = 3035, chance = 85000, maxCount = 25 }, -- platinum coin
 	{ id = 6558, chance = 35000, maxCount = 3 }, -- flask of demonic blood

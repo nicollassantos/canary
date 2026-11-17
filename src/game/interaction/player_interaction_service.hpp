@@ -41,6 +41,11 @@ public:
 	/// Rule violation reports go to reports/players/<reporter>-<target>-<type>.txt (datapack), one
 	/// file per target, so the target must be a plain name and reports are rate limited.
 	static constexpr int64_t RuleViolationReportCooldownMs = 10000;
+	/// One exiva restrictions edit (no-pvp worlds) resolves up to four lists of maxExivaWhitelist
+	/// names, each with a synchronous database lookup.
+	static constexpr int64_t ExivaRestrictionsCooldownMs = 2000;
+	/// Weapon proficiency action 0x01 sends one window per weapon the player has trained.
+	static constexpr int64_t ProficiencyListCooldownMs = 1000;
 
 	PlayerInteractionService(Game &game, IConfigManager &config) :
 		game_(game), config_(config) { }
@@ -83,6 +88,12 @@ public:
 	void playerReportBug(uint32_t playerId, const std::string &message, const Position &position, uint8_t category);
 	void playerReportRuleViolationReport(uint32_t playerId, const std::string &targetName, uint8_t reportType, uint8_t reportReason, const std::string &comment, const std::string &translation);
 
+	/// True when the player may edit exiva restrictions now. A refused player is told they are
+	/// exhausted and counted in client_requests_throttled{request="exiva_restrictions"}.
+	bool admitExivaRestrictionsEdit(const std::shared_ptr<Player> &player);
+	/// Same for the weapon proficiency list (action 0x01), request="proficiency_list".
+	bool admitProficiencyListing(const std::shared_ptr<Player> &player);
+
 	/// A player name as the client shows it: 1 to 30 letters, spaces, apostrophes or hyphens.
 	/// The report target ends up in a file path, so nothing else is accepted.
 	static bool isReportableName(std::string_view name);
@@ -111,4 +122,6 @@ private:
 	uint64_t rejectedBugReportCount = 0;
 	RequestCooldown ruleViolationReportCooldown { RuleViolationReportCooldownMs };
 	uint64_t rejectedRuleViolationReportCount = 0;
+	RequestCooldown exivaRestrictionsCooldown { ExivaRestrictionsCooldownMs };
+	RequestCooldown proficiencyListCooldown { ProficiencyListCooldownMs };
 };

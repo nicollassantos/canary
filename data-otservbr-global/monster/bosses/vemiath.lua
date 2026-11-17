@@ -78,15 +78,15 @@ monster.voices = {
 }
 
 monster.loot = {
-	{ name = "crystal coin", chance = 8852, maxCount = 125 },
+	{ name = "crystal coin", chance = 8852, maxCount = 128 },
 	{ name = "ultimate mana potion", chance = 11337, maxCount = 211 },
 	{ name = "giant emerald", chance = 6423, maxCount = 1 },
-	{ name = "supreme health potion", chance = 8385, maxCount = 179 },
+	{ name = "supreme health potion", chance = 8385, maxCount = 203 },
 	{ name = "yellow gem", chance = 8604, maxCount = 5 },
 	{ name = "berserk potion", chance = 9395, maxCount = 45 },
 	{ name = "blue gem", chance = 14144, maxCount = 5 },
-	{ name = "green gem", chance = 6221, maxCount = 4 },
-	{ name = "bullseye potion", chance = 6530, maxCount = 26 },
+	{ name = "green gem", chance = 6221, maxCount = 5 },
+	{ name = "bullseye potion", chance = 6530, maxCount = 46 },
 	{ name = "mastermind potion", chance = 5700, maxCount = 44 },
 	{ name = "ultimate spirit potion", chance = 9216, maxCount = 25 },
 	{ name = "giant topaz", chance = 11191, maxCount = 1 },
@@ -96,7 +96,7 @@ monster.loot = {
 	{ name = "dragon figurine", chance = 11502, maxCount = 1 },
 	{ name = "raw watermelon tourmaline", chance = 9302, maxCount = 1 },
 	{ name = "vemiath's infused basalt", chance = 7914, maxCount = 1 },
-	{ name = "violet gem", chance = 7210, maxCount = 1 },
+	{ name = "violet gem", chance = 7210, maxCount = 4 },
 }
 
 monster.attacks = {

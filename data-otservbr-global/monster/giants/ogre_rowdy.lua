@@ -93,6 +93,7 @@ monster.loot = {
 	{ name = "blue gem", chance = 1825 },
 	{ name = "opal", chance = 1788 },
 	{ name = "wand of everblazing", chance = 1080 },
+	{ id = 282, chance = 931 }, -- giant shimmering pearl
 	{ name = "ogre choppa", chance = 540 },
 }
 

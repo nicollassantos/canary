@@ -86,7 +86,7 @@ monster.loot = {
 	{ id = 7440, chance = 22000, minCount = 1, maxCount = 9 }, -- mastermind potion
 	{ id = 51302, chance = 22000, minCount = 1, maxCount = 9 }, -- transcendence potion
 	{ id = 7443, chance = 20000, minCount = 1, maxCount = 9 }, -- bullseye potion
-	{ id = 35572, chance = 17000, minCount = 3, maxCount = 102 }, -- pirate coin
+	{ id = 35572, chance = 17000, minCount = 3, maxCount = 104 }, -- pirate coin
 	{ id = 7439, chance = 16000, minCount = 1, maxCount = 9 }, -- berserk potion
 	{ id = 35613, chance = 8000 }, -- ratmiral's hat
 	{ id = 35571, chance = 7140 }, -- small treasure chest
@@ -96,7 +96,7 @@ monster.loot = {
 	{ id = 35581, chance = 2680 }, -- golden cheese wedge
 	{ id = 35595, chance = 2680 }, -- soap
 	{ id = 35695, chance = 1790 }, -- scrubbing brush
-	{ id = 35614, chance = 890 }, -- cheesy membership card
+	{ id = 35614, chance = 5096 }, -- cheesy membership card
 	{ id = 35523, chance = 890 }, -- exotic amulet
 	{ id = 35515, chance = 890 }, -- throwing axe
 	{ id = 35517, chance = 890 }, -- bast legs

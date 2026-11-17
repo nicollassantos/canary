@@ -95,7 +95,6 @@ monster.loot = {
 	{ name = "diamond", chance = 11760 },
 	{ name = "cursed bone", chance = 7840 },
 	{ name = "soulforged lantern", chance = 7840 },
-	{ name = "grimace", chance = 5880 },
 	{ name = "amber", chance = 5880 },
 	{ name = "amber with a dragonfly", chance = 3920 },
 	{ name = "ghost claw", chance = 1960 },

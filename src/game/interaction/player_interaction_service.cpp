@@ -1697,3 +1697,24 @@ void PlayerInteractionService::playerReportRuleViolationReport(uint32_t playerId
 	g_callbacks().executeCallback(EventCallback_t::playerOnReportRuleViolation, player, targetName, reportType, reportReason, boundedComment, boundedTranslation);
 }
 
+namespace {
+	bool admitWithCooldown(RequestCooldown &cooldown, const std::shared_ptr<Player> &player, int64_t nowMs, std::string_view request) {
+		if (!player) {
+			return false;
+		}
+		if (cooldown.tryTake(player->getID(), nowMs)) {
+			return true;
+		}
+		player->sendCancelMessage(RETURNVALUE_YOUAREEXHAUSTED);
+		g_metrics().addCounter("client_requests_throttled", 1, { { "request", std::string(request) } });
+		return false;
+	}
+} // namespace
+
+bool PlayerInteractionService::admitExivaRestrictionsEdit(const std::shared_ptr<Player> &player) {
+	return admitWithCooldown(exivaRestrictionsCooldown, player, now(), "exiva_restrictions");
+}
+
+bool PlayerInteractionService::admitProficiencyListing(const std::shared_ptr<Player> &player) {
+	return admitWithCooldown(proficiencyListCooldown, player, now(), "proficiency_list");
+}

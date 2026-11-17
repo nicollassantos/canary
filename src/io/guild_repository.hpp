@@ -30,6 +30,9 @@ public:
 	[[nodiscard]] virtual std::shared_ptr<Guild> loadGuild(uint32_t guildId) = 0;
 	virtual void saveGuild(const std::shared_ptr<Guild> &guild) = 0;
 	[[nodiscard]] virtual uint32_t getGuildIdByName(const std::string &name) = 0;
+	/// Replaces `name` with the stored spelling and returns true when a guild has it; one lookup,
+	/// no load (scripts pass names typed by players).
+	[[nodiscard]] virtual bool formatGuildName(std::string &name) = 0;
 	virtual void getWarList(uint32_t guildId, GuildWarVector &guildWarVector) = 0;
 };
 

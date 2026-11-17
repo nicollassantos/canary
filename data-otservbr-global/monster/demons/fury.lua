@@ -88,9 +88,9 @@ monster.loot = {
 	{ name = "steel boots", chance = 790 },
 	{ name = "orichalcum pearl", chance = 1500, maxCount = 4 },
 	{ name = "red piece of cloth", chance = 4000 },
-	{ name = "soul orb", chance = 21500 },
+	{ name = "soul orb", chance = 20057 },
 	{ name = "assassin star", chance = 104 },
-	{ name = "soul orb", chance = 50 },
+	{ name = "soul orb", chance = 47 },
 	{ id = 6300, chance = 60 }, -- death ring
 	{ name = "demonic essence", chance = 22500 },
 	{ name = "flask of demonic blood", chance = 35000, maxCount = 3 },

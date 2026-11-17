@@ -86,8 +86,8 @@ monster.loot = {
 	{ id = 3115, chance = 5000 }, -- bone
 	{ name = "throwing star", chance = 910, maxCount = 3 },
 	{ name = "bone sword", chance = 1000 },
-	{ name = "iron helmet", chance = 2130 },
-	{ name = "iron helmet", chance = 2000 },
+	{ name = "iron helmet", chance = 940 },
+	{ name = "iron helmet", chance = 883 },
 	{ name = "bone shield", chance = 1000 },
 	{ name = "worm", chance = 9000, maxCount = 10 },
 	{ name = "half-digested piece of meat", chance = 5000 },

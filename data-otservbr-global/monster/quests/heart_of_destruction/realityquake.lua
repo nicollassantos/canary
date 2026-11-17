@@ -66,20 +66,20 @@ monster.voices = {
 }
 
 monster.loot = {
-	{ id = 3031, chance = 100000, maxCount = 200 }, -- gold coin
-	{ id = 238, chance = 8000, maxCount = 5 }, -- great mana potion
-	{ id = 7642, chance = 8000, maxCount = 5 }, -- great spirit potion
-	{ id = 7643, chance = 8000, maxCount = 5 }, -- ultimate health potion
-	{ id = 23535, chance = 8000, maxCount = 5 }, -- energy bar
-	{ id = 16119, chance = 8000, maxCount = 3 }, -- blue crystal shard
-	{ id = 16121, chance = 8000, maxCount = 3 }, -- green crystal shard
-	{ id = 3032, chance = 8000, maxCount = 5 }, -- small emerald
-	{ id = 3030, chance = 8000, maxCount = 5 }, -- small ruby
-	{ id = 16120, chance = 8000, maxCount = 3 }, -- violet crystal shard
+	{ id = 3031, chance = 100000, maxCount = 367 }, -- gold coin
+	{ id = 238, chance = 8000, maxCount = 15 }, -- great mana potion
+	{ id = 7642, chance = 8000, maxCount = 17 }, -- great spirit potion
+	{ id = 7643, chance = 8000, maxCount = 17 }, -- ultimate health potion
+	{ id = 23535, chance = 8000, maxCount = 9 }, -- energy bar
+	{ id = 16119, chance = 8000, maxCount = 5 }, -- blue crystal shard
+	{ id = 16121, chance = 8000, maxCount = 5 }, -- green crystal shard
+	{ id = 3032, chance = 8000, maxCount = 14 }, -- small emerald
+	{ id = 3030, chance = 8000, maxCount = 19 }, -- small ruby
+	{ id = 16120, chance = 8000, maxCount = 5 }, -- violet crystal shard
 	{ id = 23507, chance = 8000 }, -- crystallized anger
 	{ id = 23508, chance = 8000 }, -- energy vein
 	{ id = 3039, chance = 8000 }, -- red gem
-	{ id = 22721, chance = 100000 }, -- gold token
+	{ id = 22721, chance = 100000, maxCount = 7 }, -- gold token
 	{ id = 23509, chance = 100000 }, -- mysterious remains
 	{ id = 23510, chance = 100000 }, -- odd organ
 	{ id = 281, chance = 4000 }, -- giant shimmering pearl (green)

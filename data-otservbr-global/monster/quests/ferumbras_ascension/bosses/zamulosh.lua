@@ -86,13 +86,13 @@ monster.loot = {
 	{ id = 282, chance = 14000, maxCount = 5 }, -- giant shimmering pearl (brown)
 	{ id = 3029, chance = 12000, maxCount = 9 }, -- small sapphire
 	{ id = 3026, chance = 12000, maxCount = 8 }, -- white pearl
-	{ id = 3033, chance = 10000, maxCount = 5 }, -- small amethyst
+	{ id = 3033, chance = 10000, maxCount = 7 }, -- small amethyst
 	{ id = 9057, chance = 10000, maxCount = 8 }, -- small topaz
 	{ id = 3035, chance = 8000, maxCount = 58 }, -- platinum coin
 	{ id = 6499, chance = 11000 }, -- demonic essence
-	{ id = 16122, chance = 10000, maxCount = 6 }, -- green crystal splinter
-	{ id = 16123, chance = 10000, maxCount = 6 }, -- brown crystal splinter
-	{ id = 16124, chance = 10000, maxCount = 6 }, -- blue crystal splinter
+	{ id = 16122, chance = 10000, maxCount = 9 }, -- green crystal splinter
+	{ id = 16123, chance = 10000, maxCount = 10 }, -- brown crystal splinter
+	{ id = 16124, chance = 10000, maxCount = 10 }, -- blue crystal splinter
 	{ id = 3039, chance = 1000 }, -- red gem
 	{ id = 3037, chance = 1000 }, -- yellow gem
 	{ id = 3038, chance = 1000 }, -- green gem

@@ -81,16 +81,16 @@ monster.loot = {
 	{ name = "crystal mace", chance = 2886 },
 	{ name = "glacial rod", chance = 965 },
 	{ name = "sapphire hammer", chance = 888 },
-	{ id = 28570, chance = 500, maxCount = 10 }, -- glowing rune
-	{ id = 3051, chance = 8700 }, -- energy ring
+	{ id = 28570, chance = 52673, maxCount = 10 }, -- glowing rune
+	{ id = 3051, chance = 7142 }, -- energy ring
 	{ id = 7441, chance = 14217 }, -- ice cube
 	{ name = "leviathan's amulet", chance = 367 },
 	{ name = "glacier mask", chance = 7531 },
 	{ name = "hailstorm rod", chance = 2528 },
 	{ name = "life crystal", chance = 3646 },
 	{ name = "golden mug", chance = 2604 },
-	{ name = "glowing rune", chance = 500, maxCount = 10 },
-	{ id = 3051, chance = 8700 }, -- energy ring
+	{ name = "glowing rune", chance = 52673, maxCount = 10 },
+	{ id = 3051, chance = 7142 }, -- energy ring
 	{ name = "quill", chance = 13492 },
 	{ name = "small diamond", chance = 4722, maxCount = 12 },
 	{ name = "crystalline armor", chance = 188 },

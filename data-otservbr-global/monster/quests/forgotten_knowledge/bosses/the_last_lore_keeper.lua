@@ -125,7 +125,6 @@ monster.loot = {
 	{ id = 24972, chance = 800 }, -- key to knowledge
 	{ id = 20080, chance = 400 }, -- umbral hammer
 	{ id = 24954, chance = 400 }, -- part of a rune
-	{ id = 23375, chance = 3000, maxCount = 5 }, -- supreme health potion
 }
 
 monster.attacks = {

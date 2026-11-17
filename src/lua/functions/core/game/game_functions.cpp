@@ -15,6 +15,7 @@
 #include "creatures/npcs/npc.hpp"
 #include "creatures/players/player.hpp"
 #include "creatures/players/player_repository.hpp"
+#include "io/guild_repository.hpp"
 #include "game/functions/game_reload.hpp"
 #include "game/game.hpp"
 #include "game/scheduling/dispatcher.hpp"
@@ -861,10 +862,11 @@ int GameFunctions::luaGameGetNormalizedPlayerName(lua_State* L) {
 
 int GameFunctions::luaGameGetNormalizedGuildName(lua_State* L) {
 	// Game.getNormalizedGuildName(name)
-	const auto name = Lua::getString(L, 1);
-	const auto &guild = g_game().getGuildByName(name, true);
-	if (guild) {
-		Lua::pushString(L, guild->getName());
+	// The bank NPCs pass the name typed by the player: one name lookup instead of loading the
+	// guild (name, balance and ranks) for every message.
+	auto name = Lua::getString(L, 1);
+	if (!name.empty() && g_guildRepository().formatGuildName(name)) {
+		Lua::pushString(L, name);
 	} else {
 		lua_pushnil(L);
 	}

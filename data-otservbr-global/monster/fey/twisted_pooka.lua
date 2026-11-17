@@ -87,9 +87,9 @@ monster.loot = {
 	{ id = 3049, chance = 492 }, -- stealth ring
 	{ id = 3595, chance = 20688, maxCount = 3 }, -- carrot
 	{ name = "strong health potion", chance = 11997 },
-	{ name = "orange mushroom", chance = 10000 },
+	{ name = "orange mushroom", chance = 1984 },
 	{ name = "fairy wings", chance = 10344 },
-	{ name = "orange mushroom", chance = 5155 },
+	{ name = "orange mushroom", chance = 1023 },
 	{ name = "shimmering beetles", chance = 9571 },
 	{ name = "prismatic quartz", chance = 2500 },
 	{ name = "crystal of focus", chance = 60 },

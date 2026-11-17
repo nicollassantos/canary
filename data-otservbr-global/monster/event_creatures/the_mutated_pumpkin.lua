@@ -78,7 +78,7 @@ monster.voices = {
 }
 
 monster.loot = {
-	{ name = "pumpkin", chance = 100000 },
+	{ name = "pumpkin", chance = 100000, maxCount = 9 },
 	{ name = "yummy gummy worm", chance = 100000, maxCount = 20 },
 	{ id = 3599, chance = 1000, maxCount = 50 }, -- candy cane
 	{ id = 6569, chance = 1000, maxCount = 50 }, -- candy

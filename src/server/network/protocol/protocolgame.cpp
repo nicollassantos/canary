@@ -728,7 +728,9 @@ void ProtocolGame::parsePacket(NetworkMessage &msg) {
 
 	uint8_t recvbyte = msg.getByte();
 	// Latency per opcode and a rate-limited warning when one packet blocks the dispatcher.
-	const packet_watch::Scope packetWatch(recvbyte, player, getIP());
+	// A livestream viewer's `player` is the caster: measure the viewer as nobody, so its packets
+	// do not spend the caster's log budget or carry the caster's name.
+	const packet_watch::Scope packetWatch(recvbyte, m_isLivestreamViewer ? nullptr : player, getIP());
 
 	// Silence ping/pong: 0x1D = pingBack, 0x1E = ping [TRACKS CLIENT BYTES]
 	if (recvbyte != 0x1D && recvbyte != 0x1E) {
@@ -2101,6 +2103,10 @@ void ProtocolGame::parseWeaponProficiency(NetworkMessage &msg) {
 	const auto action = msg.getByte();
 
 	if (action == 0x01) {
+		// One window per trained weapon: limited, since the packet had no interval.
+		if (!g_game().admitProficiencyListing(player)) {
+			return;
+		}
 		for (const auto weaponId : player->weaponProficiency().getTrackedWeaponIds()) {
 			sendWeaponProficiencyWindow(weaponId);
 		}
@@ -2615,6 +2621,10 @@ void ProtocolGame::parsePartyAnalyzerAction(NetworkMessage &msg) const {
 		party->switchAnalyzerPriceType();
 	} else if (action == PARTYANALYZERACTION_PRICEVALUE) {
 		auto size = msg.get<uint16_t>();
+		// A count beyond the bytes sent made the loop read past the end up to 65535 times.
+		if (static_cast<size_t>(size) * (sizeof(uint16_t) + sizeof(uint64_t)) > getUnreadBytes(msg)) {
+			return;
+		}
 		for (uint16_t i = 1; i <= size; i++) {
 			auto itemId = msg.get<uint16_t>();
 			auto price = msg.get<uint64_t>();
@@ -4173,6 +4183,10 @@ void ProtocolGame::parseAimAtTarget(NetworkMessage &msg) {
 
 void ProtocolGame::parseExivaRestrictions(NetworkMessage &msg) {
 	if (!player || g_configManager().getString(WORLD_TYPE) != "no-pvp") {
+		return;
+	}
+	// Each edit may run up to 4 x maxExivaWhitelist name lookups in the database.
+	if (!g_game().admitExivaRestrictionsEdit(player)) {
 		return;
 	}
 

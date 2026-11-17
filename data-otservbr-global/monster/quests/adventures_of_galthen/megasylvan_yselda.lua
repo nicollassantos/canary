@@ -69,22 +69,22 @@ monster.voices = {
 monster.loot = {
 	{ id = 3035, chance = 100000, minCount = 1, maxCount = 9 }, -- platinum coin
 	{ id = 8010, chance = 100000, minCount = 1, maxCount = 5 }, -- potato
-	{ id = 23375, chance = 57140, minCount = 1, maxCount = 33 }, -- supreme health potion
-	{ id = 23373, chance = 57140, minCount = 1, maxCount = 31 }, -- ultimate mana potion
+	{ id = 23375, chance = 57140, minCount = 1, maxCount = 36 }, -- supreme health potion
+	{ id = 23373, chance = 57140, minCount = 1, maxCount = 35 }, -- ultimate mana potion
 	{ id = 23374, chance = 30000, minCount = 1, maxCount = 11 }, -- ultimate spirit potion
 	{ id = 7443, chance = 22860, minCount = 4, maxCount = 19 }, -- bullseye potion
-	{ id = 7439, chance = 21430, minCount = 1, maxCount = 16 }, -- berserk potion
-	{ id = 3041, chance = 18570, count = 1 }, -- blue gem
-	{ id = 7440, chance = 17140, minCount = 4, maxCount = 19 }, -- mastermind potion
-	{ id = 51302, chance = 17140, minCount = 1, maxCount = 15 }, -- transcendence potion
+	{ id = 7439, chance = 21430, minCount = 1, maxCount = 17 }, -- berserk potion
+	{ id = 3041, chance = 18570, maxCount = 2, count = 1 }, -- blue gem
+	{ id = 7440, chance = 17140, minCount = 4, maxCount = 20 }, -- mastermind potion
+	{ id = 51302, chance = 6335, minCount = 1, maxCount = 15 }, -- transcendence potion
 	{ id = 3038, chance = 17140, minCount = 1, maxCount = 2 }, -- green gem
 	{ id = 3036, chance = 15710, minCount = 1, maxCount = 2 }, -- violet gem
 	{ id = 3039, chance = 14290, minCount = 1, maxCount = 2 }, -- red gem
 	{ id = 30060, chance = 11430, count = 1 }, -- giant emerald
-	{ id = 3037, chance = 10000, count = 1 }, -- yellow gem
-	{ id = 3043, chance = 8570, count = 1 }, -- crystal coin
+	{ id = 3037, chance = 10000, maxCount = 2, count = 1 }, -- yellow gem
+	{ id = 3043, chance = 8570, maxCount = 5, count = 1 }, -- crystal coin
 	{ id = 36809, chance = 4290 }, -- curl of hair
-	{ id = 14112, chance = 4290 }, -- bar of gold
+	{ id = 14112, chance = 10860 }, -- bar of gold
 	{ id = 814, chance = 2860 }, -- terra amulet
 	{ id = 3065, chance = 2860 }, -- terra rod
 	{ id = 830, chance = 2860 }, -- terra hood

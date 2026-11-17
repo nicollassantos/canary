@@ -94,6 +94,7 @@ monster.loot = {
 	{ id = 5951, chance = 7324 }, -- fish tail
 	{ name = "assassin dagger", chance = 1000 },
 	{ name = "haunted blade", chance = 2000 },
+	{ id = 50183, chance = 683 }, -- sais
 	{ name = "nightmare blade", chance = 380 },
 	{ name = "great mana potion", chance = 14414, maxCount = 3 },
 	{ name = "great health potion", chance = 13367, maxCount = 2 },

@@ -16,6 +16,7 @@
 #include "creatures/players/imbuements/imbuements.hpp"
 #include "creatures/players/storages/storages.hpp"
 #include "database/databasemanager.hpp"
+#include "database/databasetasks.hpp"
 #include "declarations.hpp"
 #include "game/game.hpp"
 #include "game/scheduling/dispatcher.hpp"
@@ -491,6 +492,8 @@ void CanaryServer::initializeDatabase() {
 	DatabaseManager::updateDatabase();
 	// Fork indexes, added after upstream's numbered migrations (idempotent, see schema_hardening.hpp).
 	schema_hardening::ensureIndexes(Database::getInstance(), g_configManager().getString(MYSQL_DB));
+	// Asynchronous queries get their own connections (closed in shutdown, after the thread pool).
+	g_databaseTasks().startConnectionPool(static_cast<size_t>(std::max(0, g_configManager().getNumber(DATABASE_TASK_CONNECTIONS))));
 
 	if (g_configManager().getBoolean(OPTIMIZE_DATABASE)
 	    && !DatabaseManager::optimizeTables()) {
@@ -623,6 +626,8 @@ void CanaryServer::shutdown() {
 	g_dispatcher().shutdown();
 	g_metrics().shutdown();
 	g_threadPool().shutdown();
+	// No worker is left to hold a pooled connection.
+	g_databaseTasks().shutdown();
 
 	// Cached snapshots own creatures and must release them while gameplay services are still alive.
 	Spectators::clearCache();

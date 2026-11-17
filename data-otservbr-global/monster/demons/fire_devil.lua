@@ -76,8 +76,8 @@ monster.voices = {
 }
 
 monster.loot = {
-	{ id = 2920, chance = 10000 }, -- torch
-	{ id = 2920, chance = 1420, maxCount = 2 }, -- torch
+	{ id = 2920, chance = 1265 }, -- torch
+	{ id = 2920, chance = 180, maxCount = 2 }, -- torch
 	{ name = "small amethyst", chance = 300 },
 	{ name = "necrotic rod", chance = 460 },
 	{ name = "blank rune", chance = 10950 },

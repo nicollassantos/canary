@@ -99,12 +99,15 @@ still holds that `from`; when upstream changed it to something else it prints
 A `max_count` fix that lowers (its `maxCount` below `from`) is exact and needs a single entry. A `remove_loot` fix deletes an item's one-line entries only while they equal its `from`; an item
 upstream already dropped is `already`, and an entry upstream spread over several lines is reported.
 An `add_loot` whose item upstream now lists under another spelling or id is reported as
-`listed as another entry (...)` instead of adding it twice. Then run the smoke boot (no loot
-warnings, no Lua errors).
+`listed as another entry (...)` instead of adding it twice. A chance fix's `from` is the raw value
+of the entry (some boss files write `chance = 13600000` for a sure drop). Reward-chest bosses follow the
+manifest too, except their `unique` entries. A `chance_split` rewrites every entry of one item, in file order,
+only while they hold its `from`. An `exact` add_loot (id from the wiki item page) is refused only when that id is
+already listed. `tools/datapack/wiki_item_ids.json` (wiki item ids) is regenerated with `wiki_check.py item-ids`. Then run the smoke boot (no loot warnings, no Lua errors).
 
 To prove the manifest still re-applies from upstream's side, apply it to a copy of the monster files
 at a base commit and compare with the branch (expect no conflicts; at most a different order of loot
-lines, which does not matter because every entry rolls on its own):
+lines, which does not matter because every entry rolls on its own; 4 files on 2026-11-13):
 
 ```sh
 T=$(mktemp -d) && git archive <base> data-otservbr-global/monster | tar -x -C "$T"
@@ -239,7 +242,7 @@ the half that owns it.
 |---|---|---|
 | `Game::updatePlayersOnline` (`game.cpp`) | `CyclopediaService::updatePlayersOnline` builds the online GUID list | `PlayerRepositoryDB::updateOnlinePlayers` (count/clear, insert, prune, one transaction) |
 | `Game::playerHighscores` (`game.cpp`) | `HighscoreService::playerHighscores` picks the request and keeps the async-task flag | `HighscoreRepositoryDB::loadEntries`/`loadOurRank` run the query |
-| `Game::loadItemsPrice` (`game.cpp`) | `Game::loadItemsPrice` chains two async loads; `Game::rebuildItemsPrice` holds the old averaging/max loops | `MarketRepositoryDB::loadStatistics` / `loadActiveOffers` (queries and parsing shared with `updateStatistics` / `getActiveOffers`) |
+| `Game::loadItemsPrice` (`game.cpp`) | `Game::loadItemsPrice` chains two async loads; `Game::rebuildItemsPrice` holds the old averaging/max loops | `MarketRepositoryDB::loadStatistics` (query and parsing shared with `updateStatistics`) / `loadBestOfferPrices` (the database returns the best price per item and tier: `MAX`/`MIN` grouped, no owner name) |
 | `Game::processHighscoreResults(const DBResult_ptr &, ...)` (`game.cpp`) | `HighscoreService::processHighscoreResults(Game &, std::optional<HighscorePage>, ...)` (static; result cache and sending) | `HighscoreRepositoryDB::readHighscorePage` (row parsing) |
 
 The highscore query helpers `generateHighscoreQuery`, `generateVocationConditionHighscore`,

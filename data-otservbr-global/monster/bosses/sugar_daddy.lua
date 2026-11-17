@@ -76,7 +76,6 @@ monster.voices = {
 monster.loot = {
 	{ name = "gold coin", chance = 100000, maxCount = 95 },
 	{ name = "platinum coin", chance = 100000, maxCount = 11 },
-	{ name = "small enchanted sapphire", chance = 8900 },
 	{ id = 3039, chance = 94465, maxCount = 1 }, -- red gem
 	{ name = "white gem", chance = 5600, maxCount = 1 },
 	{ id = 48114, chance = 1000 }, -- peppermint backpack

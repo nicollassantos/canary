@@ -71,32 +71,32 @@ monster.voices = {
 
 monster.loot = {
 	{ name = "platinum coin", chance = 100000, maxCount = 9 },
-	{ name = "green gem", chance = 100000, maxCount = 2 },
+	{ name = "green gem", chance = 100000, maxCount = 3 },
 	{ name = "energy bar", chance = 100000 },
-	{ name = "ultimate mana potion", chance = 73080, maxCount = 31 },
-	{ name = "supreme health potion", chance = 53850, maxCount = 28 },
-	{ id = 3039, chance = 53850, maxCount = 2 }, -- red gem
+	{ name = "ultimate mana potion", chance = 56452, maxCount = 29 },
+	{ name = "supreme health potion", chance = 53850, maxCount = 35 },
+	{ id = 3039, chance = 36022, maxCount = 2 }, -- red gem
 	{ name = "lightning pendant", chance = 30770 },
-	{ name = "berserk potion", chance = 23080, maxCount = 15 },
-	{ name = "bullseye potion", chance = 23080, maxCount = 15 },
+	{ name = "berserk potion", chance = 23080, maxCount = 19 },
+	{ name = "bullseye potion", chance = 23080, maxCount = 18 },
 	{ name = "magma coat", chance = 23080 },
-	{ name = "royal star", chance = 19230, maxCount = 168 },
-	{ name = "flash arrow", chance = 19230, maxCount = 175 },
-	{ name = "ultimate spirit potion", chance = 19230, maxCount = 8 },
+	{ name = "royal star", chance = 31720, maxCount = 192 },
+	{ name = "flash arrow", chance = 19230, maxCount = 191 },
+	{ name = "ultimate spirit potion", chance = 34409, maxCount = 32 },
 	{ name = "magma amulet", chance = 19230 },
 	{ name = "gold ingot", chance = 19230 },
-	{ name = "blue gem", chance = 15380 },
+	{ name = "blue gem", chance = 15380, maxCount = 2 },
 	{ name = "magma monocle", chance = 15380 },
-	{ name = "yellow gem", chance = 15380 },
+	{ name = "yellow gem", chance = 35484, maxCount = 2 },
 	{ name = "crystal coin", chance = 11540, maxCount = 5 },
 	{ name = "silver token", chance = 7690, maxCount = 5 },
 	{ name = "violet gem", chance = 7690 },
 	{ name = "urmahlullu's paw", chance = 7690 },
-	{ id = 281, chance = 7690 }, -- giant shimmering pearl
-	{ name = "mastermind potion", chance = 3850 },
+	{ id = 281, chance = 17742 }, -- giant shimmering pearl
+	{ name = "mastermind potion", chance = 15054, maxCount = 19 },
 	{ name = "tagralt blade", chance = 1850 },
 	{ name = "giant sapphire", chance = 3850 },
-	{ id = 31263, chance = 3850 }, -- ring of secret thoughts
+	{ id = 31263, chance = 10215 }, -- ring of secret thoughts
 	{ name = "sunray emblem", chance = 3850 },
 	{ name = "urmahlullu's mane", chance = 3850 },
 	{ name = "winged boots", chance = 1850 },

@@ -603,7 +603,30 @@ Pedido do usuário (2026-11-12): depois do hardening, vasculhar o TibiaWiki em b
 - **24.3** — Decidir com o usuário a estratégia de merge antes do primeiro lote (o upstream reescreve esses blocos de loot): de preferência um `--apply` idempotente que reaplica as correções sobre a versão do upstream. Registrar no §5b.
 - **24.4** — Lotes pequenos de correção, com carga do datapack e smoke a cada lote.
 
-## Phase 25 (aberta em 2026-11-13): issues abertas do upstream
+## Phase 25 (aberta em 2026-11-14): massa de teste e swarm de bots
+
+Pedido do usuário: várias contas e personagens em níveis e lugares diferentes, e um swarm de bots, para testar o
+servidor antes da sessão com client real (pendências 0, 3 e 5 do §6d). Decisões: 200 personagens (50 contas × 4),
+100 bots online; níveis 8–600 com mais gente em 8–150, vocações variadas, metade em templos e metade em áreas de
+caça compatíveis com o nível; protocolo 15.25 já nesta fase.
+
+- **Só ambiente descartável:** a massa vai para um banco `canary_loadtest_*` (nunca o banco do usuário), o servidor
+  roda com config copiada para o scratchpad; o swarm só conecta em endereços de loopback (127.0.0.0/8) e cada
+  grupo de bots sai de um `127.0.0.x` diferente, para respeitar os limites por IP em vez de afrouxá-los. Nada do
+  repo `proxy-bot` é usado.
+- **25.1** — Cliente 15.25 em Python (só biblioteca padrão): desafio moderno, primeira mensagem com RSA (sessão
+  `conta\nsenha` com `authType = "password"`), framing moderno (blocos de 8, sequência, padding, XTEA), keepalive
+  `0x1E`; a saída do servidor é só drenada (sem parsear o mapa). Provado com um bot logando e ficando online.
+- **25.2** — Gerador da massa (`tools/loadtest/seed.py`): contas, personagens com nível/HP/mana/cap/skills coerentes,
+  saldo, corda no slot de munição (para o "usar item com" a distância), posições dos templos (lidas do `.otbm`) e de
+  centros de spawn (`otservbr-monster.xml`) compatíveis com o nível.
+- **25.3** — Swarm (`tools/loadtest/swarm.py`): perfis (caçador com magias de área, andarilho, falador, comerciante
+  de banco/talkaction, quem relogga, A* do "usar item com" a distância, pacotes do protocolo atual: digitando,
+  quick loot, proficiência, highscores), ritmo humano, relatório e scrape do `/metrics`.
+- **25.4** — Rodada de carga no build de métricas com banco descartável; relatório (latência por pacote, pacotes
+  lentos, `query_latency`, pool de conexões, custo do A*).
+
+## Phase 26 (aberta em 2026-11-13 como 25, renumerada no merge com a solid): issues abertas do upstream
 
 Pedido do usuário (2026-11-13): anotar todas as issues abertas de `opentibiabr/canary`, verificar quais
 acontecem de verdade e corrigir as reais. Trabalho na worktree `canary-upstream-issues` (branch
@@ -624,16 +647,16 @@ it, commit próprio e linha no §5b do `tasks/AGENTS.md` quando tocar arquivo do
 
 ### Tasks
 
-- **25.1** — #4154 datas locais sem nanossegundos (porta do PR #4179: `tools.cpp` + teste).
-- **25.2** — #4114 IDs do aviso de avanço de skill (porta do PR #4181 para os components).
-- **25.3** — #4153 byte de motivo no `0x14` para clients 15.23+ (helper único + teste dos bytes).
-- **25.4** — #4125 reset de charm lê só os campos enviados (teste).
-- **25.5** — #3478 freequests (Secret Library, Barbarian Test) + harness contra o catálogo do questlog.
-- **25.6** — #3453 porta do Oasis (storage 12107) + chave `[12107]` duplicada no startup.
-- **25.7** — #3513 callbacks de zona depois do pacote de entrada no login do player.
-- **25.8** — Chaves duplicadas nas tabelas de startup: conferir cada uma + check que impede a repetição.
-- **25.9** — #3742 saldo do store enviado uma vez; #2083 preços reenviados aos online após o recálculo.
-- **25.10** — Varredura do `.otbm` (só leitura) para #4091, #4057 e #3438.
-- **25.11** — Verificação do grupo decidível: #3584/#3426 (campo/bomba), #3745 (aljava), #2553/#3549 (hazard), #3059 (`/n`).
-- **25.12** — #3374 medir o saque grande e pôr teto (valor escolhido pelo usuário).
-- **CHECKPOINT 25** — build, ut/it, preset de métricas, smoke boot com data-otservbr-global.
+- **26.1** — #4154 datas locais sem nanossegundos (porta do PR #4179: `tools.cpp` + teste).
+- **26.2** — #4114 IDs do aviso de avanço de skill (porta do PR #4181 para os components).
+- **26.3** — #4153 byte de motivo no `0x14` para clients 15.23+ (helper único + teste dos bytes).
+- **26.4** — #4125 reset de charm lê só os campos enviados (teste).
+- **26.5** — #3478 freequests (Secret Library, Barbarian Test) + harness contra o catálogo do questlog.
+- **26.6** — #3453 porta do Oasis (storage 12107) + chave `[12107]` duplicada no startup.
+- **26.7** — #3513 callbacks de zona depois do pacote de entrada no login do player.
+- **26.8** — Chaves duplicadas nas tabelas de startup: conferir cada uma + check que impede a repetição.
+- **26.9** — #3742 saldo do store enviado uma vez; #2083 preços reenviados aos online após o recálculo.
+- **26.10** — Varredura do `.otbm` (só leitura) para #4091, #4057 e #3438.
+- **26.11** — Verificação do grupo decidível: #3584/#3426 (campo/bomba), #3745 (aljava), #2553/#3549 (hazard), #3059 (`/n`).
+- **26.12** — #3374 medir o saque grande e pôr teto (valor escolhido pelo usuário).
+- **CHECKPOINT 26** — build, ut/it, preset de métricas, smoke boot com data-otservbr-global.

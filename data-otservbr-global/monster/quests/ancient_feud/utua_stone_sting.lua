@@ -83,17 +83,17 @@ monster.loot = {
 	{ id = 821, chance = 2160 }, -- magma legs
 	{ id = 7386, chance = 2160 }, -- mercenary sword
 	{ id = 14040, chance = 2160 }, -- warrior's axe
-	{ id = 823, chance = 1620 }, -- glacier kilt
+	{ id = 823, chance = 4573 }, -- glacier kilt
 	{ id = 7456, chance = 1620 }, -- noble axe
 	{ id = 7440, chance = 1080 }, -- mastermind potion
 	{ id = 23531, chance = 1080 }, -- ring of green plasma
 	{ id = 12546, chance = 540 }, -- fist on a stick
-	{ id = 14043, chance = 540 }, -- guardian axe
+	{ id = 14043, chance = 2134 }, -- guardian axe
 	{ id = 3366, chance = 540 }, -- magic plate armor
 	{ id = 34258, chance = 540 }, -- red silk flower
 	{ id = 10438, chance = 540 }, -- spellweaver's robe
-	{ id = 3420, chance = 360 }, -- demon shield
-	{ id = 824, chance = 360 }, -- glacier robe
+	{ id = 3420, chance = 1829 }, -- demon shield
+	{ id = 824, chance = 1524 }, -- glacier robe
 	{ id = 33778, chance = 360 }, -- raw watermelon tourmaline
 }
 

@@ -23,6 +23,9 @@
 
 namespace {
 
+	// Per thread: a transaction runs on one thread while holding the connection's lock.
+	thread_local unsigned int lastMysqlError = 0;
+
 	void appendInsertBaseQuery(std::string &sql, std::string_view baseQuery, bool baseHasSpace) {
 		sql += baseQuery;
 		if (!baseHasSpace) {
@@ -224,12 +227,34 @@ bool Database::commit() {
 	return true;
 }
 
+bool Database::ping() {
+	if (!handle) {
+		return false;
+	}
+	std::scoped_lock lock { databaseLock };
+	return mysql_ping(handle) == 0;
+}
+
+unsigned int Database::lastErrorOnThisThread() {
+	return lastMysqlError;
+}
+
+void Database::clearLastErrorOnThisThread() {
+	lastMysqlError = 0;
+}
+
+void Database::reportDeadlockRetry() {
+	g_logger().warn("[DBTransaction] the transaction was a deadlock victim; running it once more");
+	g_metrics().addCounter("database_transaction_deadlocks", 1, {});
+}
+
 bool Database::isRecoverableError(unsigned int error) {
 	return error == CR_SERVER_LOST || error == CR_SERVER_GONE_ERROR || error == CR_CONN_HOST_ERROR || error == 1053 /*ER_SERVER_SHUTDOWN*/ || error == CR_CONNECTION_ERROR;
 }
 
 bool Database::retryQuery(std::string_view query, int retries) {
 	while (retries > 0 && mysql_query(handle, query.data()) != 0) {
+		lastMysqlError = mysql_errno(handle);
 		g_logger().error("Query: {}", query.substr(0, 256));
 		g_logger().error("MySQL error [{}]: {}", mysql_errno(handle), mysql_error(handle));
 		if (!isRecoverableError(mysql_errno(handle))) {
@@ -279,6 +304,7 @@ DBResult_ptr Database::storeQuery(std::string_view query) {
 	metrics::query_latency measure(query.substr(0, 50));
 retry:
 	if (mysql_query(handle, query.data()) != 0) {
+		lastMysqlError = mysql_errno(handle);
 		g_logger().error("Query: {}", query);
 		g_logger().error("Message: {}", mysql_error(handle));
 		if (!isRecoverableError(mysql_errno(handle))) {

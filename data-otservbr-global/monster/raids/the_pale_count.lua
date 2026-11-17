@@ -88,10 +88,10 @@ monster.loot = {
 	{ id = 11449, chance = 50000 }, -- blood preservation
 	{ id = 9685, chance = 50000 }, -- vampire teeth
 	{ id = 19083, chance = 5000 }, -- silver raid token
-	{ id = 3031, chance = 1000000, maxCount = 100 }, -- gold coin
-	{ id = 3035, chance = 100000, maxCount = 5 }, -- platinum coin
-	{ id = 237, chance = 50000, maxCount = 3 }, -- strong mana potion
-	{ id = 236, chance = 50000, maxCount = 3 }, -- strong health potion
+	{ id = 3031, chance = 1000000, maxCount = 199 }, -- gold coin
+	{ id = 3035, chance = 100000, maxCount = 9 }, -- platinum coin
+	{ id = 237, chance = 50000, maxCount = 5 }, -- strong mana potion
+	{ id = 236, chance = 50000, maxCount = 5 }, -- strong health potion
 	{ id = 3049, chance = 10000 }, -- stealth ring
 	{ id = 3098, chance = 10000 }, -- ring of healing
 	{ id = 5909, chance = 10000 }, -- white piece of cloth
@@ -104,10 +104,10 @@ monster.loot = {
 	{ id = 19373, chance = 5000 }, -- haunted mirror piece
 	{ id = 3434, chance = 5000 }, -- vampire shield
 	{ id = 19374, chance = 5000 }, -- vampire silk slippers
-	{ id = 3028, chance = 50000, maxCount = 5 }, -- small diamond
-	{ id = 3027, chance = 50000, maxCount = 5 }, -- black pearl
+	{ id = 3028, chance = 50000, maxCount = 7 }, -- small diamond
+	{ id = 3027, chance = 50000, maxCount = 7 }, -- black pearl
 	{ id = 3029, chance = 50000, maxCount = 5 }, -- small sapphire
-	{ id = 3032, chance = 50000, maxCount = 5 }, -- small emerald
+	{ id = 3032, chance = 50000, maxCount = 7 }, -- small emerald
 	{ id = 3036, chance = 10000 }, -- violet gem
 }
 

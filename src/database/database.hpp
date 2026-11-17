@@ -73,6 +73,20 @@ public:
 		return maxPacketSize;
 	}
 
+	/// True while the connection answers (mysql_ping; with auto-reconnect a dropped connection is
+	/// reopened). Used to validate pooled connections (database/connection_pool.hpp).
+	bool ping();
+
+	/// MySQL error code of the last failed query on the calling thread (0 after a success is not
+	/// guaranteed; clear it first). DBTransaction reads it to retry a deadlock victim once.
+	static unsigned int lastErrorOnThisThread();
+	static void clearLastErrorOnThisThread();
+	/// Logs and counts (database_transaction_deadlocks) a transaction retried after a deadlock.
+	static void reportDeadlockRetry();
+
+	/// ER_LOCK_DEADLOCK: InnoDB rolled the whole transaction back to break a deadlock.
+	static constexpr unsigned int DeadlockError = 1213;
+
 private:
 	bool beginTransaction();
 	bool rollback();
@@ -228,10 +242,41 @@ public:
 	DBTransaction(const DBTransaction &&) = delete;
 	DBTransaction &operator=(const DBTransaction &&) = delete;
 
+	/// Runs `attempt` again once when it failed as a deadlock victim (`lastError()` is
+	/// Database::DeadlockError): InnoDB already rolled that transaction back, and every callback here
+	/// rewrites its rows from memory, so a second run is safe. With the asynchronous queries on their
+	/// own connections (DatabaseTasks), two connections can now lock the same rows in opposite order.
+	template <typename Attempt, typename LastError>
+	static bool retryOnceOnDeadlock(const Attempt &attempt, const LastError &lastError) {
+		if (attempt()) {
+			return true;
+		}
+		if (lastError() != Database::DeadlockError) {
+			return false;
+		}
+		Database::reportDeadlockRetry();
+		return attempt();
+	}
+
 	template <typename Func>
 	static bool executeWithinTransaction(const Func &callback)
 		requires std::invocable<Func>
 	{
+		Database::clearLastErrorOnThisThread();
+		return retryOnceOnDeadlock([&callback] { return executeWithinTransactionOnce(callback); }, [] { return Database::lastErrorOnThisThread(); });
+	}
+
+	template <typename Func>
+	static bool executeWithinTransactionRollbackOnFailure(const Func &callback)
+		requires std::invocable<Func>
+	{
+		Database::clearLastErrorOnThisThread();
+		return retryOnceOnDeadlock([&callback] { return executeWithinTransactionRollbackOnFailureOnce(callback); }, [] { return Database::lastErrorOnThisThread(); });
+	}
+
+private:
+	template <typename Func>
+	static bool executeWithinTransactionOnce(const Func &callback) {
 		DBTransaction transaction;
 		try {
 			if (!transaction.begin()) {
@@ -254,9 +299,7 @@ public:
 	}
 
 	template <typename Func>
-	static bool executeWithinTransactionRollbackOnFailure(const Func &callback)
-		requires std::invocable<Func>
-	{
+	static bool executeWithinTransactionRollbackOnFailureOnce(const Func &callback) {
 		DBTransaction transaction;
 		try {
 			if (!transaction.begin()) {

@@ -76,25 +76,24 @@ monster.voices = {
 }
 
 monster.loot = {
-	{ name = "platinum coin", minCount = 1, maxCount = 5, chance = 100000 },
-	{ name = "crystal coin", minCount = 0, maxCount = 2, chance = 50000 },
-	{ name = "silver token", minCount = 0, maxCount = 3, chance = 40000 },
-	{ name = "supreme health potion", minCount = 0, maxCount = 6, chance = 35000 },
-	{ name = "ultimate mana potion", minCount = 0, maxCount = 20, chance = 32000 },
-	{ name = "ultimate spirit potion", minCount = 0, maxCount = 20, chance = 32000 },
-	{ name = "mastermind potion", minCount = 0, maxCount = 10, chance = 12000 },
-	{ name = "berserk potion", minCount = 0, maxCount = 10, chance = 12000 },
-	{ name = "piece of draconian steel", minCount = 0, maxCount = 4, chance = 9000 },
-	{ id = 3039, minCount = 0, maxCount = 1, chance = 12000 }, -- red gem
+	{ name = "platinum coin", minCount = 1, maxCount = 9, chance = 100000 },
+	{ name = "crystal coin", minCount = 0, maxCount = 3, chance = 50000 },
+	{ name = "silver token", minCount = 0, maxCount = 3, chance = 100000 },
+	{ name = "supreme health potion", minCount = 0, maxCount = 6, chance = 55556 },
+	{ name = "ultimate mana potion", minCount = 0, maxCount = 33, chance = 55556 },
+	{ name = "ultimate spirit potion", minCount = 0, maxCount = 30, chance = 52778 },
+	{ name = "mastermind potion", minCount = 0, maxCount = 19, chance = 12000 },
+	{ name = "berserk potion", minCount = 0, maxCount = 17, chance = 23148 },
+	{ id = 3039, minCount = 0, maxCount = 1, chance = 40741 }, -- red gem
 	{ id = 23542, chance = 5200 }, -- collar of blue plasma
 	{ id = 23544, chance = 5200 }, -- collar of red plasma
 	{ name = "knight legs", chance = 11000 },
 	{ name = "gold ingot", minCount = 0, maxCount = 1, chance = 10000 },
 	{ name = "violet gem", minCount = 0, maxCount = 1, chance = 10000 },
-	{ name = "yellow gem", minCount = 0, maxCount = 1, chance = 10000 },
+	{ name = "yellow gem", minCount = 0, maxCount = 2, chance = 43519 },
 	{ id = 23529, chance = 5000 }, -- ring of blue plasma
 	{ id = 23533, chance = 5000 }, -- ring of red plasma
-	{ name = "skull staff", chance = 9000 },
+	{ name = "skull staff", chance = 23148 },
 	{ name = "young lich worm", chance = 5800 },
 	{ name = "embrace of nature", chance = 1400 },
 	{ id = 31592, chance = 1800 }, -- signet ring
