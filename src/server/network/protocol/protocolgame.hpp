@@ -112,6 +112,9 @@ public:
 	enum { PROTOCOL_IDENTIFIER = 0 };
 	enum { USE_CHECKSUM = true };
 
+	/// Writes the 0xCD market price list (one entry per item/tier); the same bytes for every modern client.
+	static void addItemsPrice(NetworkMessage &msg);
+
 	static const char* protocol_name() {
 		return "gameworld protocol";
 	}
@@ -338,6 +341,8 @@ private:
 	void closeImbuementWindow();
 
 	void sendItemsPrice();
+	/// Sends a list built once by addItemsPrice (items_price_broadcast).
+	void sendItemsPrice(const NetworkMessage &prebuilt);
 
 	// Forge System
 	void sendForgingData();

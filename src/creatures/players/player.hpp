@@ -332,6 +332,7 @@ public:
 	uint16_t getStaminaMinutes() const;
 
 	void sendItemsPrice() const;
+	void sendItemsPrice(const NetworkMessage &prebuilt) const;
 
 	void sendForgingData() const;
 

@@ -3037,6 +3037,20 @@ void ProtocolGame::sendItemsPrice() {
 	}
 
 	NetworkMessage msg;
+	addItemsPrice(msg);
+	writeToOutputBuffer(msg);
+}
+
+void ProtocolGame::sendItemsPrice(const NetworkMessage &prebuilt) {
+	if (!player || oldProtocol) {
+		return;
+	}
+
+	NetworkMessage msg = prebuilt;
+	writeToOutputBuffer(msg);
+}
+
+void ProtocolGame::addItemsPrice(NetworkMessage &msg) {
 	msg.addByte(0xCD);
 
 	auto countBuffer = msg.getBufferPosition();
@@ -3054,8 +3068,6 @@ void ProtocolGame::sendItemsPrice() {
 	}
 	msg.setBufferPosition(countBuffer);
 	msg.add<uint16_t>(count);
-
-	writeToOutputBuffer(msg);
 }
 
 void ProtocolGame::sendOpenStash() {

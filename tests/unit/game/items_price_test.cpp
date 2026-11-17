@@ -9,9 +9,12 @@
 
 #include <gtest/gtest.h>
 
+#include "creatures/players/player.hpp"
 #include "game/game.hpp"
+#include "game/market/items_price_broadcast.hpp"
 #include "io/in_memory_market_repository.hpp"
 #include "lib/logging/in_memory_logger.hpp"
+#include "server/network/message/networkmessage.hpp"
 
 namespace {
 
@@ -118,4 +121,51 @@ TEST_F(ItemsPriceTest, RefreshWithoutRowsKeepsTheCachedStatistics) {
 
 	EXPECT_TRUE(market.getPurchaseStatistics().contains(61003));
 	market.statisticsLoad = true;
+}
+
+// Issue #2083 resend: batches in order, at most BatchSize players each.
+TEST(ItemsPriceBroadcastTest, BatchesKeepTheOrderAndTheSize) {
+	std::vector<uint32_t> ids(120);
+	for (uint32_t i = 0; i < ids.size(); ++i) {
+		ids[i] = 1000 + i;
+	}
+
+	const auto batches = items_price_broadcast::makeBatches(ids, 50);
+	ASSERT_EQ(3U, batches.size());
+	EXPECT_EQ(50U, batches[0].size());
+	EXPECT_EQ(50U, batches[1].size());
+	EXPECT_EQ(20U, batches[2].size());
+	EXPECT_EQ(1000U, batches[0].front());
+	EXPECT_EQ(1050U, batches[1].front());
+	EXPECT_EQ(1119U, batches[2].back());
+	EXPECT_TRUE(items_price_broadcast::makeBatches({}, 50).empty());
+	EXPECT_EQ(2U, items_price_broadcast::makeBatches({ 1, 2 }, 0).size());
+}
+
+// A batch from an earlier refresh sends nothing; the current one reaches the players still online.
+TEST_F(ItemsPriceTest, OnlyTheLatestRefreshSendsItsBatches) {
+	auto &items = Item::items.getItems();
+	const auto originalItemCount = items.size();
+	if (items.empty()) {
+		items.emplace_back(); // the player constructor needs a fallback item type
+	}
+
+	ASSERT_TRUE(g_game().getPlayers().empty());
+	const auto earlier = items_price_broadcast::currentGeneration();
+	items_price_broadcast::start(); // nobody online: only advances the generation
+	const auto current = items_price_broadcast::currentGeneration();
+	EXPECT_EQ(earlier + 1, current);
+
+	auto player = std::make_shared<Player>();
+	player->setName("ItemsPriceBroadcastTest");
+	player->setGUID(64003);
+	player->setID();
+	g_game().addPlayer(player);
+	NetworkMessage list;
+
+	EXPECT_EQ(0U, items_price_broadcast::sendBatch(earlier, { player->getID() }, list));
+	EXPECT_EQ(1U, items_price_broadcast::sendBatch(current, { player->getID(), 0x7FFFFFF0 }, list));
+
+	g_game().removePlayer(player);
+	items.resize(originalItemCount);
 }

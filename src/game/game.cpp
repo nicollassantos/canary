@@ -8,6 +8,7 @@
  */
 
 #include "game/game.hpp"
+#include "game/market/items_price_broadcast.hpp"
 
 #include "config/configmanager.hpp"
 #include "creatures/appearance/mounts/mounts.hpp"
@@ -631,10 +632,8 @@ void Game::loadItemsPrice() {
 				return;
 			}
 			// The client keeps the price list it got at login (Cyclopedia item value); online players
-			// only see a refresh when it is sent again (issue #2083).
-			for (const auto &[_, player] : g_game().getPlayers()) {
-				player->sendItemsPrice();
-			}
+			// only see a refresh when it is sent again (issue #2083), in batches.
+			items_price_broadcast::start();
 		});
 	});
 }

@@ -2673,6 +2673,12 @@ void Player::sendItemsPrice() const {
 	}
 }
 
+void Player::sendItemsPrice(const NetworkMessage &prebuilt) const {
+	if (client) {
+		client->sendItemsPrice(prebuilt);
+	}
+}
+
 void Player::sendForgingData() const {
 	if (client) {
 		client->sendForgingData();

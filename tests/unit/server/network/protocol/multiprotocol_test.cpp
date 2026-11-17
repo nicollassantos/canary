@@ -11,6 +11,7 @@
 #include "creatures/players/player.hpp"
 #include "creatures/players/vocations/vocation.hpp"
 #include "injection_fixture.hpp"
+#include "game/game.hpp"
 #include "items/item.hpp"
 #include "server/network/protocol/protocol.hpp"
 #include "server/network/protocol/protocolgame.hpp"
@@ -174,6 +175,35 @@ TEST_F(SkillAdvanceGameEventTest, SendsClientSkillIdsOnRegularAdvances) {
 
 TEST_F(SkillAdvanceGameEventTest, SendsClientSkillIdsOnOfflineTrainingAdvances) {
 	expectGameplayAdvances(true);
+}
+
+// Issue #2083: the batched resend sends a list built once; it must be the login packet, byte for byte.
+class ItemsPricePacketTest : public SkillAdvanceGameEventTest { };
+
+TEST_F(ItemsPricePacketTest, PrebuiltListMatchesTheLoginPacket) {
+	IMarketRepository::StatisticsMap stats;
+	stats[64001][0].numTransactions = 2;
+	stats[64001][0].totalPrice = 500;
+	stats[64002][1].numTransactions = 1;
+	stats[64002][1].totalPrice = 70;
+	g_game().rebuildItemsPrice(stats, {});
+
+	protocol->getCurrentBuffer().reset();
+	player->sendItemsPrice();
+	ASSERT_NE(nullptr, protocol->getCurrentBuffer());
+	const auto &login = protocol->getCurrentBuffer();
+	const std::vector<uint8_t> loginBytes(login->getOutputBuffer(), login->getOutputBuffer() + login->getLength());
+	ASSERT_GT(loginBytes.size(), 3U);
+
+	protocol->getCurrentBuffer().reset();
+	NetworkMessage prebuilt;
+	ProtocolGame::addItemsPrice(prebuilt);
+	player->sendItemsPrice(prebuilt);
+	ASSERT_NE(nullptr, protocol->getCurrentBuffer());
+	const auto &resent = protocol->getCurrentBuffer();
+	const std::vector<uint8_t> resentBytes(resent->getOutputBuffer(), resent->getOutputBuffer() + resent->getLength());
+
+	EXPECT_EQ(loginBytes, resentBytes);
 }
 
 // Issue #4153: clients 15.23+ read a reason byte after the 0x14 text and close when it is missing.
