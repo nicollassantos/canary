@@ -693,6 +693,19 @@ Resultado atual: ver a última linha de validação no `todo.md` (CHECKPOINT 23)
   `[LootFunctions::luaLootSetIdFromName] - Unknown loot item` e `could not be loaded`; o grep do
   smoke pega os dois.
 
+## 6f. Phase 25 (em andamento): issues abertas do upstream
+
+- Worktree `/home/nicollas/lundaria/canary-upstream-issues`, branch `nicollassantos/upstream-issues`
+  (saiu do `7e517fb00`; as mudanças não commitadas do checkout principal não estão nela). Triagem das
+  58 issues e níveis de prova em `tasks/upstream_issues.md`; tasks e resultados no `todo.md` (Phase 25).
+- Corrigidas: #4154 (porta do PR #4179), #4114 (porta do PR #4181), #4153, #4125, #3478, #3453, #3513,
+  #3742, #2083, mais chaves repetidas nas tabelas de startup (baús do Captain Iglue's Treasure e do
+  Minotaur Hell sem unique id). Linhas no §5b.
+- Ferramentas novas: `tools/lua/freequests_check.lua`, `tools/lua/oasis_door_check.lua`,
+  `tools/lua/store_balance_check.lua`, `tools/datapack/duplicate_keys_check.py` (+ testes).
+- Pendente com o usuário: valor do teto do `!withdraw`/banco (#3374, medição no `todo.md` 25.12);
+  #4091 e #4057 exigem edição do `.otbm` (não versionado aqui).
+
 ## 7. Smoke test do servidor (banco descartável)
 
 1. Copiar `config.lua` para o scratchpad trocando `mysqlDatabase` para `"canary_smoke_<fase>"` e
