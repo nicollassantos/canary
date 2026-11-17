@@ -693,7 +693,7 @@ Resultado atual: ver a última linha de validação no `todo.md` (CHECKPOINT 23)
   `[LootFunctions::luaLootSetIdFromName] - Unknown loot item` e `could not be loaded`; o grep do
   smoke pega os dois.
 
-## 6f. Phase 25 (em andamento): issues abertas do upstream
+## 6f. Phase 25 (concluída): issues abertas do upstream
 
 - Worktree `/home/nicollas/lundaria/canary-upstream-issues`, branch `nicollassantos/upstream-issues`
   (saiu do `7e517fb00`; as mudanças não commitadas do checkout principal não estão nela). Triagem das
@@ -703,8 +703,12 @@ Resultado atual: ver a última linha de validação no `todo.md` (CHECKPOINT 23)
   Minotaur Hell sem unique id). Linhas no §5b.
 - Ferramentas novas: `tools/lua/freequests_check.lua`, `tools/lua/oasis_door_check.lua`,
   `tools/lua/store_balance_check.lua`, `tools/datapack/duplicate_keys_check.py` (+ testes).
-- Pendente com o usuário: valor do teto do `!withdraw`/banco (#3374, medição no `todo.md` 25.12);
-  #4091 e #4057 exigem edição do `.otbm` (não versionado aqui).
+- Decisões do usuário (2026-11-17): `!withdraw`/banco sem teto (#3374; medição no `todo.md` 25.12,
+  até ~154 ms para o maior saque num container com espaço); #4091 e #4057 só registradas (edição do
+  `.otbm` no RME).
+- Falta: sessão com client real (cor do preço na Cyclopedia, #4153 com o client 15.25, campo/bomba,
+  aljava) e conciliar o `protocolgame.cpp` com as mudanças não commitadas do checkout principal ao juntar
+  esta branch na `nicollassantos/solid`.
 
 ## 7. Smoke test do servidor (banco descartável)
 
