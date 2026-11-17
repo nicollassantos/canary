@@ -359,10 +359,19 @@
 
 ## Phase 25 — massa de teste e swarm de bots (aberta em 2026-11-14; plano em `tasks/plan.md`)
 
-- [ ] **25.1** — Cliente 15.25 em Python (login moderno, framing, XTEA, keepalive)
-- [ ] **25.2** — Gerador da massa (200 personagens: níveis, vocações, templos e áreas de caça)
-- [ ] **25.3** — Swarm (perfis, ritmo, IPs 127.0.0.x, relatório, scrape do `/metrics`)
-- [ ] **25.4** — Rodada de carga no build de métricas e relatório
+- Decisões do usuário (2026-11-14/17): massa no **banco normal** (`canary`, "não tem nada de relevante"); **sem mexer em C++** por enquanto (outra instância trabalha em outra worktree); bots e personagens manuais em contas separadas (aviso de um agente lateral: caçadores morrem e estragariam os personagens de teste)
+- [x] **25.1** — `tools/loadtest/tibia_client.py`: cliente 15.25 só com biblioteca padrão (desafio moderno, primeira mensagem com RSA e sessão `email\nsenha`, blocos de 8 com sequência, padding, XTEA conferido com o vetor padrão), conferido contra o `sendLoginPacket` do otclient (`../otclient`); só conecta em loopback. Provado: login, andar, falar, keepalive e logout aparecem em `method_latency{method="packet_0xNN"}`
+- [x] **25.2** — `tools/loadtest/seed.py`: 100 contas de bot × 2 + 5 contas manuais × 4 (220 personagens, níveis 8–600, maioria 8–150, 5 vocações, promovidos a partir do 20, contas premium); metade em templos (lidos do nó de cidades do `.otbm`), metade em spawns cujos monstros cabem no nível; mochila com poções e corda no slot de munição; `lastlogin` preenchido (senão o `send_first_items.lua` soma itens e estoura a capacidade). Rodar de novo substitui só as contas `@loadtest.invalid` e restaura níveis e lugares; senha única em `build/loadtest/characters.json` (600, gitignored)
+- [x] **25.3** — `tools/loadtest/swarm.py`: perfis (caçador com cura e magia de área, andarilho, falador com "digitando", banco por talkaction, relog, pathfinder com corda a 3–7 sqm, pacotes do protocolo atual), 10 bots por IP de 127.0.0.2 em diante, um login por IP a cada 0,7 s; relatório em `build/loadtest/report-*.md|json` comparando dois scrapes do `/metrics`
+- [x] **25.4** — Rodada (2026-11-17, build de métricas, banco normal): **100 bots × 10 min, 328 logins, 0 falhas** (mediana 70 ms, máx. 0,7 s), 105 mil pacotes. Achados (C++ adiado por decisão do usuário):
+  - **KV sem cache negativo** (`KVStore::get`, `src/kv/kv.cpp`, upstream): chave inexistente vai ao banco a cada leitura, síncrona. 118.691 `SELECT … FROM kv_store` em 10 min (~200/s, média 91 µs, p99 2,5 ms). Fontes amostradas no `performance_schema`: `daily-reward.streak` e `boss.cooldown.<id>` a cada login (títulos e cooldown de todos os bosses), `last-mount` a cada janela de outfit, 5 chaves de taint do Soul War a cada exp ganha em monstro do Soul War. Proposta: guardar a ausência no LRU (marcador que não é salvo)
+  - **Login caro**: `PlayerTitle::checkAndUpdateNewTitles` roda uma consulta de ranking por título de highscore a cada login (3.220 em 328 logins, ~10 por login, 344 µs cada, p99 2,5 ms). Proposta: cache dos líderes por skill por ~1 min
+  - **Logout síncrono**: `0x14` com média de 9,6 ms no dispatcher (save do personagem); relog em massa custa login + save
+  - **Buckets do Prometheus**: o exportador publica os buckets padrão (o maior finito é 10 ms); as faixas finas de `metrics.cpp` não chegam ao `/metrics`, então nada acima de 10 ms aparece além de "+Inf" (o swarm mostra ">10000"; a média vem da soma exata)
+  - **A* do "usar item com" (item 3 da 23)**: `0x83` média 66 µs, p99 500 µs, máx. ≤ 2,5 ms em 7.336 usos: sem motivo para mudar a ordem
+  - Limites funcionando sob carga: talkaction 2.211 recusas, digitando 3.327 descartados, lista de proficiência 259, janela de outfit 69, highscores 1.747 de 1.772 servidos do cache; pool de conexões: espera média do lock do banco 1,5 µs, nenhum deadlock, nenhuma espera esgotada
+  - 47 de 50 caçadores morreram (sem poções na mão, monstros do nível); o gerador restaurou todos depois. O usuário entrou com o client real 15.25 (`GOD`) durante a rodada: login do client oficial funcionando
+  - Para repetir: `scratchpad/lt_server/start.sh` (build de métricas com a config copiada e Prometheus em 127.0.0.1:9464), `python3 -I tools/loadtest/swarm.py --bots 100 --minutes 10`, depois `seed.py --apply` com o servidor sem personagens de teste online
 
 ### Achados do bot de ataque (`/home/nicollas/teste/proxy-bot`, lido sem executar) — próximas tasks da 23
 - **Stresser**: 1024 goroutines numa conexão; modos `pathfinder` (usar item com moeda → posição distante fixa, força pathfinding), `outfit` (`0xD2` + `0xD3` em laço; resposta grande para pedido pequeno), `walk`/`leftright`, `follow` (seguir/cancelar alternado).

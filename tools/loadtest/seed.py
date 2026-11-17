@@ -10,7 +10,8 @@ Levels: 8-600, most of them 8-150; the five vocations (promoted from level 20, p
 half the characters stand in a town temple, half in a hunting area whose monsters fit the level
 (spawn centres from the monster spawn file, temples from the .otbm). Every character carries a
 backpack with potions and a rope in the ammo slot (the swarm uses it at a distance, which makes the
-server compute a path).
+server compute a path). `lastlogin` is set, so the datapack's first-login items
+(send_first_items.lua) are not added on top of them.
 
 Running it again replaces every load-test account (email ending in @loadtest.invalid) and so
 restores levels and places after a load test killed or moved the bots. Stop the server first: a
@@ -278,15 +279,15 @@ def to_sql(manifest):
             x, y, z = c["position"]
             lines.append(
                 "INSERT INTO `players` (`name`, `group_id`, `account_id`, `level`, `vocation`, `health`, `healthmax`, `experience`, "
-                "`looktype`, `maglevel`, `mana`, `manamax`, `town_id`, `posx`, `posy`, `posz`, `conditions`, `cap`, `sex`, `balance`"
+                "`looktype`, `maglevel`, `mana`, `manamax`, `town_id`, `posx`, `posy`, `posz`, `conditions`, `cap`, `sex`, `balance`, `lastlogin`"
                 f"{skill_columns}) VALUES ({sql_string(c['name'])}, 1, @account, {c['level']}, {c['vocation']}, {c['health']}, {c['health']}, "
                 f"{c['experience']}, {c['looktype']}, {c['maglevel']}, {c['mana']}, {c['mana']}, {c['town_id']}, {x}, {y}, {z}, '', "
-                f"{c['cap']}, {c['sex']}, {c['balance']}{skill_values});")
+                f"{c['cap']}, {c['sex']}, {c['balance']}, {now - 86400}{skill_values});")
             lines.append("SET @player = LAST_INSERT_ID();")
             lines.append(
                 "INSERT INTO `player_items` (`player_id`, `pid`, `sid`, `itemtype`, `count`, `attributes`) VALUES "
-                f"(@player, {SLOT_BACKPACK}, 101, {ITEM_BACKPACK}, 1, ''), (@player, 101, 102, {ITEM_HEALTH_POTION}, 50, ''), "
-                f"(@player, 101, 103, {ITEM_MANA_POTION}, 50, ''), (@player, {SLOT_AMMO}, 104, {ITEM_ROPE}, 1, '');")
+                f"(@player, {SLOT_BACKPACK}, 101, {ITEM_BACKPACK}, 1, ''), (@player, 101, 102, {ITEM_HEALTH_POTION}, 20, ''), "
+                f"(@player, 101, 103, {ITEM_MANA_POTION}, 20, ''), (@player, {SLOT_AMMO}, 104, {ITEM_ROPE}, 1, '');")
     lines.append("COMMIT;")
     return "\n".join(lines) + "\n"
 

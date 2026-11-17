@@ -715,6 +715,17 @@ Resultado atual: ver a última linha de validação no `todo.md` (CHECKPOINT 23)
   `[LootFunctions::luaLootSetIdFromName] - Unknown loot item` e `could not be loaded`; o grep do
   smoke pega os dois.
 
+## 6f. Phase 25: massa de teste e swarm de bots
+
+- `tools/loadtest/seed.py` cria/restaura as contas `@loadtest.invalid` no banco do `config.lua` (decisão do usuário:
+  o banco normal pode receber a massa). Bots (`lt_bot_*`, personagens `Swarm …`) e manuais (`lt_manual_*`,
+  `Tester …`) ficam em contas separadas: o swarm só usa os bots. Rode com o servidor sem personagens de teste online
+  (o logout salva por cima). Logins em `build/loadtest/characters.json`.
+- `tools/loadtest/swarm.py` sobe N clientes 15.25 (`tibia_client.py`) a partir de 127.0.0.2+, respeitando os limites
+  por IP; precisa do build de métricas com `metricsEnablePrometheus = true` para o relatório.
+- Achados da primeira rodada (KV sem cache negativo, login caro por títulos, logout síncrono, buckets do exportador)
+  estão no `todo.md` (25.4); viraram pendências de C++ para quando o usuário liberar.
+
 ## 7. Smoke test do servidor (banco descartável)
 
 1. Copiar `config.lua` para o scratchpad trocando `mysqlDatabase` para `"canary_smoke_<fase>"` e
