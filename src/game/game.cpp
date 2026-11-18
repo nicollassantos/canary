@@ -9,6 +9,7 @@
 
 #include "game/game.hpp"
 #include "game/login/login_service.hpp"
+#include "game/server_config_repository.hpp"
 #include "game/market/items_price_broadcast.hpp"
 
 #include "config/configmanager.hpp"
@@ -371,27 +372,23 @@ void Game::resetNpcs() const {
 }
 
 void Game::loadBoostedCreature() {
-	auto &db = Database::getInstance();
-	const auto result = db.storeQuery(
-		"SELECT `date`, `boostname`, `raceid`, `looktype`, `lookfeet`, `looklegs`, `lookhead`, `lookbody`, `lookaddons`, `lookmount` "
-		"FROM `boosted_creature`"
-	);
-	if (!result) {
+	auto &repository = g_serverConfigRepository();
+	const auto stored = repository.loadBoostedCreature();
+	if (!stored) {
 		g_logger().warn("[Game::loadBoostedCreature] - "
 		                "Failed to detect boosted creature database. (CODE 01)");
 		return;
 	}
 
-	const auto date = result->getNumber<uint16_t>("date");
 	const auto now = getTimeNow();
 	tm* ltm = localtime(&now);
 
-	if (date == ltm->tm_mday) {
-		setBoostedName(result->getString("boostname"));
+	if (stored->day == ltm->tm_mday) {
+		setBoostedName(stored->name);
 		return;
 	}
 
-	const auto oldRace = result->getNumber<uint16_t>("raceid");
+	const auto oldRace = stored->raceId;
 	const auto &monsterlist = getBestiaryList();
 
 	struct MonsterRace {
@@ -429,19 +426,9 @@ void Game::loadBoostedCreature() {
 
 	setBoostedName(selectedMonster.name);
 
-	auto query = std::string("UPDATE `boosted_creature` SET ")
-		+ "`date` = '" + std::to_string(ltm->tm_mday) + "',"
-		+ "`boostname` = " + db.escapeString(selectedMonster.name) + ","
-		+ "`looktype` = " + std::to_string(monsterType->info.outfit.lookType) + ","
-		+ "`lookfeet` = " + std::to_string(monsterType->info.outfit.lookFeet) + ","
-		+ "`looklegs` = " + std::to_string(monsterType->info.outfit.lookLegs) + ","
-		+ "`lookhead` = " + std::to_string(monsterType->info.outfit.lookHead) + ","
-		+ "`lookbody` = " + std::to_string(monsterType->info.outfit.lookBody) + ","
-		+ "`lookaddons` = " + std::to_string(monsterType->info.outfit.lookAddons) + ","
-		+ "`lookmount` = " + std::to_string(monsterType->info.outfit.lookMount) + ","
-		+ "`raceid` = '" + std::to_string(selectedMonster.raceId) + "'";
-
-	if (!db.executeQuery(query)) {
+	const auto &outfit = monsterType->info.outfit;
+	const BoostedCreatureLook look { outfit.lookType, outfit.lookFeet, outfit.lookLegs, outfit.lookHead, outfit.lookBody, outfit.lookAddons, outfit.lookMount };
+	if (!repository.storeBoostedCreature({ static_cast<uint16_t>(ltm->tm_mday), selectedMonster.name, selectedMonster.raceId }, look)) {
 		g_logger().warn("[Game::loadBoostedCreature] - "
 		                "Failed to detect boosted creature database. (CODE 02)");
 	}
@@ -2414,36 +2401,27 @@ void Game::updateCreatureType(const std::shared_ptr<Creature> &creature) {
 }
 
 void Game::loadMotdNum() {
-	Database &db = Database::getInstance();
-
-	DBResult_ptr result = db.storeQuery("SELECT `value` FROM `server_config` WHERE `config` = 'motd_num'");
-	if (result) {
-		motdNum = result->getNumber<uint32_t>("value");
+	auto &repository = g_serverConfigRepository();
+	if (const auto stored = repository.find("motd_num")) {
+		motdNum = static_cast<uint32_t>(std::strtoul(stored->c_str(), nullptr, 10));
 	} else {
-		db.executeQuery("INSERT INTO `server_config` (`config`, `value`) VALUES ('motd_num', '0')");
+		repository.insert("motd_num", "0");
 	}
 
-	result = db.storeQuery("SELECT `value` FROM `server_config` WHERE `config` = 'motd_hash'");
-	if (result) {
-		motdHash = result->getString("value");
+	if (const auto stored = repository.find("motd_hash")) {
+		motdHash = *stored;
 		if (motdHash != transformToSHA1(g_configManager().getString(SERVER_MOTD))) {
 			++motdNum;
 		}
 	} else {
-		db.executeQuery("INSERT INTO `server_config` (`config`, `value`) VALUES ('motd_hash', '')");
+		repository.insert("motd_hash", "");
 	}
 }
 
 void Game::saveMotdNum() const {
-	Database &db = Database::getInstance();
-
-	std::ostringstream query;
-	query << "UPDATE `server_config` SET `value` = '" << motdNum << "' WHERE `config` = 'motd_num'";
-	db.executeQuery(query.str());
-
-	query.str(std::string());
-	query << "UPDATE `server_config` SET `value` = '" << transformToSHA1(g_configManager().getString(SERVER_MOTD)) << "' WHERE `config` = 'motd_hash'";
-	db.executeQuery(query.str());
+	auto &repository = g_serverConfigRepository();
+	repository.update("motd_num", std::to_string(motdNum));
+	repository.update("motd_hash", transformToSHA1(g_configManager().getString(SERVER_MOTD)));
 }
 
 void Game::checkPlayersRecord() {
@@ -2460,21 +2438,15 @@ void Game::checkPlayersRecord() {
 }
 
 void Game::updatePlayersRecord() const {
-	Database &db = Database::getInstance();
-
-	std::ostringstream query;
-	query << "UPDATE `server_config` SET `value` = '" << playersRecord << "' WHERE `config` = 'players_record'";
-	db.executeQuery(query.str());
+	g_serverConfigRepository().update("players_record", std::to_string(playersRecord));
 }
 
 void Game::loadPlayersRecord() {
-	Database &db = Database::getInstance();
-
-	DBResult_ptr result = db.storeQuery("SELECT `value` FROM `server_config` WHERE `config` = 'players_record'");
-	if (result) {
-		playersRecord = result->getNumber<uint32_t>("value");
+	auto &repository = g_serverConfigRepository();
+	if (const auto stored = repository.find("players_record")) {
+		playersRecord = static_cast<uint32_t>(std::strtoul(stored->c_str(), nullptr, 10));
 	} else {
-		db.executeQuery("INSERT INTO `server_config` (`config`, `value`) VALUES ('players_record', '0')");
+		repository.insert("players_record", "0");
 	}
 }
 

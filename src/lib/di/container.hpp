@@ -21,6 +21,7 @@
 #include "creatures/players/player_progress_repository_db.hpp"
 #include "creatures/players/player_repository_db.hpp"
 #include "creatures/players/vip_repository_db.hpp"
+#include "game/server_config_repository_db.hpp"
 #include "io/guild_repository_db.hpp"
 #include "map/house/house_repository_db.hpp"
 #include "io/highscore_repository_db.hpp"
@@ -73,6 +74,7 @@ private:
 		di::bind<IBanRepository>().to<BanRepositoryDB>().in(di::singleton),
 		di::bind<IHouseRepository>().to<HouseRepositoryDB>().in(di::singleton),
 		di::bind<IPlayerProgressRepository>().to<PlayerProgressRepositoryDB>().in(di::singleton),
+		di::bind<IServerConfigRepository>().to<ServerConfigRepositoryDB>().in(di::singleton),
 		di::bind<IVipRepository>().to<VipRepositoryDB>().in(di::singleton),
 		di::bind<KVStore>().to<KVSQL>().in(di::singleton),
 		di::bind<Logger>().to<LogWithSpdLog>().in(di::singleton),

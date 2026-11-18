@@ -8,5 +8,6 @@ target_sources(
             player_progress_repository_db_it.cpp
             player_repository_db_it.cpp
             schema_hardening_it.cpp
+            server_config_repository_db_it.cpp
             vip_repository_db_it.cpp
 )

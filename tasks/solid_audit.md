@@ -32,7 +32,7 @@ explícitos, sem `g_game()`, com testes diretos (`HouseAuctionEligibilityTest`).
 |---|---|---|
 | ~~`src/creatures/players/management/ban.cpp` (`IOBan`)~~ | feito na 25.16 (`IBanRepository`/`BanRepositoryDB`) | |
 | ~~`src/map/house/house.cpp`~~ | feito na 25.17 (`IHouseRepository`/`HouseRepositoryDB`) | |
-| `src/game/game.cpp` | `loadBoostedCreature`, `loadMotdNum`, `loadPlayersRecord` (11 consultas em `server_config`) | pequeno; uma `IServerConfigRepository` tiraria o último SQL do `game.cpp` |
+| ~~`src/game/game.cpp`~~ | feito na 25.20 (`IServerConfigRepository`/`ServerConfigRepositoryDB`) | |
 | `src/io/io_bosstiary.cpp` | boss boosted (4 consultas) | estático (`IOBosstiary`), sem fake |
 | ~~components: forge history, wheel, títulos, cyclopedia, badges~~ | feito na 25.19 (`IPlayerProgressRepository`/`PlayerProgressRepositoryDB`) | |
 | ~~`src/io/iomapserialize.cpp`~~ | feito na 25.17/25.18 (`HouseRepositoryDB`) | |
@@ -100,5 +100,5 @@ injetar pelo construtor nos services novos, como já é regra.
    testada sem banco; `House::setOwner` testado. Os blobs de itens das casas (`tile_store`) também, na 25.18: o
    `IOMapSerialize` ficou só com o formato da serialização, sem banco.
 4. ~~SQL dos components para adapters (forge history, wheel, títulos, hirelings, badges)~~ feito na 25.19
-   (`IPlayerProgressRepository`); `IServerConfigRepository`.
+   (`IPlayerProgressRepository`); ~~`IServerConfigRepository`~~ feito na 25.20 (o `game.cpp` ficou sem SQL).
 5. Portas de papel para combate/condições, onde liberam os testes de `combatChangeHealth`.

@@ -512,6 +512,7 @@
     <ClCompile Include="..\src\game\chat\chat_service.cpp" />
     <ClCompile Include="..\src\game\cyclopedia\cyclopedia_service.cpp" />
     <ClCompile Include="..\src\game\login\login_service.cpp" />
+    <ClCompile Include="..\src\game\server_config_repository_db.cpp" />
     <ClCompile Include="..\src\game\forge\forge_service.cpp" />
     <ClCompile Include="..\src\game\highscore\highscore_service.cpp" />
     <ClCompile Include="..\src\game\interaction\player_interaction_service.cpp" />
@@ -768,6 +769,8 @@
     <ClInclude Include="..\src\game\chat\typing_throttle.hpp" />
     <ClInclude Include="..\src\game\cyclopedia\cyclopedia_service.hpp" />
     <ClInclude Include="..\src\game\login\login_service.hpp" />
+    <ClInclude Include="..\src\game\server_config_repository.hpp" />
+    <ClInclude Include="..\src\game\server_config_repository_db.hpp" />
     <ClInclude Include="..\src\game\forge\forge_service.hpp" />
     <ClInclude Include="..\src\game\game_helpers.hpp" />
     <ClInclude Include="..\src\game\highscore\highscore_service.hpp" />

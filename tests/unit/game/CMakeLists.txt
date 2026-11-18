@@ -33,6 +33,7 @@ target_sources(
             login_service_test.cpp
             house_startup_rules_test.cpp
             house_owner_test.cpp
+            server_config_test.cpp
             house_auction_transfer_test.cpp
             rule_violation_report_test.cpp
             highscore_requests_test.cpp

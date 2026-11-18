@@ -6,6 +6,7 @@ target_sources(
             chat/chat_service.cpp
             cyclopedia/cyclopedia_service.cpp
             login/login_service.cpp
+            server_config_repository_db.cpp
             forge/forge_service.cpp
             outfit/outfit_service.cpp
             highscore/highscore_service.cpp
