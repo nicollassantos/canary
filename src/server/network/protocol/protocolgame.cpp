@@ -9,6 +9,7 @@
 
 #include "server/network/protocol/protocolgame.hpp"
 
+#include "game/scheduling/player_save_barrier.hpp"
 #include "server/network/protocol/packet_watch.hpp"
 #include "server/network/commands/game_command_dispatcher.hpp"
 
@@ -248,6 +249,11 @@ void ProtocolGame::login(const std::string &name, uint32_t accountId, OperatingS
 			return;
 		}
 
+		// An immediate relog: the logout save of this character may still be committing.
+		if (!PlayerSaveBarrier::global().waitForGuid(player->getGUID())) {
+			disconnectClient("Your character is still being saved. Please try again in a moment.");
+			return;
+		}
 		if (!g_playerRepository().loadPlayerById(player, player->getGUID(), false)) {
 			disconnectClient("Your character could not be loaded, please contact an adminstrator.");
 			return;

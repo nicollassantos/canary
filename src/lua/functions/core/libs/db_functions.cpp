@@ -36,7 +36,8 @@ namespace {
 		const auto start = lower.find_first_not_of(" \t\r\n(");
 		const bool read = start != std::string::npos && lower.compare(start, 6, "select") == 0;
 		if (!read && lower.find("player") != std::string::npos) {
-			PlayerSaveBarrier::global().waitForAll();
+			// Bounded: after PlayerSaveBarrier::MaxWait the query goes ahead (the barrier logs it).
+			std::ignore = PlayerSaveBarrier::global().waitForAll();
 		}
 	}
 } // namespace

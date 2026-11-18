@@ -26,20 +26,23 @@
 /// (PlayerRepositoryDB) wait here first; the wait only happens in that window, a few milliseconds.
 /// Writes that change a character's row without loading it wait too: the save would overwrite them
 /// (PlayerRepositoryDB::increaseBankBalance, and db.query/db.asyncQuery on player tables).
+///
+/// The waits run on the game thread and are bounded by MaxWait: a save stuck behind an unreachable
+/// database must not stop the world. After it, loads are refused (the login asks to try again) and
+/// writes go ahead with an error log and the `player_save_barrier_timeouts` metric.
 class PlayerSaveBarrier {
 public:
-	/// Logged after each WarningInterval spent waiting (the database may be down).
-	static constexpr std::chrono::seconds WarningInterval { 5 };
+	static constexpr std::chrono::milliseconds MaxWait { 1000 };
 
 	void begin(uint32_t guid, const std::string &name);
 	void end(uint32_t guid);
 
-	/// Blocks while a save of `guid` (or of the character named `name`, any case) is pending;
-	/// returns how long it waited.
-	std::chrono::milliseconds waitForGuid(uint32_t guid);
-	std::chrono::milliseconds waitForName(const std::string &name);
-	/// Blocks while any logout save is pending (scripts writing player rows without naming one).
-	std::chrono::milliseconds waitForAll();
+	/// Waits while a save of `guid` (or of the character named `name`, any case) is pending.
+	/// True once none is pending; false when `limit` passed first.
+	[[nodiscard]] bool waitForGuid(uint32_t guid, std::chrono::milliseconds limit = MaxWait);
+	[[nodiscard]] bool waitForName(const std::string &name, std::chrono::milliseconds limit = MaxWait);
+	/// Waits while any logout save is pending (scripts writing player rows without naming one).
+	[[nodiscard]] bool waitForAll(std::chrono::milliseconds limit = MaxWait);
 
 	[[nodiscard]] size_t pending() const;
 
@@ -47,7 +50,7 @@ public:
 
 private:
 	template <typename Pending>
-	std::chrono::milliseconds waitWhile(const Pending &isPending, const std::string &who);
+	bool waitWhile(const Pending &isPending, const std::string &who, std::chrono::milliseconds limit);
 
 	mutable std::mutex mutex;
 	std::condition_variable saved;

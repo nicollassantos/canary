@@ -27,28 +27,27 @@ void PlayerSaveBarrier::end(uint32_t guid) {
 }
 
 template <typename Pending>
-std::chrono::milliseconds PlayerSaveBarrier::waitWhile(const Pending &isPending, const std::string &who) {
-	const auto started = std::chrono::steady_clock::now();
+bool PlayerSaveBarrier::waitWhile(const Pending &isPending, const std::string &who, std::chrono::milliseconds limit) {
 	std::unique_lock lock(mutex);
 	if (!isPending()) {
-		return std::chrono::milliseconds(0);
+		return true;
 	}
-	// Consistency first, as the synchronous queries do when the database is away: keep waiting, and
-	// say so every WarningInterval.
-	while (!saved.wait_for(lock, WarningInterval, [&isPending] { return !isPending(); })) {
-		g_logger().warn("[PlayerSaveBarrier] still waiting for the logout save of {} before loading it", who);
-	}
-	const auto waited = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - started);
+	const bool done = saved.wait_for(lock, limit, [&isPending] { return !isPending(); });
 	lock.unlock();
-	g_metrics().addCounter("player_loads_waited_for_save", 1, {});
-	return waited;
+	if (done) {
+		g_metrics().addCounter("player_loads_waited_for_save", 1, {});
+		return true;
+	}
+	g_logger().error("[PlayerSaveBarrier] the logout save of {} is still pending after {} ms (is the database reachable?)", who, limit.count());
+	g_metrics().addCounter("player_save_barrier_timeouts", 1, {});
+	return false;
 }
 
-std::chrono::milliseconds PlayerSaveBarrier::waitForGuid(uint32_t guid) {
-	return waitWhile([this, guid] { return saving.contains(guid); }, std::to_string(guid));
+bool PlayerSaveBarrier::waitForGuid(uint32_t guid, std::chrono::milliseconds limit) {
+	return waitWhile([this, guid] { return saving.contains(guid); }, std::to_string(guid), limit);
 }
 
-std::chrono::milliseconds PlayerSaveBarrier::waitForName(const std::string &name) {
+bool PlayerSaveBarrier::waitForName(const std::string &name, std::chrono::milliseconds limit) {
 	const auto lower = asLowerCaseString(name);
 	return waitWhile([this, &lower] {
 		for (const auto &[_, savingName] : saving) {
@@ -57,11 +56,11 @@ std::chrono::milliseconds PlayerSaveBarrier::waitForName(const std::string &name
 			}
 		}
 		return false;
-	}, name);
+	}, name, limit);
 }
 
-std::chrono::milliseconds PlayerSaveBarrier::waitForAll() {
-	return waitWhile([this] { return !saving.empty(); }, "every character");
+bool PlayerSaveBarrier::waitForAll(std::chrono::milliseconds limit) {
+	return waitWhile([this] { return !saving.empty(); }, "every character", limit);
 }
 
 size_t PlayerSaveBarrier::pending() const {

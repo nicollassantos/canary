@@ -50,11 +50,11 @@ TEST(QueryRecorderTest, OtherThreadsAreNotRecorded) {
 // Loading a character whose logout save is still committing waits for it (relog, letters, market).
 TEST(PlayerSaveBarrierTest, LoadsWaitOnlyForTheirOwnPendingSave) {
 	PlayerSaveBarrier barrier;
-	EXPECT_EQ(std::chrono::milliseconds(0), barrier.waitForGuid(7));
+	EXPECT_TRUE(barrier.waitForGuid(7));
 
 	barrier.begin(7, "Swarm Kalo");
-	EXPECT_EQ(std::chrono::milliseconds(0), barrier.waitForGuid(8));
-	EXPECT_EQ(std::chrono::milliseconds(0), barrier.waitForName("Someone Else"));
+	EXPECT_TRUE(barrier.waitForGuid(8, std::chrono::milliseconds(0)));
+	EXPECT_TRUE(barrier.waitForName("Someone Else", std::chrono::milliseconds(0)));
 
 	std::atomic<bool> committed { false };
 	std::thread saver([&barrier, &committed] {
@@ -62,7 +62,7 @@ TEST(PlayerSaveBarrierTest, LoadsWaitOnlyForTheirOwnPendingSave) {
 		committed = true;
 		barrier.end(7);
 	});
-	barrier.waitForName("swarm kalo"); // any case
+	EXPECT_TRUE(barrier.waitForName("swarm kalo")); // any case
 	EXPECT_TRUE(committed.load());
 	saver.join();
 	EXPECT_EQ(0U, barrier.pending());
@@ -77,16 +77,31 @@ TEST(PlayerSaveBarrierTest, ALoadByGuidWaitsForTheCommit) {
 		committed = true;
 		barrier.end(9);
 	});
-	const auto waited = barrier.waitForGuid(9);
+	EXPECT_TRUE(barrier.waitForGuid(9));
 	EXPECT_TRUE(committed.load());
-	EXPECT_GE(waited.count(), 40);
 	saver.join();
+}
+
+// The waits run on the game thread: a save stuck behind an unreachable database must not stop it.
+TEST(PlayerSaveBarrierTest, AStuckSaveTimesTheWaitOutInsteadOfBlocking) {
+	PlayerSaveBarrier barrier;
+	barrier.begin(5, "Stuck");
+	const auto started = std::chrono::steady_clock::now();
+	EXPECT_FALSE(barrier.waitForGuid(5, std::chrono::milliseconds(30)));
+	EXPECT_FALSE(barrier.waitForName("stuck", std::chrono::milliseconds(30)));
+	EXPECT_FALSE(barrier.waitForAll(std::chrono::milliseconds(30)));
+	const auto waited = std::chrono::steady_clock::now() - started;
+	EXPECT_GE(waited, std::chrono::milliseconds(90));
+	EXPECT_LT(waited, std::chrono::seconds(2));
+	EXPECT_EQ(1U, barrier.pending()); // still pending: loads keep being refused until it commits
+	barrier.end(5);
+	EXPECT_TRUE(barrier.waitForGuid(5, std::chrono::milliseconds(0)));
 }
 
 // Writes that change a character's row without loading it (increaseBankBalance, scripts) wait too.
 TEST(PlayerSaveBarrierTest, AWriteWithoutAGuidWaitsForEveryPendingSave) {
 	PlayerSaveBarrier barrier;
-	EXPECT_EQ(std::chrono::milliseconds(0), barrier.waitForAll());
+	EXPECT_TRUE(barrier.waitForAll());
 	barrier.begin(1, "A");
 	barrier.begin(2, "B");
 	std::atomic<int> ended { 0 };
@@ -98,7 +113,7 @@ TEST(PlayerSaveBarrierTest, AWriteWithoutAGuidWaitsForEveryPendingSave) {
 		++ended;
 		barrier.end(2);
 	});
-	barrier.waitForAll();
+	EXPECT_TRUE(barrier.waitForAll());
 	EXPECT_EQ(2, ended.load());
 	saver.join();
 }

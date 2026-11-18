@@ -24,12 +24,17 @@ IPlayerRepository &IPlayerRepository::getInstance() {
 
 bool PlayerRepositoryDB::loadPlayerById(const std::shared_ptr<Player> &player, uint32_t id, bool disableIrrelevantInfo) {
 	// A logout save may still be committing on another connection (SaveManager::saveLoggedOutPlayer).
-	PlayerSaveBarrier::global().waitForGuid(id);
+	// Loading before it commits would read the character as it was: refuse instead.
+	if (!PlayerSaveBarrier::global().waitForGuid(id)) {
+		return false;
+	}
 	return IOLoginData::loadPlayerById(player, id, disableIrrelevantInfo);
 }
 
 bool PlayerRepositoryDB::loadPlayerByName(const std::shared_ptr<Player> &player, const std::string &name) {
-	PlayerSaveBarrier::global().waitForName(name);
+	if (!PlayerSaveBarrier::global().waitForName(name)) {
+		return false;
+	}
 	return IOLoginData::loadPlayerByName(player, name);
 }
 
@@ -94,7 +99,9 @@ bool PlayerRepositoryDB::formatPlayerName(std::string &name) {
 
 void PlayerRepositoryDB::increaseBankBalance(uint32_t guid, uint64_t bankBalance) {
 	// The pending logout save writes the absolute balance and would undo this increment.
-	PlayerSaveBarrier::global().waitForGuid(guid);
+	if (!PlayerSaveBarrier::global().waitForGuid(guid)) {
+		g_logger().error("[PlayerRepositoryDB::increaseBankBalance] crediting {} to player {} while its logout save is still pending: the save may overwrite it", bankBalance, guid);
+	}
 	std::ostringstream query;
 	query << "UPDATE `players` SET `balance` = `balance` + " << bankBalance << " WHERE `id` = " << guid;
 	std::ignore = db_.executeQuery(query.str());

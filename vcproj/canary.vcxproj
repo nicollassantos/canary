@@ -66,6 +66,7 @@
     <ClInclude Include="..\src\creatures\players\components\wheel\player_wheel.hpp" />
     <ClInclude Include="..\src\creatures\players\components\weapon_proficiency.hpp" />
     <ClInclude Include="..\src\creatures\players\wheel\wheel_definitions.hpp" />
+    <ClInclude Include="..\src\database\commit_retry.hpp" />
     <ClInclude Include="..\src\database\connection_pool.hpp" />
     <ClInclude Include="..\src\database\database.hpp" />
     <ClInclude Include="..\src\database\databasemanager.hpp" />

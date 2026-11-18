@@ -166,8 +166,25 @@ namespace {
 } // namespace
 
 // A connection lost inside a transaction must not reconnect and autocommit the rest (half a save:
-// the "delete old items" rolled back, the "insert current items" kept). DBTransaction on the game's
-// connection: periodic, shutdown, house and guild saves.
+// the "delete old items" rolled back, the "insert current items" kept). Pooled transactions.
+TEST(DatabaseTransactionIT, APooledTransactionThatLosesItsConnectionWritesNothing) {
+	auto connection = openConnection();
+	ASSERT_NE(nullptr, connection);
+	ASSERT_TRUE(connection->executeQuery("CREATE TABLE IF NOT EXISTS `fork_tx_lost_it` (`id` INT NOT NULL PRIMARY KEY) ENGINE=InnoDB"));
+	ASSERT_TRUE(connection->executeQuery("DELETE FROM `fork_tx_lost_it`"));
+
+	auto killer = killLater(connection->sessionId(), std::chrono::milliseconds(400));
+	const auto attempt = DatabaseTasks::tryCommit(*connection, { "INSERT INTO `fork_tx_lost_it` VALUES (1)", "SELECT SLEEP(3)", "INSERT INTO `fork_tx_lost_it` VALUES (2)" });
+	killer.join();
+
+	EXPECT_EQ(CommitAttempt::RetryLater, attempt);
+	EXPECT_EQ(0U, rowsIn(*connection, "fork_tx_lost_it")); // reconnects outside the transaction
+	EXPECT_EQ(CommitAttempt::Committed, DatabaseTasks::tryCommit(*connection, { "INSERT INTO `fork_tx_lost_it` VALUES (1)", "INSERT INTO `fork_tx_lost_it` VALUES (2)" }));
+	EXPECT_EQ(2U, rowsIn(*connection, "fork_tx_lost_it"));
+	EXPECT_TRUE(connection->executeQuery("DROP TABLE `fork_tx_lost_it`"));
+}
+
+// The same through DBTransaction on the game's connection (periodic, shutdown, house, guild saves).
 TEST(DatabaseTransactionIT, AGameTransactionThatLosesItsConnectionWritesNothing) {
 	auto &db = g_database();
 	ASSERT_TRUE(db.executeQuery("CREATE TABLE IF NOT EXISTS `fork_tx_lost_game_it` (`id` INT NOT NULL PRIMARY KEY) ENGINE=InnoDB"));

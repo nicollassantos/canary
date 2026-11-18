@@ -1,1 +1,1 @@
-target_sources(canary_ut PRIVATE connection_pool_test.cpp logout_save_test.cpp)
+target_sources(canary_ut PRIVATE connection_pool_test.cpp logout_save_test.cpp commit_retry_test.cpp)

@@ -9,6 +9,7 @@
 
 #pragma once
 
+#include "database/commit_retry.hpp"
 #include "database/connection_pool.hpp"
 #include "database/database.hpp"
 #include "lib/thread/thread_pool.hpp"
@@ -41,13 +42,22 @@ public:
 	/// True when asynchronous queries have their own connections (startConnectionPool opened some).
 	[[nodiscard]] bool hasDedicatedConnections() const;
 
-	/// Runs \`statements\` in one transaction on a dedicated connection (never the game's: another
-	/// thread's queries would join the transaction there), once more if it was a deadlock victim.
-	/// \`onFinished(committed)\` runs on the worker thread. False (nothing scheduled) without a pool.
+	/// Runs `statements` in one transaction on a dedicated connection (never the game's: another
+	/// thread's queries would join the transaction there). While the database is unreachable or the
+	/// pool has no connection it retries with backoff (commit_retry.hpp), until it commits, a
+	/// statement is refused, or the pool closes / the thread pool stops (shutdown).
+	/// `onFinished(committed)` runs on the worker thread. False (nothing scheduled) without a pool.
+	///
+	/// A retry may apply the batch again after part of it autocommitted (a reconnect inside the
+	/// transaction), so it must be a snapshot that is safe to repeat: DELETE + INSERT, absolute
+	/// UPDATE, upsert (the logout save; only its forge_history INSERT could gain a duplicate row).
 	bool executeTransaction(std::vector<std::string> statements, std::function<void(bool committed)> onFinished);
 
-	/// BEGIN, the statements, COMMIT on \`connection\` (which nothing else may use meanwhile); rolled back
-	/// on the first failure and run once more if it was a deadlock victim. True when committed.
+	/// BEGIN, the statements, COMMIT on `connection` (which nothing else may use meanwhile); rolled back
+	/// on the first failure and run once more if it was a deadlock victim. RetryLater when the
+	/// connection or a lock failed, or the client reconnected inside the transaction.
+	static CommitAttempt tryCommit(Database &connection, const std::vector<std::string> &statements);
+	/// tryCommit(...) == CommitAttempt::Committed.
 	static bool commitStatements(Database &connection, const std::vector<std::string> &statements);
 
 private:

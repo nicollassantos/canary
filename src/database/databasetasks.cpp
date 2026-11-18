@@ -12,7 +12,13 @@
 #include "game/scheduling/dispatcher.hpp"
 #include "lib/thread/thread_pool.hpp"
 #include "lib/di/container.hpp"
+#include "lib/logging/logger.hpp"
 #include "lib/metrics/metrics.hpp"
+
+#ifndef USE_PRECOMPILED_HEADERS
+	#include <mysql/errmsg.h>
+	#include <thread>
+#endif
 
 DatabaseTasks::DatabaseTasks(ThreadPool &threadPool, Database &db) :
 	db(db), threadPool(threadPool) {
@@ -97,36 +103,52 @@ bool DatabaseTasks::hasDedicatedConnections() const {
 	return activePool.load() != nullptr;
 }
 
-namespace {
-	// One attempt; on failure the transaction is rolled back and the MySQL error is returned.
-	unsigned int runTransactionOnce(Database &connection, const std::vector<std::string> &statements) {
+CommitAttempt DatabaseTasks::tryCommit(Database &connection, const std::vector<std::string> &statements) {
+	// One attempt; on failure the transaction is rolled back and the MySQL error is returned. Through
+	// Database's transaction API, so a lost connection fails the rest instead of autocommitting it.
+	const auto runOnce = [&connection, &statements]() -> unsigned int {
+		const auto lastError = [] {
+			const auto error = Database::lastErrorOnThisThread();
+			return error != 0 ? error : 1U;
+		};
 		Database::clearLastErrorOnThisThread();
-		if (!connection.executeQuery("BEGIN")) {
-			return Database::lastErrorOnThisThread() ? Database::lastErrorOnThisThread() : 1;
+		if (!connection.beginTransaction()) {
+			return lastError();
 		}
+		const auto session = connection.sessionId();
 		for (const auto &statement : statements) {
 			if (!connection.executeQuery(statement)) {
-				const auto error = Database::lastErrorOnThisThread() ? Database::lastErrorOnThisThread() : 1;
-				std::ignore = connection.executeQuery("ROLLBACK");
+				const auto error = lastError();
+				connection.rollback();
 				return error;
 			}
 		}
-		if (!connection.executeQuery("COMMIT")) {
-			const auto error = Database::lastErrorOnThisThread() ? Database::lastErrorOnThisThread() : 1;
-			std::ignore = connection.executeQuery("ROLLBACK");
-			return error;
+		if (!connection.commit()) {
+			return lastError(); // the server ended the transaction
+		}
+		if (connection.sessionId() != session) {
+			// Backstop: the session changed under the transaction, so part of it may have autocommitted.
+			// Report a lost connection; the batch is a snapshot and runs again.
+			g_metrics().addCounter("database_transaction_reconnected", 1, {});
+			return CR_SERVER_LOST;
 		}
 		return 0;
-	}
-} // namespace
+	};
 
-bool DatabaseTasks::commitStatements(Database &connection, const std::vector<std::string> &statements) {
-	auto error = runTransactionOnce(connection, statements);
+	auto error = runOnce();
 	if (error == Database::DeadlockError) {
 		Database::reportDeadlockRetry();
-		error = runTransactionOnce(connection, statements);
+		error = runOnce();
 	}
-	return error == 0;
+	if (error == 0) {
+		return CommitAttempt::Committed;
+	}
+	const bool transient = Database::isRecoverableError(error) || error == Database::DeadlockError || error == Database::LockWaitTimeoutError;
+	return transient ? CommitAttempt::RetryLater : CommitAttempt::Failed;
+}
+
+bool DatabaseTasks::commitStatements(Database &connection, const std::vector<std::string> &statements) {
+	return tryCommit(connection, statements) == CommitAttempt::Committed;
 }
 
 bool DatabaseTasks::executeTransaction(std::vector<std::string> statements, std::function<void(bool committed)> onFinished) {
@@ -135,18 +157,22 @@ bool DatabaseTasks::executeTransaction(std::vector<std::string> statements, std:
 		return false;
 	}
 
-	threadPool.detach_task([current, statements = std::move(statements), onFinished = std::move(onFinished)]() {
+	// The worker runs inside this thread pool, which joins its tasks before it is gone.
+	auto* const workers = &threadPool;
+	threadPool.detach_task([current, workers, statements = std::move(statements), onFinished = std::move(onFinished)]() {
 		// Never fall back to the game connection here: wait for a dedicated one.
-		bool committed = false;
-		while (true) {
-			if (auto lease = current->borrow()) {
-				committed = commitStatements(lease->get(), statements);
-				break;
+		const bool committed = commitWithRetry(
+			[current, &statements] {
+				auto lease = current->borrow();
+				return lease ? tryCommit(lease->get(), statements) : CommitAttempt::RetryLater;
+			},
+			[current, workers] { return current->isClosed() || workers->isStopped(); },
+			[](std::chrono::milliseconds delay) { std::this_thread::sleep_for(delay); },
+			[&statements](std::chrono::milliseconds backedOff) {
+				g_logger().warn("[DatabaseTasks::executeTransaction] a transaction of {} statements still waits for the database ({} s)", statements.size(), backedOff.count() / 1000);
+				g_metrics().addCounter("database_transaction_retry_warnings", 1, {});
 			}
-			if (current->isClosed()) {
-				break;
-			}
-		}
+		);
 		if (onFinished) {
 			onFinished(committed);
 		}
