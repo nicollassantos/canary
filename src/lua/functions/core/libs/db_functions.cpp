@@ -12,6 +12,9 @@
 #include "database/databasemanager.hpp"
 #include "database/databasetasks.hpp"
 #include "game/scheduling/player_save_barrier.hpp"
+#include "game/scheduling/dispatcher.hpp"
+#include "lib/logging/logger.hpp"
+#include "lib/metrics/metrics.hpp"
 #include "utils/tools.hpp"
 #include "lua/scripts/lua_environment.hpp"
 #include "lua/functions/lua_functions_loader.hpp"
@@ -29,24 +32,24 @@ void DBFunctions::init(lua_State* L) {
 }
 
 namespace {
-	// A script writing a character's row (offline players, marriage, rewards) must not land before the
-	// pending logout save of that character, which would overwrite it. Scripts do not say which one.
-	void waitForLogoutSavesBeforePlayerWrite(const std::string &query) {
-		const auto lower = asLowerCaseString(query);
-		const auto start = lower.find_first_not_of(" \t\r\n(");
-		const bool read = start != std::string::npos && lower.compare(start, 6, "select") == 0;
-		if (!read && lower.find("player") != std::string::npos) {
-			// Bounded: after PlayerSaveBarrier::MaxWait the query goes ahead (the barrier logs it).
-			std::ignore = PlayerSaveBarrier::global().waitForAll();
+	// A script writing a character's rows (offline players, marriage, rewards) must not land before a
+	// pending logout save of that character, which would overwrite it. Scripts do not say which
+	// character, so such a write waits for every pending save, and is refused when one is stuck
+	// (failing closed: going ahead could let the save undo a charge and duplicate money or items).
+	bool mayWriteNow(const std::string &query) {
+		if (!PlayerSaveBarrier::writesSavedTables(query) || PlayerSaveBarrier::global().waitForAll()) {
+			return true;
 		}
+		g_logger().error("[db] refused a script write while a logout save is stuck: {}", query.substr(0, 120));
+		g_metrics().addCounter("lua_db_writes_refused", 1, {});
+		return false;
 	}
 } // namespace
 
 int DBFunctions::luaDatabaseExecute(lua_State* L) {
 	// db.query(query)
 	const auto query = Lua::getString(L, -1);
-	waitForLogoutSavesBeforePlayerWrite(query);
-	Lua::pushBoolean(L, Database::getInstance().executeQuery(query));
+	Lua::pushBoolean(L, mayWriteNow(query) && Database::getInstance().executeQuery(query));
 	return 1;
 }
 
@@ -83,7 +86,12 @@ int DBFunctions::luaDatabaseAsyncExecute(lua_State* L) {
 		};
 	}
 	const auto query = Lua::getString(L, -1);
-	waitForLogoutSavesBeforePlayerWrite(query);
+	if (!mayWriteNow(query)) {
+		if (callback) {
+			g_dispatcher().addEvent([callback] { callback(nullptr, false); }, "DBFunctions::luaDatabaseAsyncExecute");
+		}
+		return 0;
+	}
 	g_databaseTasks().execute(query, callback);
 	return 0;
 }

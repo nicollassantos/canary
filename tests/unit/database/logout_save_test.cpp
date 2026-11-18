@@ -83,19 +83,29 @@ TEST(PlayerSaveBarrierTest, ALoadByGuidWaitsForTheCommit) {
 }
 
 // The waits run on the game thread: a save stuck behind an unreachable database must not stop it.
-TEST(PlayerSaveBarrierTest, AStuckSaveTimesTheWaitOutInsteadOfBlocking) {
+// Each pending save holds callers only until it is `limit` old; after that every caller is answered
+// at once, so a client that keeps relogging cannot stall the game thread again and again.
+TEST(PlayerSaveBarrierTest, AStuckSaveHoldsCallersOnlyUntilItsDeadline) {
+	using namespace std::chrono_literals;
 	PlayerSaveBarrier barrier;
 	barrier.begin(5, "Stuck");
-	const auto started = std::chrono::steady_clock::now();
-	EXPECT_FALSE(barrier.waitForGuid(5, std::chrono::milliseconds(30)));
-	EXPECT_FALSE(barrier.waitForName("stuck", std::chrono::milliseconds(30)));
-	EXPECT_FALSE(barrier.waitForAll(std::chrono::milliseconds(30)));
-	const auto waited = std::chrono::steady_clock::now() - started;
-	EXPECT_GE(waited, std::chrono::milliseconds(90));
-	EXPECT_LT(waited, std::chrono::seconds(2));
+	auto started = std::chrono::steady_clock::now();
+	EXPECT_FALSE(barrier.waitForGuid(5, 50ms));
+	const auto firstWait = std::chrono::steady_clock::now() - started;
+	EXPECT_GE(firstWait, 40ms);
+	EXPECT_LT(firstWait, 2s);
+
+	started = std::chrono::steady_clock::now();
+	for (int attempt = 0; attempt < 100; ++attempt) {
+		EXPECT_FALSE(barrier.waitForGuid(5, 50ms));
+		EXPECT_FALSE(barrier.waitForName("stuck", 50ms));
+		EXPECT_FALSE(barrier.waitForAll(50ms));
+	}
+	EXPECT_LT(std::chrono::steady_clock::now() - started, 40ms); // past the deadline: no more waiting
+
 	EXPECT_EQ(1U, barrier.pending()); // still pending: loads keep being refused until it commits
 	barrier.end(5);
-	EXPECT_TRUE(barrier.waitForGuid(5, std::chrono::milliseconds(0)));
+	EXPECT_TRUE(barrier.waitForGuid(5, 0ms));
 }
 
 // Writes that change a character's row without loading it (increaseBankBalance, scripts) wait too.
@@ -117,3 +127,16 @@ TEST(PlayerSaveBarrierTest, AWriteWithoutAGuidWaitsForEveryPendingSave) {
 	EXPECT_EQ(2, ended.load());
 	saver.join();
 }
+
+// Script writes wait for (and fail closed on) pending saves only when they touch a table the save
+// rewrites; other tables and reads go straight through.
+TEST(PlayerSaveBarrierTest, OnlyWritesToSavedTablesAreHeldBack) {
+	EXPECT_TRUE(PlayerSaveBarrier::writesSavedTables("UPDATE `players` SET `balance` = `balance` - 100 WHERE `id` = 7"));
+	EXPECT_TRUE(PlayerSaveBarrier::writesSavedTables("  delete from player_items where player_id = 7"));
+	EXPECT_TRUE(PlayerSaveBarrier::writesSavedTables("INSERT INTO `player_storage` (`player_id`, `key`, `value`) VALUES (7, 1, 1)"));
+	EXPECT_FALSE(PlayerSaveBarrier::writesSavedTables("SELECT `balance` FROM `players` WHERE `id` = 7"));
+	EXPECT_FALSE(PlayerSaveBarrier::writesSavedTables("DELETE FROM `players_online` WHERE `player_id` = 7"));
+	EXPECT_FALSE(PlayerSaveBarrier::writesSavedTables("INSERT INTO `player_deaths` (`player_id`) VALUES (7)"));
+	EXPECT_FALSE(PlayerSaveBarrier::writesSavedTables("UPDATE `accounts` SET `premdays` = 1"));
+}
+
