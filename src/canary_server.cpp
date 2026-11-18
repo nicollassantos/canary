@@ -631,4 +631,8 @@ void CanaryServer::shutdown() {
 
 	// Cached snapshots own creatures and must release them while gameplay services are still alive.
 	Spectators::clearCache();
+	// Spawns cancel their pending check event when destroyed. Left to Game's destructor at exit, that
+	// runs after the dispatcher singleton is gone (singletons die in reverse order of construction and
+	// Game is built first): a use after free that aborted shutdown after long runs. Drop them now.
+	g_game().map.clearSpawns();
 }

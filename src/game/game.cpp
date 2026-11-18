@@ -2321,8 +2321,7 @@ void Game::shutdown() {
 	g_webhook().sendMessage(":red_circle: Server is shutting down...");
 
 	g_logger().info("Shutting down...");
-	map.spawnsMonster.clear();
-	map.spawnsNpc.clear();
+	map.clearSpawns();
 	raids.clear();
 
 	if (serviceManager) {

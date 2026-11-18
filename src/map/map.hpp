@@ -65,6 +65,14 @@ public:
 	void loadHouseInfo();
 
 	/**
+	 * Stops and drops every monster and npc spawn, of the main map and of every custom map.
+	 * Spawns cancel their pending check event on the dispatcher when destroyed, so this must run
+	 * while the dispatcher lives: left to Game's destructor at exit, they reach a destroyed one.
+	 * Idempotent.
+	 */
+	void clearSpawns();
+
+	/**
 	 * Save a map.
 	 * \returns true if the map was saved successfully
 	 */

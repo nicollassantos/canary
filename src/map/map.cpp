@@ -254,6 +254,17 @@ void Map::loadMapCustom(const std::string &mapName, bool loadHouses, bool loadMo
 	npcfile.clear();
 }
 
+void Map::clearSpawns() {
+	spawnsMonster.clear();
+	spawnsNpc.clear();
+	for (auto &spawns : spawnsMonsterCustomMaps) {
+		spawns.clear();
+	}
+	for (auto &spawns : spawnsNpcCustomMaps) {
+		spawns.clear();
+	}
+}
+
 void Map::loadHouseInfo() {
 	IOMapSerialize::loadHouseInfo();
 	IOMapSerialize::loadHouseItems(this);

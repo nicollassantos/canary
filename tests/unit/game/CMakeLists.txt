@@ -14,6 +14,7 @@ target_sources(
             monster_spell_test.cpp
             monster_targeting_test.cpp
             navigation_snapshot_test.cpp
+            map_spawns_test.cpp
             npc_shop_range_test.cpp
             random_mount_test.cpp
             player_stats_test.cpp
