@@ -13,8 +13,11 @@
 #include "game/game_definitions.hpp"
 
 #ifndef USE_PRECOMPILED_HEADERS
+	#include <chrono>
 	#include <cstdint>
 	#include <memory>
+	#include <mutex>
+	#include <unordered_map>
 	#include <optional>
 	#include <string>
 	#include <vector>
@@ -61,8 +64,16 @@ public:
 	/// Once loaded, for the tile it logs in on: characters of the account outside a protection zone.
 	[[nodiscard]] std::optional<std::string> refuseOutsideProtectionZone(const std::shared_ptr<Player> &player, const Tile &loginTile) const;
 
-	/// A connection, before any character: the address ban.
+	/// A connection, before any character: the address ban. Runs on the network threads and reads the
+	/// snapshot refreshAddressBans keeps, not the database (one query per pre-login connection let a
+	/// client with many addresses make the network wait on the game's connection); before the first
+	/// snapshot it asks the repository. A ban made or lifted shows within AddressBanRefresh.
 	[[nodiscard]] std::optional<std::string> refuseBannedAddress(uint32_t ip) const;
+
+	static constexpr std::chrono::seconds AddressBanRefresh { 30 };
+	/// Reloads the address bans (Game schedules it every AddressBanRefresh). A failed read keeps the
+	/// snapshot it had.
+	void refreshAddressBans();
 
 	static std::string accountBanMessage(BanInfo ban);
 	static std::string addressBanMessage(BanInfo ban);
@@ -71,4 +82,8 @@ private:
 	LoginWorld &world;
 	IConfigManager &config;
 	IBanRepository &bans;
+
+	mutable std::mutex addressBansMutex;
+	/// Nothing before the first successful refresh.
+	mutable std::optional<std::unordered_map<uint32_t, BanInfo>> addressBans;
 };

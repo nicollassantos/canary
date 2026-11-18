@@ -70,11 +70,31 @@ std::optional<BanInfo> BanRepositoryDB::findAddressBan(uint32_t ip) {
 
 	const auto expiresAt = result->getNumber<int64_t>("expires_at");
 	if (expiresAt != 0 && now() > expiresAt) {
-		runLater(fmt::format("DELETE FROM `ip_bans` WHERE `ip` = {}", ip));
+		forgetExpiredAddressBan(ip);
 		return std::nullopt;
 	}
 
 	return BanInfo { result->getString("name"), result->getString("reason"), static_cast<time_t>(expiresAt) };
+}
+
+std::optional<std::vector<AddressBan>> BanRepositoryDB::loadAddressBans() {
+	std::vector<AddressBan> bans;
+	Database::clearLastErrorOnThisThread();
+	const auto result = db.storeQuery("SELECT `ip`, `reason`, `expires_at`, (SELECT `name` FROM `players` WHERE `id` = `banned_by`) AS `name` FROM `ip_bans`");
+	if (!result) {
+		if (Database::lastErrorOnThisThread() != 0) {
+			return std::nullopt;
+		}
+		return bans;
+	}
+	do {
+		bans.push_back({ result->getNumber<uint32_t>("ip"), BanInfo { result->getString("name"), result->getString("reason"), static_cast<time_t>(result->getNumber<int64_t>("expires_at")) } });
+	} while (result->next());
+	return bans;
+}
+
+void BanRepositoryDB::forgetExpiredAddressBan(uint32_t ip) {
+	runLater(fmt::format("DELETE FROM `ip_bans` WHERE `ip` = {}", ip));
 }
 
 bool BanRepositoryDB::isNamelocked(uint32_t playerGuid) {

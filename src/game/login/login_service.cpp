@@ -16,6 +16,7 @@
 #include "creatures/players/player.hpp"
 #include "game/game.hpp"
 #include "items/tile.hpp"
+#include "lib/logging/logger.hpp"
 #include "utils/tools.hpp"
 
 #ifndef USE_PRECOMPILED_HEADERS
@@ -87,10 +88,49 @@ std::optional<std::string> LoginService::refuseOutsideProtectionZone(const std::
 }
 
 std::optional<std::string> LoginService::refuseBannedAddress(uint32_t ip) const {
-	if (auto ban = bans.findAddressBan(ip)) {
-		return addressBanMessage(std::move(*ban));
+	if (ip == 0) {
+		return std::nullopt;
 	}
-	return std::nullopt;
+
+	std::optional<BanInfo> ban;
+	bool loaded = false;
+	bool expired = false;
+	{
+		std::scoped_lock lock(addressBansMutex);
+		if (addressBans) {
+			loaded = true;
+			if (const auto it = addressBans->find(ip); it != addressBans->end()) {
+				if (it->second.expiresAt != 0 && time(nullptr) > it->second.expiresAt) {
+					addressBans->erase(it);
+					expired = true;
+				} else {
+					ban = it->second;
+				}
+			}
+		}
+	}
+
+	if (!loaded) {
+		ban = bans.findAddressBan(ip); // before the first snapshot
+	} else if (expired) {
+		bans.forgetExpiredAddressBan(ip);
+	}
+	return ban ? std::optional<std::string>(addressBanMessage(std::move(*ban))) : std::nullopt;
+}
+
+void LoginService::refreshAddressBans() {
+	auto loaded = bans.loadAddressBans();
+	if (!loaded) {
+		g_logger().warn("[LoginService] could not reload the address bans; keeping the last ones");
+		return;
+	}
+	std::unordered_map<uint32_t, BanInfo> snapshot;
+	snapshot.reserve(loaded->size());
+	for (auto &[ip, ban] : *loaded) {
+		snapshot.insert_or_assign(ip, std::move(ban));
+	}
+	std::scoped_lock lock(addressBansMutex);
+	addressBans = std::move(snapshot);
 }
 
 std::string LoginService::accountBanMessage(BanInfo ban) {
@@ -107,5 +147,9 @@ std::string LoginService::addressBanMessage(BanInfo ban) {
 	if (ban.reason.empty()) {
 		ban.reason = "(none)";
 	}
-	return fmt::format("Your IP has been banned until {} by {}.\n\nReason specified:\n{}", formatDateShort(ban.expiresAt), ban.bannedBy, ban.reason);
+	if (ban.expiresAt > 0) {
+		return fmt::format("Your IP has been banned until {} by {}.\n\nReason specified:\n{}", formatDateShort(ban.expiresAt), ban.bannedBy, ban.reason);
+	}
+	// A permanent ban used to read "banned until 1969-12-31" (the date of 0).
+	return fmt::format("Your IP has been permanently banned by {}.\n\nReason specified:\n{}", ban.bannedBy, ban.reason);
 }

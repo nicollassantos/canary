@@ -14,6 +14,7 @@
 	#include <ctime>
 	#include <optional>
 	#include <string>
+	#include <vector>
 #endif
 
 struct BanInfo {
@@ -21,6 +22,11 @@ struct BanInfo {
 	std::string reason {};
 	/// 0 for a permanent ban.
 	time_t expiresAt {};
+};
+
+struct AddressBan {
+	uint32_t ip = 0;
+	BanInfo ban;
 };
 
 /// Account bans, address bans and namelocks (driven port). The login checks them before a character
@@ -39,6 +45,12 @@ public:
 	/// The address's active ban (0 is never banned). An expired one is removed and not returned.
 	[[nodiscard]] virtual std::optional<BanInfo> findAddressBan(uint32_t ip) = 0;
 	[[nodiscard]] virtual bool isNamelocked(uint32_t playerGuid) = 0;
+
+	/// Every address ban, expired ones included; nothing when the read failed (an empty table is an
+	/// empty list), so a failed reload never lifts the bans a cache holds.
+	[[nodiscard]] virtual std::optional<std::vector<AddressBan>> loadAddressBans() = 0;
+	/// Removes the expired ban of `ip` (asynchronously).
+	virtual void forgetExpiredAddressBan(uint32_t ip) = 0;
 };
 
 constexpr auto g_banRepository = IBanRepository::getInstance;

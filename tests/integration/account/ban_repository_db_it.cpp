@@ -115,6 +115,30 @@ namespace it_ban_repository_db {
 		})();
 	}
 
+	TEST(BanRepositoryDBTest, AllAddressBansLoadAndAnEmptyTableIsNotAFailure) {
+		auto &db = g_database();
+		databaseTest(db, [&db] {
+			const auto gm = createPlayer(db);
+			ASSERT_TRUE(db.executeQuery("DELETE FROM `ip_bans`"));
+			RecordingBanRepository repository(db);
+			const auto none = repository.loadAddressBans();
+			ASSERT_TRUE(none.has_value());
+			EXPECT_TRUE(none->empty());
+
+			ASSERT_TRUE(db.executeQuery(fmt::format("INSERT INTO `ip_bans` (`ip`, `reason`, `banned_at`, `expires_at`, `banned_by`) VALUES (1001, 'a', 1, 0, {}), (1002, 'b', 1, 1700000000, {})", gm.guid, gm.guid)));
+			const auto all = repository.loadAddressBans();
+			ASSERT_TRUE(all.has_value());
+			ASSERT_EQ(2U, all->size());
+			for (const auto &[ip, ban] : *all) {
+				EXPECT_EQ(gm.name, ban.bannedBy);
+				EXPECT_EQ(ip == 1001 ? 0 : 1'700'000'000, ban.expiresAt);
+			}
+
+			repository.forgetExpiredAddressBan(1002);
+			EXPECT_EQ((std::vector<std::string> { "DELETE FROM `ip_bans` WHERE `ip` = 1002" }), repository.later);
+		})();
+	}
+
 	TEST(BanRepositoryDBTest, ANamelockIsFoundByCharacter) {
 		auto &db = g_database();
 		databaseTest(db, [&db] {

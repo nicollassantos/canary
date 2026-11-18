@@ -14,6 +14,7 @@
 #ifndef USE_PRECOMPILED_HEADERS
 	#include <map>
 	#include <set>
+	#include <vector>
 #endif
 
 namespace tests {
@@ -33,6 +34,27 @@ namespace tests {
 		bool isNamelocked(uint32_t playerGuid) override {
 			return namelocked.contains(playerGuid);
 		}
+
+		std::optional<std::vector<AddressBan>> loadAddressBans() override {
+			++addressBanLoads;
+			if (failLoads) {
+				return std::nullopt;
+			}
+			std::vector<AddressBan> all;
+			for (const auto &[ip, ban] : addressBans) {
+				all.push_back({ ip, ban });
+			}
+			return all;
+		}
+
+		void forgetExpiredAddressBan(uint32_t ip) override {
+			forgotten.push_back(ip);
+			addressBans.erase(ip);
+		}
+
+		int addressBanLoads = 0;
+		bool failLoads = false;
+		std::vector<uint32_t> forgotten;
 
 		std::map<uint32_t, BanInfo> accountBans;
 		std::map<uint32_t, BanInfo> addressBans;

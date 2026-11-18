@@ -184,4 +184,46 @@ TEST_F(LoginServiceTest, ABannedAddressIsRefusedBeforeAnyCharacter) {
 	EXPECT_EQ(std::nullopt, service.refuseBannedAddress(0x0100007F));
 	bans.addressBans[0x0100007F] = BanInfo { "Admin", "Flooding", 1'900'000'000 };
 	EXPECT_EQ(std::optional<std::string>("Your IP has been banned until " + formatDateShort(1'900'000'000) + " by Admin.\n\nReason specified:\nFlooding"), service.refuseBannedAddress(0x0100007F));
+	bans.addressBans[0x0100007F] = BanInfo { "Admin", "", 0 };
+	EXPECT_EQ(std::optional<std::string>("Your IP has been permanently banned by Admin.\n\nReason specified:\n(none)"), service.refuseBannedAddress(0x0100007F));
 }
+
+// The network threads read a snapshot of the address bans, not the database.
+TEST_F(LoginServiceTest, OnceLoadedAddressBansComeFromTheSnapshotUntilTheNextRefresh) {
+	const uint32_t banned = 0x0100007F;
+	const uint32_t later = 0x0200007F;
+	bans.addressBans[banned] = BanInfo { "Admin", "Flooding", 0 };
+	EXPECT_TRUE(service.refuseBannedAddress(banned).has_value()); // no snapshot yet: asks the repository
+
+	service.refreshAddressBans();
+	EXPECT_EQ(1, bans.addressBanLoads);
+	bans.addressBans.erase(banned); // lifted in the database
+	bans.addressBans[later] = BanInfo { "Admin", "Flooding", 0 }; // and another one made
+	EXPECT_TRUE(service.refuseBannedAddress(banned).has_value());
+	EXPECT_FALSE(service.refuseBannedAddress(later).has_value());
+
+	service.refreshAddressBans();
+	EXPECT_FALSE(service.refuseBannedAddress(banned).has_value());
+	EXPECT_TRUE(service.refuseBannedAddress(later).has_value());
+	EXPECT_FALSE(service.refuseBannedAddress(0).has_value());
+}
+
+TEST_F(LoginServiceTest, AnExpiredBanInTheSnapshotLetsTheAddressInAndIsRemovedOnce) {
+	const uint32_t ip = 0x0300007F;
+	bans.addressBans[ip] = BanInfo { "Admin", "old", 1'000'000'000 };
+	service.refreshAddressBans();
+	EXPECT_FALSE(service.refuseBannedAddress(ip).has_value());
+	EXPECT_FALSE(service.refuseBannedAddress(ip).has_value());
+	EXPECT_EQ((std::vector<uint32_t> { ip }), bans.forgotten);
+}
+
+TEST_F(LoginServiceTest, AFailedReloadKeepsTheBansItHad) {
+	const uint32_t ip = 0x0400007F;
+	bans.addressBans[ip] = BanInfo { "Admin", "Flooding", 0 };
+	service.refreshAddressBans();
+	bans.failLoads = true;
+	bans.addressBans.clear();
+	service.refreshAddressBans();
+	EXPECT_TRUE(service.refuseBannedAddress(ip).has_value());
+}
+

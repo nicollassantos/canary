@@ -22,6 +22,8 @@ public:
 	[[nodiscard]] std::optional<BanInfo> findAccountBan(uint32_t accountId) override;
 	[[nodiscard]] std::optional<BanInfo> findAddressBan(uint32_t ip) override;
 	[[nodiscard]] bool isNamelocked(uint32_t playerGuid) override;
+	[[nodiscard]] std::optional<std::vector<AddressBan>> loadAddressBans() override;
+	void forgetExpiredAddressBan(uint32_t ip) override;
 
 protected:
 	/// Moving or removing an expired ban does not hold the caller: by default it runs on

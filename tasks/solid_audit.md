@@ -92,9 +92,8 @@ injetar pelo construtor nos services novos, como já é regra.
 
 1. ~~`player.cpp` de volta abaixo de 7k (obrigatório).~~ Feito na 25.12 (6897 linhas).
 2. ~~`IBanRepository` + `LoginService`~~ Feito na 25.16: as regras de admissão saíram do `ProtocolGame` e o SQL
-   de ban do `IOBan` (removido) foi para `BanRepositoryDB`, com fake e testes. **Próximo passo do mesmo
-   assunto:** o ban de IP é uma consulta ao banco por conexão pré-login, na thread de rede (já era assim com o
-   `IOBan`); com a porta, um cache de bans de IP com validade curta tira essa amplificação de cliente hostil.
+   de ban do `IOBan` (removido) foi para `BanRepositoryDB`, com fake e testes. O ban de IP, que era uma
+   consulta por conexão pré-login na thread de rede, passou a ler um retrato em memória na 25.21.
 3. ~~`IHouseRepository`~~ Feito na 25.17: dono, novo dono, informações e listas das casas atrás da porta; as
    decisões de subida (leilão vencido, transferência, mudança) viraram `house_auction_rules::resolveAtStartup`,
    testada sem banco; `House::setOwner` testado. Os blobs de itens das casas (`tile_store`) também, na 25.18: o

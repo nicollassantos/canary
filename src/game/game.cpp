@@ -475,6 +475,11 @@ void Game::start(ServiceManager* manager) {
 	[[maybe_unused]] auto eventId5 = g_dispatcher().cycleEvent(
 		EVENT_CHECK_CREATURE_INTERVAL, [this] { checkCreatures(); }, "Game::checkCreatures"
 	);
+	// Connections are checked against a snapshot of the address bans (LoginService::refuseBannedAddress).
+	m_loginService->refreshAddressBans();
+	[[maybe_unused]] auto addressBansEvent = g_dispatcher().cycleEvent(
+		static_cast<uint32_t>(std::chrono::milliseconds(LoginService::AddressBanRefresh).count()), [] { g_game().loginService().refreshAddressBans(); }, "LoginService::refreshAddressBans", DispatcherLane::Maintenance
+	);
 	[[maybe_unused]] auto eventId6 = g_dispatcher().cycleEvent(
 		EVENT_LUA_GARBAGE_COLLECTION, [this] { g_luaEnvironment().collectGarbage(); }, "Calling GC", DispatcherLane::Maintenance
 	);
