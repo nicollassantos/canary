@@ -11,6 +11,7 @@
 #include "database/database.hpp"
 #include "lib/di/container.hpp"
 #include "lib/logging/in_memory_logger.hpp"
+#include "test_items.hpp"
 
 int main(int argc, char** argv) {
 	::testing::InitGoogleTest(&argc, argv);
@@ -22,6 +23,10 @@ int main(int argc, char** argv) {
 	(void)g_logger();
 	(void)g_configManager();
 	(void)g_database();
+
+	// Creating a Player builds its inbox from the item types. Seed them once here so every suite runs
+	// on its own (--gtest_filter), not only after another suite happened to seed them.
+	test_items::ensureTestItemTypes();
 
 	return RUN_ALL_TESTS();
 }
