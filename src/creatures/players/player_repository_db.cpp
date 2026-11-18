@@ -17,6 +17,7 @@
 #include "game/game.hpp"
 #include "io/iologindata.hpp"
 #include "lib/di/container.hpp"
+#include "lib/metrics/metrics.hpp"
 
 IPlayerRepository &IPlayerRepository::getInstance() {
 	return DI::port<IPlayerRepository>();
@@ -98,12 +99,14 @@ bool PlayerRepositoryDB::formatPlayerName(std::string &name) {
 }
 
 void PlayerRepositoryDB::increaseBankBalance(uint32_t guid, uint64_t bankBalance) {
-	// The pending logout save writes the absolute balance and would undo this increment.
-	if (!PlayerSaveBarrier::global().waitForGuid(guid)) {
-		g_logger().error("[PlayerRepositoryDB::increaseBankBalance] crediting {} to player {} while its logout save is still pending: the save may overwrite it", bankBalance, guid);
-	}
 	std::ostringstream query;
 	query << "UPDATE `players` SET `balance` = `balance` + " << bankBalance << " WHERE `id` = " << guid;
+	// A pending logout save writes the absolute balance and would undo this increment: hand it to the
+	// save, which commits it right after itself and only then releases the character.
+	if (PlayerSaveBarrier::global().deferUntilSaved(guid, query.str())) {
+		g_metrics().addCounter("player_credits_deferred_to_save", 1, {});
+		return;
+	}
 	std::ignore = db_.executeQuery(query.str());
 }
 

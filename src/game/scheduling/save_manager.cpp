@@ -23,6 +23,10 @@
 #include "game/scheduling/player_save_barrier.hpp"
 #include "lib/metrics/metrics.hpp"
 
+#ifndef USE_PRECOMPILED_HEADERS
+	#include <fmt/ranges.h>
+#endif
+
 SaveManager::SaveManager(ThreadPool &threadPool, KVStore &kvStore, Logger &logger, Game &game) :
 	threadPool(threadPool), kv(kvStore), logger(logger), game(game) { }
 
@@ -184,6 +188,37 @@ bool SaveManager::savePlayer(std::shared_ptr<Player> player) {
 	return doSavePlayer(player);
 }
 
+namespace {
+	void reportLostDeferred(const std::string &name, const std::vector<std::string> &statements) {
+		if (statements.empty()) {
+			return;
+		}
+		g_logger().error("[SaveManager] {} statement(s) deferred to the logout save of {} were not committed: {}", statements.size(), name, fmt::join(statements, "; "));
+		g_metrics().addCounter("player_credits_deferred_to_save_lost", statements.size(), {});
+	}
+
+	// On the worker, once a batch of `guid`'s logout save finished: commits what was deferred to the
+	// save meanwhile (bank credits, PlayerSaveBarrier::deferUntilSaved), then releases the character,
+	// so nothing loads it before the credits are in.
+	void finishLogoutSave(uint32_t guid, const std::string &name) {
+		auto deferred = PlayerSaveBarrier::global().takeDeferredOrRelease(guid);
+		if (deferred.empty()) {
+			return; // released
+		}
+		auto pending = deferred;
+		const bool scheduled = g_databaseTasks().executeTransaction(std::move(deferred), [guid, name, pending](bool committed) {
+			if (!committed) {
+				reportLostDeferred(name, pending);
+			}
+			finishLogoutSave(guid, name);
+		});
+		if (!scheduled) {
+			reportLostDeferred(name, pending);
+			reportLostDeferred(name, PlayerSaveBarrier::global().end(guid));
+		}
+	}
+} // namespace
+
 bool SaveManager::saveLoggedOutPlayer(const std::shared_ptr<Player> &player) {
 	if (!player) {
 		return false;
@@ -215,16 +250,17 @@ bool SaveManager::saveLoggedOutPlayer(const std::shared_ptr<Player> &player) {
 	const auto name = player->getName();
 	PlayerSaveBarrier::global().begin(guid, name);
 	const bool scheduled = g_databaseTasks().executeTransaction(std::move(statements), [guid, name](bool committed) {
-		PlayerSaveBarrier::global().end(guid); // on the worker: the game thread may be waiting for it
-		if (!committed) {
+		if (committed) {
+			g_metrics().addCounter("player_logout_saves", 1, { { "result", "committed" } });
+		} else {
 			g_logger().error("[SaveManager::saveLoggedOutPlayer] the logout save of {} was not committed", name);
 			g_metrics().addCounter("player_logout_saves", 1, { { "result", "failed" } });
-			return;
 		}
-		g_metrics().addCounter("player_logout_saves", 1, { { "result", "committed" } });
+		finishLogoutSave(guid, name); // on the worker: the game thread may be waiting for it
 	});
 	if (!scheduled) {
-		PlayerSaveBarrier::global().end(guid);
+		// Nothing can have been deferred: begin() and this run on the game thread, back to back.
+		std::ignore = PlayerSaveBarrier::global().end(guid);
 		return savePlayer(player);
 	}
 	logger.debug("Logout save of {} recorded in {} ms", name, recording.duration());

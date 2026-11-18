@@ -25,12 +25,44 @@ void PlayerSaveBarrier::begin(uint32_t guid, const std::string &name) {
 	saving.insert_or_assign(guid, Pending { asLowerCaseString(name), std::chrono::steady_clock::now() });
 }
 
-void PlayerSaveBarrier::end(uint32_t guid) {
+std::vector<std::string> PlayerSaveBarrier::end(uint32_t guid) {
+	std::vector<std::string> leftover;
 	{
 		std::scoped_lock lock(mutex);
-		saving.erase(guid);
+		if (const auto it = saving.find(guid); it != saving.end()) {
+			leftover = std::move(it->second.deferred);
+			saving.erase(it);
+		}
 	}
 	saved.notify_all();
+	return leftover;
+}
+
+bool PlayerSaveBarrier::deferUntilSaved(uint32_t guid, std::string statement) {
+	std::scoped_lock lock(mutex);
+	const auto it = saving.find(guid);
+	if (it == saving.end()) {
+		return false;
+	}
+	it->second.deferred.emplace_back(std::move(statement));
+	return true;
+}
+
+std::vector<std::string> PlayerSaveBarrier::takeDeferredOrRelease(uint32_t guid) {
+	std::vector<std::string> deferred;
+	{
+		std::scoped_lock lock(mutex);
+		const auto it = saving.find(guid);
+		if (it == saving.end()) {
+			return deferred;
+		}
+		if (!it->second.deferred.empty()) {
+			return std::exchange(it->second.deferred, {});
+		}
+		saving.erase(it);
+	}
+	saved.notify_all();
+	return deferred;
 }
 
 template <typename Blocks>

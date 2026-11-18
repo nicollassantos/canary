@@ -18,6 +18,7 @@
 	#include <mutex>
 	#include <string>
 	#include <string_view>
+	#include <vector>
 #endif
 
 /// Characters whose logout save is still being written to the database.
@@ -26,22 +27,33 @@
 /// the database holds the character as it was before; loading it then (an immediate relog, a letter,
 /// the market, Game.getOfflinePlayer) and saving it again would lose or duplicate items. Player loads
 /// (PlayerRepositoryDB) wait here first; the wait only happens in that window, a few milliseconds.
-/// Writes that change a character's row without loading it wait too: the save would overwrite them
-/// (PlayerRepositoryDB::increaseBankBalance, and db.query/db.asyncQuery on player tables).
+/// Writes that change a character's row without loading it must not land before the save either,
+/// which would overwrite them. A bank credit (PlayerRepositoryDB::increaseBankBalance) is handed to
+/// the pending save instead (deferUntilSaved) and committed right after it, before the character is
+/// released; db.query/db.asyncQuery on player tables wait like loads.
 ///
 /// The waits run on the game thread and are bounded: callers wait for a pending save only until it
 /// is MaxWait old. Past that it counts as stuck, the database path as unhealthy, and every caller
 /// that meets any pending save is answered at once until the stuck one commits. So an outage holds
 /// the game thread for at most MaxWait in total, however many characters log out and try to come
 /// back meanwhile. A false answer refuses loads (the login asks to
-/// try again) and Lua writes; increaseBankBalance goes ahead with an error log. Each stuck save is
-/// logged once and counted in `player_save_barrier_timeouts`.
+/// try again) and Lua writes. Each stuck save is logged once and counted in
+/// `player_save_barrier_timeouts`.
 class PlayerSaveBarrier {
 public:
 	static constexpr std::chrono::milliseconds MaxWait { 1000 };
 
 	void begin(uint32_t guid, const std::string &name);
-	void end(uint32_t guid);
+	/// Releases `guid`; returns the deferred statements still queued (only left on a failure path,
+	/// for the caller to log).
+	std::vector<std::string> end(uint32_t guid);
+
+	/// While a save of `guid` is pending, queues `statement` to be committed right after it and
+	/// returns true; false (run it yourself) when none is pending.
+	bool deferUntilSaved(uint32_t guid, std::string statement);
+	/// For the saver, once a batch finished: the statements deferred meanwhile (the character stays
+	/// pending until they commit too), or nothing after releasing `guid`.
+	std::vector<std::string> takeDeferredOrRelease(uint32_t guid);
 
 	/// Waits while a save of `guid` (or of the character named `name`, any case) is pending.
 	/// True once none is pending; false once any pending save is `limit` old (at once if one already is).
@@ -69,6 +81,7 @@ private:
 		std::string lowerName;
 		std::chrono::steady_clock::time_point started;
 		bool reportedStuck = false;
+		std::vector<std::string> deferred;
 	};
 
 	template <typename Blocks>

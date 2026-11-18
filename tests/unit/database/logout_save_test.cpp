@@ -132,6 +132,37 @@ TEST(PlayerSaveBarrierTest, AStuckSaveMakesFresherSavesAnswerAtOnce) {
 	saver.join();
 }
 
+// A bank credit for a character whose logout save is pending is handed to the save (no wait on the
+// game thread, no race with the save's absolute balance): the saver commits it, then releases.
+TEST(PlayerSaveBarrierTest, ACreditDeferredToAPendingSaveIsCommittedBeforeTheRelease) {
+	PlayerSaveBarrier barrier;
+	EXPECT_FALSE(barrier.deferUntilSaved(4, "credit A")); // nothing pending: the caller runs it
+
+	barrier.begin(4, "Seller");
+	EXPECT_TRUE(barrier.deferUntilSaved(4, "credit A"));
+	EXPECT_FALSE(barrier.deferUntilSaved(5, "credit B")); // another character
+
+	// The save batch finished: the deferred credit comes back and the character stays pending.
+	EXPECT_EQ((std::vector<std::string> { "credit A" }), barrier.takeDeferredOrRelease(4));
+	EXPECT_FALSE(barrier.waitForGuid(4, std::chrono::milliseconds(0)));
+	EXPECT_TRUE(barrier.deferUntilSaved(4, "credit C")); // arrived while the credits commit
+	EXPECT_EQ((std::vector<std::string> { "credit C" }), barrier.takeDeferredOrRelease(4));
+
+	// Nothing more: released, and loads go through.
+	EXPECT_TRUE(barrier.takeDeferredOrRelease(4).empty());
+	EXPECT_TRUE(barrier.waitForGuid(4, std::chrono::milliseconds(0)));
+	EXPECT_FALSE(barrier.deferUntilSaved(4, "credit D"));
+}
+
+// On a failure path the saver releases with end(), which hands back what is still queued to log it.
+TEST(PlayerSaveBarrierTest, EndReturnsTheDeferredStatementsLeft) {
+	PlayerSaveBarrier barrier;
+	barrier.begin(6, "Seller");
+	EXPECT_TRUE(barrier.deferUntilSaved(6, "credit"));
+	EXPECT_EQ((std::vector<std::string> { "credit" }), barrier.end(6));
+	EXPECT_EQ(0U, barrier.pending());
+}
+
 // Writes that change a character's row without loading it (increaseBankBalance, scripts) wait too.
 TEST(PlayerSaveBarrierTest, AWriteWithoutAGuidWaitsForEveryPendingSave) {
 	PlayerSaveBarrier barrier;
