@@ -75,8 +75,7 @@ TEST_F(CombatServiceTest, CombatBlockHit_ReturnsFalse_WhenDamageTypeIsAgony) {
 	EXPECT_FALSE(game.combatBlockHit(damage, nullptr, player, false, false, false));
 }
 
-// Note: combatChangeHealth with placed players triggers spectator network sends
-// during teardown that require a full server environment. Covered in integration tests.
+// combatChangeHealth has its own suite: combat_change_health_test.cpp.
 
 // playerSetFightModes — does not crash for a valid online player
 TEST_F(CombatServiceTest, PlayerSetFightModes_DoesNotCrash_WhenPlayerIsOnline) {

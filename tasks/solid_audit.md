@@ -57,8 +57,9 @@ combate 111, monstros 70.
 
 O domínio (criaturas, combate, tile) depende do caso de uso global, o inverso do hexagonal. Trocar tudo é
 renomear com custo de merge alto. **Ação:** portas por papel, como `CreatureFeedback`/`WorldRegistry`, só onde
-um fake libera teste de comportamento sem cobertura: combate (`combat.cpp`, `condition.cpp`; o
-`combat_service_test.cpp` registra que não consegue rodar `combatChangeHealth`) e monstro (`monster.cpp`).
+um fake libera teste de comportamento sem cobertura. Combate e condições não precisaram (25.23: o
+`combatChangeHealth` roda em teste com jogadores reais); sobra monstro (`monster.cpp`) se surgir um teste que
+dependa disso.
 
 ### 5. Configuração global (455 linhas com `g_configManager()`)
 
@@ -100,4 +101,6 @@ injetar pelo construtor nos services novos, como já é regra.
    `IOMapSerialize` ficou só com o formato da serialização, sem banco.
 4. ~~SQL dos components para adapters (forge history, wheel, títulos, hirelings, badges)~~ feito na 25.19
    (`IPlayerProgressRepository`); ~~`IServerConfigRepository`~~ feito na 25.20 (o `game.cpp` ficou sem SQL).
-5. Portas de papel para combate/condições, onde liberam os testes de `combatChangeHealth`.
+5. ~~Portas de papel para combate/condições, onde liberam os testes de `combatChangeHealth`~~ Feito na 25.23 sem
+   porta nova: o bloqueio era o crash de teardown dos testes (25.12) e fixtures sem grupo/vocação; o
+   `combatChangeHealth` e o dano de condição já rodam com jogadores reais (`CombatChangeHealthTest`).
