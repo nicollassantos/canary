@@ -32,15 +32,25 @@ public:
 	void execute(const std::string &query, const std::function<void(DBResult_ptr, bool)> &callback = nullptr);
 	void store(const std::string &query, const std::function<void(DBResult_ptr, bool)> &callback = nullptr);
 
+	/// Opens a connection like the game's (config.lua); nullptr when it fails.
+	using ConnectionFactory = std::function<std::unique_ptr<Database>()>;
+
 	/// Opens `connections` dedicated connections for these queries (databaseTaskConnections), so
 	/// they stop sharing the game's connection; 0, or none opened, keeps the shared one. Call once,
-	/// after the game's database is connected. Returns how many opened.
-	size_t startConnectionPool(size_t connections);
+	/// after the game's database is connected. Returns how many opened. `factory` is for tests.
+	size_t startConnectionPool(size_t connections, ConnectionFactory factory = {});
+	/// Opens `connections` connections only for executeTransaction (databaseSaveConnections): the
+	/// logout saves and the credits deferred to them. Slow queries on the general pool (highscores,
+	/// market statistics) then cannot hold a save past PlayerSaveBarrier::MaxWait. Without them,
+	/// transactions use the general pool. Returns how many opened.
+	size_t startSavePool(size_t connections, ConnectionFactory factory = {});
 	/// Closes the dedicated connections. Call after the thread pool stopped (no task holds one).
 	void shutdown();
 
-	/// True when asynchronous queries have their own connections (startConnectionPool opened some).
+	/// True when transactions have dedicated connections (the save pool, else the general pool).
 	[[nodiscard]] bool hasDedicatedConnections() const;
+	/// The pool executeTransaction uses: the save pool when it opened, else the general one.
+	[[nodiscard]] ConnectionPool<Database>* transactionPool() const;
 
 	/// Runs `statements` in one transaction on a dedicated connection (never the game's: another
 	/// thread's queries would join the transaction there). While the database is unreachable or the
@@ -67,9 +77,13 @@ private:
 
 	Database &db;
 	ThreadPool &threadPool;
+	static std::unique_ptr<ConnectionPool<Database>> openPool(size_t connections, ConnectionFactory factory, std::string_view purpose);
+
 	std::unique_ptr<ConnectionPool<Database>> pool;
-	// Read by the worker threads; set once by startConnectionPool.
+	std::unique_ptr<ConnectionPool<Database>> savePool;
+	// Read by the worker threads; set once by startConnectionPool / startSavePool.
 	std::atomic<ConnectionPool<Database>*> activePool { nullptr };
+	std::atomic<ConnectionPool<Database>*> activeSavePool { nullptr };
 };
 
 constexpr auto g_databaseTasks = DatabaseTasks::getInstance;

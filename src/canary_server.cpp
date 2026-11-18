@@ -494,6 +494,8 @@ void CanaryServer::initializeDatabase() {
 	schema_hardening::ensureIndexes(Database::getInstance(), g_configManager().getString(MYSQL_DB));
 	// Asynchronous queries get their own connections (closed in shutdown, after the thread pool).
 	g_databaseTasks().startConnectionPool(static_cast<size_t>(std::max(0, g_configManager().getNumber(DATABASE_TASK_CONNECTIONS))));
+	// Logout saves get their own, so slow asynchronous queries cannot hold one past PlayerSaveBarrier::MaxWait.
+	g_databaseTasks().startSavePool(static_cast<size_t>(std::max(0, g_configManager().getNumber(DATABASE_SAVE_CONNECTIONS))));
 
 	if (g_configManager().getBoolean(OPTIMIZE_DATABASE)
 	    && !DatabaseManager::optimizeTables()) {

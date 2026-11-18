@@ -320,6 +320,7 @@ bool ConfigManager::load() {
 	loadIntConfig(L, MAX_OUTPUT_QUEUE_MESSAGES_TOTAL, "maxOutputQueueMessagesTotal", 16384);
 	loadIntConfig(L, MAX_PENDING_CONNECTIONS_PER_IP, "maxPendingConnectionsPerIp", 10);
 	loadIntConfig(L, DATABASE_TASK_CONNECTIONS, "databaseTaskConnections", 2);
+	loadIntConfig(L, DATABASE_SAVE_CONNECTIONS, "databaseSaveConnections", 2);
 	loadIntConfig(L, MAX_PLAYERS_OUTSIDE_PZ_PER_ACCOUNT, "maxPlayersOutsidePZPerAccount", 1);
 	loadIntConfig(L, MAX_PLAYERS_PER_ACCOUNT, "maxPlayersOnlinePerAccount", 1);
 	loadIntConfig(L, MAX_PLAYERS, "maxPlayers", 0);

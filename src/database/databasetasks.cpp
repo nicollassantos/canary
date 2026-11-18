@@ -31,40 +31,70 @@ DatabaseTasks &DatabaseTasks::getInstance() {
 	return DI::port<DatabaseTasks>();
 }
 
-size_t DatabaseTasks::startConnectionPool(size_t connections) {
+std::unique_ptr<ConnectionPool<Database>> DatabaseTasks::openPool(size_t connections, ConnectionFactory factory, std::string_view purpose) {
+	if (!factory) {
+		factory = [] {
+			auto connection = std::make_unique<Database>();
+			return connection->connect() ? std::move(connection) : nullptr;
+		};
+	}
+	ConnectionPool<Database>::Options options;
+	options.size = connections;
+	options.onReplace = [purpose = std::string(purpose)](std::string_view reason, bool replaced) {
+		g_logger().warn("[DatabaseTasks] {} connection for {} {}", reason, purpose, replaced ? "reopened" : "could not be reopened");
+		g_metrics().addCounter("database_task_connections_replaced", 1, { { "reason", std::string(reason) }, { "opened", replaced ? "yes" : "no" }, { "pool", purpose } });
+	};
+	auto created = std::make_unique<ConnectionPool<Database>>(std::move(options), std::move(factory), [](Database &connection) { return connection.ping(); });
+	if (created->start() == 0) {
+		return nullptr;
+	}
+	return created;
+}
+
+size_t DatabaseTasks::startConnectionPool(size_t connections, ConnectionFactory factory) {
 	if (connections == 0 || pool) {
 		return 0;
 	}
-
-	ConnectionPool<Database>::Options options;
-	options.size = connections;
-	options.onReplace = [](std::string_view reason, bool replaced) {
-		g_logger().warn("[DatabaseTasks] {} connection {}", reason, replaced ? "reopened" : "could not be reopened; using the game connection meanwhile");
-		g_metrics().addCounter("database_task_connections_replaced", 1, { { "reason", std::string(reason) }, { "opened", replaced ? "yes" : "no" } });
-	};
-	auto created = std::make_unique<ConnectionPool<Database>>(
-		std::move(options),
-		[] {
-			auto connection = std::make_unique<Database>();
-			return connection->connect() ? std::move(connection) : nullptr;
-		},
-		[](Database &connection) { return connection.ping(); }
-	);
-	const auto opened = created->start();
-	if (opened == 0) {
+	auto created = openPool(connections, std::move(factory), "asynchronous queries");
+	if (!created) {
 		g_logger().warn("[DatabaseTasks] no dedicated connection opened; asynchronous queries keep sharing the game connection");
 		return 0;
 	}
+	const auto opened = created->stats().idle;
 	pool = std::move(created);
 	activePool.store(pool.get());
 	g_logger().info("[DatabaseTasks] {} dedicated connection(s) for asynchronous queries", opened);
 	return opened;
 }
 
+size_t DatabaseTasks::startSavePool(size_t connections, ConnectionFactory factory) {
+	if (connections == 0 || savePool) {
+		return 0;
+	}
+	auto created = openPool(connections, std::move(factory), "logout saves");
+	if (!created) {
+		g_logger().warn("[DatabaseTasks] no connection opened for logout saves; they share the asynchronous query connections");
+		return 0;
+	}
+	const auto opened = created->stats().idle;
+	savePool = std::move(created);
+	activeSavePool.store(savePool.get());
+	g_logger().info("[DatabaseTasks] {} dedicated connection(s) for logout saves", opened);
+	return opened;
+}
+
+ConnectionPool<Database>* DatabaseTasks::transactionPool() const {
+	auto* const saves = activeSavePool.load();
+	return saves ? saves : activePool.load();
+}
+
 void DatabaseTasks::shutdown() {
-	// The pool object stays alive (a late task gets no lease and uses the game connection).
+	// The pool objects stay alive (a late task gets no lease and uses the game connection).
 	if (auto* current = activePool.load()) {
 		current->shutdown();
+	}
+	if (auto* saves = activeSavePool.load()) {
+		saves->shutdown();
 	}
 }
 
@@ -100,7 +130,7 @@ void DatabaseTasks::store(const std::string &query, const std::function<void(DBR
 }
 
 bool DatabaseTasks::hasDedicatedConnections() const {
-	return activePool.load() != nullptr;
+	return transactionPool() != nullptr;
 }
 
 CommitAttempt DatabaseTasks::tryCommit(Database &connection, const std::vector<std::string> &statements) {
@@ -152,7 +182,7 @@ bool DatabaseTasks::commitStatements(Database &connection, const std::vector<std
 }
 
 bool DatabaseTasks::executeTransaction(std::vector<std::string> statements, std::function<void(bool committed)> onFinished) {
-	auto* const current = activePool.load();
+	auto* const current = transactionPool();
 	if (current == nullptr) {
 		return false;
 	}

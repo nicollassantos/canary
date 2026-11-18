@@ -373,7 +373,7 @@ maxAllowedOnADummy = 1
 -- NOTE: toggleSaveIntervalCleanMap: true = enable the clean map, false = disable the clean map
 -- NOTE: saveIntervalTime: time based on what was set in "saveIntervalType"
 toggleSaveAsync = false
--- NOTE: toggleLogoutSaveAsync = true writes the logout save on a databaseTaskConnections connection: the game
+-- NOTE: toggleLogoutSaveAsync = true writes the logout save on a databaseSaveConnections connection: the game
 -- thread only builds the statements, and loading that character waits until they are committed.
 toggleLogoutSaveAsync = true
 toggleSaveInterval = true
@@ -474,6 +474,9 @@ mysqlSock = ""
 -- NOTE: databaseTaskConnections opens dedicated connections for asynchronous queries (market statistics,
 -- highscores, Lua db.asyncQuery), so they do not hold the game's connection; 0 keeps them on the game connection.
 databaseTaskConnections = 2
+-- NOTE: databaseSaveConnections opens connections only for logout saves, so slow queries on the ones above
+-- (highscores, market statistics) cannot keep a save pending; 0 shares databaseTaskConnections.
+databaseSaveConnections = 2
 passwordType = "sha1"
 
 -- NOTE: memoryConst: This is the memory cost for the Argon2 hash algorithm. It specifies the amount of memory that the algorithm will use when calculating a hash.

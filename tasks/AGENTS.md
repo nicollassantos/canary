@@ -41,6 +41,15 @@ Leia este arquivo inteiro antes de mexer na branch. Depois, para o detalhe de ca
     `maxOutputQueueMessages`);
   - highscores: `highscore_requests_total`, `highscore_requests_rejected{reason}`,
     `highscore_served_from_cache`, `highscore_cache_evictions{cache}`.
+  - save do logout e banco: `player_logout_saves{result="committed"|"failed"}`,
+    `player_save_barrier_timeouts` (save pendente há mais de 1 s: relog e escrita Lua em tabela de
+    player são recusados até ele commitar), `lua_db_writes_refused` (o script recebe `false`; a maioria
+    não confere, então a escrita some, mas fica no log com o SQL), `player_credits_deferred_to_save` /
+    `player_credits_deferred_to_save_lost`, `database_transaction_retry_warnings`,
+    `database_transactions_lost`. Fora de uma queda do banco, `player_save_barrier_timeouts` e
+    `lua_db_writes_refused` devem ficar em zero; se subirem, olhe `database_task_connections_replaced{pool}`
+    e aumente `databaseSaveConnections` (as conexões do save são separadas das de highscore e mercado
+    desde a 25.24).
 
   No log, `[PacketWatch]` traz opcode, player, IP e duração (no máximo um aviso a cada 5s, com
   a contagem dos suprimidos).

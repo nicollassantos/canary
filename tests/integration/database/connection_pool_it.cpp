@@ -204,3 +204,24 @@ TEST(DatabaseTransactionIT, AGameTransactionThatLosesItsConnectionWritesNothing)
 	EXPECT_TRUE(db.executeQuery("DROP TABLE `fork_tx_lost_game_it`"));
 }
 
+// Logout saves have their own connections: a general pool held by slow queries (highscores, market
+// statistics) does not keep a save waiting past PlayerSaveBarrier::MaxWait.
+TEST(DatabaseTransactionIT, LogoutSavesKeepTheirConnectionWhileTheGeneralPoolIsBusy) {
+	DatabaseTasks tasks(g_threadPool(), g_database());
+	ASSERT_EQ(1U, tasks.startConnectionPool(1, [] { return openConnection(); }));
+	auto* const general = tasks.transactionPool();
+	ASSERT_NE(nullptr, general);
+	ASSERT_EQ(1U, tasks.startSavePool(1, [] { return openConnection(); }));
+	auto* const saves = tasks.transactionPool();
+	ASSERT_NE(general, saves);
+
+	auto busy = general->borrow(); // its only connection, as if a slow highscore query held it
+	ASSERT_TRUE(busy);
+	const auto started = std::chrono::steady_clock::now();
+	auto lease = saves->borrow();
+	ASSERT_TRUE(lease);
+	EXPECT_LT(std::chrono::steady_clock::now() - started, std::chrono::milliseconds(500));
+	EXPECT_EQ(CommitAttempt::Committed, DatabaseTasks::tryCommit(lease->get(), { "SELECT 1" }));
+	tasks.shutdown();
+}
+
