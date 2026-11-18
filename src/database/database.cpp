@@ -196,7 +196,24 @@ bool Database::beginTransaction() {
 
 	transactionOpen = true;
 	transactionLost = false;
+	transactionSession = sessionId();
+	// The client library already refuses to reconnect inside a transaction; make sure of it.
+	setAutoReconnect(false);
 	return true;
+}
+
+void Database::setAutoReconnect(bool enabled) {
+	if (handle) {
+		bool reconnect = enabled;
+		mysql_options(handle, MYSQL_OPT_RECONNECT, &reconnect);
+	}
+}
+
+bool Database::stillInTransactionSession() {
+	if (!transactionOpen || sessionId() == transactionSession) {
+		return true;
+	}
+	return loseTransaction();
 }
 
 bool Database::loseTransaction() {
@@ -217,6 +234,7 @@ bool Database::rollback() {
 
 	const bool lost = std::exchange(transactionLost, false);
 	transactionOpen = false;
+	setAutoReconnect(true);
 	if (lost) {
 		// The server already rolled it back when the connection went away.
 		databaseLock.unlock();
@@ -239,6 +257,7 @@ bool Database::commit() {
 	}
 	const bool lost = std::exchange(transactionLost, false);
 	transactionOpen = false;
+	setAutoReconnect(true);
 	if (lost) {
 		lastMysqlError = CR_SERVER_LOST;
 		g_logger().error("[Database] not committing: the transaction lost its connection and was rolled back");
@@ -303,7 +322,7 @@ bool Database::retryQuery(std::string_view query, int retries) {
 		return false;
 	}
 
-	return true;
+	return stillInTransactionSession();
 }
 
 bool Database::executeQuery(std::string_view query) {
@@ -360,6 +379,11 @@ retry:
 		}
 		std::this_thread::sleep_for(std::chrono::seconds(1));
 		goto retry;
+	}
+
+	if (!stillInTransactionSession()) {
+		mysql_free_result(mysql_store_result(handle));
+		return nullptr;
 	}
 
 	// Retrieving results of query

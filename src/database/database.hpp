@@ -108,12 +108,16 @@ private:
 	bool commit();
 	/// Marks the open transaction lost (connection gone); always returns false.
 	bool loseTransaction();
+	/// After a statement inside a transaction: false (transaction lost) if the session changed.
+	bool stillInTransactionSession();
+	void setAutoReconnect(bool enabled);
 
 	MYSQL* handle = nullptr;
 	mutable std::recursive_mutex databaseLock;
 	uint64_t maxPacketSize = 1048576;
 	bool transactionOpen = false;
 	bool transactionLost = false;
+	uint64_t transactionSession = 0;
 
 	friend class DBTransaction;
 	friend class DatabaseTasks;
