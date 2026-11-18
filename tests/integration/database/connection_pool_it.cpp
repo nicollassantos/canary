@@ -15,10 +15,12 @@
 #include "test_env.hpp"
 
 #ifndef USE_PRECOMPILED_HEADERS
+	#include <chrono>
 	#include <cstdlib>
 	#include <fstream>
 	#include <map>
 	#include <set>
+	#include <thread>
 #endif
 
 namespace {
@@ -145,3 +147,43 @@ TEST(ConnectionPoolIT, RecordedStatementsCommitTogetherOrNotAtAll) {
 
 	EXPECT_TRUE(connection->executeQuery("DROP TABLE `fork_logout_save_it`"));
 }
+
+namespace {
+	// Kills `session` from another connection after `delay`, while the statement there still runs.
+	std::thread killLater(uint64_t session, std::chrono::milliseconds delay) {
+		return std::thread([session, delay] {
+			std::this_thread::sleep_for(delay);
+			auto killer = openConnection();
+			ASSERT_NE(nullptr, killer);
+			std::ignore = killer->executeQuery(fmt::format("KILL {}", session));
+		});
+	}
+
+	uint32_t rowsIn(Database &connection, const std::string &table) {
+		auto count = connection.storeQuery(fmt::format("SELECT COUNT(*) AS `n` FROM `{}`", table));
+		return count ? count->getNumber<uint32_t>("n") : 0;
+	}
+} // namespace
+
+// A connection lost inside a transaction must not reconnect and autocommit the rest (half a save:
+// the "delete old items" rolled back, the "insert current items" kept). DBTransaction on the game's
+// connection: periodic, shutdown, house and guild saves.
+TEST(DatabaseTransactionIT, AGameTransactionThatLosesItsConnectionWritesNothing) {
+	auto &db = g_database();
+	ASSERT_TRUE(db.executeQuery("CREATE TABLE IF NOT EXISTS `fork_tx_lost_game_it` (`id` INT NOT NULL PRIMARY KEY) ENGINE=InnoDB"));
+	ASSERT_TRUE(db.executeQuery("DELETE FROM `fork_tx_lost_game_it`"));
+
+	auto killer = killLater(db.sessionId(), std::chrono::milliseconds(400));
+	const bool committed = DBTransaction::executeWithinTransaction([&db] {
+		std::ignore = db.executeQuery("INSERT INTO `fork_tx_lost_game_it` VALUES (1)");
+		std::ignore = db.executeQuery("SELECT SLEEP(3)");
+		std::ignore = db.executeQuery("INSERT INTO `fork_tx_lost_game_it` VALUES (2)");
+		return true;
+	});
+	killer.join();
+
+	EXPECT_FALSE(committed);
+	EXPECT_EQ(0U, rowsIn(db, "fork_tx_lost_game_it"));
+	EXPECT_TRUE(db.executeQuery("DROP TABLE `fork_tx_lost_game_it`"));
+}
+

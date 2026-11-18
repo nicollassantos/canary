@@ -86,19 +86,37 @@ public:
 
 	/// ER_LOCK_DEADLOCK: InnoDB rolled the whole transaction back to break a deadlock.
 	static constexpr unsigned int DeadlockError = 1213;
+	/// ER_LOCK_WAIT_TIMEOUT: a statement gave up waiting for a row lock.
+	static constexpr unsigned int LockWaitTimeoutError = 1205;
+
+	/// True for errors of the connection itself (server gone, lost, unreachable, shutting down).
+	static bool isRecoverableError(unsigned int error);
+
+	/// MySQL's id of the current session. It changes when the client reconnects (MYSQL_OPT_RECONNECT),
+	/// which silently ends an open transaction: what ran before is rolled back, what follows autocommits.
+	[[nodiscard]] uint64_t sessionId() const {
+		return handle ? static_cast<uint64_t>(mysql_thread_id(handle)) : 0;
+	}
 
 private:
+	/// A transaction on this connection is never retried or reconnected inside: a reconnect ends it on
+	/// the server (what ran is rolled back) and every later statement would autocommit, half a save.
+	/// After the connection is lost inside one, its remaining statements and the commit fail without
+	/// reaching the server; rollback() only clears the state.
 	bool beginTransaction();
 	bool rollback();
 	bool commit();
-
-	static bool isRecoverableError(unsigned int error);
+	/// Marks the open transaction lost (connection gone); always returns false.
+	bool loseTransaction();
 
 	MYSQL* handle = nullptr;
 	mutable std::recursive_mutex databaseLock;
 	uint64_t maxPacketSize = 1048576;
+	bool transactionOpen = false;
+	bool transactionLost = false;
 
 	friend class DBTransaction;
+	friend class DatabaseTasks;
 };
 
 constexpr auto g_database = Database::getInstance;

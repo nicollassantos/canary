@@ -194,7 +194,19 @@ bool Database::beginTransaction() {
 	databaseLock.lock();
 	measureLock.stop();
 
+	transactionOpen = true;
+	transactionLost = false;
 	return true;
+}
+
+bool Database::loseTransaction() {
+	if (!transactionLost) {
+		transactionLost = true;
+		g_logger().error("[Database] the connection was lost inside a transaction: the server rolled it back, the rest of it is refused (never reconnected into autocommit)");
+		g_metrics().addCounter("database_transactions_lost", 1, {});
+	}
+	lastMysqlError = CR_SERVER_LOST;
+	return false;
 }
 
 bool Database::rollback() {
@@ -203,6 +215,13 @@ bool Database::rollback() {
 		return false;
 	}
 
+	const bool lost = std::exchange(transactionLost, false);
+	transactionOpen = false;
+	if (lost) {
+		// The server already rolled it back when the connection went away.
+		databaseLock.unlock();
+		return true;
+	}
 	if (mysql_rollback(handle) != 0) {
 		g_logger().error("Message: {}", mysql_error(handle));
 		databaseLock.unlock();
@@ -218,7 +237,16 @@ bool Database::commit() {
 		g_logger().error("Database not initialized!");
 		return false;
 	}
+	const bool lost = std::exchange(transactionLost, false);
+	transactionOpen = false;
+	if (lost) {
+		lastMysqlError = CR_SERVER_LOST;
+		g_logger().error("[Database] not committing: the transaction lost its connection and was rolled back");
+		databaseLock.unlock();
+		return false;
+	}
 	if (mysql_commit(handle) != 0) {
+		lastMysqlError = mysql_errno(handle);
 		g_logger().error("Message: {}", mysql_error(handle));
 		databaseLock.unlock();
 		return false;
@@ -254,12 +282,18 @@ bool Database::isRecoverableError(unsigned int error) {
 }
 
 bool Database::retryQuery(std::string_view query, int retries) {
+	if (transactionLost) {
+		return loseTransaction();
+	}
 	while (retries > 0 && mysql_query(handle, query.data()) != 0) {
 		lastMysqlError = mysql_errno(handle);
 		g_logger().error("Query: {}", query.substr(0, 256));
 		g_logger().error("MySQL error [{}]: {}", mysql_errno(handle), mysql_error(handle));
 		if (!isRecoverableError(mysql_errno(handle))) {
 			return false;
+		}
+		if (transactionOpen) {
+			return loseTransaction();
 		}
 		std::this_thread::sleep_for(std::chrono::seconds(1));
 		retries--;
@@ -308,12 +342,20 @@ DBResult_ptr Database::storeQuery(std::string_view query) {
 	measureLock.stop();
 
 	metrics::query_latency measure(query.substr(0, 50));
+	if (transactionLost) {
+		loseTransaction();
+		return nullptr;
+	}
 retry:
 	if (mysql_query(handle, query.data()) != 0) {
 		lastMysqlError = mysql_errno(handle);
 		g_logger().error("Query: {}", query);
 		g_logger().error("Message: {}", mysql_error(handle));
 		if (!isRecoverableError(mysql_errno(handle))) {
+			return nullptr;
+		}
+		if (transactionOpen) {
+			loseTransaction();
 			return nullptr;
 		}
 		std::this_thread::sleep_for(std::chrono::seconds(1));
