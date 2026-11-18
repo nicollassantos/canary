@@ -75,6 +75,8 @@ private:
 class KVStore : public KV {
 public:
 	static constexpr size_t MAX_SIZE = 1000000;
+	/// Keys known to be missing from the database, so a repeated get does not query it again (see get).
+	static constexpr size_t MAX_ABSENT_KEYS = 200000;
 	static KVStore &getInstance();
 
 	explicit KVStore(Logger &logger) :
@@ -97,6 +99,7 @@ public:
 			snapshot.insert(snapshot.end(), pendingEvictions_.begin(), pendingEvictions_.end());
 			store_.clear();
 			pendingEvictions_.clear();
+			absent_.clear();
 		}
 		for (const auto &[k, v] : snapshot) {
 			save(k, v);
@@ -132,6 +135,11 @@ private:
 	std::mutex mutex_;
 	// Evicted entries pending persistence; accessed under mutex_
 	std::vector<std::pair<std::string, ValueWrapper>> pendingEvictions_;
+	// Keys a load did not find; accessed under mutex_. Never saved. A get of a missing key used to run
+	// a synchronous query every time (every login read the cooldown of every boss and the daily
+	// reward streak, every outfit window the last mount, every Soul War kill five taints): ~200
+	// queries/s with 100 players in the Phase 25 load test.
+	phmap::flat_hash_set<std::string> absent_;
 };
 
 class ScopedKV final : public KV {

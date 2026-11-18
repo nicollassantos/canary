@@ -46,7 +46,10 @@ void Metrics::init(Options opts) {
 void Metrics::initHistograms() {
 	for (auto name : latencyNames) {
 		auto instrumentSelector = metrics_sdk::InstrumentSelectorFactory::Create(metrics_sdk::InstrumentType::kHistogram, name, "us");
-		auto meterSelector = metrics_sdk::MeterSelectorFactory::Create("performance", otelVersion, otelSchema);
+		// Must match the meter the histograms are created on (getMeter: meterName, otelVersion, no
+		// schema). With "performance" and the schema URL the view never matched, and the exporter kept
+		// the default buckets: nothing above 10 ms could be told apart (Phase 25 load test).
+		auto meterSelector = metrics_sdk::MeterSelectorFactory::Create(meterName, otelVersion, "");
 
 		auto aggregationConfig = std::make_shared<metrics_sdk::HistogramAggregationConfig>();
 		// TODO: migrate to ExponentialHistogramIndexer when that's available
@@ -69,8 +72,8 @@ void Metrics::initHistograms() {
 			// Even coarser granularity for latencies in seconds
 			2000000.0, 3000000.0, 4000000.0, 5000000.0, 6000000.0,7000000.0, 8000000.0, 9000000.0, 10000000.0,
 			20000000.0, 30000000.0, 40000000.0, 50000000.0, 60000000.0,70000000.0, 80000000.0, 90000000.0, 100000000.0,
-			// And finally a catch-all for anything else
-			std::numeric_limits<double>::infinity(),
+			// No explicit infinity: the exporter adds the +Inf bucket, and a second one is a duplicate
+			// series that Prometheus refuses.
 		};
 		// clang-format on
 

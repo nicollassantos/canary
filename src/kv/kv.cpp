@@ -39,6 +39,7 @@ void KVStore::set(const std::string &key, const ValueWrapper &value) {
 }
 
 void KVStore::setLocked(const std::string &key, const ValueWrapper &value) {
+	absent_.erase(key);
 	auto it = store_.find(key);
 	if (it != store_.end()) {
 		it->second.first = value;
@@ -83,6 +84,9 @@ std::optional<ValueWrapper> KVStore::get(const std::string &key, bool forceLoad 
 				lruQueue_.splice(lruQueue_.begin(), lruQueue_, lruIt);
 				return value;
 			}
+			if (absent_.contains(key)) {
+				return std::nullopt;
+			}
 		}
 	}
 
@@ -93,6 +97,15 @@ std::optional<ValueWrapper> KVStore::get(const std::string &key, bool forceLoad 
 			setLocked(key, *value);
 		}
 		processEvictions();
+	} else {
+		std::scoped_lock lock(mutex_);
+		// A set that ran while the load was in flight wins: only remember keys still unknown here.
+		if (!store_.contains(key)) {
+			if (absent_.size() >= MAX_ABSENT_KEYS) {
+				absent_.clear();
+			}
+			absent_.insert(key);
+		}
 	}
 	return value;
 }

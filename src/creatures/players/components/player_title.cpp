@@ -12,6 +12,7 @@
 
 #include "creatures/appearance/mounts/mounts.hpp"
 #include "creatures/monsters/monsters.hpp"
+#include "creatures/players/components/title_leader_cache.hpp"
 #include "enums/account_group_type.hpp"
 #include "game/game.hpp"
 #include "kv/kv.hpp"
@@ -232,15 +233,21 @@ bool PlayerTitle::checkHighscore(uint8_t skill) const {
 			break;
 	}
 
-	const DBResult_ptr result = db.storeQuery(query);
-	if (!result) {
+	// One ranking query per category per minute instead of one per title on every login.
+	const auto leader = TitleLeaderCache::global().leader(skill, TitleLeaderCache::Clock::now(), [&db, &query, &fieldCheck]() -> std::optional<uint32_t> {
+		const DBResult_ptr result = db.storeQuery(query);
+		if (!result) {
+			return std::nullopt;
+		}
+		return result->getNumber<uint32_t>(fieldCheck);
+	});
+	if (!leader) {
 		return false;
 	}
 
-	auto resultValue = result->getNumber<uint32_t>(fieldCheck);
-	g_logger().debug("top id: {}, player id: {}", resultValue, m_player.getGUID());
+	g_logger().debug("top id: {}, player id: {}", *leader, m_player.getGUID());
 
-	return resultValue == m_player.getGUID();
+	return *leader == m_player.getGUID();
 }
 
 bool PlayerTitle::checkBestiary(const std::string &name, uint16_t race, bool isBoss /* = false*/, uint32_t amount) const {

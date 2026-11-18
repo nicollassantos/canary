@@ -19,9 +19,9 @@ Profiles (each bot keeps one):
 - modern: packets of the current protocol only (quick-loot list, weapon proficiency, highscores,
   outfit window).
 
-Latency buckets are the exporter's (the largest finite one is 10 ms in the 2026-11 build: the finer
-bounds of src/lib/metrics/metrics.cpp do not reach the Prometheus output), so ">10000" means over
-10 ms; the average comes from the exact sum.
+Latency buckets are those of src/lib/metrics/metrics.cpp (1 µs steps at the bottom, up to 100 s); a
+quantile is the upper bound of its bucket, and the average comes from the exact sum. Builds before
+2026-11-17 published only the exporter's default buckets (largest finite: 10 ms).
 
 At the end it compares two scrapes of the metrics endpoint (build with FEATURE_METRICS and
 metricsEnablePrometheus = true) and writes build/loadtest/report-<time>.json and .md: latency per
@@ -270,17 +270,16 @@ def delta(before, after):
     return {key: value - before.get(key, 0.0) for key, value in after.items() if value - before.get(key, 0.0) != 0}
 
 
-def quantile(buckets, q):
-    """Upper bound of the bucket holding quantile q, from cumulative (le, count) pairs; ">N" when it
-    is the +Inf bucket (the exporter's largest finite bucket is N)."""
-    total = buckets[-1][1] if buckets else 0
+def quantile(buckets, q, total):
+    """Upper bound of the bucket holding quantile q, from cumulative (le, count) pairs and the exact
+    `total` (the _count); ">N" when only the +Inf bucket holds it (N = largest finite bucket)."""
     if total <= 0:
         return None
     finite = [le for le, _ in buckets if le != float("inf")]
     for le, count in buckets:
-        if count >= q * total:
-            return le if le != float("inf") else f">{finite[-1] if finite else 0:g}"
-    return None
+        if le != float("inf") and count >= q * total:
+            return le
+    return f">{finite[-1] if finite else 0:g}"
 
 
 def latency_table(changes, metric, label):
@@ -302,7 +301,8 @@ def latency_table(changes, metric, label):
             continue
         buckets = sorted(row["buckets"].items())
         table.append({label: key, "count": int(row["count"]), "avg_us": round(row["sum"] / row["count"], 1),
-                      "p50_us": quantile(buckets, 0.5), "p99_us": quantile(buckets, 0.99), "max_us": quantile(buckets, 1.0)})
+                      "p50_us": quantile(buckets, 0.5, row["count"]), "p99_us": quantile(buckets, 0.99, row["count"]),
+                      "max_us": quantile(buckets, 1.0, row["count"])})
     return sorted(table, key=lambda r: -r["count"])
 
 

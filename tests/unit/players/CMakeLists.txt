@@ -5,6 +5,7 @@ target_sources(
             player_repository_test.cpp
             player_stats_behavior_test.cpp
             reward_iteration_test.cpp
+            title_leader_cache_test.cpp
 )
 
 add_subdirectory(components)

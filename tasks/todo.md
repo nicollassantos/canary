@@ -372,6 +372,13 @@
   - Limites funcionando sob carga: talkaction 2.211 recusas, digitando 3.327 descartados, lista de proficiência 259, janela de outfit 69, highscores 1.747 de 1.772 servidos do cache; pool de conexões: espera média do lock do banco 1,5 µs, nenhum deadlock, nenhuma espera esgotada
   - 47 de 50 caçadores morreram (sem poções na mão, monstros do nível); o gerador restaurou todos depois. O usuário entrou com o client real 15.25 (`GOD`) durante a rodada: login do client oficial funcionando
   - Para repetir: `scratchpad/lt_server/start.sh` (build de métricas com a config copiada e Prometheus em 127.0.0.1:9464), `python3 -I tools/loadtest/swarm.py --bots 100 --minutes 10`, depois `seed.py --apply` com o servidor sem personagens de teste online
+- [x] **25.5** — Correções dos achados (C++ liberado pelo usuário em 2026-11-17) e mesma rodada de novo (100 bots × 10 min, 328 logins, 0 falhas):
+  - KV com cache de chave ausente: `SELECT … FROM kv_store` 118.691 → **38.571** (−67%); trocas do lock do banco 281 mil → 117 mil
+  - cache dos líderes dos títulos de highscore: a consulta de ranking por login saiu do top 20 (era 3.220)
+  - login: mediana 70 → **31 ms**; janela de outfit (`0xD2`) 466 → **63 µs** de média (era o `last-mount`); fala 183 → 124 µs; andar 10,5 → 7 µs; "usar item com" 66 → 47 µs
+  - faixas finas no `/metrics` (o seletor da view apontava para o meter errado) e sem o `+Inf` duplicado que a correção expôs; com elas aparece o logout: p50 10 ms, p99 20 ms, **máximo 300 ms** (save síncrono no dispatcher; próxima melhoria candidata)
+  - `docs/lua-api` volta a sair igual ao commitado (`getNormalizedPlayerName` lê o 2º argumento); include que faltava no `iologindata.cpp` (o merge da Phase 26 deslocou os blocos do unity build e o preset de métricas parou de compilar)
+  - ut 1049/1049, it 95/95, `syntax_check` 0, presets de testes e de métricas compilam; bots restaurados pelo `seed.py`
 
 ### Achados do bot de ataque (`/home/nicollas/teste/proxy-bot`, lido sem executar) — próximas tasks da 23
 - **Stresser**: 1024 goroutines numa conexão; modos `pathfinder` (usar item com moeda → posição distante fixa, força pathfinding), `outfit` (`0xD2` + `0xD3` em laço; resposta grande para pedido pequeno), `walk`/`leftright`, `follow` (seguir/cancelar alternado).

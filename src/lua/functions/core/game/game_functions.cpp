@@ -845,6 +845,9 @@ int GameFunctions::luaGameGetNormalizedPlayerName(lua_State* L) {
 	// with a name lookup: loading the offline character cost a full player load per message, and
 	// an unknown name logged an error with the typed text. `isNewName` only silenced that log.
 	auto name = Lua::getString(L, 1);
+	// Read only to keep the documented signature (docs/lua-api): the lookup never loads, so there is
+	// no "not found" log left to silence.
+	[[maybe_unused]] const bool isNewName = Lua::getBoolean(L, 2, false);
 	if (name.empty() || name.size() > NETWORKMESSAGE_PLAYERNAME_MAXLENGTH) {
 		lua_pushnil(L);
 		return 1;
