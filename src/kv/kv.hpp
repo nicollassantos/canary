@@ -100,10 +100,14 @@ public:
 			store_.clear();
 			pendingEvictions_.clear();
 			absent_.clear();
+			++writeGeneration_;
+			++savesInFlight_;
 		}
 		for (const auto &[k, v] : snapshot) {
 			save(k, v);
 		}
+		std::scoped_lock lock(mutex_);
+		--savesInFlight_;
 	}
 
 	std::shared_ptr<KV> scoped(const std::string &scope) final;
@@ -140,6 +144,11 @@ private:
 	// reward streak, every outfit window the last mount, every Soul War kill five taints): ~200
 	// queries/s with 100 players in the Phase 25 load test.
 	phmap::flat_hash_set<std::string> absent_;
+	// A key leaves store_ (eviction, flush) before its save reaches the database; a load in that window
+	// misses it. A miss is remembered only if no write was scheduled while it loaded (writeGeneration_
+	// unchanged) and none is still being saved (savesInFlight_ == 0). Both under mutex_.
+	uint64_t writeGeneration_ = 0;
+	size_t savesInFlight_ = 0;
 };
 
 class ScopedKV final : public KV {

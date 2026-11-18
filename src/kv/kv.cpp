@@ -64,6 +64,7 @@ void KVStore::setLocked(const std::string &key, const ValueWrapper &value) {
 
 		if (needsEviction) {
 			pendingEvictions_.emplace_back(evictKey, evictValue);
+			++writeGeneration_;
 		}
 	}
 }
@@ -71,8 +72,10 @@ void KVStore::setLocked(const std::string &key, const ValueWrapper &value) {
 std::optional<ValueWrapper> KVStore::get(const std::string &key, bool forceLoad /*= false*/) {
 	logger.trace("KVStore::get({})", key);
 
+	uint64_t generation = 0;
 	{
 		std::scoped_lock lock(mutex_);
+		generation = writeGeneration_;
 		if (!forceLoad) {
 			auto it = store_.find(key);
 			if (it != store_.end()) {
@@ -99,8 +102,10 @@ std::optional<ValueWrapper> KVStore::get(const std::string &key, bool forceLoad 
 		processEvictions();
 	} else {
 		std::scoped_lock lock(mutex_);
-		// A set that ran while the load was in flight wins: only remember keys still unknown here.
-		if (!store_.contains(key)) {
+		// A set that ran while the load was in flight wins: only remember keys still unknown here. An
+		// eviction or flush may be writing this key right now; then the miss is not trusted.
+		const bool writesSettled = writeGeneration_ == generation && savesInFlight_ == 0 && pendingEvictions_.empty();
+		if (writesSettled && !store_.contains(key)) {
 			if (absent_.size() >= MAX_ABSENT_KEYS) {
 				absent_.clear();
 			}
@@ -143,13 +148,17 @@ void KVStore::processEvictions() {
 	std::vector<std::pair<std::string, ValueWrapper>> evictions;
 	{
 		std::scoped_lock lock(mutex_);
-		if (!pendingEvictions_.empty()) {
-			evictions = std::move(pendingEvictions_);
-			pendingEvictions_.clear();
+		if (pendingEvictions_.empty()) {
+			return;
 		}
+		evictions = std::move(pendingEvictions_);
+		pendingEvictions_.clear();
+		++savesInFlight_;
 	}
 
 	for (const auto &[key, value] : evictions) {
 		save(key, value);
 	}
+	std::scoped_lock lock(mutex_);
+	--savesInFlight_;
 }

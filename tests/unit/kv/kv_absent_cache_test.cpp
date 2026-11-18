@@ -13,7 +13,9 @@
 #include "lib/logging/logger.hpp"
 
 #ifndef USE_PRECOMPILED_HEADERS
+	#include <functional>
 	#include <map>
+	#include <utility>
 #endif
 
 namespace {
@@ -26,15 +28,23 @@ namespace {
 
 		std::map<std::string, ValueWrapper> database;
 		size_t loads = 0;
+		std::function<void()> duringLoad; // runs inside load, once
+		std::function<void()> duringSave; // runs inside save, once
 
 	protected:
 		std::optional<ValueWrapper> load(const std::string &key) override {
 			++loads;
+			if (auto hook = std::exchange(duringLoad, nullptr)) {
+				hook();
+			}
 			const auto it = database.find(key);
 			return it == database.end() ? std::nullopt : std::optional<ValueWrapper>(it->second);
 		}
 
 		bool save(const std::string &key, const ValueWrapper &value) override {
+			if (auto hook = std::exchange(duringSave, nullptr)) {
+				hook();
+			}
 			if (value.isDeleted()) {
 				database.erase(key);
 			} else {
@@ -105,4 +115,25 @@ TEST(KVAbsentCacheTest, TheAbsentSetIsBounded) {
 	(void)kv.get("one-more"); // the set was full: cleared, then this key remembered
 	EXPECT_FALSE(kv.get("k0").has_value());
 	EXPECT_EQ(KVStore::MAX_ABSENT_KEYS + 2, kv.loads);
+}
+
+// Security review: a key leaves memory (eviction, flush) before its save reaches the database. A load
+// in that window misses it; remembering that miss would hide the value until the next flush.
+TEST(KVAbsentCacheTest, AMissWhileAWriteWasScheduledIsNotRemembered) {
+	CountingKV kv;
+	kv.duringLoad = [&kv] { kv.flush(); }; // a flush starts while the key is being loaded
+	EXPECT_FALSE(kv.get("in-the-window").has_value());
+	EXPECT_FALSE(kv.get("in-the-window").has_value());
+	EXPECT_EQ(2U, kv.loads); // asked again: the first miss was not trusted
+}
+
+TEST(KVAbsentCacheTest, AMissWhileSavesAreInFlightIsNotRemembered) {
+	CountingKV kv;
+	kv.set("pending", 1);
+	kv.duringSave = [&kv] { (void)kv.get("other"); }; // read while the flush is still saving
+	kv.flush();
+	EXPECT_FALSE(kv.get("other").has_value());
+	EXPECT_EQ(2U, kv.loads);
+	ASSERT_TRUE(kv.get("pending").has_value()); // the flushed value is read back from the database
+	EXPECT_EQ(1, kv.get("pending")->get<int>());
 }
