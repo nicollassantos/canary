@@ -1,0 +1,2 @@
+-- Loaded once by the unit test main: every key takes the default ConfigManager::load gives it.
+-- Suites that need other values set them on InMemoryConfigManager or load their own file.
