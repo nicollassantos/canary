@@ -108,6 +108,7 @@ public:
 		}
 		std::scoped_lock lock(mutex_);
 		--savesInFlight_;
+		++writeGeneration_;
 	}
 
 	std::shared_ptr<KV> scoped(const std::string &scope) final;
@@ -145,8 +146,9 @@ private:
 	// queries/s with 100 players in the Phase 25 load test.
 	phmap::flat_hash_set<std::string> absent_;
 	// A key leaves store_ (eviction, flush) before its save reaches the database; a load in that window
-	// misses it. A miss is remembered only if no write was scheduled while it loaded (writeGeneration_
-	// unchanged) and none is still being saved (savesInFlight_ == 0). Both under mutex_.
+	// misses it. writeGeneration_ moves when a batch of saves starts and when it ends, so a miss is
+	// remembered only if no save started or finished while it loaded and none is still running
+	// (savesInFlight_ == 0). Both under mutex_.
 	uint64_t writeGeneration_ = 0;
 	size_t savesInFlight_ = 0;
 };

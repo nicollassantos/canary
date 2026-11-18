@@ -14,7 +14,9 @@
 
 #ifndef USE_PRECOMPILED_HEADERS
 	#include <functional>
+	#include <future>
 	#include <map>
+	#include <thread>
 	#include <utility>
 #endif
 
@@ -136,4 +138,28 @@ TEST(KVAbsentCacheTest, AMissWhileSavesAreInFlightIsNotRemembered) {
 	EXPECT_EQ(2U, kv.loads);
 	ASSERT_TRUE(kv.get("pending").has_value()); // the flushed value is read back from the database
 	EXPECT_EQ(1, kv.get("pending")->get<int>());
+}
+
+// Second review: a save already running when the load starts and finishing during it left the
+// counters as they were at the start; the miss was remembered.
+TEST(KVAbsentCacheTest, AMissWhileASaveFinishedIsNotRemembered) {
+	CountingKV kv;
+	kv.set("pending", 1);
+	std::promise<void> inSave;
+	std::promise<void> proceed;
+	auto proceedSignal = proceed.get_future().share();
+	kv.duringSave = [&inSave, proceedSignal] {
+		inSave.set_value();
+		proceedSignal.wait();
+	};
+	std::thread flusher([&kv] { kv.flush(); });
+	inSave.get_future().wait(); // the flush is saving
+
+	kv.duringLoad = [&proceed, &flusher] {
+		proceed.set_value(); // the save finishes while this key loads
+		flusher.join();
+	};
+	EXPECT_FALSE(kv.get("other").has_value());
+	EXPECT_FALSE(kv.get("other").has_value());
+	EXPECT_EQ(2U, kv.loads);
 }

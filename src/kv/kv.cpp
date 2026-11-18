@@ -161,4 +161,5 @@ void KVStore::processEvictions() {
 	}
 	std::scoped_lock lock(mutex_);
 	--savesInFlight_;
+	++writeGeneration_;
 }
