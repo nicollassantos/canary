@@ -39,34 +39,43 @@ bool PlayerSaveBarrier::waitWhile(const Blocks &blocks, std::chrono::millisecond
 	bool waited = false;
 	while (true) {
 		const auto now = std::chrono::steady_clock::now();
+		bool blocked = false;
 		std::optional<std::chrono::steady_clock::time_point> earliest;
+		std::optional<std::pair<uint32_t, Pending*>> stuck;
 		for (auto &[guid, pending] : saving) {
-			if (!blocks(guid, pending)) {
-				continue;
-			}
+			blocked = blocked || blocks(guid, pending);
 			const auto deadline = pending.started + limit;
 			if (now >= deadline) {
-				// Stuck: answer at once, so this save cannot hold the game thread past its deadline.
-				const bool firstReport = !std::exchange(pending.reportedStuck, true);
-				const auto name = pending.lowerName;
-				lock.unlock();
-				if (firstReport) {
-					g_logger().error("[PlayerSaveBarrier] the logout save of {} (guid {}) is still pending after {} ms (is the database reachable?); loads of it are refused until it commits", name, guid, limit.count());
+				if (!stuck) {
+					stuck.emplace(guid, &pending);
 				}
-				g_metrics().addCounter("player_save_barrier_timeouts", 1, {});
-				return false;
+			} else {
+				earliest = earliest ? std::min(*earliest, deadline) : deadline;
 			}
-			earliest = earliest ? std::min(*earliest, deadline) : deadline;
 		}
-		if (!earliest) {
+		if (!blocked) {
 			lock.unlock();
 			if (waited) {
 				g_metrics().addCounter("player_loads_waited_for_save", 1, {});
 			}
 			return true;
 		}
+		if (stuck) {
+			// A save past its deadline means the database path is unhealthy: answer at once, also
+			// for fresher saves that would otherwise each hold the game thread up to their own deadline.
+			auto &[stuckGuid, stuckSave] = *stuck;
+			const bool firstReport = !std::exchange(stuckSave->reportedStuck, true);
+			const auto name = stuckSave->lowerName;
+			const auto guid = stuckGuid;
+			lock.unlock();
+			if (firstReport) {
+				g_logger().error("[PlayerSaveBarrier] the logout save of {} (guid {}) is still pending after {} ms (is the database reachable?); loads of characters with a pending save are refused until it commits", name, guid, limit.count());
+			}
+			g_metrics().addCounter("player_save_barrier_timeouts", 1, {});
+			return false;
+		}
 		waited = true;
-		saved.wait_until(lock, *earliest);
+		saved.wait_until(lock, *earliest); // every pending save is younger than its deadline here
 	}
 }
 

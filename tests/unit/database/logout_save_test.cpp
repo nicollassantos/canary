@@ -108,6 +108,30 @@ TEST(PlayerSaveBarrierTest, AStuckSaveHoldsCallersOnlyUntilItsDeadline) {
 	EXPECT_TRUE(barrier.waitForGuid(5, 0ms));
 }
 
+// One stuck save marks the database path unhealthy: a fresh pending save is not waited for either,
+// so characters logging out during an outage cannot each hold the game thread up to their deadline.
+TEST(PlayerSaveBarrierTest, AStuckSaveMakesFresherSavesAnswerAtOnce) {
+	using namespace std::chrono_literals;
+	PlayerSaveBarrier barrier;
+	barrier.begin(1, "Stuck");
+	std::this_thread::sleep_for(60ms);
+	barrier.begin(2, "Fresh");
+
+	const auto started = std::chrono::steady_clock::now();
+	EXPECT_FALSE(barrier.waitForGuid(2, 50ms));
+	EXPECT_FALSE(barrier.waitForName("fresh", 50ms));
+	EXPECT_LT(std::chrono::steady_clock::now() - started, 30ms);
+	EXPECT_TRUE(barrier.waitForGuid(3, 50ms)); // no pending save of its own: no conflict
+
+	barrier.end(1); // the stuck save committed: fresh saves are waited for again
+	std::thread saver([&barrier] {
+		std::this_thread::sleep_for(10ms);
+		barrier.end(2);
+	});
+	EXPECT_TRUE(barrier.waitForGuid(2, 1000ms));
+	saver.join();
+}
+
 // Writes that change a character's row without loading it (increaseBankBalance, scripts) wait too.
 TEST(PlayerSaveBarrierTest, AWriteWithoutAGuidWaitsForEveryPendingSave) {
 	PlayerSaveBarrier barrier;

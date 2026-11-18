@@ -29,10 +29,11 @@
 /// Writes that change a character's row without loading it wait too: the save would overwrite them
 /// (PlayerRepositoryDB::increaseBankBalance, and db.query/db.asyncQuery on player tables).
 ///
-/// The waits run on the game thread and are bounded per save: callers wait for a pending save only
-/// until it is MaxWait old. Past that it counts as stuck and every caller is answered at once, so one
-/// save stuck behind an unreachable database holds the game thread for at most MaxWait in total, no
-/// matter how often its character tries to log in. A false answer refuses loads (the login asks to
+/// The waits run on the game thread and are bounded: callers wait for a pending save only until it
+/// is MaxWait old. Past that it counts as stuck, the database path as unhealthy, and every caller
+/// that meets any pending save is answered at once until the stuck one commits. So an outage holds
+/// the game thread for at most MaxWait in total, however many characters log out and try to come
+/// back meanwhile. A false answer refuses loads (the login asks to
 /// try again) and Lua writes; increaseBankBalance goes ahead with an error log. Each stuck save is
 /// logged once and counted in `player_save_barrier_timeouts`.
 class PlayerSaveBarrier {
@@ -43,7 +44,7 @@ public:
 	void end(uint32_t guid);
 
 	/// Waits while a save of `guid` (or of the character named `name`, any case) is pending.
-	/// True once none is pending; false once the pending save is `limit` old (at once if it already is).
+	/// True once none is pending; false once any pending save is `limit` old (at once if one already is).
 	[[nodiscard]] bool waitForGuid(uint32_t guid, std::chrono::milliseconds limit = MaxWait);
 	[[nodiscard]] bool waitForName(const std::string &name, std::chrono::milliseconds limit = MaxWait);
 	/// Waits while any logout save is pending (scripts writing player rows without naming one).
