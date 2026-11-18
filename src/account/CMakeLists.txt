@@ -3,4 +3,5 @@ target_sources(
     PRIVATE account.cpp
             account_repository.cpp
             account_repository_db.cpp
+            ban_repository_db.cpp
 )

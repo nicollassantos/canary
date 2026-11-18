@@ -9,12 +9,6 @@
 
 #pragma once
 
-struct BanInfo {
-	std::string bannedBy {};
-	std::string reason {};
-	time_t expiresAt {};
-};
-
 struct ConnectBlock {
 	constexpr ConnectBlock(uint64_t lastAttempt, uint64_t blockTime, uint32_t count) :
 		lastAttempt(lastAttempt), blockTime(blockTime), count(count) { }
@@ -40,11 +34,4 @@ private:
 	IpConnectMap ipConnectMap;
 	uint32_t pruneCursor {};
 	std::recursive_mutex lock;
-};
-
-class IOBan {
-public:
-	static bool isAccountBanned(uint32_t accountId, BanInfo &banInfo);
-	static bool isIpBanned(uint32_t clientIP, BanInfo &banInfo);
-	static bool isPlayerNamelocked(uint32_t playerId);
 };

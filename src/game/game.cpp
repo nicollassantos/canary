@@ -8,6 +8,7 @@
  */
 
 #include "game/game.hpp"
+#include "game/login/login_service.hpp"
 #include "game/market/items_price_broadcast.hpp"
 
 #include "config/configmanager.hpp"
@@ -127,7 +128,9 @@ Game::Game() :
 	m_forgeService(std::make_unique<ForgeService>(*this, g_configManager())),
 	m_outfitService(std::make_unique<OutfitService>(*this, g_configManager())),
 	m_cyclopediaService(std::make_unique<CyclopediaService>(*this, g_configManager())),
-	m_soundService(std::make_unique<SoundService>()) {
+	m_soundService(std::make_unique<SoundService>()),
+	m_loginWorld(std::make_unique<GameLoginWorld>(*this)),
+	m_loginService(std::make_unique<LoginService>(*m_loginWorld, g_configManager(), g_banRepository())) {
 	[[maybe_unused]] auto &[choices1_text, choices1_value] = offlineTrainingWindow.choices.emplace_back("Fist Fighting and Shielding", SKILL_FIST);
 	[[maybe_unused]] auto &[choices2_text, choices2_value] = offlineTrainingWindow.choices.emplace_back("Sword Fighting and Shielding", SKILL_SWORD);
 	[[maybe_unused]] auto &[choices3_text, choices3_value] = offlineTrainingWindow.choices.emplace_back("Axe Fighting and Shielding", SKILL_AXE);

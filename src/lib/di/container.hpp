@@ -9,6 +9,7 @@
 #pragma once
 
 #include "account/account_repository_db.hpp"
+#include "account/ban_repository_db.hpp"
 #include "config/configmanager.hpp"
 #include "creatures/appearance/outfit/outfit.hpp"
 #include "creatures/combat/spells.hpp"
@@ -67,6 +68,7 @@ private:
 		di::bind<IHighscoreRepository>().to<HighscoreRepositoryDB>().in(di::singleton),
 		di::bind<IMarketRepository>().to<MarketRepositoryDB>().in(di::singleton),
 		di::bind<IPlayerRepository>().to<PlayerRepositoryDB>().in(di::singleton),
+		di::bind<IBanRepository>().to<BanRepositoryDB>().in(di::singleton),
 		di::bind<IVipRepository>().to<VipRepositoryDB>().in(di::singleton),
 		di::bind<KVStore>().to<KVSQL>().in(di::singleton),
 		di::bind<Logger>().to<LogWithSpdLog>().in(di::singleton),

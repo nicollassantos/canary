@@ -19,7 +19,7 @@
 #include "creatures/players/livestream/livestream.hpp"
 #include "creatures/players/player.hpp"
 #include "io/iologindata.hpp"
-#include "creatures/players/management/ban.hpp"
+#include "game/login/login_service.hpp"
 #include "game/game.hpp"
 #include "core.hpp"
 #include "enums/account_errors.hpp"
@@ -246,21 +246,13 @@ void ProtocolLogin::onRecvFirstMessage(NetworkMessage &msg) {
 		return;
 	}
 
-	BanInfo banInfo;
 	auto curConnection = getConnection();
 	if (!curConnection) {
 		return;
 	}
 
-	if (IOBan::isIpBanned(curConnection->getIP(), banInfo)) {
-		if (banInfo.reason.empty()) {
-			banInfo.reason = "(none)";
-		}
-
-		std::ostringstream ss;
-		ss << "Your IP has been banned until " << formatDateShort(banInfo.expiresAt) << " by " << banInfo.bannedBy << ".\n\nReason specified:\n"
-		   << banInfo.reason;
-		disconnectClient(ss.str());
+	if (const auto refusal = g_game().loginService().refuseBannedAddress(curConnection->getIP())) {
+		disconnectClient(*refusal);
 		return;
 	}
 

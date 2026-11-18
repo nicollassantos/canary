@@ -30,7 +30,7 @@ explícitos, sem `g_game()`, com testes diretos (`HouseAuctionEligibilityTest`).
 
 | Onde | O que faz | Por que importa |
 |---|---|---|
-| `src/creatures/players/management/ban.cpp` (`IOBan`) | 3 consultas por login (ban de conta/IP) | login é caminho quente e hostil; sem fake, o caminho de ban não tem teste unitário |
+| ~~`src/creatures/players/management/ban.cpp` (`IOBan`)~~ | feito na 25.16 (`IBanRepository`/`BanRepositoryDB`) | |
 | `src/map/house/house.cpp` | dono, transferência, lista de acesso (3 consultas) | casas tiveram 4 bugs na 23.3l; `House::setOwner` não tem teste porque consulta o banco (nota no §6d) |
 | `src/game/game.cpp` | `loadBoostedCreature`, `loadMotdNum`, `loadPlayersRecord` (11 consultas em `server_config`) | pequeno; uma `IServerConfigRepository` tiraria o último SQL do `game.cpp` |
 | `src/io/io_bosstiary.cpp` | boss boosted (4 consultas) | estático (`IOBosstiary`), sem fake |
@@ -70,9 +70,9 @@ arquivos que já são da branch ou que ganharem teste; `protocolgame*.cpp` conce
 
 - `ProtocolGame` (adaptador de rede): 168 `g_game()` em `protocolgame.cpp`; funções longas com regra,
   não só parse: `onRecvFirstMessage` (261 linhas, autenticação e sessão), `login` (160), `parseSendBosstiarySlots`
-  (133, monta a regra dos slots), `parseBestiarysendMonsterData` (117). **Ação:** levar login/sessão para um
-  `LoginService` testável (a falha crítica da 23.5 estava nesse fluxo e só foi provada com sockets reais) e a
-  montagem de bestiário/bosstiary para os services do assunto.
+  (133, monta a regra dos slots), `parseBestiarysendMonsterData` (117). **Ação:** ~~levar login/sessão para um
+  `LoginService` testável~~ (feito na 25.16 para as regras de admissão; a autenticação e a sessão seguem no
+  `ProtocolGame`/`IOLoginData`) e a montagem de bestiário/bosstiary para os services do assunto.
 - Bindings Lua: 178 `g_game()` (`game_functions.cpp` 46, `player_functions.cpp` 27 e 5750 linhas). São adaptadores
   de entrada; aceitável, mas `player_functions.cpp` é o maior arquivo depois do `player.cpp`.
 
@@ -91,8 +91,10 @@ injetar pelo construtor nos services novos, como já é regra.
 ## Ordem sugerida (uma fase cada, com testes)
 
 1. ~~`player.cpp` de volta abaixo de 7k (obrigatório).~~ Feito na 25.12 (6897 linhas).
-2. `IBanRepository` + `LoginService` (login/sessão fora do `ProtocolGame`, com testes do fluxo que hoje só o
-   smoke cobre).
+2. ~~`IBanRepository` + `LoginService`~~ Feito na 25.16: as regras de admissão saíram do `ProtocolGame` e o SQL
+   de ban do `IOBan` (removido) foi para `BanRepositoryDB`, com fake e testes. **Próximo passo do mesmo
+   assunto:** o ban de IP é uma consulta ao banco por conexão pré-login, na thread de rede (já era assim com o
+   `IOBan`); com a porta, um cache de bans de IP com validade curta tira essa amplificação de cliente hostil.
 3. `IHouseRepository` (casa: dono, transferência, listas, itens do `IOMapSerialize`), destravando o teste de
    `House::setOwner`.
 4. SQL dos components para adapters (forge history, wheel, títulos, hirelings, badges) e `IServerConfigRepository`.

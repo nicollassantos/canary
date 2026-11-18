@@ -5,6 +5,7 @@ target_sources(
             bank/bank.cpp
             chat/chat_service.cpp
             cyclopedia/cyclopedia_service.cpp
+            login/login_service.cpp
             forge/forge_service.cpp
             outfit/outfit_service.cpp
             highscore/highscore_service.cpp

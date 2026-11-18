@@ -9,6 +9,7 @@
 
 #include "server/network/protocol/protocolgame.hpp"
 
+#include "game/login/login_service.hpp"
 #include "game/scheduling/player_save_barrier.hpp"
 #include "server/network/protocol/packet_watch.hpp"
 #include "server/network/commands/game_command_dispatcher.hpp"
@@ -179,56 +180,9 @@ void ProtocolGame::login(const std::string &name, uint32_t accountId, OperatingS
 			return;
 		}
 
-		if (IOBan::isPlayerNamelocked(player->getGUID())) {
-			disconnectClient("Your character has been namelocked.");
+		if (const auto refusal = g_game().loginService().refuseBeforeLoad(*player, accountId)) {
+			disconnectClient(*refusal);
 			return;
-		}
-
-		if (g_game().getGameState() == GAME_STATE_CLOSING && !player->hasFlag(PlayerFlags_t::CanAlwaysLogin)) {
-			disconnectClient("The game is just going down.\nPlease try again later.");
-			return;
-		}
-
-		if (g_game().getGameState() == GAME_STATE_CLOSED && !player->hasFlag(PlayerFlags_t::CanAlwaysLogin)) {
-			auto maintainMessage = g_configManager().getString(MAINTAIN_MODE_MESSAGE);
-			if (!maintainMessage.empty()) {
-				disconnectClient(maintainMessage);
-			} else {
-				disconnectClient("Server is currently closed.\nPlease try again later.");
-			}
-			return;
-		}
-
-		if (g_configManager().getBoolean(ONLY_PREMIUM_ACCOUNT) && !player->isPremium() && (player->getGroup()->id < GROUP_TYPE_GAMEMASTER || player->getAccountType() < ACCOUNT_TYPE_GAMEMASTER)) {
-			disconnectClient("Your premium time for this account is out.\n\nTo play please buy additional premium time from our website");
-			return;
-		}
-
-		auto onlineCount = g_game().getPlayersByAccount(player->getAccount()).size();
-		auto maxOnline = g_configManager().getNumber(MAX_PLAYERS_PER_ACCOUNT);
-		if (player->getAccountType() < ACCOUNT_TYPE_GAMEMASTER && onlineCount >= maxOnline) {
-			disconnectClient(fmt::format("You may only login with {} character{}\nof your account at the same time.", maxOnline, maxOnline > 1 ? "s" : ""));
-			return;
-		}
-
-		if (!player->hasFlag(PlayerFlags_t::CannotBeBanned)) {
-			BanInfo banInfo;
-			if (IOBan::isAccountBanned(accountId, banInfo)) {
-				if (banInfo.reason.empty()) {
-					banInfo.reason = "(none)";
-				}
-
-				std::ostringstream ss;
-				if (banInfo.expiresAt > 0) {
-					ss << "Your account has been banned until " << formatDateShort(banInfo.expiresAt) << " by " << banInfo.bannedBy << ".\n\nReason specified:\n"
-					   << banInfo.reason;
-				} else {
-					ss << "Your account has been permanently banned by " << banInfo.bannedBy << ".\n\nReason specified:\n"
-					   << banInfo.reason;
-				}
-				disconnectClient(ss.str());
-				return;
-			}
 		}
 
 		WaitingList &waitingList = WaitingList::getInstance();
@@ -265,20 +219,9 @@ void ProtocolGame::login(const std::string &name, uint32_t accountId, OperatingS
 		player->setOperatingSystem(operatingSystem);
 
 		const auto tile = g_game().map.getOrCreateTile(player->getLoginPosition());
-		// moving from a pz tile to a non-pz tile
-		if (maxOnline > 1 && player->getAccountType() < ACCOUNT_TYPE_GAMEMASTER && !tile->hasFlag(TILESTATE_PROTECTIONZONE)) {
-			auto maxOutsizePZ = g_configManager().getNumber(MAX_PLAYERS_OUTSIDE_PZ_PER_ACCOUNT);
-			auto accountPlayers = g_game().getPlayersByAccount(player->getAccount());
-			int countOutsizePZ = 0;
-			for (const auto &accountPlayer : accountPlayers) {
-				if (accountPlayer != player && accountPlayer->getTile() && !accountPlayer->getTile()->hasFlag(TILESTATE_PROTECTIONZONE)) {
-					++countOutsizePZ;
-				}
-			}
-			if (countOutsizePZ >= maxOutsizePZ) {
-				disconnectClient(fmt::format("You can only have {} character{} from your account outside of a protection zone.", maxOutsizePZ == 1 ? "one" : std::to_string(maxOutsizePZ), maxOutsizePZ > 1 ? "s" : ""));
-				return;
-			}
+		if (const auto refusal = g_game().loginService().refuseOutsideProtectionZone(player, *tile)) {
+			disconnectClient(*refusal);
+			return;
 		}
 
 		const bool suppressPreLoginPacketsBeforePlacement = isCipsoft860Profile(protocolProfile);
@@ -609,16 +552,8 @@ void ProtocolGame::onRecvFirstMessage(NetworkMessage &msg) {
 		return;
 	}
 
-	BanInfo banInfo;
-	if (IOBan::isIpBanned(getIP(), banInfo)) {
-		if (banInfo.reason.empty()) {
-			banInfo.reason = "(none)";
-		}
-
-		ss.str(std::string());
-		ss << "Your IP has been banned until " << formatDateShort(banInfo.expiresAt) << " by " << banInfo.bannedBy << ".\n\nReason specified:\n"
-		   << banInfo.reason;
-		disconnectClient(ss.str());
+	if (const auto refusal = g_game().loginService().refuseBannedAddress(getIP())) {
+		disconnectClient(*refusal);
 		return;
 	}
 

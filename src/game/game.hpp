@@ -105,6 +105,8 @@ class MovementService;
 class CombatService;
 class HighscoreService;
 class CreatureManagementService;
+class LoginService;
+class GameLoginWorld;
 
 class Game {
 	friend class ItemService;
@@ -515,6 +517,11 @@ public:
 	void updateCreatureWalkthrough(const std::shared_ptr<Creature> &creature);
 
 	GameState_t getGameState() const;
+
+	/// Admission rules of a login (namelock, server state, account and address bans, per-account limits).
+	LoginService &loginService() const {
+		return *m_loginService;
+	}
 	void setGameState(GameState_t newState);
 
 	// Events
@@ -803,6 +810,8 @@ private:
 	std::unique_ptr<OutfitService> m_outfitService;
 	std::unique_ptr<CyclopediaService> m_cyclopediaService;
 	std::unique_ptr<SoundService> m_soundService;
+	std::unique_ptr<GameLoginWorld> m_loginWorld;
+	std::unique_ptr<LoginService> m_loginService;
 
 	std::map<uint16_t, Achievement> m_achievements;
 	std::map<std::string, uint16_t> m_achievementsNameToId;
