@@ -20,11 +20,11 @@ não existe, e mudança em arquivo do upstream só quando o ganho paga o conflit
 
 ## O que falta (por ordem de ganho)
 
-### 1. `player.cpp` passou do teto combinado (7002 linhas, teto 7000)
+### 1. `player.cpp` passou do teto combinado (7002 linhas, teto 7000) — feito (25.12)
 
-O merge da Phase 26 (`71d29d95b`, reenvio de preços) acrescentou linhas. A regra do §3 manda mover funções
-novas para components antes do próximo commit no arquivo. **Ação:** mover o que a 26 acrescentou (ou outro
-bloco coeso) para um component; custo baixo, obrigatório pela regra.
+As regras de elegibilidade do leilão de casas (`canBidHouse`, `canTransferHouse`, `canAcceptTransferHouse`)
+saíram do `Player` para `src/map/house/house_auction_rules.cpp`: funções que recebem `Player` e `House`
+explícitos, sem `g_game()`, com testes diretos (`HouseAuctionEligibilityTest`). `player.cpp` em 6897 linhas.
 
 ### 2. SQL síncrono dentro de objetos de domínio (sem porta, sem fake, no loop do jogo)
 
@@ -90,7 +90,7 @@ injetar pelo construtor nos services novos, como já é regra.
 
 ## Ordem sugerida (uma fase cada, com testes)
 
-1. `player.cpp` de volta abaixo de 7k (obrigatório).
+1. ~~`player.cpp` de volta abaixo de 7k (obrigatório).~~ Feito na 25.12 (6897 linhas).
 2. `IBanRepository` + `LoginService` (login/sessão fora do `ProtocolGame`, com testes do fluxo que hoje só o
    smoke cobre).
 3. `IHouseRepository` (casa: dono, transferência, listas, itens do `IOMapSerialize`), destravando o teste de

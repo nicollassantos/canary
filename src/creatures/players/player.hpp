@@ -74,9 +74,6 @@ enum class MonkData_t : uint8_t;
 enum class PlayerIcon : uint8_t;
 enum class IconBakragore : uint8_t;
 enum class HouseAuctionType : uint8_t;
-enum class BidErrorMessage : uint8_t;
-enum class TransferErrorMessage : uint8_t;
-enum class AcceptTransferErrorMessage : uint8_t;
 enum class ImbuementAction : uint8_t;
 enum ObjectCategory_t : uint8_t;
 enum PreySlot_t : uint8_t;
@@ -1108,9 +1105,6 @@ public:
 	void sendExperienceTracker(int64_t rawExp, int64_t finalExp) const;
 	void sendOutfitWindow() const;
 	// House Auction
-	BidErrorMessage canBidHouse(uint32_t houseId);
-	TransferErrorMessage canTransferHouse(uint32_t houseId, uint32_t newOwnerGUID);
-	AcceptTransferErrorMessage canAcceptTransferHouse(uint32_t houseId);
 	void sendCyclopediaHouseList(const HouseMap &houses) const;
 	void sendResourceBalance(Resource_t resourceType, uint64_t value) const;
 	void sendHouseAuctionMessage(uint32_t houseId, HouseAuctionType type, uint8_t index, bool bidSuccess = false) const;

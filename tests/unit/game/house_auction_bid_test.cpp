@@ -43,8 +43,6 @@ namespace {
 
 			house = game.map.houses.addHouse(HouseClientId);
 			game.map.houses.addHouseClientId(HouseClientId, house);
-			// Player::canBidHouse looks the house up through g_game().
-			g_game().map.houses.addHouseClientId(HouseClientId, house);
 
 			bidder = std::make_shared<Player>(nullptr);
 			bidder->setGroup(std::make_shared<Group>());
@@ -123,9 +121,8 @@ namespace {
 	constexpr uint32_t OtherHouseClientId = 64204;
 	constexpr uint16_t Sorcerer = 1;
 
-	// Bidders that pass Player::canBidHouse (vocation, premium, account), so the auction rules
-	// themselves are exercised. canBidHouse looks the house up through g_game(); that lookup keeps
-	// the first registration, which only feeds its balance check (the bank here covers it).
+	// Bidders that pass house_auction_rules::canBid (vocation, premium, account), so the auction
+	// rules themselves are exercised.
 	class HouseAuctionRulesTest : public ::testing::Test {
 	protected:
 		void SetUp() override {
@@ -161,7 +158,6 @@ namespace {
 		std::shared_ptr<House> resetHouse(uint32_t clientId) {
 			auto local = game.map.houses.addHouse(clientId);
 			game.map.houses.addHouseClientId(clientId, local);
-			g_game().map.houses.addHouseClientId(clientId, local);
 			return local;
 		}
 

@@ -1,6 +1,7 @@
 target_sources(
     ${CORE_TARGET_NAME}
     PRIVATE house/house.cpp
+            house/house_auction_rules.cpp
             house/housetile.cpp
             utils/astarnodes.cpp
             utils/mapsector.cpp

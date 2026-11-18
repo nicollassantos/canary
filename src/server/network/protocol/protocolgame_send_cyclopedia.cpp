@@ -47,6 +47,7 @@
 #include "items/weapons/weapons.hpp"
 #include "lua/creature/creatureevent.hpp"
 #include "lua/modules/modules.hpp"
+#include "map/house/house_auction_rules.hpp"
 #include "server/network/message/outputmessage.hpp"
 #include "utils/tools.hpp"
 #include "creatures/players/vocations/vocation.hpp"
@@ -1440,7 +1441,7 @@ void ProtocolGame::sendCyclopediaHouseList(HouseMap houses) {
 			bool bidder = houseData->getBidderName() == player->getName();
 			msg.addString(houseData->getBidderName());
 			msg.addByte(bidder);
-			uint8_t disableIndex = enumToValue(player->canBidHouse(clientId));
+			uint8_t disableIndex = enumToValue(house_auction_rules::canBid(*player, *houseData));
 			msg.addByte(disableIndex);
 
 			if (!houseData->getBidderName().empty()) {
@@ -1480,7 +1481,7 @@ void ProtocolGame::sendCyclopediaHouseList(HouseMap houses) {
 			bool isNewOwner = player->getName() == houseData->getBidderName();
 			msg.addByte(isNewOwner);
 			if (isNewOwner) {
-				uint8_t disableIndex = enumToValue(player->canAcceptTransferHouse(clientId));
+				uint8_t disableIndex = enumToValue(house_auction_rules::canAcceptTransfer(*player, *houseData));
 				msg.addByte(disableIndex); // Accept Transfer Error
 				msg.addByte(0); // Reject Transfer Error
 			}

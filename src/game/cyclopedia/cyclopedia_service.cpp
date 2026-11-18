@@ -22,6 +22,7 @@
 #include "io/iologindata.hpp"
 #include "lib/metrics/metrics.hpp"
 #include "map/house/house.hpp"
+#include "map/house/house_auction_rules.hpp"
 #include "map/house/housetile.hpp"
 
 void CyclopediaService::playerCyclopediaCharacterInfo(const std::shared_ptr<Player> &player, uint32_t characterID, CyclopediaCharacterInfoType_t characterInfoType, uint16_t entriesPerPage, uint16_t page) {
@@ -179,7 +180,7 @@ void CyclopediaService::playerCyclopediaHouseBid(uint32_t playerId, uint32_t hou
 		return;
 	}
 
-	auto ret = player->canBidHouse(houseId);
+	auto ret = house_auction_rules::canBid(*player, *house);
 	if (ret != BidErrorMessage::NoError) {
 		player->sendHouseAuctionMessage(houseId, HouseAuctionType::Bid, enumToValue(ret));
 		return;
@@ -350,7 +351,7 @@ void CyclopediaService::playerCyclopediaHouseTransfer(uint32_t playerId, uint32_
 		return;
 	}
 
-	auto ret = owner->canTransferHouse(houseId, newOwner->getGUID());
+	auto ret = house_auction_rules::canTransfer(*owner, *house, *newOwner);
 	if (ret != TransferErrorMessage::Success) {
 		owner->sendHouseAuctionMessage(houseId, HouseAuctionType::Transfer, enumToValue(ret));
 		return;
@@ -433,7 +434,7 @@ void CyclopediaService::playerCyclopediaHouseAcceptTransfer(uint32_t playerId, u
 		return;
 	}
 
-	auto ret = player->canAcceptTransferHouse(houseId);
+	auto ret = house_auction_rules::canAcceptTransfer(*player, *house);
 	if (ret != AcceptTransferErrorMessage::Success) {
 		player->sendHouseAuctionMessage(houseId, HouseAuctionType::AcceptTransfer, enumToValue(ret));
 		return;

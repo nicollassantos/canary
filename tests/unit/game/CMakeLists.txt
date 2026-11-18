@@ -29,6 +29,7 @@ target_sources(
             market_expiry_test.cpp
             cyclopedia_players_online_test.cpp
             house_auction_bid_test.cpp
+            house_auction_eligibility_test.cpp
             house_auction_transfer_test.cpp
             rule_violation_report_test.cpp
             highscore_requests_test.cpp
