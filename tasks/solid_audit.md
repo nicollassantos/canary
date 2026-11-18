@@ -31,11 +31,11 @@ explícitos, sem `g_game()`, com testes diretos (`HouseAuctionEligibilityTest`).
 | Onde | O que faz | Por que importa |
 |---|---|---|
 | ~~`src/creatures/players/management/ban.cpp` (`IOBan`)~~ | feito na 25.16 (`IBanRepository`/`BanRepositoryDB`) | |
-| `src/map/house/house.cpp` | dono, transferência, lista de acesso (3 consultas) | casas tiveram 4 bugs na 23.3l; `House::setOwner` não tem teste porque consulta o banco (nota no §6d) |
+| ~~`src/map/house/house.cpp`~~ | feito na 25.17 (`IHouseRepository`/`HouseRepositoryDB`) | |
 | `src/game/game.cpp` | `loadBoostedCreature`, `loadMotdNum`, `loadPlayersRecord` (11 consultas em `server_config`) | pequeno; uma `IServerConfigRepository` tiraria o último SQL do `game.cpp` |
 | `src/io/io_bosstiary.cpp` | boss boosted (4 consultas) | estático (`IOBosstiary`), sem fake |
 | components: `player_forge_history.cpp` (3), `wheel/player_wheel.cpp` (2), `player_title.cpp` (1), `player_cyclopedia.cpp` (1), `player_badge.cpp` (1) | load de histórico, slots do wheel, ranking de títulos, contagem de hirelings, badges | SQL no domínio; parte roda a cada login (o swarm mediu) |
-| `src/io/iomapserialize.cpp` (8) | itens e info das casas no save do servidor | estático; casa já é ponto de bug |
+| `src/io/iomapserialize.cpp` (3) | itens das casas (`tile_store`) | as informações e listas foram para `HouseRepositoryDB` na 25.17; sobra o blob de itens |
 
 **Ação proposta:** portas `IBanRepository`, `IHouseRepository` (+ parte de casas do `IOMapSerialize`),
 `IServerConfigRepository`, e mover o SQL dos components para os adapters existentes (`PlayerRepositoryDB` ou
@@ -95,7 +95,8 @@ injetar pelo construtor nos services novos, como já é regra.
    de ban do `IOBan` (removido) foi para `BanRepositoryDB`, com fake e testes. **Próximo passo do mesmo
    assunto:** o ban de IP é uma consulta ao banco por conexão pré-login, na thread de rede (já era assim com o
    `IOBan`); com a porta, um cache de bans de IP com validade curta tira essa amplificação de cliente hostil.
-3. `IHouseRepository` (casa: dono, transferência, listas, itens do `IOMapSerialize`), destravando o teste de
-   `House::setOwner`.
+3. ~~`IHouseRepository`~~ Feito na 25.17: dono, novo dono, informações e listas das casas atrás da porta; as
+   decisões de subida (leilão vencido, transferência, mudança) viraram `house_auction_rules::resolveAtStartup`,
+   testada sem banco; `House::setOwner` testado. Fica no `IOMapSerialize` o blob de itens das casas (`tile_store`).
 4. SQL dos components para adapters (forge history, wheel, títulos, hirelings, badges) e `IServerConfigRepository`.
 5. Portas de papel para combate/condições, onde liberam os testes de `combatChangeHealth`.

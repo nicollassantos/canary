@@ -19,7 +19,6 @@ public:
 	static bool saveHouseInfo();
 
 private:
-	static bool SaveHouseInfoGuard();
 	static bool SaveHouseItemsGuard();
 	static void saveItem(PropWriteStream &stream, const std::shared_ptr<Item> &item);
 	static void saveTile(PropWriteStream &stream, const std::shared_ptr<Tile> &tile);

@@ -230,6 +230,8 @@
     <ClInclude Include="..\src\map\house\house.hpp" />
     <ClInclude Include="..\src\map\house\house_access_facts.hpp" />
     <ClInclude Include="..\src\map\house\house_auction_rules.hpp" />
+    <ClInclude Include="..\src\map\house\house_repository.hpp" />
+    <ClInclude Include="..\src\map\house\house_repository_db.hpp" />
     <ClInclude Include="..\src\map\house\housetile.hpp" />
     <ClInclude Include="..\src\map\map.hpp" />
     <ClInclude Include="..\src\map\map_download.hpp" />
@@ -455,6 +457,7 @@
     <ClCompile Include="..\src\lua\scripts\script_environment.cpp" />
     <ClCompile Include="..\src\map\house\house.cpp" />
     <ClCompile Include="..\src\map\house\house_auction_rules.cpp" />
+    <ClCompile Include="..\src\map\house\house_repository_db.cpp" />
     <ClCompile Include="..\src\map\house\housetile.cpp" />
     <ClCompile Include="..\src\map\spectators.cpp" />
     <ClCompile Include="..\src\map\utils\astarnodes.cpp" />

@@ -19,6 +19,7 @@
 #include "lib/logging/in_memory_logger.hpp"
 #include "map/house/house.hpp"
 #include "map/house/house_auction_rules.hpp"
+#include "map/in_memory_house_repository.hpp"
 
 // The eligibility rules read the house and the characters they are given (no lookup through the
 // global Game), so each refusal is reached directly.
@@ -33,6 +34,7 @@ namespace {
 			previousContainer = DI::getTestContainer();
 			InMemoryLogger::install(injector);
 			tests::InMemoryAccountRepository::install(injector);
+			tests::InMemoryHouseRepository::install(injector);
 			DI::setTestContainer(&injector);
 			ASSERT_TRUE(g_vocations().loadFromXml(std::string(TESTS_SOURCE_DIR) + "/data/XML/vocations.xml"));
 
@@ -103,10 +105,18 @@ TEST_F(HouseAuctionEligibilityTest, AGuildhallBidNeedsTheLeaderAndTheGuildMoney)
 	EXPECT_EQ(BidErrorMessage::NoError, house_auction_rules::canBid(*bidder, *house));
 }
 
-// The rest of the transfer rules need an owned house, and House::setOwner sets the owner only after
-// reading the owner's name from the database (tasks/solid_audit.md, IHouseRepository).
-TEST_F(HouseAuctionEligibilityTest, OnlyTheOwnerTransfers) {
+// An owned house comes from House::setOwner, which now reads the owner through IHouseRepository.
+TEST_F(HouseAuctionEligibilityTest, OnlyTheOwnerTransfersAndOnlyToAnEligibleCharacter) {
 	EXPECT_EQ(TransferErrorMessage::NotHouseOwner, house_auction_rules::canTransfer(*bidder, *house, *other));
+
+	tests::InMemoryHouseRepository::installed().identities[bidder->getGUID()] = HouseOwnerIdentity { "Eligible Bidder", 8001 };
+	house->setOwner(bidder->getGUID(), false);
+	ASSERT_EQ(bidder->getGUID(), house->getOwner());
+	EXPECT_EQ(TransferErrorMessage::AlreadyTheOwner, house_auction_rules::canTransfer(*bidder, *house, *bidder));
+	EXPECT_EQ(TransferErrorMessage::Success, house_auction_rules::canTransfer(*bidder, *house, *other));
+
+	other->getAccount()->setHouseBidId(77);
+	EXPECT_EQ(TransferErrorMessage::OnlyOneBid, house_auction_rules::canTransfer(*bidder, *house, *other));
 }
 
 TEST_F(HouseAuctionEligibilityTest, OnlyTheNamedNewOwnerAcceptsOnceWithMoneyForThePrice) {

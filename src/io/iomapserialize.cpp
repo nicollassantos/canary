@@ -8,6 +8,8 @@
  */
 
 #include "io/iomapserialize.hpp"
+#include "map/house/house_auction_rules.hpp"
+#include "map/house/house_repository.hpp"
 
 #include "config/configmanager.hpp"
 #include "creatures/players/player_repository.hpp"
@@ -295,175 +297,93 @@ void IOMapSerialize::saveTile(PropWriteStream &stream, const std::shared_ptr<Til
 }
 
 bool IOMapSerialize::loadHouseInfo() {
-	Database &db = Database::getInstance();
-
-	DBResult_ptr result = db.storeQuery("SELECT `id`, `owner`, `new_owner`, `bidder`, `bidder_name`, `highest_bid`, `internal_bid`, `bid_end_date`, `state`, `transfer_status` FROM `houses`");
-	if (!result) {
+	auto &repository = g_houseRepository();
+	const auto storedHouses = repository.loadHouses();
+	if (storedHouses.empty()) {
 		return false;
 	}
 
-	do {
-		auto houseId = result->getNumber<uint32_t>("id");
-		const auto house = g_game().map.houses.getHouse(houseId);
+	const auto timeNow = std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+	const bool transferOnRestart = g_configManager().getBoolean(TOGGLE_HOUSE_TRANSFER_ON_SERVER_RESTART);
+	for (const auto &stored : storedHouses) {
+		const auto house = g_game().map.houses.getHouse(stored.id);
 		if (!house) {
 			continue;
 		}
 
-		auto owner = result->getNumber<uint32_t>("owner");
-		auto newOwner = result->getNumber<int32_t>("new_owner");
-		uint32_t bidder = result->getNumber<uint32_t>("bidder");
-		std::string bidderName = result->getString("bidder_name");
-		uint32_t highestBid = result->getNumber<uint32_t>("highest_bid");
-		uint32_t internalBid = result->getNumber<uint32_t>("internal_bid");
-		uint32_t bidEndDate = result->getNumber<uint32_t>("bid_end_date");
-		auto state = static_cast<CyclopediaHouseState>(result->getNumber<uint16_t>("state"));
-		auto transferStatus = result->getNumber<bool>("transfer_status");
-		const auto timeNow = std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now().time_since_epoch()).count();
-
-		// Transfer house owner
-		auto isTransferOnRestart = g_configManager().getBoolean(TOGGLE_HOUSE_TRANSFER_ON_SERVER_RESTART);
-		if (isTransferOnRestart && newOwner >= 0) {
-			g_game().setTransferPlayerHouseItems(houseId, owner);
-			if (newOwner == 0) {
-				g_logger().debug("Removing house id '{}' owner", houseId);
-				house->setOwner(0);
-			} else {
-				g_logger().debug("Setting house id '{}' owner to player GUID '{}'", houseId, newOwner);
-				house->setOwner(newOwner);
-			}
-		} else if (state == CyclopediaHouseState::Available && timeNow > bidEndDate && bidder > 0) {
-			g_logger().debug("[BID] - Setting house id '{}' owner to player GUID '{}'", houseId, bidder);
-			if (highestBid < internalBid) {
-				uint32_t diff = internalBid - highestBid;
-				g_playerRepository().increaseBankBalance(bidder, diff);
-			}
-			house->setOwner(bidder);
-			bidder = 0;
-			bidderName = "";
-			highestBid = 0;
-			internalBid = 0;
-			bidEndDate = 0;
-		} else if (state == CyclopediaHouseState::Transfer && timeNow > bidEndDate && bidder > 0) {
-			g_logger().debug("[TRANSFER] - Removing house id '{}' from owner GUID '{}' and transfering to new owner GUID '{}'", houseId, owner, bidder);
-			if (transferStatus) {
-				g_game().setTransferPlayerHouseItems(houseId, owner);
-				house->setOwner(bidder);
-				g_playerRepository().increaseBankBalance(owner, internalBid);
-			} else {
-				house->setOwner(owner);
-			}
-			bidder = 0;
-			bidderName = "";
-			internalBid = 0;
-			bidEndDate = 0;
-			transferStatus = false;
-		} else if (state == CyclopediaHouseState::MoveOut && timeNow > bidEndDate) {
-			g_logger().debug("[MOVE OUT] - Removing house id '{}' owner", houseId);
-			g_game().setTransferPlayerHouseItems(houseId, owner);
-			house->setOwner(0);
-			bidEndDate = 0;
-		} else {
-			house->setOwner(owner, false);
-			house->setState(state);
+		// The auction, transfer and move-out decisions are house_auction_rules::resolveAtStartup.
+		const auto resolution = house_auction_rules::resolveAtStartup(stored, timeNow, transferOnRestart);
+		if (resolution.moveItemsOf) {
+			g_game().setTransferPlayerHouseItems(stored.id, *resolution.moveItemsOf);
 		}
-		house->setBidder(bidder);
-		house->setBidderName(bidderName);
-		house->setHighestBid(highestBid);
-		house->setInternalBid(internalBid);
-		house->setBidHolderLimit(internalBid);
-		house->setBidEndDate(bidEndDate);
-		house->setTransferStatus(transferStatus);
-	} while (result->next());
+		if (resolution.newOwner) {
+			g_logger().debug("[{}] house id '{}': owner GUID '{}' -> '{}'", resolution.reason, stored.id, stored.owner, *resolution.newOwner);
+			house->setOwner(*resolution.newOwner);
+		} else {
+			house->setOwner(stored.owner, false);
+			house->setState(stored.state);
+		}
+		for (const auto &[guid, amount] : resolution.credits) {
+			g_playerRepository().increaseBankBalance(guid, amount);
+		}
+		house->setBidder(resolution.bidder);
+		house->setBidderName(resolution.bidderName);
+		house->setHighestBid(resolution.highestBid);
+		house->setInternalBid(resolution.internalBid);
+		house->setBidHolderLimit(resolution.internalBid);
+		house->setBidEndDate(resolution.bidEndDate);
+		house->setTransferStatus(resolution.transferStatus);
+	}
 
-	result = db.storeQuery("SELECT `house_id`, `listid`, `list` FROM `house_lists`");
-	if (result) {
-		do {
-			const auto &house = g_game().map.houses.getHouse(result->getNumber<uint32_t>("house_id"));
-			if (house) {
-				auto listId = result->getNumber<uint32_t>("listid");
-				auto list = result->getString("list");
-				house->setAccessList(listId, list);
-			}
-		} while (result->next());
+	for (const auto &list : repository.loadAccessLists()) {
+		if (const auto &house = g_game().map.houses.getHouse(list.houseId)) {
+			house->setAccessList(list.listId, list.list);
+		}
 	}
 	return true;
 }
 
 bool IOMapSerialize::saveHouseInfo() {
-	bool success = DBTransaction::executeWithinTransaction([]() {
-		return SaveHouseInfoGuard();
-	});
+	std::vector<HouseRow> houses;
+	std::vector<HouseAccessListRow> lists;
+	for (const auto &[key, house] : g_game().map.houses.getHouses()) {
+		houses.push_back(HouseRow {
+			.id = house->getId(),
+			.owner = house->getOwner(),
+			.paidUntil = house->getPaidUntil(),
+			.rentWarnings = house->getPayRentWarnings(),
+			.name = house->getName(),
+			.townId = house->getTownId(),
+			.rent = house->getRent(),
+			.size = house->getSize(),
+			.beds = house->getBedCount(),
+			.bidder = house->getBidder(),
+			.bidderName = house->getBidderName(),
+			.highestBid = house->getHighestBid(),
+			.internalBid = house->getInternalBid(),
+			.bidEndDate = house->getBidEndDate(),
+			.state = house->getState(),
+			.transferStatus = house->getTransferStatus(),
+		});
 
+		std::string listText;
+		for (const uint32_t listId : { static_cast<uint32_t>(GUEST_LIST), static_cast<uint32_t>(SUBOWNER_LIST) }) {
+			if (house->getAccessList(listId, listText) && !listText.empty()) {
+				lists.push_back({ house->getId(), listId, listText });
+			}
+			listText.clear();
+		}
+		for (const std::shared_ptr<Door> &door : house->getDoors()) {
+			if (door->getAccessList(listText) && !listText.empty()) {
+				lists.push_back({ house->getId(), door->getDoorId(), listText });
+			}
+			listText.clear();
+		}
+	}
+
+	const bool success = g_houseRepository().saveHouses(houses, lists);
 	if (!success) {
 		g_logger().error("[{}] Error occurred saving houses info", __FUNCTION__);
 	}
-
 	return success;
-}
-
-bool IOMapSerialize::SaveHouseInfoGuard() {
-	Database &db = Database::getInstance();
-
-	std::ostringstream query;
-	DBInsert houseUpdate("INSERT INTO `houses` (`id`, `owner`, `paid`, `warnings`, `name`, `town_id`, `rent`, `size`, `beds`, `bidder`, `bidder_name`, `highest_bid`, `internal_bid`, `bid_end_date`, `state`, `transfer_status`) VALUES ");
-	houseUpdate.upsert({ "owner", "paid", "warnings", "name", "town_id", "rent", "size", "beds", "bidder", "bidder_name", "highest_bid", "internal_bid", "bid_end_date", "state", "transfer_status" });
-
-	for (const auto &[key, house] : g_game().map.houses.getHouses()) {
-		auto stateValue = magic_enum::enum_integer(house->getState());
-		std::string values = fmt::format("{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}", house->getId(), house->getOwner(), house->getPaidUntil(), house->getPayRentWarnings(), db.escapeString(house->getName()), house->getTownId(), house->getRent(), house->getSize(), house->getBedCount(), house->getBidder(), db.escapeString(house->getBidderName()), house->getHighestBid(), house->getInternalBid(), house->getBidEndDate(), std::to_string(stateValue), (house->getTransferStatus() ? 1 : 0));
-
-		if (!houseUpdate.addRow(values)) {
-			return false;
-		}
-	}
-
-	if (!houseUpdate.execute()) {
-		return false;
-	}
-
-	DBInsert listUpdate("INSERT INTO `house_lists` (`house_id` , `listid` , `list`, `version`) VALUES ");
-	listUpdate.upsert({ "list", "version" });
-	auto version = getTimeUsNow();
-
-	for (const auto &[key, house] : g_game().map.houses.getHouses()) {
-		std::string listText;
-		if (house->getAccessList(GUEST_LIST, listText) && !listText.empty()) {
-			query << house->getId() << ',' << GUEST_LIST << ',' << db.escapeString(listText) << ',' << version;
-			if (!listUpdate.addRow(query)) {
-				return false;
-			}
-
-			listText.clear();
-		}
-
-		if (house->getAccessList(SUBOWNER_LIST, listText) && !listText.empty()) {
-			query << house->getId() << ',' << SUBOWNER_LIST << ',' << db.escapeString(listText) << ',' << version;
-			if (!listUpdate.addRow(query)) {
-				return false;
-			}
-
-			listText.clear();
-		}
-
-		for (const std::shared_ptr<Door> &door : house->getDoors()) {
-			if (door->getAccessList(listText) && !listText.empty()) {
-				query << house->getId() << ',' << door->getDoorId() << ',' << db.escapeString(listText) << ',' << version;
-				if (!listUpdate.addRow(query)) {
-					return false;
-				}
-
-				listText.clear();
-			}
-		}
-	}
-
-	if (!listUpdate.execute()) {
-		return false;
-	}
-
-	if (!db.executeQuery(fmt::format("DELETE FROM `house_lists` WHERE `version` < {}", version))) {
-		return false;
-	}
-
-	return true;
 }
