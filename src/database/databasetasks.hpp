@@ -38,6 +38,18 @@ public:
 	/// Closes the dedicated connections. Call after the thread pool stopped (no task holds one).
 	void shutdown();
 
+	/// True when asynchronous queries have their own connections (startConnectionPool opened some).
+	[[nodiscard]] bool hasDedicatedConnections() const;
+
+	/// Runs \`statements\` in one transaction on a dedicated connection (never the game's: another
+	/// thread's queries would join the transaction there), once more if it was a deadlock victim.
+	/// \`onFinished(committed)\` runs on the worker thread. False (nothing scheduled) without a pool.
+	bool executeTransaction(std::vector<std::string> statements, std::function<void(bool committed)> onFinished);
+
+	/// BEGIN, the statements, COMMIT on \`connection\` (which nothing else may use meanwhile); rolled back
+	/// on the first failure and run once more if it was a deadlock victim. True when committed.
+	static bool commitStatements(Database &connection, const std::vector<std::string> &statements);
+
 private:
 	/// Runs `work` on a pooled connection, or on the game's connection when there is no pool or no
 	/// connection came free within the pool's wait.

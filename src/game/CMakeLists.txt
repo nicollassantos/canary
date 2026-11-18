@@ -35,6 +35,7 @@ target_sources(
             world_type_config.cpp
             world_type_config.hpp
             scheduling/task.cpp
+            scheduling/player_save_barrier.cpp
             scheduling/save_manager.cpp
             zones/zone.cpp
 )

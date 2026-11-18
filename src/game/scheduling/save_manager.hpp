@@ -30,6 +30,11 @@ public:
 	void scheduleAll();
 
 	bool savePlayer(std::shared_ptr<Player> player);
+	/// Save of a player leaving the game. The statements are built here, on the game thread, and
+	/// committed on a dedicated connection (DatabaseTasks::executeTransaction); loading the character
+	/// waits for them (PlayerSaveBarrier). Synchronous like savePlayer without a pool, outside normal
+	/// game state or with toggleLogoutSaveAsync = false.
+	bool saveLoggedOutPlayer(const std::shared_ptr<Player> &player);
 	void saveGuild(std::shared_ptr<Guild> guild);
 
 private:

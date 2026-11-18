@@ -92,3 +92,64 @@ void DatabaseTasks::store(const std::string &query, const std::function<void(DBR
 		}
 	});
 }
+
+bool DatabaseTasks::hasDedicatedConnections() const {
+	return activePool.load() != nullptr;
+}
+
+namespace {
+	// One attempt; on failure the transaction is rolled back and the MySQL error is returned.
+	unsigned int runTransactionOnce(Database &connection, const std::vector<std::string> &statements) {
+		Database::clearLastErrorOnThisThread();
+		if (!connection.executeQuery("BEGIN")) {
+			return Database::lastErrorOnThisThread() ? Database::lastErrorOnThisThread() : 1;
+		}
+		for (const auto &statement : statements) {
+			if (!connection.executeQuery(statement)) {
+				const auto error = Database::lastErrorOnThisThread() ? Database::lastErrorOnThisThread() : 1;
+				std::ignore = connection.executeQuery("ROLLBACK");
+				return error;
+			}
+		}
+		if (!connection.executeQuery("COMMIT")) {
+			const auto error = Database::lastErrorOnThisThread() ? Database::lastErrorOnThisThread() : 1;
+			std::ignore = connection.executeQuery("ROLLBACK");
+			return error;
+		}
+		return 0;
+	}
+} // namespace
+
+bool DatabaseTasks::commitStatements(Database &connection, const std::vector<std::string> &statements) {
+	auto error = runTransactionOnce(connection, statements);
+	if (error == Database::DeadlockError) {
+		Database::reportDeadlockRetry();
+		error = runTransactionOnce(connection, statements);
+	}
+	return error == 0;
+}
+
+bool DatabaseTasks::executeTransaction(std::vector<std::string> statements, std::function<void(bool committed)> onFinished) {
+	auto* const current = activePool.load();
+	if (current == nullptr) {
+		return false;
+	}
+
+	threadPool.detach_task([current, statements = std::move(statements), onFinished = std::move(onFinished)]() {
+		// Never fall back to the game connection here: wait for a dedicated one.
+		bool committed = false;
+		while (true) {
+			if (auto lease = current->borrow()) {
+				committed = commitStatements(lease->get(), statements);
+				break;
+			}
+			if (current->isClosed()) {
+				break;
+			}
+		}
+		if (onFinished) {
+			onFinished(committed);
+		}
+	});
+	return true;
+}

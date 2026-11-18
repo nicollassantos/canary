@@ -11,6 +11,7 @@
 
 #include "database/connection_pool.hpp"
 #include "database/database.hpp"
+#include "database/databasetasks.hpp"
 #include "test_env.hpp"
 
 #ifndef USE_PRECOMPILED_HEADERS
@@ -122,4 +123,25 @@ TEST(ConnectionPoolIT, AFailedQueryLeavesItsErrorOnTheThread) {
 	Database::clearLastErrorOnThisThread();
 	EXPECT_EQ(nullptr, g_database().storeQuery("SELECT * FROM `no_such_table_for_this_test`"));
 	EXPECT_EQ(1146U, Database::lastErrorOnThisThread()); // ER_NO_SUCH_TABLE
+}
+
+// The logout save commits its recorded statements on a pooled connection: all or nothing.
+TEST(ConnectionPoolIT, RecordedStatementsCommitTogetherOrNotAtAll) {
+	auto connection = openConnection();
+	ASSERT_NE(nullptr, connection);
+	ASSERT_TRUE(connection->executeQuery("CREATE TABLE IF NOT EXISTS `fork_logout_save_it` (`id` INT NOT NULL PRIMARY KEY) ENGINE=InnoDB"));
+	ASSERT_TRUE(connection->executeQuery("DELETE FROM `fork_logout_save_it`"));
+
+	EXPECT_TRUE(DatabaseTasks::commitStatements(*connection, { "INSERT INTO `fork_logout_save_it` VALUES (1)", "INSERT INTO `fork_logout_save_it` VALUES (2)" }));
+	auto count = connection->storeQuery("SELECT COUNT(*) AS `n` FROM `fork_logout_save_it`");
+	ASSERT_NE(nullptr, count);
+	EXPECT_EQ(2U, count->getNumber<uint32_t>("n"));
+
+	// The second statement fails (duplicate key): the first is rolled back with it.
+	EXPECT_FALSE(DatabaseTasks::commitStatements(*connection, { "INSERT INTO `fork_logout_save_it` VALUES (3)", "INSERT INTO `fork_logout_save_it` VALUES (1)" }));
+	count = connection->storeQuery("SELECT COUNT(*) AS `n` FROM `fork_logout_save_it`");
+	ASSERT_NE(nullptr, count);
+	EXPECT_EQ(2U, count->getNumber<uint32_t>("n"));
+
+	EXPECT_TRUE(connection->executeQuery("DROP TABLE `fork_logout_save_it`"));
 }

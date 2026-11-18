@@ -18,6 +18,10 @@
 #include "lib/di/container.hpp"
 #include "creatures/players/player.hpp"
 #include "creatures/players/player_repository.hpp"
+#include "database/databasetasks.hpp"
+#include "database/query_recorder.hpp"
+#include "game/scheduling/player_save_barrier.hpp"
+#include "lib/metrics/metrics.hpp"
 
 SaveManager::SaveManager(ThreadPool &threadPool, KVStore &kvStore, Logger &logger, Game &game) :
 	threadPool(threadPool), kv(kvStore), logger(logger), game(game) { }
@@ -178,6 +182,53 @@ bool SaveManager::savePlayer(std::shared_ptr<Player> player) {
 		return true;
 	}
 	return doSavePlayer(player);
+}
+
+bool SaveManager::saveLoggedOutPlayer(const std::shared_ptr<Player> &player) {
+	if (!player) {
+		return false;
+	}
+	if (!g_configManager().getBoolean(TOGGLE_LOGOUT_SAVE_ASYNC) || game.getGameState() != GAME_STATE_NORMAL || !g_databaseTasks().hasDedicatedConnections()) {
+		return savePlayer(player);
+	}
+
+	// The logout save took ~10 ms of the game thread (up to 300 ms in the Phase 25 load test), almost
+	// all of it database round trips. Only building the statements stays here, where nothing else
+	// changes the player at this moment.
+	Benchmark recording;
+	std::vector<std::string> statements;
+	{
+		Player::PlayerLock lock(player);
+		query_recorder::Scope scope(statements);
+		try {
+			IOLoginData::savePlayerGuard(player);
+		} catch (const DatabaseException &e) {
+			logger.error("[SaveManager::saveLoggedOutPlayer] {}: {}", player->getName(), e.what());
+			return false;
+		}
+	}
+	if (statements.empty()) {
+		return true; // the `save` column is off for this character
+	}
+
+	const auto guid = player->getGUID();
+	const auto name = player->getName();
+	PlayerSaveBarrier::global().begin(guid, name);
+	const bool scheduled = g_databaseTasks().executeTransaction(std::move(statements), [guid, name](bool committed) {
+		PlayerSaveBarrier::global().end(guid); // on the worker: the game thread may be waiting for it
+		if (!committed) {
+			g_logger().error("[SaveManager::saveLoggedOutPlayer] the logout save of {} was not committed", name);
+			g_metrics().addCounter("player_logout_saves", 1, { { "result", "failed" } });
+			return;
+		}
+		g_metrics().addCounter("player_logout_saves", 1, { { "result", "committed" } });
+	});
+	if (!scheduled) {
+		PlayerSaveBarrier::global().end(guid);
+		return savePlayer(player);
+	}
+	logger.debug("Logout save of {} recorded in {} ms", name, recording.duration());
+	return true;
 }
 
 void SaveManager::saveGuild(std::shared_ptr<Guild> guild) {

@@ -182,7 +182,8 @@ void PlayerCreatureEventComponent::onRemoveCreature(const std::shared_ptr<Creatu
 
 		m_player.closeShopWindow();
 
-		g_saveManager().savePlayer(player);
+		// Statements built here, committed off the game thread (Phase 25: logout saves took ~10 ms).
+		g_saveManager().saveLoggedOutPlayer(player);
 	}
 
 	if (creature == std::dynamic_pointer_cast<Creature>(m_player.shopOwner)) {

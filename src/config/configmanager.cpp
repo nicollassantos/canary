@@ -158,6 +158,7 @@ bool ConfigManager::load() {
 	loadBoolConfig(L, TOGGLE_MOUNT_IN_PZ, "toggleMountInProtectionZone", false);
 	loadBoolConfig(L, TOGGLE_RECEIVE_REWARD, "toggleReceiveReward", false);
 	loadBoolConfig(L, TOGGLE_SAVE_ASYNC, "toggleSaveAsync", false);
+	loadBoolConfig(L, TOGGLE_LOGOUT_SAVE_ASYNC, "toggleLogoutSaveAsync", true);
 	loadBoolConfig(L, TOGGLE_SAVE_INTERVAL_CLEAN_MAP, "toggleSaveIntervalCleanMap", false);
 	loadBoolConfig(L, TOGGLE_SAVE_INTERVAL, "toggleSaveInterval", false);
 	loadBoolConfig(L, TOGGLE_TRAVELS_FREE, "toggleTravelsFree", false);

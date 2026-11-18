@@ -57,7 +57,7 @@ public:
 	 */
 	static void saveOnlyDataForOnlinePlayer(const std::shared_ptr<Player> &player);
 
-
-private:
+	/// The save without its transaction (throws DatabaseException on failure). Public for
+	/// SaveManager::saveLoggedOutPlayer, which records its statements and commits them elsewhere.
 	static bool savePlayerGuard(const std::shared_ptr<Player> &player);
 };

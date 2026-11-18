@@ -194,6 +194,11 @@ public:
 		available.notify_all();
 	}
 
+	[[nodiscard]] bool isClosed() const {
+		std::scoped_lock lock(mutex);
+		return closed;
+	}
+
 	[[nodiscard]] Stats stats() const {
 		std::scoped_lock lock(mutex);
 		return { idle.size(), leased, missing, timeouts };

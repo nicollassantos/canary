@@ -11,6 +11,7 @@
 
 #include "config/configmanager.hpp"
 #include "lib/di/container.hpp"
+#include "database/query_recorder.hpp"
 #include "lib/metrics/metrics.hpp"
 #include "utils/tools.hpp"
 
@@ -272,6 +273,11 @@ bool Database::retryQuery(std::string_view query, int retries) {
 }
 
 bool Database::executeQuery(std::string_view query) {
+	// A query_recorder::Scope on this thread takes writes instead (logout save snapshot).
+	if (query_recorder::record(query)) {
+		return true;
+	}
+
 	if (!handle) {
 		g_logger().error("Database not initialized!");
 		return false;

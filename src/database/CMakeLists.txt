@@ -3,5 +3,6 @@ target_sources(
     PRIVATE database.cpp
             databasemanager.cpp
             databasetasks.cpp
+            query_recorder.cpp
             schema_hardening.cpp
 )

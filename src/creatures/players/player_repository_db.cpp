@@ -9,6 +9,8 @@
 
 #include "creatures/players/player_repository_db.hpp"
 
+#include "game/scheduling/player_save_barrier.hpp"
+
 #include "creatures/players/grouping/groups.hpp"
 #include "database/database.hpp"
 #include "database/database_port.hpp"
@@ -21,10 +23,13 @@ IPlayerRepository &IPlayerRepository::getInstance() {
 }
 
 bool PlayerRepositoryDB::loadPlayerById(const std::shared_ptr<Player> &player, uint32_t id, bool disableIrrelevantInfo) {
+	// A logout save may still be committing on another connection (SaveManager::saveLoggedOutPlayer).
+	PlayerSaveBarrier::global().waitForGuid(id);
 	return IOLoginData::loadPlayerById(player, id, disableIrrelevantInfo);
 }
 
 bool PlayerRepositoryDB::loadPlayerByName(const std::shared_ptr<Player> &player, const std::string &name) {
+	PlayerSaveBarrier::global().waitForName(name);
 	return IOLoginData::loadPlayerByName(player, name);
 }
 
@@ -88,6 +93,8 @@ bool PlayerRepositoryDB::formatPlayerName(std::string &name) {
 }
 
 void PlayerRepositoryDB::increaseBankBalance(uint32_t guid, uint64_t bankBalance) {
+	// The pending logout save writes the absolute balance and would undo this increment.
+	PlayerSaveBarrier::global().waitForGuid(guid);
 	std::ostringstream query;
 	query << "UPDATE `players` SET `balance` = `balance` + " << bankBalance << " WHERE `id` = " << guid;
 	std::ignore = db_.executeQuery(query.str());

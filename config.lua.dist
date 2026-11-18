@@ -373,6 +373,9 @@ maxAllowedOnADummy = 1
 -- NOTE: toggleSaveIntervalCleanMap: true = enable the clean map, false = disable the clean map
 -- NOTE: saveIntervalTime: time based on what was set in "saveIntervalType"
 toggleSaveAsync = false
+-- NOTE: toggleLogoutSaveAsync = true writes the logout save on a databaseTaskConnections connection: the game
+-- thread only builds the statements, and loading that character waits until they are committed.
+toggleLogoutSaveAsync = true
 toggleSaveInterval = true
 saveIntervalType = "hour"
 toggleSaveIntervalCleanMap = true

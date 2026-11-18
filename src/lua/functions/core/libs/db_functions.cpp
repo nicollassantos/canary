@@ -11,6 +11,8 @@
 
 #include "database/databasemanager.hpp"
 #include "database/databasetasks.hpp"
+#include "game/scheduling/player_save_barrier.hpp"
+#include "utils/tools.hpp"
 #include "lua/scripts/lua_environment.hpp"
 #include "lua/functions/lua_functions_loader.hpp"
 
@@ -26,9 +28,24 @@ void DBFunctions::init(lua_State* L) {
 	Lua::registerMethod(L, "db", "tableExists", DBFunctions::luaDatabaseTableExists);
 }
 
+namespace {
+	// A script writing a character's row (offline players, marriage, rewards) must not land before the
+	// pending logout save of that character, which would overwrite it. Scripts do not say which one.
+	void waitForLogoutSavesBeforePlayerWrite(const std::string &query) {
+		const auto lower = asLowerCaseString(query);
+		const auto start = lower.find_first_not_of(" \t\r\n(");
+		const bool read = start != std::string::npos && lower.compare(start, 6, "select") == 0;
+		if (!read && lower.find("player") != std::string::npos) {
+			PlayerSaveBarrier::global().waitForAll();
+		}
+	}
+} // namespace
+
 int DBFunctions::luaDatabaseExecute(lua_State* L) {
 	// db.query(query)
-	Lua::pushBoolean(L, Database::getInstance().executeQuery(Lua::getString(L, -1)));
+	const auto query = Lua::getString(L, -1);
+	waitForLogoutSavesBeforePlayerWrite(query);
+	Lua::pushBoolean(L, Database::getInstance().executeQuery(query));
 	return 1;
 }
 
@@ -64,7 +81,9 @@ int DBFunctions::luaDatabaseAsyncExecute(lua_State* L) {
 			luaL_unref(luaState, LUA_REGISTRYINDEX, ref);
 		};
 	}
-	g_databaseTasks().execute(Lua::getString(L, -1), callback);
+	const auto query = Lua::getString(L, -1);
+	waitForLogoutSavesBeforePlayerWrite(query);
+	g_databaseTasks().execute(query, callback);
 	return 0;
 }
 
