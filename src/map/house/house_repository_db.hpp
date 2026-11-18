@@ -14,7 +14,7 @@
 class IDatabase;
 
 /// IHouseRepository on the database (`houses`, `house_lists`, the owner's row in `players`): the SQL
-/// that was in House::setOwner/setNewOwnerGuid and IOMapSerialize::loadHouseInfo/saveHouseInfo.
+/// that was in House::setOwner/setNewOwnerGuid and IOMapSerialize (house info, lists and `tile_store`).
 class HouseRepositoryDB final : public IHouseRepository {
 public:
 	explicit HouseRepositoryDB(IDatabase &db);
@@ -22,6 +22,8 @@ public:
 	[[nodiscard]] std::vector<StoredHouse> loadHouses() override;
 	[[nodiscard]] std::vector<HouseAccessListRow> loadAccessLists() override;
 	[[nodiscard]] bool saveHouses(const std::vector<HouseRow> &houses, const std::vector<HouseAccessListRow> &lists) override;
+	[[nodiscard]] std::vector<HouseTileItems> loadTileItems() override;
+	[[nodiscard]] bool saveTileItems(const std::vector<HouseTileItems> &tiles) override;
 	void storeOwner(uint32_t houseId, uint32_t ownerGuid) override;
 	void storeNewOwner(uint32_t houseId, int32_t newOwnerGuid) override;
 	[[nodiscard]] std::optional<HouseOwnerIdentity> findOwnerIdentity(uint32_t playerGuid) override;

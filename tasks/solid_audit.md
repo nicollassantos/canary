@@ -35,7 +35,7 @@ explícitos, sem `g_game()`, com testes diretos (`HouseAuctionEligibilityTest`).
 | `src/game/game.cpp` | `loadBoostedCreature`, `loadMotdNum`, `loadPlayersRecord` (11 consultas em `server_config`) | pequeno; uma `IServerConfigRepository` tiraria o último SQL do `game.cpp` |
 | `src/io/io_bosstiary.cpp` | boss boosted (4 consultas) | estático (`IOBosstiary`), sem fake |
 | components: `player_forge_history.cpp` (3), `wheel/player_wheel.cpp` (2), `player_title.cpp` (1), `player_cyclopedia.cpp` (1), `player_badge.cpp` (1) | load de histórico, slots do wheel, ranking de títulos, contagem de hirelings, badges | SQL no domínio; parte roda a cada login (o swarm mediu) |
-| `src/io/iomapserialize.cpp` (3) | itens das casas (`tile_store`) | as informações e listas foram para `HouseRepositoryDB` na 25.17; sobra o blob de itens |
+| ~~`src/io/iomapserialize.cpp`~~ | feito na 25.17/25.18 (`HouseRepositoryDB`) | |
 
 **Ação proposta:** portas `IBanRepository`, `IHouseRepository` (+ parte de casas do `IOMapSerialize`),
 `IServerConfigRepository`, e mover o SQL dos components para os adapters existentes (`PlayerRepositoryDB` ou
@@ -97,6 +97,7 @@ injetar pelo construtor nos services novos, como já é regra.
    `IOBan`); com a porta, um cache de bans de IP com validade curta tira essa amplificação de cliente hostil.
 3. ~~`IHouseRepository`~~ Feito na 25.17: dono, novo dono, informações e listas das casas atrás da porta; as
    decisões de subida (leilão vencido, transferência, mudança) viraram `house_auction_rules::resolveAtStartup`,
-   testada sem banco; `House::setOwner` testado. Fica no `IOMapSerialize` o blob de itens das casas (`tile_store`).
+   testada sem banco; `House::setOwner` testado. Os blobs de itens das casas (`tile_store`) também, na 25.18: o
+   `IOMapSerialize` ficou só com o formato da serialização, sem banco.
 4. SQL dos components para adapters (forge history, wheel, títulos, hirelings, badges) e `IServerConfigRepository`.
 5. Portas de papel para combate/condições, onde liberam os testes de `combatChangeHealth`.

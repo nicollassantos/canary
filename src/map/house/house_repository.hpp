@@ -61,14 +61,21 @@ struct HouseAccessListRow {
 	std::string list;
 };
 
+/// The items of one house tile as IOMapSerialize serializes them (position, then the items).
+struct HouseTileItems {
+	uint32_t houseId = 0;
+	std::string data;
+};
+
 struct HouseOwnerIdentity {
 	std::string name;
 	uint32_t accountId = 0;
 };
 
 /// Persistence of houses (driven port): their ownership and auction state, access lists, and the
-/// owner a house is given. House and the startup load use it; tests use an in-memory fake
-/// (tests/fixture/map/in_memory_house_repository.hpp). Items in houses stay in IOMapSerialize.
+/// owner a house is given, and the items in houses as serialized blobs (IOMapSerialize owns their
+/// format). House and the startup load and server save use it; tests use an in-memory fake
+/// (tests/fixture/map/in_memory_house_repository.hpp).
 class IHouseRepository {
 public:
 	IHouseRepository() = default;
@@ -83,6 +90,10 @@ public:
 	[[nodiscard]] virtual std::vector<HouseAccessListRow> loadAccessLists() = 0;
 	/// Writes every house and replaces the access lists, in one transaction.
 	[[nodiscard]] virtual bool saveHouses(const std::vector<HouseRow> &houses, const std::vector<HouseAccessListRow> &lists) = 0;
+	/// Every stored house tile with items.
+	[[nodiscard]] virtual std::vector<HouseTileItems> loadTileItems() = 0;
+	/// Replaces every stored house tile with `tiles`, in one transaction.
+	[[nodiscard]] virtual bool saveTileItems(const std::vector<HouseTileItems> &tiles) = 0;
 
 	/// Gives `houseId` to `ownerGuid` (0: nobody) and clears its auction and pending transfer.
 	virtual void storeOwner(uint32_t houseId, uint32_t ownerGuid) = 0;

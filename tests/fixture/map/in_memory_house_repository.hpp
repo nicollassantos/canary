@@ -49,6 +49,15 @@ namespace tests {
 			return true;
 		}
 
+		std::vector<HouseTileItems> loadTileItems() override {
+			return storedTiles;
+		}
+
+		bool saveTileItems(const std::vector<HouseTileItems> &tiles) override {
+			storedTiles = tiles;
+			return true;
+		}
+
 		void storeOwner(uint32_t houseId, uint32_t ownerGuid) override {
 			storedOwners.emplace_back(houseId, ownerGuid);
 		}
@@ -69,5 +78,6 @@ namespace tests {
 		std::vector<std::pair<uint32_t, int32_t>> storedNewOwners;
 		std::vector<HouseRow> savedHouses;
 		std::vector<HouseAccessListRow> savedLists;
+		std::vector<HouseTileItems> storedTiles;
 	};
 } // namespace tests

@@ -98,6 +98,35 @@ bool HouseRepositoryDB::saveHouses(const std::vector<HouseRow> &houses, const st
 	});
 }
 
+std::vector<HouseTileItems> HouseRepositoryDB::loadTileItems() {
+	std::vector<HouseTileItems> tiles;
+	const auto result = db.storeQuery("SELECT `house_id`, `data` FROM `tile_store`");
+	if (!result) {
+		return tiles;
+	}
+	do {
+		unsigned long size = 0;
+		const char* data = result->getStream("data", size);
+		tiles.push_back({ result->getNumber<uint32_t>("house_id"), std::string(data, size) });
+	} while (result->next());
+	return tiles;
+}
+
+bool HouseRepositoryDB::saveTileItems(const std::vector<HouseTileItems> &tiles) {
+	return DBTransaction::executeWithinTransaction([this, &tiles] {
+		if (!db.executeQuery("DELETE FROM `tile_store`")) {
+			return false;
+		}
+		DBInsert insert("INSERT INTO `tile_store` (`house_id`, `data`) VALUES ");
+		for (const auto &tile : tiles) {
+			if (!insert.addRow(fmt::format("{},{}", tile.houseId, db.escapeBlob(tile.data.data(), static_cast<uint32_t>(tile.data.size()))))) {
+				return false;
+			}
+		}
+		return insert.execute();
+	});
+}
+
 void HouseRepositoryDB::storeOwner(uint32_t houseId, uint32_t ownerGuid) {
 	std::ignore = db.executeQuery(fmt::format(
 		"UPDATE `houses` SET `owner` = {}, `new_owner` = -1, `paid` = 0, `bidder` = 0, `bidder_name` = '', `highest_bid` = 0, `internal_bid` = 0, `bid_end_date` = 0, `state` = {} WHERE `id` = {}",

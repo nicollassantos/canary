@@ -20,17 +20,11 @@
 void IOMapSerialize::loadHouseItems(Map* map) {
 	Benchmark bm_context;
 
-	DBResult_ptr result = Database::getInstance().storeQuery("SELECT `data` FROM `tile_store`");
-	if (!result) {
-		return;
-	}
-
-	do {
-		unsigned long attrSize;
-		const char* attr = result->getStream("data", attrSize);
-
+	// The blobs outlive the loop: PropStream reads them in place.
+	const auto storedTiles = g_houseRepository().loadTileItems();
+	for (const auto &stored : storedTiles) {
 		PropStream propStream;
-		propStream.init(attr, attrSize);
+		propStream.init(stored.data.data(), stored.data.size());
 
 		uint16_t x, y;
 		uint8_t z;
@@ -61,7 +55,7 @@ void IOMapSerialize::loadHouseItems(Map* map) {
 
 			loadItem(propStream, tile, true);
 		}
-	} while (result->next());
+	}
 
 	for (const auto &bed : bedsToCheck) {
 		const auto &next = bed->getNextBedItem();
@@ -83,51 +77,26 @@ void IOMapSerialize::loadHouseItems(Map* map) {
 }
 
 bool IOMapSerialize::saveHouseItems() {
-	bool success = DBTransaction::executeWithinTransaction([]() {
-		return SaveHouseItemsGuard();
-	});
-
-	if (!success) {
-		g_logger().error("[{}] Error occurred saving houses", __FUNCTION__);
-	}
-
-	return success;
-}
-
-bool IOMapSerialize::SaveHouseItemsGuard() {
-	Database &db = Database::getInstance();
-	std::ostringstream query;
-
-	// clear old tile data
-	if (!db.executeQuery("DELETE FROM `tile_store`")) {
-		return false;
-	}
-
-	DBInsert stmt("INSERT INTO `tile_store` (`house_id`, `data`) VALUES ");
-
+	std::vector<HouseTileItems> tiles;
 	PropWriteStream stream;
 	for (const auto &[key, house] : g_game().map.houses.getHouses()) {
-		// save house items
 		for (const auto &tile : house->getTiles()) {
 			saveTile(stream, tile);
 
 			size_t attributesSize;
 			const char* attributes = stream.getStream(attributesSize);
 			if (attributesSize > 0) {
-				query << house->getId() << ',' << db.escapeBlob(attributes, attributesSize);
-				if (!stmt.addRow(query)) {
-					return false;
-				}
+				tiles.push_back({ house->getId(), std::string(attributes, attributesSize) });
 				stream.clear();
 			}
 		}
 	}
 
-	if (!stmt.execute()) {
-		return false;
+	const bool success = g_houseRepository().saveTileItems(tiles);
+	if (!success) {
+		g_logger().error("[{}] Error occurred saving houses", __FUNCTION__);
 	}
-
-	return true;
+	return success;
 }
 
 bool IOMapSerialize::loadContainer(PropStream &propStream, const std::shared_ptr<Container> &container) {

@@ -117,4 +117,33 @@ namespace it_house_repository_db {
 		EXPECT_TRUE(db.executeQuery(fmt::format("DELETE FROM `houses` WHERE `id` = {}", id)));
 	}
 
+	// The items in houses are binary blobs (IOMapSerialize's format); a save replaces all of them.
+	TEST(HouseRepositoryDBTest, TileItemBlobsComeBackByteForByteAndASaveReplacesThemAll) {
+		auto &db = g_database();
+		TestDatabase::init();
+		const auto id = uniqueSeed();
+		ASSERT_TRUE(db.executeQuery(fmt::format("INSERT INTO `houses` (`id`, `owner`, `name`) VALUES ({}, 0, 'blobs')", id)));
+		HouseRepositoryDB repository(db);
+
+		const std::string first("\x01\x00\x02\x00\x07'\\\"\0end", 13);
+		const std::string second(3000, '\xff');
+		ASSERT_TRUE(repository.saveTileItems({ { id, first }, { id, second } }));
+		auto stored = repository.loadTileItems();
+		std::vector<std::string> mine;
+		for (const auto &tile : stored) {
+			if (tile.houseId == id) {
+				mine.push_back(tile.data);
+			}
+		}
+		ASSERT_EQ(2U, mine.size());
+		EXPECT_TRUE(std::ranges::find(mine, first) != mine.end());
+		EXPECT_TRUE(std::ranges::find(mine, second) != mine.end());
+
+		ASSERT_TRUE(repository.saveTileItems({ { id, second } }));
+		stored = repository.loadTileItems();
+		EXPECT_EQ(1, std::ranges::count_if(stored, [id](const auto &tile) { return tile.houseId == id; }));
+
+		EXPECT_TRUE(db.executeQuery(fmt::format("DELETE FROM `houses` WHERE `id` = {}", id)));
+	}
+
 } // namespace it_house_repository_db
