@@ -9,6 +9,7 @@
 
 // Player.hpp already includes the title
 #include "creatures/players/player.hpp"
+#include "creatures/players/player_progress_repository.hpp"
 
 #include "creatures/appearance/mounts/mounts.hpp"
 #include "creatures/monsters/monsters.hpp"
@@ -204,17 +205,10 @@ bool PlayerTitle::checkLevel(uint32_t amount) const {
 }
 
 bool PlayerTitle::checkHighscore(uint8_t skill) const {
-	Database &db = Database::getInstance();
-	std::string query;
-	std::string fieldCheck = "id";
-
+	std::function<std::optional<uint32_t>()> findLeader;
 	switch (static_cast<HighscoreCategories_t>(skill)) {
 		case HighscoreCategories_t::CHARMS:
-			query = fmt::format(
-				"SELECT `pc`.`player_id`, `pc`.`charm_points`, `p`.`group_id` FROM `player_charms` pc JOIN `players` p ON `pc`.`player_id` = `p`.`id` WHERE `p`.`group_id` < {} ORDER BY `pc`.`charm_points` DESC LIMIT 1",
-				static_cast<int>(GROUP_TYPE_GAMEMASTER)
-			);
-			fieldCheck = "player_id";
+			findLeader = [] { return g_playerProgressRepository().findCharmPointsLeader(); };
 			break;
 		case HighscoreCategories_t::DROME:
 			// todo check if player is in the top 5 for the previous rota of the Tibiadrome.
@@ -223,24 +217,12 @@ bool PlayerTitle::checkHighscore(uint8_t skill) const {
 			// todo check if player is the most killer of Goshnar and his aspects.
 			return false;
 		default:
-			std::string skillName = g_game().getSkillNameById(skill);
-			query = fmt::format(
-				"SELECT `id` FROM `players` "
-				"WHERE `group_id` < {} AND `{}` > 10 "
-				"ORDER BY `{}` DESC LIMIT 1",
-				static_cast<int>(GROUP_TYPE_GAMEMASTER), skillName, skillName
-			);
+			findLeader = [skillName = g_game().getSkillNameById(skill)] { return g_playerProgressRepository().findSkillLeader(skillName); };
 			break;
 	}
 
 	// One ranking query per category per minute instead of one per title on every login.
-	const auto leader = TitleLeaderCache::global().leader(skill, TitleLeaderCache::Clock::now(), [&db, &query, &fieldCheck]() -> std::optional<uint32_t> {
-		const DBResult_ptr result = db.storeQuery(query);
-		if (!result) {
-			return std::nullopt;
-		}
-		return result->getNumber<uint32_t>(fieldCheck);
-	});
+	const auto leader = TitleLeaderCache::global().leader(skill, TitleLeaderCache::Clock::now(), findLeader);
 	if (!leader) {
 		return false;
 	}

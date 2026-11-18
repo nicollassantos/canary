@@ -11,6 +11,8 @@
 
 class Player;
 class KV;
+struct RecentDeathRow;
+struct PvpKillRow;
 
 struct Summary {
 	uint16_t m_preyWildcards = 0;
@@ -30,6 +32,11 @@ public:
 	void loadSummaryData() const;
 	void loadDeathHistory(uint16_t page, uint16_t entriesPerPage) const;
 	void loadRecentKills(uint16_t page, uint16_t entriesPerPage) const;
+
+	/// The Cyclopedia line of a death: who killed, who did most damage, the other participants.
+	static std::string describeDeath(const RecentDeathRow &death);
+	/// Whether a kill shows as unjustified for `killerName`.
+	static uint8_t pvpKillStatus(const PvpKillRow &kill, const std::string &killerName);
 
 	void updateStoreSummary(uint8_t type, uint16_t amount = 1, const std::string &id = "") const;
 	uint16_t getAmount(uint8_t type) const;

@@ -1,6 +1,8 @@
 target_sources(
     canary_ut
-    PRIVATE player_item_batch_test.cpp
+    PRIVATE cyclopedia_history_test.cpp
+            forge_history_save_test.cpp
+            player_item_batch_test.cpp
             player_inventory_test.cpp
             player_repository_test.cpp
             player_stats_behavior_test.cpp

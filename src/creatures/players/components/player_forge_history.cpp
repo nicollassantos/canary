@@ -11,7 +11,7 @@
 
 #include "creatures/players/player.hpp"
 #include "utils/benchmark.hpp"
-#include "database/database.hpp"
+#include "creatures/players/player_progress_repository.hpp"
 #include "utils/tools.hpp"
 
 PlayerForgeHistory::PlayerForgeHistory(Player &player) :
@@ -41,26 +41,9 @@ void PlayerForgeHistory::remove(uint32_t id) {
 }
 
 bool PlayerForgeHistory::load() {
-	auto playerGUID = m_player.getGUID();
 	Benchmark benchmark;
-	auto query = fmt::format("SELECT * FROM forge_history WHERE player_id = {}", playerGUID);
-	const DBResult_ptr &result = g_database().storeQuery(query);
-	if (!result) {
-		g_logger().debug("No forge history found for player with ID: {}", playerGUID);
-		benchmark.log("PlayerForgeHistory::load completed (no history found)");
-		return true;
-	}
-
-	do {
-		ForgeHistory history;
-		history.id = result->getNumber<uint32_t>("id");
-		history.actionType = static_cast<ForgeAction_t>(result->getNumber<uint8_t>("action_type"));
-		history.description = result->getString("description");
-		history.createdAt = result->getNumber<uint64_t>("done_at");
-		history.success = result->getNumber<bool>("is_success");
-		m_history.push_back(history);
-	} while (result->next());
-
+	auto history = g_playerProgressRepository().loadForgeHistory(m_player.getGUID());
+	m_history.insert(m_history.end(), std::make_move_iterator(history.begin()), std::make_move_iterator(history.end()));
 	benchmark.log("PlayerForgeHistory::load completed");
 	return true;
 }
@@ -70,42 +53,13 @@ bool PlayerForgeHistory::save() {
 		return true;
 	}
 
-	auto playerGUID = m_player.getGUID();
-
 	Benchmark benchmark;
-	if (!m_removedHistoryIds.empty()) {
-		std::string idsToDelete = fmt::format("{}", fmt::join(m_removedHistoryIds, ", "));
-		std::string deleteQuery = fmt::format(
-			"DELETE FROM `forge_history` WHERE `player_id` = {} AND `id` IN ({})",
-			playerGUID, idsToDelete
-		);
-
-		if (!g_database().executeQuery(deleteQuery)) {
-			g_logger().error("Failed to delete forge history entries for player with ID: {}", playerGUID);
-			return false;
-		}
-
-		m_removedHistoryIds.clear();
-	}
-
-	DBInsert insertQuery("INSERT INTO `forge_history` (`player_id`, `action_type`, `description`, `done_at`, `is_success`) VALUES ");
-
-	for (const auto &history : m_modifiedHistory) {
-		auto row = fmt::format("{}, {}, {}, {}, {}", playerGUID, static_cast<int>(history.actionType), g_database().escapeString(history.description), history.createdAt, history.success ? 1 : 0);
-
-		if (!insertQuery.addRow(row)) {
-			g_logger().warn("Failed to add forge history entry for player with ID: {}", playerGUID);
-			return false;
-		}
-
-		g_logger().debug("Added forge history entry date: {}, for player with ID: {}", formatDate(history.createdAt / 1000), playerGUID);
-	}
-
-	if (!insertQuery.execute()) {
-		g_logger().error("Failed to execute insertion for forge history entries for player with ID: {}", playerGUID);
+	if (!g_playerProgressRepository().saveForgeHistory(m_player.getGUID(), m_removedHistoryIds, m_modifiedHistory)) {
+		g_logger().error("Failed to save forge history entries for player with ID: {}", m_player.getGUID());
 		return false;
 	}
 
+	m_removedHistoryIds.clear();
 	m_modifiedHistory.clear();
 
 	benchmark.log("PlayerForgeHistory::save completed");

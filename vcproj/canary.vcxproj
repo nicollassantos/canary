@@ -507,6 +507,7 @@
     <ClCompile Include="..\src\creatures\players\components\player_session_component.cpp" />
     <ClCompile Include="..\src\creatures\players\components\player_stash_component.cpp" />
     <ClCompile Include="..\src\creatures\players\components\player_training_component.cpp" />
+    <ClCompile Include="..\src\creatures\players\player_progress_repository_db.cpp" />
     <ClCompile Include="..\src\creatures\players\player_repository_db.cpp" />
     <ClCompile Include="..\src\game\chat\chat_service.cpp" />
     <ClCompile Include="..\src\game\cyclopedia\cyclopedia_service.cpp" />
@@ -758,6 +759,8 @@
     <ClInclude Include="..\src\creatures\players\components\player_session_component.hpp" />
     <ClInclude Include="..\src\creatures\players\components\player_stash_component.hpp" />
     <ClInclude Include="..\src\creatures\players\components\player_training_component.hpp" />
+    <ClInclude Include="..\src\creatures\players\player_progress_repository.hpp" />
+    <ClInclude Include="..\src\creatures\players\player_progress_repository_db.hpp" />
     <ClInclude Include="..\src\creatures\players\player_repository.hpp" />
     <ClInclude Include="..\src\creatures\players\player_repository_db.hpp" />
     <ClInclude Include="..\src\database\database_port.hpp" />

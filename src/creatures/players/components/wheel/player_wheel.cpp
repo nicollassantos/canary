@@ -9,6 +9,7 @@
 
 // Player.hpp already includes the wheel
 #include "creatures/players/player.hpp"
+#include "creatures/players/player_progress_repository.hpp"
 
 #include "map/spectators.hpp"
 #include "creatures/monsters/monster.hpp"
@@ -1932,17 +1933,15 @@ void PlayerWheel::saveKVModGrades() const {
  * Functions for load and save player database informations
  */
 void PlayerWheel::loadDBPlayerSlotPointsOnLogin() {
-	auto resultString = fmt::format("SELECT `slot` FROM `player_wheeldata` WHERE `player_id` = {}", m_player.getGUID());
-	const DBResult_ptr &result = g_database().storeQuery(resultString);
+	const auto slots = g_playerProgressRepository().loadWheelSlots(m_player.getGUID());
 	// Ignore if player not have nothing inserted in the table
-	if (!result) {
+	if (!slots) {
 		return;
 	}
 
-	unsigned long size;
-	const auto attribute = result->getStream("slot", size);
+	const auto size = slots->size();
 	PropStream propStream;
-	propStream.init(attribute, size);
+	propStream.init(slots->data(), size);
 	for (size_t i = 0; i < size; i++) {
 		uint8_t slot;
 		uint16_t points;
@@ -1954,8 +1953,6 @@ void PlayerWheel::loadDBPlayerSlotPointsOnLogin() {
 }
 
 bool PlayerWheel::saveDBPlayerSlotPointsOnLogout() const {
-	DBInsert insertWheelData("INSERT INTO `player_wheeldata` (`player_id`, `slot`) VALUES ");
-	insertWheelData.upsert({ "slot" });
 	PropWriteStream stream;
 	const auto wheelSlots = getSlots();
 	for (uint8_t i = 1; i < wheelSlots.size(); ++i) {
@@ -1968,19 +1965,10 @@ bool PlayerWheel::saveDBPlayerSlotPointsOnLogout() const {
 
 	size_t attributesSize;
 	const char* attributes = stream.getStream(attributesSize);
-	if (attributesSize > 0) {
-		const auto query = fmt::format("{}, {}", m_player.getGUID(), g_database().escapeBlob(attributes, static_cast<uint32_t>(attributesSize)));
-		if (!insertWheelData.addRow(query)) {
-			g_logger().debug("[{}] failed to insert row data", __FUNCTION__);
-			return false;
-		}
-	}
-
-	if (!insertWheelData.execute()) {
-		g_logger().debug("[{}] failed to execute database insert", __FUNCTION__);
+	if (!g_playerProgressRepository().saveWheelSlots(m_player.getGUID(), std::string(attributes, attributesSize))) {
+		g_logger().debug("[{}] failed to save the wheel slots", __FUNCTION__);
 		return false;
 	}
-
 	return true;
 }
 

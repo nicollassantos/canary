@@ -35,6 +35,7 @@ target_sources(
             players/management/waitlist.cpp
             players/storages/storages.cpp
             players/player.cpp
+            players/player_progress_repository_db.cpp
             players/player_repository_db.cpp
             players/vip_repository_db.cpp
             players/components/player_achievement.cpp

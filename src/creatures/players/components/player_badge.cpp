@@ -11,6 +11,7 @@
 #include "creatures/players/player.hpp"
 
 #include "account/account.hpp"
+#include "creatures/players/player_progress_repository.hpp"
 #include "enums/account_errors.hpp"
 #include "enums/player_cyclopedia.hpp"
 #include "game/game.hpp"
@@ -122,29 +123,21 @@ std::vector<std::shared_ptr<Player>> PlayerBadge::getPlayersInfoByAccount(const 
 		return {};
 	}
 
-	std::string namesList;
+	std::vector<std::string> names;
+	names.reserve(accountPlayers.size());
 	for (const auto &[name, _] : accountPlayers) {
-		if (!namesList.empty()) {
-			namesList += ", ";
-		}
-		std::string escapedName = g_database().escapeString(name);
-		namesList += fmt::format("{}", escapedName);
+		names.push_back(name);
 	}
 
-	auto query = fmt::format("SELECT name, level, vocation FROM players WHERE name IN ({})", namesList);
 	std::vector<std::shared_ptr<Player>> players;
-	DBResult_ptr result = g_database().storeQuery(query);
-	if (result) {
-		do {
-			auto player = std::make_shared<Player>(nullptr);
-			player->setName(result->getString("name"));
-			player->setLevel(result->getNumber<uint32_t>("level"));
-			if (player->setVocation(result->getNumber<uint16_t>("vocation"))) {
-				players.push_back(player);
-			}
-		} while (result->next());
+	for (const auto &character : g_playerProgressRepository().loadCharacterSummaries(names)) {
+		auto player = std::make_shared<Player>(nullptr);
+		player->setName(character.name);
+		player->setLevel(character.level);
+		if (player->setVocation(character.vocation)) {
+			players.push_back(player);
+		}
 	}
-
 	return players;
 }
 
