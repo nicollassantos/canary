@@ -351,6 +351,7 @@ bool Database::executeQuery(std::string_view query) {
 
 DBResult_ptr Database::storeQuery(std::string_view query) {
 	if (!handle) {
+		lastMysqlError = CR_CONNECTION_ERROR;
 		g_logger().error("Database not initialized!");
 		return nullptr;
 	}
@@ -388,6 +389,13 @@ retry:
 
 	// Retrieving results of query
 	MYSQL_RES* res = mysql_store_result(handle);
+	if (res == nullptr && mysql_errno(handle) != 0) {
+		// The query ran but its rows could not be read: an error, not an empty result.
+		lastMysqlError = mysql_errno(handle);
+		g_logger().error("Query: {}", query);
+		g_logger().error("Message: {}", mysql_error(handle));
+		return nullptr;
+	}
 	if (res != nullptr) {
 		DBResult_ptr result = std::make_shared<DBResult>(res);
 		if (!result->hasNext()) {

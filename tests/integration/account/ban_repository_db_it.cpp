@@ -134,8 +134,16 @@ namespace it_ban_repository_db {
 				EXPECT_EQ(ip == 1001 ? 0 : 1'700'000'000, ban.expiresAt);
 			}
 
-			repository.forgetExpiredAddressBan(1002);
-			EXPECT_EQ((std::vector<std::string> { "DELETE FROM `ip_bans` WHERE `ip` = 1002" }), repository.later);
+			// The removal deletes the row only while it is still expired.
+			ASSERT_TRUE(db.executeQuery("UPDATE `ip_bans` SET `expires_at` = 1900000000 WHERE `ip` = 1001"));
+			repository.forgetExpiredAddressBan(1001); // banned again since: stays
+			repository.forgetExpiredAddressBan(1002); // still expired: goes
+			ASSERT_EQ(2U, repository.later.size());
+			for (const auto &query : repository.later) {
+				EXPECT_TRUE(db.executeQuery(query)) << query;
+			}
+			EXPECT_NE(nullptr, db.storeQuery("SELECT 1 FROM `ip_bans` WHERE `ip` = 1001"));
+			EXPECT_EQ(nullptr, db.storeQuery("SELECT 1 FROM `ip_bans` WHERE `ip` = 1002"));
 		})();
 	}
 

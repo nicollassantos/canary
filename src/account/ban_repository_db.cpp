@@ -48,7 +48,8 @@ std::optional<BanInfo> BanRepositoryDB::findAccountBan(uint32_t accountId) {
 			"INSERT INTO `account_ban_history` (`account_id`, `reason`, `banned_at`, `expired_at`, `banned_by`) VALUES ({}, {}, {}, {}, {})",
 			accountId, db.escapeString(result->getString("reason")), result->getNumber<time_t>("banned_at"), expiresAt, result->getNumber<uint32_t>("banned_by")
 		));
-		runLater(fmt::format("DELETE FROM `account_bans` WHERE `account_id` = {}", accountId));
+		// Only this expired row: a ban made again meanwhile must stay.
+		runLater(fmt::format("DELETE FROM `account_bans` WHERE `account_id` = {} AND `expires_at` = {}", accountId, expiresAt));
 		return std::nullopt;
 	}
 
@@ -79,13 +80,18 @@ std::optional<BanInfo> BanRepositoryDB::findAddressBan(uint32_t ip) {
 
 std::optional<std::vector<AddressBan>> BanRepositoryDB::loadAddressBans() {
 	std::vector<AddressBan> bans;
-	Database::clearLastErrorOnThisThread();
+	// A count always returns a row: no row means the read failed, never "no bans" (a cache filled from
+	// a failed read as empty would lift every ban).
+	const auto count = db.storeQuery("SELECT COUNT(*) AS `count` FROM `ip_bans`");
+	if (!count) {
+		return std::nullopt;
+	}
+	if (count->getNumber<uint64_t>("count") == 0) {
+		return bans;
+	}
 	const auto result = db.storeQuery("SELECT `ip`, `reason`, `expires_at`, (SELECT `name` FROM `players` WHERE `id` = `banned_by`) AS `name` FROM `ip_bans`");
 	if (!result) {
-		if (Database::lastErrorOnThisThread() != 0) {
-			return std::nullopt;
-		}
-		return bans;
+		return std::nullopt;
 	}
 	do {
 		bans.push_back({ result->getNumber<uint32_t>("ip"), BanInfo { result->getString("name"), result->getString("reason"), static_cast<time_t>(result->getNumber<int64_t>("expires_at")) } });
@@ -94,7 +100,8 @@ std::optional<std::vector<AddressBan>> BanRepositoryDB::loadAddressBans() {
 }
 
 void BanRepositoryDB::forgetExpiredAddressBan(uint32_t ip) {
-	runLater(fmt::format("DELETE FROM `ip_bans` WHERE `ip` = {}", ip));
+	// Only while it is still expired: a ban made again meanwhile must stay.
+	runLater(fmt::format("DELETE FROM `ip_bans` WHERE `ip` = {} AND `expires_at` != 0 AND `expires_at` < {}", ip, now()));
 }
 
 bool BanRepositoryDB::isNamelocked(uint32_t playerGuid) {
