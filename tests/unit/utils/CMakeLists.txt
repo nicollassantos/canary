@@ -8,4 +8,5 @@ target_sources(
             test_batch_update.cpp
             arraylist_test.cpp
             vector_sort_test.cpp
+            directory_creation_test.cpp
 )

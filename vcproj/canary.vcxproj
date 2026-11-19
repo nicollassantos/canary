@@ -265,6 +265,7 @@
     <ClInclude Include="..\src\utils\arraylist.hpp" />
     <ClInclude Include="..\src\utils\batch_update.hpp" />
     <ClInclude Include="..\src\utils\benchmark.hpp" />
+    <ClInclude Include="..\src\utils\directory_creation.hpp" />
     <ClInclude Include="..\src\utils\const.hpp" />
     <ClInclude Include="..\src\utils\definitions.hpp" />
     <ClInclude Include="..\src\utils\hash.hpp" />
@@ -488,6 +489,7 @@
     <ClCompile Include="..\src\utils\batch_update.cpp" />
     <ClCompile Include="..\src\utils\benchmark.cpp" />
     <ClCompile Include="..\src\utils\counter_pointer.cpp" />
+    <ClCompile Include="..\src\utils\directory_creation.cpp" />
     <ClCompile Include="..\src\utils\pugicast.cpp" />
     <ClCompile Include="..\src\utils\tools.cpp" />
     <ClCompile Include="..\src\utils\wildcardtree.cpp" />
