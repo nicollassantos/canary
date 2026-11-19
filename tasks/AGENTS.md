@@ -585,7 +585,10 @@ Medir e conter o que o cliente (ou um bot) consegue fazer o servidor gastar. Fei
   reais em `tools/smoke/login_takeover_check.py`), loads de personagem offline pelo `!transfer`,
   talkactions sem intervalo, log sem limite por pacote (`log_budget`), `!reward` repetível,
   categoria e lista do quick loot, "digitando" sem intervalo e `/name` do livestream. Detalhes na
-  tabela do §5b e no `todo.md` (23.5); falta ler `ProtocolStatus`, `data/modules` e alguns handlers.
+  tabela do §5b e no `todo.md` (23.5).
+- **Terceira rodada (23.6, 2026-11-19):** módulos Lua por recvbyte e SQL em Lua: recompensa diária sem token
+  (byte "shrine" do client), rastreador de quests de 1,6 ms por pacote (índice de missões), outfit de hireling
+  sem limite de cor/montaria; `setGlobalStorage` com escape. Detalhes no `todo.md` (23.6).
 
 Pendente (ordem sugerida):
 0. **Antes de produção:** uma sessão com client real no build de métricas (login, relog, andar,

@@ -206,21 +206,35 @@ function Player.hasTrackingQuest(self, questId, missionId)
 	return false
 end
 
-function Player.getQuestDataByMissionId(self, missionId)
-	for questId, quest in pairs(Quests) do
-		local quest = Game.getQuest(questId)
-		if quest then
-			if quest.missions then
+-- missionId -> { questName, questId, missionIndex }, built once from the quest catalog. A quest tracker
+-- packet (0xD0) names up to 255 missions; scanning every quest for each one cost ~1.6 ms of the game
+-- thread per packet, on unknown ids too.
+local missionsById
+
+local function missionIndex()
+	if not missionsById then
+		missionsById = {}
+		for questId in pairs(Quests) do
+			local quest = Game.getQuest(questId)
+			if quest and quest.missions then
 				for i = 1, #quest.missions do
 					local mission = quest.missions[i]
-					if mission and mission.missionId == missionId then
-						return quest.name, questId, i
+					if mission and mission.missionId ~= nil and missionsById[mission.missionId] == nil then
+						missionsById[mission.missionId] = { quest.name, questId, i }
 					end
 				end
 			end
 		end
 	end
-	return false
+	return missionsById
+end
+
+function Player.getQuestDataByMissionId(self, missionId)
+	local found = missionIndex()[missionId]
+	if not found then
+		return false
+	end
+	return found[1], found[2], found[3]
 end
 
 local function buildTrackedMissionDataFromMissionId(player, missionId)
@@ -989,6 +1003,7 @@ function Game.getMissionsCount(player, questId)
 end
 
 function Game.addQuest(quest)
+	missionsById = nil -- rebuilt on the next lookup
 	local findQuest = Game.getQuestIdByName(quest.name)
 	if findQuest then
 		Quests[findQuest] = quest

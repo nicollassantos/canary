@@ -251,7 +251,7 @@ function Hireling:setOutfit(outfit)
 	self.lookhead = outfit.lookHead
 	self.lookbody = outfit.lookBody
 	self.looklegs = outfit.lookLegs
-	self.lookfeet = outfit.lookHead
+	self.lookfeet = outfit.lookFeet
 	self.lookAddons = outfit.lookAddons
 end
 

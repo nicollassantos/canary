@@ -232,11 +232,43 @@ DailyReward.retrieveHistoryEntries = function(playerId)
 	return entries
 end
 
+-- Where the reward wall was opened decides whether the claim costs a collection token: the shrine is
+-- free, the panel costs one. The selection packet carries its own shrine/panel byte, but that is the
+-- client's word (sending "shrine" from the panel claimed for free), so the server keeps the source.
+local openedAtShrine = {}
+local openedAtShrineCount = 0
+
+local function rememberWallSource(playerId, atShrine)
+	if openedAtShrine[playerId] == nil then
+		openedAtShrineCount = openedAtShrineCount + 1
+		if openedAtShrineCount > 2000 then
+			for id in pairs(openedAtShrine) do
+				if not Player(id) then
+					openedAtShrine[id] = nil
+					openedAtShrineCount = openedAtShrineCount - 1
+				end
+			end
+		end
+	end
+	openedAtShrine[playerId] = atShrine
+end
+
+-- True when the wall the player answers was opened at a shrine; forgets it (one claim per opening).
+local function takeWallSource(playerId)
+	local atShrine = openedAtShrine[playerId]
+	if atShrine ~= nil then
+		openedAtShrine[playerId] = nil
+		openedAtShrineCount = openedAtShrineCount - 1
+	end
+	return atShrine == true
+end
+
 DailyReward.loadDailyReward = function(playerId, target)
 	local player = Player(playerId)
 	if not player then
 		return false
 	end
+	rememberWallSource(player:getId(), target == REWARD_FROM_SHRINE)
 
 	if target == REWARD_FROM_SHRINE then -- if you receive 0 (shrine) send 1
 		target = 1
@@ -423,8 +455,8 @@ function Player.selectDailyReward(self, msg)
 		return false
 	end
 
-	local target = msg:getByte() -- 0 -> shrine / 1 -> tibia panel
-	local usesToken = not DailyReward.isShrine(target)
+	msg:getByte() -- the client's shrine/panel byte: not trusted, see rememberWallSource
+	local usesToken = not takeWallSource(playerId)
 	if usesToken and self:getCollectionTokens() < 1 then
 		self:sendError("You do not have enough collection tokens to proceed.")
 		return false

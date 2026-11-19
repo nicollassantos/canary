@@ -20,13 +20,12 @@ function getGlobalStorage(key)
 end
 
 function setGlobalStorage(key, value)
-	local keyNumber = tonumber(key)
-	if not keyNumber then
-		key = "'" .. key .. "'"
+	-- Text goes in escaped: a quote in a key or value must not end the string in the SQL.
+	if not tonumber(key) then
+		key = db.escapeString(tostring(key))
 	end
-	local valueNumber = tonumber(value)
-	if not valueNumber then
-		value = "'" .. value .. "'"
+	if not tonumber(value) then
+		value = db.escapeString(tostring(value))
 	end
 	db.query("INSERT INTO `global_storage` (`key`, `value`) VALUES (" .. key .. ", " .. value .. ") ON DUPLICATE KEY UPDATE `value` = " .. value)
 end

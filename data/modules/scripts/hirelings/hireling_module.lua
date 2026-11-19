@@ -14,18 +14,21 @@ local function getOutfit(msg)
 	local outfitType = 0
 	outfitType = msg:getByte()
 
+	-- Like a player's own outfit (ProtocolGame::parseSetOutfit): colours within the 133 the client has
+	-- (a larger index reaches every client that sees the hireling), at most 3 addons, and no mount
+	-- (hirelings do not ride; the client's mount id was never checked).
 	local outfit = {}
 	outfit.lookType = msg:getU16()
-	outfit.lookHead = msg:getByte()
-	outfit.lookBody = msg:getByte()
-	outfit.lookLegs = msg:getByte()
-	outfit.lookFeet = msg:getByte()
-	outfit.lookAddons = msg:getByte()
+	outfit.lookHead = math.min(132, msg:getByte())
+	outfit.lookBody = math.min(132, msg:getByte())
+	outfit.lookLegs = math.min(132, msg:getByte())
+	outfit.lookFeet = math.min(132, msg:getByte())
+	outfit.lookAddons = math.min(3, msg:getByte())
+	outfit.lookMount = 0
 
 	if outfitType == 0 then
-		outfit.lookMount = msg:getU16()
+		msg:getU16() -- mount
 	else
-		outfit.lookMount = 0x00
 		msg:getU32() --discard this for some reason maybe it's the hireling id
 	end
 	return outfit
