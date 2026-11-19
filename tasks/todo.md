@@ -500,10 +500,10 @@
 - [x] **CHECKPOINT 27** — 2026-11-19: ut 1137/1137, it 125/125, `syntax_check` 0 erros; `tests/lua/test_*.lua` todos passam menos `test_taskboard_store_summary_wire.lua`, que já falhava antes desta fase (procura `sendCyclopediaCharacterStoreSummary` no `protocolgame.cpp`; na branch ela está em `protocolgame_send_cyclopedia.cpp`: o teste veio do upstream e não conhece o split); harnesses de store em `tools/lua` passam; smoke com data-otservbr-global (banco descartável, apagado): online, login 8.60 + takeover ok, `FS.mkdir_p` hostil e compra de kit com rollback ok, exit 0
 - #4183 (Grave Danger): ignorada (decisão do usuário, 2026-11-19); veredito no `plan.md`
 
-## Phase 28 — ban por IP sem punir inocentes (CGNAT) e IPv6 (proposta em 2026-11-19; D2/D3 decididas, D1 a confirmar; plano em `tasks/plan.md`)
+## Phase 28 — ban por IP sem punir inocentes (CGNAT) e IPv6 (aberta em 2026-11-19; D1–D3 decididas; plano em `tasks/plan.md`; worktree `canary-upstream-prs`, branch `nicollassantos/phase28-ip`)
 
-- [ ] **28.0** — `ip_bans.ip`/`players.lastip` → `DECIMAL(39,0) UNSIGNED` no boot (bug: IP com último octeto ≥ 128 não era banido)
-- [ ] **28.1** — `/ipban` avisa e exige `force` em IP de várias contas (IPv4 compartilhado)
+- [x] **28.0** — `ip_bans.ip`/`players.lastip` → `DECIMAL(39,0) UNSIGNED` no boot pelo `schema_hardening::widenColumns` (bug: IP com último octeto ≥ 128 estourava o `int(11)` e não era banido). 5 ITs (decisão por tipo, amplia uma vez, negativo volta sem sinal, tipo inesperado intacto, ban de IP alto achado pelo `BanRepositoryDB`); `/ipban` confere o `INSERT`. Smoke em dois boots: 1º amplia (55 ms / 116 ms), 2º não muda nada; login de `127.0.0.200` recusado, de `127.0.0.1` aceito
+- [x] **28.1** — `/ipban` conta as contas no IP (offline pelo `lastip` + online nele); com 2 ou mais recusa sem `,force` e mostra a contagem; alvo só expulso depois do ban salvo; log com a contagem. `tests/lua/test_ipban_shared_address.lua` (5 cenários; o script antigo falha 7 checagens). Obs.: `players.lastip` não tem índice; a contagem varre a tabela (comando de GOD, raro)
 - [ ] **28.2** — `ClientAddress` (IPv4 mapeado, chave por /64) + gtest
 - [ ] **28.3** — `Connection` guarda `ClientAddress`; `getIP()` mantido
 - [ ] **28.4** — limites por chave (/64): limiter, taxa de conexão, status, livestream
@@ -512,4 +512,5 @@
 - [ ] **28.7** — ban IPv6 por /64 + login + `/ipban`/`/unban` + último endereço (D1)
 - [ ] **28.8** — OTClient: fallback entre endereços e `getIp()` IPv6 (repo `../otclient`)
 - [ ] **28.9** — client oficial 15.25 e `login-server` com A + AAAA (manual), depois publicar o AAAA
-- [ ] **CHECKPOINTS** — após 28.1; após 28.2–28.5; após 28.6–28.7; após 28.8–28.9
+- [x] **CHECKPOINT 28a** (após 28.1, 2026-11-19) — ut 1140/1140, it 130/130, `syntax_check` 0, testes Lua ok (menos `test_taskboard_store_summary_wire.lua`, já falhava), smoke de dois boots ok. Pode ir para produção sozinho
+- [ ] **CHECKPOINTS** — após 28.2–28.5; após 28.6–28.7; após 28.8–28.9

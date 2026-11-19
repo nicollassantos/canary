@@ -768,7 +768,7 @@ depois de 28.6–28.7 (smoke `::1` + MySQL); depois de 28.8–28.9 (clients reai
 - **D1** — Mesmas colunas, com o tipo ampliado (pedido do usuário). Tipo `DECIMAL(39,0) UNSIGNED`, e não `VARBINARY`:
   com binário, toda consulta do upstream que compara a coluna com número deixaria de casar sem erro depois de um
   merge. Mecanismo: `schema_hardening` no boot (amplia a regra de "só índices" para "ampliar tipo de coluna, nunca
-  reduzir"), sem migration numerada e sem editar `schema.sql`. **A confirmar com o usuário antes da 28.0.**
+  reduzir"), sem migration numerada e sem editar `schema.sql`. Confirmado pelo usuário em 2026-11-19.
 - **D2** — `/ipban` em IP de várias contas avisa e exige `force`.
 - **D3** — Ban de IPv6 por /64 fixo.
 
