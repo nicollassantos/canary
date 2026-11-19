@@ -695,7 +695,7 @@ Sem porta de filesystem (um só ponto de uso, não pagaria com teste). Nomes e c
   entrega (handler devolve `rollback`). Testes: falha no meio, pagamento falho, compra normal.
 - **CHECKPOINT 27** — build, ut/it, `syntax_check`, `luajit tests/lua/test_*.lua`, harnesses de `tools/lua`, smoke.
 
-## Phase 28 (proposta em 2026-11-19, aguardando decisões): ban por IP sem punir inocentes (CGNAT) e IPv6
+## Phase 28 (proposta em 2026-11-19): ban por IP sem punir inocentes (CGNAT) e IPv6
 
 Pedido do usuário (2026-11-19): "vale a pena suportar IPv6 com fallback para IPv4?". Motivo dado: as operadoras usam
 CGNAT e um ban por IP pode banir jogadores inocentes. Produção tem IPv6; o OTClient (`../otclient`) pode ser alterado.
@@ -712,6 +712,10 @@ com a identidade por prefixo.
 - banco: `ip_bans.ip int(11)` e `players.lastip int unsigned` (schema do upstream, só IPv4);
 - `/ipban` (GOD, 7 dias, `data/scripts/talkactions/god/ip_ban.lua`) bane o `lastip` do personagem sem olhar se o IP é
   compartilhado; o login recusa qualquer conta do IP (`LoginService::refuseBannedAddress`);
+- **bug achado (2026-11-19, conferido num banco descartável com o `sql_mode` estrito do projeto):** `ip_bans.ip` é
+  `int(11)` **com sinal** e recebe o IPv4 em ordem de rede (`htonl`); todo IP com último octeto ≥ 128 passa de 2³¹
+  (ex.: `200.150.10.200` → 3356137160) e o `INSERT` falha com `ERROR 1264 Out of range`. Metade dos IPs não pode ser
+  banida, e o `/ipban` ignora o erro e responde "has been IP banned";
 - CGNAT não é detectável pela faixa (o servidor vê o IP público do NAT); o sinal disponível é quantas contas usam o IP;
 - clientes: o 8.60 recebe o IP do mundo como número IPv4 (nunca IPv6); o moderno recebe texto (hostname serve). O
   OTClient tenta só o primeiro endereço resolvido (`otclient/src/framework/net/connection.cpp:97-111`, sem fallback) e
@@ -724,7 +728,12 @@ limites estarem migrados.
 
 ### Tasks
 
-Trilho 1 — IPv4 compartilhado (independe de IPv6):
+Trilho 1 — IPv4 (independe de IPv6):
+- **28.0** — Coluna do ban: `ip_bans.ip` e `players.lastip` viram `DECIMAL(39,0) UNSIGNED` (D1). O IPv4 continua o
+  mesmo número (consultas do upstream, do `login-server` e do MyAAC seguem iguais) e cabe um IPv6 de 128 bits. Feito
+  no boot pelo `schema_hardening`, idempotente: só altera quando a coluna ainda é inteira; tipo inesperado (o upstream
+  mudou) é reportado e não mexe. `/ipban` passa a conferir o resultado do `INSERT`. Teste de integração (MySQL): IP
+  com último octeto ≥ 128 é banido e recusado no login; dois boots seguidos não mudam nada. (S)
 - **28.1** — `/ipban` mostra quantas contas usaram o IP como último IP (e quantas estão online nele); com 2 ou mais,
   recusa sem confirmação explícita (`/ipban nome,force`). Teste Lua (harness) com o banco simulado.
   Aceite: banir um IP de uma conta só funciona como antes; IP com várias contas exige `force` e o log do comando
@@ -743,8 +752,10 @@ Trilho 2 — IPv6:
 - **28.6** — Listener opcional nos dois protocolos (`bindIpv6`, padrão `false`; socket v6 com `v6_only=false`), com
   `bindOnlyGlobalAddress` aceitando endereço IPv6. Smoke com sockets reais em `127.0.0.1` e `::1`: login do 8.60 por
   IPv4 igual a hoje, teto de pendentes por /64 em `::1`. (S)
-- **28.7** — Ban de IPv6 por /64 (armazenamento: decisão D1), `LoginService::refuseBannedAddress` pelo
-  `ClientAddress`, `/ipban`/`/unban` com IPv6, último endereço do player para IPv6. Teste de integração (MySQL). (M)
+- **28.7** — Ban de IPv6 por /64 na mesma coluna (`ip_bans.ip` guarda o prefixo /64 como inteiro de 128 bits; não
+  colide com IPv4, que fica abaixo de 2³²), `LoginService::refuseBannedAddress` pelo `ClientAddress`,
+  `/ipban`/`/unban` com IPv6 (Lua lê a coluna como texto: número de 128 bits não cabe em `double`), último endereço
+  IPv6 em `players.lastip`. Teste de integração (MySQL). (M)
 - **28.8** — OTClient (`../otclient`, fora deste repositório): tentar todos os endereços resolvidos (IPv6 e depois
   IPv4) com timeout curto por tentativa; `getIp()` sem `to_v4()`. Prova contra o servidor em `::1` e `127.0.0.1`. (M)
 - **28.9** — Teste com o client oficial 15.25 por hostname com A + AAAA; conferir o `login-server`. Só depois disso
@@ -753,12 +764,13 @@ Trilho 2 — IPv6:
 Checkpoints: depois de 28.1 (pode ir para produção sozinho); depois de 28.2–28.5 (ut/it, smoke IPv4 igual a hoje);
 depois de 28.6–28.7 (smoke `::1` + MySQL); depois de 28.8–28.9 (clients reais).
 
-### Decisões em aberto
-- **D1** — Onde guardar ban e último endereço IPv6: (a) tabela da branch `solid_address_bans` criada no boot pelo
-  `schema_hardening` (`CREATE TABLE IF NOT EXISTS`; amplia a regra de "só índices" para "tabelas `solid_*`") ou
-  (b) KV store (sem tabela nova; lista de bans menos visível por SQL). Nunca migration numerada.
-- **D2** — Política do `/ipban` em IPv4 compartilhado: avisar e exigir `force` (proposta) ou recusar sempre.
-- **D3** — Tamanho do prefixo do ban IPv6: /64 fixo (proposta) ou configurável.
+### Decisões (2026-11-19)
+- **D1** — Mesmas colunas, com o tipo ampliado (pedido do usuário). Tipo `DECIMAL(39,0) UNSIGNED`, e não `VARBINARY`:
+  com binário, toda consulta do upstream que compara a coluna com número deixaria de casar sem erro depois de um
+  merge. Mecanismo: `schema_hardening` no boot (amplia a regra de "só índices" para "ampliar tipo de coluna, nunca
+  reduzir"), sem migration numerada e sem editar `schema.sql`. **A confirmar com o usuário antes da 28.0.**
+- **D2** — `/ipban` em IP de várias contas avisa e exige `force`.
+- **D3** — Ban de IPv6 por /64 fixo.
 
 ### Riscos
 | Risco | Impacto | Mitigação |
@@ -767,3 +779,5 @@ depois de 28.6–28.7 (smoke `::1` + MySQL); depois de 28.8–28.9 (clients reai
 | AAAA publicado antes dos clients | Alto: login quebra no OTClient atual | 28.8 e 28.9 antes de publicar |
 | Client oficial sem IPv6 | Médio | ele usa o A; testar na 28.9 |
 | Conflito de merge (~31 arquivos do upstream) | Médio | `getIP()` mantido; mudança por receptor; linhas no §5b |
+| Upstream muda `ip_bans`/`lastip` depois | Médio | `schema_hardening` só amplia de inteiro para `DECIMAL`; outro tipo é reportado e não mexe |
+| Ferramenta externa lê IPv6 como número de 64 bits | Baixo | só linhas IPv6 (≥ 2⁶⁴); conferir `login-server` e MyAAC na 28.9 |

@@ -500,8 +500,9 @@
 - [x] **CHECKPOINT 27** — 2026-11-19: ut 1137/1137, it 125/125, `syntax_check` 0 erros; `tests/lua/test_*.lua` todos passam menos `test_taskboard_store_summary_wire.lua`, que já falhava antes desta fase (procura `sendCyclopediaCharacterStoreSummary` no `protocolgame.cpp`; na branch ela está em `protocolgame_send_cyclopedia.cpp`: o teste veio do upstream e não conhece o split); harnesses de store em `tools/lua` passam; smoke com data-otservbr-global (banco descartável, apagado): online, login 8.60 + takeover ok, `FS.mkdir_p` hostil e compra de kit com rollback ok, exit 0
 - #4183 (Grave Danger): ignorada (decisão do usuário, 2026-11-19); veredito no `plan.md`
 
-## Phase 28 — ban por IP sem punir inocentes (CGNAT) e IPv6 (proposta em 2026-11-19, aguardando D1–D3; plano em `tasks/plan.md`)
+## Phase 28 — ban por IP sem punir inocentes (CGNAT) e IPv6 (proposta em 2026-11-19; D2/D3 decididas, D1 a confirmar; plano em `tasks/plan.md`)
 
+- [ ] **28.0** — `ip_bans.ip`/`players.lastip` → `DECIMAL(39,0) UNSIGNED` no boot (bug: IP com último octeto ≥ 128 não era banido)
 - [ ] **28.1** — `/ipban` avisa e exige `force` em IP de várias contas (IPv4 compartilhado)
 - [ ] **28.2** — `ClientAddress` (IPv4 mapeado, chave por /64) + gtest
 - [ ] **28.3** — `Connection` guarda `ClientAddress`; `getIP()` mantido
