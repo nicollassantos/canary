@@ -97,6 +97,7 @@ void GameFunctions::init(lua_State* L) {
 	Lua::registerMethod(L, "Game", "getFiendishMonsters", GameFunctions::luaGameGetFiendishMonsters);
 	Lua::registerMethod(L, "Game", "getBoostedBoss", GameFunctions::luaGameGetBoostedBoss);
 	Lua::registerMethod(L, "Game", "refreshBoostedBoss", GameFunctions::luaGameRefreshBoostedBoss);
+	Lua::registerMethod(L, "Game", "refreshBoostedCreature", GameFunctions::luaGameRefreshBoostedCreature);
 
 	Lua::registerMethod(L, "Game", "getLadderIds", GameFunctions::luaGameGetLadderIds);
 	Lua::registerMethod(L, "Game", "getDummies", GameFunctions::luaGameGetDummies);
@@ -986,6 +987,13 @@ int GameFunctions::luaGameGetBoostedBoss(lua_State* L) {
 int GameFunctions::luaGameRefreshBoostedBoss(lua_State* L) {
 	// Game.refreshBoostedBoss()
 	g_game().refreshBoostedBoss();
+	Lua::pushBoolean(L, true);
+	return 1;
+}
+
+int GameFunctions::luaGameRefreshBoostedCreature(lua_State* L) {
+	// Game.refreshBoostedCreature()
+	g_game().loadBoostedCreature();
 	Lua::pushBoolean(L, true);
 	return 1;
 }

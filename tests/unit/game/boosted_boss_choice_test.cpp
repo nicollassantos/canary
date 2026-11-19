@@ -10,6 +10,7 @@
 #include <gtest/gtest.h>
 
 #include "io/io_bosstiary.hpp"
+#include "utils/tools.hpp"
 
 // The boss of the day: today's stored one stays; on another day one of the archfoe bosses is picked.
 namespace {
@@ -42,8 +43,8 @@ TEST(BoostedBossChoiceTest, NothingStoredOrNoCandidateGivesNoBoss) {
 	EXPECT_FALSE(IOBosstiary::chooseBoostedBoss(BoostedCreatureRecord { 18, "x", 1 }, 19, {}, kFirst).has_value());
 }
 
-// Tibia's manual: the boss is boosted "with every server save [...] until the next server save". Its day is the
-// one of the last server save, whenever the server was started.
+// Tibia's manual: the boss is boosted "with every server save [...] until the next server save". Its day (and
+// the boosted creature's) is the one of the last server save, whenever the server was started.
 namespace {
 	std::tm localTime(int year, int month, int day, int hour, int minute, int second) {
 		std::tm time {};
@@ -58,28 +59,40 @@ namespace {
 }
 
 TEST(BoostedBossChoiceTest, TheBossDayStartsAtTheServerSave) {
-	const IOBosstiary::ServerSaveTime six { 6, 0, 0 };
-	EXPECT_EQ(19, IOBosstiary::bossDay(localTime(2026, 11, 20, 5, 59, 59), six)); // a restart before it keeps the boss
-	EXPECT_EQ(20, IOBosstiary::bossDay(localTime(2026, 11, 20, 6, 0, 0), six));
-	EXPECT_EQ(20, IOBosstiary::bossDay(localTime(2026, 11, 20, 23, 59, 59), six));
-	EXPECT_EQ(31, IOBosstiary::bossDay(localTime(2026, 11, 1, 5, 0, 0), six)); // October 31st
-	EXPECT_EQ(29, IOBosstiary::bossDay(localTime(2028, 3, 1, 0, 30, 0), six)); // leap year
-	EXPECT_EQ(28, IOBosstiary::bossDay(localTime(2027, 3, 1, 0, 30, 0), six));
-	EXPECT_EQ(20, IOBosstiary::bossDay(localTime(2026, 11, 20, 0, 0, 0), IOBosstiary::ServerSaveTime { 0, 0, 0 }));
+	const ServerSaveTime six { 6, 0, 0 };
+	EXPECT_EQ(19, serverSaveDay(localTime(2026, 11, 20, 5, 59, 59), six)); // a restart before it keeps the boss
+	EXPECT_EQ(20, serverSaveDay(localTime(2026, 11, 20, 6, 0, 0), six));
+	EXPECT_EQ(20, serverSaveDay(localTime(2026, 11, 20, 23, 59, 59), six));
+	EXPECT_EQ(31, serverSaveDay(localTime(2026, 11, 1, 5, 0, 0), six)); // October 31st
+	EXPECT_EQ(29, serverSaveDay(localTime(2028, 3, 1, 0, 30, 0), six)); // leap year
+	EXPECT_EQ(28, serverSaveDay(localTime(2027, 3, 1, 0, 30, 0), six));
+	EXPECT_EQ(20, serverSaveDay(localTime(2026, 11, 20, 0, 0, 0), ServerSaveTime { 0, 0, 0 }));
 }
 
 TEST(BoostedBossChoiceTest, TheServerSaveTimeIsHoursMinutesAndOptionalSeconds) {
-	const auto withSeconds = IOBosstiary::parseServerSaveTime("06:30:15");
+	const auto withSeconds = parseServerSaveTime("06:30:15");
 	ASSERT_TRUE(withSeconds.has_value());
 	EXPECT_EQ(6, withSeconds->hour);
 	EXPECT_EQ(30, withSeconds->minute);
 	EXPECT_EQ(15, withSeconds->second);
-	const auto withoutSeconds = IOBosstiary::parseServerSaveTime("6:05");
+	const auto withoutSeconds = parseServerSaveTime("6:05");
 	ASSERT_TRUE(withoutSeconds.has_value());
 	EXPECT_EQ(6, withoutSeconds->hour);
 	EXPECT_EQ(5, withoutSeconds->minute);
 	EXPECT_EQ(0, withoutSeconds->second);
 	for (const auto *bad : { "", "6", "24:00", "06:60", "06:00:60", "06:00:00:00", "06::00", ":30", "06:", "ab:cd", "006:00", " 06:00" }) {
-		EXPECT_FALSE(IOBosstiary::parseServerSaveTime(bad).has_value()) << bad;
+		EXPECT_FALSE(parseServerSaveTime(bad).has_value()) << bad;
 	}
+}
+
+// The boosted boss's cooldown is removed for every character: its KV key carries the guid.
+TEST(BoostedBossChoiceTest, ABossCooldownKeyNamesItsCharacter) {
+	EXPECT_EQ(std::optional<uint32_t>(42), IOBosstiary::bossCooldownOwner("player.42.boss.cooldown.2367", 2367));
+	EXPECT_FALSE(IOBosstiary::bossCooldownOwner("player.42.boss.cooldown.23671", 2367).has_value());
+	EXPECT_FALSE(IOBosstiary::bossCooldownOwner("player.42.boss.cooldown.1234", 2367).has_value());
+	EXPECT_FALSE(IOBosstiary::bossCooldownOwner("player..boss.cooldown.2367", 2367).has_value());
+	EXPECT_FALSE(IOBosstiary::bossCooldownOwner("player.4x.boss.cooldown.2367", 2367).has_value());
+	EXPECT_FALSE(IOBosstiary::bossCooldownOwner("player.1.quest.boss.cooldown.2367", 2367).has_value());
+	EXPECT_FALSE(IOBosstiary::bossCooldownOwner("player.99999999999.boss.cooldown.2367", 2367).has_value()); // beyond uint32
+	EXPECT_FALSE(IOBosstiary::bossCooldownOwner("account.42.boss.cooldown.2367", 2367).has_value());
 }

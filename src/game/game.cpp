@@ -36,6 +36,7 @@
 #include "game/scheduling/save_manager.hpp"
 #include "game/zones/zone.hpp"
 #include "io/io_bosstiary.hpp"
+#include "kv/kv.hpp"
 #include "io/io_wheel.hpp"
 #include "io/iobestiary.hpp"
 #include "io/guild_repository.hpp"
@@ -381,10 +382,11 @@ void Game::loadBoostedCreature() {
 		return;
 	}
 
-	const auto now = getTimeNow();
-	tm* ltm = localtime(&now);
-
-	if (stored->day == ltm->tm_mday) {
+	// The day of the last server save, as the boosted boss's: Tibia draws the boosted creature at each server
+	// save (user decision, 2026-11-19). It was the calendar day at boot: a restart after midnight drew it early,
+	// and without a restart it never changed (global_server_save.lua now calls Game.refreshBoostedCreature).
+	const auto today = currentServerSaveDay();
+	if (stored->day == today) {
 		setBoostedName(stored->name);
 		return;
 	}
@@ -425,14 +427,18 @@ void Game::loadBoostedCreature() {
 		return;
 	}
 
-	setBoostedName(selectedMonster.name);
-
 	const auto &outfit = monsterType->info.outfit;
 	const BoostedCreatureLook look { outfit.lookType, outfit.lookFeet, outfit.lookLegs, outfit.lookHead, outfit.lookBody, outfit.lookAddons, outfit.lookMount };
-	if (!repository.storeBoostedCreature({ static_cast<uint16_t>(ltm->tm_mday), selectedMonster.name, selectedMonster.raceId }, look)) {
+	if (!repository.storeBoostedCreature({ today, selectedMonster.name, selectedMonster.raceId }, look)) {
+		// The name used to be set first: memory and the database then disagreed.
 		g_logger().warn("[Game::loadBoostedCreature] - "
 		                "Failed to detect boosted creature database. (CODE 02)");
+		return;
 	}
+	// XP, loot and the login message read the name at once; the faster respawn is set when the spawns load,
+	// so without a restart it stays with the previous creature until the next boot.
+	setBoostedName(selectedMonster.name);
+	g_logger().info("Boosted creature: {}", selectedMonster.name);
 }
 
 void Game::start(ServiceManager* manager) {
@@ -2956,6 +2962,23 @@ void Game::refreshBoostedBoss() {
 			player->setSlotBossId(2, after.slotTwo);
 		}
 	}
+
+	// Tibia's manual: "If a boss is selected as daily boosted boss, its cooldown will be reset for every
+	// character with server save" (user decision, 2026-11-19). Removed through the KV store, so its cache
+	// agrees: a DELETE alone would be written back by the next save of a cached value.
+	size_t cooldownsReset = 0;
+	for (const auto &key : g_kv().keysMatching("player.", fmt::format(".boss.cooldown.{}", *newBoss))) {
+		const auto guid = IOBosstiary::bossCooldownOwner(key, *newBoss);
+		if (!guid) {
+			continue;
+		}
+		g_kv().remove(key);
+		++cooldownsReset;
+		if (const auto &player = getPlayerByGUID(*guid)) {
+			player->sendBosstiaryCooldownTimer();
+		}
+	}
+	g_logger().info("Boosted boss cooldown reset for {} characters", cooldownsReset);
 }
 
 void Game::playerSetMonsterPodium(uint32_t playerId, uint32_t monsterRaceId, const Position &pos, uint8_t stackPos, const uint16_t itemId, uint8_t direction, const std::pair<uint8_t, uint8_t> &podiumAndMonsterVisible) {

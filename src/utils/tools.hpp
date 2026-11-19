@@ -9,6 +9,13 @@
 
 #pragma once
 
+#ifndef USE_PRECOMPILED_HEADERS
+	#include <cstdint>
+	#include <ctime>
+	#include <optional>
+	#include <string_view>
+#endif
+
 namespace pugi {
 	struct xml_parse_result;
 }
@@ -112,6 +119,21 @@ std::string formatDateTime(int64_t ms);
  */
 [[nodiscard]] std::string formatEnumName(std::string_view name);
 [[nodiscard]] std::time_t getTimeNow();
+
+/// globalServerSaveTime: "HH:MM" or "HH:MM:SS".
+struct ServerSaveTime {
+	uint8_t hour = 6;
+	uint8_t minute = 0;
+	uint8_t second = 0;
+};
+/// nullopt when `text` is not "HH:MM" or "HH:MM:SS" with a valid time.
+[[nodiscard]] std::optional<ServerSaveTime> parseServerSaveTime(std::string_view text);
+/// The day of the month of the last server save at `nowLocal`: before the server save time it is still the
+/// previous day. Tibia draws the boosted boss "with every server save [...] until the next server save"
+/// (manual) and the boosted creature at each server save; user decision, 2026-11-19: "o boss do dia é do dia".
+[[nodiscard]] uint16_t serverSaveDay(const std::tm &nowLocal, ServerSaveTime save);
+/// serverSaveDay now, with globalServerSaveTime (06:00, with a warning, when it is malformed).
+[[nodiscard]] uint16_t currentServerSaveDay();
 [[nodiscard]] int64_t getTimeMsNow();
 [[nodiscard]] int64_t getTimeUsNow();
 [[nodiscard]] std::string convertIPToString(uint32_t ip);

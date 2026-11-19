@@ -60,6 +60,32 @@ std::vector<std::string> KVSQL::loadPrefix(const std::string &prefix /* = ""*/) 
 	return keys;
 }
 
+std::vector<std::string> KVSQL::loadMatching(const std::string &prefix, const std::string &suffix) {
+	// Both parts are literal: '_' and '%' are escaped with '!' (escapeString leaves '!' alone), so a race id
+	// cannot match a longer one and a '_' in a key is not a wildcard.
+	const auto literal = [](const std::string &text) {
+		std::string escaped;
+		escaped.reserve(text.size());
+		for (const char c : text) {
+			if (c == '!' || c == '_' || c == '%') {
+				escaped += '!';
+			}
+			escaped += c;
+		}
+		return escaped;
+	};
+	const auto query = fmt::format("SELECT `key_name` FROM `kv_store` WHERE `key_name` LIKE {} ESCAPE '!'", db.escapeString(literal(prefix) + "%" + literal(suffix)));
+	std::vector<std::string> keys;
+	const auto result = db.storeQuery(query);
+	if (result == nullptr) {
+		return keys;
+	}
+	do {
+		keys.emplace_back(result->getString("key_name"));
+	} while (result->next());
+	return keys;
+}
+
 bool KVSQL::save(const std::string &key, const ValueWrapper &value) {
 	auto update = dbUpdate();
 	prepareSave(key, value, update);
