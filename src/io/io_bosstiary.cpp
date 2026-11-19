@@ -9,11 +9,18 @@
 
 #include "io/io_bosstiary.hpp"
 
+#include "config/configmanager.hpp"
+
 #include "creatures/monsters/monsters.hpp"
 #include "creatures/players/player.hpp"
 #include "game/game.hpp"
 #include "lib/di/container.hpp"
 #include "utils/tools.hpp"
+
+#ifndef USE_PRECOMPILED_HEADERS
+	#include <array>
+	#include <chrono>
+#endif
 
 IOBosstiary &IOBosstiary::getInstance() {
 	return inject<IOBosstiary>();
@@ -33,6 +40,44 @@ std::optional<IOBosstiary::BoostedBossChoice> IOBosstiary::chooseBoostedBoss(con
 	return BoostedBossChoice { BoostedCreatureRecord { today, name, raceId }, true };
 }
 
+std::optional<IOBosstiary::ServerSaveTime> IOBosstiary::parseServerSaveTime(std::string_view text) {
+	std::array<uint32_t, 3> parts {};
+	size_t count = 0;
+	size_t digits = 0;
+	for (const char c : text) {
+		if (c == ':') {
+			if (digits == 0 || ++count == parts.size()) {
+				return std::nullopt;
+			}
+			digits = 0;
+		} else if (c >= '0' && c <= '9' && digits < 2) {
+			parts[count] = parts[count] * 10 + static_cast<uint32_t>(c - '0');
+			++digits;
+		} else {
+			return std::nullopt;
+		}
+	}
+	if (digits == 0 || count == 0 || parts[0] > 23 || parts[1] > 59 || parts[2] > 59) {
+		return std::nullopt;
+	}
+	return ServerSaveTime { static_cast<uint8_t>(parts[0]), static_cast<uint8_t>(parts[1]), static_cast<uint8_t>(parts[2]) };
+}
+
+uint16_t IOBosstiary::bossDay(const std::tm &nowLocal, ServerSaveTime save) {
+	const auto secondsOfDay = nowLocal.tm_hour * 3600 + nowLocal.tm_min * 60 + nowLocal.tm_sec;
+	const auto saveAt = save.hour * 3600 + save.minute * 60 + save.second;
+	if (secondsOfDay >= saveAt) {
+		return static_cast<uint16_t>(nowLocal.tm_mday);
+	}
+	const std::chrono::year_month_day today {
+		std::chrono::year { nowLocal.tm_year + 1900 },
+		std::chrono::month { static_cast<unsigned>(nowLocal.tm_mon + 1) },
+		std::chrono::day { static_cast<unsigned>(nowLocal.tm_mday) }
+	};
+	const std::chrono::year_month_day previous { std::chrono::sys_days { today } - std::chrono::days { 1 } };
+	return static_cast<uint16_t>(static_cast<unsigned>(previous.day()));
+}
+
 void IOBosstiary::loadBoostedBoss() {
 	auto &repository = IServerConfigRepository::getInstance();
 	const auto stored = repository.loadBoostedBoss();
@@ -47,8 +92,17 @@ void IOBosstiary::loadBoostedBoss() {
 		return;
 	}
 
+	const auto saveTimeText = g_configManager().getString(GLOBAL_SERVER_SAVE_TIME);
+	auto saveTime = parseServerSaveTime(saveTimeText);
+	if (!saveTime) {
+		g_logger().warn("[{}] globalServerSaveTime '{}' is not HH:MM or HH:MM:SS: the boss day starts at 06:00", __FUNCTION__, saveTimeText);
+		saveTime = ServerSaveTime {};
+	}
 	auto timeNow = getTimeNow();
-	const auto today = static_cast<uint16_t>(localtime(&timeNow)->tm_mday);
+	const std::tm nowLocal = *localtime(&timeNow);
+	// The day at the last server save, not the calendar day at boot: a restart before the server save
+	// (after a crash, say) used to draw the next day's boss and reset the slot change count early.
+	const auto today = bossDay(nowLocal, *saveTime);
 
 	std::vector<std::pair<uint16_t, std::string>> archfoes;
 	for (const auto &[infoBossRaceId, infoBossName] : bossMap) {

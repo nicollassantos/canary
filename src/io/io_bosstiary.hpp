@@ -47,8 +47,22 @@ public:
 	static IOBosstiary &getInstance();
 
 	/// The boss of the day, through IServerConfigRepository: today's stored one, or a new one chosen with
-	/// chooseBoostedBoss, stored and taken out of every player's slots.
+	/// chooseBoostedBoss, stored and taken out of every player's slots. The day is bossDay's.
 	void loadBoostedBoss();
+
+	/// globalServerSaveTime: "HH:MM" or "HH:MM:SS".
+	struct ServerSaveTime {
+		uint8_t hour = 6;
+		uint8_t minute = 0;
+		uint8_t second = 0;
+	};
+	/// nullopt when `text` is not "HH:MM" or "HH:MM:SS" with a valid time.
+	static std::optional<ServerSaveTime> parseServerSaveTime(std::string_view text);
+	/// The day of the month whose boss is boosted at `nowLocal`. Tibia's manual (Cyclopedia, Boss slots):
+	/// "With every server save, a randomly drawn boss of the Archfoe category will receive a temporary
+	/// boost [...] until the next server save": before the server save time it is still the previous day's
+	/// boss, whenever the server was started (user decision, 2026-11-19: "o boss do dia é do dia").
+	static uint16_t bossDay(const std::tm &nowLocal, ServerSaveTime save);
 
 	struct BoostedBossChoice {
 		BoostedCreatureRecord boss;
