@@ -1449,11 +1449,12 @@ void PlayerStashComponent::retrieveAllItemsFromDepotSearch(uint16_t itemId, uint
 	}
 
 	// Plain stacks are created again in batches (they merge into the player's stacks); every other item is
-	// moved as the stored object (user decision, 2026-11-19). Store items stay: they may only be carried to
-	// the depot, the store inbox or a house.
+	// moved as the stored object (user decision, 2026-11-19). Store items go to the Store inbox, still store
+	// items: it is the one place of the inventory they may be (ItemService::checkMoveItemToCylinder), and
+	// the buyer uses them from there, hotkeys included (the inventory search covers that slot).
 	std::vector<std::shared_ptr<Item>> plainStacks;
 	std::vector<std::shared_ptr<Item>> storedObjects;
-	bool keptStoreItems = false;
+	std::vector<std::shared_ptr<Item>> storeItems;
 	for (const auto &locker : depotLocker->getItemList()) {
 		const auto &c = locker->getContainer();
 		if (!c || c->empty() ||
@@ -1468,7 +1469,7 @@ void PlayerStashComponent::retrieveAllItemsFromDepotSearch(uint16_t itemId, uint
 				continue;
 			}
 			if (item->isStoreItem()) {
-				keptStoreItems = true;
+				storeItems.emplace_back(item);
 			} else if (isPlainStack(item)) {
 				plainStacks.emplace_back(item);
 			} else {
@@ -1480,7 +1481,28 @@ void PlayerStashComponent::retrieveAllItemsFromDepotSearch(uint16_t itemId, uint
 	const auto &thisPlayer = m_player.getPlayer();
 	ReturnValue failure = RETURNVALUE_NOERROR;
 	bool retrievedAny = false;
+	if (!storeItems.empty()) {
+		const auto &storeInbox = m_player.getStoreInbox();
+		for (const auto &item : storeItems) {
+			const auto &parent = item->getParent();
+			if (!parent) {
+				continue;
+			}
+			const auto moved = storeInbox
+				? g_game().internalMoveItem(parent, storeInbox, INDEX_WHEREEVER, item, item->getItemCount(), nullptr, 0, thisPlayer)
+				: RETURNVALUE_NOTPOSSIBLE;
+			if (moved != RETURNVALUE_NOERROR) {
+				failure = moved;
+				break;
+			}
+			retrievedAny = true;
+		}
+	}
+
 	for (const auto &item : storedObjects) {
+		if (failure != RETURNVALUE_NOERROR) {
+			break;
+		}
 		const auto &parent = item->getParent();
 		if (!parent) {
 			continue;
@@ -1552,8 +1574,6 @@ void PlayerStashComponent::retrieveAllItemsFromDepotSearch(uint16_t itemId, uint
 
 	if (failure != RETURNVALUE_NOERROR) {
 		m_player.sendCancelMessage(failure);
-	} else if (keptStoreItems) {
-		m_player.sendCancelMessage("Store items stay in your depot.");
 	} else if (!retrievedAny) {
 		m_player.sendCancelMessage(RETURNVALUE_NOTPOSSIBLE);
 	}

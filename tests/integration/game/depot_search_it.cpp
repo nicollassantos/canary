@@ -21,7 +21,7 @@
 namespace {
 	// Depot search "retrieve all": the items of the open search (item and tier) come to the player as
 	// they were stored. Plain stacks are created again in batches; every other item is moved as the stored
-	// object; store items stay in the depot. The tier byte of the packet must not change what comes out.
+	// object; store items go to the Store inbox. The tier byte of the packet must not change what comes out.
 	class DepotSearchRetrieveTest : public ::testing::Test {
 	protected:
 		static void SetUpTestSuite() {
@@ -208,8 +208,13 @@ TEST_F(DepotSearchRetrieveTest, AnItemWithStateComesBackAsTheStoredObject) {
 	EXPECT_EQ(0u, inDepot(0));
 }
 
-// A store item may only be carried to the depot, the store inbox or a house: it stays, with its mark.
-TEST_F(DepotSearchRetrieveTest, AStoreItemStaysInTheDepot) {
+// A store item goes to the Store inbox (the one inventory place it may be, and where the buyer uses it),
+// keeping its mark; not into the backpack, where the move rules do not let it go.
+TEST_F(DepotSearchRetrieveTest, AStoreItemGoesToTheStoreInboxWithItsMark) {
+	// As the login does (IOLoginDataLoad); the override is private in Player, public in Cylinder.
+	static_cast<Cylinder &>(*player).internalAddThing(CONST_SLOT_STORE_INBOX, Item::CreateItem(ITEM_STORE_INBOX));
+	const auto &storeInbox = player->getStoreInbox();
+	ASSERT_NE(nullptr, storeInbox);
 	const auto &stored = Item::CreateItem(itemId, 1);
 	ASSERT_NE(nullptr, stored);
 	stored->setAttribute(ItemAttribute_t::STORE, static_cast<int64_t>(1234));
@@ -218,7 +223,22 @@ TEST_F(DepotSearchRetrieveTest, AStoreItemStaysInTheDepot) {
 
 	player->retrieveAllItemsFromDepotSearch(itemId, 0, true);
 
-	EXPECT_EQ(nullptr, carriedItem());
+	EXPECT_EQ(0u, inDepot(0));
+	EXPECT_EQ(stored->getParent(), storeInbox);
+	EXPECT_TRUE(stored->isStoreItem());
+	EXPECT_NE(nullptr, stored->getParent());
+}
+
+// Without a Store inbox (or with it full) the store item stays in the depot, and nothing else is lost.
+TEST_F(DepotSearchRetrieveTest, AStoreItemWithNoStoreInboxStaysInTheDepot) {
+	const auto &stored = Item::CreateItem(itemId, 1);
+	ASSERT_NE(nullptr, stored);
+	stored->setAttribute(ItemAttribute_t::STORE, static_cast<int64_t>(1234));
+	depotBox->internalAddThing(stored);
+	player->setDepotSearchIsOpen(itemId, 0);
+
+	player->retrieveAllItemsFromDepotSearch(itemId, 0, true);
+
 	EXPECT_EQ(1u, inDepot(0));
 	EXPECT_TRUE(stored->isStoreItem());
 }
