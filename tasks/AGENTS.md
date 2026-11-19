@@ -108,6 +108,9 @@ Leia este arquivo inteiro antes de mexer na branch. Depois, para o detalhe de ca
   sobrescrito por um processo externo com o conteúdo local; o usuário reverteu. Confira o diff
   antes de commitar.
 - PR/comentários em PR só com pedido explícito.
+- Antes de mudar um sistema achado numa auditoria, procure no `tasks/todo.md` uma decisão do usuário
+  sobre ele (`git grep -n -i '<sistema>' tasks/`, ex.: "team finder fica como está" na 23.5g). Se houver,
+  não mude: leve a evidência nova ao usuário. O team finder foi mudado e revertido por isso (`0c0ef4f07`).
 - Regras e notas do fork ficam **só neste arquivo** (`tasks/AGENTS.md`). Não criar outros
   `AGENTS.md`; o da raiz é do upstream (mexer nele gera conflito de merge).
 
