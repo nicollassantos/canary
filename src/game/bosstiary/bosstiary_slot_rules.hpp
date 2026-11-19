@@ -23,9 +23,9 @@ namespace bosstiary_slot_rules {
 	/// Boss points that open the second slot.
 	inline constexpr uint32_t SecondSlotPoints = 1500;
 
-	/// The first slot opens once a boss other than today's boosted one is unlocked; the second at
-	/// SecondSlotPoints. Slots other than 1 and 2 never.
-	bool isSlotUnlocked(uint8_t slotId, size_t unlockedBossesBesidesBoosted, uint32_t bossPoints);
+	/// Tibia's rule (TibiaWiki BR, Bosstiário): the first slot opens with the first Prowess unlocked on any
+	/// boss, the second at SecondSlotPoints. Slots other than 1 and 2 never.
+	bool isSlotUnlocked(uint8_t slotId, size_t unlockedBosses, uint32_t bossPoints);
 
 	struct SlotState {
 		uint32_t slotOne = 0;
@@ -46,12 +46,13 @@ namespace bosstiary_slot_rules {
 
 	struct SlotDecision {
 		SlotChange change = SlotChange::Refused;
-		/// Gold to pay first: removing a boss (also when another takes its place), except today's boosted one.
+		/// Gold to pay first: removing a boss, except one that became today's boosted boss.
 		uint32_t price = 0;
 		std::string_view reason;
 	};
 
-	/// What selecting `bossId` for `slotId` does; `bossId` 0 removes the slot's boss. A boss must be
-	/// unlocked, not today's boosted one and not in the other slot, and the slot must be open.
+	/// What selecting `bossId` for `slotId` does; `bossId` 0 removes the slot's boss. As in the Tibia client,
+	/// a boss goes only into an empty open slot (an occupied one offers only "Remove", at its price), and
+	/// must be unlocked, not today's boosted one (it has its own slot) and not in the other slot.
 	SlotDecision decide(const SlotState &state, uint8_t slotId, uint32_t bossId);
 }

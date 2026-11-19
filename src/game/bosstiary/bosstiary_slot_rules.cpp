@@ -15,9 +15,9 @@
 
 namespace bosstiary_slot_rules {
 
-	bool isSlotUnlocked(uint8_t slotId, size_t unlockedBossesBesidesBoosted, uint32_t bossPoints) {
+	bool isSlotUnlocked(uint8_t slotId, size_t unlockedBosses, uint32_t bossPoints) {
 		if (slotId == 1) {
-			return unlockedBossesBesidesBoosted > 0;
+			return unlockedBosses > 0;
 		}
 		if (slotId == 2) {
 			return bossPoints >= SecondSlotPoints;
@@ -29,10 +29,7 @@ namespace bosstiary_slot_rules {
 		if (slotId != 1 && slotId != 2) {
 			return { SlotChange::Refused, 0, "invalid slot" };
 		}
-		const auto unlockedBesidesBoosted = static_cast<size_t>(std::ranges::count_if(state.unlockedBosses, [&state](uint16_t boss) {
-			return boss != state.boostedBossId;
-		}));
-		if (!isSlotUnlocked(slotId, unlockedBesidesBoosted, state.bossPoints)) {
+		if (!isSlotUnlocked(slotId, state.unlockedBosses.size(), state.bossPoints)) {
 			return { SlotChange::Refused, 0, "slot locked" };
 		}
 
@@ -47,8 +44,8 @@ namespace bosstiary_slot_rules {
 			return { SlotChange::Remove, removal, {} };
 		}
 
-		if (bossId == current) {
-			return { SlotChange::Refused, 0, "already in the slot" };
+		if (current != 0) {
+			return { SlotChange::Refused, 0, "slot occupied" };
 		}
 		if (bossId == state.boostedBossId) {
 			return { SlotChange::Refused, 0, "boosted boss" };
@@ -59,7 +56,7 @@ namespace bosstiary_slot_rules {
 		if (bossId > UINT16_MAX || std::ranges::find(state.unlockedBosses, static_cast<uint16_t>(bossId)) == state.unlockedBosses.end()) {
 			return { SlotChange::Refused, 0, "boss not unlocked" };
 		}
-		return { SlotChange::Assign, removal, {} };
+		return { SlotChange::Assign, 0, {} };
 	}
 
 } // namespace bosstiary_slot_rules

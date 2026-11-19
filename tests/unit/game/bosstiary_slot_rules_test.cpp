@@ -13,7 +13,8 @@
 
 // Which boss may go in which Bosstiary slot (a slot boss adds loot rolls in its reward chest). The
 // client's slot and boss id used to be applied as sent: any boss, the second slot without its points,
-// and removals or swaps without paying.
+// and removals or swaps without paying. The rules follow the Tibia client: an occupied slot only offers
+// "Remove" at its price, the first slot opens with the first Prowess, the second at 1500 boss points.
 namespace {
 	using bosstiary_slot_rules::SlotChange;
 	constexpr uint32_t Boosted = 900;
@@ -52,22 +53,24 @@ TEST(BosstiarySlotRulesTest, TheSecondSlotNeedsItsPointsAndTheFirstAnUnlockedBos
 	s.bossPoints = bosstiary_slot_rules::SecondSlotPoints;
 	EXPECT_EQ(SlotChange::Assign, bosstiary_slot_rules::decide(s, 2, 101).change);
 
-	s.unlockedBosses = { Boosted }; // only today's boosted boss: the first slot stays closed
+	s.unlockedBosses = {}; // no Prowess yet: the first slot is closed
 	EXPECT_FALSE(bosstiary_slot_rules::isSlotUnlocked(1, 0, s.bossPoints));
-	EXPECT_EQ(SlotChange::Refused, bosstiary_slot_rules::decide(s, 1, Boosted).change);
+	EXPECT_EQ(SlotChange::Refused, bosstiary_slot_rules::decide(s, 1, 101).change);
+
+	s.unlockedBosses = { Boosted }; // the first Prowess opens it, even on today's boosted boss
+	EXPECT_TRUE(bosstiary_slot_rules::isSlotUnlocked(1, 1, s.bossPoints));
+	EXPECT_EQ(SlotChange::Refused, bosstiary_slot_rules::decide(s, 1, Boosted).change); // it has its own slot
 }
 
-TEST(BosstiarySlotRulesTest, RemovingOrReplacingABossIsPaidUnlessItIsTheBoostedOne) {
+TEST(BosstiarySlotRulesTest, AnOccupiedSlotOnlyRemovesItsBossPaidUnlessItIsTheBoostedOne) {
 	auto s = state();
 	s.slotOne = 101;
 	auto decision = bosstiary_slot_rules::decide(s, 1, 0);
 	EXPECT_EQ(SlotChange::Remove, decision.change);
 	EXPECT_EQ(50'000U, decision.price);
 
-	decision = bosstiary_slot_rules::decide(s, 1, 103); // a swap is a removal plus a new boss
-	EXPECT_EQ(SlotChange::Assign, decision.change);
-	EXPECT_EQ(50'000U, decision.price);
-
+	// No swap in one packet: the client removes (paying) and then selects.
+	EXPECT_EQ(SlotChange::Refused, bosstiary_slot_rules::decide(s, 1, 103).change);
 	EXPECT_EQ(SlotChange::Refused, bosstiary_slot_rules::decide(s, 1, 101).change); // already there
 	s.slotOne = 0;
 	EXPECT_EQ(SlotChange::Refused, bosstiary_slot_rules::decide(s, 1, 0).change); // nothing to remove, nothing paid

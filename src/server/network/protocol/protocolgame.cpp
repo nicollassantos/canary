@@ -3885,13 +3885,14 @@ void ProtocolGame::parseSendBosstiarySlots() {
 	uint32_t removePrice = g_ioBosstiary().calculteRemoveBoss(player->getRemoveTimes());
 
 	auto bossesUnlockedList = g_ioBosstiary().getBosstiaryFinished(player);
+	const auto everUnlockedSize = bossesUnlockedList.size();
 	if (auto it = std::ranges::find(bossesUnlockedList.begin(), bossesUnlockedList.end(), boostedBossId);
 	    it != bossesUnlockedList.end()) {
 		[[maybe_unused]] auto it_erase = bossesUnlockedList.erase(it);
 	}
 	auto bossesUnlockedSize = static_cast<uint16_t>(bossesUnlockedList.size());
 
-	bool isSlotOneUnlocked = bosstiary_slot_rules::isSlotUnlocked(1, bossesUnlockedSize, playerBossPoints);
+	bool isSlotOneUnlocked = bosstiary_slot_rules::isSlotUnlocked(1, everUnlockedSize, playerBossPoints);
 	msg.addByte(isSlotOneUnlocked ? 1 : 0);
 	msg.add<uint32_t>(isSlotOneUnlocked ? bossIdSlotOne : 0);
 	if (isSlotOneUnlocked && bossIdSlotOne != 0) {
@@ -3906,7 +3907,7 @@ void ProtocolGame::parseSendBosstiarySlots() {
 	}
 
 	const uint32_t slotTwoPoints = bosstiary_slot_rules::SecondSlotPoints;
-	bool isSlotTwoUnlocked = bosstiary_slot_rules::isSlotUnlocked(2, bossesUnlockedSize, playerBossPoints);
+	bool isSlotTwoUnlocked = bosstiary_slot_rules::isSlotUnlocked(2, everUnlockedSize, playerBossPoints);
 	msg.addByte(isSlotTwoUnlocked ? 1 : 0);
 	msg.add<uint32_t>(isSlotTwoUnlocked ? bossIdSlotTwo : slotTwoPoints);
 	if (isSlotTwoUnlocked && bossIdSlotTwo != 0) {
