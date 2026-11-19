@@ -438,7 +438,6 @@ void Game::loadBoostedCreature() {
 	// XP, loot and the login message read the name at once; the faster respawn is set when the spawns load,
 	// so without a restart it stays with the previous creature until the next boot.
 	setBoostedName(selectedMonster.name);
-	g_logger().info("Boosted creature: {}", selectedMonster.name);
 }
 
 void Game::start(ServiceManager* manager) {
