@@ -2771,42 +2771,24 @@ void ProtocolGame::parseBestiarySendCreatures(NetworkMessage &msg) {
 		}
 		text = raceName;
 	}
+	const auto creatures = g_iobestiary().describeCreatures(player, race);
+	if (!creatures) {
+		return;
+	}
+
 	NetworkMessage newmsg;
 	newmsg.addByte(0xD6);
 	newmsg.addString(text);
-	newmsg.add<uint16_t>(race.size());
-	std::map<uint16_t, uint32_t> creaturesKilled = g_iobestiary().getBestiaryKillCountByMonsterIDs(player, race);
-
-	for (const auto &it_ : race) {
-		uint16_t raceid_ = it_.first;
-		newmsg.add<uint16_t>(raceid_);
-
-		uint8_t progress = 0;
-		uint8_t occurrence = 0;
-		for (const auto &_it : creaturesKilled) {
-			if (_it.first == raceid_) {
-				const auto tmpType = g_monsters().getMonsterType(it_.second);
-				if (!tmpType) {
-					return;
-				}
-				progress = g_iobestiary().getKillStatus(tmpType, _it.second);
-				occurrence = tmpType->info.bestiaryOccurrence;
-			}
-		}
-
-		if (progress > 0) {
-			newmsg.addByte(progress);
-			newmsg.addByte(occurrence);
+	newmsg.add<uint16_t>(creatures->size());
+	for (const auto &creature : *creatures) {
+		newmsg.add<uint16_t>(creature.raceId);
+		if (creature.progress > 0) {
+			newmsg.addByte(creature.progress);
+			newmsg.addByte(creature.occurrence);
 		} else {
 			newmsg.addByte(0);
 		}
-
-		const auto monsterType = g_monsters().getMonsterType(it_.second);
-		if (monsterType && player->animusMastery().has(it_.second)) {
-			newmsg.add<uint16_t>(static_cast<uint16_t>(std::round((player->animusMastery().getExperienceMultiplier() - 1) * 1000))); // Animus Mastery Bonus
-		} else {
-			newmsg.add<uint16_t>(0);
-		}
+		newmsg.add<uint16_t>(creature.animusBonus); // Animus Mastery Bonus
 	}
 
 	newmsg.add<uint16_t>(player->animusMastery().getPoints()); // Animus Mastery Points

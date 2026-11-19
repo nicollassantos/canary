@@ -30,6 +30,16 @@ struct BestiaryRaceSummary {
 	uint16_t unlocked = 0;
 };
 
+/// One creature of a Bestiary creature list (ProtocolGame::parseBestiarySendCreatures).
+struct BestiaryCreatureEntry {
+	uint16_t raceId = 0;
+	/// Kill status (IOBestiary::getKillStatus), 0 when never killed.
+	uint8_t progress = 0;
+	uint8_t occurrence = 0;
+	/// Animus Mastery experience bonus in tenths of a percent, 0 without it.
+	uint16_t animusBonus = 0;
+};
+
 struct PlayerCharmsByMonster {
 	charmRune_t major = CHARM_NONE;
 	charmRune_t minor = CHARM_NONE;
@@ -103,6 +113,10 @@ public:
 	/// used to scan it twice per race (~75000 monster lookups by name, 6.75 ms per request, no interval).
 	/// nullopt when a listed creature has no monster type (the window is not sent, as before).
 	std::optional<std::vector<BestiaryRaceSummary>> summarizeRaces(const std::shared_ptr<Player> &player) const;
+	/// The player's progress on each creature of `creatures` (race id -> name), in order. One pass; it used
+	/// to scan the killed creatures once per creature. nullopt when a killed creature has no monster type
+	/// (the list is not sent, as before).
+	std::optional<std::vector<BestiaryCreatureEntry>> describeCreatures(const std::shared_ptr<Player> &player, const std::map<uint16_t, std::string> &creatures) const;
 
 	int32_t bitToggle(int32_t input, const std::shared_ptr<Charm> &charm, bool on) const;
 

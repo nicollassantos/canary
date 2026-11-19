@@ -14,6 +14,7 @@
 #include "creatures/combat/condition.hpp"
 #include "creatures/monsters/monster.hpp"
 #include "creatures/monsters/monsters.hpp"
+#include "creatures/players/animus_mastery/animus_mastery.hpp"
 #include "creatures/players/player.hpp"
 #include "game/game.hpp"
 #include "lib/metrics/metrics.hpp"
@@ -354,6 +355,33 @@ std::optional<std::vector<BestiaryRaceSummary>> IOBestiary::summarizeRaces(const
 		}
 	}
 	return races;
+}
+
+std::optional<std::vector<BestiaryCreatureEntry>> IOBestiary::describeCreatures(const std::shared_ptr<Player> &player, const std::map<uint16_t, std::string> &creatures) const {
+	if (!player) {
+		return std::nullopt;
+	}
+
+	std::vector<BestiaryCreatureEntry> entries;
+	entries.reserve(creatures.size());
+	const auto animusBonus = static_cast<uint16_t>(std::round((player->animusMastery().getExperienceMultiplier() - 1) * 1000));
+	for (const auto &[raceId, name] : creatures) {
+		BestiaryCreatureEntry entry;
+		entry.raceId = raceId;
+		const auto monsterType = g_monsters().getMonsterType(name);
+		if (const auto kills = player->getBestiaryKillCount(raceId); kills > 0) {
+			if (!monsterType) {
+				return std::nullopt;
+			}
+			entry.progress = getKillStatus(monsterType, kills);
+			entry.occurrence = monsterType->info.bestiaryOccurrence;
+		}
+		if (monsterType && player->animusMastery().has(name)) {
+			entry.animusBonus = animusBonus;
+		}
+		entries.emplace_back(entry);
+	}
+	return entries;
 }
 
 uint16_t IOBestiary::getBestiaryRaceUnlocked(const std::shared_ptr<Player> &player, BestiaryType_t race) const {
