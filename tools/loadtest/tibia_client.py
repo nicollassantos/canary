@@ -20,6 +20,7 @@ Wire format (src/server/network/protocol/transport_codec.cpp, protocolgame*.cpp)
 
 import ipaddress
 import os
+import re
 import socket
 import struct
 import sys
@@ -103,6 +104,7 @@ class GameConnection:
         self.answered = threading.Event()  # the login got an answer, or the connection ended
         self.logged_in = False
         self.refusal = None
+        self.creature_id = None  # the character's creature id, from the self-appear message (0x17)
         self.bytes_received = 0
         self.packets_sent = 0
         # Frames to keep, decrypted, in `captured` (for checks that read an answer; empty means none kept):
@@ -180,8 +182,10 @@ class GameConnection:
                 if first:
                     first = False
                     self._read_login_answer(frame)
-                elif self.capture_opcodes or self.capture_contains:
+                elif self.creature_id is None or self.capture_opcodes or self.capture_contains:
                     payload = self._decode(frame)
+                    if self.creature_id is None:
+                        self._find_creature_id(payload)
                     if payload and (payload[0] in self.capture_opcodes
                                     or any(part in payload for part in self.capture_contains)):
                         self.captured.append(payload)
@@ -209,7 +213,15 @@ class GameConnection:
             self.refusal = "waiting list"
         else:
             self.logged_in = True
+            self._find_creature_id(payload)
         self.answered.set()
+
+    def _find_creature_id(self, payload):
+        # Self-appear: [0x17][u32 creature id, players start at 0x10000000][u16 beat 50]; it is not
+        # always the first message of its frame, so look for it in the first frames.
+        match = re.search(rb"\x17(...\x10)\x32\x00", payload, re.S)
+        if match:
+            (self.creature_id,) = struct.unpack("<I", match.group(1))
 
     # --- sending ----------------------------------------------------------------------------------
 
