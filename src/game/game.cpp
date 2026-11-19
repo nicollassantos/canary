@@ -2472,6 +2472,13 @@ void Game::playerInviteToParty(uint32_t playerId, uint32_t invitedId) {
 		return;
 	}
 
+	// Only a character on the leader's screen, as the client offers it: any online creature id used to
+	// work, and inviting and revoking messaged a player anywhere on every packet (user decision, 2026-11-19).
+	if (!Party::isOnInviterScreen(player->getPosition(), invitedPlayer->getPosition()) || !player->canSeeCreature(invitedPlayer)) {
+		g_metrics().addCounter("party_invites_rejected", 1, { { "reason", "not on screen" } });
+		return;
+	}
+
 	if (invitedPlayer->getParty()) {
 		std::ostringstream ss;
 		ss << invitedPlayer->getName() << " is already in a party.";

@@ -453,6 +453,10 @@ void Party::revokeInvitation(const std::shared_ptr<Player> &player) {
 	removeInvite(player);
 }
 
+bool Party::isOnInviterScreen(const Position &leaderPosition, const Position &invitedPosition) {
+	return Creature::canSee(leaderPosition, invitedPosition, MAP_MAX_CLIENT_VIEW_PORT_X + 1, MAP_MAX_CLIENT_VIEW_PORT_Y + 1);
+}
+
 bool Party::invitePlayer(const std::shared_ptr<Player> &player) {
 	const auto &leader = getLeader();
 	if (!leader) {

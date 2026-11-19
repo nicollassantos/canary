@@ -61,3 +61,14 @@ TEST_F(PartyTest, GetPlayersAndDisbandHandleNullEntries) {
 	EXPECT_EQ(leader->getParty(), nullptr);
 	EXPECT_EQ(member->getParty(), nullptr);
 }
+
+// The invited character has to be on the leader's screen; a creature id from anywhere could only be forged.
+TEST_F(PartyTest, AnInviteReachesOnlyACharacterOnTheLeadersScreen) {
+	const Position leader { 1000, 1000, 7 };
+	EXPECT_TRUE(Party::isOnInviterScreen(leader, { 1005, 1003, 7 }));
+	EXPECT_TRUE(Party::isOnInviterScreen(leader, { 1009, 1007, 7 })); // the edge of the view
+	EXPECT_FALSE(Party::isOnInviterScreen(leader, { 1010, 1000, 7 }));
+	EXPECT_FALSE(Party::isOnInviterScreen(leader, { 1000, 1008, 7 }));
+	EXPECT_FALSE(Party::isOnInviterScreen(leader, { 1500, 1500, 7 })); // another town
+	EXPECT_FALSE(Party::isOnInviterScreen(leader, { 1000, 1000, 8 })); // underground, from the surface
+}

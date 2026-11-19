@@ -31,6 +31,9 @@ class Creature;
 class Party final : public SharedObject {
 public:
 	static std::shared_ptr<Party> create(const std::shared_ptr<Player> &leader);
+	/// Tibia invites by right-clicking a character (manual, 5.3.13): the invited one has to be on the
+	/// leader's screen (the client's view, one tile of slack on each side).
+	static bool isOnInviterScreen(const Position &leaderPosition, const Position &invitedPosition);
 
 	std::shared_ptr<Party> getParty();
 
