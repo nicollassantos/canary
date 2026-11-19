@@ -4115,6 +4115,10 @@ void ProtocolGame::parseAimAtTarget(NetworkMessage &msg) {
 	}
 
 	uint8_t amount = msg.getByte(); // Number of spells being updated
+	// Three bytes per entry: a count beyond the packet would read zeros as spell ids.
+	if (!msg.canRead(static_cast<int32_t>(amount) * 3)) {
+		return;
+	}
 	for (uint8_t i = 0; i < amount; ++i) {
 		uint16_t spellId = msg.get<uint16_t>(); // ID of the spell
 		uint8_t state = msg.getByte(); // State: 1 = enabled, 0 = disabled

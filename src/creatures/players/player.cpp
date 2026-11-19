@@ -6619,11 +6619,17 @@ std::pair<uint64_t, uint64_t> Player::getHarmonyDamage(double min, double max) {
 }
 
 void Player::updateAimAtTargetSpells(uint16_t spellId, uint8_t state) {
-	if (state) {
-		aimAtTargetSpellIds.insert(spellId);
-	} else {
+	if (!state) {
 		aimAtTargetSpellIds.erase(spellId);
+		return;
 	}
+	// The client lists the player's instant spells, so more ids than there are instant spells can only be
+	// forged (each packet brings up to 255, and the set was unbounded). Ids are not looked up one by one:
+	// Spells::getInstantSpellById is linear.
+	if (!aimAtTargetSpellIds.contains(spellId) && aimAtTargetSpellIds.size() >= g_spells().getInstantSpells().size()) {
+		return;
+	}
+	aimAtTargetSpellIds.insert(spellId);
 }
 
 std::unordered_set<uint16_t> Player::getAimAtTargetSpells() const {
