@@ -35,6 +35,13 @@ namespace bosstiary_slot_rules {
 		return bosses;
 	}
 
+	uint32_t removalPrice(uint8_t removeTimes) {
+		if (removeTimes < 2) {
+			return 0;
+		}
+		return 300'000U * removeTimes - 500'000U;
+	}
+
 	uint16_t slotLootBonus(uint16_t pointsBonus, uint8_t bossLevel) {
 		return pointsBonus + (bossLevel == MasteryLevel ? MasteryLootBonus : 0);
 	}
@@ -55,7 +62,7 @@ namespace bosstiary_slot_rules {
 			if (current == 0) {
 				return { SlotChange::Refused, 0, "slot already empty" };
 			}
-			return { SlotChange::Remove, removal, {} };
+			return { SlotChange::Remove, removal, {}, current != state.boostedBossId };
 		}
 
 		if (current != 0) {

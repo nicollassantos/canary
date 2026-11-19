@@ -34,7 +34,7 @@ namespace bosstiary_slot_rules {
 		/// Bosses the player unlocked (IOBosstiary::getBosstiaryFinished).
 		std::vector<uint16_t> unlockedBosses;
 		uint32_t bossPoints = 0;
-		/// What removing a boss from a slot costs now.
+		/// What removing a boss from a slot costs now (removalPrice).
 		uint32_t removePrice = 0;
 	};
 
@@ -49,7 +49,17 @@ namespace bosstiary_slot_rules {
 		/// Gold to pay first: removing a boss, except one that became today's boosted boss.
 		uint32_t price = 0;
 		std::string_view reason;
+		/// The removal counts as one of today's changes (Player::addRemoveTime): every removal but that of a
+		/// boss that became today's boosted one.
+		bool countsAsChange = false;
 	};
+
+	/// Tibia's manual (Bosstiary): "You can change the boss in a boss slot for free once after each server
+	/// save. All further exchanges require a certain amount of gold, which will be raised with each change
+	/// on the same day." The manual gives no amounts: upstream's are kept (100k, 400k, 700k, ...).
+	/// `removeTimes` is player_bosstiary.removeTimes: 1 + the changes since the boss of the day was drawn
+	/// (IServerConfigRepository::storeBoostedBoss sets it back to 1).
+	uint32_t removalPrice(uint8_t removeTimes);
 
 	/// Bosses the slots window offers: unlocked, not today's boosted one (it has its own slot) and not in a
 	/// slot already, in the order given. Exactly the bosses `decide` assigns to an empty open slot.

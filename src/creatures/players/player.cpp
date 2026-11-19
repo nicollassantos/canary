@@ -5991,7 +5991,10 @@ uint32_t Player::getSlotBossId(uint8_t slotId) const {
 }
 
 void Player::addRemoveTime() {
-	bossRemoveTimes = bossRemoveTimes + 1;
+	// Saturates: past 255 the count used to wrap to 0, and the next change was free.
+	if (bossRemoveTimes < std::numeric_limits<uint8_t>::max()) {
+		++bossRemoveTimes;
+	}
 }
 
 void Player::setRemoveBossTime(uint8_t newRemoveTimes) {

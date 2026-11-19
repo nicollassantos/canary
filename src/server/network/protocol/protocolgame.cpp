@@ -3865,7 +3865,7 @@ void ProtocolGame::parseSendBosstiarySlots() {
 	msg.add<uint16_t>(currentBonus); // Current Bonus
 	msg.add<uint16_t>(currentBonus + 1); // Next Bonus
 
-	uint32_t removePrice = g_ioBosstiary().calculteRemoveBoss(player->getRemoveTimes());
+	uint32_t removePrice = bosstiary_slot_rules::removalPrice(player->getRemoveTimes());
 
 	bosstiary_slot_rules::SlotState slotState;
 	slotState.slotOne = bossIdSlotOne;

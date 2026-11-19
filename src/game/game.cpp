@@ -2913,7 +2913,7 @@ void Game::playerBosstiarySlot(uint32_t playerId, uint8_t slotId, uint32_t selec
 	state.boostedBossId = g_ioBosstiary().getBoostedBossId();
 	state.unlockedBosses = g_ioBosstiary().getBosstiaryFinished(player);
 	state.bossPoints = player->getBossPoints();
-	state.removePrice = g_ioBosstiary().calculteRemoveBoss(player->getRemoveTimes());
+	state.removePrice = bosstiary_slot_rules::removalPrice(player->getRemoveTimes());
 	const auto decision = bosstiary_slot_rules::decide(state, slotId, selectedBossId);
 	if (decision.change == bosstiary_slot_rules::SlotChange::Refused) {
 		g_metrics().addCounter("bosstiary_slot_requests_rejected", 1, { { "reason", std::string(decision.reason) } });
@@ -2928,6 +2928,9 @@ void Game::playerBosstiarySlot(uint32_t playerId, uint8_t slotId, uint32_t selec
 			return;
 		}
 		g_metrics().addCounter("balance_decrease", decision.price, { { "player", player->getName() }, { "context", "bosstiary_remove" } });
+	}
+	// The free change counts too (only paid ones used to, so every change stayed free).
+	if (decision.countsAsChange) {
 		player->addRemoveTime();
 	}
 

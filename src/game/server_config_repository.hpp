@@ -67,9 +67,10 @@ public:
 
 	/// The boosted boss of the day as stored (`boosted_boss`, a single row).
 	[[nodiscard]] virtual std::optional<BoostedCreatureRecord> loadBoostedBoss() = 0;
-	/// Stores a new boosted boss and takes it out of every player's Bosstiary slots, as upstream did (Tibia's
-	/// manual does not say what happens to a slot boss that becomes the boosted one), in one transaction;
-	/// `look` is empty when the boss has no monster type.
+	/// Starts a new Bosstiary day, in one transaction: stores the new boosted boss, takes it out of every
+	/// player's slots, as upstream did (Tibia's manual does not say what happens to a slot boss that becomes
+	/// the boosted one), and makes every player's next slot change free again (`removeTimes` back to 1:
+	/// bosstiary_slot_rules::removalPrice). `look` is empty when the boss has no monster type.
 	[[nodiscard]] virtual bool storeBoostedBoss(const BoostedCreatureRecord &boss, const std::optional<BoostedBossLook> &look) = 0;
 };
 

@@ -71,9 +71,8 @@ bool ServerConfigRepositoryDB::storeBoostedBoss(const BoostedCreatureRecord &bos
 	// Upstream ran these as three statements: the slots could be released, or not, apart from the boss.
 	return db.commitStatements({
 		std::move(update),
-		fmt::format(
-			"UPDATE `player_bosstiary` SET `bossIdSlotOne` = IF(`bossIdSlotOne` = {0}, 0, `bossIdSlotOne`), `bossIdSlotTwo` = IF(`bossIdSlotTwo` = {0}, 0, `bossIdSlotTwo`) WHERE `bossIdSlotOne` = {0} OR `bossIdSlotTwo` = {0}",
-			boss.raceId
-		),
+		fmt::format("UPDATE `player_bosstiary` SET `bossIdSlotOne` = IF(`bossIdSlotOne` = {0}, 0, `bossIdSlotOne`), `bossIdSlotTwo` = IF(`bossIdSlotTwo` = {0}, 0, `bossIdSlotTwo`) WHERE `bossIdSlotOne` = {0} OR `bossIdSlotTwo` = {0}", boss.raceId),
+		// Tibia: one free change after each server save; the boss of the day is drawn then.
+		"UPDATE `player_bosstiary` SET `removeTimes` = 1 WHERE `removeTimes` <> 1",
 	});
 }

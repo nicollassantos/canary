@@ -260,13 +260,6 @@ uint8_t IOBosstiary::getBossCurrentLevel(const std::shared_ptr<Player> &player, 
 	return level;
 }
 
-uint32_t IOBosstiary::calculteRemoveBoss(uint8_t removeTimes) const {
-	if (removeTimes < 2) {
-		return 0;
-	}
-	return 300000 * removeTimes - 500000;
-}
-
 const std::vector<LevelInfo> &IOBosstiary::getBossRaceKillStages(BosstiaryRarity_t race) const {
 	auto it = levelInfos.find(race);
 	if (it != levelInfos.end()) {
