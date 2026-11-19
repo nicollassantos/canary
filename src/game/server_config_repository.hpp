@@ -65,7 +65,8 @@ public:
 	[[nodiscard]] virtual std::optional<BoostedCreatureRecord> loadBoostedCreature() = 0;
 	[[nodiscard]] virtual bool storeBoostedCreature(const BoostedCreatureRecord &creature, const BoostedCreatureLook &look) = 0;
 
-	/// The boosted boss of the day as stored (`boosted_boss`, a single row).
+	/// The boosted boss of the day as stored (`boosted_boss`, a single row; `date` is the day of the month
+	/// of its server save, IOBosstiary::bossDay).
 	[[nodiscard]] virtual std::optional<BoostedCreatureRecord> loadBoostedBoss() = 0;
 	/// Starts a new Bosstiary day, in one transaction: stores the new boosted boss, takes it out of every
 	/// player's slots, as upstream did (Tibia's manual does not say what happens to a slot boss that becomes
