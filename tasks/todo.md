@@ -487,3 +487,12 @@
   Custo quadrático no número de pilhas (cada pilha procura onde empilhar). Num player real o teto é a capacidade e os espaços dos containers; o que não cabe volta ao banco (upstream #3692). Se o `[PacketWatch]` mostrar `!withdraw` lento em produção, reavaliar
 - [x] **CHECKPOINT 26** — 2026-11-17: 26.1–26.12 feitas; ut 1021/1021, it 90/90, `syntax_check` 0 erros nos `.cpp` tocados; harnesses Lua (freequests, oasis, store balance/parsers/name, reward) passam e os novos falham no upstream; `duplicate_keys_check` 0 em 3023 arquivos; smoke com data-otservbr-global e o mapa do checkout principal (banco descartável, apagado): online, login 8.60 + takeover OK, `afterEnter` de zona com `changeSpeed` dispara no login, uids/aids da 26.6/26.8 no lugar, exit 0, único erro o `nosuchaccount` esperado. Preset de métricas não rodado (nada de métricas mudou). #4091/#4057 só registradas (edição de mapa no RME, decisão do usuário). Achados de ferramenta: `tools/merge/syntax_check.sh` saía 141 sem checar nada (corrigido); o boot regenera `docs/lua-api/*` com a assinatura nova de `getNormalizedPlayerName` (drift da 23.5b, não commitado aqui)
   - Merge com a `solid` (`58c0b2202`, Phase 25 de load test): conflito em `Game::loadItemsPrice` (consulta `loadBestOfferPrices` da solid + reenvio em lotes) e nos docs (esta fase renumerada para 26); ut 1041/1041, it 95/95, `syntax_check` 0, harnesses Lua e `duplicate_keys_check` 0, smoke com login 8.60 e sondas ok
+
+## Phase 27 — PRs abertas do upstream (#4102, #4184) (aberta em 2026-11-19; plano em `tasks/plan.md`)
+
+- [ ] **27.1** — #4102 núcleo `directory_creation` + gtest
+- [ ] **27.2** — #4102 binding `fsCreateDirectories`, `fs.lua`, `tests/lua/test_fs.lua`
+- [ ] **27.3** — #4184 capacidade da entrega de casa
+- [ ] **27.4** — #4184 entrega tudo ou nada (rollback)
+- [ ] **CHECKPOINT 27**
+- #4183 (Grave Danger): ignorada (decisão do usuário, 2026-11-19); veredito no `plan.md`

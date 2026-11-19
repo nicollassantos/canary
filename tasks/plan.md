@@ -660,3 +660,37 @@ it, commit próprio e linha no §5b do `tasks/AGENTS.md` quando tocar arquivo do
 - **26.11** — Verificação do grupo decidível: #3584/#3426 (campo/bomba), #3745 (aljava), #2553/#3549 (hazard), #3059 (`/n`).
 - **26.12** — #3374 medir o saque grande e pôr teto (valor escolhido pelo usuário).
 - **CHECKPOINT 26** — build, ut/it, preset de métricas, smoke boot com data-otservbr-global.
+
+## Phase 27 (aberta em 2026-11-19): PRs abertas do upstream (#4102, #4184)
+
+Pedido do usuário (2026-11-19): verificar se as PRs #4183, #4184 e #4102 do `opentibiabr/canary` são pertinentes e
+se já existem aqui; implementar e testar as pertinentes, mantendo o padrão da branch. Nenhuma das três entrou no
+upstream (`main` ainda em `666a60f6f`). Worktree `canary-upstream-prs` (branch `nicollassantos/upstream-prs`, saída
+da `solid` em `b20d80830`).
+
+Decisão do usuário: **#4183 (Grave Danger) ignorada**. Motivo do veredito: contraria o §6e ("siga a wiki": a PR mantém
+Count Vlarkorth com 75000 de vida, o wiki e a branch têm 300000; põe 300000/150000 em Earl Osam/Sir Nictros, que o
+wiki marca `?`), é aproximação declarada (~86%), sem validação em jogo e depende de uma API de mundos que não temos.
+Do #4184 só entram as correções de bug; o conteúdo (bundles, 179 ofertas de casa, `items.xml`, imagens externas,
+binding `hasOutfit`) espera o merge do upstream. `kit:setOwner(player)` (kit preso ao comprador) fica fora: muda
+regra de jogo sem fonte.
+
+Arquitetura: binding Lua e scripts do store são adaptadores finos; a lógica nova vai para unidade pequena com teste.
+Sem porta de filesystem (um só ponto de uso, não pagaria com teste). Nomes e contrato das PRs mantidos
+(`fsCreateDirectories`, `FS.mkdir`) para o merge com o upstream sair limpo.
+
+### Tasks
+
+- **27.1** — #4102 núcleo: `src/utils/directory_creation.{hpp,cpp}` (`createDirectories(path)` → erro opcional;
+  `std::filesystem::create_directories` com `error_code` e a exceção da conversão do caminho capturada, item aberto
+  da revisão do upstream) + gtest em diretório temporário (aninhado, já existe, nomes com metacaracteres de shell,
+  arquivo no caminho, byte inválido). CMake, vcxproj, lista de testes.
+- **27.2** — #4102 Lua: `fsCreateDirectories` em `global_functions.cpp` só chamando o núcleo; `fs.lua` e
+  `tests/lua/test_fs.lua` da PR (com reload do core); o teste falha contra o `fs.lua` atual; smoke cria
+  `reports/bugs/<nome>/`.
+- **27.3** — #4184 capacidade: `processHouseRelatedPurchase` passava a quantidade como id ao
+  `canReceiveStoreItems` (checava 1 vaga com 36 ofertas entregando mais de um kit). Teste que falha antes em
+  `tests/lua/test_gamestore_furniture_deliveries.lua`: 5 kits com 3 vagas → recusa, nada entregue, nada cobrado.
+- **27.4** — #4184 tudo ou nada: kit que falha remove os já criados; pagamento que falha depois da entrega desfaz a
+  entrega (handler devolve `rollback`). Testes: falha no meio, pagamento falho, compra normal.
+- **CHECKPOINT 27** — build, ut/it, `syntax_check`, `luajit tests/lua/test_*.lua`, harnesses de `tools/lua`, smoke.
