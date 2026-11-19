@@ -492,6 +492,8 @@ void CanaryServer::initializeDatabase() {
 	DatabaseManager::updateDatabase();
 	// Fork indexes, added after upstream's numbered migrations (idempotent, see schema_hardening.hpp).
 	schema_hardening::ensureIndexes(Database::getInstance(), g_configManager().getString(MYSQL_DB));
+	// Upstream integer columns widened in place (ip_bans.ip overflowed; IPv6), also idempotent.
+	schema_hardening::widenColumns(Database::getInstance(), g_configManager().getString(MYSQL_DB));
 	// Asynchronous queries get their own connections (closed in shutdown, after the thread pool).
 	g_databaseTasks().startConnectionPool(static_cast<size_t>(std::max(0, g_configManager().getNumber(DATABASE_TASK_CONNECTIONS))));
 	// Logout saves get their own, so slow asynchronous queries cannot hold one past PlayerSaveBarrier::MaxWait.
