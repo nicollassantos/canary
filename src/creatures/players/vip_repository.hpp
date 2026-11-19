@@ -34,6 +34,9 @@ public:
 	[[nodiscard]] virtual std::vector<VIPEntry> getVIPEntries(uint32_t accountId) = 0;
 	virtual void addVIPEntry(uint32_t accountId, uint32_t guid, const std::string &description, uint32_t icon, bool notify) = 0;
 	virtual void editVIPEntry(uint32_t accountId, uint32_t guid, const std::string &description, uint32_t icon, bool notify) = 0;
+	/// The entry's fields and its whole group list in one write (one transaction): editing an entry from the
+	/// client used to be an UPDATE, a DELETE and one INSERT per group, each with its own commit.
+	virtual void replaceVIPEntry(uint32_t accountId, uint32_t guid, const std::string &description, uint32_t icon, bool notify, const std::vector<uint8_t> &groupIds) = 0;
 	virtual void removeVIPEntry(uint32_t accountId, uint32_t guid) = 0;
 
 	[[nodiscard]] virtual std::vector<VIPGroupEntry> getVIPGroupEntries(uint32_t accountId, uint32_t guid) = 0;

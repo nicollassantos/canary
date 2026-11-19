@@ -53,6 +53,16 @@ public:
 		entries[{ accountId, guid }] = Entry { description, icon, notify };
 	}
 
+	void replaceVIPEntry(uint32_t accountId, uint32_t guid, const std::string &description, uint32_t icon, bool notify, const std::vector<uint8_t> &groupIds) override {
+		++replaceCalls;
+		entries[{ accountId, guid }] = Entry { description, icon, notify };
+		removeGuidVIPGroupEntry(accountId, guid);
+		for (const auto groupId : groupIds) {
+			groupMembers.insert({ accountId, guid, groupId });
+		}
+		lastReplacedGroups = groupIds;
+	}
+
 	void removeVIPEntry(uint32_t accountId, uint32_t guid) override {
 		entries.erase({ accountId, guid });
 	}
@@ -105,6 +115,10 @@ public:
 		return groupMembers.contains({ accountId, guid, groupId });
 	}
 
+
+	/// Calls of replaceVIPEntry, and the group list of the last one.
+	size_t replaceCalls = 0;
+	std::vector<uint8_t> lastReplacedGroups;
 private:
 	std::map<std::pair<uint32_t, uint32_t>, Entry> entries;
 	std::map<std::pair<uint8_t, uint32_t>, Group> groups;

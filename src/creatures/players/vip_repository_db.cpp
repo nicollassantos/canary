@@ -136,6 +136,33 @@ void VipRepositoryDB::removeVIPGroupEntry(uint8_t groupId, uint32_t accountId) {
 	std::ignore = db_.executeQuery(query);
 }
 
+void VipRepositoryDB::replaceVIPEntry(uint32_t accountId, uint32_t guid, const std::string &description, uint32_t icon, bool notify, const std::vector<uint8_t> &groupIds) {
+	std::vector<std::string> statements;
+	statements.emplace_back(fmt::format(
+		"UPDATE `account_viplist` SET `description` = {}, `icon` = {}, `notify` = {} WHERE `account_id` = {} AND `player_id` = {}",
+		db_.escapeString(description),
+		icon,
+		notify,
+		accountId,
+		guid
+	));
+	statements.emplace_back(fmt::format("DELETE FROM `account_vipgrouplist` WHERE `account_id` = {} AND `player_id` = {}", accountId, guid));
+	if (!groupIds.empty()) {
+		// IGNORE: a group id with no row in account_vipgroups is skipped, as the one-INSERT-per-group code
+		// did, instead of failing the whole edit. That happens today: PlayerVIP::addGroupInternal numbers
+		// the loaded groups 1, 2, 3... while the default groups get account_vipgroups' global AUTO_INCREMENT
+		// ids from the account trigger (upstream bug, reported to the user).
+		std::string insert = "INSERT IGNORE INTO `account_vipgrouplist` (`account_id`, `player_id`, `vipgroup_id`) VALUES ";
+		for (size_t index = 0; index < groupIds.size(); ++index) {
+			insert += fmt::format("{}({}, {}, {})", index == 0 ? "" : ", ", accountId, guid, groupIds[index]);
+		}
+		statements.emplace_back(std::move(insert));
+	}
+	if (!db_.commitStatements(statements)) {
+		g_logger().error("Failed to replace VIP entry for account {} and player {}", accountId, guid);
+	}
+}
+
 void VipRepositoryDB::addGuidVIPGroupEntry(uint8_t groupId, uint32_t accountId, uint32_t guid) {
 	const std::string query = fmt::format(
 		"INSERT INTO `account_vipgrouplist` (`account_id`, `player_id`, `vipgroup_id`) VALUES ({}, {}, {})",

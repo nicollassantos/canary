@@ -132,4 +132,45 @@ namespace it_vip_repo_db {
 		})();
 	}
 
+	// replaceVIPEntry commits its own transaction, so it cannot run inside databaseTest's BEGIN/ROLLBACK
+	// (MySQL would commit that one): the rows it writes are deleted at the end instead.
+	TEST(VipRepositoryDBTest, ReplaceWritesTheEntryAndExactlyTheGivenGroups) {
+		auto &db = g_database();
+		TestDatabase::init();
+		const auto fixture = createAccountAndFriend(db);
+		VipRepositoryDB repository(db);
+		const auto first = freeGroupId(repository, fixture.accountId);
+		repository.addVIPGroupEntry(first, fixture.accountId, "First", true);
+		const auto second = freeGroupId(repository, fixture.accountId);
+		repository.addVIPGroupEntry(second, fixture.accountId, "Second", true);
+		repository.addVIPEntry(fixture.accountId, fixture.friendGuid, "old", 1, false);
+		repository.addGuidVIPGroupEntry(first, fixture.accountId, fixture.friendGuid);
+
+		repository.replaceVIPEntry(fixture.accountId, fixture.friendGuid, "O'Brien's note", 4, true, { second });
+
+		const auto entries = repository.getVIPEntries(fixture.accountId);
+		ASSERT_EQ(1U, entries.size());
+		EXPECT_EQ("O'Brien's note", entries.front().description);
+		EXPECT_EQ(4U, entries.front().icon);
+		EXPECT_TRUE(entries.front().notify);
+		EXPECT_EQ(1U, groupMemberships(db, fixture.accountId, fixture.friendGuid));
+		const auto inSecond = db.storeQuery(fmt::format("SELECT COUNT(*) AS `count` FROM `account_vipgrouplist` WHERE `account_id` = {} AND `player_id` = {} AND `vipgroup_id` = {}", fixture.accountId, fixture.friendGuid, second));
+		ASSERT_NE(nullptr, inSecond);
+		EXPECT_EQ(1U, inSecond->getNumber<uint64_t>("count"));
+
+		repository.replaceVIPEntry(fixture.accountId, fixture.friendGuid, "", 0, false, {});
+		EXPECT_EQ(0U, groupMemberships(db, fixture.accountId, fixture.friendGuid));
+
+		// A group id with no row for this account is skipped; the rest of the edit is kept.
+		repository.replaceVIPEntry(fixture.accountId, fixture.friendGuid, "kept", 2, false, { 250, first });
+		EXPECT_EQ("kept", repository.getVIPEntries(fixture.accountId).front().description);
+		EXPECT_EQ(1U, groupMemberships(db, fixture.accountId, fixture.friendGuid));
+
+		for (const auto *table : { "account_vipgrouplist", "account_viplist", "account_vipgroups" }) {
+			EXPECT_TRUE(db.executeQuery(fmt::format("DELETE FROM `{}` WHERE `account_id` = {}", table, fixture.accountId)));
+		}
+		EXPECT_TRUE(db.executeQuery(fmt::format("DELETE FROM `players` WHERE `account_id` = {}", fixture.accountId)));
+		EXPECT_TRUE(db.executeQuery(fmt::format("DELETE FROM `accounts` WHERE `id` = {}", fixture.accountId)));
+	}
+
 } // namespace it_vip_repo_db

@@ -22,6 +22,7 @@ public:
 	[[nodiscard]] std::vector<VIPEntry> getVIPEntries(uint32_t accountId) override;
 	void addVIPEntry(uint32_t accountId, uint32_t guid, const std::string &description, uint32_t icon, bool notify) override;
 	void editVIPEntry(uint32_t accountId, uint32_t guid, const std::string &description, uint32_t icon, bool notify) override;
+	void replaceVIPEntry(uint32_t accountId, uint32_t guid, const std::string &description, uint32_t icon, bool notify, const std::vector<uint8_t> &groupIds) override;
 	void removeVIPEntry(uint32_t accountId, uint32_t guid) override;
 
 	[[nodiscard]] std::vector<VIPGroupEntry> getVIPGroupEntries(uint32_t accountId, uint32_t guid) override;

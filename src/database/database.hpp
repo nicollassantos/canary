@@ -61,6 +61,8 @@ public:
 
 	std::string escapeBlob(const char* s, uint32_t length) const override;
 
+	[[nodiscard]] bool commitStatements(const std::vector<std::string> &statements) override;
+
 	uint64_t getLastInsertId() const override {
 		return static_cast<uint64_t>(mysql_insert_id(handle));
 	}

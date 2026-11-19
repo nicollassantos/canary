@@ -12,6 +12,7 @@
 #include "config/configmanager.hpp"
 #include "lib/di/container.hpp"
 #include "database/query_recorder.hpp"
+#include "database/databasetasks.hpp"
 #include "lib/metrics/metrics.hpp"
 #include "utils/tools.hpp"
 
@@ -633,4 +634,10 @@ bool DBInsert::execute() {
 	values.clear();
 	length = this->query.length();
 	return true;
+}
+
+bool Database::commitStatements(const std::vector<std::string> &statements) {
+	// Through the transaction API (DatabaseTasks::tryCommit): a lost connection fails the rest instead of
+	// autocommitting it, and a deadlock victim runs once more.
+	return DatabaseTasks::commitStatements(*this, statements);
 }

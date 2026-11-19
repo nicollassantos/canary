@@ -13,6 +13,7 @@
 #include <memory>
 #include <string>
 #include <string_view>
+#include <vector>
 
 class DBResult;
 using DBResult_ptr = std::shared_ptr<DBResult>;
@@ -32,6 +33,9 @@ public:
 	[[nodiscard]] virtual std::string escapeString(const std::string &s) const = 0;
 	[[nodiscard]] virtual std::string escapeBlob(const char* s, uint32_t length) const = 0;
 	[[nodiscard]] virtual uint64_t getLastInsertId() const = 0;
+	/// Runs the statements in one transaction: one commit, so one disk flush instead of one per statement.
+	/// False when any of them failed, and then none of them stays.
+	[[nodiscard]] virtual bool commitStatements(const std::vector<std::string> &statements) = 0;
 };
 
 // g_database is defined in database.hpp pointing to Database::getInstance.

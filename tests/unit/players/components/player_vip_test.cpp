@@ -218,6 +218,36 @@ TEST_F(PlayerVIPPersistenceTest, EditPersistsDescriptionAndGroups) {
 	EXPECT_TRUE(repository->isGroupMember(kAccountId, 500, group->id));
 }
 
+// A crafted edit lists up to 255 group ids: one write, each existing group once, and the entry leaves the
+// groups it is no longer in (in memory too).
+TEST_F(PlayerVIPPersistenceTest, EditWritesOnceWithEachExistingGroupOnce) {
+	player->setFlag(PlayerFlags_t::IsAlwaysPremium);
+	player->vip().addGroup("Friends");
+	player->vip().addGroup("Hunters");
+	ASSERT_TRUE(player->vip().add(500, "Friend", VipStatus_t::Offline));
+	const auto friends = player->vip().getGroupByName("Friends");
+	const auto hunters = player->vip().getGroupByName("Hunters");
+	ASSERT_NE(nullptr, friends);
+	ASSERT_NE(nullptr, hunters);
+
+	std::vector<uint8_t> crafted;
+	for (int id = 0; id < 255; ++id) {
+		crafted.emplace_back(static_cast<uint8_t>(id));
+	}
+	crafted.emplace_back(friends->id);
+	ASSERT_TRUE(player->vip().edit(500, "note", 1, false, crafted));
+	EXPECT_EQ(1U, repository->replaceCalls);
+	EXPECT_EQ(player->vip().getGroups().size(), repository->lastReplacedGroups.size()); // every existing group, once
+
+	ASSERT_TRUE(player->vip().edit(500, "note", 1, false, { hunters->id }));
+	EXPECT_EQ(2U, repository->replaceCalls);
+	EXPECT_EQ(std::vector<uint8_t> { hunters->id }, repository->lastReplacedGroups);
+	EXPECT_FALSE(friends->vipGroupGuids.contains(500));
+	EXPECT_TRUE(hunters->vipGroupGuids.contains(500));
+	EXPECT_FALSE(repository->isGroupMember(kAccountId, 500, friends->id));
+	EXPECT_TRUE(repository->isGroupMember(kAccountId, 500, hunters->id));
+}
+
 TEST(PlayerVIPNoAccountTest, EditWithoutAccountDoesNotDereferenceAccount) {
 	auto* previous = DI::getTestContainer();
 	di::extension::injector<> injector {};

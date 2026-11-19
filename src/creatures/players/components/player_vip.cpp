@@ -109,20 +109,25 @@ bool PlayerVIP::edit(uint32_t vipGuid, const std::string &description, uint32_t 
 		return false; // player is not in VIP
 	}
 
-	if (m_player.account) {
-		// account_viplist.description is varchar(128); the text comes straight from the packet.
-		g_vipRepository().editVIPEntry(m_player.account->getID(), vipGuid, description.substr(0, MaxTextLength), icon, notify);
-		g_vipRepository().removeGuidVIPGroupEntry(m_player.account->getID(), vipGuid);
+	// The packet lists up to 255 group ids: keep each existing group once. The entry then belongs to exactly
+	// these groups, in memory as in the database (the old groups used to keep it until the next login).
+	std::vector<uint8_t> groups;
+	for (const auto &groupId : groupsId) {
+		if (getGroupByID(groupId) && std::ranges::find(groups, groupId) == groups.end()) {
+			groups.emplace_back(groupId);
+		}
+	}
+	for (const auto &group : vipGroups) {
+		group->vipGroupGuids.erase(vipGuid);
+	}
+	for (const auto &groupId : groups) {
+		getGroupByID(groupId)->vipGroupGuids.insert(vipGuid);
 	}
 
-	for (const auto &groupId : groupsId) {
-		const auto &group = getGroupByID(groupId);
-		if (group) {
-			group->vipGroupGuids.insert(vipGuid);
-			if (m_player.account) {
-				g_vipRepository().addGuidVIPGroupEntry(group->id, m_player.account->getID(), vipGuid);
-			}
-		}
+	if (m_player.account) {
+		// account_viplist.description is varchar(128); the text comes straight from the packet. One
+		// transaction: the UPDATE, the DELETE and one INSERT per group each committed (and flushed) alone.
+		g_vipRepository().replaceVIPEntry(m_player.account->getID(), vipGuid, description.substr(0, MaxTextLength), icon, notify, groups);
 	}
 
 	return true;
