@@ -78,18 +78,18 @@ uint16_t IOBosstiary::bossDay(const std::tm &nowLocal, ServerSaveTime save) {
 	return static_cast<uint16_t>(static_cast<unsigned>(previous.day()));
 }
 
-void IOBosstiary::loadBoostedBoss() {
+std::optional<uint16_t> IOBosstiary::loadBoostedBoss() {
 	auto &repository = IServerConfigRepository::getInstance();
 	const auto stored = repository.loadBoostedBoss();
 	if (!stored) {
 		g_logger().error("[{}] Failed to detect boosted boss database. (CODE 01)", __FUNCTION__);
-		return;
+		return std::nullopt;
 	}
 
 	const auto &bossMap = getBosstiaryMap();
 	if (bossMap.size() <= 1) {
 		g_logger().error("[{}] It is not possible to create a boosted boss with only one registered boss. (CODE 02)", __FUNCTION__);
-		return;
+		return std::nullopt;
 	}
 
 	const auto saveTimeText = g_configManager().getString(GLOBAL_SERVER_SAVE_TIME);
@@ -117,7 +117,7 @@ void IOBosstiary::loadBoostedBoss() {
 	});
 	if (!choice) {
 		g_logger().error("Failed to boost a boss. There is no boss registered with the Archfoe Rarity.");
-		return;
+		return std::nullopt;
 	}
 
 	if (choice->isNew) {
@@ -128,13 +128,17 @@ void IOBosstiary::loadBoostedBoss() {
 		}
 		if (!repository.storeBoostedBoss(choice->boss, look)) {
 			g_logger().error("[{}] Failed to store the boosted boss and release it from the players' slots. (CODE 03)", __FUNCTION__);
-			return;
+			return std::nullopt;
 		}
 	}
 
 	setBossBoostedName(choice->boss.name);
 	setBossBoostedId(choice->boss.raceId);
 	g_logger().info("Boosted boss: {}", choice->boss.name);
+	if (!choice->isNew) {
+		return std::nullopt;
+	}
+	return choice->boss.raceId;
 }
 
 void IOBosstiary::addBosstiaryMonster(uint16_t raceId, const std::string &name) {

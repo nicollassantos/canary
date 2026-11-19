@@ -2937,6 +2937,27 @@ void Game::playerBosstiarySlot(uint32_t playerId, uint8_t slotId, uint32_t selec
 	player->setSlotBossId(slotId, decision.change == bosstiary_slot_rules::SlotChange::Assign ? selectedBossId : 0);
 }
 
+void Game::refreshBoostedBoss() {
+	const auto newBoss = g_ioBosstiary().loadBoostedBoss();
+	if (!newBoss) {
+		return;
+	}
+	// After the stored players: one saved in between keeps the old count until its next save. A logout save
+	// still running can also write its old count back (a few seconds around the server save).
+	for (const auto &[playerId, player] : players) {
+		const auto before = bosstiary_slot_rules::PlayerSlots { player->getSlotBossId(1), player->getSlotBossId(2), player->getRemoveTimes() };
+		const auto after = bosstiary_slot_rules::startDay(before, *newBoss);
+		player->setRemoveBossTime(after.removeTimes);
+		// setSlotBossId resends the slots window: only for a slot that changed.
+		if (after.slotOne != before.slotOne) {
+			player->setSlotBossId(1, after.slotOne);
+		}
+		if (after.slotTwo != before.slotTwo) {
+			player->setSlotBossId(2, after.slotTwo);
+		}
+	}
+}
+
 void Game::playerSetMonsterPodium(uint32_t playerId, uint32_t monsterRaceId, const Position &pos, uint8_t stackPos, const uint16_t itemId, uint8_t direction, const std::pair<uint8_t, uint8_t> &podiumAndMonsterVisible) {
 	m_outfitService->playerSetMonsterPodium(playerId, monsterRaceId, pos, stackPos, itemId, direction, podiumAndMonsterVisible);
 }

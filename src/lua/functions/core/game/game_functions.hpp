@@ -77,6 +77,7 @@ private:
 	static int luaGameGetFiendishMonsters(lua_State* L);
 
 	static int luaGameGetBoostedBoss(lua_State* L);
+	static int luaGameRefreshBoostedBoss(lua_State* L);
 
 	static int luaGameGetLadderIds(lua_State* L);
 	static int luaGameGetDummies(lua_State* L);

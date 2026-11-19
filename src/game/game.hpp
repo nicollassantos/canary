@@ -598,6 +598,11 @@ public:
 	const phmap::parallel_flat_hash_map<uint32_t, std::shared_ptr<Guild>> &getGuilds() const {
 		return guilds;
 	}
+	/// At every server save (global_server_save.lua): when the boss day changed, the new boosted boss is drawn
+	/// and stored (IOBosstiary::loadBoostedBoss), and each online player starts the day as the stored ones did
+	/// (bosstiary_slot_rules::startDay). Without it the boss changed only when the server was started.
+	void refreshBoostedBoss();
+
 	const phmap::parallel_flat_hash_map<uint32_t, std::shared_ptr<Player>> &getPlayers() const {
 		return players;
 	}

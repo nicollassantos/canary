@@ -42,6 +42,17 @@ namespace bosstiary_slot_rules {
 		return 300'000U * removeTimes - 500'000U;
 	}
 
+	PlayerSlots startDay(PlayerSlots slots, uint32_t boostedBossId) {
+		if (slots.slotOne == boostedBossId) {
+			slots.slotOne = 0;
+		}
+		if (slots.slotTwo == boostedBossId) {
+			slots.slotTwo = 0;
+		}
+		slots.removeTimes = 1;
+		return slots;
+	}
+
 	uint16_t slotLootBonus(uint16_t pointsBonus, uint8_t bossLevel) {
 		return pointsBonus + (bossLevel == MasteryLevel ? MasteryLootBonus : 0);
 	}

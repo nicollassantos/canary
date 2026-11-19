@@ -47,8 +47,10 @@ public:
 	static IOBosstiary &getInstance();
 
 	/// The boss of the day, through IServerConfigRepository: today's stored one, or a new one chosen with
-	/// chooseBoostedBoss, stored and taken out of every player's slots. The day is bossDay's.
-	void loadBoostedBoss();
+	/// chooseBoostedBoss, stored and taken out of every player's slots. The day is bossDay's. At boot and at
+	/// every server save (Game::refreshBoostedBoss). Returns the race id of a newly drawn boss, after it was
+	/// stored; nullopt when today's stays or none could be stored (the boss in memory is then unchanged).
+	std::optional<uint16_t> loadBoostedBoss();
 
 	/// globalServerSaveTime: "HH:MM" or "HH:MM:SS".
 	struct ServerSaveTime {

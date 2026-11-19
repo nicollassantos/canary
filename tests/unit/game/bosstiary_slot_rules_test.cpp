@@ -121,3 +121,17 @@ TEST(BosstiarySlotRulesTest, AMasteredSlotBossAddsTwentyFivePercent) {
 	EXPECT_EQ(55, bosstiary_slot_rules::slotLootBonus(30, bosstiary_slot_rules::MasteryLevel));
 	EXPECT_EQ(25, bosstiary_slot_rules::slotLootBonus(0, 3));
 }
+
+// At a server save (boot or Game::refreshBoostedBoss): the new boosted boss leaves the slots and the next
+// change is free again, as storeBoostedBoss does for the stored players.
+TEST(BosstiarySlotRulesTest, ANewBossDayFreesTheBoostedBossesSlotAndTheNextChange) {
+	const auto day = bosstiary_slot_rules::startDay({ 101, Boosted, 4 }, Boosted);
+	EXPECT_EQ(101U, day.slotOne);
+	EXPECT_EQ(0U, day.slotTwo);
+	EXPECT_EQ(1, day.removeTimes);
+
+	const auto untouched = bosstiary_slot_rules::startDay({ 101, 102, 1 }, Boosted);
+	EXPECT_EQ(101U, untouched.slotOne);
+	EXPECT_EQ(102U, untouched.slotTwo);
+	EXPECT_EQ(1, untouched.removeTimes);
+}

@@ -61,6 +61,18 @@ namespace bosstiary_slot_rules {
 	/// (IServerConfigRepository::storeBoostedBoss sets it back to 1).
 	uint32_t removalPrice(uint8_t removeTimes);
 
+	/// One player's slots and change count (player_bosstiary).
+	struct PlayerSlots {
+		uint32_t slotOne = 0;
+		uint32_t slotTwo = 0;
+		uint8_t removeTimes = 1;
+	};
+
+	/// A player's Bosstiary at the start of a boss day (Game::refreshBoostedBoss for online players;
+	/// IServerConfigRepository::storeBoostedBoss does the same in the database): the new boosted boss leaves
+	/// the slots, as upstream did, and the next change is free again.
+	PlayerSlots startDay(PlayerSlots slots, uint32_t boostedBossId);
+
 	/// Bosses the slots window offers: unlocked, not today's boosted one (it has its own slot) and not in a
 	/// slot already, in the order given. Exactly the bosses `decide` assigns to an empty open slot.
 	std::vector<uint16_t> selectableBosses(const SlotState &state);
