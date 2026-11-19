@@ -106,8 +106,10 @@ def main():
     gap = 1.0 / args.rate
     reconnects = {}
     recent = []
-    def report(kind, opcode):
+    def report(kind, opcode, suspect=None):
         dump = {"problem": kind, "opcode": f"0x{opcode:02X}", "last_payloads": recent}
+        if suspect is not None:
+            dump["first_unprocessed_payload"] = suspect
         with open(os.path.join(ROOT, "build", "loadtest", "opcode_sweep_last.json"), "w") as out:
             json.dump(dump, out, indent=2)
         print(f"{kind} after opcode 0x{opcode:02X}; last payloads in build/loadtest/opcode_sweep_last.json")
@@ -115,6 +117,7 @@ def main():
     for opcode in opcodes:
         start = processed(opcode)
         sent = 0
+        sent_payloads = []
         payloads = boundary_payloads(opcode) + [bytes([opcode]) + rng.randbytes(rng.randint(0, args.max_payload)) for _ in range(args.per_opcode)]
         for payload in payloads:
             recent = (recent + [payload.hex()])[-10:]
@@ -128,8 +131,10 @@ def main():
                 time.sleep(0.5)
                 start = processed(opcode)
                 sent = 0
+                sent_payloads = []
                 continue
             sent += 1
+            sent_payloads.append(payload.hex())
             time.sleep(gap)
         # Every packet goes through packet_watch, which counts it once it is done. A count that stops short of
         # what was sent, with the connection still open, means the dispatcher is stuck in one of them.
@@ -140,7 +145,8 @@ def main():
             if now_count != last:
                 last, last_change = now_count, time.monotonic()
         if last - start < sent and not connection.closed.is_set():
-            report("DISPATCHER HANG", opcode)
+            # Packets are processed in order: the first one not counted is where the dispatcher is stuck.
+            report("DISPATCHER HANG", opcode, sent_payloads[int(last - start)])
             return 3
     time.sleep(1.5)
     connection.logout()
