@@ -23,9 +23,11 @@
 	<!-- Cults of Tibia -->
 	<module type="recvbyte" byte="15" script="cults_of_tibia/death.lua" />
 
-	<!-- Daily Reward Wall -->
-	<module type="recvbyte" byte="216" script="daily_reward/daily_reward.lua" />
-	<module type="recvbyte" byte="217" script="daily_reward/daily_reward.lua" />
+	<!-- Daily Reward Wall. Opening the wall (216, about 1 ms of the game thread) and the history (217, a
+	     database query the game thread waits for) answer one packet per 500 ms per player; later ones are
+	     dropped. Selecting the reward (218) has no delay: a claim is never dropped. -->
+	<module type="recvbyte" byte="216" delay="500" script="daily_reward/daily_reward.lua" />
+	<module type="recvbyte" byte="217" delay="500" script="daily_reward/daily_reward.lua" />
 	<module type="recvbyte" byte="218" script="daily_reward/daily_reward.lua" />
 
 	<!-- Hireling Outfit Helper -->
