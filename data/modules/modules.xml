@@ -13,8 +13,9 @@
 	<!-- Quest Tracking -->
 	<module type="recvbyte" byte="208" script="questtrack/questtrack.lua"/>
 
-	<!-- Task Board official packet module -->
-	<module type="recvbyte" byte="95" script="taskboard/taskboard.lua"/>
+	<!-- Task Board official packet module. Each action saves the board and resends the whole window
+	     (about 0.55 ms of the game thread): one per 250 ms per player, later ones are dropped. -->
+	<module type="recvbyte" byte="95" delay="250" script="taskboard/taskboard.lua"/>
 
 	<!-- Soulpit selection is owned by the Task Board module -->
 	<module type="recvbyte" byte="186" script="taskboard/taskboard.lua"/>

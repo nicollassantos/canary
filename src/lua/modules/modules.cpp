@@ -11,6 +11,7 @@
 
 #include "creatures/players/player.hpp"
 #include "game/game.hpp"
+#include "lib/metrics/metrics.hpp"
 
 Modules::Modules() :
 	scriptInterface("Modules Interface") {
@@ -94,8 +95,11 @@ bool Modules::executeOnRecvbyte(const std::shared_ptr<Player> &player, NetworkMe
 	if (!modulePtr || modulePtr->getEventType() != MODULE_TYPE_RECVBYTE) {
 		return false;
 	}
+	// A packet inside the module's delay is dropped, not handed back: the byte belongs to the module, and
+	// the protocol's own switch would parse it as something else (0xBA is the old task hunting action).
 	if (!player->canRunModule(modulePtr->getRecvbyte())) {
-		return false;
+		g_metrics().addCounter("module_packets_throttled", 1, { { "opcode", fmt::format("0x{:02X}", byte) } });
+		return true;
 	}
 
 	player->setModuleDelay(modulePtr->getRecvbyte(), modulePtr->getDelay());

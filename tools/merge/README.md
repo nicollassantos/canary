@@ -245,6 +245,15 @@ the half that owns it.
 | `Game::loadItemsPrice` (`game.cpp`) | `Game::loadItemsPrice` chains two async loads; `Game::rebuildItemsPrice` holds the old averaging/max loops | `MarketRepositoryDB::loadStatistics` (query and parsing shared with `updateStatistics`) / `loadBestOfferPrices` (the database returns the best price per item and tier: `MAX`/`MIN` grouped, no owner name) |
 | `Game::processHighscoreResults(const DBResult_ptr &, ...)` (`game.cpp`) | `HighscoreService::processHighscoreResults(Game &, std::optional<HighscorePage>, ...)` (static; result cache and sending) | `HighscoreRepositoryDB::readHighscorePage` (row parsing) |
 
+Rules that left an upstream function for a pure module (no `Player`, no globals): the function keeps
+its name and its wire or game work, and calls the module. When upstream changes a condition in one of
+them, put the condition in the module and its test, not back in the function.
+
+| Upstream function | Rules now in | Test |
+|---|---|---|
+| `Game::playerBosstiarySlot` (`game.cpp`), `ProtocolGame::parseSendBosstiarySlots` (`protocolgame.cpp`) | `src/game/bosstiary/bosstiary_slot_rules.cpp` | `tests/unit/game/bosstiary_slot_rules_test.cpp` |
+| `ProtocolGame::parseBestiarysendMonsterData` (`protocolgame.cpp`) | `src/game/bestiary/bestiary_disclosure.hpp` | `tests/unit/game/bestiary_disclosure_test.cpp` |
+
 The highscore query helpers `generateHighscoreQuery`, `generateVocationConditionHighscore`,
 `cacheQueryHighscore` and `generateHighscoreOrGetCachedQueryFor{Entries,OurRank}` moved whole to
 `src/io/highscore_repository_db.cpp` with the upstream names and signatures, and `moved_merge.py`

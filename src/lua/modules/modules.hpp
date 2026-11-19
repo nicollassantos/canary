@@ -67,6 +67,7 @@ public:
 		return inject<Modules>();
 	}
 
+	/// True when a module owns the byte: it ran, or the packet came inside its delay and was dropped.
 	bool executeOnRecvbyte(const std::shared_ptr<Player> &player, NetworkMessage &msg, uint8_t byte) const;
 	void executeOnRecvbyte(uint32_t playerId, NetworkMessage &msg, uint8_t byte) const;
 	Module_ptr getEventByRecvbyte(uint8_t recvbyte, bool force) const;
