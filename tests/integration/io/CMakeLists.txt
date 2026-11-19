@@ -4,6 +4,7 @@ target_sources(
             highscore_repository_db_it.cpp
             house_access_facts_it.cpp
             house_repository_db_it.cpp
+            kv_sql_it.cpp
             market_repository_db_it.cpp
             player_progress_repository_db_it.cpp
             player_repository_db_it.cpp

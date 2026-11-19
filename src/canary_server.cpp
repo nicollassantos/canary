@@ -606,7 +606,8 @@ void CanaryServer::loadModules() {
 	});
 
 	g_game().loadBoostedCreature();
-	g_ioBosstiary().loadBoostedBoss();
+	// The same new-day path as the server save (no player is online yet).
+	g_game().refreshBoostedBoss();
 	g_ioprey().initializeTaskHuntOptions();
 	g_game().logCyclopediaStats();
 

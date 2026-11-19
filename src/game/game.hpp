@@ -135,6 +135,8 @@ public:
 	void resetMonsters() const;
 	void resetNpcs() const;
 
+	/// At boot and at every server save (Game.refreshBoostedCreature): the stored creature of the server save
+	/// day, or a new one drawn and stored.
 	void loadBoostedCreature();
 	void start(ServiceManager* manager);
 
@@ -598,9 +600,10 @@ public:
 	const phmap::parallel_flat_hash_map<uint32_t, std::shared_ptr<Guild>> &getGuilds() const {
 		return guilds;
 	}
-	/// At every server save (global_server_save.lua): when the boss day changed, the new boosted boss is drawn
-	/// and stored (IOBosstiary::loadBoostedBoss), and each online player starts the day as the stored ones did
-	/// (bosstiary_slot_rules::startDay). Without it the boss changed only when the server was started.
+	/// At boot and at every server save (global_server_save.lua): when the boss day changed, the new boosted
+	/// boss is drawn and stored (IOBosstiary::loadBoostedBoss), each online player starts the day as the stored
+	/// ones did (bosstiary_slot_rules::startDay), and every character's cooldown for it is removed. Without it
+	/// the boss changed only when the server was started.
 	void refreshBoostedBoss();
 
 	const phmap::parallel_flat_hash_map<uint32_t, std::shared_ptr<Player>> &getPlayers() const {

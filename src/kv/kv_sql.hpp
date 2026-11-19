@@ -24,6 +24,7 @@ public:
 
 private:
 	std::vector<std::string> loadPrefix(const std::string &prefix = "") override;
+	std::vector<std::string> loadMatching(const std::string &prefix, const std::string &suffix) override;
 	std::optional<ValueWrapper> load(const std::string &key) override;
 	bool save(const std::string &key, const ValueWrapper &value) override;
 	bool prepareSave(const std::string &key, const ValueWrapper &value, DBInsert &update) const;

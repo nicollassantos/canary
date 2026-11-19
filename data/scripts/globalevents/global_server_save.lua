@@ -2,7 +2,8 @@ local function ServerSave()
 	-- Open the next daily reward claim window before players are kicked and saved
 	UpdateDailyRewardServerSave()
 
-	-- Tibia: the boss is boosted "until the next server save"; also when the server does not restart
+	-- Tibia: the boss is boosted "until the next server save", the creature too; also without a restart
+	Game.refreshBoostedCreature()
 	Game.refreshBoostedBoss()
 
 	if configManager.getBoolean(configKeys.GLOBAL_SERVER_SAVE_CLEAN_MAP) then

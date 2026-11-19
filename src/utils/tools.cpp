@@ -23,6 +23,7 @@
 
 #ifndef USE_PRECOMPILED_HEADERS
 	#include <array>
+	#include <chrono>
 	#include <cstddef>
 	#include <cstdint>
 	#include <span>
@@ -538,6 +539,55 @@ std::string formatEnumName(std::string_view name) {
 	std::ranges::replace(result, '_', ' ');
 	std::ranges::transform(result, result.begin(), [](unsigned char c) { return std::tolower(c); });
 	return result;
+}
+
+std::optional<ServerSaveTime> parseServerSaveTime(std::string_view text) {
+	std::array<uint32_t, 3> parts {};
+	size_t count = 0;
+	size_t digits = 0;
+	for (const char c : text) {
+		if (c == ':') {
+			if (digits == 0 || ++count == parts.size()) {
+				return std::nullopt;
+			}
+			digits = 0;
+		} else if (c >= '0' && c <= '9' && digits < 2) {
+			parts[count] = parts[count] * 10 + static_cast<uint32_t>(c - '0');
+			++digits;
+		} else {
+			return std::nullopt;
+		}
+	}
+	if (digits == 0 || count == 0 || parts[0] > 23 || parts[1] > 59 || parts[2] > 59) {
+		return std::nullopt;
+	}
+	return ServerSaveTime { static_cast<uint8_t>(parts[0]), static_cast<uint8_t>(parts[1]), static_cast<uint8_t>(parts[2]) };
+}
+
+uint16_t serverSaveDay(const std::tm &nowLocal, ServerSaveTime save) {
+	const auto secondsOfDay = nowLocal.tm_hour * 3600 + nowLocal.tm_min * 60 + nowLocal.tm_sec;
+	const auto saveAt = save.hour * 3600 + save.minute * 60 + save.second;
+	if (secondsOfDay >= saveAt) {
+		return static_cast<uint16_t>(nowLocal.tm_mday);
+	}
+	const std::chrono::year_month_day today {
+		std::chrono::year { nowLocal.tm_year + 1900 },
+		std::chrono::month { static_cast<unsigned>(nowLocal.tm_mon + 1) },
+		std::chrono::day { static_cast<unsigned>(nowLocal.tm_mday) }
+	};
+	const std::chrono::year_month_day previous { std::chrono::sys_days { today } - std::chrono::days { 1 } };
+	return static_cast<uint16_t>(static_cast<unsigned>(previous.day()));
+}
+
+uint16_t currentServerSaveDay() {
+	const auto saveTimeText = g_configManager().getString(GLOBAL_SERVER_SAVE_TIME);
+	auto saveTime = parseServerSaveTime(saveTimeText);
+	if (!saveTime) {
+		g_logger().warn("[{}] globalServerSaveTime '{}' is not HH:MM or HH:MM:SS: the day starts at 06:00", __FUNCTION__, saveTimeText);
+		saveTime = ServerSaveTime {};
+	}
+	const auto now = getTimeNow();
+	return serverSaveDay(toLocalTime(now), *saveTime);
 }
 
 std::time_t getTimeNow() {

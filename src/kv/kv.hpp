@@ -113,6 +113,10 @@ public:
 
 	std::shared_ptr<KV> scoped(const std::string &scope) final;
 	std::unordered_set<std::string> keys(const std::string &prefix = "") override;
+	/// Full keys that start with `prefix` and end with `suffix`, from the cache and the database (keys() selects
+	/// only a prefix: player.<guid>.boss.cooldown.<race> has the guid in the middle). Keys deleted in the cache
+	/// are left out.
+	std::unordered_set<std::string> keysMatching(const std::string &prefix, const std::string &suffix);
 
 protected:
 	phmap::parallel_flat_hash_map<std::string, std::pair<ValueWrapper, std::list<std::string>::iterator>> getStore() {
@@ -130,6 +134,10 @@ protected:
 	virtual std::optional<ValueWrapper> load(const std::string &key) = 0;
 	virtual bool save(const std::string &key, const ValueWrapper &value) = 0;
 	virtual std::vector<std::string> loadPrefix(const std::string &prefix = "") = 0;
+	/// Stored full keys that start with `prefix` and end with `suffix` (keysMatching); none by default.
+	virtual std::vector<std::string> loadMatching(const std::string & /*prefix*/, const std::string & /*suffix*/) {
+		return {};
+	}
 
 private:
 	void setLocked(const std::string &key, const ValueWrapper &value);

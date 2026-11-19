@@ -135,6 +135,30 @@ std::unordered_set<std::string> KVStore::keys(const std::string &prefix /*= ""*/
 	return keys;
 }
 
+std::unordered_set<std::string> KVStore::keysMatching(const std::string &prefix, const std::string &suffix) {
+	const auto matches = [&prefix, &suffix](const std::string &key) {
+		return key.size() >= prefix.size() + suffix.size() && key.starts_with(prefix) && key.ends_with(suffix);
+	};
+
+	std::unordered_set<std::string> keys;
+	std::unordered_set<std::string> deleted;
+	{
+		std::scoped_lock lock(mutex_);
+		for (const auto &[key, value] : store_) {
+			if (matches(key)) {
+				(value.first.isDeleted() ? deleted : keys).insert(key);
+			}
+		}
+	}
+
+	for (const auto &key : loadMatching(prefix, suffix)) {
+		if (matches(key) && !deleted.contains(key)) {
+			keys.insert(key);
+		}
+	}
+	return keys;
+}
+
 void KV::remove(const std::string &key) {
 	set(key, ValueWrapper::deleted());
 }

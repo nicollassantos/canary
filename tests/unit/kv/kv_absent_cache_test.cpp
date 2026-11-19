@@ -17,6 +17,7 @@
 	#include <future>
 	#include <map>
 	#include <thread>
+	#include <unordered_set>
 	#include <utility>
 #endif
 
@@ -57,6 +58,15 @@ namespace {
 
 		std::vector<std::string> loadPrefix(const std::string & = "") override {
 			return {};
+		}
+
+		// Every stored key, unfiltered: keysMatching must keep only the exact matches.
+		std::vector<std::string> loadMatching(const std::string &, const std::string &) override {
+			std::vector<std::string> keys;
+			for (const auto &[key, value] : database) {
+				keys.emplace_back(key);
+			}
+			return keys;
 		}
 	};
 
@@ -162,4 +172,19 @@ TEST(KVAbsentCacheTest, AMissWhileASaveFinishedIsNotRemembered) {
 	EXPECT_FALSE(kv.get("other").has_value());
 	EXPECT_FALSE(kv.get("other").has_value());
 	EXPECT_EQ(2U, kv.loads);
+}
+
+// A key with a variable middle (player.<guid>.boss.cooldown.<race>): stored and cached keys with that prefix
+// and suffix, not a longer race id, and not one deleted in the cache before it was saved.
+TEST(KVAbsentCacheTest, KeysMatchingAPrefixAndASuffixComeFromTheCacheAndTheDatabase) {
+	CountingKV kv;
+	kv.database.insert_or_assign("player.1.boss.cooldown.2367", ValueWrapper(1));
+	kv.database.insert_or_assign("player.2.boss.cooldown.2367", ValueWrapper(1));
+	kv.database.insert_or_assign("player.1.boss.cooldown.1234", ValueWrapper(1));
+	kv.database.insert_or_assign("player.4.boss.cooldown.23671", ValueWrapper(1));
+	kv.set("player.3.boss.cooldown.2367", 1);
+	kv.remove("player.2.boss.cooldown.2367");
+
+	const auto keys = kv.keysMatching("player.", ".boss.cooldown.2367");
+	EXPECT_EQ((std::unordered_set<std::string> { "player.1.boss.cooldown.2367", "player.3.boss.cooldown.2367" }), keys);
 }
