@@ -64,6 +64,15 @@ namespace {
 
 } // namespace
 
+TEST_F(ClientRequestCooldownTest, VipWritesOncePerSecond) {
+	EXPECT_TRUE(service->admitVipWrite(player));
+	clockMs += PlayerInteractionService::VipWriteCooldownMs - 1;
+	EXPECT_FALSE(service->admitVipWrite(player));
+	EXPECT_TRUE(service->admitVipWrite(other));
+	clockMs += 1;
+	EXPECT_TRUE(service->admitVipWrite(player));
+}
+
 TEST_F(ClientRequestCooldownTest, ExivaRestrictionsEditOnceEveryTwoSeconds) {
 	EXPECT_TRUE(service->admitExivaRestrictionsEdit(player));
 	clockMs += PlayerInteractionService::ExivaRestrictionsCooldownMs - 1;

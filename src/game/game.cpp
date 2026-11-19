@@ -2687,6 +2687,10 @@ bool Game::admitExivaRestrictionsEdit(const std::shared_ptr<Player> &player) {
 	return m_interactionService->admitExivaRestrictionsEdit(player);
 }
 
+bool Game::admitVipWrite(const std::shared_ptr<Player> &player) {
+	return m_interactionService->admitVipWrite(player);
+}
+
 bool Game::admitProficiencyListing(const std::shared_ptr<Player> &player) {
 	return m_interactionService->admitProficiencyListing(player);
 }

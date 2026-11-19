@@ -1383,7 +1383,7 @@ void PlayerInteractionService::playerRequestAddVip(uint32_t playerId, const std:
 	}
 
 	const auto &player = game_.getPlayerByID(playerId);
-	if (!player) {
+	if (!player || !admitVipWrite(player)) {
 		return;
 	}
 
@@ -1419,7 +1419,7 @@ void PlayerInteractionService::playerRequestAddVip(uint32_t playerId, const std:
 
 void PlayerInteractionService::playerRequestRemoveVip(uint32_t playerId, uint32_t guid) {
 	const auto &player = game_.getPlayerByID(playerId);
-	if (!player) {
+	if (!player || !admitVipWrite(player)) {
 		return;
 	}
 
@@ -1428,7 +1428,7 @@ void PlayerInteractionService::playerRequestRemoveVip(uint32_t playerId, uint32_
 
 void PlayerInteractionService::playerRequestEditVip(uint32_t playerId, uint32_t guid, const std::string &description, uint32_t icon, bool notify, std::vector<uint8_t> vipGroupsId) {
 	const auto &player = game_.getPlayerByID(playerId);
-	if (!player) {
+	if (!player || !admitVipWrite(player)) {
 		return;
 	}
 
@@ -1717,4 +1717,8 @@ bool PlayerInteractionService::admitExivaRestrictionsEdit(const std::shared_ptr<
 
 bool PlayerInteractionService::admitProficiencyListing(const std::shared_ptr<Player> &player) {
 	return admitWithCooldown(proficiencyListCooldown, player, now(), "proficiency_list");
+}
+
+bool PlayerInteractionService::admitVipWrite(const std::shared_ptr<Player> &player) {
+	return admitWithCooldown(vipWriteCooldown, player, now(), "vip");
 }

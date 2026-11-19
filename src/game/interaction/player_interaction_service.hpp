@@ -44,6 +44,9 @@ public:
 	/// One exiva restrictions edit (no-pvp worlds) resolves up to four lists of maxExivaWhitelist
 	/// names, each with a synchronous database lookup.
 	static constexpr int64_t ExivaRestrictionsCooldownMs = 2000;
+	/// VIP list writes (add, remove, edit, group actions): each is a synchronous database write, ~2-4 ms of the
+	/// game thread (user decision, 2026-11-19).
+	static constexpr int64_t VipWriteCooldownMs = 1000;
 	/// Weapon proficiency action 0x01 sends one window per weapon the player has trained.
 	static constexpr int64_t ProficiencyListCooldownMs = 1000;
 
@@ -93,6 +96,8 @@ public:
 	bool admitExivaRestrictionsEdit(const std::shared_ptr<Player> &player);
 	/// Same for the weapon proficiency list (action 0x01), request="proficiency_list".
 	bool admitProficiencyListing(const std::shared_ptr<Player> &player);
+	/// Same for a VIP list write (add, remove, edit, group action), request="vip".
+	bool admitVipWrite(const std::shared_ptr<Player> &player);
 
 	/// A player name as the client shows it: 1 to 30 letters, spaces, apostrophes or hyphens.
 	/// The report target ends up in a file path, so nothing else is accepted.
@@ -124,4 +129,5 @@ private:
 	uint64_t rejectedRuleViolationReportCount = 0;
 	RequestCooldown exivaRestrictionsCooldown { ExivaRestrictionsCooldownMs };
 	RequestCooldown proficiencyListCooldown { ProficiencyListCooldownMs };
+	RequestCooldown vipWriteCooldown { VipWriteCooldownMs };
 };

@@ -1823,6 +1823,10 @@ void ProtocolGame::parseEditVip(NetworkMessage &msg) {
 
 void ProtocolGame::parseVipGroupActions(NetworkMessage &msg) {
 	uint8_t action = msg.getByte();
+	// Creating, renaming and removing a group each write to the database: one VIP write per second.
+	if ((action == 0x01 || action == 0x02 || action == 0x03) && !g_game().admitVipWrite(player)) {
+		return;
+	}
 
 	switch (action) {
 		case 0x01: {

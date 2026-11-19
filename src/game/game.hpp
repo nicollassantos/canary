@@ -290,6 +290,7 @@ public:
 	void kickPlayer(uint32_t playerId, bool displayEffect);
 	void playerReportBug(uint32_t playerId, const std::string &message, const Position &position, uint8_t category);
 	bool admitExivaRestrictionsEdit(const std::shared_ptr<Player> &player);
+	bool admitVipWrite(const std::shared_ptr<Player> &player);
 	bool admitProficiencyListing(const std::shared_ptr<Player> &player);
 	void playerDebugAssert(uint32_t playerId, const std::string &assertLine, const std::string &date, const std::string &description, const std::string &comment);
 	void playerPreyAction(uint32_t playerId, uint8_t slot, uint8_t action, uint8_t option, int8_t index, uint16_t raceId);
