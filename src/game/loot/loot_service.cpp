@@ -1034,6 +1034,13 @@ void LootService::playerRequestDepotSearchRetrieve(uint32_t playerId, uint16_t i
 		return;
 	}
 
+	// The tier must be the one of the open search (the component refuses it too).
+	if (tier != player->depotSearchOnItem.second) {
+		g_metrics().addCounter("depot_search_requests_rejected", 1, { { "reason", "tier mismatch" } });
+		player->sendCancelMessage(RETURNVALUE_NOTPOSSIBLE);
+		return;
+	}
+
 	if (player->isUIExhausted(500)) {
 		player->sendCancelMessage(RETURNVALUE_YOUAREEXHAUSTED);
 		return;

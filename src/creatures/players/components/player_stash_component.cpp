@@ -107,7 +107,8 @@ std::shared_ptr<DepotLocker> PlayerStashComponent::getDepotLocker(uint32_t depot
 		return it->second;
 	}
 
-	const bool createStash = !m_player.client->oldProtocol;
+	// No client (an offline player, a test): the current protocol's layout, with the stash.
+	const bool createStash = !m_player.client || !m_player.client->oldProtocol;
 
 	auto depotLocker = std::make_shared<DepotLocker>(ITEM_LOCKER, createStash ? 4 : 3);
 	depotLocker->setDepotId(depotId);
@@ -1408,6 +1409,14 @@ void PlayerStashComponent::requestDepotSearchItem(uint16_t itemId, uint8_t tier)
 }
 
 void PlayerStashComponent::retrieveAllItemsFromDepotSearch(uint16_t itemId, uint8_t tier, bool isDepot) {
+	// The items are collected by the tier of the open search and created again with the tier given here,
+	// which comes from the client: another tier would turn the searched items into that tier.
+	const auto searchedTier = m_player.depotSearchOnItem.second;
+	if (!m_player.isDepotSearchOpenOnItem(itemId) || tier != searchedTier) {
+		m_player.sendCancelMessage(RETURNVALUE_NOTPOSSIBLE);
+		return;
+	}
+
 	const auto &depotLocker = getDepotLocker(m_player.getLastDepotId());
 	if (!depotLocker) {
 		return;
@@ -1428,7 +1437,7 @@ void PlayerStashComponent::retrieveAllItemsFromDepotSearch(uint16_t itemId, uint
 				continue;
 			}
 
-			if (item->getID() == itemId && item->getTier() == m_player.depotSearchOnItem.second) {
+			if (item->getID() == itemId && item->getTier() == searchedTier) {
 				itemsVector.emplace_back(item);
 			}
 		}
@@ -1450,7 +1459,7 @@ void PlayerStashComponent::retrieveAllItemsFromDepotSearch(uint16_t itemId, uint
 
 	uint32_t actuallyRetrieved = 0;
 	AddItemBatchOptions options;
-	options.tier = tier;
+	options.tier = searchedTier;
 	auto returnValue = addItemBatch(itemId, retrievableCount, actuallyRetrieved, options);
 
 	if (returnValue != RETURNVALUE_NOERROR) {
@@ -1468,10 +1477,11 @@ void PlayerStashComponent::retrieveAllItemsFromDepotSearch(uint16_t itemId, uint
 		if (totalRemoved >= actuallyRetrieved) {
 			break;
 		}
-		uint16_t amountToRemove = std::min<uint16_t>(
-			static_cast<uint16_t>(actuallyRetrieved - totalRemoved),
+		// In 32 bits: a difference above 65535 cast first would come out as a small number, or 0.
+		const auto amountToRemove = static_cast<uint16_t>(std::min<uint32_t>(
+			actuallyRetrieved - totalRemoved,
 			item->getItemAmount()
-		);
+		));
 		if (m_player.removeItem(item, amountToRemove) == RETURNVALUE_NOERROR) {
 			totalRemoved += amountToRemove;
 		}
@@ -1490,7 +1500,7 @@ void PlayerStashComponent::retrieveAllItemsFromDepotSearch(uint16_t itemId, uint
 		m_player.sendCancelMessage(RETURNVALUE_NOTENOUGHCAPACITY);
 	}
 
-	requestDepotSearchItem(itemId, tier);
+	requestDepotSearchItem(itemId, searchedTier);
 }
 
 void PlayerStashComponent::openContainerFromDepotSearch(const Position &pos) {

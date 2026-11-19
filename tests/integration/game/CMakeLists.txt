@@ -6,4 +6,5 @@ target_sources(
             imbuements_it.cpp
             money_it.cpp
             forge_it.cpp
+            depot_search_it.cpp
 )
