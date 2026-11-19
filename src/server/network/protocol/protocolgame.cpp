@@ -9,6 +9,7 @@
 
 #include "server/network/protocol/protocolgame.hpp"
 
+#include "game/bosstiary/bosstiary_slot_rules.hpp"
 #include "game/login/login_service.hpp"
 #include "game/scheduling/player_save_barrier.hpp"
 #include "server/network/protocol/packet_watch.hpp"
@@ -3892,7 +3893,7 @@ void ProtocolGame::parseSendBosstiarySlots() {
 	}
 	auto bossesUnlockedSize = static_cast<uint16_t>(bossesUnlockedList.size());
 
-	bool isSlotOneUnlocked = (bossesUnlockedSize > 0 ? true : false);
+	bool isSlotOneUnlocked = bosstiary_slot_rules::isSlotUnlocked(1, bossesUnlockedSize, playerBossPoints);
 	msg.addByte(isSlotOneUnlocked ? 1 : 0);
 	msg.add<uint32_t>(isSlotOneUnlocked ? bossIdSlotOne : 0);
 	if (isSlotOneUnlocked && bossIdSlotOne != 0) {
@@ -3906,8 +3907,8 @@ void ProtocolGame::parseSendBosstiarySlots() {
 		bossesUnlockedSize--;
 	}
 
-	uint32_t slotTwoPoints = 1500;
-	bool isSlotTwoUnlocked = (playerBossPoints >= slotTwoPoints ? true : false);
+	const uint32_t slotTwoPoints = bosstiary_slot_rules::SecondSlotPoints;
+	bool isSlotTwoUnlocked = bosstiary_slot_rules::isSlotUnlocked(2, bossesUnlockedSize, playerBossPoints);
 	msg.addByte(isSlotTwoUnlocked ? 1 : 0);
 	msg.add<uint32_t>(isSlotTwoUnlocked ? bossIdSlotTwo : slotTwoPoints);
 	if (isSlotTwoUnlocked && bossIdSlotTwo != 0) {

@@ -8,6 +8,7 @@
  */
 
 #include "game/game.hpp"
+#include "game/bosstiary/bosstiary_slot_rules.hpp"
 #include "game/login/login_service.hpp"
 #include "game/server_config_repository.hpp"
 #include "game/market/items_price_broadcast.hpp"
@@ -2885,18 +2886,33 @@ void Game::playerBosstiarySlot(uint32_t playerId, uint8_t slotId, uint32_t selec
 
 	player->updateUIExhausted();
 
-	uint32_t bossIdSlot = player->getSlotBossId(slotId);
+	// A boss in a slot adds loot rolls in its reward chest: the client's slot and boss are checked
+	// (bosstiary_slot_rules), and a removal is paid before it happens.
+	bosstiary_slot_rules::SlotState state;
+	state.slotOne = player->getSlotBossId(1);
+	state.slotTwo = player->getSlotBossId(2);
+	state.boostedBossId = g_ioBosstiary().getBoostedBossId();
+	state.unlockedBosses = g_ioBosstiary().getBosstiaryFinished(player);
+	state.bossPoints = player->getBossPoints();
+	state.removePrice = g_ioBosstiary().calculteRemoveBoss(player->getRemoveTimes());
+	const auto decision = bosstiary_slot_rules::decide(state, slotId, selectedBossId);
+	if (decision.change == bosstiary_slot_rules::SlotChange::Refused) {
+		g_metrics().addCounter("bosstiary_slot_requests_rejected", 1, { { "reason", std::string(decision.reason) } });
+		player->sendCancelMessage(RETURNVALUE_NOTPOSSIBLE);
+		return;
+	}
 
-	if (uint32_t boostedBossId = g_ioBosstiary().getBoostedBossId();
-	    selectedBossId == 0 && bossIdSlot != boostedBossId) {
-		uint8_t removeTimes = player->getRemoveTimes();
-		uint32_t removePrice = g_ioBosstiary().calculteRemoveBoss(removeTimes);
-		g_game().removeMoney(player, removePrice, 0, true);
-		g_metrics().addCounter("balance_decrease", removePrice, { { "player", player->getName() }, { "context", "bosstiary_remove" } });
+	if (decision.price > 0) {
+		if (!removeMoney(player, decision.price, 0, true)) {
+			g_metrics().addCounter("bosstiary_slot_requests_rejected", 1, { { "reason", "not enough money" } });
+			player->sendCancelMessage("You do not have enough money.");
+			return;
+		}
+		g_metrics().addCounter("balance_decrease", decision.price, { { "player", player->getName() }, { "context", "bosstiary_remove" } });
 		player->addRemoveTime();
 	}
 
-	player->setSlotBossId(slotId, selectedBossId);
+	player->setSlotBossId(slotId, decision.change == bosstiary_slot_rules::SlotChange::Assign ? selectedBossId : 0);
 }
 
 void Game::playerSetMonsterPodium(uint32_t playerId, uint32_t monsterRaceId, const Position &pos, uint8_t stackPos, const uint16_t itemId, uint8_t direction, const std::pair<uint8_t, uint8_t> &podiumAndMonsterVisible) {

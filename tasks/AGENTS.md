@@ -598,7 +598,9 @@ Pendente (ordem sugerida):
    Os testes da auditoria de pacotes cobrem as recusas; os caminhos legítimos precisam desta
    sessão: lance válido em casa à venda, transferência pelo dono (e o aceite), upgrade de grade de
    gema no wheel, atribuir charm desbloqueado, prey pela lista completa, report de violação e
-   busca/transferência de coins no store. Da 23.5: "digitando" (só mudanças são transmitidas agora;
+   busca/transferência de coins no store. Da 23.6: slots do Bosstiary (atribuir, remover, e trocar um boss
+  por outro, que agora cobra o preço da remoção: conferir se o client oficial cobra na troca), recompensa
+  diária pelo shrine e pelo painel, outfit de hireling. Da 23.5: "digitando" (só mudanças são transmitidas agora;
    conferir se o client reenvia `0x38` para manter o indicador e o que vê quem chega no meio),
    lista do quick loot real (teto de 1000; acima disso é recusada inteira), categorias de container
    de loot que o client manda (nunca fora do enum), 1 talkaction por segundo no jogo normal, e o

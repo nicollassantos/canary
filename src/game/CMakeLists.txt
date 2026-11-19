@@ -5,6 +5,7 @@ target_sources(
             bank/bank.cpp
             chat/chat_service.cpp
             cyclopedia/cyclopedia_service.cpp
+            bosstiary/bosstiary_slot_rules.cpp
             login/login_service.cpp
             server_config_repository_db.cpp
             forge/forge_service.cpp

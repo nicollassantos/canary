@@ -35,6 +35,7 @@ target_sources(
             house_owner_test.cpp
             server_config_test.cpp
             combat_change_health_test.cpp
+            bosstiary_slot_rules_test.cpp
             house_auction_transfer_test.cpp
             rule_violation_report_test.cpp
             highscore_requests_test.cpp
