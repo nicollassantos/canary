@@ -2307,27 +2307,18 @@ void ProtocolGame::parseBestiarySendRaces() {
 		return;
 	}
 
+	const auto races = g_iobestiary().summarizeRaces(player);
+	if (!races) {
+		return;
+	}
+
 	NetworkMessage msg;
 	msg.addByte(0xD5);
 	msg.add<uint16_t>(BESTY_RACE_LAST);
-	const std::map<uint16_t, std::string> &mtype_list = g_game().getBestiaryList();
-	for (uint8_t i = BESTY_RACE_FIRST; i <= BESTY_RACE_LAST; i++) {
-		std::string BestClass;
-		uint16_t count = 0;
-		for (const auto &rit : mtype_list) {
-			const auto mtype = g_monsters().getMonsterType(rit.second);
-			if (!mtype) {
-				return;
-			}
-			if (mtype->info.bestiaryRace == static_cast<BestiaryType_t>(i)) {
-				count += 1;
-				BestClass = mtype->info.bestiaryClass;
-			}
-		}
-		msg.addString(BestClass);
-		msg.add<uint16_t>(count);
-		uint16_t unlockedCount = g_iobestiary().getBestiaryRaceUnlocked(player, static_cast<BestiaryType_t>(i));
-		msg.add<uint16_t>(unlockedCount);
+	for (const auto &race : *races) {
+		msg.addString(race.className);
+		msg.add<uint16_t>(race.creatures);
+		msg.add<uint16_t>(race.unlocked);
 	}
 	writeToOutputBuffer(msg);
 

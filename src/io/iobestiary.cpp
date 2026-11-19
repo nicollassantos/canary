@@ -331,6 +331,31 @@ std::list<charmRune_t> IOBestiary::getCharmUsedRuneBitAll(const std::shared_ptr<
 	return rtn;
 }
 
+std::optional<std::vector<BestiaryRaceSummary>> IOBestiary::summarizeRaces(const std::shared_ptr<Player> &player) const {
+	if (!player) {
+		return std::nullopt;
+	}
+
+	std::vector<BestiaryRaceSummary> races(static_cast<size_t>(BESTY_RACE_LAST - BESTY_RACE_FIRST + 1));
+	for (const auto &[raceId, name] : g_game().getBestiaryList()) {
+		const auto mtype = g_monsters().getMonsterType(name);
+		if (!mtype) {
+			return std::nullopt;
+		}
+		const auto race = static_cast<int>(mtype->info.bestiaryRace);
+		if (race < BESTY_RACE_FIRST || race > BESTY_RACE_LAST) {
+			continue;
+		}
+		auto &summary = races[static_cast<size_t>(race - BESTY_RACE_FIRST)];
+		++summary.creatures;
+		summary.className = mtype->info.bestiaryClass; // the last one listed, as the per-race scan kept
+		if (player->getBestiaryKillCount(mtype->info.raceid) > 0) {
+			++summary.unlocked;
+		}
+	}
+	return races;
+}
+
 uint16_t IOBestiary::getBestiaryRaceUnlocked(const std::shared_ptr<Player> &player, BestiaryType_t race) const {
 	if (!player) {
 		return 0;

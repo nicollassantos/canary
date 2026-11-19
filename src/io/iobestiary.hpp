@@ -23,6 +23,13 @@ class Creature;
 struct CombatDamage;
 struct CombatParams;
 
+/// One line of the Bestiary's race list (ProtocolGame::parseBestiarySendRaces).
+struct BestiaryRaceSummary {
+	std::string className;
+	uint16_t creatures = 0;
+	uint16_t unlocked = 0;
+};
+
 struct PlayerCharmsByMonster {
 	charmRune_t major = CHARM_NONE;
 	charmRune_t minor = CHARM_NONE;
@@ -91,6 +98,11 @@ public:
 	uint8_t getKillStatus(const std::shared_ptr<MonsterType> &mtype, uint32_t killAmount) const;
 
 	uint16_t getBestiaryRaceUnlocked(const std::shared_ptr<Player> &player, BestiaryType_t race) const;
+	/// Every race BESTY_RACE_FIRST..BESTY_RACE_LAST (index race - BESTY_RACE_FIRST): its class, how many
+	/// creatures it has and how many of them the player has killed. One pass over the Bestiary; the race list
+	/// used to scan it twice per race (~75000 monster lookups by name, 6.75 ms per request, no interval).
+	/// nullopt when a listed creature has no monster type (the window is not sent, as before).
+	std::optional<std::vector<BestiaryRaceSummary>> summarizeRaces(const std::shared_ptr<Player> &player) const;
 
 	int32_t bitToggle(int32_t input, const std::shared_ptr<Charm> &charm, bool on) const;
 
