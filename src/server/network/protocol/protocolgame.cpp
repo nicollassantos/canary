@@ -2743,8 +2743,14 @@ void ProtocolGame::parseBestiarySendCreatures(NetworkMessage &msg) {
 
 	if (search == 1) {
 		auto monsterAmount = msg.get<uint16_t>();
+		// Two bytes per race id: a count beyond the packet read zeros. And the loop counter was a uint16_t
+		// compared with <= to the count: with 65535 it wrapped to 0 and never ended, so one 5-byte packet froze
+		// the dispatcher (live: canary-dispatch at 100% CPU, the server no longer stopped on SIGINT).
+		if (static_cast<size_t>(monsterAmount) * sizeof(uint16_t) > getUnreadBytes(msg)) {
+			return;
+		}
 		const std::map<uint16_t, std::string> &mtype_list = g_game().getBestiaryList();
-		for (uint16_t monsterCount = 1; monsterCount <= monsterAmount; monsterCount++) {
+		for (uint32_t monsterCount = 0; monsterCount < monsterAmount; ++monsterCount) {
 			auto raceid = msg.get<uint16_t>();
 			if (player->getBestiaryKillCount(raceid) > 0) {
 				auto it = mtype_list.find(raceid);
@@ -3793,7 +3799,7 @@ void ProtocolGame::parseSendBosstiary() {
 	NetworkMessage msg;
 	msg.addByte(0x73);
 
-	auto mtype_map = g_ioBosstiary().getBosstiaryMap();
+	const auto &mtype_map = g_ioBosstiary().getBosstiaryMap(); // a reference: `auto` copied the whole map per request
 	auto bossesBuffer = msg.getBufferPosition();
 	uint16_t bossesCount = 0;
 	msg.skipBytes(2);
