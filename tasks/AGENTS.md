@@ -617,7 +617,10 @@ Pendente (ordem sugerida):
   diária pelo shrine e pelo painel, outfit de hireling. Taskboard: uma ação a cada 250 ms (`modules.xml`); abrir a janela e
   trocar de aba rápido olhando `module_packets_throttled{opcode="0x5F"}`: se subir sem clique rápido, o
   client oficial manda ações seguidas sozinho e a segunda some sem resposta (rever o intervalo). Depot
-  search: "retrieve all" de um item com tier (o tier da busca tem que voltar igual). Team finder: pedir
+  search, "retrieve all": item com tier (o tier da busca volta igual), item com cargas ou
+  imbuement (volta igual), item da loja (fica, com "Store items stay in your depot."), pilha grande
+  (volta inteira), mochila com conteúdo (vem cheia) e algumas dezenas de itens não empilháveis de uma vez
+  (olhar `packet_0x29` no `/metrics`). Team finder: pedir
   entrada num anúncio de outro jogador (agora o pedido vai para o anúncio do líder; antes ia para o do
   próprio solicitante e o líder nunca via) e o líder aceitar. Da 23.5: "digitando" (só mudanças são transmitidas agora;
    conferir se o client reenvia `0x38` para manter o indicador e o que vê quem chega no meio),

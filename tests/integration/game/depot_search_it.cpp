@@ -237,3 +237,21 @@ TEST_F(DepotSearchRetrieveTest, PlainStacksAreRetrievedInFull) {
 	EXPECT_EQ(80u, amountOf(stackableId, true));
 	EXPECT_EQ(0u, amountOf(stackableId, false));
 }
+
+// A container keeps its contents: it is the stored object, not a new empty one.
+TEST_F(DepotSearchRetrieveTest, AContainerComesBackWithItsContents) {
+	const auto &bag = Item::CreateItem(ITEM_BACKPACK, 1);
+	ASSERT_NE(nullptr, bag);
+	const auto &bagContainer = bag->getContainer();
+	ASSERT_NE(nullptr, bagContainer);
+	const auto &inside = Item::CreateItem(stackableId, 7);
+	ASSERT_NE(nullptr, inside);
+	bagContainer->internalAddThing(inside);
+	depotBox->internalAddThing(bag);
+	player->setDepotSearchIsOpen(ITEM_BACKPACK, 0);
+
+	player->retrieveAllItemsFromDepotSearch(ITEM_BACKPACK, 0, true);
+
+	EXPECT_TRUE(depotBox->getItemList().empty());
+	EXPECT_EQ(7u, amountOf(stackableId, true));
+}
