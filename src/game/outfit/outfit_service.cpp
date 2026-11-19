@@ -294,10 +294,10 @@ void OutfitService::playerSetMonsterPodium(uint32_t playerId, uint32_t monsterRa
 		return;
 	}
 
-	if (monsterRaceId != 0) {
-		item->setCustomAttribute("PodiumMonsterRaceId", static_cast<int64_t>(monsterRaceId));
-	} else if (auto podiumMonsterRace = item->getCustomAttribute("PodiumMonsterRaceId")) {
-		monsterRaceId = static_cast<uint32_t>(podiumMonsterRace->getInteger());
+	if (monsterRaceId == 0) {
+		if (auto podiumMonsterRace = item->getCustomAttribute("PodiumMonsterRaceId")) {
+			monsterRaceId = static_cast<uint32_t>(podiumMonsterRace->getInteger());
+		}
 	}
 
 	const auto mType = g_monsters().getMonsterTypeByRaceId(static_cast<uint16_t>(monsterRaceId), itemId == ITEM_PODIUM_OF_VIGOUR);
@@ -306,6 +306,8 @@ void OutfitService::playerSetMonsterPodium(uint32_t playerId, uint32_t monsterRa
 		g_logger().debug("[{}] player {} is trying to add invalid monster to podium {}", __FUNCTION__, player->getName(), item->getName());
 		return;
 	}
+	// Kept only once the race is known: a refused id used to stay on the podium.
+	item->setCustomAttribute("PodiumMonsterRaceId", static_cast<int64_t>(monsterRaceId));
 
 	const auto [podiumVisible, monsterVisible] = podiumAndMonsterVisible;
 	bool changeTentuglyName = false;

@@ -301,7 +301,8 @@ ReturnValue PlayerStashComponent::addItemFromStash(uint16_t itemId, uint32_t ite
 	double availableCapacity = m_player.getFreeCapacity();
 	double itemWeight = itemType.weight;
 
-	auto maxRetrievableByWeight = static_cast<uint32_t>(availableCapacity / itemWeight);
+	// A weightless item is limited by the count only (the division would be infinite, and its cast undefined).
+	const uint32_t maxRetrievableByWeight = itemWeight > 0.0 ? static_cast<uint32_t>(std::min(availableCapacity / itemWeight, static_cast<double>(UINT32_MAX))) : itemCount;
 	uint32_t retrievableCount = std::min(maxRetrievableByWeight, itemCount);
 
 	if (retrievableCount == 0) {
