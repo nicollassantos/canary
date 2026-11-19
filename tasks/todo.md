@@ -490,8 +490,8 @@
 
 ## Phase 27 — PRs abertas do upstream (#4102, #4184) (aberta em 2026-11-19; plano em `tasks/plan.md`)
 
-- [ ] **27.1** — #4102 núcleo `directory_creation` + gtest
-- [ ] **27.2** — #4102 binding `fsCreateDirectories`, `fs.lua`, `tests/lua/test_fs.lua`
+- [x] **27.1** — #4102 núcleo `directory_creation` + gtest (5 testes: aninhado, já existe, metacaracteres de shell, arquivo no caminho, vazio)
+- [x] **27.2** — #4102 binding `fsCreateDirectories` (chama o núcleo), `fs.lua` e `tests/lua/test_fs.lua` da PR (9 casos, com reload do core) + `test_fs_no_shell.lua` (nenhum shell com nomes de injeção); os dois falham contra o `fs.lua` antigo. Smoke: `FS.mkdir_p` com nome hostil cria os diretórios e nenhum arquivo `injected`; vazio recusado
 - [ ] **27.3** — #4184 capacidade da entrega de casa
 - [ ] **27.4** — #4184 entrega tudo ou nada (rollback)
 - [ ] **CHECKPOINT 27**

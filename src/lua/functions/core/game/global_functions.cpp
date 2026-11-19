@@ -23,6 +23,7 @@
 #include "lua/scripts/lua_environment.hpp"
 #include "lua/scripts/script_environment.hpp"
 #include "server/network/protocol/protocolstatus.hpp"
+#include "utils/directory_creation.hpp"
 #include "lua/functions/lua_functions_loader.hpp"
 #include "creatures/players/player.hpp"
 
@@ -42,6 +43,7 @@ void GlobalFunctions::init(lua_State* L) {
 	lua_register(L, "doTargetCombatDispel", GlobalFunctions::luaDoTargetCombatDispel);
 	lua_register(L, "doTargetCombatHealth", GlobalFunctions::luaDoTargetCombatHealth);
 	lua_register(L, "doTargetCombatMana", GlobalFunctions::luaDoTargetCombatMana);
+	lua_register(L, "fsCreateDirectories", GlobalFunctions::luaFsCreateDirectories);
 	lua_register(L, "getDepotId", GlobalFunctions::luaGetDepotId);
 	lua_register(L, "getWaypointPositionByName", GlobalFunctions::luaGetWaypointPositionByName);
 	lua_register(L, "getWorldLight", GlobalFunctions::luaGetWorldLight);
@@ -794,6 +796,23 @@ int GlobalFunctions::luaIsInWar(lua_State* L) {
 
 	Lua::pushBoolean(L, player->isInWar(targetPlayer));
 	return 1;
+}
+
+int GlobalFunctions::luaFsCreateDirectories(lua_State* L) {
+	// fsCreateDirectories(path) -> true | false, error (upstream PR #4102)
+	// Private bridge for FS.mkdir()/FS.mkdir_p() (data/libs/functions/fs.lua), which captures it into a
+	// local and leaves the global registered (a core reload runs fs.lua again in the same Lua state).
+	// No shell is started: any path the filesystem accepts works, and a failure is returned, never thrown.
+	const auto error = directory_creation::createDirectories(Lua::getString(L, 1));
+	if (error) {
+		Lua::pushBoolean(L, false);
+		Lua::pushString(L, *error);
+		return 2;
+	}
+
+	Lua::pushBoolean(L, true);
+	lua_pushnil(L);
+	return 2;
 }
 
 int GlobalFunctions::luaGetWaypointPositionByName(lua_State* L) {
