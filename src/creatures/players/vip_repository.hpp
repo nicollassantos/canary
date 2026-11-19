@@ -36,14 +36,16 @@ public:
 	virtual void editVIPEntry(uint32_t accountId, uint32_t guid, const std::string &description, uint32_t icon, bool notify) = 0;
 	/// The entry's fields and its whole group list in one write (one transaction): editing an entry from the
 	/// client used to be an UPDATE, a DELETE and one INSERT per group, each with its own commit.
-	virtual void replaceVIPEntry(uint32_t accountId, uint32_t guid, const std::string &description, uint32_t icon, bool notify, const std::vector<uint8_t> &groupIds) = 0;
+	virtual void replaceVIPEntry(uint32_t accountId, uint32_t guid, const std::string &description, uint32_t icon, bool notify, const std::vector<uint32_t> &groupIds) = 0;
 	virtual void removeVIPEntry(uint32_t accountId, uint32_t guid) = 0;
 
 	[[nodiscard]] virtual std::vector<VIPGroupEntry> getVIPGroupEntries(uint32_t accountId, uint32_t guid) = 0;
-	virtual void addVIPGroupEntry(uint8_t groupId, uint32_t accountId, const std::string &groupName, bool customizable) = 0;
-	virtual void editVIPGroupEntry(uint8_t groupId, uint32_t accountId, const std::string &groupName, bool customizable) = 0;
-	virtual void removeVIPGroupEntry(uint8_t groupId, uint32_t accountId) = 0;
-	virtual void addGuidVIPGroupEntry(uint8_t groupId, uint32_t accountId, uint32_t guid) = 0;
+	// Group ids here are account_vipgroups.id (VIPGroup::storedId), never the 1..8 the client sees.
+	/// Creates the group and returns its stored id (0 when it could not be written).
+	[[nodiscard]] virtual uint32_t addVIPGroupEntry(uint32_t accountId, const std::string &groupName, bool customizable) = 0;
+	virtual void editVIPGroupEntry(uint32_t groupId, uint32_t accountId, const std::string &groupName, bool customizable) = 0;
+	virtual void removeVIPGroupEntry(uint32_t groupId, uint32_t accountId) = 0;
+	virtual void addGuidVIPGroupEntry(uint32_t groupId, uint32_t accountId, uint32_t guid) = 0;
 	virtual void removeGuidVIPGroupEntry(uint32_t accountId, uint32_t guid) = 0;
 };
 

@@ -53,7 +53,7 @@ public:
 		entries[{ accountId, guid }] = Entry { description, icon, notify };
 	}
 
-	void replaceVIPEntry(uint32_t accountId, uint32_t guid, const std::string &description, uint32_t icon, bool notify, const std::vector<uint8_t> &groupIds) override {
+	void replaceVIPEntry(uint32_t accountId, uint32_t guid, const std::string &description, uint32_t icon, bool notify, const std::vector<uint32_t> &groupIds) override {
 		++replaceCalls;
 		entries[{ accountId, guid }] = Entry { description, icon, notify };
 		removeGuidVIPGroupEntry(accountId, guid);
@@ -77,19 +77,22 @@ public:
 		return result;
 	}
 
-	void addVIPGroupEntry(uint8_t groupId, uint32_t accountId, const std::string &groupName, bool customizable) override {
+	uint32_t addVIPGroupEntry(uint32_t accountId, const std::string &groupName, bool customizable) override {
+		// Stored ids are an AUTO_INCREMENT shared by every account, never the client's 1..8.
+		const auto groupId = nextGroupId++;
+		groups[{ groupId, accountId }] = Group { groupName, customizable };
+		return groupId;
+	}
+
+	void editVIPGroupEntry(uint32_t groupId, uint32_t accountId, const std::string &groupName, bool customizable) override {
 		groups[{ groupId, accountId }] = Group { groupName, customizable };
 	}
 
-	void editVIPGroupEntry(uint8_t groupId, uint32_t accountId, const std::string &groupName, bool customizable) override {
-		groups[{ groupId, accountId }] = Group { groupName, customizable };
-	}
-
-	void removeVIPGroupEntry(uint8_t groupId, uint32_t accountId) override {
+	void removeVIPGroupEntry(uint32_t groupId, uint32_t accountId) override {
 		groups.erase({ groupId, accountId });
 	}
 
-	void addGuidVIPGroupEntry(uint8_t groupId, uint32_t accountId, uint32_t guid) override {
+	void addGuidVIPGroupEntry(uint32_t groupId, uint32_t accountId, uint32_t guid) override {
 		groupMembers.insert({ accountId, guid, groupId });
 	}
 
@@ -107,20 +110,21 @@ public:
 		return entries.at({ accountId, guid });
 	}
 
-	[[nodiscard]] bool hasGroup(uint8_t groupId, uint32_t accountId) const {
+	[[nodiscard]] bool hasGroup(uint32_t groupId, uint32_t accountId) const {
 		return groups.contains({ groupId, accountId });
 	}
 
-	[[nodiscard]] bool isGroupMember(uint32_t accountId, uint32_t guid, uint8_t groupId) const {
+	[[nodiscard]] bool isGroupMember(uint32_t accountId, uint32_t guid, uint32_t groupId) const {
 		return groupMembers.contains({ accountId, guid, groupId });
 	}
 
 
 	/// Calls of replaceVIPEntry, and the group list of the last one.
 	size_t replaceCalls = 0;
-	std::vector<uint8_t> lastReplacedGroups;
+	std::vector<uint32_t> lastReplacedGroups;
 private:
 	std::map<std::pair<uint32_t, uint32_t>, Entry> entries;
-	std::map<std::pair<uint8_t, uint32_t>, Group> groups;
-	std::set<std::tuple<uint32_t, uint32_t, uint8_t>> groupMembers;
+	std::map<std::pair<uint32_t, uint32_t>, Group> groups;
+	std::set<std::tuple<uint32_t, uint32_t, uint32_t>> groupMembers;
+	uint32_t nextGroupId = 7000;
 };

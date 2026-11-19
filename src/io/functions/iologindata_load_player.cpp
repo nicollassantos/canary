@@ -787,7 +787,7 @@ void IOLoginDataLoad::loadPlayerVip(const std::shared_ptr<Player> &player, DBRes
 	if ((result = db.storeQuery(query))) {
 		do {
 			player->vip().addGroupInternal(
-				result->getNumber<uint8_t>("id"),
+				result->getNumber<uint32_t>("id"),
 				result->getString("name"),
 				result->getNumber<uint8_t>("customizable") == 0 ? false : true
 			);
@@ -797,8 +797,8 @@ void IOLoginDataLoad::loadPlayerVip(const std::shared_ptr<Player> &player, DBRes
 	query = fmt::format("SELECT `player_id`, `vipgroup_id` FROM `account_vipgrouplist` WHERE `account_id` = {}", accountId);
 	if ((result = db.storeQuery(query))) {
 		do {
-			player->vip().addGuidToGroupInternal(
-				result->getNumber<uint8_t>("vipgroup_id"),
+			player->vip().addGuidToStoredGroupInternal(
+				result->getNumber<uint32_t>("vipgroup_id"),
 				result->getNumber<uint32_t>("player_id")
 			);
 		} while (result->next());

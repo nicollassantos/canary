@@ -1596,12 +1596,13 @@ struct VIPEntry {
 };
 
 struct VIPGroupEntry {
-	VIPGroupEntry(uint8_t initId, std::string initName, bool initCustomizable) :
+	VIPGroupEntry(uint32_t initId, std::string initName, bool initCustomizable) :
 		id(initId),
 		name(std::move(initName)),
 		customizable(initCustomizable) { }
 
-	uint8_t id = 0;
+	/// account_vipgroups.id: an AUTO_INCREMENT shared by every account, not the 1..8 the client sees.
+	uint32_t id = 0;
 	std::string name;
 	bool customizable = false;
 };

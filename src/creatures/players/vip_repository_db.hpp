@@ -22,14 +22,14 @@ public:
 	[[nodiscard]] std::vector<VIPEntry> getVIPEntries(uint32_t accountId) override;
 	void addVIPEntry(uint32_t accountId, uint32_t guid, const std::string &description, uint32_t icon, bool notify) override;
 	void editVIPEntry(uint32_t accountId, uint32_t guid, const std::string &description, uint32_t icon, bool notify) override;
-	void replaceVIPEntry(uint32_t accountId, uint32_t guid, const std::string &description, uint32_t icon, bool notify, const std::vector<uint8_t> &groupIds) override;
+	void replaceVIPEntry(uint32_t accountId, uint32_t guid, const std::string &description, uint32_t icon, bool notify, const std::vector<uint32_t> &groupIds) override;
 	void removeVIPEntry(uint32_t accountId, uint32_t guid) override;
 
 	[[nodiscard]] std::vector<VIPGroupEntry> getVIPGroupEntries(uint32_t accountId, uint32_t guid) override;
-	void addVIPGroupEntry(uint8_t groupId, uint32_t accountId, const std::string &groupName, bool customizable) override;
-	void editVIPGroupEntry(uint8_t groupId, uint32_t accountId, const std::string &groupName, bool customizable) override;
-	void removeVIPGroupEntry(uint8_t groupId, uint32_t accountId) override;
-	void addGuidVIPGroupEntry(uint8_t groupId, uint32_t accountId, uint32_t guid) override;
+	[[nodiscard]] uint32_t addVIPGroupEntry(uint32_t accountId, const std::string &groupName, bool customizable) override;
+	void editVIPGroupEntry(uint32_t groupId, uint32_t accountId, const std::string &groupName, bool customizable) override;
+	void removeVIPGroupEntry(uint32_t groupId, uint32_t accountId) override;
+	void addGuidVIPGroupEntry(uint32_t groupId, uint32_t accountId, uint32_t guid) override;
 	void removeGuidVIPGroupEntry(uint32_t accountId, uint32_t guid) override;
 
 private:

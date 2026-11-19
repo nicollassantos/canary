@@ -15,14 +15,17 @@ class Player;
 
 class VIPGroup {
 public:
+	/// What the client sees (PlayerVIP::firstID..lastID), given when the group is loaded or created.
 	uint8_t id = 0;
+	/// account_vipgroups.id, used for every write; 0 when the group was never stored (no account).
+	uint32_t storedId = 0;
 	std::string name;
 	bool customizable = false;
 	phmap::flat_hash_set<uint32_t> vipGroupGuids;
 
 	VIPGroup() = default;
-	VIPGroup(uint8_t id, std::string name, bool customizable) :
-		id(id), name(std::move(name)), customizable(customizable) { }
+	VIPGroup(uint8_t id, std::string name, bool customizable, uint32_t storedId = 0) :
+		id(id), storedId(storedId), name(std::move(name)), customizable(customizable) { }
 };
 
 class PlayerVIP {
@@ -57,12 +60,15 @@ public:
 	std::shared_ptr<VIPGroup> getGroupByID(uint8_t groupId) const;
 	std::shared_ptr<VIPGroup> getGroupByName(const std::string &name) const;
 
-	void addGroupInternal(uint8_t groupId, const std::string &name, bool customizable);
+	/// A group loaded from account_vipgroups: `storedId` is its row id; the client id is the first free one.
+	void addGroupInternal(uint32_t storedId, const std::string &name, bool customizable);
 	void removeGroup(uint8_t groupId);
 	void addGroup(const std::string &rawName, bool customizable = true);
 	void editGroup(uint8_t groupId, const std::string &rawName, bool customizable = true) const;
 
 	void addGuidToGroupInternal(uint8_t groupId, uint32_t guid) const;
+	/// A membership loaded from account_vipgrouplist, whose vipgroup_id is the stored id.
+	void addGuidToStoredGroupInternal(uint32_t storedId, uint32_t guid) const;
 
 	uint8_t getFreeId() const;
 	std::vector<uint8_t> getGroupsIdGuidBelongs(uint32_t guid) const;

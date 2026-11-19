@@ -210,12 +210,12 @@ TEST_F(PlayerVIPPersistenceTest, EditPersistsDescriptionAndGroups) {
 	ASSERT_TRUE(player->vip().add(500, "Friend", VipStatus_t::Offline));
 	const auto group = player->vip().getGroupByName("Friends");
 	ASSERT_NE(nullptr, group);
-	ASSERT_TRUE(repository->hasGroup(group->id, kAccountId));
+	ASSERT_TRUE(repository->hasGroup(group->storedId, kAccountId));
 
 	ASSERT_TRUE(player->vip().edit(500, "best friend", 3, true, { group->id }));
 	EXPECT_EQ("best friend", repository->entry(kAccountId, 500).description);
 	EXPECT_EQ(3U, repository->entry(kAccountId, 500).icon);
-	EXPECT_TRUE(repository->isGroupMember(kAccountId, 500, group->id));
+	EXPECT_TRUE(repository->isGroupMember(kAccountId, 500, group->storedId));
 }
 
 // A crafted edit lists up to 255 group ids: one write, each existing group once, and the entry leaves the
@@ -241,11 +241,38 @@ TEST_F(PlayerVIPPersistenceTest, EditWritesOnceWithEachExistingGroupOnce) {
 
 	ASSERT_TRUE(player->vip().edit(500, "note", 1, false, { hunters->id }));
 	EXPECT_EQ(2U, repository->replaceCalls);
-	EXPECT_EQ(std::vector<uint8_t> { hunters->id }, repository->lastReplacedGroups);
+	EXPECT_EQ(std::vector<uint32_t> { hunters->storedId }, repository->lastReplacedGroups);
 	EXPECT_FALSE(friends->vipGroupGuids.contains(500));
 	EXPECT_TRUE(hunters->vipGroupGuids.contains(500));
-	EXPECT_FALSE(repository->isGroupMember(kAccountId, 500, friends->id));
-	EXPECT_TRUE(repository->isGroupMember(kAccountId, 500, hunters->id));
+	EXPECT_FALSE(repository->isGroupMember(kAccountId, 500, friends->storedId));
+	EXPECT_TRUE(repository->isGroupMember(kAccountId, 500, hunters->storedId));
+}
+
+// Groups loaded from the database keep their row id: the default groups come from the account trigger with
+// account_vipgroups' global AUTO_INCREMENT (e.g. 7285), while the client sees 1..8. Members, renames and
+// removals must use the row id; they used the client id, so default groups never kept their members.
+TEST_F(PlayerVIPPersistenceTest, LoadedGroupsAreWrittenByTheirStoredIds) {
+	player->setFlag(PlayerFlags_t::IsAlwaysPremium);
+	player->vip().addGroupInternal(7285, "Enemies", false);
+	player->vip().addGroupInternal(7290, "Raid", true);
+	ASSERT_TRUE(player->vip().add(500, "Friend", VipStatus_t::Offline));
+	player->vip().addGuidToStoredGroupInternal(7290, 500); // a membership row as loaded
+
+	const auto enemies = player->vip().getGroupByName("Enemies");
+	const auto raid = player->vip().getGroupByName("Raid");
+	ASSERT_NE(nullptr, enemies);
+	ASSERT_NE(nullptr, raid);
+	EXPECT_EQ(1, enemies->id); // what the client sees
+	EXPECT_EQ(7285U, enemies->storedId);
+	EXPECT_TRUE(raid->vipGroupGuids.contains(500));
+
+	ASSERT_TRUE(player->vip().edit(500, "", 0, false, { enemies->id }));
+	EXPECT_EQ(std::vector<uint32_t> { 7285 }, repository->lastReplacedGroups);
+	EXPECT_TRUE(repository->isGroupMember(kAccountId, 500, 7285));
+
+	const auto created = repository->addVIPGroupEntry(kAccountId, "Raid", true); // the row the load came from
+	player->vip().removeGroup(raid->id);
+	EXPECT_TRUE(repository->hasGroup(created, kAccountId)); // another row: untouched
 }
 
 TEST(PlayerVIPNoAccountTest, EditWithoutAccountDoesNotDereferenceAccount) {

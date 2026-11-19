@@ -36,14 +36,6 @@ namespace it_vip_repo_db {
 		return { seed, static_cast<uint32_t>(db.getLastInsertId()), name };
 	}
 
-	uint8_t freeGroupId(VipRepositoryDB &repository, uint32_t accountId) {
-		const auto groups = repository.getVIPGroupEntries(accountId, 0);
-		uint8_t candidate = 200;
-		while (std::ranges::any_of(groups, [candidate](const VIPGroupEntry &group) { return group.id == candidate; })) {
-			++candidate;
-		}
-		return candidate;
-	}
 
 	uint64_t groupMemberships(Database &db, uint32_t accountId, uint32_t guid) {
 		const auto result = db.storeQuery(fmt::format("SELECT COUNT(*) AS `count` FROM `account_vipgrouplist` WHERE `account_id` = {} AND `player_id` = {}", accountId, guid));
@@ -93,9 +85,9 @@ namespace it_vip_repo_db {
 			const auto fixture = createAccountAndFriend(db);
 			VipRepositoryDB repository(db);
 			const auto defaults = repository.getVIPGroupEntries(fixture.accountId, 0).size();
-			const auto groupId = freeGroupId(repository, fixture.accountId);
 
-			repository.addVIPGroupEntry(groupId, fixture.accountId, "Raid's crew", true);
+			const auto groupId = repository.addVIPGroupEntry(fixture.accountId, "Raid's crew", true);
+			ASSERT_NE(0U, groupId);
 			auto groups = repository.getVIPGroupEntries(fixture.accountId, 0);
 			ASSERT_EQ(defaults + 1, groups.size());
 			auto added = std::ranges::find_if(groups, [groupId](const VIPGroupEntry &group) { return group.id == groupId; });
@@ -120,8 +112,8 @@ namespace it_vip_repo_db {
 		databaseTest(db, [&db] {
 			const auto fixture = createAccountAndFriend(db);
 			VipRepositoryDB repository(db);
-			const auto groupId = freeGroupId(repository, fixture.accountId);
-			repository.addVIPGroupEntry(groupId, fixture.accountId, "Hunters", true);
+			const auto groupId = repository.addVIPGroupEntry(fixture.accountId, "Hunters", true);
+			ASSERT_NE(0U, groupId);
 			repository.addVIPEntry(fixture.accountId, fixture.friendGuid, "", 0, false);
 
 			repository.addGuidVIPGroupEntry(groupId, fixture.accountId, fixture.friendGuid);
@@ -139,10 +131,10 @@ namespace it_vip_repo_db {
 		TestDatabase::init();
 		const auto fixture = createAccountAndFriend(db);
 		VipRepositoryDB repository(db);
-		const auto first = freeGroupId(repository, fixture.accountId);
-		repository.addVIPGroupEntry(first, fixture.accountId, "First", true);
-		const auto second = freeGroupId(repository, fixture.accountId);
-		repository.addVIPGroupEntry(second, fixture.accountId, "Second", true);
+		const auto first = repository.addVIPGroupEntry(fixture.accountId, "First", true);
+		const auto second = repository.addVIPGroupEntry(fixture.accountId, "Second", true);
+		ASSERT_NE(0U, first);
+		ASSERT_NE(0U, second);
 		repository.addVIPEntry(fixture.accountId, fixture.friendGuid, "old", 1, false);
 		repository.addGuidVIPGroupEntry(first, fixture.accountId, fixture.friendGuid);
 
@@ -162,7 +154,7 @@ namespace it_vip_repo_db {
 		EXPECT_EQ(0U, groupMemberships(db, fixture.accountId, fixture.friendGuid));
 
 		// A group id with no row for this account is skipped; the rest of the edit is kept.
-		repository.replaceVIPEntry(fixture.accountId, fixture.friendGuid, "kept", 2, false, { 250, first });
+		repository.replaceVIPEntry(fixture.accountId, fixture.friendGuid, "kept", 2, false, { 0x7FFFFFF0U, first });
 		EXPECT_EQ("kept", repository.getVIPEntries(fixture.accountId).front().description);
 		EXPECT_EQ(1U, groupMemberships(db, fixture.accountId, fixture.friendGuid));
 

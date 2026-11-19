@@ -92,7 +92,7 @@ std::vector<VIPGroupEntry> VipRepositoryDB::getVIPGroupEntries(uint32_t accountI
 
 		do {
 			entries.emplace_back(
-				result->getNumber<uint8_t>("id"),
+				result->getNumber<uint32_t>("id"),
 				result->getString("name"),
 				result->getNumber<uint8_t>("customizable") != 0
 			);
@@ -101,20 +101,23 @@ std::vector<VIPGroupEntry> VipRepositoryDB::getVIPGroupEntries(uint32_t accountI
 	return entries;
 }
 
-void VipRepositoryDB::addVIPGroupEntry(uint8_t groupId, uint32_t accountId, const std::string &groupName, bool customizable) {
+uint32_t VipRepositoryDB::addVIPGroupEntry(uint32_t accountId, const std::string &groupName, bool customizable) {
+	// The id comes from the table's AUTO_INCREMENT, like the default groups the account trigger creates; it
+	// used to be the client's 1..8, which could collide with the account's stored ids.
 	const std::string query = fmt::format(
-		"INSERT INTO `account_vipgroups` (`id`, `account_id`, `name`, `customizable`) VALUES ({}, {}, {}, {})",
-		groupId,
+		"INSERT INTO `account_vipgroups` (`account_id`, `name`, `customizable`) VALUES ({}, {}, {})",
 		accountId,
 		db_.escapeString(groupName),
 		customizable
 	);
 	if (!db_.executeQuery(query)) {
-		g_logger().error("Failed to add VIP Group entry for account {} and group {}. QUERY: {}", accountId, groupId, query.c_str());
+		g_logger().error("Failed to add VIP Group entry for account {}. QUERY: {}", accountId, query.c_str());
+		return 0;
 	}
+	return static_cast<uint32_t>(db_.getLastInsertId());
 }
 
-void VipRepositoryDB::editVIPGroupEntry(uint8_t groupId, uint32_t accountId, const std::string &groupName, bool customizable) {
+void VipRepositoryDB::editVIPGroupEntry(uint32_t groupId, uint32_t accountId, const std::string &groupName, bool customizable) {
 	const std::string query = fmt::format(
 		"UPDATE `account_vipgroups` SET `name` = {}, `customizable` = {} WHERE `id` = {} AND `account_id` = {}",
 		db_.escapeString(groupName),
@@ -127,7 +130,7 @@ void VipRepositoryDB::editVIPGroupEntry(uint8_t groupId, uint32_t accountId, con
 	}
 }
 
-void VipRepositoryDB::removeVIPGroupEntry(uint8_t groupId, uint32_t accountId) {
+void VipRepositoryDB::removeVIPGroupEntry(uint32_t groupId, uint32_t accountId) {
 	const std::string query = fmt::format(
 		"DELETE FROM `account_vipgroups` WHERE `id` = {} AND `account_id` = {}",
 		groupId,
@@ -136,7 +139,7 @@ void VipRepositoryDB::removeVIPGroupEntry(uint8_t groupId, uint32_t accountId) {
 	std::ignore = db_.executeQuery(query);
 }
 
-void VipRepositoryDB::replaceVIPEntry(uint32_t accountId, uint32_t guid, const std::string &description, uint32_t icon, bool notify, const std::vector<uint8_t> &groupIds) {
+void VipRepositoryDB::replaceVIPEntry(uint32_t accountId, uint32_t guid, const std::string &description, uint32_t icon, bool notify, const std::vector<uint32_t> &groupIds) {
 	std::vector<std::string> statements;
 	statements.emplace_back(fmt::format(
 		"UPDATE `account_viplist` SET `description` = {}, `icon` = {}, `notify` = {} WHERE `account_id` = {} AND `player_id` = {}",
@@ -148,10 +151,8 @@ void VipRepositoryDB::replaceVIPEntry(uint32_t accountId, uint32_t guid, const s
 	));
 	statements.emplace_back(fmt::format("DELETE FROM `account_vipgrouplist` WHERE `account_id` = {} AND `player_id` = {}", accountId, guid));
 	if (!groupIds.empty()) {
-		// IGNORE: a group id with no row in account_vipgroups is skipped, as the one-INSERT-per-group code
-		// did, instead of failing the whole edit. That happens today: PlayerVIP::addGroupInternal numbers
-		// the loaded groups 1, 2, 3... while the default groups get account_vipgroups' global AUTO_INCREMENT
-		// ids from the account trigger (upstream bug, reported to the user).
+		// IGNORE: a group id with no row in account_vipgroups (removed meanwhile) is skipped, as the
+		// one-INSERT-per-group code did, instead of failing the whole edit.
 		std::string insert = "INSERT IGNORE INTO `account_vipgrouplist` (`account_id`, `player_id`, `vipgroup_id`) VALUES ";
 		for (size_t index = 0; index < groupIds.size(); ++index) {
 			insert += fmt::format("{}({}, {}, {})", index == 0 ? "" : ", ", accountId, guid, groupIds[index]);
@@ -163,7 +164,7 @@ void VipRepositoryDB::replaceVIPEntry(uint32_t accountId, uint32_t guid, const s
 	}
 }
 
-void VipRepositoryDB::addGuidVIPGroupEntry(uint8_t groupId, uint32_t accountId, uint32_t guid) {
+void VipRepositoryDB::addGuidVIPGroupEntry(uint32_t groupId, uint32_t accountId, uint32_t guid) {
 	const std::string query = fmt::format(
 		"INSERT INTO `account_vipgrouplist` (`account_id`, `player_id`, `vipgroup_id`) VALUES ({}, {}, {})",
 		accountId,

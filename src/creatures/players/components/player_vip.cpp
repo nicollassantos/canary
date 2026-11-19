@@ -120,14 +120,19 @@ bool PlayerVIP::edit(uint32_t vipGuid, const std::string &description, uint32_t 
 	for (const auto &group : vipGroups) {
 		group->vipGroupGuids.erase(vipGuid);
 	}
+	std::vector<uint32_t> storedGroups;
 	for (const auto &groupId : groups) {
-		getGroupByID(groupId)->vipGroupGuids.insert(vipGuid);
+		const auto &group = getGroupByID(groupId);
+		group->vipGroupGuids.insert(vipGuid);
+		if (group->storedId != 0) {
+			storedGroups.emplace_back(group->storedId);
+		}
 	}
 
 	if (m_player.account) {
 		// account_viplist.description is varchar(128); the text comes straight from the packet. One
 		// transaction: the UPDATE, the DELETE and one INSERT per group each committed (and flushed) alone.
-		g_vipRepository().replaceVIPEntry(m_player.account->getID(), vipGuid, description.substr(0, MaxTextLength), icon, notify, groups);
+		g_vipRepository().replaceVIPEntry(m_player.account->getID(), vipGuid, description.substr(0, MaxTextLength), icon, notify, storedGroups);
 	}
 
 	return true;
@@ -154,7 +159,7 @@ std::shared_ptr<VIPGroup> PlayerVIP::getGroupByName(const std::string &name) con
 	return it != vipGroups.end() ? *it : nullptr;
 }
 
-void PlayerVIP::addGroupInternal(uint8_t groupId, const std::string &name, bool customizable) {
+void PlayerVIP::addGroupInternal(uint32_t storedId, const std::string &name, bool customizable) {
 	if (getGroupByName(name) != nullptr) {
 		g_logger().debug("{} - Group name already exists.", __FUNCTION__);
 		return;
@@ -166,7 +171,10 @@ void PlayerVIP::addGroupInternal(uint8_t groupId, const std::string &name, bool 
 		return;
 	}
 
-	vipGroups.emplace_back(std::make_shared<VIPGroup>(freeId, name, customizable));
+	// The stored id used to be dropped: writes then used the client id, so the default groups (stored ids
+	// from the account trigger's AUTO_INCREMENT) never kept their members, and a rename or removal could
+	// hit another row of the account.
+	vipGroups.emplace_back(std::make_shared<VIPGroup>(freeId, name, customizable, storedId));
 }
 
 void PlayerVIP::removeGroup(uint8_t groupId) {
@@ -184,10 +192,11 @@ void PlayerVIP::removeGroup(uint8_t groupId) {
 		return;
 	}
 
+	const auto storedId = (*it)->storedId;
 	vipGroups.erase(it);
 
-	if (m_player.account) {
-		g_vipRepository().removeVIPGroupEntry(groupId, m_player.account->getID());
+	if (m_player.account && storedId != 0) {
+		g_vipRepository().removeVIPGroupEntry(storedId, m_player.account->getID());
 	}
 
 	if (m_player.client) {
@@ -220,7 +229,7 @@ void PlayerVIP::addGroup(const std::string &rawName, bool customizable /*= true 
 	vipGroups.emplace_back(vipGroup);
 
 	if (m_player.account) {
-		g_vipRepository().addVIPGroupEntry(vipGroup->id, m_player.account->getID(), vipGroup->name, vipGroup->customizable);
+		vipGroup->storedId = g_vipRepository().addVIPGroupEntry(m_player.account->getID(), vipGroup->name, vipGroup->customizable);
 	}
 
 	if (m_player.client) {
@@ -243,8 +252,8 @@ void PlayerVIP::editGroup(uint8_t groupId, const std::string &rawName, bool cust
 	vipGroup->name = newName;
 	vipGroup->customizable = customizable;
 
-	if (m_player.account) {
-		g_vipRepository().editVIPGroupEntry(vipGroup->id, m_player.account->getID(), vipGroup->name, vipGroup->customizable);
+	if (m_player.account && vipGroup->storedId != 0) {
+		g_vipRepository().editVIPGroupEntry(vipGroup->storedId, m_player.account->getID(), vipGroup->name, vipGroup->customizable);
 	}
 
 	if (m_player.client) {
@@ -276,5 +285,14 @@ void PlayerVIP::addGuidToGroupInternal(uint8_t groupId, uint32_t guid) const {
 	const auto &group = getGroupByID(groupId);
 	if (group) {
 		group->vipGroupGuids.insert(guid);
+	}
+}
+
+void PlayerVIP::addGuidToStoredGroupInternal(uint32_t storedId, uint32_t guid) const {
+	const auto it = std::ranges::find_if(vipGroups, [storedId](const auto &group) {
+		return group->storedId == storedId;
+	});
+	if (it != vipGroups.end()) {
+		(*it)->vipGroupGuids.insert(guid);
 	}
 }
