@@ -19,15 +19,28 @@
 #include "items/items_classification.hpp"
 
 namespace {
-	// Depot search "retrieve all": the items are collected by the tier of the open search and created
-	// again in the player's backpack. The tier byte of the packet must not change what comes out.
+	// Depot search "retrieve all": the items of the open search (item and tier) come to the player as
+	// they were stored. Plain stacks are created again in batches; every other item is moved as the stored
+	// object; store items stay in the depot. The tier byte of the packet must not change what comes out.
 	class DepotSearchRetrieveTest : public ::testing::Test {
 	protected:
 		static void SetUpTestSuite() {
 			auto &items = Item::items.getItems();
 			originalItemTypeSize = items.size();
 			itemId = static_cast<uint16_t>(originalItemTypeSize + 10);
-			items.resize(itemId + 1);
+			stackableId = static_cast<uint16_t>(itemId + 1);
+			items.resize(stackableId + 1);
+
+			auto &stackableType = Item::items.getItemType(stackableId);
+			stackableType = ItemType {};
+			stackableType.id = stackableId;
+			stackableType.name = "depot search test stack";
+			stackableType.pickupable = true;
+			stackableType.movable = true;
+			stackableType.stackable = true;
+			stackableType.stackSize = 100;
+			stackableType.type = ITEM_TYPE_OTHER;
+			stackableType.weight = 1;
 
 			auto &itemType = Item::items.getItemType(itemId);
 			itemType = ItemType {};
@@ -107,8 +120,33 @@ namespace {
 			return total;
 		}
 
+		uint32_t amountOf(uint16_t id, bool carriedByPlayer) const {
+			uint32_t total = 0;
+			const auto add = [&](const std::shared_ptr<Item> &item) {
+				if (item && item->getID() == id) {
+					total += item->getItemAmount();
+				}
+			};
+			if (carriedByPlayer) {
+				std::ranges::for_each(player->getAllInventoryItems(false), add);
+			} else {
+				std::ranges::for_each(depotBox->getItemList(), add);
+			}
+			return total;
+		}
+
+		std::shared_ptr<Item> carriedItem() const {
+			for (const auto &item : player->getAllInventoryItems(false)) {
+				if (item && item->getID() == itemId) {
+					return item;
+				}
+			}
+			return nullptr;
+		}
+
 		inline static size_t originalItemTypeSize = 0;
 		inline static uint16_t itemId = 0;
+		inline static uint16_t stackableId = 0;
 		inline static uint32_t nextGuid = 52000;
 		std::shared_ptr<Player> player;
 		std::shared_ptr<DepotChest> depotBox;
@@ -146,4 +184,56 @@ TEST_F(DepotSearchRetrieveTest, AnotherItemThanTheSearchedOneIsRefused) {
 
 	EXPECT_EQ(0u, carried(0));
 	EXPECT_EQ(1u, inDepot(0));
+}
+
+// Charges, text and other state come back with the item: it is the stored object, not a new one.
+TEST_F(DepotSearchRetrieveTest, AnItemWithStateComesBackAsTheStoredObject) {
+	auto &itemType = Item::items.getItemType(itemId);
+	itemType.charges = 100;
+	const auto &stored = Item::CreateItem(itemId, 1);
+	ASSERT_NE(nullptr, stored);
+	stored->setSubType(3);
+	stored->setAttribute(ItemAttribute_t::DESCRIPTION, "written by its owner");
+	depotBox->internalAddThing(stored);
+	player->setDepotSearchIsOpen(itemId, 0);
+
+	player->retrieveAllItemsFromDepotSearch(itemId, 0, true);
+	itemType.charges = 0;
+
+	const auto &carried = carriedItem();
+	ASSERT_NE(nullptr, carried);
+	EXPECT_EQ(stored, carried);
+	EXPECT_EQ(3, carried->getCharges());
+	EXPECT_TRUE(carried->hasAttribute(ItemAttribute_t::DESCRIPTION));
+	EXPECT_EQ(0u, inDepot(0));
+}
+
+// A store item may only be carried to the depot, the store inbox or a house: it stays, with its mark.
+TEST_F(DepotSearchRetrieveTest, AStoreItemStaysInTheDepot) {
+	const auto &stored = Item::CreateItem(itemId, 1);
+	ASSERT_NE(nullptr, stored);
+	stored->setAttribute(ItemAttribute_t::STORE, static_cast<int64_t>(1234));
+	depotBox->internalAddThing(stored);
+	player->setDepotSearchIsOpen(itemId, 0);
+
+	player->retrieveAllItemsFromDepotSearch(itemId, 0, true);
+
+	EXPECT_EQ(nullptr, carriedItem());
+	EXPECT_EQ(1u, inDepot(0));
+	EXPECT_TRUE(stored->isStoreItem());
+}
+
+// Plain stacks are still created again in batches and leave the depot.
+TEST_F(DepotSearchRetrieveTest, PlainStacksAreRetrievedInFull) {
+	for (const uint16_t count : { 50, 30 }) {
+		const auto &stack = Item::CreateItem(stackableId, count);
+		ASSERT_NE(nullptr, stack);
+		depotBox->internalAddThing(stack);
+	}
+	player->setDepotSearchIsOpen(stackableId, 0);
+
+	player->retrieveAllItemsFromDepotSearch(stackableId, 0, true);
+
+	EXPECT_EQ(80u, amountOf(stackableId, true));
+	EXPECT_EQ(0u, amountOf(stackableId, false));
 }

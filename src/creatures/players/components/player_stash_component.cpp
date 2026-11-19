@@ -12,6 +12,7 @@
 #include "config/configmanager.hpp"
 #include "creatures/players/player.hpp"
 #include "game/game.hpp"
+#include "io/fileloader.hpp"
 #include "items/containers/depot/depotchest.hpp"
 #include "items/containers/depot/depotlocker.hpp"
 #include "items/containers/inbox/inbox.hpp"
@@ -1409,6 +1410,30 @@ void PlayerStashComponent::requestDepotSearchItem(uint16_t itemId, uint8_t tier)
 	sendDepotSearchResultDetail(itemId, tier, depotCount, depotItems, inboxCount, inboxItems, stashCount);
 }
 
+namespace {
+	// A depot item may be created again from its id and count only when a new item of that id and count is
+	// the same item: a plain stack. Anything else (charges, duration, imbuements, owner, text, custom
+	// attributes) has to come back as the stored object, or retrieving it would refill or strip it.
+	bool isPlainStack(const std::shared_ptr<Item> &item) {
+		if (!Item::items[item->getID()].stackable) {
+			return false;
+		}
+		const auto &fresh = Item::createItemBatch(item->getID(), item->getItemCount(), 0);
+		if (!fresh) {
+			return false;
+		}
+		PropWriteStream stored;
+		item->serializeAttr(stored);
+		PropWriteStream created;
+		fresh->serializeAttr(created);
+		size_t storedSize = 0;
+		size_t createdSize = 0;
+		const char* storedBytes = stored.getStream(storedSize);
+		const char* createdBytes = created.getStream(createdSize);
+		return std::string_view(storedBytes, storedSize) == std::string_view(createdBytes, createdSize);
+	}
+}
+
 void PlayerStashComponent::retrieveAllItemsFromDepotSearch(uint16_t itemId, uint8_t tier, bool isDepot) {
 	// The items are collected by the tier of the open search and created again with the tier given here,
 	// which comes from the client: another tier would turn the searched items into that tier.
@@ -1423,7 +1448,12 @@ void PlayerStashComponent::retrieveAllItemsFromDepotSearch(uint16_t itemId, uint
 		return;
 	}
 
-	std::vector<std::shared_ptr<Item>> itemsVector;
+	// Plain stacks are created again in batches (they merge into the player's stacks); every other item is
+	// moved as the stored object (user decision, 2026-11-19). Store items stay: they may only be carried to
+	// the depot, the store inbox or a house.
+	std::vector<std::shared_ptr<Item>> plainStacks;
+	std::vector<std::shared_ptr<Item>> storedObjects;
+	bool keptStoreItems = false;
 	for (const auto &locker : depotLocker->getItemList()) {
 		const auto &c = locker->getContainer();
 		if (!c || c->empty() ||
@@ -1434,71 +1464,98 @@ void PlayerStashComponent::retrieveAllItemsFromDepotSearch(uint16_t itemId, uint
 
 		for (ContainerIterator it = c->iterator(); it.hasNext(); it.advance()) {
 			const auto &item = *it;
-			if (!item) {
+			if (!item || item->getID() != itemId || item->getTier() != searchedTier) {
 				continue;
 			}
-
-			if (item->getID() == itemId && item->getTier() == searchedTier) {
-				itemsVector.emplace_back(item);
+			if (item->isStoreItem()) {
+				keptStoreItems = true;
+			} else if (isPlainStack(item)) {
+				plainStacks.emplace_back(item);
+			} else {
+				storedObjects.emplace_back(item);
 			}
 		}
 	}
 
-	uint32_t totalCount = 0;
-	for (const auto &item : itemsVector) {
-		totalCount += item->getItemAmount();
-	}
-
-	double freeCap = m_player.getFreeCapacity();
-	const ItemType &it = Item::items[itemId];
-	double unitWeight = it.weight;
-
-	uint32_t maxByWeight = unitWeight > 0.0
-		? static_cast<uint32_t>(freeCap / unitWeight)
-		: totalCount;
-	uint32_t retrievableCount = std::min(totalCount, maxByWeight);
-
-	uint32_t actuallyRetrieved = 0;
-	AddItemBatchOptions options;
-	options.tier = searchedTier;
-	auto returnValue = addItemBatch(itemId, retrievableCount, actuallyRetrieved, options);
-
-	if (returnValue != RETURNVALUE_NOERROR) {
-		m_player.sendCancelMessage(returnValue);
-		return;
-	}
-
-	if (actuallyRetrieved == 0) {
-		m_player.sendCancelMessage(RETURNVALUE_NOTENOUGHCAPACITY);
-		return;
-	}
-
-	uint32_t totalRemoved = 0;
-	for (const auto &item : itemsVector) {
-		if (totalRemoved >= actuallyRetrieved) {
+	const auto &thisPlayer = m_player.getPlayer();
+	ReturnValue failure = RETURNVALUE_NOERROR;
+	bool retrievedAny = false;
+	for (const auto &item : storedObjects) {
+		const auto &parent = item->getParent();
+		if (!parent) {
+			continue;
+		}
+		const auto moved = g_game().internalMoveItem(parent, thisPlayer, INDEX_WHEREEVER, item, item->getItemCount(), nullptr, 0, thisPlayer);
+		if (moved != RETURNVALUE_NOERROR) {
+			failure = moved;
 			break;
 		}
-		// In 32 bits: a difference above 65535 cast first would come out as a small number, or 0.
-		const auto amountToRemove = static_cast<uint16_t>(std::min<uint32_t>(
-			actuallyRetrieved - totalRemoved,
-			item->getItemAmount()
-		));
-		if (m_player.removeItem(item, amountToRemove) == RETURNVALUE_NOERROR) {
-			totalRemoved += amountToRemove;
+		retrievedAny = true;
+	}
+
+	if (failure == RETURNVALUE_NOERROR && !plainStacks.empty()) {
+		uint32_t totalCount = 0;
+		for (const auto &item : plainStacks) {
+			totalCount += item->getItemAmount();
+		}
+
+		double freeCap = m_player.getFreeCapacity();
+		const ItemType &it = Item::items[itemId];
+		double unitWeight = it.weight;
+
+		uint32_t maxByWeight = unitWeight > 0.0
+			? static_cast<uint32_t>(freeCap / unitWeight)
+			: totalCount;
+		uint32_t retrievableCount = std::min(totalCount, maxByWeight);
+
+		uint32_t actuallyRetrieved = 0;
+		AddItemBatchOptions options;
+		options.tier = searchedTier;
+		const auto added = addItemBatch(itemId, retrievableCount, actuallyRetrieved, options);
+		if (added != RETURNVALUE_NOERROR) {
+			failure = added;
+		} else if (actuallyRetrieved == 0) {
+			failure = RETURNVALUE_NOTENOUGHCAPACITY;
+		}
+
+		uint32_t totalRemoved = 0;
+		for (const auto &item : plainStacks) {
+			if (totalRemoved >= actuallyRetrieved) {
+				break;
+			}
+			// In 32 bits: a difference above 65535 cast first would come out as a small number, or 0.
+			const auto amountToRemove = static_cast<uint16_t>(std::min<uint32_t>(
+				actuallyRetrieved - totalRemoved,
+				item->getItemAmount()
+			));
+			if (m_player.removeItem(item, amountToRemove) == RETURNVALUE_NOERROR) {
+				totalRemoved += amountToRemove;
+			}
+		}
+
+		if (totalRemoved != actuallyRetrieved) {
+			g_logger().error(
+				"[retrieveAllItemsFromDepotSearch] Removed ({}) != Inserted ({}) for itemId: {}, player: {}",
+				totalRemoved, actuallyRetrieved, itemId, m_player.getName()
+			);
+		}
+
+		if (actuallyRetrieved > 0) {
+			retrievedAny = true;
+		}
+		if (failure == RETURNVALUE_NOERROR && actuallyRetrieved < retrievableCount) {
+			failure = RETURNVALUE_NOTENOUGHCAPACITY;
 		}
 	}
 
 	m_player.updateState();
 
-	if (totalRemoved != actuallyRetrieved) {
-		g_logger().error(
-			"[retrieveAllItemsFromDepotSearch] Removed ({}) != Inserted ({}) for itemId: {}, player: {}",
-			totalRemoved, actuallyRetrieved, itemId, m_player.getName()
-		);
-	}
-
-	if (actuallyRetrieved < retrievableCount) {
-		m_player.sendCancelMessage(RETURNVALUE_NOTENOUGHCAPACITY);
+	if (failure != RETURNVALUE_NOERROR) {
+		m_player.sendCancelMessage(failure);
+	} else if (keptStoreItems) {
+		m_player.sendCancelMessage("Store items stay in your depot.");
+	} else if (!retrievedAny) {
+		m_player.sendCancelMessage(RETURNVALUE_NOTPOSSIBLE);
 	}
 
 	requestDepotSearchItem(itemId, searchedTier);
