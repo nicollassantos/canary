@@ -8,6 +8,7 @@
  */
 
 #include "lua/functions/creatures/player/player_functions.hpp"
+#include "game/bosstiary/bosstiary_slot_rules.hpp"
 
 #include "account/account.hpp"
 #include "creatures/appearance/mounts/mounts.hpp"
@@ -4460,7 +4461,7 @@ int PlayerFunctions::luaPlayerGetBossBonus(lua_State* L) {
 	const uint16_t currentBonus = g_ioBosstiary().calculateLootBonus(playerBossPoints);
 
 	const auto bossLevel = g_ioBosstiary().getBossCurrentLevel(player, bossId);
-	const uint16_t bonusBoss = currentBonus + (bossLevel == 3 ? 25 : 0);
+	const uint16_t bonusBoss = bosstiary_slot_rules::slotLootBonus(currentBonus, bossLevel);
 
 	lua_pushnumber(L, static_cast<lua_Number>(bonusBoss));
 	return 1;

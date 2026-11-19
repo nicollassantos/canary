@@ -251,7 +251,7 @@ them, put the condition in the module and its test, not back in the function.
 
 | Upstream function | Rules now in | Test |
 |---|---|---|
-| `Game::playerBosstiarySlot` (`game.cpp`), `ProtocolGame::parseSendBosstiarySlots` (`protocolgame.cpp`) | `src/game/bosstiary/bosstiary_slot_rules.cpp` | `tests/unit/game/bosstiary_slot_rules_test.cpp` |
+| `Game::playerBosstiarySlot` (`game.cpp`), `ProtocolGame::parseSendBosstiarySlots` (`protocolgame.cpp`: unlock, selectable bosses, slot loot bonus), `PlayerFunctions::luaPlayerGetBossBonus` (`player_functions.cpp`) | `src/game/bosstiary/bosstiary_slot_rules.cpp` | `tests/unit/game/bosstiary_slot_rules_test.cpp` |
 | `ProtocolGame::parseBestiarysendMonsterData` (`protocolgame.cpp`) | `src/game/bestiary/bestiary_disclosure.hpp` | `tests/unit/game/bestiary_disclosure_test.cpp` |
 | `ProtocolGame::parseBestiarySendRaces` (`protocolgame.cpp`) | `IOBestiary::summarizeRaces` (`src/io/iobestiary.cpp`) | live: `opcode_sweep.py --opcodes E1` and the race list compared byte for byte |
 | `ProtocolGame::parseLeaderFinderWindow`, `ProtocolGame::parseMemberFinderWindow` (`protocolgame.cpp`) | `src/creatures/players/grouping/team_finder_rules.hpp` | `tests/unit/players/team_finder_rules_test.cpp` |

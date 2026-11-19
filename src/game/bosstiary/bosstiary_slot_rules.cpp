@@ -25,6 +25,20 @@ namespace bosstiary_slot_rules {
 		return false;
 	}
 
+	std::vector<uint16_t> selectableBosses(const SlotState &state) {
+		std::vector<uint16_t> bosses;
+		for (const auto boss : state.unlockedBosses) {
+			if (boss != state.boostedBossId && boss != state.slotOne && boss != state.slotTwo) {
+				bosses.emplace_back(boss);
+			}
+		}
+		return bosses;
+	}
+
+	uint16_t slotLootBonus(uint16_t pointsBonus, uint8_t bossLevel) {
+		return pointsBonus + (bossLevel == MasteryLevel ? MasteryLootBonus : 0);
+	}
+
 	SlotDecision decide(const SlotState &state, uint8_t slotId, uint32_t bossId) {
 		if (slotId != 1 && slotId != 2) {
 			return { SlotChange::Refused, 0, "invalid slot" };

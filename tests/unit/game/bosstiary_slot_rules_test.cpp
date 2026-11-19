@@ -80,3 +80,25 @@ TEST(BosstiarySlotRulesTest, AnOccupiedSlotOnlyRemovesItsBossPaidUnlessItIsTheBo
 	EXPECT_EQ(SlotChange::Remove, decision.change);
 	EXPECT_EQ(0U, decision.price);
 }
+
+// The window offers exactly the bosses `decide` puts in an empty open slot.
+TEST(BosstiarySlotRulesTest, TheWindowOffersExactlyTheBossesThatCanBeAssigned) {
+	auto s = state();
+	s.slotTwo = 102;
+	const auto offered = bosstiary_slot_rules::selectableBosses(s);
+	EXPECT_EQ((std::vector<uint16_t> { 101, 103 }), offered); // not the boosted boss, not the one in slot two
+
+	for (const uint32_t boss : { 101U, 102U, 103U, Boosted, 555U }) {
+		const bool isOffered = std::ranges::find(offered, static_cast<uint16_t>(boss)) != offered.end();
+		EXPECT_EQ(isOffered, bosstiary_slot_rules::decide(s, 1, boss).change == SlotChange::Assign) << boss;
+	}
+
+	s.slotOne = 101; // both slots taken: one boss left to offer
+	EXPECT_EQ((std::vector<uint16_t> { 103 }), bosstiary_slot_rules::selectableBosses(s));
+}
+
+TEST(BosstiarySlotRulesTest, AMasteredSlotBossAddsTwentyFivePercent) {
+	EXPECT_EQ(30, bosstiary_slot_rules::slotLootBonus(30, 2));
+	EXPECT_EQ(55, bosstiary_slot_rules::slotLootBonus(30, bosstiary_slot_rules::MasteryLevel));
+	EXPECT_EQ(25, bosstiary_slot_rules::slotLootBonus(0, 3));
+}

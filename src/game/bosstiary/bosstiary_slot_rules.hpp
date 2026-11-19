@@ -51,6 +51,20 @@ namespace bosstiary_slot_rules {
 		std::string_view reason;
 	};
 
+	/// Bosses the slots window offers: unlocked, not today's boosted one (it has its own slot) and not in a
+	/// slot already, in the order given. Exactly the bosses `decide` assigns to an empty open slot.
+	std::vector<uint16_t> selectableBosses(const SlotState &state);
+
+	/// Kill level at which a boss is mastered (IOBosstiary::levelInfos has three levels).
+	inline constexpr uint8_t MasteryLevel = 3;
+	/// Tibia (TibiaWiki BR, Bosstiário): "Mastery concede a você um bônus adicional de 25% de saque de
+	/// equipamento quando este boss é designado a um boss slot".
+	inline constexpr uint16_t MasteryLootBonus = 25;
+
+	/// Equipment loot bonus of a slot boss: the bonus of the player's boss points, plus MasteryLootBonus for a
+	/// mastered boss. Shown in the slots window and used by the reward chest (Player:getBossBonus).
+	uint16_t slotLootBonus(uint16_t pointsBonus, uint8_t bossLevel);
+
 	/// What selecting `bossId` for `slotId` does; `bossId` 0 removes the slot's boss. As in the Tibia client,
 	/// a boss goes only into an empty open slot (an occupied one offers only "Remove", at its price), and
 	/// must be unlocked, not today's boosted one (it has its own slot) and not in the other slot.

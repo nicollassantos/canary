@@ -3885,13 +3885,14 @@ void ProtocolGame::parseSendBosstiarySlots() {
 
 	uint32_t removePrice = g_ioBosstiary().calculteRemoveBoss(player->getRemoveTimes());
 
-	auto bossesUnlockedList = g_ioBosstiary().getBosstiaryFinished(player);
-	const auto everUnlockedSize = bossesUnlockedList.size();
-	if (auto it = std::ranges::find(bossesUnlockedList.begin(), bossesUnlockedList.end(), boostedBossId);
-	    it != bossesUnlockedList.end()) {
-		[[maybe_unused]] auto it_erase = bossesUnlockedList.erase(it);
-	}
-	auto bossesUnlockedSize = static_cast<uint16_t>(bossesUnlockedList.size());
+	bosstiary_slot_rules::SlotState slotState;
+	slotState.slotOne = bossIdSlotOne;
+	slotState.slotTwo = bossIdSlotTwo;
+	slotState.boostedBossId = boostedBossId;
+	slotState.unlockedBosses = g_ioBosstiary().getBosstiaryFinished(player);
+	slotState.bossPoints = playerBossPoints;
+	const auto everUnlockedSize = slotState.unlockedBosses.size();
+	const auto selectableBosses = bosstiary_slot_rules::selectableBosses(slotState);
 
 	bool isSlotOneUnlocked = bosstiary_slot_rules::isSlotUnlocked(1, everUnlockedSize, playerBossPoints);
 	msg.addByte(isSlotOneUnlocked ? 1 : 0);
@@ -3900,11 +3901,10 @@ void ProtocolGame::parseSendBosstiarySlots() {
 		// Variables Boss Slot One
 		auto bossKillCount = player->getBestiaryKillCount(static_cast<uint16_t>(bossIdSlotOne));
 		auto slotOneBossLevel = g_ioBosstiary().getBossCurrentLevel(player, (uint16_t)bossIdSlotOne);
-		uint16_t bonusBossSlotOne = currentBonus + (slotOneBossLevel == 3 ? 25 : 0);
+		uint16_t bonusBossSlotOne = bosstiary_slot_rules::slotLootBonus(currentBonus, slotOneBossLevel);
 		uint8_t isSlotOneInactive = bossIdSlotOne == boostedBossId ? 1 : 0;
 		// Bytes Slot One
 		sendBosstiarySlotsBytes(msg, static_cast<uint8_t>(bossRaceSlotOne), bossKillCount, bonusBossSlotOne, 0, isSlotOneInactive, removePrice);
-		bossesUnlockedSize--;
 	}
 
 	const uint32_t slotTwoPoints = bosstiary_slot_rules::SecondSlotPoints;
@@ -3915,11 +3915,10 @@ void ProtocolGame::parseSendBosstiarySlots() {
 		// Variables Boss Slot Two
 		auto bossKillCount = player->getBestiaryKillCount((uint16_t)(bossIdSlotTwo));
 		auto slotTwoBossLevel = g_ioBosstiary().getBossCurrentLevel(player, (uint16_t)bossIdSlotTwo);
-		uint16_t bonusBossSlotTwo = currentBonus + (slotTwoBossLevel == 3 ? 25 : 0);
+		uint16_t bonusBossSlotTwo = bosstiary_slot_rules::slotLootBonus(currentBonus, slotTwoBossLevel);
 		uint8_t isSlotTwoInactive = bossIdSlotTwo == boostedBossId ? 1 : 0;
 		// Bytes Slot Two
 		sendBosstiarySlotsBytes(msg, static_cast<uint8_t>(bossRaceSlotTwo), bossKillCount, bonusBossSlotTwo, 0, isSlotTwoInactive, removePrice);
-		bossesUnlockedSize--;
 	}
 
 	bool isTodaySlotUnlocked = g_configManager().getBoolean(BOOSTED_BOSS_SLOT);
@@ -3933,16 +3932,14 @@ void ProtocolGame::parseSendBosstiarySlots() {
 		sendBosstiarySlotsBytes(msg, static_cast<uint8_t>(boostedBossRace), boostedBossKillCount, boostedLootBonus, bosstiaryMultiplier + boostedKillBonus, 0, 0);
 	}
 
-	msg.addByte(bossesUnlockedSize != 0 ? 1 : 0);
-	if (bossesUnlockedSize != 0) {
+	// The list the client offers: the same bosses `decide` accepts (it used to subtract a slot even when the
+	// slot's boss was not in the list, so the flag could be wrong).
+	msg.addByte(selectableBosses.empty() ? 0 : 1);
+	if (!selectableBosses.empty()) {
 		auto unlockCountBuffer = msg.getBufferPosition();
 		uint16_t bossesCount = 0;
 		msg.skipBytes(2);
-		for (const auto &bossId : bossesUnlockedList) {
-			if (bossId == bossIdSlotOne || bossId == bossIdSlotTwo) {
-				continue;
-			}
-
+		for (const auto &bossId : selectableBosses) {
 			const auto mType = g_ioBosstiary().getMonsterTypeByBossRaceId(bossId);
 			if (!mType) {
 				g_logger().error("[{}] monster {} not found", __FUNCTION__, bossId);

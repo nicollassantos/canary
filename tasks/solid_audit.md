@@ -70,8 +70,8 @@ arquivos que já são da branch ou que ganharem teste; `protocolgame*.cpp` conce
 ### 6. Adaptadores de entrada com regra de negócio
 
 - `ProtocolGame` (adaptador de rede): 168 `g_game()` em `protocolgame.cpp`; funções longas com regra,
-  não só parse: `onRecvFirstMessage` (261 linhas, autenticação e sessão), `login` (160), `parseSendBosstiarySlots`
-  (133, monta a regra dos slots), `parseBestiarysendMonsterData` (117). **Ação:** ~~levar login/sessão para um
+  não só parse: `onRecvFirstMessage` (261 linhas, autenticação e sessão), `login` (160), ~~`parseSendBosstiarySlots`
+  (133, monta a regra dos slots)~~ (23.6: oferta e bônus em `bosstiary_slot_rules`), `parseBestiarysendMonsterData` (117). **Ação:** ~~levar login/sessão para um
   `LoginService` testável~~ (feito na 25.16 para as regras de admissão; a autenticação e a sessão seguem no
   `ProtocolGame`/`IOLoginData`) e ~~a montagem de bestiário/bosstiary~~ (23.6: regras de slot do bosstiary em
   `bosstiary_slot_rules`, o que o bestiário revela em `bestiary_disclosure`; a codificação segue no `ProtocolGame`).
