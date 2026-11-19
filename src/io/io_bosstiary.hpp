@@ -9,6 +9,16 @@
 
 #pragma once
 
+#include "game/server_config_repository.hpp"
+
+#ifndef USE_PRECOMPILED_HEADERS
+	#include <functional>
+	#include <optional>
+	#include <string>
+	#include <utility>
+	#include <vector>
+#endif
+
 enum class BosstiaryRarity_t : uint8_t {
 	RARITY_BANE = 0,
 	RARITY_ARCHFOE = 1,
@@ -36,7 +46,18 @@ public:
 
 	static IOBosstiary &getInstance();
 
+	/// The boss of the day, through IServerConfigRepository: today's stored one, or a new one chosen with
+	/// chooseBoostedBoss, stored and taken out of every player's slots.
 	void loadBoostedBoss();
+
+	struct BoostedBossChoice {
+		BoostedCreatureRecord boss;
+		bool isNew = false;
+	};
+	/// The stored boss when it was chosen `today`; else one of `candidates` (the archfoe bosses), picked with
+	/// `pick(n)`, an index in [0, n). nullopt when nothing is stored, or a new one is needed and there is no
+	/// candidate.
+	static std::optional<BoostedBossChoice> chooseBoostedBoss(const std::optional<BoostedCreatureRecord> &stored, uint16_t today, const std::vector<std::pair<uint16_t, std::string>> &candidates, const std::function<size_t(size_t)> &pick);
 
 	void addBosstiaryMonster(uint16_t raceId, const std::string &name);
 	const std::map<uint16_t, std::string> &getBosstiaryMap() const;

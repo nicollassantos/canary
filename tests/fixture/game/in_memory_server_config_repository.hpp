@@ -58,8 +58,22 @@ namespace tests {
 			return true;
 		}
 
+		std::optional<BoostedCreatureRecord> loadBoostedBoss() override {
+			return boostedBoss;
+		}
+
+		bool storeBoostedBoss(const BoostedCreatureRecord &boss, const std::optional<BoostedBossLook> &look) override {
+			boostedBoss = boss;
+			boostedBossLook = look;
+			++boostedBossStores;
+			return true;
+		}
+
 		std::map<std::string, std::string> values;
 		std::optional<BoostedCreatureRecord> boosted;
 		BoostedCreatureLook boostedLook;
+		std::optional<BoostedCreatureRecord> boostedBoss;
+		std::optional<BoostedBossLook> boostedBossLook;
+		size_t boostedBossStores = 0;
 	};
 } // namespace tests

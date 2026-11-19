@@ -37,6 +37,7 @@ target_sources(
             combat_change_health_test.cpp
             bosstiary_slot_rules_test.cpp
             bestiary_disclosure_test.cpp
+            boosted_boss_choice_test.cpp
             house_auction_transfer_test.cpp
             rule_violation_report_test.cpp
             highscore_requests_test.cpp

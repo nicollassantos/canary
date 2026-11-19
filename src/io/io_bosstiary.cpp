@@ -19,11 +19,24 @@ IOBosstiary &IOBosstiary::getInstance() {
 	return inject<IOBosstiary>();
 }
 
+std::optional<IOBosstiary::BoostedBossChoice> IOBosstiary::chooseBoostedBoss(const std::optional<BoostedCreatureRecord> &stored, uint16_t today, const std::vector<std::pair<uint16_t, std::string>> &candidates, const std::function<size_t(size_t)> &pick) {
+	if (!stored) {
+		return std::nullopt;
+	}
+	if (stored->day == today) {
+		return BoostedBossChoice { *stored, false };
+	}
+	if (candidates.empty()) {
+		return std::nullopt;
+	}
+	const auto &[raceId, name] = candidates[std::min(pick(candidates.size()), candidates.size() - 1)];
+	return BoostedBossChoice { BoostedCreatureRecord { today, name, raceId }, true };
+}
+
 void IOBosstiary::loadBoostedBoss() {
-	Database &database = Database::getInstance();
-	auto query = fmt::format("SELECT `date`, `boostname`, `raceid` FROM `boosted_boss`");
-	DBResult_ptr result = database.storeQuery(query);
-	if (!result) {
+	auto &repository = IServerConfigRepository::getInstance();
+	const auto stored = repository.loadBoostedBoss();
+	if (!stored) {
 		g_logger().error("[{}] Failed to detect boosted boss database. (CODE 01)", __FUNCTION__);
 		return;
 	}
@@ -35,92 +48,39 @@ void IOBosstiary::loadBoostedBoss() {
 	}
 
 	auto timeNow = getTimeNow();
-	auto time = localtime(&timeNow);
-	auto today = time->tm_mday;
+	const auto today = static_cast<uint16_t>(localtime(&timeNow)->tm_mday);
 
-	if (!result) {
-		g_logger().warn("[{}] No boosted boss found in g_database(). A new one will be selected.", __FUNCTION__);
-	} else {
-		auto date = result->getNumber<uint16_t>("date");
-		if (date == today) {
-			std::string bossName = result->getString("boostname");
-			uint16_t bossId = result->getNumber<uint16_t>("raceid");
-			setBossBoostedName(bossName);
-			setBossBoostedId(bossId);
-			g_logger().info("Boosted boss: {}", bossName);
-			return;
-		}
-	}
-
-	// Filter only archfoe bosses
-	std::vector<std::pair<uint16_t, std::string>> bossInfo;
+	std::vector<std::pair<uint16_t, std::string>> archfoes;
 	for (const auto &[infoBossRaceId, infoBossName] : bossMap) {
 		const auto &mType = getMonsterTypeByBossRaceId(infoBossRaceId);
-		if (!mType || mType->info.bosstiaryRace != BosstiaryRarity_t::RARITY_ARCHFOE) {
-			continue;
+		if (mType && mType->info.bosstiaryRace == BosstiaryRarity_t::RARITY_ARCHFOE) {
+			archfoes.emplace_back(infoBossRaceId, infoBossName);
 		}
-		bossInfo.emplace_back(infoBossRaceId, infoBossName);
 	}
 
-	// Check if not have archfoe registered boss
-	if (bossInfo.empty()) {
+	const auto choice = chooseBoostedBoss(stored, today, archfoes, [](size_t count) {
+		return static_cast<size_t>(uniform_random(0, static_cast<int32_t>(count) - 1));
+	});
+	if (!choice) {
 		g_logger().error("Failed to boost a boss. There is no boss registered with the Archfoe Rarity.");
 		return;
 	}
 
-	const auto &[randomBossId, randomBossName] = bossInfo[uniform_random(0, static_cast<int32_t>(bossInfo.size() - 1))];
-	std::string bossName = randomBossName;
-	uint16_t bossId = randomBossId;
-
-	query = fmt::format(
-		"UPDATE `boosted_boss` SET `date` = '{}', `boostname` = {}, `raceid` = '{}', ",
-		today, database.escapeString(bossName), bossId
-	);
-
-	if (const auto bossType = getMonsterTypeByBossRaceId(bossId); bossType) {
-		query += fmt::format(
-			"`looktypeEx` = {}, `looktype` = {}, `lookfeet` = {}, `looklegs` = {}, "
-			"`lookhead` = {}, `lookbody` = {}, `lookaddons` = {}, `lookmount` = {}, ",
-			static_cast<int>(bossType->info.outfit.lookTypeEx),
-			static_cast<int>(bossType->info.outfit.lookType),
-			static_cast<int>(bossType->info.outfit.lookFeet),
-			static_cast<int>(bossType->info.outfit.lookLegs),
-			static_cast<int>(bossType->info.outfit.lookHead),
-			static_cast<int>(bossType->info.outfit.lookBody),
-			static_cast<int>(bossType->info.outfit.lookAddons),
-			static_cast<int>(bossType->info.outfit.lookMount)
-		);
+	if (choice->isNew) {
+		std::optional<BoostedBossLook> look;
+		if (const auto bossType = getMonsterTypeByBossRaceId(choice->boss.raceId)) {
+			const auto &outfit = bossType->info.outfit;
+			look = BoostedBossLook { outfit.lookTypeEx, outfit.lookType, outfit.lookFeet, outfit.lookLegs, outfit.lookHead, outfit.lookBody, outfit.lookAddons, outfit.lookMount };
+		}
+		if (!repository.storeBoostedBoss(choice->boss, look)) {
+			g_logger().error("[{}] Failed to store the boosted boss and release it from the players' slots. (CODE 03)", __FUNCTION__);
+			return;
+		}
 	}
 
-	query += fmt::format("`raceid` = '{}'", bossId);
-
-	if (!database.executeQuery(query)) {
-		g_logger().error("[{}] Failed to detect boosted boss database. (CODE 03)", __FUNCTION__);
-		return;
-	}
-
-	query = fmt::format(
-		"UPDATE `player_bosstiary` SET `bossIdSlotOne` = 0 WHERE `bossIdSlotOne` = {}",
-		bossId
-	);
-
-	if (!database.executeQuery(query)) {
-		g_logger().error("[{}] Failed to reset players selected boss slot 1. (CODE 03)", __FUNCTION__);
-	}
-
-	query = fmt::format(
-		"UPDATE `player_bosstiary` SET `bossIdSlotTwo` = 0 WHERE `bossIdSlotTwo` = {}",
-		bossId
-	);
-
-	if (!database.executeQuery(query)) {
-		g_logger().error("[{}] Failed to reset players selected boss slot 2. (CODE 03)", __FUNCTION__);
-		return;
-	}
-
-	setBossBoostedName(bossName);
-	setBossBoostedId(bossId);
-	g_logger().info("Boosted boss: {}", bossName);
+	setBossBoostedName(choice->boss.name);
+	setBossBoostedId(choice->boss.raceId);
+	g_logger().info("Boosted boss: {}", choice->boss.name);
 }
 
 void IOBosstiary::addBosstiaryMonster(uint16_t raceId, const std::string &name) {

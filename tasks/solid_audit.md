@@ -33,7 +33,7 @@ explícitos, sem `g_game()`, com testes diretos (`HouseAuctionEligibilityTest`).
 | ~~`src/creatures/players/management/ban.cpp` (`IOBan`)~~ | feito na 25.16 (`IBanRepository`/`BanRepositoryDB`) | |
 | ~~`src/map/house/house.cpp`~~ | feito na 25.17 (`IHouseRepository`/`HouseRepositoryDB`) | |
 | ~~`src/game/game.cpp`~~ | feito na 25.20 (`IServerConfigRepository`/`ServerConfigRepositoryDB`) | |
-| `src/io/io_bosstiary.cpp` | boss boosted (4 consultas) | estático (`IOBosstiary`), sem fake |
+| ~~`src/io/io_bosstiary.cpp`~~ | feito na 23.6 (`IServerConfigRepository::loadBoostedBoss`/`storeBoostedBoss`, escolha pura em `IOBosstiary::chooseBoostedBoss`) | |
 | ~~components: forge history, wheel, títulos, cyclopedia, badges~~ | feito na 25.19 (`IPlayerProgressRepository`/`PlayerProgressRepositoryDB`) | |
 | ~~`src/io/iomapserialize.cpp`~~ | feito na 25.17/25.18 (`HouseRepositoryDB`) | |
 

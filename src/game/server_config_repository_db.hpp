@@ -14,7 +14,8 @@
 class IDatabase;
 
 /// IServerConfigRepository on the database (`server_config`, `boosted_creature`): the SQL that was in
-/// Game::loadMotdNum/saveMotdNum, loadPlayersRecord/updatePlayersRecord and loadBoostedCreature.
+/// Game::loadMotdNum/saveMotdNum, loadPlayersRecord/updatePlayersRecord and loadBoostedCreature, and
+/// IOBosstiary::loadBoostedBoss.
 class ServerConfigRepositoryDB final : public IServerConfigRepository {
 public:
 	explicit ServerConfigRepositoryDB(IDatabase &db);
@@ -24,6 +25,8 @@ public:
 	void update(std::string_view key, std::string_view value) override;
 	[[nodiscard]] std::optional<BoostedCreatureRecord> loadBoostedCreature() override;
 	[[nodiscard]] bool storeBoostedCreature(const BoostedCreatureRecord &creature, const BoostedCreatureLook &look) override;
+	[[nodiscard]] std::optional<BoostedCreatureRecord> loadBoostedBoss() override;
+	[[nodiscard]] bool storeBoostedBoss(const BoostedCreatureRecord &boss, const std::optional<BoostedBossLook> &look) override;
 
 private:
 	IDatabase &db;

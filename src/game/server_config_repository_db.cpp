@@ -50,3 +50,30 @@ bool ServerConfigRepositoryDB::storeBoostedCreature(const BoostedCreatureRecord 
 		creature.day, db.escapeString(creature.name), look.lookType, look.lookFeet, look.lookLegs, look.lookHead, look.lookBody, look.lookAddons, look.lookMount, creature.raceId
 	));
 }
+
+std::optional<BoostedCreatureRecord> ServerConfigRepositoryDB::loadBoostedBoss() {
+	const auto result = db.storeQuery("SELECT `date`, `boostname`, `raceid` FROM `boosted_boss`");
+	if (!result) {
+		return std::nullopt;
+	}
+	return BoostedCreatureRecord { result->getNumber<uint16_t>("date"), result->getString("boostname"), result->getNumber<uint16_t>("raceid") };
+}
+
+bool ServerConfigRepositoryDB::storeBoostedBoss(const BoostedCreatureRecord &boss, const std::optional<BoostedBossLook> &look) {
+	std::string update = fmt::format("UPDATE `boosted_boss` SET `date` = '{}', `boostname` = {}, ", boss.day, db.escapeString(boss.name));
+	if (look) {
+		update += fmt::format(
+			"`looktypeEx` = {}, `looktype` = {}, `lookfeet` = {}, `looklegs` = {}, `lookhead` = {}, `lookbody` = {}, `lookaddons` = {}, `lookmount` = {}, ",
+			look->lookTypeEx, look->lookType, look->lookFeet, look->lookLegs, look->lookHead, look->lookBody, look->lookAddons, look->lookMount
+		);
+	}
+	update += fmt::format("`raceid` = '{}'", boss.raceId);
+	// Upstream ran these as three statements: the slots could be released, or not, apart from the boss.
+	return db.commitStatements({
+		std::move(update),
+		fmt::format(
+			"UPDATE `player_bosstiary` SET `bossIdSlotOne` = IF(`bossIdSlotOne` = {0}, 0, `bossIdSlotOne`), `bossIdSlotTwo` = IF(`bossIdSlotTwo` = {0}, 0, `bossIdSlotTwo`) WHERE `bossIdSlotOne` = {0} OR `bossIdSlotTwo` = {0}",
+			boss.raceId
+		),
+	});
+}

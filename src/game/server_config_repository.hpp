@@ -34,6 +34,18 @@ struct BoostedCreatureLook {
 	uint16_t lookMount = 0;
 };
 
+/// The boosted boss's outfit, as `boosted_boss` keeps it (for the website).
+struct BoostedBossLook {
+	uint16_t lookTypeEx = 0;
+	uint16_t lookType = 0;
+	uint8_t lookFeet = 0;
+	uint8_t lookLegs = 0;
+	uint8_t lookHead = 0;
+	uint8_t lookBody = 0;
+	uint8_t lookAddons = 0;
+	uint16_t lookMount = 0;
+};
+
 /// Server-wide values kept in the database (driven port): the `server_config` key/value table
 /// (motd number and hash, players record) and the boosted creature. Game keeps the rules; tests use
 /// an in-memory fake (tests/fixture/game/in_memory_server_config_repository.hpp).
@@ -52,6 +64,12 @@ public:
 
 	[[nodiscard]] virtual std::optional<BoostedCreatureRecord> loadBoostedCreature() = 0;
 	[[nodiscard]] virtual bool storeBoostedCreature(const BoostedCreatureRecord &creature, const BoostedCreatureLook &look) = 0;
+
+	/// The boosted boss of the day as stored (`boosted_boss`, a single row).
+	[[nodiscard]] virtual std::optional<BoostedCreatureRecord> loadBoostedBoss() = 0;
+	/// Stores a new boosted boss and takes it out of every player's Bosstiary slots (it has its own slot),
+	/// in one transaction; `look` is empty when the boss has no monster type.
+	[[nodiscard]] virtual bool storeBoostedBoss(const BoostedCreatureRecord &boss, const std::optional<BoostedBossLook> &look) = 0;
 };
 
 constexpr auto g_serverConfigRepository = IServerConfigRepository::getInstance;
