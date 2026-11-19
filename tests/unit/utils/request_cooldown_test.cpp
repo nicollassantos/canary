@@ -27,6 +27,20 @@ TEST(RequestCooldownTest, KeysAreIndependent) {
 	EXPECT_FALSE(cooldown.tryTake(1, 1100));
 }
 
+// Pairs of ids as one key (ChatService's invite notice: owner and invited player): two owners inviting the
+// same player are independent, though the low 32 bits are equal.
+TEST(RequestCooldownTest, PairKeysUseAllSixtyFourBits) {
+	RequestCooldown cooldown(2000);
+	const auto pair = [](uint32_t owner, uint32_t invited) {
+		return (static_cast<uint64_t>(owner) << 32) | invited;
+	};
+
+	EXPECT_TRUE(cooldown.tryTake(pair(1, 50), 1000));
+	EXPECT_TRUE(cooldown.tryTake(pair(2, 50), 1000));
+	EXPECT_FALSE(cooldown.tryTake(pair(1, 50), 2999));
+	EXPECT_TRUE(cooldown.tryTake(pair(1, 50), 3000));
+}
+
 TEST(RequestCooldownTest, RefusedRequestsDoNotExtendTheWait) {
 	RequestCooldown cooldown(500);
 

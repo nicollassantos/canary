@@ -70,11 +70,18 @@ void ChatService::playerChannelInvite(uint32_t playerId, const std::string &name
 		return;
 	}
 
-	if (player == invitePlayer) {
+	if (player == invitePlayer || channel->isInvited(invitePlayer->getGUID())) {
 		return;
 	}
 
-	channel->invitePlayer(player, invitePlayer);
+	// A guid pair as the key: another owner's invite is still told at once. The channel's own cooldown would
+	// not do: closing the channel and creating a new one would start it over.
+	const uint64_t pair = (static_cast<uint64_t>(player->getGUID()) << 32) | invitePlayer->getGUID();
+	const bool notify = inviteNotice.tryTake(pair, OTSYS_TIME());
+	if (!notify) {
+		g_metrics().addCounter("client_requests_throttled", 1, { { "request", "channel_invite_notice" } });
+	}
+	channel->invitePlayer(player, invitePlayer, notify);
 }
 
 void ChatService::playerChannelExclude(uint32_t playerId, const std::string &name) {

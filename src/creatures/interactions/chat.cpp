@@ -39,17 +39,19 @@ bool PrivateChatChannel::removeInvite(uint32_t guid) {
 	return invites.erase(guid) != 0;
 }
 
-void PrivateChatChannel::invitePlayer(const std::shared_ptr<Player> &player, const std::shared_ptr<Player> &invitePlayer) {
+void PrivateChatChannel::invitePlayer(const std::shared_ptr<Player> &player, const std::shared_ptr<Player> &invitePlayer, bool notifyInvited /*= true*/) {
 	auto [iter, inserted] = invites.try_emplace(invitePlayer->getGUID(), invitePlayer);
 	if (!inserted) {
 		return;
 	}
 
 	std::ostringstream ss;
-	ss << player->getName() << " invites you to " << player->getPossessivePronoun() << " private chat channel.";
-	invitePlayer->sendTextMessage(MESSAGE_PARTY_MANAGEMENT, ss.str());
+	if (notifyInvited) {
+		ss << player->getName() << " invites you to " << player->getPossessivePronoun() << " private chat channel.";
+		invitePlayer->sendTextMessage(MESSAGE_PARTY_MANAGEMENT, ss.str());
+		ss.str(std::string());
+	}
 
-	ss.str(std::string());
 	ss << invitePlayer->getName() << " has been invited.";
 	player->sendTextMessage(MESSAGE_PARTY_MANAGEMENT, ss.str());
 

@@ -14,6 +14,7 @@
 #include <string>
 
 #include "game/chat/typing_throttle.hpp"
+#include "utils/request_cooldown.hpp"
 
 class Game;
 class IConfigManager;
@@ -25,6 +26,11 @@ enum SpeakClasses : uint8_t;
 
 class ChatService {
 public:
+	/// A player invited to a private channel is messaged at most once per this interval by the same owner
+	/// (user decision, 2026-11-19): inviting and excluding in a loop messaged them on every invite. The
+	/// invite itself always happens. Inviting by name, anyone online, is Tibia's behavior.
+	static constexpr int64_t InviteNoticeIntervalMs = 2000;
+
 	ChatService(Game &game, IConfigManager &config) :
 		game_(game), config_(config) { }
 
@@ -51,4 +57,6 @@ private:
 	Game &game_;
 	IConfigManager &config_;
 	TypingThrottle typingThrottle;
+	/// Keyed by owner and invited player guids. Dispatcher thread only, like every ChatService call.
+	RequestCooldown inviteNotice { InviteNoticeIntervalMs };
 };

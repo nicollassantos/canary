@@ -72,7 +72,9 @@ public:
 
 	bool isInvited(uint32_t guid) const;
 
-	void invitePlayer(const std::shared_ptr<Player> &player, const std::shared_ptr<Player> &invitePlayer);
+	/// `notifyInvited` false: the invite is kept and announced in the channel, but the invited player is not
+	/// messaged (ChatService::InviteNoticeIntervalMs).
+	void invitePlayer(const std::shared_ptr<Player> &player, const std::shared_ptr<Player> &invitePlayer, bool notifyInvited = true);
 	void excludePlayer(const std::shared_ptr<Player> &player, const std::shared_ptr<Player> &excludePlayer);
 
 	bool removeInvite(uint32_t guid);

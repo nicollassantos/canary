@@ -15,7 +15,7 @@
 	#include <parallel_hashmap/phmap.h>
 #endif
 
-/// Minimum interval between two requests with the same key (usually a player id).
+/// Minimum interval between two requests with the same key (usually a player id; two ids for a pair).
 ///
 /// Keys come from the network, so stale entries are pruned once the map reaches
 /// PruneThreshold and it cannot grow without bound. Dispatcher thread only.
@@ -27,7 +27,7 @@ public:
 		intervalMs(intervalMs) { }
 
 	/// True when `key` may proceed at `nowMs`; the request is then recorded.
-	bool tryTake(uint32_t key, int64_t nowMs) {
+	bool tryTake(uint64_t key, int64_t nowMs) {
 		if (lastAt.size() >= PruneThreshold) {
 			for (auto it = lastAt.begin(); it != lastAt.end();) {
 				if (nowMs - it->second >= intervalMs) {
@@ -55,5 +55,5 @@ public:
 
 private:
 	int64_t intervalMs;
-	phmap::flat_hash_map<uint32_t, int64_t> lastAt;
+	phmap::flat_hash_map<uint64_t, int64_t> lastAt;
 };
