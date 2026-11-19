@@ -492,7 +492,7 @@
 
 - [x] **27.1** — #4102 núcleo `directory_creation` + gtest (5 testes: aninhado, já existe, metacaracteres de shell, arquivo no caminho, vazio)
 - [x] **27.2** — #4102 binding `fsCreateDirectories` (chama o núcleo), `fs.lua` e `tests/lua/test_fs.lua` da PR (9 casos, com reload do core) + `test_fs_no_shell.lua` (nenhum shell com nomes de injeção); os dois falham contra o `fs.lua` antigo. Smoke: `FS.mkdir_p` com nome hostil cria os diretórios e nenhum arquivo `injected`; vazio recusado
-- [ ] **27.3** — #4184 capacidade da entrega de casa
-- [ ] **27.4** — #4184 entrega tudo ou nada (rollback)
+- [x] **27.3** — #4184 capacidade: kits contados (casks 1, camas 2) e checados com `ITEM_DECORATION_KIT`; `tests/lua/test_gamestore_house_delivery.lua` (5 kits com 3 vagas recusado; cama com 1 vaga recusada)
+- [x] **27.4** — #4184 tudo ou nada: kit que falha remove os criados; `rollback` chamado quando o pagamento falha; resumo só depois de pagar (`test_gamestore_house_payment.lua`, com o `parseBuyStoreOffer` real). Controle negativo: o código antigo falha 6 + 2 checagens. Smoke: compra real no inbox do personagem 0 → 5 kits → rollback → 0
 - [ ] **CHECKPOINT 27**
 - #4183 (Grave Danger): ignorada (decisão do usuário, 2026-11-19); veredito no `plan.md`

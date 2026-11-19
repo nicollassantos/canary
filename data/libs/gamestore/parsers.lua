@@ -257,6 +257,12 @@ local function insertPlayerTransactionSummary(player, offer)
 	local id = offer.id
 	if offer.type == GameStore.OfferTypes.OFFER_TYPE_HOUSE then
 		id = offer.itemtype
+		if type(id) == "table" then
+			for _, itemId in ipairs(id) do
+				player:createTransactionSummary(offer.type, math.max(1, offer.count or 1), itemId)
+			end
+			return
+		end
 	elseif offer.type == GameStore.OfferTypes.OFFER_TYPE_BLESSINGS then
 		id = offer.blessid
 	end
@@ -351,7 +357,8 @@ local function parseBuyStoreOffer(playerId, msg)
 		elseif offer.type == GameStore.OfferTypes.OFFER_TYPE_STACKABLE then
 			GameStore.processStackablePurchase(player, offer.itemtype, offer.count, offer.name, offer.movable, offer.setOwner)
 		elseif offer.type == GameStore.OfferTypes.OFFER_TYPE_HOUSE or offer.type == GameStore.OfferTypes.OFFER_TYPE_ITEM_BED then
-			GameStore.processHouseRelatedPurchase(player, offer)
+			-- Returns the rollback used below when the payment fails.
+			return GameStore.processHouseRelatedPurchase(player, offer)
 		elseif offer.type == GameStore.OfferTypes.OFFER_TYPE_OUTFIT or offer.type == GameStore.OfferTypes.OFFER_TYPE_OUTFIT_ADDON then
 			GameStore.processOutfitPurchase(player, offer.sexId, offer.addon)
 		elseif offer.type == GameStore.OfferTypes.OFFER_TYPE_MOUNT then
@@ -403,15 +410,23 @@ local function parseBuyStoreOffer(playerId, msg)
 		return queueSendStoreAlertToUser(alertMessage, 500, playerId)
 	end
 
-	if table.contains({ GameStore.OfferTypes.OFFER_TYPE_HOUSE, GameStore.OfferTypes.OFFER_TYPE_EXPBOOST, GameStore.OfferTypes.OFFER_TYPE_PREYBONUS, GameStore.OfferTypes.OFFER_TYPE_BLESSINGS, GameStore.OfferTypes.OFFER_TYPE_ALLBLESSINGS, GameStore.OfferTypes.OFFER_TYPE_INSTANT_REWARD_ACCESS }, offer.type) then
+	if table.contains({ GameStore.OfferTypes.OFFER_TYPE_EXPBOOST, GameStore.OfferTypes.OFFER_TYPE_PREYBONUS, GameStore.OfferTypes.OFFER_TYPE_BLESSINGS, GameStore.OfferTypes.OFFER_TYPE_ALLBLESSINGS, GameStore.OfferTypes.OFFER_TYPE_INSTANT_REWARD_ACCESS }, offer.type) then
 		insertPlayerTransactionSummary(player, offer)
 	end
 	local configure = useOfferConfigure(offer.type)
 	if configure ~= GameStore.ConfigureOffers.SHOW_CONFIGURE then
 		if not player:makeCoinTransaction(offer) then
+			-- House kits are delivered before the payment: take them back when it fails (upstream PR #4184).
+			if (offer.type == GameStore.OfferTypes.OFFER_TYPE_HOUSE or offer.type == GameStore.OfferTypes.OFFER_TYPE_ITEM_BED) and type(pcallError) == "function" then
+				pcallError()
+			end
 			return player:showInfoModal("Error", "Purchase transaction error")
 		end
 
+		-- The house purchase summary is recorded only once the purchase is paid.
+		if offer.type == GameStore.OfferTypes.OFFER_TYPE_HOUSE then
+			insertPlayerTransactionSummary(player, offer)
+		end
 		-- makeCoinTransaction already sent the new balance.
 		local message = string.format("You have purchased %s for %d coins.", offer.name, offerPrice)
 		return addPlayerEvent(sendStorePurchaseSuccessful, 650, playerId, message)
