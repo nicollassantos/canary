@@ -769,6 +769,7 @@
     <ClInclude Include="..\src\game\chat\chat_service.hpp" />
     <ClInclude Include="..\src\game\chat\typing_throttle.hpp" />
     <ClInclude Include="..\src\game\cyclopedia\cyclopedia_service.hpp" />
+    <ClInclude Include="..\src\game\bestiary\bestiary_disclosure.hpp" />
     <ClInclude Include="..\src\game\bosstiary\bosstiary_slot_rules.hpp" />
     <ClInclude Include="..\src\game\login\login_service.hpp" />
     <ClInclude Include="..\src\game\server_config_repository.hpp" />

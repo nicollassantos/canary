@@ -105,6 +105,10 @@ class GameConnection:
         self.refusal = None
         self.bytes_received = 0
         self.packets_sent = 0
+        # Opcodes to keep: a frame whose first server message has one of them is decrypted and its
+        # payload appended to `captured` (for checks that read an answer; empty means none kept).
+        self.capture_opcodes = set()
+        self.captured = []
 
     # --- connection -------------------------------------------------------------------------------
 
@@ -173,19 +177,27 @@ class GameConnection:
                 if first:
                     first = False
                     self._read_login_answer(frame)
+                elif self.capture_opcodes:
+                    payload = self._decode(frame)
+                    if payload and payload[0] in self.capture_opcodes:
+                        self.captured.append(payload)
         except (OSError, ConnectionError, struct.error, zlib.error):
             pass
         finally:
             self.closed.set()
             self.answered.set()
 
-    def _read_login_answer(self, frame):
+    def _decode(self, frame):
         (sequence,) = struct.unpack_from("<I", frame, 0)
         plain = xtea_decrypt(frame[4:], self.key)
         padding = plain[0]
         payload = plain[1:len(plain) - padding]
         if sequence & 0x80000000:
             payload = zlib.decompressobj(-15).decompress(payload)
+        return payload
+
+    def _read_login_answer(self, frame):
+        payload = self._decode(frame)
         if payload and payload[0] == 0x14:
             (length,) = struct.unpack_from("<H", payload, 1)
             self.refusal = payload[3:3 + length].decode("latin-1", "replace")

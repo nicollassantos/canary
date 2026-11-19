@@ -9,6 +9,7 @@
 
 #include "server/network/protocol/protocolgame.hpp"
 
+#include "game/bestiary/bestiary_disclosure.hpp"
 #include "game/bosstiary/bosstiary_slot_rules.hpp"
 #include "game/login/login_service.hpp"
 #include "game/scheduling/player_save_barrier.hpp"
@@ -2377,41 +2378,25 @@ void ProtocolGame::parseBestiarysendMonsterData(NetworkMessage &msg) {
 	newmsg.addByte(mtype->info.bestiaryStars);
 	newmsg.addByte(mtype->info.bestiaryOccurrence);
 
+	// The count is one byte: more entries than that would desynchronise the client.
 	const std::vector<LootBlock> &lootList = mtype->info.lootItems;
-	newmsg.addByte(lootList.size());
-	for (const LootBlock &loot : lootList) {
+	const auto lootShown = std::min<size_t>(lootList.size(), UINT8_MAX);
+	const bool showAllLoot = g_configManager().getBoolean(SHOW_LOOTS_IN_BESTIARY);
+	newmsg.addByte(static_cast<uint8_t>(lootShown));
+	for (size_t index = 0; index < lootShown; ++index) {
+		const LootBlock &loot = lootList[index];
 		int8_t difficult = g_iobestiary().calculateDifficult(loot.chance);
-		bool shouldAddItem = false;
-
-		switch (currentLevel) {
-			case 1:
-				shouldAddItem = false;
-				break;
-			case 2:
-				if (difficult < 2) {
-					shouldAddItem = true;
-				}
-				break;
-			case 3:
-				if (difficult < 3) {
-					shouldAddItem = true;
-				}
-				break;
-			case 4:
-				shouldAddItem = true;
-				break;
-		}
-
-		newmsg.add<uint16_t>(g_configManager().getBoolean(SHOW_LOOTS_IN_BESTIARY) || shouldAddItem == true ? loot.id : 0);
+		const bool shown = bestiary_disclosure::showsLootItem(currentLevel, difficult, showAllLoot);
+		newmsg.add<uint16_t>(shown ? loot.id : 0);
 		newmsg.addByte(difficult);
 		newmsg.addByte(0); // 1 if special event - 0 if regular loot (?)
-		if (g_configManager().getBoolean(SHOW_LOOTS_IN_BESTIARY) || shouldAddItem == true) {
+		if (shown) {
 			newmsg.addString(loot.name);
 			newmsg.addByte(loot.countmax > 0 ? 0x1 : 0x0);
 		}
 	}
 
-	if (currentLevel > 1) {
+	if (bestiary_disclosure::showsStats(currentLevel)) {
 		newmsg.add<uint16_t>(mtype->info.bestiaryCharmsPoints);
 		int8_t attackmode = 0;
 		if (!mtype->info.isHostile) {
@@ -2429,7 +2414,7 @@ void ProtocolGame::parseBestiarysendMonsterData(NetworkMessage &msg) {
 		newmsg.addDouble(mtype->info.mitigation);
 	}
 
-	if (currentLevel > 2) {
+	if (bestiary_disclosure::showsElementsAndLocations(currentLevel)) {
 		std::map<uint8_t, int16_t> elements = g_iobestiary().getMonsterElements(mtype);
 
 		newmsg.addByte(elements.size());

@@ -73,7 +73,8 @@ arquivos que já são da branch ou que ganharem teste; `protocolgame*.cpp` conce
   não só parse: `onRecvFirstMessage` (261 linhas, autenticação e sessão), `login` (160), `parseSendBosstiarySlots`
   (133, monta a regra dos slots), `parseBestiarysendMonsterData` (117). **Ação:** ~~levar login/sessão para um
   `LoginService` testável~~ (feito na 25.16 para as regras de admissão; a autenticação e a sessão seguem no
-  `ProtocolGame`/`IOLoginData`) e a montagem de bestiário/bosstiary para os services do assunto.
+  `ProtocolGame`/`IOLoginData`) e ~~a montagem de bestiário/bosstiary~~ (23.6: regras de slot do bosstiary em
+  `bosstiary_slot_rules`, o que o bestiário revela em `bestiary_disclosure`; a codificação segue no `ProtocolGame`).
 - Bindings Lua: 178 `g_game()` (`game_functions.cpp` 46, `player_functions.cpp` 27 e 5750 linhas). São adaptadores
   de entrada; aceitável, mas `player_functions.cpp` é o maior arquivo depois do `player.cpp`.
 
