@@ -9,11 +9,9 @@
 
 #include "server/network/protocol/protocolgame.hpp"
 
-#include "creatures/players/grouping/team_finder_rules.hpp"
 #include "game/bestiary/bestiary_disclosure.hpp"
 #include "game/bosstiary/bosstiary_slot_rules.hpp"
 #include "game/login/login_service.hpp"
-#include "lib/metrics/metrics.hpp"
 #include "game/scheduling/player_save_barrier.hpp"
 #include "server/network/protocol/packet_watch.hpp"
 #include "server/network/commands/game_command_dispatcher.hpp"
@@ -2592,13 +2590,11 @@ void ProtocolGame::parseLeaderFinderWindow(NetworkMessage &msg) {
 				return;
 			}
 
-			// Only a player of this listing is answered, and only when the answer changes: any online guid
-			// used to get the message, once per packet.
 			uint8_t memberStatus = msg.getByte();
-			if (!team_finder_rules::setMemberStatus(teamAssemble->membersMap, memberID, memberStatus)) {
-				g_metrics().addCounter("team_finder_requests_rejected", 1, { { "reason", "not a member or unchanged" } });
-				player->sendLeaderTeamFinder(false);
-				return;
+			for (auto &[guid, status] : teamAssemble->membersMap) {
+				if (guid == memberID) {
+					status = memberStatus;
+				}
 			}
 
 			switch (memberStatus) {
@@ -2647,22 +2643,21 @@ void ProtocolGame::parseMemberFinderWindow(NetworkMessage &msg) {
 			return;
 		}
 
-		// The request belongs to the leader's listing (the list reads each player's status from it); it was
-		// kept in the requester's own listing, so a player without one could not ask, and the leader was told
-		// on every packet, whoever the guid was.
-		const auto &teamAssemble = g_game().getTeamFinder(leader);
+		const auto &teamAssemble = g_game().getTeamFinder(player);
 		if (!teamAssemble) {
 			return;
 		}
 
 		if (action == 1) {
-			if (team_finder_rules::requestToJoin(teamAssemble->membersMap, leader->getGUID(), player->getGUID())) {
-				leader->sendTextMessage(MESSAGE_STATUS, "There is a new request to join your team.");
-			} else {
-				g_metrics().addCounter("team_finder_requests_rejected", 1, { { "reason", "repeated request" } });
-			}
+			leader->sendTextMessage(MESSAGE_STATUS, "There is a new request to join your team.");
+			[[maybe_unused]] auto [it_request, inserted_request] = teamAssemble->membersMap.insert({ player->getGUID(), 1 });
 		} else {
-			team_finder_rules::cancelRequest(teamAssemble->membersMap, player->getGUID());
+			for (auto itt = teamAssemble->membersMap.begin(), end = teamAssemble->membersMap.end(); itt != end; ++itt) {
+				if (itt->first == player->getGUID()) {
+					[[maybe_unused]] auto it = teamAssemble->membersMap.erase(itt);
+					break;
+				}
+			}
 		}
 		player->sendTeamFinderList();
 	}

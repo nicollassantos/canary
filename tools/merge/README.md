@@ -253,7 +253,6 @@ them, put the condition in the module and its test, not back in the function.
 |---|---|---|
 | `Game::playerBosstiarySlot` (`game.cpp`), `ProtocolGame::parseSendBosstiarySlots` (`protocolgame.cpp`) | `src/game/bosstiary/bosstiary_slot_rules.cpp` | `tests/unit/game/bosstiary_slot_rules_test.cpp` |
 | `ProtocolGame::parseBestiarysendMonsterData` (`protocolgame.cpp`) | `src/game/bestiary/bestiary_disclosure.hpp` | `tests/unit/game/bestiary_disclosure_test.cpp` |
-| `ProtocolGame::parseLeaderFinderWindow`, `ProtocolGame::parseMemberFinderWindow` (`protocolgame.cpp`) | `src/creatures/players/grouping/team_finder_rules.hpp` | `tests/unit/players/team_finder_rules_test.cpp` |
 
 The highscore query helpers `generateHighscoreQuery`, `generateVocationConditionHighscore`,
 `cacheQueryHighscore` and `generateHighscoreOrGetCachedQueryFor{Entries,OurRank}` moved whole to
