@@ -497,3 +497,16 @@
 - [x] **27.4** — #4184 tudo ou nada: kit que falha remove os criados; `rollback` chamado quando o pagamento falha; resumo só depois de pagar (`test_gamestore_house_payment.lua`, com o `parseBuyStoreOffer` real). Controle negativo: o código antigo falha 6 + 2 checagens. Smoke: compra real no inbox do personagem 0 → 5 kits → rollback → 0
 - [x] **CHECKPOINT 27** — 2026-11-19: ut 1137/1137, it 125/125, `syntax_check` 0 erros; `tests/lua/test_*.lua` todos passam menos `test_taskboard_store_summary_wire.lua`, que já falhava antes desta fase (procura `sendCyclopediaCharacterStoreSummary` no `protocolgame.cpp`; na branch ela está em `protocolgame_send_cyclopedia.cpp`: o teste veio do upstream e não conhece o split); harnesses de store em `tools/lua` passam; smoke com data-otservbr-global (banco descartável, apagado): online, login 8.60 + takeover ok, `FS.mkdir_p` hostil e compra de kit com rollback ok, exit 0
 - #4183 (Grave Danger): ignorada (decisão do usuário, 2026-11-19); veredito no `plan.md`
+
+## Phase 28 — ban por IP sem punir inocentes (CGNAT) e IPv6 (proposta em 2026-11-19, aguardando D1–D3; plano em `tasks/plan.md`)
+
+- [ ] **28.1** — `/ipban` avisa e exige `force` em IP de várias contas (IPv4 compartilhado)
+- [ ] **28.2** — `ClientAddress` (IPv4 mapeado, chave por /64) + gtest
+- [ ] **28.3** — `Connection` guarda `ClientAddress`; `getIP()` mantido
+- [ ] **28.4** — limites por chave (/64): limiter, taxa de conexão, status, livestream
+- [ ] **28.5** — log/diagnóstico com endereço textual; session hints pela chave
+- [ ] **28.6** — listener IPv6 opcional (`bindIpv6 = false`) + smoke `127.0.0.1`/`::1`
+- [ ] **28.7** — ban IPv6 por /64 + login + `/ipban`/`/unban` + último endereço (D1)
+- [ ] **28.8** — OTClient: fallback entre endereços e `getIp()` IPv6 (repo `../otclient`)
+- [ ] **28.9** — client oficial 15.25 e `login-server` com A + AAAA (manual), depois publicar o AAAA
+- [ ] **CHECKPOINTS** — após 28.1; após 28.2–28.5; após 28.6–28.7; após 28.8–28.9

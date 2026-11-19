@@ -694,3 +694,76 @@ Sem porta de filesystem (um só ponto de uso, não pagaria com teste). Nomes e c
 - **27.4** — #4184 tudo ou nada: kit que falha remove os já criados; pagamento que falha depois da entrega desfaz a
   entrega (handler devolve `rollback`). Testes: falha no meio, pagamento falho, compra normal.
 - **CHECKPOINT 27** — build, ut/it, `syntax_check`, `luajit tests/lua/test_*.lua`, harnesses de `tools/lua`, smoke.
+
+## Phase 28 (proposta em 2026-11-19, aguardando decisões): ban por IP sem punir inocentes (CGNAT) e IPv6
+
+Pedido do usuário (2026-11-19): "vale a pena suportar IPv6 com fallback para IPv4?". Motivo dado: as operadoras usam
+CGNAT e um ban por IP pode banir jogadores inocentes. Produção tem IPv6; o OTClient (`../otclient`) pode ser alterado.
+
+**Objetivo real:** ban por endereço que acerte só o infrator. O IPv6 resolve isso só para quem conecta por IPv6 (um /64
+costuma ser uma casa ou um aparelho); quem continua só com IPv4 atrás de CGNAT segue dividindo IP com centenas de
+pessoas. Por isso a fase tem dois trilhos: proteger o ban de IPv4 compartilhado (vale já, sem IPv6) e aceitar IPv6
+com a identidade por prefixo.
+
+**Estado hoje (lido em 2026-11-19):**
+- listener só IPv4 (`src/server/server.cpp:157-159`, `address_v4`); IP do cliente é `uint32_t`
+  (`Connection::getIP`, `to_v4()`), usado em ~31 arquivos (ban e taxa de conexão, `IpConnectionLimiter`,
+  `ProtocolStatus`, `log_budget`, `packet_watch`, livestream, `ProtocolSessionHintStore`, login);
+- banco: `ip_bans.ip int(11)` e `players.lastip int unsigned` (schema do upstream, só IPv4);
+- `/ipban` (GOD, 7 dias, `data/scripts/talkactions/god/ip_ban.lua`) bane o `lastip` do personagem sem olhar se o IP é
+  compartilhado; o login recusa qualquer conta do IP (`LoginService::refuseBannedAddress`);
+- CGNAT não é detectável pela faixa (o servidor vê o IP público do NAT); o sinal disponível é quantas contas usam o IP;
+- clientes: o 8.60 recebe o IP do mundo como número IPv4 (nunca IPv6); o moderno recebe texto (hostname serve). O
+  OTClient tenta só o primeiro endereço resolvido (`otclient/src/framework/net/connection.cpp:97-111`, sem fallback) e
+  `getIp()` chama `to_v4()` (lança numa conexão IPv6). Suporte do client oficial 15.25 a IPv6: **sem fonte**, testar.
+  `login-server` (HTTP do 15.25) é imagem externa: ver se consulta `ip_bans`.
+
+**Regra de segurança da fase:** em IPv6 todo limite e todo ban contam por prefixo /64, nunca por endereço (um VPS
+recebe um /64 inteiro; contar por endereço desliga a defesa do fork). Listener IPv6 desligado por padrão até os
+limites estarem migrados.
+
+### Tasks
+
+Trilho 1 — IPv4 compartilhado (independe de IPv6):
+- **28.1** — `/ipban` mostra quantas contas usaram o IP como último IP (e quantas estão online nele); com 2 ou mais,
+  recusa sem confirmação explícita (`/ipban nome,force`). Teste Lua (harness) com o banco simulado.
+  Aceite: banir um IP de uma conta só funciona como antes; IP com várias contas exige `force` e o log do comando
+  registra a contagem. (S)
+
+Trilho 2 — IPv6:
+- **28.2** — `ClientAddress` (`src/server/network/connection/client_address.{hpp,cpp}`): 16 bytes, IPv4 guardado como
+  endereço mapeado; `isV4()`, `v4()` (o `uint32_t` de hoje), `limitKey()` (IPv4 inteiro ou prefixo /64), `toString()`.
+  gtest: mapeamento ida e volta, mesmo /64 = mesma chave, /64 vizinho = outra. Sem mudança de comportamento. (S)
+- **28.3** — `Connection` guarda o `ClientAddress`; `getIP()` continua devolvendo o IPv4 (0 para IPv6) para os
+  consumidores antigos; novo `getAddress()`. Endereço `::ffff:a.b.c.d` vira IPv4. (S)
+- **28.4** — Limites por `limitKey()`: `IpConnectionLimiter`, taxa do `Ban::acceptConnection`, intervalo do
+  `ProtocolStatus`, teto por IP do livestream. gtest: 100 endereços do mesmo /64 contam como um. (M)
+- **28.5** — Log e diagnóstico com endereço textual (`log_budget`, `packet_watch`, avisos de recusa) e
+  `ProtocolSessionHintStore` pela chave. (M)
+- **28.6** — Listener opcional nos dois protocolos (`bindIpv6`, padrão `false`; socket v6 com `v6_only=false`), com
+  `bindOnlyGlobalAddress` aceitando endereço IPv6. Smoke com sockets reais em `127.0.0.1` e `::1`: login do 8.60 por
+  IPv4 igual a hoje, teto de pendentes por /64 em `::1`. (S)
+- **28.7** — Ban de IPv6 por /64 (armazenamento: decisão D1), `LoginService::refuseBannedAddress` pelo
+  `ClientAddress`, `/ipban`/`/unban` com IPv6, último endereço do player para IPv6. Teste de integração (MySQL). (M)
+- **28.8** — OTClient (`../otclient`, fora deste repositório): tentar todos os endereços resolvidos (IPv6 e depois
+  IPv4) com timeout curto por tentativa; `getIp()` sem `to_v4()`. Prova contra o servidor em `::1` e `127.0.0.1`. (M)
+- **28.9** — Teste com o client oficial 15.25 por hostname com A + AAAA; conferir o `login-server`. Só depois disso
+  publicar o AAAA em produção. (S, manual)
+
+Checkpoints: depois de 28.1 (pode ir para produção sozinho); depois de 28.2–28.5 (ut/it, smoke IPv4 igual a hoje);
+depois de 28.6–28.7 (smoke `::1` + MySQL); depois de 28.8–28.9 (clients reais).
+
+### Decisões em aberto
+- **D1** — Onde guardar ban e último endereço IPv6: (a) tabela da branch `solid_address_bans` criada no boot pelo
+  `schema_hardening` (`CREATE TABLE IF NOT EXISTS`; amplia a regra de "só índices" para "tabelas `solid_*`") ou
+  (b) KV store (sem tabela nova; lista de bans menos visível por SQL). Nunca migration numerada.
+- **D2** — Política do `/ipban` em IPv4 compartilhado: avisar e exigir `force` (proposta) ou recusar sempre.
+- **D3** — Tamanho do prefixo do ban IPv6: /64 fixo (proposta) ou configurável.
+
+### Riscos
+| Risco | Impacto | Mitigação |
+|---|---|---|
+| Limite contado por endereço em IPv6 | Alto: defesa contra bots desligada | listener IPv6 só depois da 28.4; teste por /64 |
+| AAAA publicado antes dos clients | Alto: login quebra no OTClient atual | 28.8 e 28.9 antes de publicar |
+| Client oficial sem IPv6 | Médio | ele usa o A; testar na 28.9 |
+| Conflito de merge (~31 arquivos do upstream) | Médio | `getIP()` mantido; mudança por receptor; linhas no §5b |
