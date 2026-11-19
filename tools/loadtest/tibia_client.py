@@ -105,9 +105,12 @@ class GameConnection:
         self.refusal = None
         self.bytes_received = 0
         self.packets_sent = 0
-        # Opcodes to keep: a frame whose first server message has one of them is decrypted and its
-        # payload appended to `captured` (for checks that read an answer; empty means none kept).
+        # Frames to keep, decrypted, in `captured` (for checks that read an answer; empty means none kept):
+        # those whose first message has one of `capture_opcodes`, and those containing one of the byte
+        # strings in `capture_contains` (a frame often carries several messages, and only the first
+        # one's opcode can be read without parsing them all).
         self.capture_opcodes = set()
+        self.capture_contains = []
         self.captured = []
 
     # --- connection -------------------------------------------------------------------------------
@@ -177,9 +180,10 @@ class GameConnection:
                 if first:
                     first = False
                     self._read_login_answer(frame)
-                elif self.capture_opcodes:
+                elif self.capture_opcodes or self.capture_contains:
                     payload = self._decode(frame)
-                    if payload and payload[0] in self.capture_opcodes:
+                    if payload and (payload[0] in self.capture_opcodes
+                                    or any(part in payload for part in self.capture_contains)):
                         self.captured.append(payload)
         except (OSError, ConnectionError, struct.error, zlib.error):
             pass
