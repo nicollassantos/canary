@@ -975,6 +975,14 @@ void Game::playerInspectItem(const std::shared_ptr<Player> &player, const Positi
 		return;
 	}
 
+	// The same rule as looking at a thing (playerLookAt): the position comes from the client, and any tile of
+	// the map used to answer, underground and inside houses included.
+	if (!player->canSee(item->getPosition())) {
+		g_metrics().addCounter("inspection_requests_rejected", 1, { { "reason", "out of view" } });
+		player->sendCancelMessage(RETURNVALUE_NOTPOSSIBLE);
+		return;
+	}
+
 	player->sendItemInspection(item->getID(), static_cast<uint8_t>(item->getItemCount()), item, false);
 }
 
